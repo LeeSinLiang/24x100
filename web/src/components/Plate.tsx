@@ -163,8 +163,6 @@ export function Plate(p: Props) {
         const cb: Pt = Math.abs(b[0] - a[0]) > 1 ? lerp(Math.min(fx1, Math.max(a[0], b[0]))) : b;
         const len = Math.hypot(cb[0] - ca[0], cb[1] - ca[1]);
         if (!best || len > best.len) best = { a: ca, b: cb, len };
-        continue;
-        if (!best || len > best.len) best = { a, b, len };
       }
       return best ? { name: s.name, ...best } : null;
     })
