@@ -1,14 +1,13 @@
-import { FROM_PLACEHOLDER } from '@engine/inquiry';
-// The inquiry as a one-page letter. Facts are ink with their citations; questions are pencil; our
-// proposal and assumptions are red and labeled; set-aside rules are struck. Rendering only: every
-// sentence comes from the memo model (engine inquiry, or the records memo for a refused lot).
-import type { InquiryItem } from '@engine/inquiry';
+// One draft letter to one office, on a sheet; and the sender's checklist, which is never sent. Facts
+// are ink with their citations; questions are pencil; our proposal and assumptions are red and labeled;
+// practitioner estimates are violet; set-aside rules are struck. Rendering only: every sentence comes
+// from the engine (buildInquiry).
+import { FROM_PLACEHOLDER, type InquiryItem, type InquiryLetter, type InquirySection } from '@engine/inquiry';
 import type { EffectiveRule, LotResult, RuleSet } from '@engine/types';
 import { Chip, dateFmt, Ev, Label } from '../ui';
 import { TrustMark } from '../review/marks';
-import type { Memo, MemoSection } from './memo';
 
-const SEC = /^§\s?(\d{3}\.\d{2}(?:\.[A-Za-z0-9]+)*(?:\([a-z0-9]+\))?)$/;
+const SEC = /^§\s?(\d{3}\.\d{2}(?:\.[A-Za-z0-9]+)*(?:\([a-z0-9]+\))*)$/;
 
 function usedRuleIds(r: LotResult): Set<string> {
   const ids = new Set<string>();
@@ -25,21 +24,26 @@ function ruleForSection(sec: string, rs: RuleSet, used: Set<string>): EffectiveR
   return [...cands].sort((a, b) => rank(a) - rank(b) || a.id.localeCompare(b.id))[0];
 }
 
-function recordRef(cite: string, pin: string): string | undefined {
+/** The record a non-§ citation opens: the engine names it; older citations fall back to the first lot. */
+function recordRef(it: InquiryItem, pin: string): string | undefined {
+  if (it.ref) return it.ref;
+  const cite = it.cite ?? '';
+  if (/parcel map|legal description|deed/i.test(cite)) return `record:${pin}:lotarea`;
   if (/City-Owned Properties|County assessment/.test(cite)) return `record:${pin}:city`;
   if (/undermined/i.test(cite)) return `record:${pin}:undermined`;
   if (/slope/i.test(cite)) return `record:${pin}:slope25`;
   return undefined;
 }
 
-function Cites({ cite, rs, used, pin, itemTrust }: { cite: string; rs: RuleSet; used: Set<string>; pin: string; itemTrust: string }) {
+function Cites({ it, rs, used, pin }: { it: InquiryItem; rs: RuleSet; used: Set<string>; pin: string }) {
+  const cite = it.cite!;
   const parts = cite.split(/,\s*/);
   if (!parts.every((p) => SEC.test(p))) {
     // A record citation takes the item's own state: only an ink fact gets an ink chip.
-    const ref = recordRef(cite, pin);
+    const ref = recordRef(it, pin);
     return (
       <span className="iq-cites" data-record={ref}>
-        <Chip refId={ref} trust={itemTrust === 'ink' ? 'ink' : 'pencil'}>
+        <Chip refId={ref} trust={it.trust === 'ink' ? 'ink' : 'pencil'}>
           {cite}
         </Chip>
       </span>
@@ -63,7 +67,7 @@ function Cites({ cite, rs, used, pin, itemTrust }: { cite: string; rs: RuleSet; 
   );
 }
 
-function Item({ it, sec, rs, used, pin }: { it: InquiryItem; sec: MemoSection; rs: RuleSet; used: Set<string>; pin: string }) {
+function Item({ it, sec, rs, used, pin }: { it: InquiryItem; sec: InquirySection; rs: RuleSet; used: Set<string>; pin: string }) {
   const na = sec.id === 'not_assessed';
   const muted = sec.id === 'struck' && it.trust !== 'struck'; // "Nothing struck yet."
   const kind = na || muted ? null : it.trust;
@@ -79,7 +83,7 @@ function Item({ it, sec, rs, used, pin }: { it: InquiryItem; sec: MemoSection; r
         {it.cite && (
           <>
             {' '}
-            <Cites cite={it.cite} rs={rs} used={used} pin={pin} itemTrust={it.trust} />
+            <Cites it={it} rs={rs} used={used} pin={pin} />
           </>
         )}
       </span>
@@ -87,50 +91,21 @@ function Item({ it, sec, rs, used, pin }: { it: InquiryItem; sec: MemoSection; r
   );
 }
 
-export function Letter({ memo, result, rs }: { memo: Memo; result: LotResult; rs: RuleSet }) {
+const ORDERED = new Set<InquirySection['id']>(['questions', 'money', 'records', 'next']);
+
+function Sections({ sections, result, rs, prefix }: { sections: InquirySection[]; result: LotResult; rs: RuleSet; prefix: string }) {
   const used = usedRuleIds(result);
   const pin = result.pins[0];
   return (
-    <article className="iq-sheet" aria-labelledby="iq-title">
-      <header className="iq-head">
-        <div className="iq-stamp" aria-label="Draft. You send it; 24×100 never sends anything.">
-          <span>Draft</span>
-          <span className="iq-stamp-sub">you send it</span>
-        </div>
-        <Label>Draft inquiry · {dateFmt(memo.date)}</Label>
-        <h1 id="iq-title" className="iq-title">
-          {memo.title}
-        </h1>
-        <p className="iq-sub">{memo.subtitle}</p>
-        <div className="iq-to">
-          <Label as="span" className="iq-to-h">
-            To
-          </Label>
-          <ul>
-            {memo.recipients.map((x) => (
-              <li key={x.who}>
-                <strong>{x.who}</strong> <span className="muted">· {x.why}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="iq-to">
-          <Label as="span" className="iq-to-h">
-            From
-          </Label>
-          <p className="red" data-trust="red">
-            {FROM_PLACEHOLDER} <span className="small muted">(you fill this in; 24×100 never writes as anyone)</span>
-          </p>
-        </div>
-      </header>
-      {memo.sections.map((sec) => {
-        const List = sec.id === 'questions' || sec.id === 'money' || sec.id === 'records' ? 'ol' : 'ul';
+    <>
+      {sections.map((sec) => {
+        const List = ORDERED.has(sec.id) ? 'ol' : 'ul';
+        const hid = `${prefix}-h-${sec.id}`;
         return (
-          <section key={sec.id} className={`iq-sec iq-sec-${sec.id}`} aria-labelledby={`iq-h-${sec.id}`} data-section={sec.id}>
-            <h2 id={`iq-h-${sec.id}`} className="iq-h">
+          <section key={sec.id} className={`iq-sec iq-sec-${sec.id}`} aria-labelledby={hid} data-section={sec.id}>
+            <h2 id={hid} className="iq-h">
               {sec.heading}
             </h2>
-            {sec.to && <p className="iq-for">For: {sec.to}</p>}
             {sec.items.length ? (
               <List className="iq-items">
                 {sec.items.map((it, i) => (
@@ -143,9 +118,55 @@ export function Letter({ memo, result, rs }: { memo: Memo; result: LotResult; rs
           </section>
         );
       })}
+    </>
+  );
+}
+
+export function Letter({ letter, result, rs }: { letter: InquiryLetter; result: LotResult; rs: RuleSet }) {
+  return (
+    <article className="iq-sheet" aria-labelledby="iq-title" data-office={letter.office}>
+      <header className="iq-head">
+        <div className="iq-stamp" aria-label="Draft. You send it; 24×100 never sends anything.">
+          <span>Draft</span>
+          <span className="iq-stamp-sub">you send it</span>
+        </div>
+        <Label>Draft letter · {letter.tab}</Label>
+        <h1 id="iq-title" className="iq-title">
+          {letter.subject}
+        </h1>
+        <dl className="iq-to">
+          <dt className="label">To</dt>
+          <dd>
+            <strong>{letter.to}</strong>
+          </dd>
+          <dt className="label">From</dt>
+          <dd className="red" data-trust="red">
+            {FROM_PLACEHOLDER} <span className="small muted">(you fill this in; 24×100 never writes as anyone)</span>
+          </dd>
+          <dt className="label">Date</dt>
+          <dd>{dateFmt(letter.date)}</dd>
+        </dl>
+      </header>
+      <p className="iq-opening">{letter.opening}</p>
+      <Sections sections={letter.sections} result={result} rs={rs} prefix="iq" />
       <footer className="iq-disc">
-        <p>{memo.disclaimer}</p>
+        <p>{letter.disclaimer}</p>
       </footer>
     </article>
+  );
+}
+
+/** What the sender checks before and around sending: never part of a letter. */
+export function Checklist({ sections, result, rs }: { sections: InquirySection[]; result: LotResult; rs: RuleSet }) {
+  return (
+    <aside className="iq-cover" aria-labelledby="iq-cover-h">
+      <header className="iq-cover-head">
+        <h2 id="iq-cover-h" className="iq-cover-title">
+          Your checklist
+        </h2>
+        <span className="label">For you · not part of any letter · included in the full download</span>
+      </header>
+      <Sections sections={sections} result={result} rs={rs} prefix="iq-cover" />
+    </aside>
   );
 }

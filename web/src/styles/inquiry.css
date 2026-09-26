@@ -311,3 +311,118 @@ ol.iq-items > .iq-item > .iq-text::before {
   margin-top: -6px;
   color: var(--ink-2);
 }
+
+/* ── One letter per office: the office picker, the letter bar, the checklist ─────────── */
+.iq-to dt {
+  padding-top: 3px;
+  color: var(--ink);
+}
+.iq-to dd {
+  margin: 0;
+}
+.iq-opening {
+  margin: 18px 0 0;
+}
+.iq-offices {
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  border: 1px solid var(--ink);
+}
+.iq-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  padding: 7px 12px 8px;
+  border: 0;
+  border-right: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+}
+.iq-tab:last-child {
+  border-right: 0;
+}
+.iq-tab-name {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.iq-tab-why {
+  font-size: var(--s-small);
+  color: var(--ink-2);
+  line-height: 1.3;
+}
+.iq-tab.is-on {
+  background: var(--ink);
+  color: var(--sheet);
+}
+.iq-tab.is-on .iq-tab-why {
+  color: var(--sheet);
+}
+.iq-tab:hover:not(.is-on) {
+  background: var(--gold-wash);
+}
+.iq-tab.is-bad .iq-tab-name::after {
+  content: ' ✕';
+  color: var(--red);
+}
+.iq-letter-bar {
+  max-width: 860px;
+  margin: 10px auto 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+}
+.iq-letter-check {
+  margin: 0;
+  font-size: var(--s-small);
+  color: var(--ink-2);
+}
+.iq-letter-check.is-bad {
+  color: var(--red);
+}
+.iq-cover {
+  max-width: 860px;
+  margin: 28px auto 0;
+  padding: 20px 28px 16px;
+  border: 1px dashed var(--rule-strong);
+}
+.iq-cover-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+}
+.iq-cover-title {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: var(--s-title);
+  margin: 0;
+}
+@media (max-width: 767px) {
+  .iq-offices {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .iq-tab {
+    border-right: 0;
+    border-bottom: 1px solid var(--ink);
+  }
+  .iq-cover {
+    padding: 16px;
+  }
+}
+@media print {
+  .iq-offices,
+  .iq-letter-bar,
+  .iq-cover {
+    display: none !important;
+  }
+}
