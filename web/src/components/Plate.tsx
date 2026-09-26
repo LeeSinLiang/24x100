@@ -23,6 +23,7 @@ interface Props {
   slope: boolean;
   focus?: string[]; // crop to these pins (phone)
   label: string;
+  hideSelection?: boolean; // block view: no selected lot, no proposal outline
 }
 
 const PAD = { top: 16, bottom: 40, side: 16 };
@@ -107,8 +108,8 @@ export function Plate(p: Props) {
   const px = (n: number) => n / k; // px → feet (user units)
   const ms = p.still ? 0 : p.record ? 280 : 320;
 
-  const selectedPins = new Set(p.selected.pins);
-  const multi = p.selected.pins.length > 1;
+  const selectedPins = new Set(p.hideSelection ? [] : p.selected.pins);
+  const multi = !p.hideSelection && p.selected.pins.length > 1;
   const type = p.selected.scenario.type;
   const theme = typeof document !== 'undefined' ? document.documentElement.dataset.theme ?? '' : '';
 
@@ -290,7 +291,7 @@ export function Plate(p: Props) {
           {multi && <path d={ringPath(p.selected.lot_poly)} className="group-line" />}
 
           {/* The proposal, in red: the building you want. */}
-          {p.selected.state === 'ok' &&
+          {!p.hideSelection && p.selected.state === 'ok' &&
             (type === 'row'
               ? p.selected.units.map((u) => (u.front ? <path key={`prop-${u.pin}`} d={ringPath(proposalRect(u.front, P.width, P.depth))} className="proposal" /> : null))
               : selFront && <path d={ringPath(proposalRect(selFront, P.width, P.depth))} className="proposal" />)}
