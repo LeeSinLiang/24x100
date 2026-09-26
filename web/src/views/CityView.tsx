@@ -192,6 +192,7 @@ export function CityView({ s, update, audit }: ViewProps) {
             <div className="city-map-box">
               <CityMap
                 lots={lots}
+                water={data.water}
                 classes={classes}
                 hoods={hoods}
                 focus={focus}

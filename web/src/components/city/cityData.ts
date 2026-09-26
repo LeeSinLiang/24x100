@@ -25,24 +25,27 @@ export type CityData =
   | { state: 'loading' }
   | { state: 'absent' }
   | { state: 'error'; message: string }
-  | { state: 'ready'; meta: CityMeta; lots: CityLotRow[]; hoods: Hood[] };
+  | { state: 'ready'; meta: CityMeta; lots: CityLotRow[]; hoods: Hood[]; water: Hood[] };
 
 type Loader<T> = () => Promise<T>;
 const lotFiles = import.meta.glob('../../../../data/city/lots.json', { import: 'default' }) as Record<string, Loader<{ meta: CityMeta; lots: CityLotRow[] }>>;
 const hoodFiles = import.meta.glob('../../../../data/city/neighborhoods.json', { import: 'default' }) as Record<string, Loader<Hood[]>>;
+const waterFiles = import.meta.glob('../../../../data/city/water.json', { import: 'default' }) as Record<string, Loader<Hood[]>>;
 
 let cache: Promise<CityData> | null = null;
 
 function load(): Promise<CityData> {
   const lotsLoader = Object.values(lotFiles)[0];
   if (!lotsLoader) return Promise.resolve({ state: 'absent' });
-  const hoodsLoader = Object.values(hoodFiles)[0];
-  return Promise.all([lotsLoader(), hoodsLoader ? hoodsLoader().catch(() => [] as Hood[]) : Promise.resolve([] as Hood[])])
-    .then(([f, hoods]): CityData => ({
+  const optional = (l: Loader<Hood[]> | undefined) => (l ? l().catch(() => [] as Hood[]) : Promise.resolve([] as Hood[]));
+  const shapes = (xs: Hood[]) => (Array.isArray(xs) ? xs.filter((h) => h && h.name && Array.isArray(h.rings)) : []);
+  return Promise.all([lotsLoader(), optional(Object.values(hoodFiles)[0]), optional(Object.values(waterFiles)[0])])
+    .then(([f, hoods, water]): CityData => ({
       state: 'ready',
       meta: f.meta ?? {},
       lots: (f.lots ?? []).filter((l) => Array.isArray(l.ll) && Number.isFinite(l.ll[0]) && Number.isFinite(l.ll[1]) && (l.ll[0] !== 0 || l.ll[1] !== 0)),
-      hoods: Array.isArray(hoods) ? hoods.filter((h) => h && h.name && Array.isArray(h.rings)) : [],
+      hoods: shapes(hoods),
+      water: shapes(water),
     }))
     .catch((e: unknown): CityData => ({ state: 'error', message: String((e as Error)?.message ?? e) }));
 }

@@ -120,6 +120,7 @@ export function hoodIndex(lots: CityLotRow[], hoods: Hood[]): Map<string, HoodIn
 
 interface Props {
   lots: CityLotRow[];
+  water?: Hood[]; // rivers, drawn as a wash under the dots
   classes: CityClass[];
   hoods: Map<string, HoodInfo>;
   focus: string | null; // neighborhood zoomed to
@@ -183,6 +184,7 @@ export function CityMap(p: Props) {
   }, [p.focus, p.hoods, p.lots, w, h]);
 
   const toPx = (q: XY): XY => [q[0] * view.k + view.ox, q[1] * view.k + view.oy];
+  const water = useMemo(() => (p.water ?? []).map((wt) => ({ name: wt.name, rings: wt.rings.map((r) => r.map(proj)) })), [p.water]);
 
   // Screen positions of every lot, for drawing and hit-testing.
   const pos = useMemo(() => {
@@ -211,6 +213,27 @@ export function CityMap(p: Props) {
     g.clearRect(0, 0, w, h);
     const col: Partial<Record<string, string>> = {};
     const color = (t: string) => (col[t] ??= resolveColor(pr, t));
+    // Rivers: a quiet wash with a hairline bank, under everything else.
+    if (water.length) {
+      g.save();
+      g.beginPath();
+      for (const wt of water)
+        for (const ring of wt.rings)
+          ring.forEach((q, i) => {
+            const x = q[0] * view.k + view.ox;
+            const y = q[1] * view.k + view.oy;
+            if (i) g.lineTo(x, y);
+            else g.moveTo(x, y);
+          });
+      g.fillStyle = color('--stone');
+      g.globalAlpha = 0.45;
+      g.fill('evenodd');
+      g.globalAlpha = 0.5;
+      g.strokeStyle = color('--stone');
+      g.lineWidth = 0.8;
+      g.stroke();
+      g.restore();
+    }
     const groups = new Map<Blocker, number[]>();
     p.classes.forEach((c2, i) => {
       const x = pos.xs[i];
@@ -252,18 +275,45 @@ export function CityMap(p: Props) {
       }
       g.restore();
     }
-  }, [p.classes, pos, w, h, r, themeKey, p.focus]);
+  }, [p.classes, pos, w, h, r, themeKey, p.focus, water, view]);
 
   const sel = p.selected != null && p.selected < p.lots.length ? ([pos.xs[p.selected], pos.ys[p.selected]] as XY) : null;
   const insetLeft = !!sel && sel[0] > w / 2;
   const insetW = p.present ? Math.min(400, w * 0.52) : Math.min(304, w * 0.46);
   const insetBox: [number, number, number, number] | null = p.inset ? (insetLeft ? [14, 42, 14 + insetW, h - 42] : [w - 14 - insetW, 42, w - 14, h - 42]) : null;
 
+  // River names in italic, at the widest-looking interior point we can find cheaply: the midpoint
+  // of the longest ring's bounding box if it lies in the water, else skipped (never on land).
+  const riverLabels = useMemo(() => {
+    const out: { name: string; x: number; y: number }[] = [];
+    for (const wt of water) {
+      const ring = [...wt.rings].sort((a, b) => ringArea(b) - ringArea(a))[0];
+      if (!ring) continue;
+      let bx: Box = EMPTY;
+      for (const q of ring) bx = grow(bx, q);
+      const tries: XY[] = [
+        [(bx[0] + bx[2]) / 2, (bx[1] + bx[3]) / 2],
+        ...[0.3, 0.7, 0.2, 0.8].flatMap((f) => [0.5, 0.35, 0.65].map((g2): XY => [bx[0] + (bx[2] - bx[0]) * f, bx[1] + (bx[3] - bx[1]) * g2])),
+      ];
+      const inside = tries.find((q) => inRing(q, ring));
+      if (!inside) continue;
+      const [x, y] = toPx(inside);
+      if (x < 40 || x > w - 40 || y < 40 || y > h - 40) continue;
+      out.push({ name: wt.name, x, y });
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [water, view, w, h]);
+
   // Neighborhood lettering: the busiest neighborhoods, greedily placed without overlaps (and never
   // under the selected lot's card).
   const labels = useMemo(() => {
     const fs = p.present ? 13 : w < 520 ? 9.5 : 10.5;
-    const placed: [number, number, number, number][] = insetBox ? [insetBox] : [];
+    const rfs = p.present ? 15 : 12.5;
+    const placed: [number, number, number, number][] = [
+      ...(insetBox ? [insetBox] : []),
+      ...riverLabels.map((l): [number, number, number, number] => [l.x - (l.name.length * rfs * 0.5) / 2, l.y - rfs, l.x + (l.name.length * rfs * 0.5) / 2, l.y + 3]),
+    ];
     const out: { name: string; x: number; y: number }[] = [];
     const list = [...p.hoods.values()].sort((a, b) => b.lots - a.lots);
     const max = w < 520 ? (p.focus ? 5 : 7) : p.focus ? 10 : p.present ? 10 : 16;
@@ -300,7 +350,7 @@ export function CityMap(p: Props) {
     }
     return { items: out, fs };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [p.hoods, view, pos, p.present, w, h, p.focus, insetBox?.join(',')]);
+  }, [p.hoods, view, pos, p.present, w, h, p.focus, insetBox?.join(','), riverLabels]);
 
   const hitLot = (x: number, y: number, radius: number): number | null => {
     let best = -1;
@@ -385,6 +435,13 @@ export function CityMap(p: Props) {
                   d={hd.rings.map((ring) => `M${ring.map((q) => toPx(q).map((v) => v.toFixed(1)).join(' ')).join('L')}Z`).join('')}
                 />
               ))}
+          </g>
+          <g className="river-names">
+            {riverLabels.map((l) => (
+              <text key={l.name} x={l.x} y={l.y} textAnchor="middle" fontSize={p.present ? 15 : 12.5} className="river-name">
+                {l.name}
+              </text>
+            ))}
           </g>
           <g className="hood-names">
             {labels.items.map((l) => (

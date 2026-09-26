@@ -145,6 +145,16 @@
   fill: var(--ink);
   letter-spacing: 0.24em;
 }
+.river-name {
+  font-family: var(--f-display);
+  font-style: italic;
+  fill: var(--ink-2);
+  letter-spacing: 0.06em;
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
+}
 .map-title {
   font-family: var(--f-map);
   font-weight: 600;
