@@ -6,11 +6,20 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config web/vite.config.ts",
-    "build": "tsx scripts/build-api.ts && vite build --config web/vite.config.ts",
+    "seed:rules": "tsx scripts/seed-answer-key.ts",
+    "build:data": "tsx scripts/build-city.ts && tsx scripts/build-api.ts",
+    "build": "npm run build:data && vite build --config web/vite.config.ts",
     "preview": "vite preview --config web/vite.config.ts --port 4173",
+    "rebuild": "uv run python -m pipeline all && npm run seed:rules && npm run build",
+    "refresh": "uv run python -m pipeline refresh && npm run build:data",
+    "digest": "uv run python -m pipeline digest",
+    "extract": "uv run python -m extract",
     "test": "vitest run && uv run pytest -q",
     "test:engine": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "shoot": "node scripts/shoot.mjs",
+    "demo": "node scripts/demo.mjs",
+    "firstrun": "node scripts/firstrun.mjs"
   },
   "dependencies": {
     "polygon-clipping": "^0.15.7",
