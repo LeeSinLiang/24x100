@@ -98,26 +98,29 @@ const BEATS = [
   {
     id: 'B07',
     name: 'ai-reads-the-code',
-    q: 'view=review&district=R1D-H',
+    q: 'view=review&district=R1D-H&section=r1d-h.x.min_lot_area',
     run: async (p, c) => {
+      // The first R1D-H rule: minimum lot size, §903.03.D.
+      const card = p.locator('article[data-rule-id="r1d-h.x.min_lot_area"]');
+      await card.scrollIntoViewIfNeeded();
       if (REVIEWER) {
-        await c.until(6);
-        const sign = p.getByRole('button', { name: 'Sign as source-checked' }).first();
-        if (await sign.count()) {
-          await sign.click();
-          await p.getByLabel('Name').first().fill(REVIEWER.name);
-          await p.getByLabel('Role').first().fill(REVIEWER.role);
-          await p.getByLabel(/Note/).first().fill('Compared with the saved §903.03.D table row.');
-          await c.until(10.8);
-          await p.getByRole('button', { name: 'Sign as source-checked' }).last().click();
-          const placeholder = /placeholder/i.test(REVIEWER.name) || /replace/i.test(REVIEWER.role);
-          cues.B07 = {
-            cue: Math.round(c.now() * 100) / 100,
-            note: placeholder
-              ? `PLACEHOLDER signature ("${REVIEWER.name}", "${REVIEWER.role}"): not a real review. Re-record with a real teammate before submission. The signature lived only in the recording browser's storage; no committed data depends on it.`
-              : `signed on camera by ${REVIEWER.name} (${REVIEWER.role})`,
-          };
-        }
+        await c.until(5);
+        await card.getByRole('button', { name: 'Sign as source-checked' }).click();
+        const form = card.locator('.review-form');
+        await form.getByLabel('Name').fill(REVIEWER.name);
+        await form.getByLabel('Role').fill(REVIEWER.role);
+        await form.getByRole('textbox', { name: /Note/ }).fill('Compared with the saved §903.03.D table: Minimum Lot Size 1,200 s.f.');
+        await c.until(10.8);
+        await form.getByRole('button', { name: 'Sign as source-checked' }).click();
+        await p.waitForFunction(() => document.querySelector('article[data-rule-id="r1d-h.x.min_lot_area"]')?.getAttribute('data-trust') === 'ink', null, { timeout: 4000 });
+        const placeholder = /placeholder/i.test(REVIEWER.name) || /replace/i.test(REVIEWER.role);
+        cues.B07 = {
+          cue: Math.round(c.now() * 100) / 100,
+          rule: 'r1d-h.x.min_lot_area (minimum lot size 1,200 sf, §903.03.D)',
+          note: placeholder
+            ? `PLACEHOLDER signature ("${REVIEWER.name}", "${REVIEWER.role}"): not a real review. Re-record with a real teammate before submission. The signature lived only in the recording browser's storage; no committed data depends on it.`
+            : `signed on camera by ${REVIEWER.name} (${REVIEWER.role})`,
+        };
       } else cues.B07 = { cue: null, note: 'Nobody signed on camera (REVIEWER_NAME/REVIEWER_ROLE not set). Cut the "signs" line, or re-record with a real teammate.' };
       await c.until(22);
     },

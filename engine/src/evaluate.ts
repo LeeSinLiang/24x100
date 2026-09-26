@@ -659,8 +659,10 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
   if (scenario.type === 'row' && narrowQ && narrowQ.status !== 'city_confirmed') {
     questions.push({ id: NARROW_Q, text: narrowQ.question.question, ask: narrowQ.question.ask, section: narrowQ.question.section, trust: narrowQ.status === 'assumed' ? 'red' : 'pencil' });
   }
-  for (const r of [R.use, R.parking, R.grading]) {
-    if (r && r.state !== 'ink' && r.question_for_city) questions.push({ id: `q.rule.${r.id}`, text: r.question_for_city, ask: 'Zoning Administrator', section: r.section, trust: 'pencil' });
+  // A rule's question for the City stays open after a person source-checks the rule's value: signing says
+  // the value matches the text; only the City settles what a conditional or ambiguous clause means.
+  for (const r of [R.use, R.parking, R.grading, R.front, R.rear, R.sideInt, R.sideExt, R.height]) {
+    if (r && !r.sealed && r.question_for_city) questions.push({ id: `q.rule.${r.id}`, text: r.question_for_city, ask: 'Zoning Administrator', section: r.section, trust: 'pencil' });
   }
 
   // ── Approvals and score ───────────────────────────────────────────────────

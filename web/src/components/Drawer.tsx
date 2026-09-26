@@ -254,17 +254,17 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
       )}
       {r.question_for_city && (
         <p className="small pencil-note">
-          Question for the City: {r.question_for_city} This clause is ambiguous or conditional, so a source check can't ink it; only a City confirmation can.
+          Question for the City: {r.question_for_city} Signing checks the value against the text; this question stays open, and in the letter, until the City answers.
         </p>
       )}
       {!form && (
         <div className="form-actions">
           {r.question_for_city && !r.sealed && r.state !== 'struck' && (
-            <a className="btn btn-ink" href={`?view=review&district=${r.district === '*' ? 'RM-M' : r.district}&section=${r.id}`}>
-              Record a City answer in the review screen
+            <a className="btn" href={`?view=review&district=${r.district === '*' ? 'RM-M' : r.district}&section=${r.id}`}>
+              Record the City’s answer
             </a>
           )}
-          {!r.question_for_city && (r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE) && r.state !== 'struck' && (
+          {(r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE) && r.state !== 'struck' && (
             <button className="btn btn-ink" onClick={() => setForm('sign')}>
               Sign as source-checked
             </button>

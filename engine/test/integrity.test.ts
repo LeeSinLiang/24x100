@@ -165,12 +165,15 @@ describe('trust states', () => {
     expect(evaluate(c2, scen(b, 'two', [25])).checks.find((x) => x.id === 'use')!.rule_ids).toEqual([]);
   });
 
-  it('a rule carrying a question for the City is inked only by a City confirmation, never by a source check', () => {
+  it('signing a rule that carries a question for the City inks its value, and the question stays open until the City answers', () => {
     const q: Rule = { ...extractedUse, id: 'x.q', dagger: false, question_for_city: 'Does this apply to attached houses?' };
     const sign: AuditEntry = { id: 'b1', rule_id: q.id, question_id: null, at: '2026-09-26T21:00:00Z', reviewer: 'A. Person', role: 'Housing lead', action: 'source_checked', quote: 'x', decision: 'matches', reason: 'r', choice: null, reference: null };
-    expect(ctxFor(b, { rules: [...baseRules(), q], audit: [sign] }).rs.rules.find((x) => x.id === q.id)!.state).toBe('pencil');
+    const signed = ctxFor(b, { rules: [...baseRules(), q], audit: [sign] });
+    expect(signed.rs.rules.find((x) => x.id === q.id)!.state).toBe('ink');
+    expect(evaluate(signed, scen(b, 'two', [25])).questions.map((x) => x.id)).toContain('q.rule.x.q');
     const conf: AuditEntry = { ...sign, id: 'b2', at: '2026-09-26T21:10:00Z', action: 'city_confirmed', reference: { text: 'email', date: '2026-09-28', who: 'Zoning Administrator' } };
-    expect(ctxFor(b, { rules: [...baseRules(), q], audit: [sign, conf] }).rs.rules.find((x) => x.id === q.id)!.state).toBe('ink');
+    const sealed = ctxFor(b, { rules: [...baseRules(), q], audit: [sign, conf] });
+    expect(evaluate(sealed, scen(b, 'two', [25])).questions.map((x) => x.id)).not.toContain('q.rule.x.q');
   });
 
   it('pre-seeded RM‑M rules are ink but flagged AI-checked until a teammate re-signs', () => {

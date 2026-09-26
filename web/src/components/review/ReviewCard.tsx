@@ -69,7 +69,9 @@ export function ReviewCard({
   const v = r.verification;
   const kind = ruleKind(r);
   const ambiguous = !!r.question_for_city && !r.sealed;
-  const canSign = !ambiguous && (r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE);
+  // Signing checks that the value matches the quoted text. A question for the City stays open either way;
+  // only a recorded City answer settles what a conditional or ambiguous clause means.
+  const canSign = r.state !== 'struck' && (r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE);
   const done = () => {
     setForm(null);
     requestAnimationFrame(() => card.current?.focus({ preventScroll: true }));
@@ -141,7 +143,7 @@ export function ReviewCard({
           <span className="label">Question for the City</span> {r.question_for_city}
         </p>
       )}
-      {ambiguous && !form && <p className="small muted">This clause is ambiguous. A teammate’s signature can’t settle it; record the City’s answer when you have it.</p>}
+      {ambiguous && !form && <p className="small muted">Signing checks that the value matches the text. The question for the City stays open, and stays in the letter, until you record the City’s answer.</p>}
       {!form && (
         <div className="form-actions">
           {canSign && (
