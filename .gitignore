@@ -16,3 +16,4 @@ film/clips/
 .vite/
 .scratch/
 web/dist-rec/
+.claude/worktrees/
