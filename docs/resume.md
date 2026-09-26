@@ -121,7 +121,11 @@ approves recording).
   numbers changed (B02 if the city sentence changes; B10 letter view; B08 Larimer letter; any beat showing the
   detached 18 ft once §925.06.C.1 lands); record B13; update `cues.json`; send the film session the changed
   facts.
-- B07 still has a placeholder signer; re-record with a real teammate who checked the rule
-  (`REVIEWER_NAME`/`REVIEWER_ROLE`).
+- B07 still has a placeholder signer. The team (relayed Sat 26 Sep, ~20:00) says Sin Liang Lee checked the
+  first R1D‑H rule (minimum lot size 1,200 sf, §903.03.D) against the saved code text. After the go-ahead:
+  `REVIEWER_NAME="Sin Liang Lee" REVIEWER_ROLE="Student, team 24×100" node scripts/demo.mjs --record --base <recording build> --only B07`,
+  then check `cues.json` B07 has no placeholder note (the script writes the real-signer note itself). The
+  signature lives in the recording browser only; publishing it to `data/rules/reviews.json` goes through the
+  steward path. The team name is 24×100.
 - Judge panel round 2 after the above (docs/judge-panel.md has round 1).
 - A teammate should sign the 11 RM‑M rules in the review screen (about 15 minutes) before submission.
