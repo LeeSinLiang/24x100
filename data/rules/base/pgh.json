@@ -1,0 +1,213 @@
+[
+ {
+  "source_url": "https://ecode360.com/45479639",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "pgh.contextual_side",
+  "district": "*",
+  "field": "contextual_side",
+  "value": 3,
+  "unit": "ft",
+  "applies_to": [
+   "detached",
+   "two",
+   "row",
+   "three",
+   "row_end"
+  ],
+  "condition": "Only next to a built lot oriented to the same street; not below 3 ft. If lots on either side are vacant, the district setback applies.",
+  "section": "925.06.C",
+  "quote": "A Contextual Side Setback may fall at any point between the required side setback and the side setback that exists on a lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet. If the subject lot is a corner lot, the Contextual Side Setback may fall at any point between the required side setback required by the zoning district and the side setback that exists on the lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet. If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.",
+  "source_file": "data/code/ch925.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45479639",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "pgh.contextual_rear",
+  "district": "*",
+  "field": "contextual_rear",
+  "value": null,
+  "unit": "ft",
+  "applies_to": [
+   "detached",
+   "two",
+   "row",
+   "three",
+   "row_end"
+  ],
+  "condition": "Only next to built lots oriented to the same street. If lots on either side are vacant, the district setback applies.",
+  "section": "925.06.I",
+  "quote": "If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.",
+  "source_file": "data/code/ch925.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45479639",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "pgh.narrow_lot_side",
+  "district": "*",
+  "field": "narrow_lot_side_table",
+  "value": [
+   {
+    "max_width": 59,
+    "interior": 5,
+    "streetside": 29
+   },
+   {
+    "max_width": 58,
+    "interior": 5,
+    "streetside": 28
+   },
+   {
+    "max_width": 57,
+    "interior": 5,
+    "streetside": 27
+   },
+   {
+    "max_width": 56,
+    "interior": 5,
+    "streetside": 26
+   },
+   {
+    "max_width": 55,
+    "interior": 5,
+    "streetside": 25
+   },
+   {
+    "max_width": 54,
+    "interior": 5,
+    "streetside": 24
+   },
+   {
+    "max_width": 53,
+    "interior": 5,
+    "streetside": 23
+   },
+   {
+    "max_width": 52,
+    "interior": 5,
+    "streetside": 22
+   },
+   {
+    "max_width": 51,
+    "interior": 5,
+    "streetside": 21
+   },
+   {
+    "max_width": 50,
+    "interior": 5,
+    "streetside": 20
+   },
+   {
+    "max_width": 49,
+    "interior": 5,
+    "streetside": 20
+   },
+   {
+    "max_width": 48,
+    "interior": 5,
+    "streetside": 19
+   },
+   {
+    "max_width": 47,
+    "interior": 5,
+    "streetside": 19
+   },
+   {
+    "max_width": 46,
+    "interior": 5,
+    "streetside": 18
+   },
+   {
+    "max_width": 45,
+    "interior": 5,
+    "streetside": 18
+   },
+   {
+    "max_width": 44,
+    "interior": 4,
+    "streetside": 18
+   },
+   {
+    "max_width": 43,
+    "interior": 4,
+    "streetside": 17
+   },
+   {
+    "max_width": 42,
+    "interior": 4,
+    "streetside": 17
+   },
+   {
+    "max_width": 41,
+    "interior": 4,
+    "streetside": 16
+   },
+   {
+    "max_width": 40,
+    "interior": 4,
+    "streetside": 16
+   },
+   {
+    "max_width": 39,
+    "interior": 4,
+    "streetside": 15
+   },
+   {
+    "max_width": 38,
+    "interior": 4,
+    "streetside": 15
+   },
+   {
+    "max_width": 37,
+    "interior": 3,
+    "streetside": 15
+   }
+  ],
+  "unit": "table",
+  "applies_to": [
+   "detached"
+  ],
+  "condition": "Single-unit house on a recorded zoning lot under 60 ft wide. Whether this includes single-unit attached houses is an open question.",
+  "section": "925.06.C",
+  "quote": "Regardless of the setbacks of adjacent structures, for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:",
+  "source_file": "data/code/ch925.txt",
+  "question_for_city": null
+ }
+]

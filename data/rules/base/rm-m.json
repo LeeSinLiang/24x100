@@ -1,0 +1,240 @@
+[
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.min_lot_area",
+  "district": "RM-M",
+  "field": "min_lot_area",
+  "value": 2400,
+  "unit": "sf",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "Moderate Density Subdistrict | Minimum Lot Size | 2,400 s.f.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null,
+  "enacted": {
+   "ordinance": "Ord. No. 10-2025",
+   "effective": "5-7-2025",
+   "quote": "Ord. No. 10-2025, eff. 5-7-2025"
+  }
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.front",
+  "district": "RM-M",
+  "field": "front_setback",
+  "value": 25,
+  "unit": "ft",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "Minimum Front Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft. | RM Subdistrict | 25 ft.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.rear",
+  "district": "RM-M",
+  "field": "rear_setback",
+  "value": 25,
+  "unit": "ft",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft. | RM Subdistrict | 25 ft.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.side_exterior",
+  "district": "RM-M",
+  "field": "side_setback_exterior",
+  "value": 25,
+  "unit": "ft",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "Minimum Exterior Sideyard Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft. | RM Subdistrict | 25 ft.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.side_interior",
+  "district": "RM-M",
+  "field": "side_setback_interior",
+  "value": 10,
+  "unit": "ft",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "Minimum Interior Sideyard Setback | | R1D, R2 & R3 Subdistricts | 5 ft. | R1A Subdistrict | 5 ft. | RM Subdistrict | 10 ft.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.max_height",
+  "district": "RM-M",
+  "field": "max_height_ft",
+  "value": 55,
+  "unit": "ft",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "RM Subdistrict | 55 ft. (not to exceed 4 stories)",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.max_stories",
+  "district": "RM-M",
+  "field": "max_stories",
+  "value": 4,
+  "unit": "stories",
+  "applies_to": [
+   "*"
+  ],
+  "condition": null,
+  "section": "903.03.C",
+  "quote": "RM Subdistrict | 55 ft. (not to exceed 4 stories)",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ },
+ {
+  "source_url": "https://ecode360.com/45474194",
+  "retrieved": "2026-09-26",
+  "origin": "answer_key",
+  "dagger": false,
+  "verification": {
+   "level": "source_checked",
+   "reviewer": "Claude (research pass)",
+   "role": "AI agent",
+   "at": "2026-09-26T16:30:00-04:00",
+   "note": "matched to saved ecode360 text 2026-09-26",
+   "reference": null
+  },
+  "model": null,
+  "prompt_sha": null,
+  "id": "rm-m.party_wall",
+  "district": "RM-M",
+  "field": "party_wall_side",
+  "value": 0,
+  "unit": "ft",
+  "applies_to": [
+   "row",
+   "row_end"
+  ],
+  "condition": "attached dwellings on separate lots",
+  "section": "903.03.C.2(c)",
+  "quote": "When a dwelling is \"attached\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.",
+  "source_file": "data/code/ch903.txt",
+  "question_for_city": null
+ }
+]

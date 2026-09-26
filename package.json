@@ -1,0 +1,31 @@
+{
+  "name": "24x100",
+  "version": "0.1.0",
+  "private": true,
+  "description": "What a Pittsburgh lot can hold, what's holding it back, and what would move it.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config web/vite.config.ts",
+    "build": "tsx scripts/build-api.ts && vite build --config web/vite.config.ts",
+    "preview": "vite preview --config web/vite.config.ts --port 4173",
+    "test": "vitest run && uv run pytest -q",
+    "test:engine": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "polygon-clipping": "^0.15.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "playwright": "^1.63.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}

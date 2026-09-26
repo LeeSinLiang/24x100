@@ -1,0 +1,20 @@
+[
+ {
+  "id": "q.single_unit_includes_attached",
+  "district": "*",
+  "section": "925.06.C",
+  "quote": "for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced",
+  "source_file": "data/code/ch925.txt",
+  "question": "Does \"single-unit house\" in the narrow-lot side-yard provision of §925.06.C include single-unit attached houses (rowhouses)? On a 24 ft lot it changes an end unit from 14 ft to 21 ft wide.",
+  "ask": "Zoning Administrator",
+  "affects": [
+   "pgh.narrow_lot_side"
+  ],
+  "yes": {
+   "extends_applies_to": [
+    "row_end"
+   ]
+  },
+  "no": {}
+ }
+]
