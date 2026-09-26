@@ -91,7 +91,7 @@ export function LotCard({
           <dd>
             <span className={`bk bk-${st.id}`} aria-hidden="true" /> <strong>{st.words}</strong>
             {also.length ? <span className="muted"> · also {also.map((b) => STYLE[b].words).join(', ')}</span> : null}
-            <span className="small muted city-card-gloss">{cls.blocker === 'rules' ? `${cls.note}.` : cls.blocker === 'edges' ? `${lot.edge_note ?? cls.note}.` : `for a ${tname}: ${st.gloss}.`}</span>
+            {cls.blocker === 'rules' || cls.blocker === 'edges' ? <span className="small muted city-card-gloss">{cls.blocker === 'rules' ? cls.note : lot.edge_note ?? cls.note}.</span> : <span className="muted"> for a {tname}</span>}
           </dd>
         </div>
 

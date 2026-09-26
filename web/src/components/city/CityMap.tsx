@@ -1,7 +1,7 @@
 // The city map: every City-owned vacant lot as a dot, colored by its first blocker. The canvas holds
 // the dots (decoration of a computed answer: every dot is also a row in the table); the SVG over it
 // holds outlines, lettering, the selection mark, the north arrow and the scale bar.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Blocker, CityClass } from '@engine/city';
 import { PAINT_ORDER, STYLE, n } from './blockers';
 import type { CityLotRow, Hood } from './cityData';
@@ -85,6 +85,7 @@ export interface HoodInfo {
   rings: XY[][]; // projected
   anchor: XY; // label anchor, projected
   box: Box;
+  lotBox: Box; // extent of its lots (empty when it has none)
 }
 
 export function hoodIndex(lots: CityLotRow[], hoods: Hood[]): Map<string, HoodInfo> {
@@ -95,7 +96,7 @@ export function hoodIndex(lots: CityLotRow[], hoods: Hood[]): Map<string, HoodIn
     const big = [...rings].sort((a, b) => ringArea(b) - ringArea(a))[0];
     let box = EMPTY;
     for (const r of rings) for (const p of r) box = grow(box, p);
-    out.set(h.name, { name: h.name, lots: 0, rings, anchor: ringCentroid(big), box });
+    out.set(h.name, { name: h.name, lots: 0, rings, anchor: ringCentroid(big), box, lotBox: EMPTY });
   }
   const sums = new Map<string, { x: number; y: number; k: number; box: Box }>();
   for (const l of lots) {
@@ -109,8 +110,10 @@ export function hoodIndex(lots: CityLotRow[], hoods: Hood[]): Map<string, HoodIn
   }
   for (const [name, s] of sums) {
     const h = out.get(name);
-    if (h) h.lots = s.k;
-    else out.set(name, { name, lots: s.k, rings: [], anchor: [s.x / s.k, s.y / s.k], box: s.box });
+    if (h) {
+      h.lots = s.k;
+      h.lotBox = s.box;
+    } else out.set(name, { name, lots: s.k, rings: [], anchor: [s.x / s.k, s.y / s.k], box: s.box, lotBox: s.box });
   }
   return out;
 }
@@ -126,6 +129,7 @@ interface Props {
   present: boolean;
   record: boolean;
   label: string;
+  inset?: ReactNode; // the selected lot's card, set in the corner away from its dot
 }
 
 const PAD = 26;
@@ -143,9 +147,11 @@ export function CityMap(p: Props) {
   useLayoutEffect(() => {
     const el = wrap.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => setW(el.clientWidth));
+    // A zero width (the first layout pass on some narrow layouts) is ignored, never drawn.
+    const read = () => el.clientWidth > PAD * 3 && setW(el.clientWidth);
+    const ro = new ResizeObserver(read);
     ro.observe(el);
-    setW(el.clientWidth);
+    read();
     return () => ro.disconnect();
   }, []);
 
@@ -155,7 +161,8 @@ export function CityMap(p: Props) {
     const f = p.focus ? p.hoods.get(p.focus) : null;
     if (f) {
       box = f.box;
-      const min = 0.6 / MI_PER_DEG_LAT;
+      // An outlined neighborhood shows whole; a cluster without an outline gets a block-scale frame.
+      const min = (f.rings.length ? 0.6 : 0.15) / MI_PER_DEG_LAT;
       const cx = (box[0] + box[2]) / 2;
       const cy = (box[1] + box[3]) / 2;
       const hw = Math.max((box[2] - box[0]) / 2, min / 2);
@@ -189,7 +196,7 @@ export function CityMap(p: Props) {
     return { xs, ys };
   }, [p.lots, view]);
 
-  const r = p.focus ? 2.6 : 1.6; // 5px dots in a neighborhood, 3px citywide
+  const r = p.focus || p.lots.length < 1000 ? 2.6 : 1.6; // 5px dots in a neighborhood (or when few), 3px citywide
 
   useEffect(() => {
     const c = canvas.current;
@@ -247,27 +254,53 @@ export function CityMap(p: Props) {
     }
   }, [p.classes, pos, w, h, r, themeKey, p.focus]);
 
-  // Neighborhood lettering: the busiest neighborhoods, greedily placed without overlaps.
+  const sel = p.selected != null && p.selected < p.lots.length ? ([pos.xs[p.selected], pos.ys[p.selected]] as XY) : null;
+  const insetLeft = !!sel && sel[0] > w / 2;
+  const insetW = p.present ? Math.min(400, w * 0.52) : Math.min(304, w * 0.46);
+  const insetBox: [number, number, number, number] | null = p.inset ? (insetLeft ? [14, 42, 14 + insetW, h - 42] : [w - 14 - insetW, 42, w - 14, h - 42]) : null;
+
+  // Neighborhood lettering: the busiest neighborhoods, greedily placed without overlaps (and never
+  // under the selected lot's card).
   const labels = useMemo(() => {
-    const fs = p.present ? 13 : 10.5;
-    const placed: [number, number, number, number][] = [];
-    const out: { name: string; x: number; y: number; focus: boolean }[] = [];
-    const list = [...p.hoods.values()].sort((a, b) => (b.name === p.focus ? 1 : 0) - (a.name === p.focus ? 1 : 0) || b.lots - a.lots);
-    const max = p.focus ? 10 : p.present ? 10 : 16;
+    const fs = p.present ? 13 : w < 520 ? 9.5 : 10.5;
+    const placed: [number, number, number, number][] = insetBox ? [insetBox] : [];
+    const out: { name: string; x: number; y: number }[] = [];
+    const list = [...p.hoods.values()].sort((a, b) => b.lots - a.lots);
+    const max = w < 520 ? (p.focus ? 5 : 7) : p.focus ? 10 : p.present ? 10 : 16;
+    // How many dots a label box would hide.
+    const covers = (b: [number, number, number, number]) => {
+      let c = 0;
+      for (let i = 0; i < pos.xs.length; i++) if (pos.xs[i] >= b[0] - 3 && pos.xs[i] <= b[2] + 3 && pos.ys[i] >= b[1] - 3 && pos.ys[i] <= b[3] + 3) c++;
+      return c;
+    };
     for (const hd of list) {
       if (out.length >= max) break;
       if (!p.focus && hd.lots === 0) continue;
-      const [x, y] = toPx(hd.anchor);
+      if (hd.name === p.focus) continue; // the plate's title already names it
       const tw = hd.name.length * fs * 0.62 + 6;
-      const box: [number, number, number, number] = [x - tw / 2, y - fs, x + tw / 2, y + 3];
-      if (box[0] < 10 || box[2] > w - 10 || box[1] < 34 || box[3] > h - 44) continue;
-      if (placed.some((q) => !(box[2] < q[0] || box[0] > q[2] || box[3] < q[1] || box[1] > q[3]))) continue;
-      placed.push(box);
-      out.push({ name: hd.name, x, y, focus: hd.name === p.focus });
+      const at = (x: number, y: number): [number, number, number, number] => [x - tw / 2, y - fs, x + tw / 2, y + 3];
+      // Candidates: the outline's center, then just above and just below the neighborhood's dots.
+      const [cx, cy] = toPx(hd.anchor);
+      const top = toPx([0, hd.lotBox[1]])[1];
+      const bottom = toPx([0, hd.lotBox[3]])[1];
+      const lx = hd.lots ? toPx([(hd.lotBox[0] + hd.lotBox[2]) / 2, 0])[0] : cx;
+      const cands: [number, number][] = [...(hd.rings.length ? [[cx, cy] as [number, number]] : []), ...(hd.lots ? [[lx, top - 8] as [number, number], [lx, bottom + fs + 6] as [number, number]] : [])];
+      let best: { x: number; y: number; box: [number, number, number, number]; hidden: number } | null = null;
+      for (const [x, y] of cands) {
+        const box = at(x, y);
+        if (box[0] < 10 || box[2] > w - 10 || box[1] < 34 || box[3] > h - 44) continue;
+        if (placed.some((q) => !(box[2] < q[0] || box[0] > q[2] || box[3] < q[1] || box[1] > q[3]))) continue;
+        const hidden = covers(box);
+        if (!best || hidden < best.hidden) best = { x, y, box, hidden };
+        if (hidden === 0) break;
+      }
+      if (!best) continue;
+      placed.push(best.box);
+      out.push({ name: hd.name, x: best.x, y: best.y });
     }
     return { items: out, fs };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [p.hoods, view, p.present, w, h, p.focus]);
+  }, [p.hoods, view, pos, p.present, w, h, p.focus, insetBox?.join(',')]);
 
   const hitLot = (x: number, y: number, radius: number): number | null => {
     let best = -1;
@@ -325,14 +358,17 @@ export function CityMap(p: Props) {
     el.style.transform = `translate(${Math.max(6, left)}px, ${Math.max(6, y - 28)}px)`;
   };
 
-  const sel = p.selected != null && p.selected < p.lots.length ? ([pos.xs[p.selected], pos.ys[p.selected]] as XY) : null;
   const selStyle = p.selected != null ? STYLE[p.classes[p.selected]?.blocker ?? 'rules'] : null;
 
-  // Scale bar: a round number of miles, 60–150 px long.
+  // Scale bar: a round length, 60–170 px long; miles at city scale, feet at block scale.
   const pxPerMile = view.k / MI_PER_DEG_LAT;
-  const miles = [0.2, 0.5, 1, 2, 4].find((m) => m * pxPerMile >= 60) ?? 4;
-  const sbLen = miles * pxPerMile;
-  const fmtMi = (v: number) => (v < 1 ? String(v).replace(/^0/, '') : String(v));
+  const minPx = w < 520 ? 60 : 84;
+  const steps: { mi: number; label: (f: number) => string; unit: string }[] = [
+    ...[100, 200, 500, 1000].map((ft) => ({ mi: ft / 5280, label: (f: number) => String(Math.round(ft * f)), unit: 'ft' })),
+    ...[0.5, 1, 2, 4].map((m) => ({ mi: m, label: (f: number) => String(m * f).replace(/^0\./, '.'), unit: 'mi' })),
+  ];
+  const step = steps.find((x) => x.mi * pxPerMile >= minPx) ?? steps[steps.length - 1];
+  const sbLen = step.mi * pxPerMile;
 
   return (
     <div className={`city-plate ${p.present ? 'is-present' : ''}`} ref={wrap} style={{ height: h }} role="group" aria-label={p.label}>
@@ -352,7 +388,7 @@ export function CityMap(p: Props) {
           </g>
           <g className="hood-names">
             {labels.items.map((l) => (
-              <text key={l.name} x={l.x} y={l.y} textAnchor="middle" fontSize={labels.fs * (l.focus ? 1.25 : 1)} className={`hood-name ${l.focus ? 'is-focus' : ''}`}>
+              <text key={l.name} x={l.x} y={l.y} textAnchor="middle" fontSize={labels.fs} className="hood-name">
                 {l.name.toUpperCase()}
               </text>
             ))}
@@ -380,15 +416,16 @@ export function CityMap(p: Props) {
             {[0, 1, 2, 3].map((i) => (
               <rect key={i} x={(i * sbLen) / 4} y={0} width={sbLen / 4} height={3.2} className={i % 2 ? 'sb-empty' : 'sb-full'} />
             ))}
-            {[0, miles / 2, miles].map((v, i) => (
-              <text key={i} x={(v / miles) * sbLen} y={-4} fontSize={p.present ? 12 : 9.5} textAnchor="middle" className="sb-num">
-                {v === 0 ? '0' : fmtMi(v)}
-                {v === miles ? ' mi' : ''}
+            {[0, 0.5, 1].map((f) => (
+              <text key={f} x={f * sbLen} y={-4} fontSize={p.present ? 13 : 10.5} textAnchor="middle" className="sb-num">
+                {f === 0 ? '0' : step.label(f)}
+                {f === 1 ? ` ${step.unit}` : ''}
               </text>
             ))}
           </g>
         </svg>
       </div>
+      {p.inset && <div className={`city-inset ${insetLeft ? 'is-left' : 'is-right'}`}>{p.inset}</div>}
       <div className="city-hover" ref={hover} hidden aria-hidden="true" />
       <span className="city-probe" ref={probe} aria-hidden="true" />
     </div>

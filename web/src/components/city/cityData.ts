@@ -32,15 +32,11 @@ const lotFiles = import.meta.glob('../../../../data/city/lots.json', { import: '
 const hoodFiles = import.meta.glob('../../../../data/city/neighborhoods.json', { import: 'default' }) as Record<string, Loader<Hood[]>>;
 
 let cache: Promise<CityData> | null = null;
-// DEV-FIXTURE-START (remove before commit)
-const devLots = import.meta.env.VITE_CITY_FIXTURE ? (import.meta.glob('./__dev__/lots.json', { import: 'default' }) as typeof lotFiles) : {};
-const devHoods = import.meta.env.VITE_CITY_FIXTURE ? (import.meta.glob('./__dev__/neighborhoods.json', { import: 'default' }) as typeof hoodFiles) : {};
-// DEV-FIXTURE-END
 
 function load(): Promise<CityData> {
-  const lotsLoader = Object.values(devLots)[0] ?? Object.values(lotFiles)[0]; // DEV-FIXTURE
+  const lotsLoader = Object.values(lotFiles)[0];
   if (!lotsLoader) return Promise.resolve({ state: 'absent' });
-  const hoodsLoader = Object.values(devHoods)[0] ?? Object.values(hoodFiles)[0]; // DEV-FIXTURE
+  const hoodsLoader = Object.values(hoodFiles)[0];
   return Promise.all([lotsLoader(), hoodsLoader ? hoodsLoader().catch(() => [] as Hood[]) : Promise.resolve([] as Hood[])])
     .then(([f, hoods]): CityData => ({
       state: 'ready',

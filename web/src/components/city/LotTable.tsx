@@ -7,7 +7,6 @@ import { LEGEND_ORDER, STYLE, n, zoneName } from './blockers';
 import type { CityLotRow } from './cityData';
 
 type SortKey = 'blocker' | 'hood' | 'addr' | 'width';
-const PAGE = 50;
 
 const COLS: { key: SortKey | null; label: string; cls?: string }[] = [
   { key: 'addr', label: 'Address' },
@@ -25,6 +24,7 @@ export function LotTable({
   selected,
   onSelect,
   caption,
+  pageSize = 50,
 }: {
   lots: CityLotRow[];
   classes: CityClass[];
@@ -32,7 +32,9 @@ export function LotTable({
   selected: number | null;
   onSelect: (i: number) => void;
   caption: string;
+  pageSize?: number;
 }) {
+  const PAGE = pageSize;
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'blocker', dir: 1 });
   const [page, setPage] = useState(0);
   const selRow = useRef<HTMLTableRowElement>(null);
