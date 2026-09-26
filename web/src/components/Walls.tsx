@@ -40,7 +40,7 @@ function sourceChips(c: Check, rs: RuleSet) {
     const [, pin, field] = rec.split(':');
     const name = { deed: 'deed', lotarea: 'assessment', poly: 'City map', city: 'City inventory', slope25: 'slope layer', undermined: 'undermined layer', built: 'footprints' }[field] ?? field;
     chips.push(
-      <Chip key={rec} refId={`record:${pin}:${field}`}>
+      <Chip key={rec} refId={`record:${pin}:${field}`} dataTrust="ink">
         {name}
       </Chip>,
     );
