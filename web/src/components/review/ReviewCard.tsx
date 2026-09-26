@@ -4,9 +4,11 @@
 import { useRef, useState } from 'react';
 import { AI_ROLE } from '@engine/rules';
 import type { AuditEntry, EffectiveRule, QuestionState } from '@engine/types';
+import { publishedIds, questionDecisionPublished } from '../../lib/audit';
 import { History, levelWords, ReviewForm, ruleValue } from '../Drawer';
 import { Chip, dateFmt, Ev } from '../ui';
-import { Seal, TrustMark, type TrustKind } from './marks';
+import { AiTag, ConfirmationLine, LocalTag, Seal, TrustMark, type TrustKind } from './marks';
+import { isLocal, lastDecisionOf } from './reviewlog';
 
 export type AddEntry = (e: Omit<AuditEntry, 'id' | 'at'>) => { ok: boolean; problems: string[] };
 
@@ -77,6 +79,10 @@ export function ReviewCard({
     requestAnimationFrame(() => card.current?.focus({ preventScroll: true }));
   };
   const types = r.applies_to.map((t) => TYPE_WORDS[t] ?? t).join(', ');
+  // A decision saved only in this browser keeps its trust state, but is marked until it is published.
+  const last = lastDecisionOf(r);
+  const local = isLocal(last, publishedIds()) ? last : null;
+  const confirmedBy = [...r.history].reverse().find((e) => e.action === 'city_confirmed') ?? null;
   return (
     <article
       ref={card}
@@ -89,6 +95,7 @@ export function ReviewCard({
       data-dagger={r.dagger ? '1' : undefined}
       data-ai-checked={r.ai_checked ? '1' : undefined}
       data-sealed={r.sealed ? '1' : undefined}
+      data-local={local ? '1' : undefined}
     >
       <div className="rv-card-head">
         <TrustMark kind={kind} label={lv.text} />
@@ -124,7 +131,8 @@ export function ReviewCard({
       <div className={`rv-level v-${lv.trust}`}>
         <p>
           {lv.text}
-          {r.ai_checked && <span className="rv-tag">AI-checked · needs a teammate</span>}
+          {r.ai_checked && <AiTag />}
+          {local && <LocalTag action={local.action} />}
         </p>
         {v.reviewer && (
           <p className="small">
@@ -134,7 +142,7 @@ export function ReviewCard({
         )}
         {r.sealed && v.reference && (
           <p className="small">
-            Reference: {v.reference.who}, {v.reference.date}: {v.reference.text}
+            Reference: <ConfirmationLine reference={v.reference} recorder={v.reviewer} published={!!confirmedBy && !isLocal(confirmedBy, publishedIds())} />
           </p>
         )}
       </div>
@@ -241,7 +249,7 @@ export function QuestionCard({ q, active, onLocate, add, located }: { q: Questio
         )}
         {q.status === 'city_confirmed' && (
           <p>
-            <Seal /> City-confirmed <strong>{q.choice}</strong>: {q.reference?.who}, {q.reference?.date}: {q.reference?.text}
+            <Seal /> City-confirmed <strong>{q.choice}</strong>: <ConfirmationLine reference={q.reference} recorder={q.by} published={questionDecisionPublished(q.question.id, q.at, q.by)} />
           </p>
         )}
       </div>

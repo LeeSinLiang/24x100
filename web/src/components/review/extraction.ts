@@ -48,8 +48,9 @@ export function extractionFor(district: string): ExtractionMeta | null {
   return null;
 }
 
-/** Districts that have hand-checked or extracted rules (plus the one in the URL). */
-export function reviewDistricts(current: string): string[] {
+/** Districts that have rules loaded: from the answer key or an extraction run. A district named only
+ *  in the URL is not one of them (the review screen says so instead of inventing a tab). */
+export function reviewDistricts(): string[] {
   const set = new Set<string>();
   for (const r of RULES) if (r.district !== '*') set.add(r.district);
   for (const [key, f] of Object.entries(EXTRACTED)) {
@@ -57,7 +58,6 @@ export function reviewDistricts(current: string): string[] {
     const d = str(((f as Json).meta as Json | undefined)?.district);
     if (d) set.add(d);
   }
-  set.add(current);
   const order = (d: string) => (d === 'RM-M' ? 0 : 1);
   return [...set].sort((a, b) => order(a) - order(b) || a.localeCompare(b));
 }

@@ -1,5 +1,6 @@
-// The review audit log. Lives in localStorage and exports to / imports from data/rules/reviews.json.
-// Entries committed in data/rules/reviews.json are loaded first; the browser's own entries follow.
+// The review audit log. Lives in localStorage; entries published in data/rules/reviews.json are loaded
+// first and the browser's own entries follow. A browser's entries reach reviews.json only through the
+// steward: "Send to the steward" on the review screen, then `npm run check-reviews` (docs/pilot.md).
 import { useCallback, useEffect, useState } from 'react';
 import { auditProblems } from '@engine/rules';
 import type { AuditEntry } from '@engine/types';
@@ -27,6 +28,17 @@ function safeWrite(list: AuditEntry[]): void {
 export function seedEntries(): AuditEntry[] {
   const s = SEED_REVIEWS as { entries?: AuditEntry[] } | AuditEntry[];
   return Array.isArray(s) ? s : s?.entries ?? [];
+}
+
+let published: Set<string> | null = null;
+/** Ids of the entries published in data/rules/reviews.json. Anything else in the log is this browser's. */
+export function publishedIds(): Set<string> {
+  return (published ??= new Set(seedEntries().map((e) => e.id)));
+}
+
+/** Whether a question's current assumption or City confirmation (by, at) is a published entry. */
+export function questionDecisionPublished(questionId: string, at: string | null, by: string | null): boolean {
+  return seedEntries().some((e) => e.question_id === questionId && e.at === at && e.reviewer === by && (e.action === 'assumed' || e.action === 'city_confirmed'));
 }
 
 const listeners = new Set<() => void>();
