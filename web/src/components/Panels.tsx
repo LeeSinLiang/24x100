@@ -99,6 +99,12 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
       </div>
 
       <div className="gap-line">
+        {m.gap.positive && (
+          <span className="stamp stamp-subsidy" data-stamp="subsidy">
+            ONLY WITH SUBSIDY
+            <small>screening estimate</small>
+          </span>
+        )}
         <Label>Gap, at least</Label>
         <p className="gap-num">
           <EstimateMark />{' '}

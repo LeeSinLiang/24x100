@@ -1694,3 +1694,26 @@ button.numeral {
     grid-template-columns: 1fr;
   }
 }
+
+.gap-line {
+  position: relative;
+}
+.stamp-subsidy {
+  float: right;
+  font-family: var(--f-map);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  font-size: 14px;
+  padding: 6px 10px 5px;
+  color: var(--est);
+  border-color: var(--est);
+  box-shadow: inset 0 0 0 2px var(--sheet), inset 0 0 0 3px var(--est);
+  transform: rotate(-3deg);
+  margin: 2px 0 6px 12px;
+}
+.stamp-subsidy small {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  margin-top: 2px;
+  font-weight: 500;
+}
