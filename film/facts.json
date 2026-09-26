@@ -306,7 +306,7 @@
   "city_lots_total": {
    "value": 11247,
    "display": "11,247",
-   "source": "data/city/lots.json (citywide work file pulled 2026-09-26T20:39:21Z)"
+   "source": "data/city/lots.json (citywide work file pulled 2026-09-26T21:30:07Z)"
   },
   "city_lots_computed": {
    "value": 563,

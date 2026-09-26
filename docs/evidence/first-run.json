@@ -1,0 +1,76 @@
+{
+  "run_at": "2026-09-26T22:07:39.778Z",
+  "question": "What blocks 2241 Mahon St, and what would unlock it?",
+  "method": "Playwright, fresh browser context, app root with no parameters; the path a first-time user can see: the search box in the header.",
+  "caveat": "This times the interface path with a script. It is not a study with people; the judge panel and the team supply the human check.",
+  "runs": [
+    {
+      "viewport": "desktop",
+      "user_actions": 3,
+      "total_ms": 5264,
+      "under_60s": true,
+      "answers_found": {
+        "blocks": true,
+        "unlock": true
+      },
+      "steps": [
+        {
+          "what": "app ready (first screen, no parameters)",
+          "ms": 987
+        },
+        {
+          "what": "typed \"2241 Mahon\" into the search",
+          "ms": 4369
+        },
+        {
+          "what": "pressed Enter",
+          "ms": 5206
+        },
+        {
+          "what": "\"What blocks it\" names the side setbacks",
+          "ms": 5264
+        }
+      ],
+      "answer": {
+        "sentence": "Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft.",
+        "what_fits": "WHAT FITS 4ft wide, as of right · by deed · 3.4 ft on the City map",
+        "what_blocks_it": "WHAT BLOCKS IT Only with subsidy (screening estimate) ✕ MONEY vertical cost alone exceeds the highest value signal by at least $83,000 per home ✕ RULES doesn't fit as of right: side setbacks 10 → 4 ft on each side — SITE not assessed: soil, environmental, water and sewer Vertical construction alone ($351,000–$405,000 per home) exceeds the highest value signal ($268,000) by at least $83,000 per home, before site work, land, soft costs and financing.",
+        "what_to_do_next": "WHAT TO DO NEXT Two-unit house on lots 24–25: 28 ft, but it needs a lot that isn’t City-owned. TRY IT Fewest approvals overall: detached house on lot 25 alone (18 ft)."
+      }
+    },
+    {
+      "viewport": "phone",
+      "user_actions": 3,
+      "total_ms": 7147,
+      "under_60s": true,
+      "answers_found": {
+        "blocks": true,
+        "unlock": true
+      },
+      "steps": [
+        {
+          "what": "app ready (first screen, no parameters)",
+          "ms": 1213
+        },
+        {
+          "what": "typed \"2241 Mahon\" into the search",
+          "ms": 5282
+        },
+        {
+          "what": "pressed Enter",
+          "ms": 6923
+        },
+        {
+          "what": "\"What blocks it\" names the side setbacks",
+          "ms": 7147
+        }
+      ],
+      "answer": {
+        "sentence": "Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft.",
+        "what_fits": "WHAT FITS 4ft wide, as of right · by deed · 3.4 ft on the City map",
+        "what_blocks_it": "WHAT BLOCKS IT Only with subsidy (screening estimate) ✕ MONEY vertical cost alone exceeds the highest value signal by at least $83,000 per home ✕ RULES doesn't fit as of right: side setbacks 10 → 4 ft on each side — SITE not assessed: soil, environmental, water and sewer Vertical construction alone ($351,000–$405,000 per home) exceeds the highest value signal ($268,000) by at least $83,000 per home, before site work, land, soft costs and financing.",
+        "what_to_do_next": "WHAT TO DO NEXT Two-unit house on lots 24–25: 28 ft, but it needs a lot that isn’t City-owned. TRY IT Fewest approvals overall: detached house on lot 25 alone (18 ft)."
+      }
+    }
+  ]
+}
