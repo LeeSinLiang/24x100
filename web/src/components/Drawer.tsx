@@ -56,6 +56,11 @@ export function ruleValue(r: EffectiveRule): string {
 }
 
 export function Excerpt({ file, section, quote }: { file: string; section: string; quote: string }) {
+  const box = useRef<HTMLQuoteElement>(null);
+  useEffect(() => {
+    const m = box.current?.querySelector('mark');
+    if (m && box.current) box.current.scrollTop = Math.max(0, (m as HTMLElement).offsetTop - box.current.offsetTop - 40);
+  }, [file, section, quote]);
   const text = codeFor(file);
   if (!text) return <p className="muted">Source text not bundled.</p>;
   const span = locateSection(text, section);
@@ -68,7 +73,7 @@ export function Excerpt({ file, section, quote }: { file: string; section: strin
   const hi = Math.min(span?.end ?? text.length, q.end + 320);
   const tidy = (s: string) => s.replace(/\n\s*\n+/g, '\n').replace(/ \| \n/g, ' | ');
   return (
-    <blockquote className="excerpt">
+    <blockquote className="excerpt" ref={box}>
       {lo > (span?.start ?? 0) ? '… ' : ''}
       {tidy(text.slice(lo, q.start))}
       <mark>{tidy(text.slice(q.start, q.end))}</mark>
