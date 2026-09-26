@@ -60,7 +60,11 @@ export function App() {
   const boil = useBoil(!s.still);
   const open = (ref: string) => update({ drawer: ref });
   const sel = block && (s.view === 'lot' || s.view === 'inquiry') ? parcelByLot(block, s.lot) : undefined;
-  const crumbs = [
+  const crumbs = s.view === 'review'
+    ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
+    : s.view === 'changes'
+      ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
+      : [
     { label: 'Pittsburgh', href: '?view=city' },
     ...(block && s.view !== 'city' ? [{ label: block.meta.neighborhood }, { label: block.meta.name.replace('Block ', 'Block '), href: `?view=lot&block=${block.meta.id}&lot=${s.lot}` }] : []),
     ...(sel ? [{ label: sel.addr.replace(' (no number)', ` · lot ${lotKey(sel)}`) }] : []),

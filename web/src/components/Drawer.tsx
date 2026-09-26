@@ -220,7 +220,7 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
   const v = r.verification;
   const q = rs.questions.find((x) => x.question.affects.includes(r.id));
   return (
-    <article className="card">
+    <article className="card" data-rule-id={r.id} data-trust={r.state}>
       <Label>
         {fieldName(r.field)} · {r.district === '*' ? 'all districts' : r.district}
       </Label>
@@ -252,10 +252,19 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
           Open question: {q.question.question}
         </p>
       )}
-      {r.question_for_city && <p className="small pencil-note">Question for the City: {r.question_for_city}</p>}
+      {r.question_for_city && (
+        <p className="small pencil-note">
+          Question for the City: {r.question_for_city} This clause is ambiguous or conditional, so a source check can't ink it; only a City confirmation can.
+        </p>
+      )}
       {!form && (
         <div className="form-actions">
-          {(r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE) && r.state !== 'struck' && (
+          {r.question_for_city && !r.sealed && r.state !== 'struck' && (
+            <a className="btn btn-ink" href={`?view=review&district=${r.district === '*' ? 'RM-M' : r.district}&section=${r.id}`}>
+              Record a City answer in the review screen
+            </a>
+          )}
+          {!r.question_for_city && (r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE) && r.state !== 'struck' && (
             <button className="btn btn-ink" onClick={() => setForm('sign')}>
               Sign as source-checked
             </button>
@@ -286,7 +295,7 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
 export function QuestionCard({ q, addAudit }: { q: QuestionState; addAudit: AddAudit }) {
   const [form, setForm] = useState<null | 'assume-yes' | 'assume-no' | 'confirm'>(null);
   return (
-    <article className="card">
+    <article className="card" data-question-id={q.question.id} data-trust={q.status === 'city_confirmed' ? 'ink' : q.status === 'assumed' ? 'red' : 'pencil'}>
       <Label>Open question · ask the {q.question.ask}</Label>
       <p className="card-q">{q.question.question}</p>
       <Excerpt file={q.question.source_file} section={q.question.section} quote={q.question.quote} />

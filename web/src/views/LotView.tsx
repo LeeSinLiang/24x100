@@ -53,7 +53,7 @@ function Numeral({ r, still }: { r: LotResult; still: boolean }) {
   const tone = check.trust === 'red' ? 'red' : check.status === 'open' || check.trust === 'pencil' ? 'pencil' : check.status === 'fail' ? 'short' : 'fits';
   const row = r.scenario.type === 'row';
   return (
-    <div className={`numeral-block tone-${tone}`}>
+    <div className={`numeral-block tone-${tone}`} data-trust={check.trust === 'ink' && check.status !== 'open' ? 'ink' : check.trust === 'red' ? 'red' : 'pencil'}>
       <Ev trust={check.trust === 'pencil' ? 'pencil' : check.trust === 'red' ? 'red' : 'ink'} refId="measure:width" className="numeral" title={w.formula}>
         {w.none ? '0' : ftFmt(shown)}
         <span className="numeral-unit">ft</span>

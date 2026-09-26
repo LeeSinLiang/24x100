@@ -19,6 +19,7 @@ export interface Inquiry {
   title: string;
   subtitle: string;
   date: string;
+  from: string;
   recipients: { who: string; why: string }[];
   sections: InquirySection[];
   disclaimer: string;
@@ -27,8 +28,15 @@ export interface Inquiry {
   markdown: string;
 }
 
+/** The sender fills this in; 24×100 never writes as anyone. */
+export const FROM_PLACEHOLDER = '[your name, organization and contact]';
+
 export const DISCLAIMER =
   'Decision support, not legal, financial or zoning advice. The City of Pittsburgh interprets its own code. Draft prepared with 24×100 from public records; not sent automatically.';
+
+function cap(x: string): string {
+  return x.charAt(0).toUpperCase() + x.slice(1);
+}
 
 function usd(n: number): string {
   const v = Math.round(n / 1000) * 1000;
@@ -81,11 +89,28 @@ function allowedNumbers(r: LotResult, m: MoneyResult | null, rs: RuleSet, block:
     [m.homes, m.sqft, m.value.median, m.value.q1, m.value.q3, m.value.newest, m.value.count, m.cost.lo, m.cost.hi, ...m.cost.hard_psf, m.break_even_psf.value, m.gap.lo, m.gap.hi, m.affordable.price, m.affordable.income, m.affordable.household].forEach(add);
   }
   if (r.refusal?.values) Object.values(r.refusal.values).forEach((v) => typeof v === 'number' && add(v));
+  [25].forEach(add); // "25% slope or steeper" is the layer's definition
   // Record values the engine read for these lots (areas quoted in the lot-area check).
   const ps = r.pins.map((p) => block.parcels.find((x) => x.pin === p)).filter((p): p is NonNullable<typeof p> => !!p);
   for (const p of ps) [p.mapped_area, p.assess?.lotarea, p.deed ? p.deed.front * p.deed.depth : null, p.deed?.front, p.deed?.depth].forEach(add);
   [ps.reduce((a, p) => a + p.mapped_area, 0), ps.reduce((a, p) => a + (p.assess?.lotarea ?? 0), 0), ps.reduce((a, p) => a + (p.deed ? p.deed.front * p.deed.depth : 0), 0)].forEach(add);
   return s;
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** "2016-11-17" → "17 Nov 2016" in prose sent to people. */
+export function humanDates(s: string): string {
+  return s.replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g, (_, y, m, d) => `${Number(d)} ${MONTHS[Number(m) - 1]} ${y}`);
+}
+
+/** "a two-unit house", "a row of 3 attached houses". */
+function buildingPhrase(type: string, homes: number): string {
+  return type === 'row' ? `a row of ${homes} attached houses` : type === 'three' ? 'a three-unit house' : type === 'two' ? 'a two-unit house' : 'a detached house';
+}
+
+function lotRange(ps: { lot: number | null; lot_suffix?: string | null }[]): string {
+  const n = ps.map((p) => p.lot ?? 0).sort((a, b) => a - b);
+  return n.length > 1 ? `lots ${n[0]}–${n[n.length - 1]}` : `lot ${n[0]}${ps[0].lot_suffix ?? ''}`;
 }
 
 function lotsWords(block: BlockFile, pins: string[]): string {
@@ -108,7 +133,7 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     heading: 'What we want to build',
     items: [
       {
-        text: `A ${tpl.name.toLowerCase()} (${homes} home${homes === 1 ? '' : 's'}) on ${lotsWords(block, r.pins)}, ${block.meta.neighborhood}, zoned ${r.district}. Proposed ${r.scenario.type === 'row' ? `units ${ft(P.width)} ft wide` : `${ft(P.width)} ft wide`}, ${ft(P.depth)} ft deep, ${P.stories} stories, ${ft(P.height)} ft tall.`,
+        text: `${cap(buildingPhrase(r.scenario.type, homes))} (${homes} home${homes === 1 ? '' : 's'}) on ${lotsWords(block, [...r.pins].sort((a, b) => (block.parcels.find((p) => p.pin === a)?.lot ?? 0) - (block.parcels.find((p) => p.pin === b)?.lot ?? 0)))}, ${block.meta.neighborhood}, zoned ${r.district}. We propose ${r.scenario.type === 'row' ? `houses ${ft(P.width)} ft wide` : `a building ${ft(P.width)} ft wide`}, ${ft(P.depth)} ft deep, ${P.stories} stories and ${ft(P.height)} ft tall.`,
         trust: 'red',
       },
     ],
@@ -116,7 +141,15 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
 
   const facts: InquiryItem[] = [];
   if (r.state === 'refused') {
-    facts.push({ text: `We could not score this lot. ${r.refusal?.reason ?? ''}`, trust: 'ink' });
+    const v = r.refusal?.values ?? {};
+    facts.push({
+      text:
+        r.refusal?.code === 'records_disagree'
+          ? `The records disagree about this lot's size: the County assessment says ${Number(v.assessed).toLocaleString('en-US')} sf and the City's parcel map measures ${Number(v.mapped).toLocaleString('en-US')} sf, more than the difference we can work with.`
+          : `We could not check this lot against the zoning rules yet: ${r.refusal?.reason ?? ''}`,
+      trust: 'ink',
+      cite: r.refusal?.code === 'records_disagree' ? 'County assessment; City parcel map' : undefined,
+    });
   } else {
     const W = r.width!;
     const inkRule = (ids: string[]) => ids.map((id) => rs.rules.find((x) => x.id === id)).filter((x): x is EffectiveRule => !!x);
@@ -128,35 +161,61 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     if (r.depth && r.depth.trust === 'ink') facts.push({ text: `Buildable depth as of right: ${r.depth.formula} ft.`, trust: 'ink', cite: secs(r.depth.rule_ids) });
     for (const c of r.checks) {
       if (['width', 'depth'].includes(c.id)) continue;
-      if (c.trust === 'ink' && c.status !== 'open' && c.status !== 'needs_survey') facts.push({ text: c.text.replace(/^Your /, 'Our '), trust: 'ink', cite: secs(c.rule_ids) || (c.id === 'ownership' ? 'City-Owned Properties; County assessment' : c.id === 'undermined' ? 'City undermined-areas layer' : c.id === 'grading' ? 'City slope layer' : undefined) });
+      if (c.trust === 'ink' && c.status !== 'open' && c.status !== 'needs_survey') {
+        const text = humanDates(c.text.replace(/^Your /, 'Our '));
+        const cite = secs(c.rule_ids) || (c.id === 'ownership' ? 'City-Owned Properties; County assessment' : c.id === 'undermined' ? 'City undermined-areas layer' : c.id === 'grading' ? 'City slope layer' : undefined);
+        facts.push({ text, trust: 'ink', cite: cite && !text.includes(cite) ? cite : undefined });
+      }
     }
-    for (const x of r.relief) facts.push({ text: `To build the proposal as drawn, it would need ${x.text} (${APPROVAL_LABEL[x.approval].toLowerCase()}).`, trust: 'ink', cite: `§${x.section}` });
+    for (const x of r.relief) facts.push({ text: `To build what we propose, it would need ${x.text}, which is ${x.approval === 'variance' ? 'a variance from the Zoning Board of Adjustment' : APPROVAL_LABEL[x.approval].toLowerCase()}.`, trust: 'ink', cite: `§${x.section}` });
   }
   sections.push({ id: 'facts', heading: 'What the code and the records say', items: facts });
 
   const qs: InquiryItem[] = [];
-  for (const q of r.questions) if (q.ask === 'Zoning Administrator' || q.id.startsWith('q.rule')) qs.push({ text: q.text, trust: q.trust === 'red' ? 'red' : 'pencil', cite: q.section ? `§${q.section}` : undefined });
+  const phrase = buildingPhrase(r.scenario.type, homes);
+  const ruleOf = (c: { rule_ids: string[] }) => c.rule_ids.map((id) => rs.rules.find((x) => x.id === id)).find(Boolean);
+  for (const q of r.questions) {
+    if (q.ask !== 'Zoning Administrator' && !q.id.startsWith('q.rule')) continue;
+    if (/grading|slope/i.test(q.id) && r.checks.some((c) => c.id === 'grading' && c.status === 'open')) continue; // asked once, below
+    qs.push({ text: q.text, trust: q.trust === 'red' ? 'red' : 'pencil', cite: q.section ? `§${q.section}` : undefined });
+  }
   for (const c of r.checks) {
-    if (c.trust === 'pencil' && (c.status === 'open' || c.status === 'needs_survey') && c.id !== 'width') {
-      const q =
-        c.id === 'use'
-          ? `Is a ${tpl.name.toLowerCase()} permitted by right in ${r.district}? (${c.text})`
-          : c.id === 'parking'
-            ? `What parking is required, and can relief be granted for this lot? (${c.text})`
-            : c.id === 'grading'
-              ? `Does grading review or a geotechnical report apply here? (${c.text})`
-              : c.id === 'area'
-                ? `Which lot area governs: the deed, the County assessment or the City map? (${c.text})`
-                : c.text;
-      qs.push({ text: q, trust: 'pencil' });
+    if (!(c.trust === 'pencil' && (c.status === 'open' || c.status === 'needs_survey') && c.id !== 'width')) {
+      if (c.id === 'contextual' && c.trust === 'pencil') qs.push({ text: `${humanDates(c.text).replace(/\s*\(§[^)]+\)\.?$/, '.')} Can a contextual side setback be used here, and what evidence of the neighbor's setback do you accept?`, trust: 'pencil', cite: '§925.06.C' });
+      continue;
     }
-    if (c.id === 'contextual' && c.trust === 'pencil') qs.push({ text: `${c.text} Can a contextual side setback be used here, and what evidence of the neighbor's setback is acceptable?`, trust: 'pencil' });
+    const rule = ruleOf(c);
+    if (c.id === 'use') {
+      qs.push({
+        text: rule
+          ? `Our unchecked reading of the use table says ${phrase} is ${String(rule.value) === 'P' ? 'permitted by right' : 'not permitted by right'} in ${r.district}. Is that right?`
+          : `Is ${phrase} permitted by right in ${r.district}?`,
+        trust: 'pencil',
+        cite: '§911.02',
+      });
+    } else if (c.id === 'parking') {
+      qs.push({
+        text:
+          c.required != null && c.required > 0
+            ? `Our unchecked reading is that ${c.required} parking space${c.required === 1 ? '' : 's'} would be required; we haven't checked that they fit. What is required here, and can relief be granted on a lot this size?`
+            : 'What parking is required here, and can relief be granted on a lot this size?',
+        trust: 'pencil',
+        cite: '§914.02.A',
+      });
+    } else if (c.id === 'grading') {
+      const pctSlope = c.available != null ? Math.round(c.available * 100) : null;
+      qs.push({ text: `${pctSlope != null ? `About ${pctSlope}% of the lot is 25% slope or steeper on the City's slope layer. ` : ''}Does grading review or a geotechnical report apply to building here?`, trust: 'pencil', cite: rule ? `§${rule.section}` : '§915.02.A' });
+    } else if (c.id === 'area') {
+      qs.push({ text: 'The deed and the County assessment fall on different sides of the minimum lot size. Which governs, and would a survey settle it?', trust: 'pencil' });
+    } else if (c.id === 'undermined') {
+      qs.push({ text: humanDates(c.text), trust: 'pencil' });
+    }
   }
   sections.push({ id: 'questions', heading: 'Questions for the Zoning Administrator', to: 'Zoning Administrator, Department of City Planning', items: qs });
 
   const money: InquiryItem[] = [];
-  for (const q of r.questions) if (q.ask === 'City Real Estate') money.push({ text: q.text, trust: 'pencil' });
-  if (cityLots.length) money.push({ text: `What would the City ask for ${cityLots.map((p) => p.addr.replace(' (no number)', ` (lot ${p.lot})`)).join(' and ')} through a public sale, and what is the process and timeline?`, trust: 'pencil' });
+  for (const q of r.questions) if (q.ask === 'City Real Estate') money.push({ text: humanDates(q.text), trust: 'pencil' });
+  if (cityLots.length) money.push({ text: `What would the City ask for ${cityLots.map((p) => p.addr.replace(' (no number)', ` (lot ${p.lot})`)).join(' and ')} through a public sale, and what are the process and timeline?`, trust: 'pencil' });
   if (others.length) money.push({ text: `${others.map((p) => `Lot ${p.lot}`).join(' and ')} ${others.length > 1 ? 'are' : 'is'} not in the City's inventory (County owner type: ${others.map((p) => (p.assess?.ownercat ?? 'unknown').toLowerCase()).join(', ')}). Can the City help reach the owner, or package the lots together?`, trust: 'pencil' });
   if (m) {
     money.push({
@@ -164,7 +223,7 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
       trust: 'red',
     });
   }
-  sections.push({ id: 'money', heading: 'Questions about money', to: 'City Real Estate; Urban Redevelopment Authority (URA)', items: money });
+  sections.push({ id: 'money', heading: 'Questions about money', to: 'City Real Estate and the URA', items: money });
 
   const struck = rs.rules.filter((x) => x.state === 'struck').map((x) => ({ text: `${x.field.replaceAll('_', ' ')}: "${x.quote.slice(0, 120)}${x.quote.length > 120 ? '…' : ''}" (struck by ${x.history.filter((h) => h.action === 'struck').slice(-1)[0]?.reviewer ?? 'a reviewer'})`, trust: 'struck' as const, cite: `§${x.section}` }));
   sections.push({ id: 'struck', heading: 'Checked and set aside', items: struck.length ? struck : [{ text: 'Nothing struck yet.', trust: 'ink' }] });
@@ -174,7 +233,7 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     ...r.questions.filter((q) => q.trust === 'red').map((q) => ({ text: `We explored an answer to an open question, but we are not relying on it: ${q.text}`, trust: 'red' as const })),
   ];
   if (m) assumptions.push({ text: `Costs are our placeholders: hard cost $${m.cost.hard_psf[0]}–$${m.cost.hard_psf[1]} per sq ft; ${m.sqft.toLocaleString('en-US')} sq ft per home; lot price unknown.`, trust: 'red' });
-  sections.push({ id: 'assumptions', heading: 'Our assumptions (red)', items: assumptions });
+  sections.push({ id: 'assumptions', heading: 'Our assumptions', items: assumptions });
 
   sections.push({
     id: 'not_assessed',
@@ -189,15 +248,18 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     ...(cityLots.length ? [{ who: 'City of Pittsburgh, Department of City Planning, Real Estate', why: 'public-sale inquiry for the City-owned lots' }] : []),
     { who: 'Zoning Administrator, Department of City Planning', why: 'the open code questions' },
     ...(rco ? [{ who: `RCO: ${rco}`, why: 'the community meeting' }] : []),
-    ...(m ? [{ who: 'Urban Redevelopment Authority of Pittsburgh', why: 'gap financing; programs are pointers, not promises' }] : []),
+    ...(m ? [{ who: 'Urban Redevelopment Authority of Pittsburgh', why: 'gap financing for small for-sale infill' }] : []),
   ];
 
-  const title = `Inquiry: ${tpl.name.toLowerCase()} at ${ps.map((p) => p.addr.replace(' (no number)', ` (lot ${p.lot})`)).join(' + ')}`;
+  const title =
+    ps.length > 1
+      ? `${tpl.name} on ${lotRange(ps)}, ${ps.find((p) => p.addr_street)?.addr_street ?? block.meta.main_street} (${block.meta.name})`
+      : `${tpl.name} at ${ps[0].addr.replace(' (no number)', '')} (lot ${ps[0].lot}${ps[0].lot_suffix ?? ''}, ${block.meta.name})`;
   const subtitle = `${block.meta.name}, ${block.meta.neighborhood} · ${r.district} · draft ${date}`;
-  const lines: string[] = [`# ${title}`, subtitle, '', `To: ${recipients.map((x) => `${x.who} (${x.why})`).join('; ')}`, ''];
+  const lines: string[] = [`# ${title}`, subtitle, '', `To: ${recipients.map((x) => `${x.who} (${x.why})`).join('; ')}`, `From: ${FROM_PLACEHOLDER}`, ''];
   for (const sec of sections) {
     lines.push(`## ${sec.heading}${sec.to ? ` (for ${sec.to})` : ''}`);
-    for (const it of sec.items) lines.push(`- ${it.trust === 'red' ? '[our assumption] ' : it.trust === 'pencil' ? '[open] ' : it.trust === 'struck' ? '[set aside] ' : ''}${it.text}${it.cite ? ` (${it.cite})` : ''}`);
+    for (const it of sec.items) lines.push(`- ${it.trust === 'red' ? (sec.id === 'build' ? '[our proposal] ' : '[our assumption] ') : it.trust === 'pencil' ? '[open] ' : it.trust === 'struck' ? '[set aside] ' : ''}${it.text}${it.cite ? ` (${it.cite})` : ''}`);
     lines.push('');
   }
   lines.push(`_${DISCLAIMER}_`);
@@ -216,5 +278,5 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
         if (!allowed.has(n)) unknown.push(`${n} in "${it.text.slice(0, 80)}…"`);
       }
     }
-  return { title, subtitle, date, recipients, sections, disclaimer: DISCLAIMER, check: { ok: unknown.length === 0, unknown, checked }, text, markdown };
+  return { title, subtitle, date, from: FROM_PLACEHOLDER, recipients, sections, disclaimer: DISCLAIMER, check: { ok: unknown.length === 0, unknown, checked }, text, markdown };
 }

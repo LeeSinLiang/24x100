@@ -3,7 +3,7 @@
 // proposal (red), regulation (does the proposal fit; what specific relief if not) and procedure
 // (the approvals that relief implies).
 import { labelEdges, type Neighbor } from './edges';
-import { MINUS, ft1, ftInt, int, minusFormula, pct } from './format';
+import { MINUS, ft1, ftInt, int, listAnd as listAndWords, minusFormula, pct } from './format';
 import { area, centroid, dropCollinear, envelope, extent, openRing, sub, unionRings, unit } from './geom';
 import { getQuestion, pick, ruleTrust, weakest } from './rules';
 import { APPROVAL_LABEL, TEMPLATES } from './templates';
@@ -624,7 +624,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
   {
     const approvals: Check['approvals'] = [];
     const parts: string[] = [];
-    for (const p of ps) {
+    for (const p of [...ps].sort((a, b) => (a.lot ?? 0) - (b.lot ?? 0))) {
       const label = p.lot != null ? `Lot ${p.lot}` : p.addr;
       if (p.city) {
         const forSale = p.city.status === 'Available for Sale';
@@ -638,7 +638,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     }
     const stale = ps.filter((p) => p.city?.status_updated && p.city.status_updated < '2024-01-01');
     if (stale.length)
-      questions.push({ id: 'q.city_status_current', text: `The City's inventory last updated the sale status of ${stale.map((p) => p.addr).join(', ')} on ${stale[0].city!.status_updated}. Is it still current?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
+      questions.push({ id: 'q.city_status_current', text: `The City's inventory last updated the sale status of ${listAndWords(stale.map((p) => p.addr))} on ${stale[0].city!.status_updated}. Is it still current?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
     checks.push({ id: 'ownership', label: 'Ownership', required: null, available: null, shortfall: null, unit: '', status: 'info', trust: 'ink', text: parts.join(' '), rule_ids: [], record_ids: ps.map((p) => recordId(p.pin, 'city')), approvals });
   }
 

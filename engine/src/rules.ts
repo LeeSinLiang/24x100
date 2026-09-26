@@ -73,6 +73,9 @@ export function effectiveRule(rule: Rule, audit: AuditEntry[]): EffectiveRule {
   // A † rule is never ink until a person (not an AI agent) signs it.
   let state: EffectiveRule['state'] = struck ? 'struck' : level === 'unreviewed' ? 'pencil' : 'ink';
   if (state === 'ink' && rule.dagger && !humanSigned) state = 'pencil';
+  // A clause flagged as ambiguous or conditional (it carries a question for the City) is settled only by
+  // a City confirmation; a source check alone never inks it (spec §0.5.1).
+  if (state === 'ink' && rule.question_for_city && level !== 'city_confirmed') state = 'pencil';
   // If the saved code text no longer contains the quote (a refresh changed it), the rule is pencil again.
   if (state === 'ink' && rule.quote_status === 'failed') state = 'pencil';
   return {

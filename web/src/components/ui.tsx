@@ -73,11 +73,17 @@ export function Ev({
   );
 }
 
-export function Chip({ refId, children, trust = 'ink' }: { refId?: string; children: ReactNode; trust?: Trust }) {
+export function Chip({ refId, children, trust = 'ink', ruleId, dataTrust }: { refId?: string; children: ReactNode; trust?: Trust; ruleId?: string; dataTrust?: string }) {
   const open = useOpen();
-  if (!refId) return <span className={`chip chip-${trust}`}>{children}</span>;
+  const data = { ...(ruleId ? { 'data-rule-id': ruleId } : {}), ...(dataTrust ? { 'data-trust': dataTrust } : {}) };
+  if (!refId)
+    return (
+      <span className={`chip chip-${trust}`} {...data}>
+        {children}
+      </span>
+    );
   return (
-    <button type="button" className={`chip chip-${trust}`} onClick={() => open(refId)}>
+    <button type="button" className={`chip chip-${trust}`} onClick={() => open(refId)} {...data}>
       {children}
     </button>
   );

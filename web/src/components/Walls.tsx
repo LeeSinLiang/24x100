@@ -30,7 +30,7 @@ function sourceChips(c: Check, rs: RuleSet) {
     .map((id) => rs.rules.find((r) => r.id === id))
     .filter(Boolean)
     .map((r) => (
-      <Chip key={r!.id} refId={`rule:${r!.id}`} trust={r!.state === 'ink' ? 'ink' : 'pencil'}>
+      <Chip key={r!.id} refId={`rule:${r!.id}`} trust={r!.state === 'ink' ? 'ink' : 'pencil'} ruleId={r!.id} dataTrust={r!.state}>
         §{r!.section}
         {r!.state !== 'ink' ? ' · pencil' : ''}
       </Chip>
@@ -113,7 +113,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
         </thead>
         <tbody>
           {rows.map((c) => (
-            <tr key={c.id} className={`row-${c.status}`} title={c.text}>
+            <tr key={c.id} className={`row-${c.status}`} title={c.text} data-check={c.id} data-trust={c.trust}>
               <td>
                 <Mark kind={markFor(c)} label={`${c.status}, ${c.trust}`} />
               </td>
