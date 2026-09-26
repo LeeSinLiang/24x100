@@ -68,25 +68,41 @@ picking one.
 **Where.** The RM‑M lots are concentrated in Middle Hill (241), Homewood South (240),
 Lincoln‑Lemington‑Belmar (142), Crawford‑Roberts (132) and Homewood North (93).
 
-## Money (H5): a hypothesis, not a finding
+## Money first: an order, not a finding (H5 unproven)
 
-The team believes both rules and money block small infill. The money wall is built to test that, but nothing
-here confirms it:
+**What a practitioner said** (hackathon Slack, 26 Sep 2026; one practitioner, role unknown, quoted in the
+team's spec §0.12; named in the app only as "a practitioner at the hackathon" until they agree to be named):
+cost exceeding market value is the biggest challenge, and a developer typically checks whether a project
+pencils financially before deciding to pursue a variance. On the 24 ft lot with 10 ft side setbacks: a clear
+hardship case for a variance, but the time and expense of the process make these lots hard to develop.
+Vertical construction runs about $325–$375 per sq ft, not including site work; site costs (environmental, soil,
+water and sewer) are the hardest to know without paid due diligence. Second-hand reports (we have not seen the
+originals): City staff said financial feasibility and comparable values matter; Pro-Housing Pittsburgh said
+there is no predetermined scoring system and understandable categories are one approach.
 
-- Ward 5 comparable sales since 2023: 33 valid sales of 1–2 unit homes, median $155,000, middle half
-  $105,000–$235,000; the newest comparable, 2125 Rose St, built 2025, sold for $240,000.
-- To break even at the median, a builder would need hard costs at or below about $103/sq ft (two-unit, 1,080 sq
-  ft per home) or $82/sq ft (three-unit, 1,350 sq ft per home), with a $15,000 sitework allowance on a steep lot
-  and no lot price. The cost range shown ($225–$300/sq ft) is the team's placeholder, not a quote.
-- The HUD FY2026 80% income limit for a 3-person household in the Pittsburgh HMFA is $79,500; with our red
-  mortgage assumptions that buys about $268,000, more than the median sale. So on these assumptions the gap is
-  between cost and value, not between value and what a household can pay.
+So 24×100 now checks money first, because a money screen is free and a variance or a site study costs months
+and money. That is an order of what to learn first. **It is not a finding that money blocks more often than the
+rules: that (hypothesis H5) is unproven.** One practitioner's view is not a measurement.
 
-**What mentors or Slack said.** Nothing yet. The team's questions (`SLACK_QUESTIONS_PROMPT.md`: what usually
-stops a project first, realistic 2026 costs per sq ft, whether appraisals come in below cost, which programs
-fill the gap) had not been answered when this was written. When answers arrive, quote them here with
-permission, including answers that disagree, and put any cost figure a mentor gives into the money wall as a
-red assumption with their name and role.
+**The screen on 2241 Mahon St** (all from `film/facts.json`):
+
+| | Two-unit (1,080 sq ft per home) | Three-unit on lots 25–27 (1,350 sq ft per home) |
+|---|---:|---:|
+| Vertical construction, $325–$375/sq ft (practitioner estimate, excludes site work) | $351,000–$405,000 | $438,750–$506,250 |
+| Ward 5 median, 33 valid 1–2 unit sales since 2023 (mostly older homes; not an appraisal) | $155,000 | $155,000 |
+| Newest new build, 2125 Rose St, 2025 (one sale; may be price-restricted; unverified) | $240,000 | $240,000 |
+| What an 80% AMI household of 3 could afford (HUD FY2026 $79,500; red mortgage assumptions) | ≈ $268,467 | ≈ $268,467 |
+| **Gap, at least** (vertical low minus the highest signal; excludes site work, soft costs, financing, land) | **$82,533** | **$170,283** |
+| Verdict | Only with subsidy (screening estimate) | Only with subsidy (screening estimate) |
+
+The highest value signal here is what an 80% AMI household could afford, which is above both market signals:
+on these numbers the problem is cost against value, not buyers' incomes. Every lot we can screen in Ward 5
+comes out "Only with subsidy" at this cost range; that is the practitioner's point, and it says nothing yet
+about how often the rules would stop the same project.
+
+**What would change this:** a local cost benchmark (none public that we found), appraisals for new builds, the
+City's lot prices, gap-financing programs' real caps, and site investigations. The app's "What to check next"
+asks for these in order, cheapest first.
 
 ## What this does not show
 
