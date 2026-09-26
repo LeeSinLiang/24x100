@@ -1,0 +1,1673 @@
+{
+ "meta": {
+  "block": "10K",
+  "block_pulled": "2026-09-26T19:42:40Z",
+  "fixture": "ai-horizons-research/design-proposals/plate/data/block_10K_mahon.json",
+  "fixture_pulled": "2026-09-26",
+  "fixture_sha256": "de8d92478b4c5ea9a5bacdcacb05a732fe875c25ccc36a96da6a2d5565c835c8",
+  "method": "per-lot mapped area, bbox width/height in each file's own frame, lot order along Mahon Street; pass = every Mahon Street row lot within tolerance on all three and the same order",
+  "rotation_difference_deg": 0.38,
+  "rotation_fixture": 29.157,
+  "rotation_ours": 29.537,
+  "tolerance": 0.02
+ },
+ "parcels": [
+  {
+   "fixture": {
+    "area": 2132.8,
+    "bbox_h": 98.6,
+    "bbox_w": 24.0,
+    "mrr": [
+     22.0,
+     98.87
+    ]
+   },
+   "lot": 21,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2136.1,
+    "bbox_h": 98.59,
+    "bbox_h_in_fixture_rotation": 98.66,
+    "bbox_w": 23.36,
+    "bbox_w_in_fixture_rotation": 24.01,
+    "mrr": [
+     22.04,
+     98.88
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00021000000",
+   "rel_diff": {
+    "area": 0.0016,
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0267
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0018
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0006,
+    "bbox_w": 0.0006
+   }
+  },
+  {
+   "fixture": {
+    "area": 2504.6,
+    "bbox_h": 98.7,
+    "bbox_w": 27.4,
+    "mrr": [
+     26.1,
+     98.85
+    ]
+   },
+   "lot": 22,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2498.9,
+    "bbox_h": 98.69,
+    "bbox_h_in_fixture_rotation": 98.74,
+    "bbox_w": 26.67,
+    "bbox_w_in_fixture_rotation": 27.32,
+    "mrr": [
+     26.05,
+     98.86
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00022000000",
+   "rel_diff": {
+    "area": 0.0023,
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0266
+   },
+   "rel_diff_mrr": {
+    "long": 0.0,
+    "short": 0.002
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0028
+   }
+  },
+  {
+   "fixture": {
+    "area": 2299.9,
+    "bbox_h": 98.8,
+    "bbox_w": 25.3,
+    "mrr": [
+     24.0,
+     98.92
+    ]
+   },
+   "lot": 23,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2300.5,
+    "bbox_h": 98.75,
+    "bbox_h_in_fixture_rotation": 98.82,
+    "bbox_w": 24.63,
+    "bbox_w_in_fixture_rotation": 25.29,
+    "mrr": [
+     24.01,
+     98.9
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00023000000",
+   "rel_diff": {
+    "area": 0.0003,
+    "bbox_h": 0.0005,
+    "bbox_w": 0.0265
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0004
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0006
+   }
+  },
+  {
+   "fixture": {
+    "area": 2370.2,
+    "bbox_h": 98.9,
+    "bbox_w": 25.4,
+    "mrr": [
+     25.3,
+     98.8
+    ]
+   },
+   "lot": 24,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2370.2,
+    "bbox_h": 98.83,
+    "bbox_h_in_fixture_rotation": 98.88,
+    "bbox_w": 25.3,
+    "bbox_w_in_fixture_rotation": 25.38,
+    "mrr": [
+     25.3,
+     98.81
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00024000000",
+   "rel_diff": {
+    "area": 0.0,
+    "bbox_h": 0.0007,
+    "bbox_w": 0.0039
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.001
+   }
+  },
+  {
+   "fixture": {
+    "area": 2287.2,
+    "bbox_h": 98.9,
+    "bbox_w": 23.3,
+    "mrr": [
+     23.2,
+     98.85
+    ]
+   },
+   "lot": 25,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2291.9,
+    "bbox_h": 98.89,
+    "bbox_h_in_fixture_rotation": 98.96,
+    "bbox_w": 23.66,
+    "bbox_w_in_fixture_rotation": 23.37,
+    "mrr": [
+     23.29,
+     98.9
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00025000000",
+   "rel_diff": {
+    "area": 0.002,
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0155
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0039
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0007,
+    "bbox_w": 0.0028
+   }
+  },
+  {
+   "fixture": {
+    "area": 2358.8,
+    "bbox_h": 99.0,
+    "bbox_w": 24.6,
+    "mrr": [
+     24.4,
+     99.0
+    ]
+   },
+   "lot": 26,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2356.4,
+    "bbox_h": 98.96,
+    "bbox_h_in_fixture_rotation": 99.05,
+    "bbox_w": 24.31,
+    "bbox_w_in_fixture_rotation": 24.6,
+    "mrr": [
+     24.31,
+     98.96
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00026000000",
+   "rel_diff": {
+    "area": 0.001,
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0118
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0037
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0005,
+    "bbox_w": 0.0001
+   }
+  },
+  {
+   "fixture": {
+    "area": 2414.7,
+    "bbox_h": 99.2,
+    "bbox_w": 26.2,
+    "mrr": [
+     24.9,
+     99.24
+    ]
+   },
+   "lot": 27,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2414.0,
+    "bbox_h": 99.04,
+    "bbox_h_in_fixture_rotation": 99.1,
+    "bbox_w": 25.52,
+    "bbox_w_in_fixture_rotation": 26.18,
+    "mrr": [
+     24.91,
+     99.2
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00027000000",
+   "rel_diff": {
+    "area": 0.0003,
+    "bbox_h": 0.0016,
+    "bbox_w": 0.026
+   },
+   "rel_diff_mrr": {
+    "long": 0.0004,
+    "short": 0.0004
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.001,
+    "bbox_w": 0.0009
+   }
+  },
+  {
+   "fixture": {
+    "area": 1503.9,
+    "bbox_h": 63.2,
+    "bbox_w": 24.7,
+    "mrr": [
+     24.7,
+     63.2
+    ]
+   },
+   "lot": 28,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 1504.0,
+    "bbox_h": 63.23,
+    "bbox_h_in_fixture_rotation": 63.22,
+    "bbox_w": 24.77,
+    "bbox_w_in_fixture_rotation": 24.77,
+    "mrr": [
+     24.77,
+     63.22
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00028000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0005,
+    "bbox_w": 0.0028
+   },
+   "rel_diff_mrr": {
+    "long": 0.0004,
+    "short": 0.0028
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0028
+   }
+  },
+  {
+   "fixture": {
+    "area": 823.9,
+    "bbox_h": 36.7,
+    "bbox_w": 23.2,
+    "mrr": [
+     23.2,
+     36.7
+    ]
+   },
+   "lot": 28,
+   "lot_suffix": "A",
+   "main_street_row": true,
+   "ours": {
+    "area": 822.6,
+    "bbox_h": 36.78,
+    "bbox_h_in_fixture_rotation": 36.7,
+    "bbox_w": 23.15,
+    "bbox_w_in_fixture_rotation": 23.16,
+    "mrr": [
+     23.15,
+     36.7
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00028000A00",
+   "rel_diff": {
+    "area": 0.0015,
+    "bbox_h": 0.0022,
+    "bbox_w": 0.0022
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0019
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0019
+   }
+  },
+  {
+   "fixture": {
+    "area": 2170.0,
+    "bbox_h": 99.3,
+    "bbox_w": 22.1,
+    "mrr": [
+     21.9,
+     99.34
+    ]
+   },
+   "lot": 29,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2170.6,
+    "bbox_h": 99.19,
+    "bbox_h_in_fixture_rotation": 99.26,
+    "bbox_w": 22.77,
+    "bbox_w_in_fixture_rotation": 22.11,
+    "mrr": [
+     21.95,
+     99.29
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00029000000",
+   "rel_diff": {
+    "area": 0.0003,
+    "bbox_h": 0.0011,
+    "bbox_w": 0.0303
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0023
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0005
+   }
+  },
+  {
+   "fixture": {
+    "area": 2465.2,
+    "bbox_h": 99.3,
+    "bbox_w": 25.6,
+    "mrr": [
+     25.6,
+     99.2
+    ]
+   },
+   "lot": 30,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2466.7,
+    "bbox_h": 99.27,
+    "bbox_h_in_fixture_rotation": 99.34,
+    "bbox_w": 25.6,
+    "bbox_w_in_fixture_rotation": 25.6,
+    "mrr": [
+     25.6,
+     99.26
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00030000000",
+   "rel_diff": {
+    "area": 0.0006,
+    "bbox_h": 0.0003,
+    "bbox_w": 0.0
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0
+   }
+  },
+  {
+   "fixture": {
+    "area": 2264.1,
+    "bbox_h": 99.4,
+    "bbox_w": 23.8,
+    "mrr": [
+     23.1,
+     99.4
+    ]
+   },
+   "lot": 31,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2262.9,
+    "bbox_h": 99.34,
+    "bbox_h_in_fixture_rotation": 99.4,
+    "bbox_w": 23.15,
+    "bbox_w_in_fixture_rotation": 23.81,
+    "mrr": [
+     23.09,
+     99.35
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00031000000",
+   "rel_diff": {
+    "area": 0.0005,
+    "bbox_h": 0.0006,
+    "bbox_w": 0.0273
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0005
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0004
+   }
+  },
+  {
+   "fixture": {
+    "area": 2609.3,
+    "bbox_h": 99.5,
+    "bbox_w": 26.7,
+    "mrr": [
+     26.5,
+     99.4
+    ]
+   },
+   "lot": 32,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2610.5,
+    "bbox_h": 99.41,
+    "bbox_h_in_fixture_rotation": 99.5,
+    "bbox_w": 26.54,
+    "bbox_w_in_fixture_rotation": 26.72,
+    "mrr": [
+     26.54,
+     99.41
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00032000000",
+   "rel_diff": {
+    "area": 0.0004,
+    "bbox_h": 0.0009,
+    "bbox_w": 0.006
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0015
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0007
+   }
+  },
+  {
+   "fixture": {
+    "area": 2272.4,
+    "bbox_h": 99.6,
+    "bbox_w": 23.3,
+    "mrr": [
+     23.3,
+     99.55
+    ]
+   },
+   "lot": 33,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2272.9,
+    "bbox_h": 99.49,
+    "bbox_h_in_fixture_rotation": 99.56,
+    "bbox_w": 23.75,
+    "bbox_w_in_fixture_rotation": 23.27,
+    "mrr": [
+     23.27,
+     99.51
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00033000000",
+   "rel_diff": {
+    "area": 0.0002,
+    "bbox_h": 0.0011,
+    "bbox_w": 0.0193
+   },
+   "rel_diff_mrr": {
+    "long": 0.0004,
+    "short": 0.0013
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0013
+   }
+  },
+  {
+   "fixture": {
+    "area": 2398.4,
+    "bbox_h": 99.6,
+    "bbox_w": 24.8,
+    "mrr": [
+     24.8,
+     99.5
+    ]
+   },
+   "lot": 34,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2398.7,
+    "bbox_h": 99.56,
+    "bbox_h_in_fixture_rotation": 99.64,
+    "bbox_w": 24.76,
+    "bbox_w_in_fixture_rotation": 24.76,
+    "mrr": [
+     24.76,
+     99.56
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00034000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0016
+   },
+   "rel_diff_mrr": {
+    "long": 0.0006,
+    "short": 0.0016
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0016
+   }
+  },
+  {
+   "fixture": {
+    "area": 1045.1,
+    "bbox_h": 44.4,
+    "bbox_w": 24.2,
+    "mrr": [
+     24.2,
+     44.29
+    ]
+   },
+   "lot": 35,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 1046.6,
+    "bbox_h": 44.34,
+    "bbox_h_in_fixture_rotation": 44.43,
+    "bbox_w": 24.18,
+    "bbox_w_in_fixture_rotation": 24.18,
+    "mrr": [
+     24.18,
+     44.34
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00035000000",
+   "rel_diff": {
+    "area": 0.0015,
+    "bbox_h": 0.0014,
+    "bbox_w": 0.0008
+   },
+   "rel_diff_mrr": {
+    "long": 0.001,
+    "short": 0.0009
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0007,
+    "bbox_w": 0.0009
+   }
+  },
+  {
+   "fixture": {
+    "area": 1328.3,
+    "bbox_h": 55.8,
+    "bbox_w": 24.6,
+    "mrr": [
+     24.2,
+     55.6
+    ]
+   },
+   "lot": 35,
+   "lot_suffix": "A",
+   "main_street_row": true,
+   "ours": {
+    "area": 1326.3,
+    "bbox_h": 55.59,
+    "bbox_h_in_fixture_rotation": 55.74,
+    "bbox_w": 24.19,
+    "bbox_w_in_fixture_rotation": 24.56,
+    "mrr": [
+     24.18,
+     55.59
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00035000A00",
+   "rel_diff": {
+    "area": 0.0015,
+    "bbox_h": 0.0038,
+    "bbox_w": 0.0167
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.001
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0011,
+    "bbox_w": 0.0018
+   }
+  },
+  {
+   "fixture": {
+    "area": 2452.0,
+    "bbox_h": 99.7,
+    "bbox_w": 25.2,
+    "mrr": [
+     25.2,
+     99.7
+    ]
+   },
+   "lot": 36,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2452.4,
+    "bbox_h": 99.71,
+    "bbox_h_in_fixture_rotation": 99.79,
+    "bbox_w": 25.63,
+    "bbox_w_in_fixture_rotation": 25.2,
+    "mrr": [
+     25.2,
+     99.73
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00036000000",
+   "rel_diff": {
+    "area": 0.0002,
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0171
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0009,
+    "bbox_w": 0.0
+   }
+  },
+  {
+   "fixture": {
+    "area": 7130.7,
+    "bbox_h": 100.2,
+    "bbox_w": 71.6,
+    "mrr": [
+     71.5,
+     100.27
+    ]
+   },
+   "lot": 39,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 7131.7,
+    "bbox_h": 99.95,
+    "bbox_h_in_fixture_rotation": 100.17,
+    "bbox_w": 72.24,
+    "bbox_w_in_fixture_rotation": 71.58,
+    "mrr": [
+     71.51,
+     100.22
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00039000000",
+   "rel_diff": {
+    "area": 0.0002,
+    "bbox_h": 0.0025,
+    "bbox_w": 0.0089
+   },
+   "rel_diff_mrr": {
+    "long": 0.0006,
+    "short": 0.0001
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0003,
+    "bbox_w": 0.0003
+   }
+  },
+  {
+   "fixture": {
+    "area": 2453.8,
+    "bbox_h": 100.1,
+    "bbox_w": 24.8,
+    "mrr": [
+     24.7,
+     100.12
+    ]
+   },
+   "lot": 40,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 2453.0,
+    "bbox_h": 99.93,
+    "bbox_h_in_fixture_rotation": 100.1,
+    "bbox_w": 25.47,
+    "bbox_w_in_fixture_rotation": 24.81,
+    "mrr": [
+     24.74,
+     100.11
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00040000000",
+   "rel_diff": {
+    "area": 0.0004,
+    "bbox_h": 0.0017,
+    "bbox_w": 0.027
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0016
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0002
+   }
+  },
+  {
+   "fixture": {
+    "area": 589.9,
+    "bbox_h": 99.4,
+    "bbox_w": 6.2,
+    "mrr": [
+     6.0,
+     99.41
+    ]
+   },
+   "lot": 41,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 591.7,
+    "bbox_h": 99.37,
+    "bbox_h_in_fixture_rotation": 99.41,
+    "bbox_w": 6.86,
+    "bbox_w_in_fixture_rotation": 6.2,
+    "mrr": [
+     5.99,
+     99.43
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00041000000",
+   "rel_diff": {
+    "area": 0.0031,
+    "bbox_h": 0.0003,
+    "bbox_w": 0.1065
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0019
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0
+   }
+  },
+  {
+   "fixture": {
+    "area": 679.5,
+    "bbox_h": 99.5,
+    "bbox_w": 7.0,
+    "mrr": [
+     7.0,
+     99.5
+    ]
+   },
+   "lot": 43,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 679.3,
+    "bbox_h": 99.45,
+    "bbox_h_in_fixture_rotation": 99.5,
+    "bbox_w": 7.63,
+    "bbox_w_in_fixture_rotation": 6.97,
+    "mrr": [
+     6.94,
+     99.5
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00043000000",
+   "rel_diff": {
+    "area": 0.0002,
+    "bbox_h": 0.0005,
+    "bbox_w": 0.09
+   },
+   "rel_diff_mrr": {
+    "long": 0.0,
+    "short": 0.0088
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0043
+   }
+  },
+  {
+   "fixture": {
+    "area": 9542.0,
+    "bbox_h": 99.7,
+    "bbox_w": 96.5,
+    "mrr": [
+     96.5,
+     99.7
+    ]
+   },
+   "lot": 44,
+   "lot_suffix": null,
+   "main_street_row": true,
+   "ours": {
+    "area": 9535.6,
+    "bbox_h": 100.11,
+    "bbox_h_in_fixture_rotation": 99.69,
+    "bbox_w": 97.16,
+    "bbox_w_in_fixture_rotation": 96.5,
+    "mrr": [
+     96.47,
+     99.69
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00044000000",
+   "rel_diff": {
+    "area": 0.0007,
+    "bbox_h": 0.0041,
+    "bbox_w": 0.0068
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0003
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0
+   }
+  },
+  {
+   "fixture": {
+    "area": 9187.9,
+    "bbox_h": 97.0,
+    "bbox_w": 97.1,
+    "mrr": [
+     96.6,
+     96.62
+    ]
+   },
+   "lot": 60,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 9186.8,
+    "bbox_h": 96.64,
+    "bbox_h_in_fixture_rotation": 97.04,
+    "bbox_w": 96.58,
+    "bbox_w_in_fixture_rotation": 97.09,
+    "mrr": [
+     96.58,
+     96.64
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00060000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0037,
+    "bbox_w": 0.0054
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0002
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0001
+   }
+  },
+  {
+   "fixture": {
+    "area": 5585.6,
+    "bbox_h": 97.1,
+    "bbox_w": 60.7,
+    "mrr": [
+     57.99,
+     97.95
+    ]
+   },
+   "lot": 64,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 5591.5,
+    "bbox_h": 96.84,
+    "bbox_h_in_fixture_rotation": 97.08,
+    "bbox_w": 60.13,
+    "bbox_w_in_fixture_rotation": 60.77,
+    "mrr": [
+     58.02,
+     98.05
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00064000000",
+   "rel_diff": {
+    "area": 0.0011,
+    "bbox_h": 0.0027,
+    "bbox_w": 0.0094
+   },
+   "rel_diff_mrr": {
+    "long": 0.001,
+    "short": 0.0005
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0012
+   }
+  },
+  {
+   "fixture": {
+    "area": 2402.3,
+    "bbox_h": 97.0,
+    "bbox_w": 27.7,
+    "mrr": [
+     24.99,
+     97.43
+    ]
+   },
+   "lot": 66,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2402.0,
+    "bbox_h": 96.95,
+    "bbox_h_in_fixture_rotation": 97.03,
+    "bbox_w": 27.07,
+    "bbox_w_in_fixture_rotation": 27.71,
+    "mrr": [
+     24.96,
+     97.47
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00066000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0005,
+    "bbox_w": 0.0227
+   },
+   "rel_diff_mrr": {
+    "long": 0.0004,
+    "short": 0.0012
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0003,
+    "bbox_w": 0.0005
+   }
+  },
+  {
+   "fixture": {
+    "area": 4516.1,
+    "bbox_h": 97.3,
+    "bbox_w": 48.9,
+    "mrr": [
+     47.3,
+     97.49
+    ]
+   },
+   "lot": 67,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 4519.1,
+    "bbox_h": 97.11,
+    "bbox_h_in_fixture_rotation": 97.3,
+    "bbox_w": 48.27,
+    "bbox_w_in_fixture_rotation": 48.91,
+    "mrr": [
+     47.34,
+     97.52
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00067000000",
+   "rel_diff": {
+    "area": 0.0007,
+    "bbox_h": 0.002,
+    "bbox_w": 0.0129
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0008
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0003
+   }
+  },
+  {
+   "fixture": {
+    "area": 2336.8,
+    "bbox_h": 97.3,
+    "bbox_w": 26.1,
+    "mrr": [
+     24.5,
+     97.42
+    ]
+   },
+   "lot": 69,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2335.1,
+    "bbox_h": 97.2,
+    "bbox_h_in_fixture_rotation": 97.3,
+    "bbox_w": 25.46,
+    "bbox_w_in_fixture_rotation": 26.1,
+    "mrr": [
+     24.53,
+     97.4
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00069000000",
+   "rel_diff": {
+    "area": 0.0007,
+    "bbox_h": 0.001,
+    "bbox_w": 0.0245
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0012
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0002
+   }
+  },
+  {
+   "fixture": {
+    "area": 2334.3,
+    "bbox_h": 97.4,
+    "bbox_w": 26.1,
+    "mrr": [
+     24.4,
+     97.54
+    ]
+   },
+   "lot": 70,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2330.3,
+    "bbox_h": 97.28,
+    "bbox_h_in_fixture_rotation": 97.38,
+    "bbox_w": 25.44,
+    "bbox_w_in_fixture_rotation": 26.09,
+    "mrr": [
+     24.41,
+     97.51
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00070000000",
+   "rel_diff": {
+    "area": 0.0017,
+    "bbox_h": 0.0012,
+    "bbox_w": 0.0253
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0004
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0006
+   }
+  },
+  {
+   "fixture": {
+    "area": 2672.4,
+    "bbox_h": 97.5,
+    "bbox_w": 28.7,
+    "mrr": [
+     27.9,
+     97.43
+    ]
+   },
+   "lot": 71,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2674.6,
+    "bbox_h": 97.38,
+    "bbox_h_in_fixture_rotation": 97.49,
+    "bbox_w": 28.11,
+    "bbox_w_in_fixture_rotation": 28.76,
+    "mrr": [
+     27.88,
+     97.42
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00071000000",
+   "rel_diff": {
+    "area": 0.0008,
+    "bbox_h": 0.0012,
+    "bbox_w": 0.0206
+   },
+   "rel_diff_mrr": {
+    "long": 0.0002,
+    "short": 0.0007
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0001,
+    "bbox_w": 0.0019
+   }
+  },
+  {
+   "fixture": {
+    "area": 2172.2,
+    "bbox_h": 97.5,
+    "bbox_w": 24.0,
+    "mrr": [
+     23.2,
+     97.49
+    ]
+   },
+   "lot": 72,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2172.0,
+    "bbox_h": 97.46,
+    "bbox_h_in_fixture_rotation": 97.55,
+    "bbox_w": 23.36,
+    "bbox_w_in_fixture_rotation": 24.01,
+    "mrr": [
+     23.13,
+     97.48
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00072000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0267
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.003
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0005,
+    "bbox_w": 0.0003
+   }
+  },
+  {
+   "fixture": {
+    "area": 4412.7,
+    "bbox_h": 97.8,
+    "bbox_w": 47.9,
+    "mrr": [
+     45.29,
+     98.44
+    ]
+   },
+   "lot": 73,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 4417.0,
+    "bbox_h": 97.64,
+    "bbox_h_in_fixture_rotation": 97.82,
+    "bbox_w": 47.23,
+    "bbox_w_in_fixture_rotation": 47.88,
+    "mrr": [
+     45.32,
+     98.47
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00073000000",
+   "rel_diff": {
+    "area": 0.001,
+    "bbox_h": 0.0016,
+    "bbox_w": 0.014
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0007
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0005
+   }
+  },
+  {
+   "fixture": {
+    "area": 4734.4,
+    "bbox_h": 98.0,
+    "bbox_w": 51.4,
+    "mrr": [
+     48.69,
+     98.78
+    ]
+   },
+   "lot": 75,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 4734.0,
+    "bbox_h": 97.82,
+    "bbox_h_in_fixture_rotation": 98.0,
+    "bbox_w": 50.69,
+    "bbox_w_in_fixture_rotation": 51.34,
+    "mrr": [
+     48.68,
+     98.78
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00075000000",
+   "rel_diff": {
+    "area": 0.0001,
+    "bbox_h": 0.0018,
+    "bbox_w": 0.0138
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0002
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0012
+   }
+  },
+  {
+   "fixture": {
+    "area": 4519.1,
+    "bbox_h": 98.2,
+    "bbox_w": 49.4,
+    "mrr": [
+     46.18,
+     99.16
+    ]
+   },
+   "lot": 77,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 4514.6,
+    "bbox_h": 97.98,
+    "bbox_h_in_fixture_rotation": 98.17,
+    "bbox_w": 48.71,
+    "bbox_w_in_fixture_rotation": 49.36,
+    "mrr": [
+     46.19,
+     99.13
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00077000000",
+   "rel_diff": {
+    "area": 0.001,
+    "bbox_h": 0.0022,
+    "bbox_w": 0.014
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0002
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0003,
+    "bbox_w": 0.0008
+   }
+  },
+  {
+   "fixture": {
+    "area": 2299.7,
+    "bbox_h": 98.2,
+    "bbox_w": 26.5,
+    "mrr": [
+     23.7,
+     98.62
+    ]
+   },
+   "lot": 79,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2303.7,
+    "bbox_h": 98.08,
+    "bbox_h_in_fixture_rotation": 98.16,
+    "bbox_w": 25.92,
+    "bbox_w_in_fixture_rotation": 26.57,
+    "mrr": [
+     23.77,
+     98.58
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00079000000",
+   "rel_diff": {
+    "area": 0.0017,
+    "bbox_h": 0.0012,
+    "bbox_w": 0.0219
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0029
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0004,
+    "bbox_w": 0.0027
+   }
+  },
+  {
+   "fixture": {
+    "area": 3160.8,
+    "bbox_h": 98.3,
+    "bbox_w": 34.5,
+    "mrr": [
+     32.7,
+     98.62
+    ]
+   },
+   "lot": 80,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 3154.8,
+    "bbox_h": 98.18,
+    "bbox_h_in_fixture_rotation": 98.31,
+    "bbox_w": 33.78,
+    "bbox_w_in_fixture_rotation": 34.43,
+    "mrr": [
+     32.67,
+     98.53
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00080000000",
+   "rel_diff": {
+    "area": 0.0019,
+    "bbox_h": 0.0012,
+    "bbox_w": 0.0209
+   },
+   "rel_diff_mrr": {
+    "long": 0.0009,
+    "short": 0.0009
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0001,
+    "bbox_w": 0.002
+   }
+  },
+  {
+   "fixture": {
+    "area": 1492.8,
+    "bbox_h": 98.3,
+    "bbox_w": 17.2,
+    "mrr": [
+     15.4,
+     98.4
+    ]
+   },
+   "lot": 81,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 1495.7,
+    "bbox_h": 98.24,
+    "bbox_h_in_fixture_rotation": 98.3,
+    "bbox_w": 16.58,
+    "bbox_w_in_fixture_rotation": 17.23,
+    "mrr": [
+     15.47,
+     98.39
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00081000000",
+   "rel_diff": {
+    "area": 0.0019,
+    "bbox_h": 0.0006,
+    "bbox_w": 0.036
+   },
+   "rel_diff_mrr": {
+    "long": 0.0001,
+    "short": 0.0045
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0,
+    "bbox_w": 0.0018
+   }
+  },
+  {
+   "fixture": {
+    "area": 2422.1,
+    "bbox_h": 98.4,
+    "bbox_w": 26.5,
+    "mrr": [
+     25.0,
+     98.49
+    ]
+   },
+   "lot": 82,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2423.8,
+    "bbox_h": 98.34,
+    "bbox_h_in_fixture_rotation": 98.42,
+    "bbox_w": 25.91,
+    "bbox_w_in_fixture_rotation": 26.56,
+    "mrr": [
+     25.0,
+     98.55
+    ]
+   },
+   "pass": false,
+   "pin": "0010K00082000000",
+   "rel_diff": {
+    "area": 0.0007,
+    "bbox_h": 0.0006,
+    "bbox_w": 0.0223
+   },
+   "rel_diff_mrr": {
+    "long": 0.0005,
+    "short": 0.0
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0023
+   }
+  },
+  {
+   "fixture": {
+    "area": 2296.6,
+    "bbox_h": 98.5,
+    "bbox_w": 24.2,
+    "mrr": [
+     24.0,
+     98.4
+    ]
+   },
+   "lot": 83,
+   "lot_suffix": null,
+   "main_street_row": false,
+   "ours": {
+    "area": 2293.8,
+    "bbox_h": 98.43,
+    "bbox_h_in_fixture_rotation": 98.52,
+    "bbox_w": 24.0,
+    "bbox_w_in_fixture_rotation": 24.19,
+    "mrr": [
+     24.0,
+     98.43
+    ]
+   },
+   "pass": true,
+   "pin": "0010K00083000000",
+   "rel_diff": {
+    "area": 0.0012,
+    "bbox_h": 0.0007,
+    "bbox_w": 0.0083
+   },
+   "rel_diff_mrr": {
+    "long": 0.0003,
+    "short": 0.0
+   },
+   "rel_diff_same_rotation": {
+    "bbox_h": 0.0002,
+    "bbox_w": 0.0003
+   }
+  }
+ ],
+ "result": {
+  "explanation": "Frames differ by 0.380 deg (fixture squared to the Wylie Ave centerline, ours to the Mahon Street frontage line). Mapped areas agree within 0.31% and bbox heights within 0.41% on every Mahon Street row lot; own-frame bbox widths differ by up to 10.65% because lots are slight parallelograms and a 0.38 deg turn moves a ~100 ft side by ~0.66 ft. With our polygons re-rotated into the fixture's rotation, bbox widths agree within 0.43% and heights within 0.11%.",
+  "main_row_failing_after_removing_rotation_difference": [],
+  "main_street_row_failing": [
+   "0010K00021000000",
+   "0010K00022000000",
+   "0010K00023000000",
+   "0010K00027000000",
+   "0010K00029000000",
+   "0010K00031000000",
+   "0010K00040000000",
+   "0010K00041000000",
+   "0010K00043000000"
+  ],
+  "main_street_row_lots": 23,
+  "only_in_fixture": [],
+  "only_in_ours": [],
+  "order_fixture": [
+   44,
+   43,
+   41,
+   40,
+   39,
+   36,
+   35,
+   34,
+   33,
+   32,
+   31,
+   30,
+   29,
+   28,
+   27,
+   26,
+   25,
+   24,
+   23,
+   22,
+   21
+  ],
+  "order_matches": true,
+  "order_ours": [
+   44,
+   43,
+   41,
+   40,
+   39,
+   36,
+   35,
+   34,
+   33,
+   32,
+   31,
+   30,
+   29,
+   28,
+   27,
+   26,
+   25,
+   24,
+   23,
+   22,
+   21
+  ],
+  "parcels_compared": 39,
+  "parcels_failing_any_row": [
+   "0010K00021000000",
+   "0010K00022000000",
+   "0010K00023000000",
+   "0010K00027000000",
+   "0010K00029000000",
+   "0010K00031000000",
+   "0010K00040000000",
+   "0010K00041000000",
+   "0010K00043000000",
+   "0010K00066000000",
+   "0010K00069000000",
+   "0010K00070000000",
+   "0010K00071000000",
+   "0010K00072000000",
+   "0010K00079000000",
+   "0010K00080000000",
+   "0010K00081000000",
+   "0010K00082000000"
+  ],
+  "pass": false,
+  "pass_after_removing_rotation_difference": true,
+  "worst_rel_diff_main_row": {
+   "area": 0.0031,
+   "bbox_h": 0.0041,
+   "bbox_w": 0.1065
+  },
+  "worst_rel_diff_main_row_same_rotation": {
+   "bbox_h": 0.0011,
+   "bbox_w": 0.0043
+  }
+ }
+}

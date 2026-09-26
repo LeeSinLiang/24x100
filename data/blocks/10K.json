@@ -1,0 +1,4460 @@
+{
+ "buildings": [
+  {
+   "id": "b491273",
+   "lot_pin": "0010K00022000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      267.18,
+      9.57
+     ],
+     [
+      268.28,
+      44.86
+     ],
+     [
+      255.41,
+      44.91
+     ],
+     [
+      255.7,
+      58.86
+     ],
+     [
+      253.44,
+      58.95
+     ],
+     [
+      244.06,
+      59.32
+     ],
+     [
+      243.82,
+      44.93
+     ],
+     [
+      242.88,
+      44.95
+     ],
+     [
+      243.36,
+      27.31
+     ],
+     [
+      241.99,
+      27.29
+     ],
+     [
+      242.44,
+      9.56
+     ],
+     [
+      248.05,
+      9.64
+     ],
+     [
+      248.1,
+      7.1
+     ],
+     [
+      261.57,
+      7.03
+     ],
+     [
+      261.93,
+      9.7
+     ],
+     [
+      267.18,
+      9.57
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b493160",
+   "lot_pin": "0010K00060000000",
+   "material": null,
+   "poly": [
+    [
+     [
+      -198.47,
+      -11.27
+     ],
+     [
+      -294.85,
+      -11.36
+     ],
+     [
+      -294.43,
+      -108.35
+     ],
+     [
+      -198.05,
+      -108.25
+     ],
+     [
+      -198.47,
+      -11.27
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b478196",
+   "lot_pin": "0010K00071000000",
+   "material": null,
+   "poly": [
+    [
+     [
+      -0.35,
+      -58.06
+     ],
+     [
+      -21.28,
+      -58.62
+     ],
+     [
+      -19.58,
+      -111.07
+     ],
+     [
+      7.0,
+      -110.29
+     ],
+     [
+      5.3,
+      -74.83
+     ],
+     [
+      -0.11,
+      -75.1
+     ],
+     [
+      -0.35,
+      -58.06
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b500167",
+   "lot_pin": "0010K00075000000",
+   "material": null,
+   "poly": [
+    [
+     [
+      117.53,
+      -9.08
+     ],
+     [
+      71.09,
+      -10.95
+     ],
+     [
+      75.42,
+      -110.67
+     ],
+     [
+      121.86,
+      -108.8
+     ],
+     [
+      117.53,
+      -9.08
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  }
+ ],
+ "hist_zoning": {
+  "1927": "Commercial U3.H2.A4",
+  "1958": "R4",
+  "1967": "R4"
+ },
+ "meta": {
+  "bounding_streets": [
+   "Wylie Ave",
+   "Soho St",
+   "Mahon St",
+   "Kirkpatrick St"
+  ],
+  "counts_note": "Plan lots 63-76 (14 lots) in LEGAL1 are County lots 21-34, now 15 parcels (lot 28 split into 28 and 28-A). Lot 27's LEGAL1 states no plan lot; lot 24's names the Agnes M Mahon Plan, the others a Robb plan. Lot 35 (split into 35 and 35-A) is Mahon Plan pt 77. Mahon St side: 23 parcels on County lots 21-44; Wylie Ave side: 16 parcels on lots 60-83; 39 parcels in all.",
+  "frame": "local feet; x along main street; y down",
+  "id": "10K",
+  "main_street": "Mahon Street",
+  "name": "Block 10-K",
+  "neighborhood": "Middle Hill",
+  "north": "screen-up rotated clockwise by rotation_deg",
+  "origin": {
+   "lat": 40.446067,
+   "lon": -79.975456
+  },
+  "pipeline_version": "0.1.0",
+  "pulled": "2026-09-26T19:42:40Z",
+  "raw_cache": "data/raw/2026-09-26",
+  "recon_tolerance": 0.1,
+  "rotation_basis": "parcel frontage along Mahon Street (22 edges, 587 ft); OSM centerline chord 30.10°",
+  "rotation_deg": 29.537,
+  "selection": "rep-point inside OSM street polygon",
+  "sources": [
+   {
+    "id": "pgh_parcels",
+    "name": "City of Pittsburgh PGHParcels",
+    "pulled": "2026-09-26T19:42:37Z",
+    "sha256": "0ffc98c3859b2fc8582672154dbef9df4ea1f39f2621774acadfc64cb4e28582",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHParcels/FeatureServer/0/query"
+   },
+   {
+    "id": "wprdc_assessments",
+    "name": "WPRDC Allegheny County Property Assessments",
+    "pulled": "2026-09-26T19:42:39Z",
+    "sha256": "5ab4121ca88824f55d717dd85b79f2b20ecc8938f4ee4131088332ddfbda7ef3",
+    "url": "https://data.wprdc.org/datastore/dump/65855e14-549e-4992-b5be-d629afc676fa"
+   },
+   {
+    "id": "city_owned",
+    "name": "City of Pittsburgh City-Owned Properties (WPRDC)",
+    "pulled": "2026-09-26T19:42:39Z",
+    "sha256": "3ceaa70e97c474bd87b1173c783808ee95a574fbfebe74a907ad8d85aa7c84fe",
+    "url": "https://data.wprdc.org/datastore/dump/e1dcee82-9179-4306-8167-5891915b62a7"
+   },
+   {
+    "id": "lot_dimensions",
+    "name": "City of Pittsburgh Residential Lot Dimensions (Feb 2025)",
+    "pulled": "2026-09-26T19:42:37Z",
+    "sha256": "6b9dae4fc7cefe5c30f306840c47d69b5e1d6207f4aa736290b0c4537852550c",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Parcels_Exp_02052025_Residential_Lot_Dimensions/FeatureServer/0/query"
+   },
+   {
+    "id": "building_footprints",
+    "name": "City of Pittsburgh Building Footprints (2023)",
+    "pulled": "2026-09-26T19:42:37Z",
+    "sha256": "d5559577425590f0eaee944f95039de61f3d4d9e1c6f07e21c220a34a3871f31",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Building_Footprints_Adjacency/FeatureServer/0/query"
+   },
+   {
+    "id": "zoning",
+    "name": "City of Pittsburgh Zoning",
+    "pulled": "2026-09-26T19:42:37Z",
+    "sha256": "c42602a226bd9f0b6c15f3920b4420be440c7488c896a38f0b540589c7c16ad7",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoning/FeatureServer/0/query"
+   },
+   {
+    "id": "zoning_overlays",
+    "name": "City of Pittsburgh Zoning Overlays",
+    "pulled": "2026-09-26T19:42:38Z",
+    "sha256": "f8a29aff0160d763a58f6cc440e68cf9be0931c1a48f2b2a194bd4a32c71b972",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoningOverlays/FeatureServer/0/query"
+   },
+   {
+    "id": "slope25",
+    "name": "City of Pittsburgh 25%+ Slope",
+    "pulled": "2026-09-26T19:42:38Z",
+    "sha256": "d20cc0ea17e281678a4fdecc12b808fca1f1775b070b0708c95503b32a5b22bd",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0/query"
+   },
+   {
+    "id": "undermined",
+    "name": "City of Pittsburgh Undermined Areas",
+    "pulled": "2026-09-26T19:42:38Z",
+    "sha256": "a2cf576fb625ec00557cbbfcbe0b9bc6ea76f2572219566f5d7b1176fad2c178",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0/query"
+   },
+   {
+    "id": "osm_streets",
+    "name": "OpenStreetMap (Overpass API), ODbL",
+    "pulled": "2026-09-26T19:39:35Z",
+    "sha256": "9f46a7e969a1d194d513b80443bf401945fab543d5cbd51cb77dba747477c89f",
+    "url": "https://overpass.kumi.systems/api/interpreter"
+   },
+   {
+    "id": "hist_zoning_1927",
+    "name": "WPRDC Historic Zoning 1927",
+    "pulled": "2026-09-26T19:42:39Z",
+    "sha256": "72ea1c4624fbca93f07c2f7f98f9319fcbddf8c762bfd59b64d1e98a9e316f65",
+    "url": "https://data.wprdc.org/dataset/2706f171-3803-4ee4-bbf7-b8e9014ce490/resource/8e9391ff-e700-49a9-929b-36fe46309ed0/download/pghzoning1927.geojson"
+   },
+   {
+    "id": "hist_zoning_1958",
+    "name": "WPRDC Historic Zoning 1958",
+    "pulled": "2026-09-26T19:42:40Z",
+    "sha256": "03d926dffd9e61306c6338920dca1990be4007d210296fcc7e78445b8fd06402",
+    "url": "https://data.wprdc.org/dataset/c644fd38-0efb-4e47-896a-886d44d92056/resource/3796160e-2d96-48d6-81a1-088e34e4644d/download/pghzoning1958.geojson"
+   },
+   {
+    "id": "hist_zoning_1967",
+    "name": "WPRDC Historic Zoning 1967",
+    "pulled": "2026-09-26T19:42:40Z",
+    "sha256": "4df4d2b8dfde09fe26c8e15817993ed293c42b590b58366ad6d0e7fe404aa2bc",
+    "url": "https://data.wprdc.org/dataset/a946ffe7-2900-42d3-8916-6b0e10f0e415/resource/3be6661e-0435-4b68-b31d-819d09dbce23/download/pghzoning1967.geojson"
+   }
+  ],
+  "ward": 5
+ },
+ "parcels": [
+  {
+   "addr": "2249 Mahon St",
+   "addr_source": "city_owned",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "GOVERNMENT",
+    "finish": null,
+    "legal": "ROBERT ROBB TR PLAN 63 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "MUNICIPAL GOVERNMENT",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 2400,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robert Robb Tr Plan",
+    "plan_lot": "63"
+   },
+   "lot": 21,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.1,
+    "width": 22.1
+   },
+   "mapblocklo": "10-K-21",
+   "mapped_area": 2136.0,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00021000000",
+   "poly": [
+    [
+     [
+      268.86,
+      11.48
+     ],
+     [
+      290.9,
+      11.54
+     ],
+     [
+      292.22,
+      110.06
+     ],
+     [
+      270.91,
+      110.07
+     ],
+     [
+      268.86,
+      11.48
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2136.0,
+    "ratio": 0.89,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    280.72,
+    60.8
+   ],
+   "slope25": 0.007,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2247 Humber Way",
+   "addr_source": "city_owned",
+   "addr_street": "Humber Way",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "ROBERT ROBB TR PLAN PT 64 LOT 24X100",
+    "lotarea": 1200,
+    "ownercat": "CORPORATION",
+    "sqft": 1934,
+    "stories": 2,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1910
+   },
+   "building_ids": [
+    "b491273"
+   ],
+   "built": true,
+   "built_evidence": [
+    "footprint",
+    "assessment"
+   ],
+   "city": {
+    "class": "Building",
+    "inventory": "Unknown",
+    "sq_ft": 1200,
+    "status": "Unknown",
+    "status_updated": "2020-11-03",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Robert Robb Tr Plan",
+    "plan_lot": "64"
+   },
+   "lot": 22,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.1,
+    "width": 26.1
+   },
+   "mapblocklo": "10-K-22",
+   "mapped_area": 2498.4,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00022000000",
+   "poly": [
+    [
+     [
+      244.24,
+      11.38
+     ],
+     [
+      256.06,
+      11.43
+     ],
+     [
+      268.86,
+      11.48
+     ],
+     [
+      270.91,
+      110.07
+     ],
+     [
+      257.86,
+      110.07
+     ],
+     [
+      244.86,
+      110.06
+     ],
+     [
+      244.24,
+      11.38
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1200,
+    "deed_area": 2400,
+    "mapped": 2498.4,
+    "ratio": 2.082,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    257.22,
+    60.77
+   ],
+   "slope25": 0.213,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2245 Mahon St",
+   "addr_source": "city_owned",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "R ROBB TR PLAN 65 LOT 24X100 MAHON ST COR SOHO",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "URA Transfer",
+    "sq_ft": 2400,
+    "status": "Hold for Study",
+    "status_updated": "2016-11-17",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "R Robb Tr Plan",
+    "plan_lot": "65"
+   },
+   "lot": 23,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.2,
+    "width": 24.1
+   },
+   "mapblocklo": "10-K-23",
+   "mapped_area": 2300.3,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00023000000",
+   "poly": [
+    [
+     [
+      220.23,
+      11.31
+     ],
+     [
+      244.24,
+      11.38
+     ],
+     [
+      244.86,
+      110.06
+     ],
+     [
+      222.26,
+      110.06
+     ],
+     [
+      220.23,
+      11.31
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2300.3,
+    "ratio": 0.958,
+    "state": "ok"
+   },
+   "rep_point": [
+    232.9,
+    60.72
+   ],
+   "slope25": 0.245,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "AGNES M MAHON PLAN 66 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Agnes M Mahon Plan",
+    "plan_lot": "66"
+   },
+   "lot": 24,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.0,
+    "width": 25.4
+   },
+   "mapblocklo": "10-K-24",
+   "mapped_area": 2370.5,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00024000000",
+   "poly": [
+    [
+     [
+      222.26,
+      110.06
+     ],
+     [
+      196.96,
+      110.04
+     ],
+     [
+      197.54,
+      11.23
+     ],
+     [
+      220.23,
+      11.31
+     ],
+     [
+      222.26,
+      110.06
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2370.5,
+    "ratio": 0.988,
+    "state": "ok"
+   },
+   "rep_point": [
+    209.25,
+    60.68
+   ],
+   "slope25": 0.439,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2241 Mahon St",
+   "addr_source": "city_owned",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "GOVERNMENT",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 67 LOT 24X100 MAHON ST BET KIRKP",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "MUNICIPAL GOVERNMENT",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "URA Transfer",
+    "sq_ft": 2400,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "67"
+   },
+   "lot": 25,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.1,
+    "width": 23.4
+   },
+   "mapblocklo": "10-K-25",
+   "mapped_area": 2291.7,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00025000000",
+   "poly": [
+    [
+     [
+      196.96,
+      110.04
+     ],
+     [
+      173.88,
+      110.04
+     ],
+     [
+      174.25,
+      11.15
+     ],
+     [
+      197.54,
+      11.23
+     ],
+     [
+      196.96,
+      110.04
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2291.7,
+    "ratio": 0.955,
+    "state": "ok"
+   },
+   "rep_point": [
+    185.66,
+    60.64
+   ],
+   "slope25": 0.527,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBB PLAN 68 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robb Plan",
+    "plan_lot": "68"
+   },
+   "lot": 26,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.1,
+    "width": 24.4
+   },
+   "mapblocklo": "10-K-26",
+   "mapped_area": 2356.7,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00026000000",
+   "poly": [
+    [
+     [
+      149.94,
+      11.08
+     ],
+     [
+      174.25,
+      11.15
+     ],
+     [
+      173.88,
+      110.04
+     ],
+     [
+      150.55,
+      110.04
+     ],
+     [
+      149.94,
+      11.08
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2356.7,
+    "ratio": 0.982,
+    "state": "ok"
+   },
+   "rep_point": [
+    162.15,
+    60.59
+   ],
+   "slope25": 0.561,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2237 Mahon St",
+   "addr_source": "city_owned",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "GOVERNMENT",
+    "finish": null,
+    "legal": "LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "MUNICIPAL GOVERNMENT",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "URA Transfer",
+    "sq_ft": 2400,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 27,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.5,
+    "width": 25.0
+   },
+   "mapblocklo": "10-K-27",
+   "mapped_area": 2414.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00027000000",
+   "poly": [
+    [
+     [
+      125.03,
+      11.0
+     ],
+     [
+      149.94,
+      11.08
+     ],
+     [
+      150.55,
+      110.04
+     ],
+     [
+      126.68,
+      110.03
+     ],
+     [
+      125.65,
+      47.7
+     ],
+     [
+      125.03,
+      11.0
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2414.1,
+    "ratio": 1.006,
+    "state": "ok"
+   },
+   "rep_point": [
+    138.26,
+    78.87
+   ],
+   "slope25": 0.423,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2235 Mahon St",
+   "addr_source": "city_owned",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "GOVERNMENT",
+    "finish": null,
+    "legal": "ROBERT ROBB TR PLAN PT 70 LOT 24X62 MAHON ST",
+    "lotarea": 1488,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "MUNICIPAL GOVERNMENT",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "URA Transfer",
+    "sq_ft": 1488,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 62,
+    "dims": "24X62",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Robert Robb Tr Plan",
+    "plan_lot": "70"
+   },
+   "lot": 28,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 63.3,
+    "width": 24.9
+   },
+   "mapblocklo": "10-K-28",
+   "mapped_area": 1504.0,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00028000000",
+   "poly": [
+    [
+     [
+      126.68,
+      110.03
+     ],
+     [
+      101.91,
+      110.02
+     ],
+     [
+      102.5,
+      46.8
+     ],
+     [
+      125.65,
+      47.7
+     ],
+     [
+      126.68,
+      110.03
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1488,
+    "deed_area": 1488,
+    "mapped": 1504.0,
+    "ratio": 1.011,
+    "state": "ok"
+   },
+   "rep_point": [
+    114.18,
+    78.86
+   ],
+   "slope25": 0.505,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Humber Way (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Humber Way",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBB TR PLAN PT 70 LOT 24X38 HUMBER WAY",
+    "lotarea": 912,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 38,
+    "dims": "24X38",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Robt Robb Tr Plan",
+    "plan_lot": "70"
+   },
+   "lot": 28,
+   "lot_suffix": "A",
+   "lotdim": {
+    "len": 36.8,
+    "width": 23.2
+   },
+   "mapblocklo": "10-K-28-A",
+   "mapped_area": 822.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00028000A00",
+   "poly": [
+    [
+     [
+      125.65,
+      47.7
+     ],
+     [
+      102.5,
+      46.8
+     ],
+     [
+      102.84,
+      10.92
+     ],
+     [
+      125.03,
+      11.0
+     ],
+     [
+      125.65,
+      47.7
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 912,
+    "deed_area": 912,
+    "mapped": 822.6,
+    "ratio": 0.902,
+    "state": "ok"
+   },
+   "rep_point": [
+    114.0,
+    28.9
+   ],
+   "slope25": 0.009,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBB TRUSTEE PLAN 71 LOT 24X100 MAHON WAY",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Trustee Plan",
+    "plan_lot": "71"
+   },
+   "lot": 29,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.4,
+    "width": 22.0
+   },
+   "mapblocklo": "10-K-29",
+   "mapped_area": 2170.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00029000000",
+   "poly": [
+    [
+     [
+      102.5,
+      46.8
+     ],
+     [
+      101.91,
+      110.02
+     ],
+     [
+      80.07,
+      110.03
+     ],
+     [
+      80.89,
+      10.84
+     ],
+     [
+      102.84,
+      10.92
+     ],
+     [
+      102.5,
+      46.8
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2170.1,
+    "ratio": 0.904,
+    "state": "ok"
+   },
+   "rep_point": [
+    91.27,
+    78.41
+   ],
+   "slope25": 0.386,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBB TRUSTEE PLAN 72 LOT 24X100 MAHON AV",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Trustee Plan",
+    "plan_lot": "72"
+   },
+   "lot": 30,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.4,
+    "width": 25.7
+   },
+   "mapblocklo": "10-K-30",
+   "mapped_area": 2467.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00030000000",
+   "poly": [
+    [
+     [
+      80.07,
+      110.03
+     ],
+     [
+      55.95,
+      110.02
+     ],
+     [
+      55.29,
+      10.76
+     ],
+     [
+      80.89,
+      10.84
+     ],
+     [
+      80.07,
+      110.03
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2467.1,
+    "ratio": 1.028,
+    "state": "ok"
+   },
+   "rep_point": [
+    68.05,
+    60.43
+   ],
+   "slope25": 0.382,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBBS PLAN 73 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robbs Plan",
+    "plan_lot": "73"
+   },
+   "lot": 31,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.6,
+    "width": 23.2
+   },
+   "mapblocklo": "10-K-31",
+   "mapped_area": 2262.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00031000000",
+   "poly": [
+    [
+     [
+      55.95,
+      110.02
+     ],
+     [
+      32.86,
+      110.01
+     ],
+     [
+      32.8,
+      10.68
+     ],
+     [
+      55.29,
+      10.76
+     ],
+     [
+      55.95,
+      110.02
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2262.6,
+    "ratio": 0.943,
+    "state": "ok"
+   },
+   "rep_point": [
+    44.22,
+    60.39
+   ],
+   "slope25": 0.44,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 74 LOT 24X100 MAHON ST TO HUMBER",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "74"
+   },
+   "lot": 32,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.6,
+    "width": 26.6
+   },
+   "mapblocklo": "10-K-32",
+   "mapped_area": 2610.4,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00032000000",
+   "poly": [
+    [
+     [
+      32.86,
+      110.01
+     ],
+     [
+      6.32,
+      110.01
+     ],
+     [
+      6.8,
+      10.6
+     ],
+     [
+      32.8,
+      10.68
+     ],
+     [
+      32.86,
+      110.01
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2610.4,
+    "ratio": 1.088,
+    "state": "ok"
+   },
+   "rep_point": [
+    19.7,
+    60.34
+   ],
+   "slope25": 0.496,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 75 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "75"
+   },
+   "lot": 33,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.7,
+    "width": 23.4
+   },
+   "mapblocklo": "10-K-33",
+   "mapped_area": 2272.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00033000000",
+   "poly": [
+    [
+     [
+      6.32,
+      110.01
+     ],
+     [
+      -16.95,
+      110.0
+     ],
+     [
+      -15.64,
+      10.52
+     ],
+     [
+      6.8,
+      10.6
+     ],
+     [
+      6.32,
+      110.01
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2272.6,
+    "ratio": 0.947,
+    "state": "ok"
+   },
+   "rep_point": [
+    -4.87,
+    60.3
+   ],
+   "slope25": 0.613,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Mahon St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ROBERT ROBB PLAN 76 LOT 24X100 MAHON ST NR KIRK",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robert Robb Plan",
+    "plan_lot": "76"
+   },
+   "lot": 34,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.7,
+    "width": 24.9
+   },
+   "mapblocklo": "10-K-34",
+   "mapped_area": 2398.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00034000000",
+   "poly": [
+    [
+     [
+      -16.95,
+      110.0
+     ],
+     [
+      -40.39,
+      110.0
+     ],
+     [
+      -40.4,
+      54.41
+     ],
+     [
+      -40.4,
+      10.44
+     ],
+     [
+      -15.64,
+      10.52
+     ],
+     [
+      -16.95,
+      110.0
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2398.6,
+    "ratio": 0.999,
+    "state": "ok"
+   },
+   "rep_point": [
+    -28.49,
+    82.2
+   ],
+   "slope25": 0.515,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "MAHON PLAN PT 77 LOT 24X61 HUMBERT WAY",
+    "lotarea": 1464,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 61,
+    "dims": "24X61",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "77"
+   },
+   "lot": 35,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-35",
+   "mapped_area": 1046.8,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00035000000",
+   "poly": [
+    [
+     [
+      -40.4,
+      54.41
+     ],
+     [
+      -64.58,
+      54.71
+     ],
+     [
+      -63.63,
+      10.37
+     ],
+     [
+      -40.4,
+      10.44
+     ],
+     [
+      -40.4,
+      54.41
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1464,
+    "deed_area": 1464,
+    "mapped": 1046.8,
+    "ratio": 0.715,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    -52.25,
+    32.42
+   ],
+   "slope25": 0.953,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "MAHON PLAN PT 77 LOT 24X54.39 MAHON ST",
+    "lotarea": 1305,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 54.39,
+    "dims": "24X54.39",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "77"
+   },
+   "lot": 35,
+   "lot_suffix": "A",
+   "lotdim": null,
+   "mapblocklo": "10-K-35-A",
+   "mapped_area": 1326.4,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00035000A00",
+   "poly": [
+    [
+     [
+      -40.39,
+      110.0
+     ],
+     [
+      -64.06,
+      109.99
+     ],
+     [
+      -64.58,
+      54.71
+     ],
+     [
+      -40.4,
+      54.41
+     ],
+     [
+      -40.39,
+      110.0
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1305,
+    "deed_area": 1305.4,
+    "mapped": 1326.4,
+    "ratio": 1.016,
+    "state": "ok"
+   },
+   "rep_point": [
+    -52.36,
+    82.35
+   ],
+   "slope25": 0.204,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 0.999
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "MAHON PLAN 78 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHURCHES, PUBLIC WORSHIP",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Mahon Plan",
+    "plan_lot": "78"
+   },
+   "lot": 36,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-36",
+   "mapped_area": 2452.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00036000000",
+   "poly": [
+    [
+     [
+      -64.58,
+      54.71
+     ],
+     [
+      -64.06,
+      109.99
+     ],
+     [
+      -89.26,
+      109.99
+     ],
+     [
+      -88.4,
+      10.28
+     ],
+     [
+      -65.01,
+      10.36
+     ],
+     [
+      -63.63,
+      10.37
+     ],
+     [
+      -64.58,
+      54.71
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2452.6,
+    "ratio": 1.022,
+    "state": "ok"
+   },
+   "rep_point": [
+    -76.67,
+    82.35
+   ],
+   "slope25": 0.374,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 0.988
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "J D MAHON PLAN 79-80-81 LOT 72X100 IN ALL MAHON",
+    "lotarea": 7200,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHURCHES, PUBLIC WORSHIP",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "72X100",
+    "front": 72,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "J D Mahon Plan",
+    "plan_lot": "79-80-81"
+   },
+   "lot": 39,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-39",
+   "mapped_area": 7131.9,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00039000000",
+   "poly": [
+    [
+     [
+      -89.26,
+      109.99
+     ],
+     [
+      -160.64,
+      109.97
+     ],
+     [
+      -159.91,
+      10.04
+     ],
+     [
+      -88.4,
+      10.28
+     ],
+     [
+      -89.26,
+      109.99
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 7200,
+    "deed_area": 7200,
+    "mapped": 7131.9,
+    "ratio": 0.991,
+    "state": "ok"
+   },
+   "rep_point": [
+    -124.55,
+    60.13
+   ],
+   "slope25": 0.181,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "R RUBB TR PLAN 82 LOT 24X100 MAHON ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "PARKING GARAGE/LOTS",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "R Rubb Tr Plan",
+    "plan_lot": "82"
+   },
+   "lot": 40,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-40",
+   "mapped_area": 2453.2,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00040000000",
+   "poly": [
+    [
+     [
+      -184.47,
+      10.85
+     ],
+     [
+      -159.91,
+      10.04
+     ],
+     [
+      -160.64,
+      109.97
+     ],
+     [
+      -185.38,
+      109.97
+     ],
+     [
+      -184.47,
+      10.85
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2453.2,
+    "ratio": 1.022,
+    "state": "ok"
+   },
+   "rep_point": [
+    -172.6,
+    60.41
+   ],
+   "slope25": 0.159,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "PT VACATED UNNAMED ALLEY = 5 X 100 X 5 X 100",
+    "lotarea": 500,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "5X100X5X100",
+    "front": 5,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 41,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-41",
+   "mapped_area": 591.7,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00041000000",
+   "poly": [
+    [
+     [
+      -190.46,
+      11.04
+     ],
+     [
+      -184.47,
+      10.85
+     ],
+     [
+      -185.38,
+      109.97
+     ],
+     [
+      -191.33,
+      110.22
+     ],
+     [
+      -190.46,
+      11.04
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 500,
+    "deed_area": 500,
+    "mapped": 591.7,
+    "ratio": 1.183,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    -187.91,
+    60.51
+   ],
+   "slope25": 0.2,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "PT VACATED UNNAMED ALLEY = 5 X 100 X 5 X 100",
+    "lotarea": 500,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "5X100X5X100",
+    "front": 5,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 43,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-43",
+   "mapped_area": 679.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00043000000",
+   "poly": [
+    [
+     [
+      -197.4,
+      11.27
+     ],
+     [
+      -190.46,
+      11.04
+     ],
+     [
+      -191.33,
+      110.22
+     ],
+     [
+      -198.09,
+      110.49
+     ],
+     [
+      -197.4,
+      11.27
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 500,
+    "deed_area": 500,
+    "mapped": 679.1,
+    "ratio": 1.358,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    -194.32,
+    60.74
+   ],
+   "slope25": 0.184,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2211 Mahon St",
+   "addr_source": "assessment",
+   "addr_street": "Mahon Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "R ROBB TR PLANS 6-7-8-9-10 LOT 100X100 IN ALL K",
+    "lotarea": 10000,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "100X100",
+    "front": 100,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "R Robb Tr Plans",
+    "plan_lot": "6-7-8-9-10"
+   },
+   "lot": 44,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-44",
+   "mapped_area": 9536.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00044000000",
+   "poly": [
+    [
+     [
+      -292.68,
+      10.38
+     ],
+     [
+      -197.4,
+      11.27
+     ],
+     [
+      -198.09,
+      110.49
+     ],
+     [
+      -294.56,
+      110.06
+     ],
+     [
+      -292.68,
+      10.38
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 10000,
+    "deed_area": 10000,
+    "mapped": 9536.1,
+    "ratio": 0.954,
+    "state": "ok"
+   },
+   "rep_point": [
+    -245.69,
+    60.67
+   ],
+   "slope25": 0.113,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2200 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 1-5 INCL LOT 100X100 IN ALL KIRK",
+    "lotarea": 10000,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHURCHES, PUBLIC WORSHIP",
+    "yearbuilt": null
+   },
+   "building_ids": [
+    "b493160"
+   ],
+   "built": true,
+   "built_evidence": [
+    "footprint"
+   ],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "100X100",
+    "front": 100,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "1-5 INCL"
+   },
+   "lot": 60,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-60",
+   "mapped_area": 9186.4,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00060000000",
+   "poly": [
+    [
+     [
+      -193.59,
+      -14.07
+     ],
+     [
+      -290.17,
+      -14.29
+     ],
+     [
+      -290.04,
+      -110.58
+     ],
+     [
+      -196.15,
+      -110.71
+     ],
+     [
+      -193.59,
+      -14.07
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 10000,
+    "deed_area": 10000,
+    "mapped": 9186.4,
+    "ratio": 0.919,
+    "state": "ok"
+   },
+   "rep_point": [
+    -242.49,
+    -62.44
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2200 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 11-12 LOT 48X100 IN ALL WYLIE AV",
+    "lotarea": 6200,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "48X100",
+    "front": 48,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "11-12"
+   },
+   "lot": 64,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-64",
+   "mapped_area": 5592.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00064000000",
+   "poly": [
+    [
+     [
+      -136.02,
+      -13.94
+     ],
+     [
+      -193.59,
+      -14.07
+     ],
+     [
+      -196.15,
+      -110.71
+     ],
+     [
+      -138.12,
+      -110.78
+     ],
+     [
+      -136.02,
+      -13.94
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 6200,
+    "deed_area": 4800,
+    "mapped": 5592.1,
+    "ratio": 0.902,
+    "state": "ok"
+   },
+   "rep_point": [
+    -165.97,
+    -62.39
+   ],
+   "slope25": 0.042,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2200 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "J O MAHON ETAL PLAN 13 LOT 24X100 WYLIE AVE",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "J O Mahon Etal Plan",
+    "plan_lot": "13"
+   },
+   "lot": 66,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-66",
+   "mapped_area": 2401.8,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00066000000",
+   "poly": [
+    [
+     [
+      -138.12,
+      -110.78
+     ],
+     [
+      -113.51,
+      -110.82
+     ],
+     [
+      -111.05,
+      -13.87
+     ],
+     [
+      -136.02,
+      -13.94
+     ],
+     [
+      -138.12,
+      -110.78
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2401.8,
+    "ratio": 1.001,
+    "state": "ok"
+   },
+   "rep_point": [
+    -124.68,
+    -62.36
+   ],
+   "slope25": 0.082,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2200 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 14-15 LOT 48X100 IN ALL WYLIE AV",
+    "lotarea": 4800,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "48X100",
+    "front": 48,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "14-15"
+   },
+   "lot": 67,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-67",
+   "mapped_area": 4519.2,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00067000000",
+   "poly": [
+    [
+     [
+      -113.51,
+      -110.82
+     ],
+     [
+      -66.17,
+      -110.87
+     ],
+     [
+      -65.24,
+      -13.76
+     ],
+     [
+      -111.05,
+      -13.87
+     ],
+     [
+      -113.51,
+      -110.82
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 4800,
+    "deed_area": 4800,
+    "mapped": 4519.2,
+    "ratio": 0.942,
+    "state": "ok"
+   },
+   "rep_point": [
+    -88.99,
+    -62.35
+   ],
+   "slope25": 0.514,
+   "undermined": 0.0,
+   "zone": "LNC",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Wylie Ave (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "MAHON PLAN PT 16 LOT 23.67X100 WYLIE AVE",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "23.67X100",
+    "front": 23.67,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "16"
+   },
+   "lot": 69,
+   "lot_suffix": null,
+   "lotdim": null,
+   "mapblocklo": "10-K-69",
+   "mapped_area": 2334.8,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00069000000",
+   "poly": [
+    [
+     [
+      -40.71,
+      -13.71
+     ],
+     [
+      -65.24,
+      -13.76
+     ],
+     [
+      -66.17,
+      -110.87
+     ],
+     [
+      -42.63,
+      -110.91
+     ],
+     [
+      -40.71,
+      -13.71
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2367,
+    "mapped": 2334.8,
+    "ratio": 0.973,
+    "state": "ok"
+   },
+   "rep_point": [
+    -53.69,
+    -62.32
+   ],
+   "slope25": 0.514,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 0.999
+  },
+  {
+   "addr": "Wylie Ave (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "MAHON PLAN 17 & PT 16 LOT 24.33X100 IN ALL WYLI",
+    "lotarea": 2433,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHURCHES, PUBLIC WORSHIP",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24.33X100",
+    "front": 24.33,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "17 & PT 16"
+   },
+   "lot": 70,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 97.8,
+    "width": 24.5
+   },
+   "mapblocklo": "10-K-70",
+   "mapped_area": 2330.4,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00070000000",
+   "poly": [
+    [
+     [
+      -17.19,
+      -13.66
+     ],
+     [
+      -40.71,
+      -13.71
+     ],
+     [
+      -42.63,
+      -110.91
+     ],
+     [
+      -18.22,
+      -110.94
+     ],
+     [
+      -17.19,
+      -13.66
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2433,
+    "deed_area": 2433,
+    "mapped": 2330.4,
+    "ratio": 0.958,
+    "state": "ok"
+   },
+   "rep_point": [
+    -29.69,
+    -62.31
+   ],
+   "slope25": 0.19,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2228 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "OTHER",
+    "finish": null,
+    "legal": "ROBB PLAN 18 & PTS 17 & 19 LOT 26.01X100X26.33",
+    "lotarea": 2617,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHARITABLE EXEMPTION/HOS/HOMES",
+    "yearbuilt": null
+   },
+   "building_ids": [
+    "b478196"
+   ],
+   "built": true,
+   "built_evidence": [
+    "footprint"
+   ],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "26.01X100X26.33",
+    "front": 26.01,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Robb Plan",
+    "plan_lot": "18 & PTS 17 & 19"
+   },
+   "lot": 71,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 97.7,
+    "width": 28.0
+   },
+   "mapblocklo": "10-K-71",
+   "mapped_area": 2675.2,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00071000000",
+   "poly": [
+    [
+     [
+      9.89,
+      -13.59
+     ],
+     [
+      -17.19,
+      -13.66
+     ],
+     [
+      -18.22,
+      -110.94
+     ],
+     [
+      9.66,
+      -110.97
+     ],
+     [
+      9.89,
+      -13.59
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2617,
+    "deed_area": 2601,
+    "mapped": 2675.2,
+    "ratio": 1.022,
+    "state": "ok"
+   },
+   "rep_point": [
+    -3.96,
+    -62.3
+   ],
+   "slope25": 0.144,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2240 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN PT 19 LOT 22X100 WYLIE AVE",
+    "lotarea": 2200,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "22X100",
+    "front": 22,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "19"
+   },
+   "lot": 72,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 97.7,
+    "width": 23.2
+   },
+   "mapblocklo": "10-K-72",
+   "mapped_area": 2171.5,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00072000000",
+   "poly": [
+    [
+     [
+      33.02,
+      -13.54
+     ],
+     [
+      9.89,
+      -13.59
+     ],
+     [
+      9.66,
+      -110.97
+     ],
+     [
+      31.12,
+      -111.0
+     ],
+     [
+      33.02,
+      -13.54
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2200,
+    "deed_area": 2200,
+    "mapped": 2171.5,
+    "ratio": 0.987,
+    "state": "ok"
+   },
+   "rep_point": [
+    20.92,
+    -62.28
+   ],
+   "slope25": 0.106,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2240 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "R ROBB PLAN 20-21 LOT 48X100 IN ALL WYLIE AVE",
+    "lotarea": 4800,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "48X100",
+    "front": 48,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "R Robb Plan",
+    "plan_lot": "20-21"
+   },
+   "lot": 73,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.8,
+    "width": 45.5
+   },
+   "mapblocklo": "10-K-73",
+   "mapped_area": 4417.1,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00073000000",
+   "poly": [
+    [
+     [
+      78.35,
+      -13.43
+     ],
+     [
+      33.02,
+      -13.54
+     ],
+     [
+      31.12,
+      -111.0
+     ],
+     [
+      76.35,
+      -111.07
+     ],
+     [
+      78.35,
+      -13.43
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 4800,
+    "deed_area": 4800,
+    "mapped": 4417.1,
+    "ratio": 0.92,
+    "state": "ok"
+   },
+   "rep_point": [
+    54.71,
+    -62.27
+   ],
+   "slope25": 0.12,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2240 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBT ROBB PLAN 22-23 LOT 48X100 IN ALL WYLIE AV",
+    "lotarea": 4800,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "CHURCHES, PUBLIC WORSHIP",
+    "yearbuilt": null
+   },
+   "building_ids": [
+    "b500167"
+   ],
+   "built": true,
+   "built_evidence": [
+    "footprint"
+   ],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "48X100",
+    "front": 48,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Plan",
+    "plan_lot": "22-23"
+   },
+   "lot": 75,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.1,
+    "width": 48.9
+   },
+   "mapblocklo": "10-K-75",
+   "mapped_area": 4733.6,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00075000000",
+   "poly": [
+    [
+     [
+      127.04,
+      -13.31
+     ],
+     [
+      78.35,
+      -13.43
+     ],
+     [
+      76.35,
+      -111.07
+     ],
+     [
+      124.54,
+      -111.13
+     ],
+     [
+      127.04,
+      -13.31
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 4800,
+    "deed_area": 4800,
+    "mapped": 4733.6,
+    "ratio": 0.986,
+    "state": "ok"
+   },
+   "rep_point": [
+    101.57,
+    -62.25
+   ],
+   "slope25": 0.223,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2240 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "JOHN MAHON PLAN 24-25 LOT 48X100 IN ALL WYLIE S",
+    "lotarea": 4800,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "48X100",
+    "front": 48,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "John Mahon Plan",
+    "plan_lot": "24-25"
+   },
+   "lot": 77,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 99.5,
+    "width": 46.4
+   },
+   "mapblocklo": "10-K-77",
+   "mapped_area": 4514.9,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00077000000",
+   "poly": [
+    [
+     [
+      173.25,
+      -13.21
+     ],
+     [
+      127.04,
+      -13.31
+     ],
+     [
+      124.54,
+      -111.13
+     ],
+     [
+      170.56,
+      -111.19
+     ],
+     [
+      173.25,
+      -13.21
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 4800,
+    "deed_area": 4800,
+    "mapped": 4514.9,
+    "ratio": 0.941,
+    "state": "ok"
+   },
+   "rep_point": [
+    148.85,
+    -62.22
+   ],
+   "slope25": 0.154,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2240 Wylie Ave",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "ROBB PLAN 26 LOT 24X100 WYLIE AVE",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "COMM AUX BUILDING",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robb Plan",
+    "plan_lot": "26"
+   },
+   "lot": 79,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.9,
+    "width": 23.9
+   },
+   "mapblocklo": "10-K-79",
+   "mapped_area": 2303.7,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00079000000",
+   "poly": [
+    [
+     [
+      196.48,
+      -13.15
+     ],
+     [
+      173.25,
+      -13.21
+     ],
+     [
+      170.56,
+      -111.19
+     ],
+     [
+      194.33,
+      -111.23
+     ],
+     [
+      196.48,
+      -13.15
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2303.7,
+    "ratio": 0.96,
+    "state": "ok"
+   },
+   "rep_point": [
+    183.65,
+    -62.2
+   ],
+   "slope25": 0.296,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "2250 Wylie Av",
+   "addr_source": "city_owned",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "MAHON PLAN PT 28  ALL 27 LOT = 31.89X100X32.38",
+    "lotarea": 3214,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 3214,
+    "status": "Available for Sale",
+    "status_updated": "2023-10-30",
+    "zoned_as": "RM-M"
+   },
+   "deed": {
+    "depth": 100,
+    "dims": "31.89X100X32.38",
+    "front": 31.89,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "PT 28 ALL 27"
+   },
+   "lot": 80,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.8,
+    "width": 32.8
+   },
+   "mapblocklo": "10-K-80",
+   "mapped_area": 3155.2,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00080000000",
+   "poly": [
+    [
+     [
+      228.11,
+      -13.08
+     ],
+     [
+      196.48,
+      -13.15
+     ],
+     [
+      194.33,
+      -111.23
+     ],
+     [
+      227.0,
+      -111.26
+     ],
+     [
+      228.11,
+      -13.08
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 3214,
+    "deed_area": 3189,
+    "mapped": 3155.2,
+    "ratio": 0.982,
+    "state": "ok"
+   },
+   "rep_point": [
+    211.48,
+    -62.19
+   ],
+   "slope25": 0.193,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Wylie Ave (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "MAHON PLAN PT 28 LOT 16X100 WYLIE AVE",
+    "lotarea": 1600,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "16X100",
+    "front": 16,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Mahon Plan",
+    "plan_lot": "28"
+   },
+   "lot": 81,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.6,
+    "width": 15.5
+   },
+   "mapblocklo": "10-K-81",
+   "mapped_area": 1495.3,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00081000000",
+   "poly": [
+    [
+     [
+      243.58,
+      -13.05
+     ],
+     [
+      228.11,
+      -13.08
+     ],
+     [
+      227.0,
+      -111.26
+     ],
+     [
+      241.99,
+      -111.29
+     ],
+     [
+      243.58,
+      -13.05
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1600,
+    "deed_area": 1600,
+    "mapped": 1495.3,
+    "ratio": 0.935,
+    "state": "ok"
+   },
+   "rep_point": [
+    235.17,
+    -62.17
+   ],
+   "slope25": 0.177,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Wylie Ave (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "MAHON PLAN 29 LOT = 24X100X24 (OR 0.055 ALD)",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100X24",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Mahon Plan",
+    "plan_lot": "29"
+   },
+   "lot": 82,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.8,
+    "width": 25.1
+   },
+   "mapblocklo": "10-K-82",
+   "mapped_area": 2424.3,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00082000000",
+   "poly": [
+    [
+     [
+      241.99,
+      -111.29
+     ],
+     [
+      266.99,
+      -111.32
+     ],
+     [
+      267.9,
+      -12.98
+     ],
+     [
+      243.58,
+      -13.05
+     ],
+     [
+      241.99,
+      -111.29
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2424.3,
+    "ratio": 1.01,
+    "state": "ok"
+   },
+   "rep_point": [
+    255.11,
+    -62.17
+   ],
+   "slope25": 0.176,
+   "undermined": 0.0,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Wylie Ave (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Wylie Avenue",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "INDUSTRIAL",
+    "finish": null,
+    "legal": "ROBT ROBB JR PLAN 30 LOT 24X100 WYLIE AVE",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT INDUSTRIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_evidence": [],
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Robt Robb Jr Plan",
+    "plan_lot": "30"
+   },
+   "lot": 83,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.6,
+    "width": 24.1
+   },
+   "mapblocklo": "10-K-83",
+   "mapped_area": 2293.5,
+   "overlays": [
+    "RCO - Hill CDC & Hill DC & Hill DCG"
+   ],
+   "pin": "0010K00083000000",
+   "poly": [
+    [
+     [
+      267.9,
+      -12.98
+     ],
+     [
+      266.99,
+      -111.32
+     ],
+     [
+      290.99,
+      -111.35
+     ],
+     [
+      290.53,
+      -12.92
+     ],
+     [
+      267.9,
+      -12.98
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2293.5,
+    "ratio": 0.956,
+    "state": "ok"
+   },
+   "rep_point": [
+    279.1,
+    -62.15
+   ],
+   "slope25": 0.166,
+   "undermined": 0.013,
+   "zone": "RM-M",
+   "zone_frac": 1.0
+  }
+ ],
+ "slope": [
+  [
+   [
+    [
+     28.59,
+     -20.33
+    ],
+    [
+     53.54,
+     -16.9
+    ],
+    [
+     60.36,
+     -6.65
+    ],
+    [
+     36.91,
+     -5.0
+    ],
+    [
+     19.18,
+     -2.7
+    ],
+    [
+     -9.88,
+     -8.5
+    ],
+    [
+     -32.41,
+     -8.03
+    ],
+    [
+     -54.2,
+     -13.98
+    ],
+    [
+     -57.5,
+     -12.69
+    ],
+    [
+     -63.16,
+     -18.33
+    ],
+    [
+     -79.25,
+     -46.37
+    ],
+    [
+     -113.13,
+     -61.08
+    ],
+    [
+     -114.48,
+     -81.36
+    ],
+    [
+     -109.68,
+     -88.87
+    ],
+    [
+     -123.59,
+     -106.82
+    ],
+    [
+     -181.39,
+     -105.65
+    ],
+    [
+     -207.81,
+     -116.43
+    ],
+    [
+     -171.33,
+     -121.36
+    ],
+    [
+     -134.63,
+     -127.88
+    ],
+    [
+     -109.59,
+     -126.16
+    ],
+    [
+     -107.1,
+     -114.94
+    ],
+    [
+     -97.97,
+     -110.97
+    ],
+    [
+     -72.18,
+     -79.12
+    ],
+    [
+     -58.95,
+     -73.37
+    ],
+    [
+     -51.56,
+     -68.63
+    ],
+    [
+     -47.4,
+     -49.95
+    ],
+    [
+     -27.44,
+     -28.01
+    ],
+    [
+     -1.52,
+     -28.53
+    ],
+    [
+     28.59,
+     -20.33
+    ]
+   ]
+  ],
+  [
+   [
+    [
+     33.3,
+     -113.01
+    ],
+    [
+     29.71,
+     -102.06
+    ],
+    [
+     25.31,
+     -107.56
+    ],
+    [
+     33.3,
+     -113.01
+    ]
+   ]
+  ],
+  [
+   [
+    [
+     65.15,
+     -94.47
+    ],
+    [
+     51.42,
+     -105.09
+    ],
+    [
+     63.14,
+     -114.32
+    ],
+    [
+     76.63,
+     -109.51
+    ],
+    [
+     65.15,
+     -94.47
+    ]
+   ]
+  ],
+  [
+   [
+    [
+     92.13,
+     92.59
+    ],
+    [
+     88.3,
+     100.12
+    ],
+    [
+     51.66,
+     93.64
+    ],
+    [
+     31.53,
+     100.23
+    ],
+    [
+     7.78,
+     86.93
+    ],
+    [
+     -9.97,
+     77.92
+    ],
+    [
+     -25.17,
+     69.4
+    ],
+    [
+     -38.53,
+     62.62
+    ],
+    [
+     -45.9,
+     50.12
+    ],
+    [
+     -47.3,
+     57.92
+    ],
+    [
+     -50.67,
+     78.53
+    ],
+    [
+     -84.17,
+     38.25
+    ],
+    [
+     -131.24,
+     24.74
+    ],
+    [
+     -164.03,
+     23.52
+    ],
+    [
+     -187.48,
+     31.22
+    ],
+    [
+     -233.58,
+     17.12
+    ],
+    [
+     -274.1,
+     19.03
+    ],
+    [
+     -292.86,
+     40.03
+    ],
+    [
+     -293.47,
+     4.42
+    ],
+    [
+     -259.54,
+     1.29
+    ],
+    [
+     -224.83,
+     -2.43
+    ],
+    [
+     -208.3,
+     0.21
+    ],
+    [
+     -188.4,
+     3.73
+    ],
+    [
+     -147.83,
+     -0.01
+    ],
+    [
+     -121.26,
+     -4.3
+    ],
+    [
+     -96.47,
+     3.28
+    ],
+    [
+     -42.96,
+     3.97
+    ],
+    [
+     -30.73,
+     27.31
+    ],
+    [
+     -23.97,
+     13.99
+    ],
+    [
+     -10.29,
+     9.51
+    ],
+    [
+     12.85,
+     43.1
+    ],
+    [
+     62.45,
+     58.26
+    ],
+    [
+     82.0,
+     58.97
+    ],
+    [
+     95.39,
+     54.58
+    ],
+    [
+     112.35,
+     49.76
+    ],
+    [
+     133.92,
+     42.69
+    ],
+    [
+     155.19,
+     40.4
+    ],
+    [
+     205.85,
+     68.8
+    ],
+    [
+     226.06,
+     69.05
+    ],
+    [
+     228.06,
+     91.69
+    ],
+    [
+     260.7,
+     86.39
+    ],
+    [
+     262.93,
+     88.86
+    ],
+    [
+     273.79,
+     100.9
+    ],
+    [
+     269.75,
+     108.86
+    ],
+    [
+     248.1,
+     115.02
+    ],
+    [
+     243.0,
+     116.47
+    ],
+    [
+     223.24,
+     122.96
+    ],
+    [
+     194.07,
+     113.02
+    ],
+    [
+     164.11,
+     105.73
+    ],
+    [
+     151.02,
+     86.73
+    ],
+    [
+     110.85,
+     79.61
+    ],
+    [
+     92.13,
+     92.59
+    ]
+   ],
+   [
+    [
+     -50.3,
+     47.78
+    ],
+    [
+     -45.9,
+     50.12
+    ],
+    [
+     -43.55,
+     45.72
+    ],
+    [
+     -47.94,
+     43.37
+    ],
+    [
+     -50.3,
+     47.78
+    ]
+   ],
+   [
+    [
+     -52.51,
+     39.01
+    ],
+    [
+     -47.94,
+     43.37
+    ],
+    [
+     -46.58,
+     37.2
+    ],
+    [
+     -52.51,
+     39.01
+    ]
+   ]
+  ],
+  [
+   [
+    [
+     296.43,
+     -19.07
+    ],
+    [
+     282.07,
+     -10.03
+    ],
+    [
+     280.02,
+     -5.04
+    ],
+    [
+     268.65,
+     -5.93
+    ],
+    [
+     246.76,
+     -5.25
+    ],
+    [
+     224.12,
+     -7.05
+    ],
+    [
+     171.93,
+     -2.68
+    ],
+    [
+     135.57,
+     -7.46
+    ],
+    [
+     95.98,
+     -6.21
+    ],
+    [
+     63.12,
+     -32.1
+    ],
+    [
+     76.54,
+     -44.92
+    ],
+    [
+     118.88,
+     -28.87
+    ],
+    [
+     128.02,
+     -32.61
+    ],
+    [
+     147.94,
+     -25.05
+    ],
+    [
+     175.46,
+     -30.77
+    ],
+    [
+     181.16,
+     -44.64
+    ],
+    [
+     191.12,
+     -48.73
+    ],
+    [
+     213.58,
+     -27.2
+    ],
+    [
+     242.63,
+     -31.15
+    ],
+    [
+     253.94,
+     -30.26
+    ],
+    [
+     264.89,
+     -30.59
+    ],
+    [
+     280.6,
+     -27.36
+    ],
+    [
+     293.38,
+     -37.53
+    ],
+    [
+     296.43,
+     -19.07
+    ]
+   ]
+  ]
+ ],
+ "streets": [
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -213.15,
+     -141.95
+    ],
+    [
+     -212.81,
+     -163.68
+    ],
+    [
+     -211.79,
+     -231.35
+    ]
+   ],
+   "name": "Belinda Street",
+   "osm_id": 11965551
+  },
+  {
+   "highway": "secondary",
+   "line": [
+    [
+     -414.56,
+     83.44
+    ],
+    [
+     -413.34,
+     83.8
+    ],
+    [
+     -404.55,
+     88.28
+    ],
+    [
+     -350.79,
+     124.51
+    ],
+    [
+     -323.97,
+     144.14
+    ]
+   ],
+   "name": "Centre Avenue",
+   "osm_id": 344435171
+  },
+  {
+   "highway": "secondary",
+   "line": [
+    [
+     -323.97,
+     144.14
+    ],
+    [
+     -302.19,
+     157.24
+    ],
+    [
+     -250.93,
+     191.34
+    ],
+    [
+     -190.55,
+     230.49
+    ]
+   ],
+   "name": "Centre Avenue",
+   "osm_id": 625866896
+  },
+  {
+   "highway": "service",
+   "line": [
+    [
+     3.57,
+     134.35
+    ],
+    [
+     6.18,
+     144.91
+    ],
+    [
+     10.68,
+     154.32
+    ],
+    [
+     22.45,
+     166.31
+    ],
+    [
+     117.35,
+     230.49
+    ]
+   ],
+   "name": "Hallett Street",
+   "osm_id": 11829655
+  },
+  {
+   "highway": "service",
+   "line": [
+    [
+     -323.62,
+     -2.84
+    ],
+    [
+     -302.26,
+     -2.67
+    ],
+    [
+     -154.23,
+     -1.62
+    ],
+    [
+     309.63,
+     1.57
+    ],
+    [
+     412.22,
+     6.67
+    ]
+   ],
+   "name": "Humber Way",
+   "osm_id": 11816941
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -361.23,
+     -142.35
+    ],
+    [
+     -361.35,
+     -170.69
+    ],
+    [
+     -361.07,
+     -231.35
+    ]
+   ],
+   "name": "Kirkpatrick Street",
+   "osm_id": 11815788
+  },
+  {
+   "highway": "tertiary",
+   "line": [
+    [
+     -326.39,
+     230.49
+    ],
+    [
+     -323.65,
+     170.55
+    ],
+    [
+     -323.97,
+     144.14
+    ]
+   ],
+   "name": "Kirkpatrick Street",
+   "osm_id": 344435184
+  },
+  {
+   "highway": "tertiary",
+   "line": [
+    [
+     -323.97,
+     144.14
+    ],
+    [
+     -324.34,
+     106.82
+    ],
+    [
+     -323.62,
+     -2.84
+    ],
+    [
+     -323.65,
+     -32.02
+    ],
+    [
+     -326.1,
+     -117.04
+    ],
+    [
+     -331.91,
+     -142.34
+    ]
+   ],
+   "name": "Kirkpatrick Street",
+   "osm_id": 625866897
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -73.45,
+     -141.11
+    ],
+    [
+     -73.04,
+     -162.05
+    ],
+    [
+     -71.73,
+     -231.35
+    ]
+   ],
+   "name": "Lawson Street",
+   "osm_id": 1204490175
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -323.97,
+     144.14
+    ],
+    [
+     -302.94,
+     140.24
+    ],
+    [
+     -250.81,
+     132.75
+    ],
+    [
+     -193.68,
+     133.12
+    ],
+    [
+     3.57,
+     134.35
+    ]
+   ],
+   "name": "Mahon Street",
+   "osm_id": 11692700
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     3.57,
+     134.35
+    ],
+    [
+     307.16,
+     137.98
+    ],
+    [
+     412.22,
+     139.06
+    ]
+   ],
+   "name": "Mahon Street",
+   "osm_id": 1204490176
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     307.16,
+     137.98
+    ],
+    [
+     309.63,
+     1.57
+    ],
+    [
+     311.71,
+     -115.03
+    ],
+    [
+     311.32,
+     -137.88
+    ]
+   ],
+   "name": "Soho Street",
+   "osm_id": 11948385
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     272.87,
+     230.49
+    ],
+    [
+     295.69,
+     155.87
+    ],
+    [
+     307.16,
+     137.98
+    ]
+   ],
+   "name": "Soho Street",
+   "osm_id": 1430694104
+  },
+  {
+   "highway": "tertiary",
+   "line": [
+    [
+     53.82,
+     -139.99
+    ],
+    [
+     0.37,
+     -140.4
+    ],
+    [
+     -73.45,
+     -141.11
+    ],
+    [
+     -101.97,
+     -141.28
+    ],
+    [
+     -186.53,
+     -141.8
+    ],
+    [
+     -213.15,
+     -141.95
+    ],
+    [
+     -300.76,
+     -141.97
+    ],
+    [
+     -331.91,
+     -142.34
+    ],
+    [
+     -361.23,
+     -142.35
+    ],
+    [
+     -378.92,
+     -142.49
+    ],
+    [
+     -414.56,
+     -143.19
+    ]
+   ],
+   "name": "Wylie Avenue",
+   "osm_id": 807956164
+  },
+  {
+   "highway": "tertiary",
+   "line": [
+    [
+     412.22,
+     -137.18
+    ],
+    [
+     311.32,
+     -137.88
+    ],
+    [
+     53.82,
+     -139.99
+    ]
+   ],
+   "name": "Wylie Avenue",
+   "osm_id": 1430451572
+  }
+ ],
+ "undermined": [
+  [
+   [
+    [
+     244.91,
+     -134.77
+    ],
+    [
+     236.36,
+     -138.5
+    ],
+    [
+     311.32,
+     -137.88
+    ],
+    [
+     311.71,
+     -115.03
+    ],
+    [
+     311.33,
+     -93.91
+    ],
+    [
+     303.98,
+     -96.82
+    ],
+    [
+     300.25,
+     -98.93
+    ],
+    [
+     295.99,
+     -101.52
+    ],
+    [
+     276.22,
+     -114.91
+    ],
+    [
+     254.98,
+     -129.03
+    ],
+    [
+     249.79,
+     -132.08
+    ],
+    [
+     244.91,
+     -134.77
+    ]
+   ]
+  ]
+ ]
+}
