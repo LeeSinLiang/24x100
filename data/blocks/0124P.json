@@ -316,8 +316,8 @@
    "lon": -79.910908
   },
   "pipeline_version": "0.1.0",
-  "pulled": "2026-09-26T20:28:19Z",
-  "raw_cache": "data/raw/2026-09-26",
+  "pulled": "2026-09-26T21:00:06Z",
+  "raw_cache": "data/raw/2026-09-26T2056",
   "recon_tolerance": 0.1,
   "rotation_basis": "parcel frontage along Lowell Street (9 edges, 297 ft); OSM centerline chord 41.20°",
   "rotation_deg": 41.146,
@@ -337,91 +337,91 @@
    {
     "id": "pgh_parcels",
     "name": "City of Pittsburgh PGHParcels",
-    "pulled": "2026-09-26T20:25:01Z",
+    "pulled": "2026-09-26T20:56:54Z",
     "sha256": "b941d25980c039eb964459ad6df9940aa47436bb4ce640d73dd60cdbaddf0f86",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHParcels/FeatureServer/0/query"
    },
    {
     "id": "wprdc_assessments",
     "name": "WPRDC Allegheny County Property Assessments",
-    "pulled": "2026-09-26T20:28:19Z",
+    "pulled": "2026-09-26T21:00:06Z",
     "sha256": "7c2d1dacc159ac934608df5c3df5d16eb306f578b917c51696596fe335f29721",
     "url": "https://data.wprdc.org/datastore/dump/65855e14-549e-4992-b5be-d629afc676fa"
    },
    {
     "id": "city_owned",
     "name": "City of Pittsburgh City-Owned Properties (WPRDC)",
-    "pulled": "2026-09-26T19:42:39Z",
+    "pulled": "2026-09-26T20:56:53Z",
     "sha256": "3ceaa70e97c474bd87b1173c783808ee95a574fbfebe74a907ad8d85aa7c84fe",
     "url": "https://data.wprdc.org/datastore/dump/e1dcee82-9179-4306-8167-5891915b62a7"
    },
    {
     "id": "lot_dimensions",
     "name": "City of Pittsburgh Residential Lot Dimensions (Feb 2025)",
-    "pulled": "2026-09-26T20:28:17Z",
-    "sha256": "829a26fef7c00f206e6b5b3da6b5f3fc6323e66c85cab64e08d67c75af4bf83e",
+    "pulled": "2026-09-26T21:00:05Z",
+    "sha256": "c51a35943f13fd259a0cafe788a2c9ebc8e4ae4a695da3b42f43620fc92bfdc5",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Parcels_Exp_02052025_Residential_Lot_Dimensions/FeatureServer/0/query"
    },
    {
     "id": "building_footprints",
     "name": "City of Pittsburgh Building Footprints (2023)",
-    "pulled": "2026-09-26T20:28:18Z",
-    "sha256": "3ed9a5bb9dfe3984ae265bce065b52e33898b7954d172e79ac818bd131e0ba8c",
+    "pulled": "2026-09-26T21:00:05Z",
+    "sha256": "8cdf70c4d0157d923e31ce24c8775fca321bc106ccd3f19a27efd8940418d4f9",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Building_Footprints_Adjacency/FeatureServer/0/query"
    },
    {
     "id": "zoning",
     "name": "City of Pittsburgh Zoning",
-    "pulled": "2026-09-26T20:28:18Z",
+    "pulled": "2026-09-26T21:00:05Z",
     "sha256": "767a1f179c9b9f955026a8cb13096720531732000e873973b95e20cc95c771d0",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoning/FeatureServer/0/query"
    },
    {
     "id": "zoning_overlays",
     "name": "City of Pittsburgh Zoning Overlays",
-    "pulled": "2026-09-26T20:28:18Z",
+    "pulled": "2026-09-26T21:00:06Z",
     "sha256": "ad06a5eac1877a9a7839a4e3d19ae145b1ec94df36056bad459fc47943a592b9",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoningOverlays/FeatureServer/0/query"
    },
    {
     "id": "slope25",
     "name": "City of Pittsburgh 25%+ Slope",
-    "pulled": "2026-09-26T20:28:18Z",
+    "pulled": "2026-09-26T21:00:06Z",
     "sha256": "1ce7eb457779acd1dc230a1bcb4692d06f27533481f26cbfe0e9e599134c0cd4",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0/query"
    },
    {
     "id": "undermined",
     "name": "City of Pittsburgh Undermined Areas",
-    "pulled": "2026-09-26T20:28:19Z",
+    "pulled": "2026-09-26T21:00:06Z",
     "sha256": "1ce7eb457779acd1dc230a1bcb4692d06f27533481f26cbfe0e9e599134c0cd4",
     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0/query"
    },
    {
     "id": "osm_streets",
     "name": "OpenStreetMap (Overpass API), ODbL",
-    "pulled": "2026-09-26T20:28:17Z",
-    "sha256": "c480e53c0f0c3e24160a3106937f0868d5eace7a5c87a2f056c1396a89f42a33",
+    "pulled": "2026-09-26T21:00:04Z",
+    "sha256": "4667b6fe12b6d88d0e75c50ec00d558bdcd858d05a114e6461a4a7b207b7d936",
     "url": "https://overpass.kumi.systems/api/interpreter"
    },
    {
     "id": "hist_zoning_1927",
     "name": "WPRDC Historic Zoning 1927",
-    "pulled": "2026-09-26T19:42:39Z",
+    "pulled": "2026-09-26T20:56:53Z",
     "sha256": "72ea1c4624fbca93f07c2f7f98f9319fcbddf8c762bfd59b64d1e98a9e316f65",
     "url": "https://data.wprdc.org/dataset/2706f171-3803-4ee4-bbf7-b8e9014ce490/resource/8e9391ff-e700-49a9-929b-36fe46309ed0/download/pghzoning1927.geojson"
    },
    {
     "id": "hist_zoning_1958",
     "name": "WPRDC Historic Zoning 1958",
-    "pulled": "2026-09-26T19:42:40Z",
+    "pulled": "2026-09-26T20:56:53Z",
     "sha256": "03d926dffd9e61306c6338920dca1990be4007d210296fcc7e78445b8fd06402",
     "url": "https://data.wprdc.org/dataset/c644fd38-0efb-4e47-896a-886d44d92056/resource/3796160e-2d96-48d6-81a1-088e34e4644d/download/pghzoning1958.geojson"
    },
    {
     "id": "hist_zoning_1967",
     "name": "WPRDC Historic Zoning 1967",
-    "pulled": "2026-09-26T19:42:40Z",
+    "pulled": "2026-09-26T20:56:54Z",
     "sha256": "4df4d2b8dfde09fe26c8e15817993ed293c42b590b58366ad6d0e7fe404aa2bc",
     "url": "https://data.wprdc.org/dataset/a946ffe7-2900-42d3-8916-6b0e10f0e415/resource/3be6661e-0435-4b68-b31d-819d09dbce23/download/pghzoning1967.geojson"
    }

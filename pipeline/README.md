@@ -10,13 +10,20 @@ Run from the repo root (the uv env is Python 3.12).
 | Command | Does |
 |---|---|
 | `uv run python -m pipeline block --id 10K` | Fetch anything missing from today's raw cache (`data/raw/<today>/`), then write `data/blocks/10K.json` and the G1 cross-check `data/blocks/10K.crosscheck.json`. |
+| `uv run python -m pipeline block --id 0124P` | Held-out block (Larimer, R1D‑H): writes `data/blocks/0124P.json`. |
 | `uv run python -m pipeline block --id 10K --offline` | No network. Process the newest raw cache that has every input. |
-| `uv run python -m pipeline money [--offline]` | Write `data/money/comps_ward5.json` and `data/money/hud_fy2026.json`. Exits 1 if the HUD file could not be fetched; comps are still written. |
+| `uv run python -m pipeline money [--offline]` | Write `data/money/comps_ward5.json` and `data/money/hud_fy2026.json`. HUD comes from the newest raw cache that holds the workbook (it may be an older pull). Exits 1 only if no raw cache has one; comps are still written. |
 | `uv run python -m pipeline money --offline --snapshot pipeline/tests/fixtures/ward5_sales_<date>.json` | Also write the filtered, joined sales snapshot used by the tests. |
 | `uv run python -m pipeline money --hud-file ~/Downloads/Section8-FY26.xlsx` | Ingest a HUD workbook a person downloaded in a browser (huduser.gov challenges scripts; see below). It is cached with its sha256 and a `manual_download` note, then processed. |
 | `uv run python -m pipeline crosscheck --id 10K [--fixture PATH]` | Re-run only the G1 comparison against the research fixture. |
-| `uv run python -m pipeline all [--offline]` | Runs `block --id 10K` and then `money`. |
-| `uv run pytest -q pipeline/tests` | Tests (no network). The determinism test and the raw-cache privacy test skip when `data/raw/` is absent. |
+| `uv run python -m pipeline city [--offline]` | Citywide work file `data/city/work/lots_work.json` (gitignored), plus `data/city/neighborhoods.json` and `data/city/water.json`. A fresh pull takes about 10 minutes; processing about 9. |
+| `uv run python -m pipeline refresh` | Re-pull every dataset into a new raw cache, re-process, and diff. Writes `data/refresh/latest.json` and `data/refresh/<YYYY-MM-DDTHHMM>.json`. Add `--no-city` to skip the citywide pull. |
+| `uv run python -m pipeline refresh --code` / `--code-dir DIR` | Also compare the saved ecode360 chapters with fresh copies (see below). `data/code/` is never overwritten. |
+| `uv run python -m pipeline refresh --baseline research-fixture` | Diff Block 10‑K against the pre-kickoff research fixture: `data/refresh/vs-research-fixture.json`. |
+| `uv run python -m pipeline digest --dry-run` | Render the watchlist digest to `data/refresh/digest-preview.md` and print it. The default; nothing is sent. |
+| `uv run python -m pipeline digest --send` | Post to Slack or send mail, only if the keys are in `.env`; otherwise it refuses. |
+| `uv run python -m pipeline all [--offline] [--no-city]` | Blocks 10K and 0124P, then money, then city. |
+| `uv run pytest -q pipeline/tests` | Tests (no network). Some tests need files that aren't in git (`data/raw/`, `data/city/work/`, the refresh files). When those files are missing, the tests skip and say why. |
 
 `--date YYYY-MM-DD` pins a specific raw cache folder.
 
@@ -40,6 +47,21 @@ Run from the repo root (the uv env is Python 3.12).
 - **Not used:** the County `AlCoParcels` service, because it carries owner names.
 - **Enforced:** `tests/test_privacy.py` walks every JSON file under `data/blocks`, `data/money` and the test fixtures, and fails on owner, mailing, change-notice or tax-bill keys, or on "City of Pittsburgh" as a value. It also checks that it catches those on mutated input.
 
+## Held-out block 0124‑P (Larimer)
+
+County map block 0124‑P is a map sheet: 271 parcels over about two dozen street blocks. So the
+block file covers one street block of it, the 23 parcels of 0124‑P inside Lowell / Meadow /
+Winfield / Winslow, listed explicitly (spec §5.2). `meta.selection_check` records that the list
+equals the OSM street-polygon selection and that no parcel from another map block sits inside
+that polygon.
+
+- The main street is chosen from the data. It is the OSM street that the most parcels are
+  addressed on: Lowell Street, 8 of 23 (`meta.main_street_basis`).
+- The frame is squared to the Lowell frontage, like 10‑K.
+- All 23 parcels are R1D‑H, and 11 are City-owned vacant land.
+- Demo lot: 511 Lowell St (`0124P00203000000`). It is City-owned vacant land, Available for Sale,
+  with deed 24×100, assessed 2,400 vs mapped 2,390 (0.996).
+
 ## Sources (all verified 26 Sep 2026)
 
 | id | Source | URL |
@@ -57,6 +79,8 @@ Run from the repo root (the uv env is Python 3.12).
 | `hist_zoning_1927/1958/1967` | WPRDC historic zoning GeoJSON | see `sources.py` `HIST_ZONING` |
 | sales | Allegheny County Real Estate Sales (CKAN, `MUNICODE` 105 = Ward 5) | `https://data.wprdc.org/api/3/action/datastore_search?resource_id=5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1` |
 | HUD | FY2026 Section 8 Income Limits (xlsx) | `https://www.huduser.gov/portal/datasets/il/il26/Section8-FY26.xlsx` |
+| `neighborhoods` | WPRDC Neighborhoods GeoJSON | `https://data.wprdc.org/dataset/e672f13d-71c4-4a66-8f38-710e75ed80a4/resource/4af8e160-57e9-4ebf-a501-76ca1b42fc99/download/neighborhoods.geojson` |
+| `major_rivers` | WPRDC Allegheny County Major Rivers GeoJSON | `https://data.wprdc.org/dataset/d285f358-154e-4115-b2e2-520ccf48a2f1/resource/a749cade-9d56-442b-837f-4a93daa8b62a/download/major_rivers.geojson` |
 
 ArcGIS queries use an envelope in EPSG:4326 (`outSR=4326&f=geojson`). The envelope is the block's
 OSM street polygon plus 0.0004°. The seed box in `block.py` only locates the streets.
@@ -100,12 +124,29 @@ How `rotation_deg` is measured:
 | `overlays` | Overlay names covering at least 0.5% of the lot. |
 | `slope25`, `undermined` | Fraction of the lot covered by the union of those polygons (0–1, 3 decimals). |
 | `assess` | `{lotarea, use, class, ownercat, yearbuilt, stories, finish, sqft, legal, asof}`. `sqft` is `FINISHEDLIVINGAREA`. `null` if the assessment has no record. |
-| `deed` | LEGAL1 parsed to `{plan, plan_lot, part, front, depth, dims, parsed_from}`. `plan` is the text up to "PLAN", title-cased and never expanded. `plan_lot` is the lot designation between PLAN and LOT: a single number when there is one ("67"), otherwise the text ("79-80-81"). `part` is true when "PT"/"PTS" appears. `front` × `depth` are the first `N X N` in the text; `dims` is the full dimension string ("24X100X24"). A missing plan lot stays `null` and is never inferred. No `N X N` → `deed: null`. |
+| `deed` | LEGAL1 parsed to `{plan, plan_lot, part, front, depth, depth_avg, dims, parsed_from}`. See "LEGAL1 parsing" below. |
+| `deed_note` | Present only when LEGAL1 is cut off inside the dimensions (see below). |
 | `city` | City-Owned Properties row `{status, inventory, status_updated, zoned_as, class, sq_ft}`, or `null` if the parcel is not in City inventory. |
-| `built`, `built_evidence`, `building_ids` | `built` is true if a footprint's centroid lies in the lot (`"footprint"`), or if the assessment `YEARBLT` is set and the use is not vacant land (`"assessment"`). |
+| `built`, `built_basis`, `building_ids` | `built` is true if a footprint's centroid lies in the lot, or if the assessment `YEARBLT` is set and the use is not vacant land. `built_basis` says which in plain words. |
 | `mapped_area` | Shapely area of the local polygon, in sf. |
 | `lotdim` | `{width, len}` from the City Residential Lot Dimensions layer by PIN. `null` if the layer has no row for the PIN. |
 | `recon` | `{state, ratio, assessed, mapped, deed_area}`. `ratio = mapped / assessed`. State: `no_assessment` (no LOTAREA); `records_disagree` when \|ratio − 1\| > tolerance; `no_deed` when LEGAL1 has no dimensions; otherwise `ok`. `deed_area = front × depth`. For `part` lots this is the plan lot's area, not the parcel's. |
+
+### LEGAL1 parsing
+
+- **`plan`** is the text up to "PLAN". "PL" also counts when a lot designation follows it. The
+  text is title-cased and never expanded.
+- **`plan_lot`** is the lot designation between PLAN and LOT: a single number when there is one
+  ("67"), otherwise the text ("79-80-81"). A missing plan lot stays `null` and is never
+  inferred.
+- **`part`** is true when "PT"/"PTS" appears.
+- **`front` × `depth`** are the first `N X N` in the text. `N XAVG N` gives an average depth
+  and sets `depth_avg: true`.
+- **`dims`** is the full dimension string ("24X100X24").
+- **No `N X N` in the text** → `deed: null`.
+- **Cut-off LEGAL1.** The County field is 47 characters, space-padded. When a value fills all 47
+  characters and the text runs out inside the dimensions ("…LOT 30X1", "…LOT 21.04",
+  "…23.45XA"), the last number may be cut. No deed is read, and `deed_note` says why.
 
 ### Other top-level keys
 
@@ -132,6 +173,113 @@ frontage (29.537°). The file therefore also reports:
 
 - our bbox after rotating our polygons into the fixture's rotation;
 - the minimum rotated rectangle, which does not depend on the frame.
+
+## City · `data/city/`
+
+### `work/lots_work.json` (gitignored)
+
+**What it holds.** Every City-Owned Properties row with `class == "Vacant Land"`. The engine's
+`scripts/build-city.ts` turns this into the compact `data/city/lots.json`.
+
+**Per-lot fields.**
+
+| Field | Meaning |
+|---|---|
+| `pin`, `addr`, `addr_street` | Address title-cased from the CSV. `addr_street` is matched by base name to an OSM street within 150 ft. |
+| `hood`, `ward` | From the CSV. |
+| `zone`, `zone_frac` | `zon_new` of the zoning polygon with the largest overlap, and the fraction of the lot it covers. |
+| `city` | `{status, inventory, status_updated, class, zoned_as}`. |
+| `ll` | Representative point, `[lon, lat]`. |
+| `outline_ll` | The outline in lon/lat, simplified at 0.3 ft. |
+| `origin` | The lot centroid, `[lon, lat]`. |
+| `poly` | Closed, valid ring in feet: x east and y north of `origin`. |
+| `neighbors[]` | Every parcel whose boundary comes within 3 ft: `{pin, lot, poly, built, addr}`. |
+| `streets[]` | OSM named highways within 150 ft, clipped to the lot bbox plus 150 ft: `{name, osm_id, highway, line}`. Footways, steps and paths are left out. |
+| `assess` | `{lotarea, use, legal, ownercat, asof, yearbuilt}`. No names. |
+| `deed`, `deed_note` | As in block files. |
+| `mapped_area`, `slope25`, `undermined` | As in block files. |
+| `built`, `built_basis` | A building-footprint centroid (ArcGIS `returnCentroid`) inside the lot, or `YEARBLT` with a non-vacant use. |
+| `geometry_note` | Present when sliver parts were dropped. |
+
+**Meta.** `meta.counts` holds the totals, the zone families from both the zoning layer and the
+CSV's `zoned_as`, and the skips grouped by reason. `meta.skipped[]` lists every row not written,
+with its reason: no PIN, no PGHParcels geometry, or a multipolygon whose second part is at least
+1% of the area. Nothing is dropped silently.
+
+**Inputs** (all paged and checked against `returnCountOnly`):
+- PGHParcels, 142,911 features;
+- footprint centroids, 117,506;
+- zoning, 25%+ slope and undermined areas;
+- assessments by ward (MUNICODE 101–132, allowed fields only);
+- one Overpass pull of named highways in the City box.
+
+### `neighborhoods.json` and `water.json` (committed)
+
+Both are `[{name, rings: [[[lon, lat], …]]}]`, which is what `web/src/components/city/cityData.ts`
+reads. `rings` holds outer rings and holes; draw them with the even-odd fill rule. They are
+simplified at 0.000005° (about 1.4 ft) with 6 decimals.
+
+- Neighborhoods: 90, from WPRDC Neighborhoods.
+- Water: the Allegheny, Monongahela and Ohio rivers from WPRDC Major Rivers, clipped to the City
+  box.
+
+## Refresh · `data/refresh/`
+
+`refresh` works in four steps:
+
+1. Creates a new raw cache: `data/raw/<date>`, or `data/raw/<date>T<HHMM>` (UTC) when today's
+   folder exists. Earlier folders are kept.
+2. Re-pulls every dataset.
+3. Re-processes both blocks, the comps, HUD (when re-pulled) and the city work file.
+4. Diffs the new processed outputs against the ones on disk before the run.
+
+It never writes `data/rules/`, because rules are decisions made by people.
+
+`latest.json` (plus a timestamped copy) has four parts:
+
+- **`meta.datasets[]`**: per raw dataset, `{id, rows_before, rows_after, sha_before, sha_after,
+  changed}`. Pages and batches are grouped: `city/parcels` is all 143 pages.
+- **`changes[]`**: `{pin, addr, block, scope, field, before, after, kind}` for these fields:
+  - block parcels: address, zone, City status/date/inventory, assessment lot area/use/year/legal,
+    deed front/depth, recon state, built, mapped area, slope, undermined;
+  - city lots: the same kind of fields;
+  - comps: counts, median, IQR, newest, added and removed sales;
+  - HUD: median and the 50%/80% limits.
+- **`code[]`**: the ecode360 chapter check.
+- **`summary`**: one plain sentence.
+
+**HUD in a refresh.** Refresh makes one polite HUD request. huduser.gov answers scripts with an
+AWS WAF challenge, so the HUD re-pull normally fails. The failure is recorded and the previous
+HUD file is kept.
+
+**`--code`.** ecode360 is behind Cloudflare. Headless Chrome with its own user agent gets the
+"Just a moment…" challenge page, and the pipeline does **not** try to pass it. The chapter row
+then says "blocked … not bypassed". To compare anyway:
+
+1. A person saves each chapter page from a browser as `<ecode id>.html`.
+2. Run `refresh --code-dir DIR`.
+3. The pages are converted to text (table cells joined by " | ") and saved under
+   `data/raw/<date>/code/`.
+4. Each is compared word by word with `data/code/`. Formatting doesn't count as a change.
+5. `data/code/` is never overwritten; a person decides.
+
+## Digest
+
+`digest` reads `data/refresh/latest.json`, `data/watchlist.json` and, if present,
+`data/rules/reviews.json`. It writes a plain message with three parts:
+
+- City status changes on watched lots, plus a count of status changes elsewhere;
+- other, unreviewed ("pencil") differences on watched lots;
+- rules that were source-checked or City-confirmed in the 7 days before the refresh, shown by
+  role and never by name.
+
+The default watchlist is Block 10‑K lots 21–35 and all of block 0124‑P.
+
+`--send` needs one of these in `.env`, and refuses otherwise:
+- `SLACK_WEBHOOK_URL` (posted as `{text}`);
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `DIGEST_TO`.
+
+It never sends an inquiry.
 
 ## Money · `data/money/`
 

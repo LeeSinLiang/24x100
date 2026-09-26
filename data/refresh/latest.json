@@ -1,0 +1,345 @@
+{
+ "changes": [],
+ "code": [
+  {
+   "changed": false,
+   "file": "data/code/ch903.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch906.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch911.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch914.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch915.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch921.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  },
+  {
+   "changed": false,
+   "file": "data/code/ch925.txt",
+   "note": "not re-dumped (ecode360 blocks scripted fetches; run with --code, or --code-dir with pages saved from a browser)"
+  }
+ ],
+ "meta": {
+  "datasets": [
+   {
+    "changed": false,
+    "id": "0124P/assessments",
+    "rows_after": 23,
+    "rows_before": 23,
+    "sha_after": "f6e762bab3a95ba379c0911e599e02d166c282d9d7aad7fcb6dc060dc650e47d",
+    "sha_before": "f6e762bab3a95ba379c0911e599e02d166c282d9d7aad7fcb6dc060dc650e47d"
+   },
+   {
+    "changed": true,
+    "id": "0124P/buildings",
+    "rows_after": 89,
+    "rows_before": 89,
+    "sha_after": "64dd4890d7bdd5bc8c0fa8955fa93741115b3dd216bf14273c92e13d4c46fab2",
+    "sha_before": "9a9683dca2a99d867359fdd2ade1a1f1214daba1627370a964e175edbb3d19d9"
+   },
+   {
+    "changed": true,
+    "id": "0124P/lotdim",
+    "rows_after": 165,
+    "rows_before": 165,
+    "sha_after": "8d552f490b25e537011e0c2304fb7e70f4e557e10cbdf0f429a4101478f8a1b2",
+    "sha_before": "40daa0c05bc0db21fcd75175d7319112493f598f85d18319096acd195b55952a"
+   },
+   {
+    "changed": true,
+    "id": "0124P/osm",
+    "rows_after": 317,
+    "rows_before": 317,
+    "sha_after": "33003f5330f068c605d6091f713108cb3dec1c5ae9594dcc101943929435319d",
+    "sha_before": "107d9ca303c87afd4e5116d7baff4c952be12f071ce15bb3eff6242e36933e39"
+   },
+   {
+    "changed": false,
+    "id": "0124P/overlays",
+    "rows_after": 1,
+    "rows_before": 1,
+    "sha_after": "1b6d175d5af4d19d4803f5494f62d2e252a88cdcc5eb03144c52dae247345de3",
+    "sha_before": "1b6d175d5af4d19d4803f5494f62d2e252a88cdcc5eb03144c52dae247345de3"
+   },
+   {
+    "changed": false,
+    "id": "0124P/parcels",
+    "rows_after": 23,
+    "rows_before": 23,
+    "sha_after": "82c95053adce0a3cecbe90fb55e94d50db55e0036a3785d31ef0bb23245666cd",
+    "sha_before": "82c95053adce0a3cecbe90fb55e94d50db55e0036a3785d31ef0bb23245666cd"
+   },
+   {
+    "changed": true,
+    "id": "0124P/parcels_env",
+    "rows_after": 167,
+    "rows_before": 167,
+    "sha_after": "8577c2574a113c7058a81b63e7c31bef2624baf4692da8a892c98f3cbd7994af",
+    "sha_before": "663411a772240f1f79a481e494b5a12e3d141edb084f2b566ab2c13aaeba67ac"
+   },
+   {
+    "changed": false,
+    "id": "0124P/slope25",
+    "rows_after": 0,
+    "rows_before": 0,
+    "sha_after": "2c107d893e94a51b0a5edc5247a4bc1f5accf2719e047294d7e581dd1ea56774",
+    "sha_before": "2c107d893e94a51b0a5edc5247a4bc1f5accf2719e047294d7e581dd1ea56774"
+   },
+   {
+    "changed": false,
+    "id": "0124P/undermined",
+    "rows_after": 0,
+    "rows_before": 0,
+    "sha_after": "2c107d893e94a51b0a5edc5247a4bc1f5accf2719e047294d7e581dd1ea56774",
+    "sha_before": "2c107d893e94a51b0a5edc5247a4bc1f5accf2719e047294d7e581dd1ea56774"
+   },
+   {
+    "changed": false,
+    "id": "0124P/zoning",
+    "rows_after": 3,
+    "rows_before": 3,
+    "sha_after": "146c20842675f886215d86d94c38262e4cd1e7c14e2b0e6e7c550f6d4077ec4f",
+    "sha_before": "146c20842675f886215d86d94c38262e4cd1e7c14e2b0e6e7c550f6d4077ec4f"
+   },
+   {
+    "changed": false,
+    "id": "10K/assessments",
+    "rows_after": 39,
+    "rows_before": 39,
+    "sha_after": "978e4eeb59b5259955492f5d3a3318d45a48a530eb59a45fe05d3bae0447b2bc",
+    "sha_before": "978e4eeb59b5259955492f5d3a3318d45a48a530eb59a45fe05d3bae0447b2bc"
+   },
+   {
+    "changed": true,
+    "id": "10K/buildings",
+    "rows_after": 48,
+    "rows_before": 48,
+    "sha_after": "23f81768363f2a36f611cb780465d41bc00c7e486c90e15b57de522864ad1fdd",
+    "sha_before": "d2e67807a547e7d74ed7deb6f0fa3559b79b6966655e2b269c9b5f2cc8cd0166"
+   },
+   {
+    "changed": true,
+    "id": "10K/lotdim",
+    "rows_after": 135,
+    "rows_before": 135,
+    "sha_after": "d3d581b7ac2d2793bdb33fdebcfd324cde4b5bad28096697f650be5bd1d17c8a",
+    "sha_before": "21950ab4059834198bcdd2b95d48d16a9c2a954b9d575521a84f55c2b02d0fb6"
+   },
+   {
+    "changed": true,
+    "id": "10K/osm",
+    "rows_after": 239,
+    "rows_before": 239,
+    "sha_after": "83731f547a14bd2f5a99a77625e0de8a95a7caaaaed794f0d7f670c22babbe28",
+    "sha_before": "240308ead7394e78f4140810c2a28fe5863938ea2e4872a6b8e913f0287e32d0"
+   },
+   {
+    "changed": false,
+    "id": "10K/overlays",
+    "rows_after": 1,
+    "rows_before": 1,
+    "sha_after": "3a2ad8bd94eb1e6812e676e95b8a6cbaad4f05e204186a91a98417e3bae81dd8",
+    "sha_before": "3a2ad8bd94eb1e6812e676e95b8a6cbaad4f05e204186a91a98417e3bae81dd8"
+   },
+   {
+    "changed": true,
+    "id": "10K/parcels",
+    "rows_after": 242,
+    "rows_before": 242,
+    "sha_after": "8f2b997cbed9925d7dd69562a0059a8a96b45b286f51be428f19ef53f50f18ab",
+    "sha_before": "69edaaa7592b31b0880b250a2e5c4eb7bab5b0c0ebc04b9e903964e863520bc7"
+   },
+   {
+    "changed": false,
+    "id": "10K/slope25",
+    "rows_after": 4,
+    "rows_before": 4,
+    "sha_after": "fff6ae9f0ab4c4aa8e9143c3e8da55a87fd3b3a6d0ff92b051d79f3355ba4ab8",
+    "sha_before": "fff6ae9f0ab4c4aa8e9143c3e8da55a87fd3b3a6d0ff92b051d79f3355ba4ab8"
+   },
+   {
+    "changed": false,
+    "id": "10K/undermined",
+    "rows_after": 1,
+    "rows_before": 1,
+    "sha_after": "747e93c820e474263490aec73813d5d7d50620df4231e12e16a1d6bdc8c09edd",
+    "sha_before": "747e93c820e474263490aec73813d5d7d50620df4231e12e16a1d6bdc8c09edd"
+   },
+   {
+    "changed": false,
+    "id": "10K/zoning",
+    "rows_after": 5,
+    "rows_before": 5,
+    "sha_after": "50bd241d30f970f59616e9c5f4b69318e90c315239c2732cfbda838d16ecfa5b",
+    "sha_before": "50bd241d30f970f59616e9c5f4b69318e90c315239c2732cfbda838d16ecfa5b"
+   },
+   {
+    "changed": false,
+    "id": "city/assessments",
+    "rows_after": 142395,
+    "rows_before": 142395,
+    "sha_after": "56def97f57e84257f09bdbb4d4889dc54dc9ca51614430dc2ba4445c84f52126",
+    "sha_before": "56def97f57e84257f09bdbb4d4889dc54dc9ca51614430dc2ba4445c84f52126"
+   },
+   {
+    "changed": null,
+    "id": "city/assessments_extra",
+    "note": "new in this run",
+    "rows_after": 3,
+    "rows_before": null,
+    "sha_after": "3fd23325de6ec60d47765f91014565e3de5f493bb0692566122dfef5e0f823ec",
+    "sha_before": null
+   },
+   {
+    "changed": false,
+    "id": "city/footprints",
+    "rows_after": 117506,
+    "rows_before": 117506,
+    "sha_after": "489ac36199e70106279e04762dbbfeb1a083e43d01aabd568eb87caa078e1d5f",
+    "sha_before": "489ac36199e70106279e04762dbbfeb1a083e43d01aabd568eb87caa078e1d5f"
+   },
+   {
+    "changed": false,
+    "id": "city/major_rivers",
+    "rows_after": 4,
+    "rows_before": 4,
+    "sha_after": "7e0f5b0016ac8b68cc0cddecdc73b4ec9e811b77624bb7bd9018bcb5459af838",
+    "sha_before": "7e0f5b0016ac8b68cc0cddecdc73b4ec9e811b77624bb7bd9018bcb5459af838"
+   },
+   {
+    "changed": false,
+    "id": "city/neighborhoods",
+    "rows_after": 90,
+    "rows_before": 90,
+    "sha_after": "8d6d073f6fc92b8c72b330abb855e48ac7b1229092115a7a661d22ed7bd7060e",
+    "sha_before": "8d6d073f6fc92b8c72b330abb855e48ac7b1229092115a7a661d22ed7bd7060e"
+   },
+   {
+    "changed": true,
+    "id": "city/osm_named_highways",
+    "rows_after": 22460,
+    "rows_before": 22480,
+    "sha_after": "f226c3b8eb54a643252a2fa7e00e321680678313705ac17d78b8588366a497de",
+    "sha_before": "e753c5f486b94e80ea6d034f2d948454bc888d12f01f71a8f9a72ed929965cc7"
+   },
+   {
+    "changed": false,
+    "id": "city/parcels",
+    "rows_after": 142911,
+    "rows_before": 142911,
+    "sha_after": "55513a9daae59051c4c68e84e72ca58be66566554818216e70f54133126ef583",
+    "sha_before": "55513a9daae59051c4c68e84e72ca58be66566554818216e70f54133126ef583"
+   },
+   {
+    "changed": false,
+    "id": "city/slope25",
+    "rows_after": 1714,
+    "rows_before": 1714,
+    "sha_after": "9a243eefcd12b0508b22b46084cf70423dbb8aa1a5f2db0fd00b418b36304aa1",
+    "sha_before": "9a243eefcd12b0508b22b46084cf70423dbb8aa1a5f2db0fd00b418b36304aa1"
+   },
+   {
+    "changed": false,
+    "id": "city/undermined",
+    "rows_after": 47,
+    "rows_before": 47,
+    "sha_after": "144348d29119be9db00f2925ac316d2669423d875ec2e039cb90691d41df8254",
+    "sha_before": "144348d29119be9db00f2925ac316d2669423d875ec2e039cb90691d41df8254"
+   },
+   {
+    "changed": false,
+    "id": "city/zoning",
+    "rows_after": 1069,
+    "rows_before": 1069,
+    "sha_after": "67b8547b2a3dbfb6bbaa38cd61d66322285f94ae47740aca599afcd0ca709c63",
+    "sha_before": "67b8547b2a3dbfb6bbaa38cd61d66322285f94ae47740aca599afcd0ca709c63"
+   },
+   {
+    "changed": false,
+    "id": "city_owned",
+    "rows_after": 12477,
+    "rows_before": 12477,
+    "sha_after": "5292546ae292c50871fad8662e6326ff0422d099305ea545c9ebe0f1986e80f9",
+    "sha_before": "5292546ae292c50871fad8662e6326ff0422d099305ea545c9ebe0f1986e80f9"
+   },
+   {
+    "changed": false,
+    "id": "hist_zoning_1927",
+    "rows_after": 574,
+    "rows_before": 574,
+    "sha_after": "e81d8744c0d9486c5abc2033cbd22ed745e40250551f5ed9f6b2c3e10eebecd0",
+    "sha_before": "e81d8744c0d9486c5abc2033cbd22ed745e40250551f5ed9f6b2c3e10eebecd0"
+   },
+   {
+    "changed": false,
+    "id": "hist_zoning_1958",
+    "rows_after": 588,
+    "rows_before": 588,
+    "sha_after": "89156fe490539416c55178c01cea30ec9850cee8afacad173a5a2165c68f6f4a",
+    "sha_before": "89156fe490539416c55178c01cea30ec9850cee8afacad173a5a2165c68f6f4a"
+   },
+   {
+    "changed": false,
+    "id": "hist_zoning_1967",
+    "rows_after": 692,
+    "rows_before": 692,
+    "sha_after": "e12bb7fb57eecb68dff9e993269cfc50021e7872aa3705584a04e1aebcd28a2e",
+    "sha_before": "e12bb7fb57eecb68dff9e993269cfc50021e7872aa3705584a04e1aebcd28a2e"
+   },
+   {
+    "changed": null,
+    "id": "hud_il_fy2026",
+    "note": "not re-pulled in this run",
+    "rows_after": null,
+    "rows_before": null,
+    "sha_after": null,
+    "sha_before": "86c4c17e8cdf10bde8fed661f45c2842b98821abf0e63416ac026b93edb63262"
+   },
+   {
+    "changed": false,
+    "id": "sales_105",
+    "rows_after": 2274,
+    "rows_before": 2274,
+    "sha_after": "dfde893b16af0cb51215af35ec9374f71a65f91bb4425b990fe5021555c0cf91",
+    "sha_before": "dfde893b16af0cb51215af35ec9374f71a65f91bb4425b990fe5021555c0cf91"
+   },
+   {
+    "changed": false,
+    "id": "sales_105/assessments",
+    "rows_after": 34,
+    "rows_before": 34,
+    "sha_after": "a19d0f20e7adb2a78db8272b0ec3b0992c21ab8cfaf20e27b552774cae628422",
+    "sha_before": "a19d0f20e7adb2a78db8272b0ec3b0992c21ab8cfaf20e27b552774cae628422"
+   }
+  ],
+  "errors": {
+   "fetch HUD": "'hud_il_fy2026' failed after 1 attempts: HTTP 202 for https://www.huduser.gov/portal/datasets/il/il26/Section8-FY26.xlsx: ''"
+  },
+  "failed": [
+   "fetch HUD"
+  ],
+  "from": "2026-09-26",
+  "rules_untouched": "refresh never writes data/rules/",
+  "run_at": "2026-09-26T20:56:30Z",
+  "to": "2026-09-26T2056"
+ },
+ "summary": "No processed value changed since the previous pull; 9 of 36 raw datasets differ byte-for-byte; not re-pulled: fetch HUD."
+}
