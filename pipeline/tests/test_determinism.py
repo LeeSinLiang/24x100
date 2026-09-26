@@ -20,10 +20,13 @@ def _cache():
 
 @pytest.mark.parametrize("bid", ["10K", "0124P"])
 def test_block_twice_identical_and_matches_committed(bid):
-    cache = _cache()
+    from pipeline.__main__ import _block_required
+
+    try:  # the newest raw cache holding every input of this block (a refresh may have failed part-way)
+        cache = RawCache(latest_raw_date(_block_required(bid)), offline=True)
+    except OfflineMiss:
+        pytest.skip(f"no raw cache on this machine holds all {bid} inputs")
     cfg = B.BLOCKS[bid]
-    if not cache.has(f"{bid}/parcels"):
-        pytest.skip(f"raw cache {cache.date} has no {bid} inputs")
     a = B.dumps(B.process_block(cache, cfg))
     b = B.dumps(B.process_block(RawCache(cache.date, offline=True), cfg))
     assert a == b

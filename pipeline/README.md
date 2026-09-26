@@ -237,8 +237,16 @@ It never writes `data/rules/`, because rules are decisions made by people.
 
 `latest.json` (plus a timestamped copy) has four parts:
 
-- **`meta.datasets[]`**: per raw dataset, `{id, rows_before, rows_after, sha_before, sha_after,
-  changed}`. Pages and batches are grouped: `city/parcels` is all 143 pages.
+- **`meta.datasets[]`**: per raw dataset, `{id, raw_before, rows_before, rows_after,
+  sha_before, sha_after, changed, bytes_changed}`, plus `osm_base_before/after` for OSM.
+  - Pages and batches are grouped: `city/parcels` is all 143 pages.
+  - `changed` means the content changed. Feature order, Overpass timestamps and other response
+    metadata are ignored; `bytes_changed` records the raw difference.
+  - "Before" is the newest earlier raw cache that holds that dataset, because a refresh can fail
+    part-way.
+  - The Overpass mirror has several backends at different replication points. On 26 Sep three
+    pulls came back with OSM base 07-24, 06-01 and 07-15. When a pull is older than the previous
+    one, refresh asks once more, keeps the newer answer and flags `osm_older` on the row.
 - **`changes[]`**: `{pin, addr, block, scope, field, before, after, kind}` for these fields:
   - block parcels: address, zone, City status/date/inventory, assessment lot area/use/year/legal,
     deed front/depth, recon state, built, mapped area, slope, undermined;

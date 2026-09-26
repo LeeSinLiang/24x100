@@ -450,12 +450,12 @@ def run_refresh(*, code: bool = False, code_dir: Path | None = None, log: Callab
     after_outputs = snapshot_outputs()
     changes = diff_outputs(before_outputs, after_outputs)
 
-    prev = RawCache(prev_date, offline=True) if prev_date else None
-    ds_b, ds_a = dataset_summary(prev), dataset_summary(off)
+    ds_a = dataset_summary(off)
+    ds_b = _previous_datasets(to_date, set(ds_a))
     datasets = []
     for d in sorted(set(ds_b) | set(ds_a)):
         b, a = ds_b.get(d), ds_a.get(d)
-        row = {"id": d, "rows_before": b and b["rows"], "rows_after": a and a["rows"],
+        row = {"id": d, "raw_before": b and b.get("raw"), "rows_before": b and b["rows"], "rows_after": a and a["rows"],
                "sha_before": b and b["sha"], "sha_after": a and a["sha"],
                "changed": None if (a is None or b is None) else a["content"] != b["content"],
                "bytes_changed": None if (a is None or b is None) else a["sha"] != b["sha"]}
@@ -488,6 +488,26 @@ def run_refresh(*, code: bool = False, code_dir: Path | None = None, log: Callab
     (OUT / "latest.json").write_text(B.dumps(report))
     (OUT / f"{now.strftime('%Y-%m-%dT%H%M')}.json").write_text(B.dumps(report))
     return report
+
+
+def _previous_datasets(to_date: str, wanted: set[str]) -> dict[str, dict]:
+    """For each dataset, the summary from the newest earlier raw cache that holds it (a previous
+    refresh may have failed part-way, so the newest folder is not always complete)."""
+    out: dict[str, dict] = {}
+    dirs = sorted((p.name for p in RAW_ROOT.iterdir() if p.is_dir() and p.name < to_date
+                   and (p / "manifest.json").exists()), reverse=True)
+    for d in dirs:
+        c = RawCache(d, offline=True)
+        need = {x for x in {dataset_id(k) for k in c.manifest} if x} - set(out)
+        if not need:
+            continue
+        summ = dataset_summary(c)
+        for k in need:
+            if k in summ:
+                out[k] = dict(summ[k], raw=d)
+        if wanted <= set(out):
+            break
+    return out
 
 
 def _osm_base(cache: RawCache, key: str) -> str | None:
