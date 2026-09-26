@@ -101,8 +101,14 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   const width = front - setbacks.reduce((a, b) => a + b, 0);
   const depth = lot.deed ? lot.deed.depth - (R.front!.value as number) - (R.rear!.value as number) : null;
   const area = lot.deed ? lot.deed.front * lot.deed.depth : lot.assessed ?? lot.mapped;
-  const trust: Trust = lot.deed ? 'ink' : 'pencil';
-  if (area < (R.minArea!.value as number)) all.push('area');
+  let trust: Trust = lot.deed ? 'ink' : 'pencil';
+  const min = R.minArea!.value as number;
+  // Same rule as the lot engine: the deed leads; if the assessment falls on the other side of the
+  // minimum, the lot needs a survey (pencil), and area stays a blocker.
+  const corroborate = lot.deed ? lot.assessed : lot.mapped;
+  const flip = corroborate != null && corroborate >= min !== area >= min;
+  if (area < min || flip) all.push('area');
+  if (flip) trust = 'pencil';
   if (width < proposal.width) all.push('width');
   if (depth != null && depth < proposal.depth) all.push('depth');
   if (lot.status !== 'Available for Sale') all.push('ownership');
@@ -116,7 +122,7 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
     area: Math.round(area),
     trust,
     formula,
-    note: lot.deed ? 'deed dimensions' : 'no deed dimensions: mapped frontage (pencil)',
+    note: flip ? 'records fall on both sides of the minimum lot size: needs a survey' : lot.deed ? 'deed dimensions' : 'no deed dimensions: mapped frontage (pencil)',
   };
 }
 

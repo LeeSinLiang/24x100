@@ -329,7 +329,8 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     const width: Measure = {
       deed: lotDeedFront != null ? Math.max(0, wRaw) : null,
       mapped: Math.max(0, Math.round(mappedW * 10) / 10),
-      none: wRaw <= 0 || env.poly.length < 3,
+      // Width is a width question: an envelope emptied by the depth setbacks is a depth failure.
+      none: lotDeedFront != null ? wRaw <= 0 : wRaw <= 0 || env.poly.length < 3,
       formula: wRaw > 0 ? minusFormula(wTerms.map((t) => t.value), wRaw, fmtFt) : noneFormula(wTerms.map((t) => t.value), 'width'),
       terms: wTerms,
       trust: wTrust,
@@ -345,7 +346,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     const depth: Measure = {
       deed: lotDeedDepth != null ? Math.max(0, dRaw) : null,
       mapped: Math.max(0, Math.round(mappedD * 10) / 10),
-      none: dRaw <= 0 || env.poly.length < 3,
+      none: lotDeedDepth != null ? dRaw <= 0 : dRaw <= 0 || env.poly.length < 3,
       formula: dRaw > 0 ? minusFormula(dTerms.map((t) => t.value), dRaw, fmtFt) : noneFormula(dTerms.map((t) => t.value), 'depth'),
       terms: dTerms,
       trust: weakest(lotDeedDepth != null ? 'ink' : 'pencil', front.setback_trust, rear?.setback_trust ?? 'ink'),
