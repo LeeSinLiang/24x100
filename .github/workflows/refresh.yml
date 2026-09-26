@@ -1,0 +1,31 @@
+# Nightly data refresh for 24×100. DISABLED until a person enables it:
+# it runs only when started by hand (workflow_dispatch). To run nightly, uncomment `schedule`.
+# It re-pulls the public datasets, rebuilds, and opens a pull request with the differences, which the
+# app shows in pencil. It never changes rule reviews and never sends anything to anyone.
+name: refresh-data
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '30 7 * * *'   # 03:30 ET
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: uv sync
+      - run: npm run refresh
+      - run: npm test
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: data-refresh
+          title: 'Data refresh: differences to review'
+          body: 'Automated re-pull of public data. Differences are shown in pencil in the app (Changes). Review before merging.'
+          commit-message: 'Data refresh'
