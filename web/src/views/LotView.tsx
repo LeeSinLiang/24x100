@@ -6,8 +6,9 @@ import { TEMPLATES } from '@engine/templates';
 import type { BlockFile, LotResult, Parcel, TemplateId } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
 import { Plate } from '../components/Plate';
-import { MoneyWall, RulesWall } from '../components/Walls';
-import { Chip, DISCLAIMER, Ev, ftFmt, Label, money1 } from '../components/ui';
+import { RulesWall } from '../components/Walls';
+import { MoneyPanel, NextSteps, SitePanel, VerdictBlock } from '../components/Panels';
+import { Chip, DISCLAIMER, Ev, ftFmt, Label } from '../components/ui';
 import { useCountTo } from '../lib/craft';
 import { REFRESH, refreshChangesFor } from '../lib/data';
 import { lotKey, mainRow, TYPE_ORDER, type LotModel } from '../lib/model';
@@ -192,7 +193,6 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
             <span className="nowrap"><span className="lg lg-coin" /> City-owned, for sale</span>
             <span className="nowrap"><span className="lg lg-held" /> City-owned, held</span>
           </p>
-          <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={tryOption} block={block} />
         </div>
 
         <div className="answer-col">
@@ -215,38 +215,7 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
             </div>
             <div className="answer">
               <Label as="h2">What blocks it</Label>
-              {r.state !== 'ok' ? (
-                <p>{r.refusal?.reason}</p>
-              ) : (
-                <ul className="blocks">
-                  <li>
-                    <span className="wall-tag">Rules</span>{' '}
-                    {r.checks.find((c) => c.id === 'width')?.status === 'open' ? (
-                      <span className="pencil-text">an open question: does the narrow-lot rule cover attached houses? If not, {r.relief.map((x) => x.text).join('; ')} (a variance).</span>
-                    ) : r.checks.find((c) => c.id === 'width')?.trust === 'red' ? (
-                      <span className="red-text">nothing, if your assumption holds. The City hasn't answered, so the question stays in the inquiry.</span>
-                    ) : r.relief.length ? (
-                      <span className="red-text">{r.relief.map((x) => x.text).join('; ')} (a variance).</span>
-                    ) : (
-                      <span>nothing in the dimensional rules{otherLots.length ? `; ${otherLots.map((p) => `lot ${p.lot}`).join(', ')} ${otherLots.length > 1 ? 'are' : 'is'} not City-owned` : ''}.</span>
-                    )}
-                  </li>
-                  {!m && model.moneyGap && (
-                    <li className="muted">
-                      <span className="wall-tag">Money · H5</span> not assessed: {model.moneyGap}.
-                    </li>
-                  )}
-                  {m && (
-                    <li>
-                      <span className="wall-tag">Money · H5</span> homes here sell for a median {money1(m.value.median)}; break-even needs ≤{' '}
-                      <Ev trust="red" refId="money:breakeven" num>
-                        {money1(m.break_even_psf.value)}/sq ft
-                      </Ev>
-                      .
-                    </li>
-                  )}
-                </ul>
-              )}
+              <VerdictBlock v={model.verdict} />
             </div>
             <div className="answer">
               <Label as="h2">What to do next</Label>
@@ -265,12 +234,12 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
                 )
               ) : fits || multi ? (
                 <p>
-                  {cityLots.length ? `Ask City Real Estate about ${cityLots.map((p) => placeName(p)).join(' and ')}. ` : ''}
-                  {otherLots.length ? `${otherLots.map((p) => `Lot ${p.lot}`).join(', ')} would have to be bought from its owner. ` : ''}
-                  {rco ? `Take it to the RCO (${rco}). ` : ''}
-                  <a className="btn btn-ink btn-small" href={inquiryHref}>
-                    Draft the inquiry
+                  Check first, for free: {cityLots.length ? `ask City Real Estate about ${cityLots.map((p) => placeName(p)).join(' and ')}` : 'ask City Real Estate'}
+                  {otherLots.length ? ` and who owns ${otherLots.map((p) => `lot ${p.lot}`).join(', ')}` : ''}; then ask the URA about gap financing.{' '}
+                  <a className="small" href="#next-h">
+                    All steps, in order
                   </a>
+                  {rco ? <span className="small muted"> · then the RCO ({rco})</span> : null}
                 </p>
               ) : next.primary ? (
                 <p>
@@ -291,8 +260,14 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
               )}
             </div>
           </div>
-          <MoneyWall result={r} m={m} gap={model.moneyGap} />
         </div>
+      </section>
+
+      <section className="panels" aria-label="Money, rules, site and next steps, in the order to check them">
+        <MoneyPanel result={r} m={m} gap={model.moneyGap} />
+        <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={tryOption} block={block} />
+        <SitePanel rows={model.site} />
+        <NextSteps inquiry={r.state === 'ok' ? model.inquiry : null} href={inquiryHref} />
       </section>
 
 

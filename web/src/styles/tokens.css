@@ -19,6 +19,7 @@
   --gold-wash: color-mix(in srgb, var(--gold) 22%, transparent);
   --area: color-mix(in srgb, var(--brick) 75%, var(--ink) 25%);
   --depth: var(--slope);
+  --est: #5a4a9c; /* practitioner estimate: not ink, not pencil, not your red */
   --wash-alpha: 0.05;
   --grain-opacity: 0.06;
   --grain-blend: multiply;
@@ -57,6 +58,7 @@
     --grain-blend: screen;
     --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
     --depth: #6fc2a8;
+    --est: #c3b3f2;
     color-scheme: dark;
   }
 }
@@ -77,6 +79,7 @@
   --grain-blend: screen;
   --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
   --depth: #6fc2a8;
+  --est: #c3b3f2;
   color-scheme: dark;
 }
 

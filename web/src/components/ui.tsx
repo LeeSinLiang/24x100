@@ -12,7 +12,7 @@ export const DrawerCtx = createContext<(ref: string) => void>(() => {});
 export const useOpen = () => useContext(DrawerCtx);
 
 /** Ink drying: when a mark goes from pencil to ink, it sharpens over 500 ms. */
-function useDrying(trust: Trust | 'struck' | undefined): boolean {
+function useDrying(trust: Trust | 'struck' | 'estimate' | undefined): boolean {
   const prev = useRef(trust);
   const [drying, setDrying] = useState(false);
   useEffect(() => {
@@ -35,7 +35,7 @@ export function Ev({
   className = '',
   title,
 }: {
-  trust?: Trust | 'struck';
+  trust?: Trust | 'struck' | 'estimate';
   refId?: string;
   children: ReactNode;
   num?: boolean;

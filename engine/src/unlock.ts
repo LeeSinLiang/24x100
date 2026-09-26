@@ -147,7 +147,7 @@ export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotR
     opts.push({ id: 'pending:parking', lever: 'pending_policy', label: 'If Bill 2025-1545 passes (pending): no parking minimum', scenario: s, result: evaluate(ctx, s), hypothetical: 'pending in Council', pending: true, change_size: 1 });
   }
   // Lever 5: variance. Always available; always costs the most.
-  opts.push({ id: 'variance', lever: 'variance', label: baseline.relief.length ? `Ask for a variance: ${baseline.relief.map((r) => r.text).join('; ')}` : 'Ask for a variance', scenario: base, result: baseline, hypothetical: null, pending: false, change_size: 0 });
+  opts.push({ id: 'variance', lever: 'variance', label: baseline.relief.length ? `A variance (a plausible route, not approval): ${baseline.relief.map((r) => r.text).join('; ')}` : 'A variance (a plausible route, not approval)', scenario: base, result: baseline, hypothetical: null, pending: false, change_size: 0 });
 
   const scored = opts.map((o) => {
     const r = o.result;

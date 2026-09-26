@@ -2,6 +2,12 @@
 // engine and renders the result object.
 import { useMemo } from 'react';
 import {
+  buildInquiry,
+  siteUnknowns,
+  verdictFor,
+  type Inquiry,
+  type SiteRow,
+  type Verdict,
   DEFAULT_SETTINGS,
   distPointPolyline,
   openRing,
@@ -59,6 +65,9 @@ export interface LotModel {
   unlock: ReturnType<typeof unlockSearch>;
   money: MoneyResult | null;
   moneyGap: string | null; // why the money wall is not assessed
+  verdict: Verdict;
+  site: SiteRow[];
+  inquiry: Inquiry;
 }
 
 export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: AuditEntry[]): LotModel | null {
@@ -75,13 +84,16 @@ export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: Au
       return { parcel: p, result: evaluate(pctx, own) };
     });
     const unlock = unlockSearch(ctx, { ...scenario, pins: [sel.pin], type: scenario.pins.length > 1 ? 'two' : scenario.type, proposal: scenario.pins.length > 1 ? proposalFor('two') : scenario.proposal });
-    const slopeFlag = scenario.pins.some((pin) => (block.parcels.find((p) => p.pin === pin)?.slope25 ?? 0) >= ctx.settings.slope_flag_threshold);
     // Comparable sales are local: use them only for lots in the ward they were pulled for.
     const comps = block.meta.ward != null ? COMPS_BY_WARD[block.meta.ward] : undefined;
     const wards = Object.keys(COMPS_BY_WARD).join(', ');
     const moneyGap = !HUD || !ASSUMPTIONS.length ? 'money data not loaded' : !comps ? `comparable sales are loaded for Ward ${wards || '—'} only; this lot is in Ward ${block.meta.ward ?? 'unknown'}` : null;
-    const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, scenario.pins.length, slopeFlag, { comps, hud: HUD!, assumptions: ASSUMPTIONS }) : null;
-    return { ctx, scenario, result, row, unlock, money, moneyGap };
+    const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, { comps, hud: HUD!, assumptions: ASSUMPTIONS }) : null;
+    const verdict = verdictFor(result, money, moneyGap, block);
+    const site = siteUnknowns(result, block);
+    const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    const inquiry = buildInquiry(result, block, ctx.rs, money, today);
+    return { ctx, scenario, result, row, unlock, money, moneyGap, verdict, site, inquiry };
   }, [block, s.lot, s.lots.join(','), s.type, s.w, s.d, s.st, s.h, s.tol, audit]);
 }
 

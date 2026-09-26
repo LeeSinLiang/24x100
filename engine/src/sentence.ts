@@ -7,6 +7,7 @@ import { getQuestion, pick } from './rules';
 import { TEMPLATES } from './templates';
 import type { BlockFile, LotResult, RuleSet, Trust } from './types';
 import type { UnlockOption } from './unlock';
+import { varianceWords } from './verdict';
 
 export interface Seg {
   t: string;
@@ -132,7 +133,11 @@ export function explanation(r: LotResult, block: BlockFile): Seg[] {
     );
     const rel = r.relief.find((x) => x.check === 'width');
     if (width.status === 'fail' && rel) {
-      out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: ` proposal needs the ${rel.text.replace(/^side setbacks /, 'side setbacks cut from ').replace(' → ', ' to ')}, which is a variance. ` });
+      out.push(
+        { t: 'Your ' },
+        { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' },
+        { t: ` proposal needs the ${rel.text.replace(/^side setbacks /, 'side setbacks cut from ').replace(' → ', ' to ')}. ${varianceWords(rel.text.startsWith('side setbacks'))} ` },
+      );
     } else if (width.status === 'pass') {
       out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: ' proposal fits. ' });
     }

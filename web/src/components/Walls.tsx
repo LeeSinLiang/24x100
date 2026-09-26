@@ -1,10 +1,11 @@
-// The two walls: rules (the engine's ledger) and money (the reverse pro forma, hypothesis H5).
+// The rules panel: the engine's ledger, the specific relief, the approvals it would need, and the
+// unlock search. (The money panel is in Panels.tsx; it is checked first.)
 import { useState } from 'react';
-import { APPROVAL_LABEL, TEMPLATES } from '@engine/templates';
-import type { BlockFile, Check, LotResult, MoneyResult, RuleSet } from '@engine/types';
+import { APPROVAL_LABEL } from '@engine/templates';
+import { varianceWords } from '@engine/verdict';
+import type { BlockFile, Check, LotResult, RuleSet } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
-import { COMPS, HUD } from '../lib/data';
-import { Chip, Ev, ftFmt, Label, Mark, money, money1, type MarkKind } from './ui';
+import { Chip, Ev, ftFmt, Label, Mark, type MarkKind } from './ui';
 
 function markFor(c: Check): MarkKind {
   if (c.status === 'info') return c.trust === 'pencil' ? 'pencil' : 'info';
@@ -55,7 +56,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     return (
       <section className="wall rules-wall" aria-labelledby="rules-wall-h">
         <header className="wall-head">
-          <h2 id="rules-wall-h" className="wall-title">The rules wall</h2>
+          <h2 id="rules-wall-h" className="wall-title">Rules <span className="wall-sub">checked second</span></h2>
         </header>
         <div className="refusal">
           <div className={`stamp stamp-refuse ${result.refusal?.code === 'missing_rule' ? 'is-grey' : ''}`} aria-hidden="true">
@@ -81,12 +82,13 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     ? ` Needs ${others.map((p) => `lot ${p.lot}`).join(' and ')}: not in the City's inventory; County owner type ${others.map((p) => (p.assess?.ownercat ?? 'unknown').toLowerCase()).join(', ')}.`
     : '';
   const wc = result.checks.find((c) => c.id === 'width')!;
+  const sideRelief = result.relief.some((x) => x.check === 'width');
   const verdict = wc.status === 'open'
-    ? `Depends on an open question. If the narrow-lot rule doesn't cover attached houses: ${result.relief.map((r) => r.text).join('; ')} (a variance). If it does, the end units fit.${owners}`
+    ? `Depends on an open question. If the narrow-lot rule doesn't cover attached houses: ${result.relief.map((r) => r.text).join('; ')}; a variance would be a possible route, not approval. If it does, the end units fit.${owners}`
     : wc.trust === 'red'
       ? `Fits only under your assumption; the City hasn't confirmed it.${owners}`
       : result.relief.length
-    ? `Blocks it: ${result.relief.map((r) => r.text).join('; ')}. That is a variance.${owners}`
+    ? `Doesn't fit as of right: ${result.relief.map((r) => r.text).join('; ')}. ${varianceWords(sideRelief)}${owners}`
     : result.checks.some((c) => c.status === 'fail')
       ? `Blocks it: see the failing lines.${owners}`
       : result.checks.find((c) => c.id === 'width')!.status === 'open'
@@ -95,7 +97,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
   return (
     <section className="wall rules-wall" aria-labelledby="rules-wall-h">
       <header className="wall-head">
-        <h2 id="rules-wall-h" className="wall-title">The rules wall</h2>
+        <h2 id="rules-wall-h" className="wall-title">Rules <span className="wall-sub">checked second</span></h2>
         <p className={`wall-verdict ${wc.status === 'open' ? 'is-pencil' : result.relief.length || wc.trust === 'red' ? 'is-red' : ''}`}>{verdict}</p>
       </header>
       <table className="ledger">
@@ -149,7 +151,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
       </table>
       <div className="approvals">
         <div>
-          <Label>Approvals this implies</Label>
+          <Label>Approvals this would need</Label>
           <p>
             {inkA.length ? inkA.map((a) => a.label).join(' → ') : 'None certain.'}
             {penA.length ? (
@@ -157,15 +159,6 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
             ) : null}
           </p>
         </div>
-        {result.score && (
-          <div className="score" title={result.score.formula}>
-            <div className="stamp stamp-score" aria-label={`Score (heuristic) ${result.score.lo} to ${result.score.hi}`}>
-              <span className="stamp-top">SCORE · HEURISTIC</span>
-              <span className="stamp-num">{result.score.lo === result.score.hi ? result.score.hi : `${result.score.lo}–${result.score.hi}`}</span>
-            </div>
-            <p className="small muted">100 minus your red weights, once per distinct approval. Not a probability.</p>
-          </div>
-        )}
       </div>
       <details className="unlocks" open={showAll} onToggle={(e) => setShowAll((e.target as HTMLDetailsElement).open)}>
         <summary>
@@ -212,98 +205,3 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     </section>
   );
 }
-
-export function MoneyWall({ result, m, gap }: { result: LotResult; m: MoneyResult | null; gap?: string | null }) {
-  if (!m || !COMPS || !HUD) {
-    return (
-      <section className="wall money-wall" aria-labelledby="money-wall-h">
-        <header className="wall-head">
-          <h2 id="money-wall-h" className="wall-title">The money wall</h2>
-        </header>
-        <p className="na">— not assessed: {result.state !== 'ok' ? 'the lot is not scored' : gap ?? 'money data not loaded'}.</p>
-      </section>
-    );
-  }
-  const max = Math.max(m.cost.hi, m.value.q3, m.affordable.price, m.value.newest ?? 0) * 1.06;
-  const x = (v: number) => `${(Math.max(0, v) / max) * 100}%`;
-  const be = m.break_even_psf;
-  const [hLo, hHi] = [m.cost.lo, m.cost.hi];
-  const blocks = hLo > m.value.median;
-  return (
-    <section className="wall money-wall" aria-labelledby="money-wall-h">
-      <header className="wall-head">
-        <h2 id="money-wall-h" className="wall-title">
-          The money wall <span className="wall-sub">hypothesis H5 · not a finding</span>
-        </h2>
-        <p className="wall-verdict">
-          To break even at Ward 5 prices, a builder would need to build for{' '}
-          <Ev trust="red" refId="money:breakeven" num>
-            ≤ {money1(be.value)}/sq ft
-          </Ev>{' '}
-          in hard costs.
-          {blocks ? (
-            <>
-              {' '}
-              At your assumed{' '}
-              <Ev trust="red" refId="money:assumptions" num>
-                ${m.cost.hard_psf[0]}–${m.cost.hard_psf[1]}/sq ft
-              </Ev>
-              , each home needs{' '}
-              <Ev trust="red" refId="money:breakeven" num>
-                {money(m.gap.lo)}–{money(m.gap.hi)}
-              </Ev>{' '}
-              of gap financing.
-            </>
-          ) : null}
-        </p>
-      </header>
-      <div className="bars" role="img" aria-label={`Per home: cost ${money(hLo)} to ${money(hHi)}; homes sell for a median ${money(m.value.median)}; affordable at 80% AMI about ${money(m.affordable.price)}.`}>
-        <div className="bar-row">
-          <span className="bar-label red">Cost to build (your assumptions)</span>
-          <div className="bar-track">
-            <div className="bar bar-cost" style={{ left: x(hLo), width: `calc(${x(hHi)} - ${x(hLo)})` }} />
-            <div className="bar-gap" style={{ left: x(m.value.median), width: `calc(${x(hLo)} - ${x(m.value.median)})` }} />
-          </div>
-          <span className="bar-val red">
-            {money(hLo)}–{money(hHi)}
-          </span>
-        </div>
-        <div className="bar-row">
-          <span className="bar-label">
-            Homes here sell for{' '}
-            <Chip refId="money:comps">{m.value.count} sales</Chip>
-          </span>
-          <div className="bar-track">
-            <div className="bar bar-iqr" style={{ left: x(m.value.q1), width: `calc(${x(m.value.q3)} - ${x(m.value.q1)})` }} />
-            <div className="bar-tick" style={{ left: x(m.value.median) }} />
-            {m.value.newest != null && <div className="bar-dot" style={{ left: x(m.value.newest) }} title="newest comparable" />}
-          </div>
-          <span className="bar-val">
-            median {money(m.value.median)}
-            {m.value.newest != null ? <span className="muted"> · newest {money(m.value.newest)}</span> : ''}
-          </span>
-        </div>
-        <div className="bar-row">
-          <span className="bar-label">
-            Affordable at 80% AMI <Chip refId="money:hud">HUD</Chip>
-          </span>
-          <div className="bar-track">
-            <div className="bar-mark red" style={{ left: x(m.affordable.price) }} />
-          </div>
-          <span className="bar-val red">≈ {money(m.affordable.price)}</span>
-        </div>
-        <div className="bar-axis">
-          <div className="be-line" style={{ left: x(m.value.median) }}>
-            <span>break-even</span>
-          </div>
-        </div>
-      </div>
-      <p className="small">
-        Per home: {m.sqft.toLocaleString('en-US')} sf ({TEMPLATES[result.scenario.type].name.toLowerCase()}, red). Market value ≠ affordable price.{' '}
-        {m.affordability_gap < 0 ? 'Here the median sale is already below what an 80% AMI household could pay, so the gap is cost, not affordability.' : ''}
-      </p>
-      <p className="small muted">Next: ask City Real Estate the lot price; ask the URA about gap financing. Programs are pointers, not promises of eligibility.</p>
-    </section>
-  );
-}
-

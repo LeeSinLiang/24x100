@@ -617,7 +617,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
   // Undermining (record).
   {
     const u = Math.max(...ps.map((p) => p.undermined));
-    checks.push({ id: 'undermined', label: 'Undermining', required: null, available: u, shortfall: null, unit: 'share', status: u > 0 ? 'open' : 'pass', trust: u > 0 ? 'pencil' : 'ink', text: u > 0 ? `${pct(u)} of the lot is in a mapped undermined area. Ask about mine subsidence.` : 'Outside mapped undermined areas.', rule_ids: [], record_ids: ps.map((p) => recordId(p.pin, 'undermined')), approvals: [] });
+    checks.push({ id: 'undermined', label: 'Undermining', required: null, available: u, shortfall: null, unit: 'share', status: u > 0 ? 'open' : 'info', trust: u > 0 ? 'pencil' : 'ink', text: u > 0 ? `${pct(u)} of the lot is in a mapped undermined area. Ask about mine subsidence.` : 'Undermining: none mapped. A blank map is not proof; not assessed.', rule_ids: [], record_ids: ps.map((p) => recordId(p.pin, 'undermined')), approvals: [] });
   }
 
   // Ownership (records).

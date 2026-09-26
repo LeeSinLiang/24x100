@@ -1,8 +1,12 @@
-// The money wall: a reverse pro forma (spec §0.7). It does not claim a construction cost. It solves
-// for the hard cost per square foot at which a home would break even at today's sale prices, and
-// shows the user's red cost assumptions beside that. Framed as hypothesis H5, never as a finding.
+// The money screen (spec §0.12 C3, overriding §0.7). A developer checks whether a project pencils before
+// pursuing a variance, so money is checked first. This is a screening estimate:
+//   - vertical construction cost per home = a practitioner's $/sf range × the home's size (red);
+//   - three labelled value signals, none of them an appraisal;
+//   - the gap is a LOWER BOUND: vertical cost (low end) minus the highest value signal. Site work, land,
+//     soft costs and financing are not in that number.
+// Soft costs and financing are the user's assumptions and appear only in a secondary line.
 import { MINUS, int, usd } from './format';
-import type { Assumption, Comps, Hud, LotResult, MoneyResult } from './types';
+import type { Assumption, Comps, Hud, LotResult, MoneyResult, ValueSignal } from './types';
 
 export interface MoneyInputs {
   comps: Comps;
@@ -47,42 +51,84 @@ export function affordablePrice(income: number, a: Record<string, Assumption>): 
   return { price, formula };
 }
 
-export function moneyFor(result: LotResult, lotsInScenario: number, slopeFlag: boolean, m: MoneyInputs): MoneyResult {
+export const NOT_IN_NUMBER = ['site work', 'land', 'soft costs', 'financing'];
+
+export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
   const a = assumptionMap(m.assumptions);
   const homes = result.scenario.type === 'row' ? Math.max(1, result.units.length) : result.scenario.proposal.units;
   const sqft = result.scenario.proposal.home_sqft;
-  const soft = val(a, 'soft_cost_pct');
-  const fin = val(a, 'financing_pct');
-  const lotPrice = val(a, 'lot_price_per_lot');
-  const lotPerHome = (lotPrice * lotsInScenario) / homes;
-  const site = slopeFlag ? val(a, 'slope_sitework_per_home') : 0;
-  const [hLo, hHi] = range(a, 'hard_cost_psf');
-  const mult = 1 + soft + fin;
-  const V = m.comps.median;
-
-  const beRaw = (V - lotPerHome - site) / (mult * sqft);
-  const beFormula = `(${usd(V, 1)} ${MINUS} ${usd(lotPerHome, 1)} lot ${MINUS} ${usd(site, 1)} sitework) ÷ (${mult.toFixed(2)} × ${int(sqft)} sf) = ${usd(beRaw, 1)}/sf`;
-  const costLo = hLo * sqft * mult + lotPerHome + site;
-  const costHi = hHi * sqft * mult + lotPerHome + site;
-  const costFormula = `${usd(hLo, 1)}–${usd(hHi, 1)}/sf × ${int(sqft)} sf × ${mult.toFixed(2)} + ${usd(lotPerHome, 1)} lot + ${usd(site, 1)} sitework = ${usd(costLo, 1)}–${usd(costHi, 1)}`;
-  const gapLo = costLo - V;
-  const gapHi = costHi - V;
+  const hc = a.hard_cost_psf;
+  const [pLo, pHi] = range(a, 'hard_cost_psf');
+  const vLo = pLo * sqft;
+  const vHi = pHi * sqft;
   const household = val(a, 'household_size');
   const income = m.hud.l80[household - 1];
   const aff = affordablePrice(income, a);
-  const thin = m.comps.counts.valid_1_2_unit < val(a, 'thin_market_threshold');
-  const used = ['hard_cost_psf', 'soft_cost_pct', 'financing_pct', 'lot_price_per_lot', ...(slopeFlag ? ['slope_sitework_per_home'] : []), 'household_size', 'housing_cost_share', 'mortgage_rate', 'term_years', 'taxes_insurance_monthly', 'down_payment_pct', 'thin_market_threshold'];
+  const newest = m.comps.newest[0] ?? null;
+
+  const signals: ValueSignal[] = [
+    {
+      id: 'median',
+      value: m.comps.median,
+      label: `Ward ${m.comps.meta.ward ?? ''} median of ${m.comps.counts.valid_1_2_unit} valid 1–2 unit sales since 2023`.replace('Ward  ', 'Ward '),
+      note: 'mostly older homes; not an appraisal, and not what a new build would appraise at',
+      evidence: 'ink',
+    },
+    ...(newest
+      ? [
+          {
+            id: 'newest' as const,
+            value: newest.price,
+            label: `Newest new build: ${newest.addr} (${newest.yearbuilt}, ${int(newest.sqft ?? 0)} sf)`,
+            note: 'one sale; may be price-restricted; unverified',
+            evidence: 'ink' as const,
+          },
+        ]
+      : []),
+    {
+      id: 'affordable',
+      value: Math.round(aff.price),
+      label: `What an 80% AMI household of ${household} could afford`,
+      note: 'HUD income limit with your mortgage assumptions; not a market value',
+      evidence: 'red',
+    },
+  ];
+  const top = signals.reduce((x, y) => (y.value > x.value ? y : x));
+  const gapLb = vLo - top.value;
+  const soft = val(a, 'soft_cost_pct');
+  const fin = val(a, 'financing_pct');
+  const wLo = vLo * (1 + soft + fin);
+  const wHi = vHi * (1 + soft + fin);
+  const be = top.value / sqft;
   return {
     homes,
     sqft,
-    value: { median: V, q1: m.comps.q1, q3: m.comps.q3, newest: m.comps.newest[0]?.price ?? null, count: m.comps.counts.valid_1_2_unit, thin },
-    cost: { lo: costLo, hi: costHi, formula: costFormula, hard_psf: [hLo, hHi] },
-    break_even_psf: { value: Math.max(0, beRaw), formula: beFormula, none: beRaw <= 0 },
-    gap: { lo: gapLo, hi: gapHi, formula: `${usd(costLo, 1)}–${usd(costHi, 1)} ${MINUS} ${usd(V, 1)} = ${usd(gapLo, 1)}–${usd(gapHi, 1)} per home` },
+    vertical: {
+      lo: vLo,
+      hi: vHi,
+      psf: [pLo, pHi],
+      formula: `${usd(pLo, 1)}–${usd(pHi, 1)}/sf × ${int(sqft)} sf = ${usd(vLo, 1)}–${usd(vHi, 1)} per home, vertical construction only`,
+      supplied_by: hc?.supplied_by ?? '',
+      evidence: hc?.role === 'practitioner_estimate' ? 'estimate' : 'red',
+    },
+    signals,
+    gap: {
+      lower_bound: gapLb,
+      signal: top.id,
+      formula: `${usd(vLo, 1)} ${MINUS} ${usd(top.value, 1)} = ${usd(gapLb, 1)} per home, at least`,
+      positive: gapLb > 0,
+    },
+    break_even_psf: { value: be, signal: top.id, formula: `${usd(top.value, 1)} ÷ ${int(sqft)} sf = ${usd(be, 1)}/sf` },
+    with_assumptions: {
+      lo: wLo,
+      hi: wHi,
+      soft,
+      financing: fin,
+      formula: `${usd(vLo, 1)}–${usd(vHi, 1)} × (1 + ${Math.round(soft * 100)}% soft + ${Math.round(fin * 100)}% financing) = ${usd(wLo, 1)}–${usd(wHi, 1)} per home, still without site work or land`,
+    },
+    comps: { median: m.comps.median, q1: m.comps.q1, q3: m.comps.q3, count: m.comps.counts.valid_1_2_unit, thin: m.comps.counts.valid_1_2_unit < val(a, 'thin_market_threshold'), ward: m.comps.meta.ward ?? null },
     affordable: { price: aff.price, income, household, formula: aff.formula },
-    affordability_gap: V - aff.price,
-    trust: 'red',
-    assumptions_used: used,
-    record_ids: ['record:comps:ward5', 'record:hud:fy2026'],
+    not_in_number: NOT_IN_NUMBER,
+    record_ids: ['record:comps', 'record:hud:fy2026'],
   };
 }

@@ -25,7 +25,7 @@ describe('inquiry', () => {
   for (const [t, lots] of cases) {
     it(`${t} on ${lots.join(',')}: every number traces to the engine output`, () => {
       const r = evaluate(ctx, scen(b, t, [...lots]));
-      const m = r.state === 'ok' ? moneyFor(r, lots.length, true, { comps, hud, assumptions }) : null;
+      const m = r.state === 'ok' ? moneyFor(r, { comps, hud, assumptions }) : null;
       const inq = buildInquiry(r, b, ctx.rs, m, '2026-09-26');
       expect(inq.check.unknown).toEqual([]);
       expect(inq.check.ok).toBe(true);

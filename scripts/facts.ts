@@ -9,6 +9,8 @@ import {
   classifyCityLot,
   evaluate,
   moneyFor,
+  siteUnknowns,
+  verdictFor,
   proposalFor,
   summarize,
   withQuoteStatus,
@@ -73,7 +75,6 @@ put('lot25_two_width', two.width!.deed, `${two.width!.deed} ft`, `engine: ${two.
 put('lot25_two_width_mapped', two.width!.mapped, `${two.width!.mapped} ft`, 'engine: envelope measured on the City parcel polygon');
 put('lot25_two_proposal', two.scenario.proposal.width, `${two.scenario.proposal.width} ft`, 'the two-unit template (red, editable)');
 put('lot25_two_relief', two.relief[0]?.text, two.relief[0]?.text ?? '', 'engine relief for the width check');
-put('lot25_score', [two.score!.lo, two.score!.hi], `${two.score!.lo}–${two.score!.hi}`, `engine heuristic: ${two.score!.formula}`);
 const det = evaluate(ctx, sc('detached', [25]));
 put('lot25_detached_width', det.width!.deed, `${det.width!.deed} ft`, `engine: ${det.width!.formula} (narrow-lot side yards, §925.06.C)`);
 const three = evaluate(ctx, sc('three', [25, 26, 27]));
@@ -104,12 +105,25 @@ put('comps_newest', comps.newest[0], `${comps.newest[0].addr}, built ${comps.new
 put('ward5_all_time', { transfers: raw.counts.transfers_all_dates, valid: raw.counts.valid_all_dates }, `${raw.counts.transfers_all_dates} transfers, ${raw.counts.valid_all_dates} valid sales since 2012`, 'the whole sales file for Ward 5 (not since 2023)');
 put('hud_median', hud.median, `$${hud.median.toLocaleString('en-US')}`, `HUD FY2026 income limits, ${hud.area_name}`, hud.source_url);
 put('hud_80_3p', hud.l80[2], `$${hud.l80[2].toLocaleString('en-US')}`, `HUD FY2026 80% limit, 3 people, ${hud.area_name}`, hud.source_url);
-for (const [id, r, lots] of [['two', two, 1], ['three', three, 3]] as const) {
-  const m = moneyFor(r, lots, true, { comps, hud, assumptions });
-  put(`breakeven_${id}`, Math.round(m.break_even_psf.value), `≤ $${Math.round(m.break_even_psf.value)}/sq ft`, `engine (red assumptions): ${m.break_even_psf.formula}`);
-  put(`gap_${id}`, [Math.round(m.gap.lo), Math.round(m.gap.hi)], `$${Math.round(m.gap.lo / 1000)}k–$${Math.round(m.gap.hi / 1000)}k per home`, `engine (red assumptions): ${m.gap.formula}; hypothesis H5, not a finding`);
-  if (id === 'two') put('affordable_80', Math.round(m.affordable.price), `≈ $${Math.round(m.affordable.price / 1000)}k`, `engine (red assumptions): ${m.affordable.formula}`);
+const inputs = { comps: { ...comps, meta: { ...comps.meta, ward: 5 } }, hud, assumptions };
+for (const [id, r] of [['two', two], ['three', three]] as const) {
+  const m = moneyFor(r, inputs);
+  const v = verdictFor(r, m, null, b);
+  put(`vertical_cost_${id}`, [Math.round(m.vertical.lo), Math.round(m.vertical.hi)], `$${Math.round(m.vertical.lo / 1000)}k–$${Math.round(m.vertical.hi / 1000)}k per home, vertical construction only`, `engine: ${m.vertical.formula}; $/sf is ${m.vertical.supplied_by} (practitioner estimate)`);
+  put(`gap_lower_bound_${id}`, { value: Math.round(m.gap.lower_bound), signal: m.gap.signal }, `at least $${Math.round(m.gap.lower_bound).toLocaleString('en-US')} per home (vs ${m.signals.find((x) => x.id === m.gap.signal)!.label})`, `engine: ${m.gap.formula}; lower bound: excludes site work, soft costs, financing and land`);
+  put(`home_sqft_${id}`, m.sqft, `${m.sqft.toLocaleString('en-US')} sq ft per home`, 'template (red, editable)');
+  put(`verdict_${id}`, { headline: v.headline, words: v.words, chips: v.chips.map((c) => ({ id: c.id, state: c.state, words: c.words })) }, v.words, 'engine verdictFor(): Money · Rules · Site, checked in that order');
+  if (id === 'two') {
+    for (const sig of m.signals) put(`value_signal_${sig.id}`, sig.value, `$${sig.value.toLocaleString('en-US')}`, `${sig.label}: ${sig.note}`);
+    put('affordable_80', Math.round(m.affordable.price), `≈ $${Math.round(m.affordable.price / 1000)}k`, `engine (red mortgage assumptions): ${m.affordable.formula}`);
+    put('vertical_psf', m.vertical.psf, `$${m.vertical.psf[0]}–$${m.vertical.psf[1]} per sq ft`, `${m.vertical.supplied_by}; vertical construction only, excludes site work`);
+  }
 }
+const v25 = verdictFor(two, moneyFor(two, inputs), null, b);
+put('verdict_lot25_two', v25.words, v25.words, 'engine verdictFor() for 2241 Mahon St, two-unit house on the lot alone');
+const site = siteUnknowns(three, b);
+put('site_soil_slopes_25_27', site[0].signals[0], site[0].signals[0], 'City slope layer (PGHWebSlope25) shares, per lot');
+put('site_environmental_1927', b.hist_zoning?.['1927'], String(b.hist_zoning?.['1927']), 'WPRDC 1927 zoning map at the block centroid');
 
 // Citywide.
 if (existsSync('data/city/lots.json')) {

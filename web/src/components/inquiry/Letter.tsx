@@ -67,7 +67,7 @@ function Item({ it, sec, rs, used, pin }: { it: InquiryItem; sec: MemoSection; r
   const na = sec.id === 'not_assessed';
   const muted = sec.id === 'struck' && it.trust !== 'struck'; // "Nothing struck yet."
   const kind = na || muted ? null : it.trust;
-  const tag = it.trust === 'red' ? (sec.id === 'build' ? 'our proposal' : 'our assumption') : it.trust === 'struck' ? 'set aside' : null;
+  const tag = it.trust === 'red' ? (sec.id === 'build' ? 'our proposal' : 'our assumption') : it.trust === 'struck' ? 'set aside' : it.trust === 'estimate' ? 'screening estimate' : null;
   return (
     <li className={`iq-item is-${na ? 'na' : muted ? 'none' : it.trust}`} data-trust={na || muted ? undefined : it.trust} data-section={sec.id}>
       <span className="iq-mark" aria-hidden="true">

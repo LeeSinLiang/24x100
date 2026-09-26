@@ -477,7 +477,8 @@ function MoneyCard({ kind, money }: { kind: string; money: MoneyResult | null })
             ))}
           </tbody>
         </table>
-        {money?.value.thin && <p className="warn">Thin market: fewer sales than your threshold. Treat the median as shaky.</p>}
+        {money?.comps.thin && <p className="warn">Thin market: fewer sales than your threshold. Treat the median as shaky.</p>}
+        <p className="small">The median is mostly older homes. It is not an appraisal, and not what a new build would appraise at.</p>
       </article>
     );
   }
@@ -517,18 +518,24 @@ function MoneyCard({ kind, money }: { kind: string; money: MoneyResult | null })
       </article>
     );
   }
-  if (kind === 'breakeven' && money) {
+  if ((kind === 'vertical' || kind === 'gap' || kind === 'breakeven') && money) {
+    const top = money.signals.find((x) => x.id === money.gap.signal)!;
     return (
       <article className="card">
-        <Label>Break-even hard cost per square foot</Label>
+        <Label>{kind === 'vertical' ? 'Vertical construction cost · practitioner estimate' : 'Gap, at least · screening estimate'}</Label>
         <p className="card-value">
-          <Ev trust="red">{money.break_even_psf.formula}</Ev>
+          <Ev trust="estimate">
+            {kind === 'vertical' ? money.vertical.formula : money.gap.formula}
+          </Ev>
         </p>
         <p className="small">
-          The price a home sells for (the Ward 5 median, ink), minus the lot and extra sitework (your assumptions, red), divided by soft costs and financing (red) and the home's size (red). It needs no construction-cost claim.
+          The $/sq ft range is {money.vertical.supplied_by}: vertical construction only, excluding site work. It is one practitioner's estimate, not a published benchmark and not total development cost.
         </p>
-        <p className="small red">Cost at your assumed range: {money.cost.formula}.</p>
-        <p className="small red">Gap: {money.gap.formula}.</p>
+        <p className="small">
+          The gap subtracts the highest of three value signals ({top.label}: {money1(top.value)}) from the low end of vertical cost. It is a lower bound: site work, land, soft costs and financing are not in it.
+        </p>
+        <p className="small">To meet that signal, vertical construction would have to cost about {money.break_even_psf.formula}.</p>
+        <p className="small red">With your assumptions: {money.with_assumptions.formula}.</p>
       </article>
     );
   }

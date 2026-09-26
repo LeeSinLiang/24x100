@@ -11,3 +11,4 @@ export * from './sentence';
 export * from './city';
 export * from './inquiry';
 export * from './source';
+export * from './verdict';

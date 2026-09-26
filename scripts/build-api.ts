@@ -8,6 +8,11 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync
 import {
   BLOCKER_WORDS,
   checkQuote,
+  moneyFor,
+  verdictFor,
+  type Assumption,
+  type Comps,
+  type Hud,
   withQuoteStatus,
   DEFAULT_SETTINGS,
   buildRuleSet,
@@ -26,8 +31,20 @@ import {
 } from '../engine/src/index';
 
 const OUT = 'web/public/api';
-const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
 const read = <T>(f: string): T => JSON.parse(readFileSync(f, 'utf8')) as T;
+const comps: Record<number, Comps> = Object.fromEntries(
+  readdirSync('data/money')
+    .map((f) => [f.match(/^comps_ward(\d+)\.json$/)?.[1], f] as const)
+    .filter(([w]) => w)
+    .map(([w, f]) => {
+      const raw = read<Comps & { newest_built: Comps['newest'] }>(`data/money/${f}`);
+      return [Number(w), { ...raw, newest: raw.newest_built, meta: { ...raw.meta, ward: Number(w) } }];
+    }),
+);
+const hudRaw = read<Record<string, unknown> & { meta: { url: string; pulled: string } }>('data/money/hud_fy2026.json');
+const hud: Hud = { area_name: String(hudRaw.hud_area_name), median: Number(hudRaw.median_family_income), l80: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => Number(hudRaw[`l80_${i}`])), source_url: hudRaw.meta.url, pulled: hudRaw.meta.pulled };
+const assumptions = read<Assumption[]>('data/assumptions.json');
+const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
 
 const rulesRaw: Rule[] = [
   ...readdirSync('data/rules/base').flatMap((f) => read<Rule[]>(`data/rules/base/${f}`)),
@@ -66,7 +83,6 @@ function lotResultJson(r: LotResult, rs: RuleSet) {
     checks: r.checks.map((c) => ({ id: c.id, status: c.status, trust: c.trust, required: c.required, available: c.available, shortfall: c.shortfall, unit: c.unit, text: c.text, rules: ruleSummary(rs, c.rule_ids), records: c.record_ids, alternative: c.alternative ?? null })),
     relief: r.relief,
     approvals: { certain: r.approvals.ink.map((a) => ({ kind: a.kind, weight: a.weight })), open: r.approvals.pencil.map((a) => ({ kind: a.kind, weight: a.weight })) },
-    score_heuristic: r.score,
     questions: r.questions,
     not_assessed: r.not_assessed,
     proposal_red: r.scenario.proposal,
@@ -91,7 +107,12 @@ for (const b of blocks) {
     const results = Object.fromEntries(
       TYPES.filter((t) => t !== 'row' && t !== 'three').map((t) => {
         const ctx = { block: b, rs, settings: DEFAULT_SETTINGS };
-        return [t, lotResultJson(evaluate(ctx, { type: t, pins: [p.pin], proposal: proposalFor(t) }), rs)];
+        const r = evaluate(ctx, { type: t, pins: [p.pin], proposal: proposalFor(t) });
+        const c = b.meta.ward != null ? comps[b.meta.ward] : undefined;
+        const m = c && r.state === 'ok' ? moneyFor(r, { comps: c, hud, assumptions }) : null;
+        const gap = c ? null : `comparable sales are loaded for Ward ${Object.keys(comps).join(', ')} only`;
+        const v = verdictFor(r, m, gap, b);
+        return [t, { verdict: { headline: v.words, chips: v.chips.map((x) => ({ id: x.id, state: x.state, words: x.words })) }, money_screen: m ? { vertical: m.vertical, value_signals: m.signals, gap_lower_bound: m.gap, not_in_number: m.not_in_number } : { not_assessed: gap ?? 'lot not scored' }, ...lotResultJson(r, rs) }];
       }),
     );
     const lot = {

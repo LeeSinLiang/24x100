@@ -442,16 +442,31 @@ export interface Assumption {
   note: string;
 }
 
+/** Evidence classes (DESIGN_GUIDE §5): a checked fact, a practitioner's estimate, your assumption. */
+export type Evidence = 'ink' | 'estimate' | 'red';
+
+export interface ValueSignal {
+  id: 'median' | 'newest' | 'affordable';
+  value: number;
+  label: string; // what it is
+  note: string; // what it is not ("not an appraisal", "one sale; may be price-restricted")
+  evidence: Evidence;
+}
+
+/** The money screen (spec §0.12 C3): vertical construction cost against three value signals.
+ *  Everything here is a screening estimate; the gap is a lower bound. */
 export interface MoneyResult {
   homes: number;
-  sqft: number;
-  value: { median: number; q1: number; q3: number; newest: number | null; count: number; thin: boolean };
-  cost: { lo: number; hi: number; formula: string; hard_psf: [number, number] };
-  break_even_psf: { value: number; formula: string; none: boolean };
-  gap: { lo: number; hi: number; formula: string };
+  sqft: number; // per home (red, from the template)
+  vertical: { lo: number; hi: number; psf: [number, number]; formula: string; supplied_by: string; evidence: Evidence };
+  signals: ValueSignal[];
+  gap: { lower_bound: number; signal: ValueSignal['id']; formula: string; positive: boolean };
+  /** The vertical cost per sq ft at which a home would meet the highest value signal. */
+  break_even_psf: { value: number; signal: ValueSignal['id']; formula: string };
+  /** Secondary line: soft costs and financing are your assumptions, never in the headline. */
+  with_assumptions: { lo: number; hi: number; soft: number; financing: number; formula: string };
+  comps: { median: number; q1: number; q3: number; count: number; thin: boolean; ward: number | null };
   affordable: { price: number; income: number; household: number; formula: string };
-  affordability_gap: number; // median value − affordable price (negative = market already below)
-  trust: Trust; // red whenever an assumption is used
-  assumptions_used: string[];
+  not_in_number: string[]; // e.g. ["site work", "land", "soft costs", "financing"]
   record_ids: string[];
 }

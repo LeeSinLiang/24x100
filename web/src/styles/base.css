@@ -1365,12 +1365,7 @@ button.numeral {
   .plate-legend {
     order: 6;
   }
-  .rules-wall {
-    order: 7;
-  }
-  .money-wall {
-    order: 8;
-  }
+
   .app-head {
     grid-template-columns: auto minmax(0, 1fr);
   }
@@ -1497,5 +1492,205 @@ button.numeral {
   .pencil-text,
   .wall-verdict.is-pencil {
     filter: none !important;
+  }
+}
+
+/* ── §0.12: practitioner estimate, verdict, four panels ─────────────────── */
+.ev-estimate {
+  color: var(--est);
+}
+.ev-estimate.is-link {
+  border-bottom: 1px dotted var(--est);
+}
+.est-mark {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--est);
+  transform: rotate(45deg);
+  margin: 0 4px 1px 2px;
+  vertical-align: 1px;
+}
+.est {
+  color: var(--est);
+}
+.verdict {
+  display: grid;
+  gap: 6px;
+}
+.verdict-head {
+  font-family: var(--f-display);
+  font-size: 23px;
+  line-height: 1.15;
+  margin: 0;
+}
+.verdict-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.vchip {
+  display: grid;
+  grid-template-columns: 16px 52px minmax(0, 1fr);
+  gap: 6px;
+  align-items: baseline;
+  font-size: var(--s-small);
+  line-height: 1.35;
+}
+.vchip-glyph {
+  font-family: var(--f-map);
+  font-weight: 600;
+  text-align: center;
+}
+.vchip-name {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.vchip-blocks .vchip-glyph {
+  color: var(--ink);
+}
+.vchip.ev-class-estimate .vchip-words,
+.vchip.ev-class-estimate .vchip-name {
+  color: var(--est);
+}
+.vchip.ev-class-pencil .vchip-words {
+  color: var(--graphite);
+  font-style: italic;
+}
+.vchip.ev-class-unknown .vchip-words {
+  color: var(--ink-2);
+}
+.vchip-unknown .vchip-glyph {
+  color: var(--ink-2);
+}
+.verdict-detail {
+  margin: 0;
+  color: var(--ink-2);
+}
+.panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px 28px;
+  margin-top: 22px;
+  align-items: start;
+}
+.panels > .wall {
+  margin: 0;
+}
+.money-lead {
+  font-family: var(--f-display);
+  font-size: 21px;
+  margin: 4px 0 2px;
+}
+.signals {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.signal {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  font-size: var(--s-small);
+}
+.signal-val {
+  font-family: var(--f-display);
+  font-size: 18px;
+  text-align: right;
+}
+.signal-note {
+  display: block;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+.money-wall .bar-row {
+  grid-template-columns: 128px minmax(0, 1fr);
+}
+.bar-vertical {
+  background: repeating-linear-gradient(120deg, var(--est) 0 1px, transparent 1px 4px);
+  border: 1px solid var(--est);
+}
+.bar-sig {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  width: 3px;
+  margin-left: -1.5px;
+  background: var(--ink);
+}
+.bar-sig.sig-affordable {
+  background: var(--red);
+}
+.bar-sig.sig-newest {
+  width: 8px;
+  height: 8px;
+  top: 50%;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+}
+.gap-line {
+  border-top: 1px solid var(--rule);
+  padding-top: 8px;
+  margin-top: 8px;
+}
+.gap-num {
+  font-family: var(--f-display);
+  font-size: 26px;
+  margin: 2px 0;
+}
+.site-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.site-row {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 8px;
+}
+.site-row .mark {
+  margin-top: 5px;
+}
+.site-row p {
+  margin: 0 0 2px;
+}
+.site-label {
+  font-weight: 600;
+}
+.next-steps {
+  margin: 0 0 12px;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  font-size: var(--s-small);
+}
+.step-tag {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-strong);
+  padding: 0 4px;
+}
+.lg-est {
+  border: 1.5px solid var(--est);
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+}
+@media (max-width: 1199px) {
+  .panels {
+    grid-template-columns: 1fr;
   }
 }
