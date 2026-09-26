@@ -1,13 +1,15 @@
-// The review log: every decision, newest first, with export to data/rules/reviews.json and import
-// back (each entry validated with the engine's auditProblems before it is merged).
-import { useRef, useState } from 'react';
-import { auditProblems } from '@engine/rules';
+// The review log: every decision, newest first. Decisions made in this browser are not published until
+// the steward publishes them: "Send to the steward" saves them to a file, the steward uploads it, and
+// scripts/check-reviews.ts checks it with the same rules as here (reviewlog.ts) before it is merged into
+// data/rules/reviews.json (docs/pilot.md). Export and import of the whole log stay for maintainers.
+import { useMemo, useRef, useState } from 'react';
 import type { AuditEntry } from '@engine/types';
 import { fieldName } from '../Drawer';
 import { dateFmt, Label } from '../ui';
-import { QUESTIONS, RULES } from '../../lib/data';
+import { QUESTIONS, RULES, codeFor } from '../../lib/data';
+import { checkEntry, checkImport, type ImportReport, type Store } from './reviewlog';
 
-const ACTIONS = ['source_checked', 'struck', 'assumed', 'city_confirmed', 'reopened'] as const;
+export { checkImport, type ImportReport };
 
 const ACTION_WORDS: Record<string, string> = {
   source_checked: 'Source-checked',
@@ -33,61 +35,6 @@ function subject(e: AuditEntry): { text: string; district: string | null; id: st
   return { text: q ? `Question: ${q.question.slice(0, 90)}${q.question.length > 90 ? '…' : ''}` : String(e.question_id), district: null, id: q ? `q:${q.id}` : null };
 }
 
-/** Structural checks the engine's auditProblems doesn't make (it assumes a well-formed entry). */
-function shapeProblems(x: unknown): string[] {
-  if (!x || typeof x !== 'object') return ['not an object'];
-  const e = x as Record<string, unknown>;
-  const p: string[] = [];
-  if (typeof e.id !== 'string' || !e.id.trim()) p.push('no id');
-  if (!ACTIONS.includes(e.action as (typeof ACTIONS)[number])) p.push(`unknown action "${String(e.action)}"`);
-  for (const k of ['rule_id', 'question_id'] as const) if (e[k] != null && typeof e[k] !== 'string') p.push(`${k} must be text or null`);
-  for (const k of ['reviewer', 'role', 'reason', 'at'] as const) if (e[k] != null && typeof e[k] !== 'string') p.push(`${k} must be text`);
-  return p;
-}
-
-function withDefaults(x: Partial<AuditEntry>): AuditEntry {
-  return {
-    id: String(x.id),
-    rule_id: x.rule_id ?? null,
-    question_id: x.question_id ?? null,
-    at: String(x.at ?? ''),
-    reviewer: String(x.reviewer ?? ''),
-    role: String(x.role ?? ''),
-    action: x.action!,
-    quote: x.quote ?? '',
-    decision: x.decision ?? '',
-    reason: String(x.reason ?? ''),
-    choice: x.choice ?? null,
-    reference: x.reference ?? null,
-  };
-}
-
-export interface ImportReport {
-  accepted: AuditEntry[];
-  duplicates: number;
-  rejected: { id: string; why: string }[];
-}
-
-export function checkImport(json: unknown, known: Set<string>): ImportReport {
-  const list = Array.isArray(json) ? json : Array.isArray((json as { entries?: unknown })?.entries) ? (json as { entries: unknown[] }).entries : null;
-  if (!list) return { accepted: [], duplicates: 0, rejected: [{ id: '(file)', why: 'expected { "entries": [...] } or a list of entries' }] };
-  const out: ImportReport = { accepted: [], duplicates: 0, rejected: [] };
-  const seen = new Set(known);
-  list.forEach((x, i) => {
-    const shape = shapeProblems(x);
-    const raw = x as Partial<AuditEntry>;
-    const id = typeof raw?.id === 'string' ? raw.id : `entry ${i + 1}`;
-    if (shape.length) return void out.rejected.push({ id, why: shape.join('; ') });
-    const e = withDefaults(raw);
-    const probs = auditProblems(e);
-    if (probs.length) return void out.rejected.push({ id, why: probs.join('; ') });
-    if (seen.has(e.id)) return void out.duplicates++;
-    seen.add(e.id);
-    out.accepted.push(e);
-  });
-  return out;
-}
-
 export function AuditLog({
   entries,
   seedIds,
@@ -106,20 +53,53 @@ export function AuditLog({
   const file = useRef<HTMLInputElement>(null);
   const [report, setReport] = useState<ImportReport | { error: string } | null>(null);
   const [exported, setExported] = useState<number | null>(null);
+  const [sent, setSent] = useState<{ file: string; n: number } | null>(null);
   const saved = entries.filter((e) => !e.id.startsWith('link-'));
   const rows = [...entries].sort((a, b) => Date.parse(b.at) - Date.parse(a.at) || b.id.localeCompare(a.id));
+  // This browser's decisions that nobody else can see yet. Assumptions are explorations and stay here.
+  const unpublished = local.filter((e) => !seedIds.has(e.id) && !e.id.startsWith('link-'));
+  const toSend = unpublished.filter((e) => e.action !== 'assumed');
+  const keptHere = unpublished.length - toSend.length;
+  // The same check the steward's publish step runs (scripts/check-reviews.ts), so problems show here first.
+  const precheck = useMemo(() => {
+    const store: Store = { rules: new Map(RULES.map((r) => [r.id, r])), questions: new Map(QUESTIONS.map((q) => [q.id, q])), codeFor };
+    const out: { id: string; who: string; why: string[]; flag: boolean }[] = [];
+    for (const e of toSend) {
+      const c = checkEntry(e, store, { incoming: true });
+      if (c.errors.length || c.flags.length) out.push({ id: e.id, who: e.reviewer, why: [...c.errors, ...c.flags], flag: !c.errors.length });
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toSend.map((e) => e.id).join(',')]);
 
-  const doExport = () => {
-    const body = JSON.stringify({ exported_at: new Date().toISOString(), entries: saved }, null, 1) + '\n';
+  const download = (name: string, body: string) => {
     const url = URL.createObjectURL(new Blob([body], { type: 'application/json' }));
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'reviews.json';
+    a.download = name;
     document.body.appendChild(a);
     a.click();
     a.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const doExport = () => {
+    download('reviews.json', JSON.stringify({ exported_at: new Date().toISOString(), entries: saved }, null, 1) + '\n');
     setExported(saved.length);
+  };
+
+  const doSend = () => {
+    const now = new Date();
+    const stamp = now.toISOString().slice(0, 16).replace('T', '-').replace(':', '');
+    const name = `reviews-${stamp}.json`;
+    const body = {
+      exported_at: now.toISOString(),
+      from: '24×100 review screen: decisions saved in one browser, not yet published',
+      next: 'The steward uploads this file to data/rules/uploads/ (GitHub: Add file → Upload files). npm run check-reviews checks it and merges it into data/rules/reviews.json. See docs/pilot.md.',
+      entries: toSend,
+    };
+    download(name, JSON.stringify(body, null, 1) + '\n');
+    setSent({ file: name, n: toSend.length });
   };
 
   const doImport = async (f: File) => {
@@ -141,11 +121,14 @@ export function AuditLog({
             The review log
           </h2>
           <p className="small muted">
-            Every decision, newest first: who, role, when, level, the rule and the reason. {seedIds.size} committed in data/rules/reviews.json · {local.length} saved in this browser. Export it and commit the file so the team shares one record.
+            Every decision, newest first: who, role, when, level, the rule and the reason. {seedIds.size} published in data/rules/reviews.json · {unpublished.length} saved only in this browser, not published.
           </p>
         </div>
         <div className="form-actions">
-          <button type="button" className="btn btn-ink" onClick={doExport}>
+          <button type="button" className="btn btn-ink" onClick={doSend} disabled={!toSend.length}>
+            Send to the steward
+          </button>
+          <button type="button" className="btn" onClick={doExport}>
             Export review log
           </button>
           <button type="button" className="btn" onClick={() => file.current?.click()}>
@@ -166,9 +149,42 @@ export function AuditLog({
           />
         </div>
       </header>
+      <div className="rv-steward" aria-label="How decisions are published">
+        <p>
+          <strong>Publishing is the steward’s step.</strong>{' '}
+          {toSend.length
+            ? `“Send to the steward” saves the ${toSend.length === 1 ? 'decision' : `${toSend.length} decisions`} made in this browser to a file. `
+            : 'Nothing to send: no signatures, strikes or City answers are saved only in this browser. '}
+          Send the file to your rule steward by email or chat. The steward uploads it to <code>data/rules/uploads/</code> in the project’s GitHub repository (Add file → Upload files); a check runs, and if every entry passes, the site rebuilds with them published. Until then they show as “not published”, here and on each rule.
+          {keptHere ? ` ${keptHere === 1 ? 'One assumption stays' : `${keptHere} assumptions stay`} in this browser: assumptions are explorations and are not sent.` : ''}
+        </p>
+        <p className="small muted">
+          Steward’s runbook: <code>docs/pilot.md</code>. Not set up yet: the project has no GitHub repository, and no one has agreed to be the steward.
+        </p>
+        {!record && precheck.length > 0 && (
+          <div className="warn">
+            <p>
+              The steward’s check would stop {precheck.length === 1 ? 'one entry' : `${precheck.length} entries`}. Fix {precheck.length === 1 ? 'it' : 'them'} here first, or tell the steward:
+            </p>
+            <ul>
+              {precheck.map((x) => (
+                <li key={x.id}>
+                  {x.who || 'no name'}: {x.why.join('; ')}
+                  {x.flag ? ' (a person can publish it anyway after checking)' : ''}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      {!record && sent && (
+        <p className="rv-status" role="status">
+          Saved {sent.n} {sent.n === 1 ? 'decision' : 'decisions'} to {sent.file}. Next: send it to your steward. It stays marked “not published” until they publish it.
+        </p>
+      )}
       {!record && exported != null && (
         <p className="rv-status" role="status">
-          Exported {exported} {exported === 1 ? 'entry' : 'entries'} to reviews.json. Commit it as data/rules/reviews.json.
+          Exported the whole log ({exported} {exported === 1 ? 'entry' : 'entries'}, published and this browser’s) to reviews.json. To publish this browser’s decisions, use “Send to the steward”.
         </p>
       )}
       {!record && report && (
@@ -213,7 +229,7 @@ export function AuditLog({
           <tbody>
             {rows.map((e) => {
               const sub = subject(e);
-              const src = e.id.startsWith('link-') ? 'page link, not saved' : seedIds.has(e.id) ? 'committed' : 'this browser';
+              const src = e.id.startsWith('link-') ? 'page link, not saved' : seedIds.has(e.id) ? 'published' : 'this browser · not published';
               const tone = e.action === 'assumed' ? 'red' : e.action === 'struck' ? 'struck' : e.action === 'reopened' ? 'pencil' : 'ink';
               return (
                 <tr key={e.id} className={`is-${tone}`}>

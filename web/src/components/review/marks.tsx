@@ -36,3 +36,49 @@ export function Seal({ title = 'City-confirmed' }: { title?: string }) {
     </span>
   );
 }
+
+/** The tag an ink rule carries while its only check is the AI research pass (DESIGN_GUIDE §5.2). */
+export function AiTag() {
+  return <span className="rv-tag ai-tag">AI-checked · needs a teammate</span>;
+}
+
+const LOCAL_VERB: Record<string, string> = {
+  source_checked: 'signed',
+  city_confirmed: 'City answer recorded',
+  struck: 'struck',
+  reopened: 'reopened',
+  assumed: 'assumed',
+};
+
+/** A decision saved only in this browser. Its trust state is unchanged, but nobody else sees it until
+ *  the steward publishes it. */
+export function LocalTag({ action }: { action: string }) {
+  return (
+    <span className="rv-tag local-tag" data-local="1">
+      {LOCAL_VERB[action] ?? 'saved'} in this browser · not published
+    </span>
+  );
+}
+
+/** A recorded City confirmation: who at the City, the reference and its date, and who recorded it.
+ *  24×100 never checks it with the City, and says so. */
+export function ConfirmationLine({
+  reference,
+  recorder,
+  published,
+}: {
+  reference: { who: string; date: string; text: string } | null | undefined;
+  recorder: string | null | undefined;
+  published: boolean;
+}) {
+  if (!reference) return null;
+  const by = recorder?.trim() || 'someone who left no name';
+  return (
+    <span className="confirmation" data-published={published ? '1' : '0'}>
+      {reference.who}, {reference.text}, dated {reference.date}{' '}
+      <span className="confirmation-by">
+        ({published ? `recorded by ${by}, published in the review log` : `recorded in this browser by ${by}`}; not verified by 24×100)
+      </span>
+    </span>
+  );
+}

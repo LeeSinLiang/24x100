@@ -3,15 +3,16 @@
 // its origin, verification level and the decisions a person can record; the review log below.
 // The effective state of every rule comes from the engine (buildRuleSet over the audit log).
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { buildRuleSet } from '@engine/rules';
+import { AI_ROLE, buildRuleSet } from '@engine/rules';
 import { findQuote, locateSection } from '@engine/source';
 import type { EffectiveRule, RuleField } from '@engine/types';
-import { fieldName } from '../components/Drawer';
+import { ANSWER_KEY_WORDS, fieldName } from '../components/Drawer';
 import { AuditLog } from '../components/review/AuditLog';
 import { CodeText, type CodeBlock, type Highlight, type HlStyle } from '../components/review/CodeText';
 import { evalLines, extractionFor, reviewDistricts } from '../components/review/extraction';
 import { Seal, TrustMark } from '../components/review/marks';
 import { QuestionCard, ReviewCard, type AddEntry } from '../components/review/ReviewCard';
+import { isLocal, signatureOf } from '../components/review/reviewlog';
 import { Ev, Label, dateFmt } from '../components/ui';
 import { seedEntries } from '../lib/audit';
 import { prefersReducedMotion } from '../lib/craft';
@@ -58,12 +59,39 @@ function plural(n: number, one: string, many = `${one}s`): string {
   return `${n} ${n === 1 ? one : many}`;
 }
 
+/** Rules seeded as source-checked by the AI research pass (the RM‑M answer key), from the rule files. */
+const PRESEEDED_AI = RULES.filter((r) => r.origin === 'answer_key' && r.verification.level !== 'unreviewed' && r.verification.role === AI_ROLE).length;
+
+/** Who has signed a rule: a person (published, or only in this browser), the AI research pass, or nobody. */
+function signedBy(r: EffectiveRule, published: Set<string>): 'person' | 'person-local' | 'ai' | null {
+  if (r.state !== 'ink') return null;
+  if (r.ai_checked) return 'ai';
+  return isLocal(signatureOf(r), published) ? 'person-local' : 'person';
+}
+
+/** What the evaluation's answer key is, and how far it is signed in this app (from the engine's states). */
+function keyWords(district: string, audit: ViewProps['audit'], published: Set<string>): string {
+  const key = buildRuleSet(district, RULES, QUESTIONS, audit).rules.filter((r) => r.origin === 'answer_key');
+  const by = key.map((r) => signedBy(r, published));
+  const person = by.filter((x) => x === 'person').length;
+  const local = by.filter((x) => x === 'person-local').length;
+  const ai = by.filter((x) => x === 'ai').length;
+  const here =
+    person === key.length
+      ? `in this app all ${key.length} are signed by a person`
+      : person === 0 && ai === key.length
+        ? 'in this app it was matched to the saved code text by an AI research pass, and no one has signed it here yet'
+        : `in this app ${person} of its ${key.length} rules ${person === 1 ? 'is' : 'are'} signed by a person${ai ? `, ${ai} matched by an AI research pass only` : ''}`;
+  return `the ${ANSWER_KEY_WORDS.replace(/\)$/, '')}; ${here}${local ? `; ${local} more signed in this browser, not published` : ''})`;
+}
+
 export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
   const district = s.district ?? 'RM-M';
   const rs = useMemo(() => buildRuleSet(district, RULES, QUESTIONS, audit), [district, audit]);
   const ex = useMemo(() => extractionFor(district), [district]);
   const evs = useMemo(() => evalLines(), []);
-  const districts = reviewDistricts(district);
+  const districts = reviewDistricts();
+  const known = districts.includes(district);
   const still = s.still || s.record || prefersReducedMotion();
   const codeRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<Set<string>>(() => new Set(s.section ? [s.section] : []));
@@ -135,11 +163,13 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
   }, [rs]);
 
   const counts = useMemo(() => {
-    const c = { human: 0, ai: 0, pencil: 0, struck: 0, sealed: 0 };
+    const c = { human: 0, humanLocal: 0, ai: 0, pencil: 0, struck: 0, sealed: 0 };
     for (const r of rs.rules) {
+      const by = signedBy(r, seedIds);
       if (r.state === 'struck') c.struck++;
       else if (r.state === 'pencil') c.pencil++;
-      else if (r.ai_checked) c.ai++;
+      else if (by === 'ai') c.ai++;
+      else if (by === 'person-local') c.humanLocal++;
       else c.human++;
       if (r.sealed) c.sealed++;
     }
@@ -147,7 +177,7 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
     const open = rs.questions.filter((q) => q.status === 'open').length;
     const confirmedQ = rs.questions.filter((q) => q.status === 'city_confirmed').length;
     return { ...c, assumed, open, confirmedQ };
-  }, [rs]);
+  }, [rs, seedIds]);
 
   // Where the answer key and the model quote the same words, show one set of marks at a time.
   const shownHls = bothOrigins ? hls.filter((h) => h.origin == null || h.origin === marksFor) : hls;
@@ -229,6 +259,43 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
       return <QuestionCard key={id} q={q} active={active.has(id)} onLocate={() => locate(id)} add={add} located={located.has(id)} />;
     });
 
+  const logFor = (
+    <AuditLog
+      entries={audit}
+      seedIds={seedIds}
+      local={auditApi.local}
+      replaceLocal={auditApi.replaceLocal}
+      record={s.record}
+      onGo={(d, id) => {
+        if (d && d !== district) update({ district: d, section: id }, { push: true });
+        else locate(id);
+      }}
+    />
+  );
+
+  // A district named only in the URL: say so and list the real ones, never invent a tab for it.
+  if (!known)
+    return (
+      <main className="rv" id="main">
+        <header className="rv-top">
+          <h1 className="rv-lead" data-unknown-district={district}>
+            No rules loaded for district {nb(district.slice(0, 40))}.
+          </h1>
+          <p className="rv-empty">
+            Rules are loaded for:{' '}
+            {districts.map((d, i) => (
+              <span key={d}>
+                {i > 0 ? ', ' : ''}
+                <a href={`?view=review&district=${encodeURIComponent(d)}`}>{nb(d)}</a>
+              </span>
+            ))}
+            . <span className="muted">If {nb(district.slice(0, 40))} is a Pittsburgh zoning district, a steward can add it: extract its rules, then review them here (docs/pilot.md, “How to add a district”).</span>
+          </p>
+        </header>
+        {logFor}
+      </main>
+    );
+
   return (
     <main className="rv" id="main">
       <header className="rv-top">
@@ -255,7 +322,13 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
         <h1 className="rv-lead">
           {lead}{' '}
           <span className="rv-lead-2">
-            <Ev trust="ink">{counts.human > 0 ? `${counts.human} signed by a person` : 'None signed by a person yet'}</Ev>
+            <Ev trust="ink">{counts.human > 0 ? `${counts.human} signed by a person` : counts.humanLocal ? 'None published as signed by a person yet' : 'None signed by a person yet'}</Ev>
+            {counts.humanLocal ? (
+              <>
+                {'; '}
+                <Ev trust="ink">{counts.humanLocal} signed in this browser only, not published</Ev>
+              </>
+            ) : null}
             {counts.ai ? (
               <>
                 {'; '}
@@ -275,7 +348,7 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
         </h1>
         {evs.map((ev) => (
           <p key={ev.district} className="rv-eval">
-            <Label as="span">Evaluation</Label> {nb(ev.district)}: {ev.agree} of {ev.total} fields agree with the hand-checked answer key
+            <Label as="span">Evaluation</Label> {nb(ev.district)}: {ev.agree} of {ev.total} fields agree with {keyWords(ev.district, audit, seedIds)}
             {ev.verbatim ? ` · ${ev.verbatim}` : ''}
             {ev.model ? ` · model ${ev.model}` : ''}
           </p>
@@ -290,7 +363,7 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
         ) : (
           <p className="rv-empty">
             No extraction has run for {nb(district)} yet. Run <kbd className="rv-cmd">uv run python -m extract run --district {district}</kbd>.{' '}
-            <span className="muted">{keyN ? 'Then the model’s proposals appear beside the hand-checked answer key.' : 'Until then only the citywide rules below apply here.'}</span>
+            <span className="muted">{keyN ? 'Then the model’s proposals appear beside the answer key.' : 'Until then only the citywide rules below apply here.'}</span>
           </p>
         )}
         <ol className="rv-levels" aria-label="Verification levels">
@@ -304,8 +377,16 @@ export function ReviewView({ s, update, audit, auditApi }: ViewProps) {
           <li>
             <TrustMark kind="ink" label="ink" />
             <div>
-              <span className="label">Ink · source-checked · {counts.human + counts.ai}</span>
-              <p>A named person matched the rule to the quoted text: name, role, time, note.</p>
+              <span className="label">Ink · source-checked · {counts.human + counts.humanLocal + counts.ai}</span>
+              <p>
+                A rule matched to the quoted code text and signed by a named person (name, role, time, note)
+                {PRESEEDED_AI ? (
+                  <>
+                    , or, for the {PRESEEDED_AI} pre-seeded RM‑M rules, by the AI research pass, marked “AI-checked · needs a teammate”
+                  </>
+                ) : null}
+                .
+              </p>
             </div>
           </li>
           <li>

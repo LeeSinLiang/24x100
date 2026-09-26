@@ -1,9 +1,13 @@
 // The evidence drawer: every number opens here, with the quote or record it came from.
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { findQuote, locateSection } from '@engine/source';
 import { AI_ROLE } from '@engine/rules';
 import type { AuditEntry, BlockFile, EffectiveRule, LotResult, MoneyResult, QuestionState, RuleSet, Trust } from '@engine/types';
+import { publishedIds, questionDecisionPublished } from '../lib/audit';
 import { ASSUMPTIONS, COMPS_BY_WARD, COMPS_RAW_BY_WARD, HUD, codeFor } from '../lib/data';
+import { fieldLabels, formProblems, type FieldId, type FormKind } from './review/formcheck';
+import { AiTag, ConfirmationLine, LocalTag } from './review/marks';
+import { composeReference, isLocal, lastDecisionOf, REFERENCE_KINDS, type ReferenceKind } from './review/reviewlog';
 import { dateFmt, Ev, ftFmt, Label, money1 } from './ui';
 
 type AddAudit = (e: Omit<AuditEntry, 'id' | 'at'>) => { ok: boolean; problems: string[] };
@@ -102,46 +106,82 @@ function useReviewer(): [{ name: string; role: string }, (v: { name: string; rol
   return [v, save];
 }
 
+const KIND_WORDS: Record<ReferenceKind, string> = { letter: 'Letter', email: 'Email', case: 'Case number', ticket: 'Ticket number' };
+
 export function ReviewForm({
   kind,
   onSubmit,
   onCancel,
 }: {
-  kind: 'sign' | 'strike' | 'assume-yes' | 'assume-no' | 'confirm';
+  kind: FormKind;
   onSubmit: (x: { name: string; role: string; reason: string; ref?: { text: string; date: string; who: string }; choice?: 'yes' | 'no' }) => string[];
   onCancel: () => void;
 }) {
   const [who, setWho] = useReviewer();
   const [reason, setReason] = useState(kind.startsWith('assume') ? 'Exploring the outcome; not a City answer.' : '');
-  const [refText, setRefText] = useState('');
+  const [refKind, setRefKind] = useState<ReferenceKind | ''>('');
+  const [refDetail, setRefDetail] = useState('');
   const [refDate, setRefDate] = useState('');
   const [refWho, setRefWho] = useState('Zoning Administrator');
   const [choice, setChoice] = useState<'yes' | 'no'>('yes');
   const [problems, setProblems] = useState<string[]>([]);
+  const [tried, setTried] = useState(false);
   const first = useRef<HTMLInputElement>(null);
+  const uid = useId();
   useEffect(() => first.current?.focus(), []);
   const title = { sign: 'Sign as source-checked', strike: 'Strike this rule', 'assume-yes': 'Assume yes (red)', 'assume-no': 'Assume no (red)', confirm: 'Record City confirmation' }[kind];
+  const values = { name: who.name, role: who.role, reason, refKind, refDetail, refDate, refWho };
+  // Errors appear after the first attempt to save, and then follow the fields as they are filled in.
+  const errors = tried ? formProblems(kind, values) : {};
+  const L = fieldLabels(kind, refKind);
+  const errId = (f: FieldId) => `${uid}-${f}-err`;
+  const inv = (f: FieldId) => (errors[f] ? { 'aria-invalid': true as const, 'aria-describedby': errId(f) } : {});
+  const err = (f: FieldId) =>
+    errors[f] ? (
+      <p className="field-error" id={errId(f)}>
+        {errors[f]}
+      </p>
+    ) : null;
+  const missing = Object.keys(errors) as FieldId[];
   return (
     <form
       className="review-form"
+      noValidate
       onSubmit={(e) => {
         e.preventDefault();
-        const p = onSubmit({ name: who.name, role: who.role, reason, ref: kind === 'confirm' ? { text: refText, date: refDate, who: refWho } : undefined, choice: kind === 'confirm' ? choice : undefined });
+        const form = e.currentTarget;
+        setTried(true);
+        if (Object.keys(formProblems(kind, values)).length) {
+          setProblems([]);
+          requestAnimationFrame(() => form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
+          return;
+        }
+        const ref = kind === 'confirm' && refKind ? { text: composeReference(refKind, refDetail), date: refDate, who: refWho.trim() } : undefined;
+        const p = onSubmit({ name: who.name.trim(), role: who.role.trim(), reason: reason.trim(), ref, choice: kind === 'confirm' ? choice : undefined });
         setProblems(p);
       }}
     >
       <Label as="h3">{title}</Label>
       {kind === 'sign' && <p className="small">Source-checked means: the rule matches the quoted text. It is not a City interpretation.</p>}
-      {kind.startsWith('assume') && <p className="small red">An assumption lets you explore the outcome. It stays red, the score keeps its range, and the inquiry still asks the City.</p>}
+      {kind.startsWith('assume') && <p className="small red">An assumption lets you explore the outcome. It stays red, the verdict keeps the open question, and the letter still asks the City.</p>}
+      {kind === 'confirm' && (
+        <p className="small">Record only an answer the City gave in writing or on file: a letter, an email, or a case or ticket number. It is saved in this browser under your name; 24×100 does not check it with the City.</p>
+      )}
       <div className="form-row">
-        <label>
-          Name
-          <input ref={first} value={who.name} onChange={(e) => setWho({ ...who, name: e.target.value })} autoComplete="name" required />
-        </label>
-        <label>
-          Role
-          <input value={who.role} onChange={(e) => setWho({ ...who, role: e.target.value })} placeholder="e.g. Housing lead" required />
-        </label>
+        <div className="field">
+          <label>
+            Name
+            <input ref={first} value={who.name} onChange={(e) => setWho({ ...who, name: e.target.value })} autoComplete="name" required {...inv('name')} />
+          </label>
+          {err('name')}
+        </div>
+        <div className="field">
+          <label>
+            Role
+            <input value={who.role} onChange={(e) => setWho({ ...who, role: e.target.value })} placeholder="e.g. Housing lead" required {...inv('role')} />
+          </label>
+          {err('role')}
+        </div>
       </div>
       {kind === 'confirm' && (
         <>
@@ -154,27 +194,63 @@ export function ReviewForm({
               <input type="radio" checked={choice === 'no'} onChange={() => setChoice('no')} /> No
             </label>
           </fieldset>
-          <label>
-            Reference (email subject, meeting, letter)
-            <input value={refText} onChange={(e) => setRefText(e.target.value)} required />
-          </label>
+          <fieldset className="choice ref-kind" {...(errors.refKind ? { 'aria-describedby': errId('refKind') } : {})}>
+            <legend>{L.refKind}</legend>
+            {(Object.keys(REFERENCE_KINDS) as ReferenceKind[]).map((k) => (
+              <label key={k}>
+                <input type="radio" name={`${uid}-kind`} checked={refKind === k} onChange={() => setRefKind(k)} {...(errors.refKind ? { 'aria-invalid': true as const } : {})} /> {KIND_WORDS[k]}
+              </label>
+            ))}
+          </fieldset>
+          {err('refKind')}
           <div className="form-row">
+            <div className="field">
+              <label>
+                {L.refDetail}
+                <input
+                  value={refDetail}
+                  onChange={(e) => setRefDetail(e.target.value)}
+                  required
+                  placeholder={refKind === 'case' || refKind === 'ticket' ? 'e.g. ZBA 2026-0412' : 'e.g. Re: narrow-lot side yards'}
+                  {...inv('refDetail')}
+                />
+              </label>
+              {err('refDetail')}
+            </div>
+            <div className="field">
+              <label>
+                {L.refDate}
+                <input type="date" value={refDate} onChange={(e) => setRefDate(e.target.value)} required {...inv('refDate')} />
+              </label>
+              {err('refDate')}
+            </div>
+          </div>
+          <div className="field">
             <label>
-              Date
-              <input type="date" value={refDate} onChange={(e) => setRefDate(e.target.value)} required />
+              {L.refWho}
+              <input value={refWho} onChange={(e) => setRefWho(e.target.value)} required {...inv('refWho')} />
             </label>
-            <label>
-              Who at the City
-              <input value={refWho} onChange={(e) => setRefWho(e.target.value)} required />
-            </label>
+            {err('refWho')}
           </div>
         </>
       )}
-      <label>
-        {kind === 'strike' ? 'Why is it wrong?' : 'Note'}
-        <textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={2} required placeholder={kind === 'sign' ? 'e.g. compared with the §903.03.C table row' : ''} />
-      </label>
-      {problems.length > 0 && <p className="warn">{problems.join('; ')}</p>}
+      <div className="field">
+        <label>
+          {L.reason}
+          <textarea value={reason} onChange={(e) => setReason(e.target.value)} rows={2} required placeholder={kind === 'sign' ? 'e.g. compared with the §903.03.C table row' : ''} {...inv('reason')} />
+        </label>
+        {err('reason')}
+      </div>
+      {missing.length > 0 && (
+        <p className="warn" role="alert">
+          Not saved. Check: {missing.map((f) => L[f].replace(/\?$/, '')).join(', ')}.
+        </p>
+      )}
+      {problems.length > 0 && (
+        <p className="warn" role="alert">
+          Not saved: {problems.join('; ')}.
+        </p>
+      )}
       <div className="form-actions">
         <button type="submit" className="btn btn-ink">
           {title}
@@ -183,9 +259,14 @@ export function ReviewForm({
           Cancel
         </button>
       </div>
-      <p className="small muted">Saved to this browser's review log with the time. Export it from the review screen.</p>
+      <p className="small muted">Saved in this browser's review log with the time, and marked "not published" until your steward publishes it: use "Send to the steward" on the review screen.</p>
     </form>
   );
+}
+
+/** Whether a log entry is saved only in this browser (not in data/rules/reviews.json). */
+function localEntry(e: AuditEntry): boolean {
+  return isLocal(e, publishedIds());
 }
 
 export function History({ list }: { list: AuditEntry[] }) {
@@ -198,13 +279,23 @@ export function History({ list }: { list: AuditEntry[] }) {
           <li key={e.id}>
             <span className="h-when">{dateFmt(e.at)}</span> <strong>{e.reviewer}</strong> <span className="muted">({e.role})</span> · {e.action.replace('_', ' ')}
             {e.choice ? ` ${e.choice}` : ''}: {e.reason}
-            {e.reference ? ` · ${e.reference.who}, ${e.reference.date}: ${e.reference.text}` : ''}
+            {e.reference ? (
+              <>
+                {' · '}
+                <ConfirmationLine reference={e.reference} recorder={e.reviewer} published={!localEntry(e)} />
+              </>
+            ) : null}
+            {localEntry(e) && !e.reference ? <span className="muted"> · in this browser, not published</span> : null}
           </li>
         ))}
       </ol>
     </div>
   );
 }
+
+/** Where the answer key comes from. Its in-app verification (an AI research pass, or a person's
+ *  signature) is shown separately, from the engine. */
+export const ANSWER_KEY_WORDS = 'answer key from the team’s research notes (checked against the code text by a person on the team)';
 
 export function levelWords(r: EffectiveRule): { trust: Trust | 'struck'; text: string } {
   if (r.state === 'struck') return { trust: 'struck', text: 'Struck by a reviewer. Not used.' };
@@ -219,8 +310,10 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
   const lv = levelWords(r);
   const v = r.verification;
   const q = rs.questions.find((x) => x.question.affects.includes(r.id));
+  const last = lastDecisionOf(r);
+  const confirmedBy = [...r.history].reverse().find((e) => e.action === 'city_confirmed') ?? null;
   return (
-    <article className="card" data-rule-id={r.id} data-trust={r.state}>
+    <article className="card" data-rule-id={r.id} data-trust={r.state} data-ai-checked={r.ai_checked ? '1' : undefined} data-local={last && localEntry(last) ? '1' : undefined}>
       <Label>
         {fieldName(r.field)} · {r.district === '*' ? 'all districts' : r.district}
       </Label>
@@ -234,18 +327,26 @@ export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; a
           ecode360
         </a>
         , retrieved {r.retrieved ?? '2026-09-26'}
-        {r.origin === 'extracted' && r.model ? ` · proposed by ${r.model} (prompt ${String(r.prompt_sha).slice(0, 8)})` : r.origin === 'answer_key' ? ' · hand-checked answer key' : ''}
+        {r.origin === 'extracted' && r.model ? ` · proposed by ${r.model} (prompt ${String(r.prompt_sha).slice(0, 8)})` : r.origin === 'answer_key' ? ` · ${ANSWER_KEY_WORDS}` : ''}
       </p>
       <Excerpt file={r.source_file} section={r.section} quote={r.quote} />
       <div className={`verification v-${lv.trust}`}>
-        <p>{lv.text}</p>
+        <p>
+          {lv.text}
+          {r.ai_checked && <AiTag />}
+          {last && localEntry(last) && <LocalTag action={last.action} />}
+        </p>
         {v.reviewer && (
           <p className="small">
             {v.reviewer} ({v.role}) · {dateFmt(v.at)}
             {v.note ? ` · “${v.note}”` : ''}
           </p>
         )}
-        {r.sealed && v.reference && <p className="small">Reference: {v.reference.who}, {v.reference.date}: {v.reference.text}</p>}
+        {r.sealed && v.reference && (
+          <p className="small">
+            Reference: <ConfirmationLine reference={v.reference} recorder={v.reviewer} published={!!confirmedBy && !localEntry(confirmedBy)} />
+          </p>
+        )}
       </div>
       {q && (
         <p className="small pencil-note">
@@ -308,7 +409,7 @@ export function QuestionCard({ q, addAudit }: { q: QuestionState; addAudit: AddA
         )}
         {q.status === 'city_confirmed' && (
           <p>
-            City-confirmed <strong>{q.choice}</strong>: {q.reference?.who}, {q.reference?.date}: {q.reference?.text}
+            City-confirmed <strong>{q.choice}</strong>: <ConfirmationLine reference={q.reference} recorder={q.by} published={questionDecisionPublished(q.question.id, q.at, q.by)} />
           </p>
         )}
       </div>
@@ -501,8 +602,11 @@ function MoneyCard({ kind, money }: { kind: string; money: MoneyResult | null })
   }
   if (kind.startsWith('assumption')) {
     return (
-      <article className="card">
-        <Label>Your assumptions (red)</Label>
+      <article className="card" data-assumptions="1">
+        <Label>Assumptions behind the money (red)</Label>
+        <p className="small">
+          These are ours (the 24×100 team’s placeholders and conventions, and practitioners’ estimates), not settings you can change here. To change one, edit <code>data/assumptions.json</code> and rebuild; the app doesn’t edit them yet.
+        </p>
         <table className="kv compact">
           <tbody>
             {ASSUMPTIONS.map((a) => (
