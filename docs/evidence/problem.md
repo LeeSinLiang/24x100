@@ -75,8 +75,8 @@ team's spec §0.12; named in the app only as "a practitioner at the hackathon" u
 cost exceeding market value is the biggest challenge, and a developer typically checks whether a project
 pencils financially before deciding to pursue a variance. On the 24 ft lot with 10 ft side setbacks: a clear
 hardship case for a variance, but the time and expense of the process make these lots hard to develop.
-Vertical construction runs about $325–$375 per sq ft, not including site work; site costs (environmental, soil,
-water and sewer) are the hardest to know without paid due diligence. Second-hand reports (we have not seen the
+Site costs (environmental, soil, water and sewer) are the hardest to know without paid due diligence. The same
+practitioner first put vertical construction at about $325–$375 per sq ft; see the superseded note below. Second-hand reports (we have not seen the
 originals): City staff said financial feasibility and comparable values matter; Pro-Housing Pittsburgh said
 there is no predetermined scoring system and understandable categories are one approach.
 
@@ -84,21 +84,39 @@ So 24×100 now checks money first, because a money screen is free and a variance
 and money. That is an order of what to learn first. **It is not a finding that money blocks more often than the
 rules: that (hypothesis H5) is unproven.** One practitioner's view is not a measurement.
 
-**The screen on 2241 Mahon St** (all from `film/facts.json`):
+**Cost, and what's left after building** (spec §0.13; hackathon Slack, 26 Sep 2026; neither practitioner has
+agreed to be named, so the app says "a practitioner at the hackathon"):
+- A second practitioner, asked by the first for local insight: vertical construction for City single-family
+  infill "will vary significantly by scale of the builders"; $200–$250 per sq ft is a reasonable range. Inner-ring
+  production builders "would imply even lower costs of $150 sqft should they enter the market" (speculative).
+  Leads to check: County and City building-permit valuations, NAHB, RSMeans (we have not checked them).
+- The first practitioner: City site work (water and sewer taps, grading, sidewalks, landscaping) runs
+  $25,000–$50,000 for a single unit, depending on how deep the lines are, the soil, and over-excavation; many
+  City lots held homes demolished into their own basements. Undermining or environmental conditions "can be
+  upfront deal killers". Developers compare vertical cost with market value; what's left says how much site and
+  soft cost the deal can carry.
+- **Superseded:** the first practitioner's $325–$375 per sq ft. The team decided (26 Sep, ~18:25) to follow the
+  second estimate only, because the first practitioner deferred to the second for local construction cost. It
+  no longer appears in the app, `film/facts.json` or the film.
+
+**The screen on 2241 Mahon St** (all from `film/facts.json`; the value is the newest new build in Ward 5,
+2125 Rose St, $240,000, 2025: one sale, may be price-restricted, unverified):
 
 | | Two-unit (1,080 sq ft per home) | Three-unit on lots 25–27 (1,350 sq ft per home) |
 |---|---:|---:|
-| Vertical construction, $325–$375/sq ft (practitioner estimate, excludes site work) | $351,000–$405,000 | $438,750–$506,250 |
-| Ward 5 median, 33 valid 1–2 unit sales since 2023 (mostly older homes; not an appraisal) | $155,000 | $155,000 |
-| Newest new build, 2125 Rose St, 2025 (one sale; may be price-restricted; unverified) | $240,000 | $240,000 |
-| What an 80% AMI household of 3 could afford (HUD FY2026 $79,500; red mortgage assumptions) | ≈ $268,467 | ≈ $268,467 |
-| **Gap, at least** (vertical low minus the highest signal; excludes site work, soft costs, financing, land) | **$82,533** | **$170,283** |
+| Vertical construction, $200–$250/sq ft (practitioner estimate, excludes site work) | $216,000–$270,000 | $270,000–$337,500 |
+| **Left for site work, soft costs and land** ($240,000 − that) | **$24,000 at best, nothing at the high end** | **nothing: building alone costs more** (−$30,000 to −$97,500) |
+| If a production builder came in, $150/sq ft (same practitioner, speculative) | $162,000, leaving $78,000 | $202,500, leaving $37,500 |
+| Site work, single unit (another practitioner; typical, not a cap) | $25,000–$50,000 | $25,000–$50,000 |
 | Verdict | Only with subsidy (screening estimate) | Only with subsidy (screening estimate) |
 
-The highest value signal here is what an 80% AMI household could afford, which is above both market signals:
-on these numbers the problem is cost against value, not buyers' incomes. Every lot we can screen in Ward 5
-comes out "Only with subsidy" at this cost range; that is the practitioner's point, and it says nothing yet
-about how often the rules would stop the same project.
+Context, not used in the line above: the Ward 5 median of 33 valid 1–2 unit sales since 2023 is $155,000 (mostly
+older homes; not an appraisal), and what an 80% AMI household of 3 could pay is about $268,467 (HUD FY2026
+$79,500; red mortgage assumptions), a ceiling for an affordable sale. "Only with subsidy" means even $200/sq ft
+leaves less than the low end of typical site work. The $200–$250 range alone moves what's left by $67,500 per
+home at 1,350 sq ft, which is why a builder's price is the decisive next check. Every lot we can screen in Ward 5
+comes out "Only with subsidy" at this range; that says nothing yet about how often the rules would stop the
+same project.
 
 **What would change this:** a local cost benchmark (none public that we found), appraisals for new builds, the
 City's lot prices, gap-financing programs' real caps, and site investigations. The app's "What to check next"

@@ -21,11 +21,13 @@ exactly: 2,400 sf (§903.03.C, Ord. 10‑2025). A two-unit house still gets **4 
 because RM needs 10 ft side setbacks and both neighbors are vacant, so the contextual setback can't apply
 (§925.06.C). Every lot down the street shows the same red sliver. Combine lots 25–27 and a three-unit house
 gets **52 ft** (72 − 10 − 10), but lot 26 isn't City-owned. Then money, which a developer checks first: a
-practitioner at the hackathon put vertical construction at $325–$375 per sq ft, so each 1,350 sq ft home costs
-at least $438,750 to build before site work, land, soft costs or financing. Homes in Ward 5 sold for a median
-**$155,000** (not an appraisal); the newest new build sold for $240,000; an 80% AMI household could afford about
-$268,000. The gap is **at least $170,000 per home**: "Only with subsidy (screening estimate)". Checking money
-first is the cheapest order to learn things in; which barrier blocks more often is unproven.
+practitioner at the hackathon put vertical construction for City single-family infill at $200–$250 per sq ft
+("varies a lot with builder size"), so each 1,350 sq ft home costs **$270,000–$337,500** to build. The newest new
+build in Ward 5 sold for $240,000 (one sale, not an appraisal), so **nothing is left** for site work, soft costs
+and land: building alone costs more. The same practitioner's speculative production-builder case ($150/sq ft)
+would leave $37,500, about what site work alone may take ($25,000–$50,000 typical, another practitioner; not a
+cap). Verdict: "Only with subsidy (screening estimate)". Checking money first is the cheapest order to learn
+things in; which barrier blocks more often is unproven.
 
 ## What it does
 
@@ -36,8 +38,8 @@ first is the cheapest order to learn things in; which barrier blocks more often 
   City's parcel polygons: every lot's buildable envelope, edge labels, ownership coins. No score: a verdict in
   words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right", "Worth a closer look, if …") with
   three chips, Money · Rules · Site.
-- **Four panels, in the order a developer checks them.** Money (vertical construction at a practitioner's
-  estimate against three labelled value signals; the gap as a lower bound), Rules (a ledger: required ·
+- **Four panels, in the order a developer checks them.** Money (a practitioner's vertical-construction
+  estimate against the newest new-build sale: what's left for site work, soft costs and land), Rules (a ledger: required ·
   available · short · source, and the specific relief), Site (soil, environmental, water and sewer: not assessed,
   with the free signal and what resolves each), and What to check next, cheapest first.
 - **AI reads the code; people decide.** A model (Gemini by default, Claude optional, through LangChain)

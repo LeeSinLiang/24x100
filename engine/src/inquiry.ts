@@ -39,8 +39,8 @@ function cap(x: string): string {
   return x.charAt(0).toUpperCase() + x.slice(1);
 }
 
-function usd(n: number): string {
-  const v = Math.round(n / 1000) * 1000;
+function usd(n: number, round = 1000): string {
+  const v = Math.round(n / round) * round;
   return `${v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('en-US')}`;
 }
 function ft(n: number): string {
@@ -76,6 +76,7 @@ function allowedNumbers(r: LotResult, m: MoneyResult | null, rs: RuleSet, block:
     s.add(v);
     s.add(Math.round(v));
     s.add(Math.round(v * 10) / 10);
+    s.add(Math.round(v / 100) * 100);
     s.add(Math.round(v / 1000) * 1000);
   };
   for (const meas of [r.width, r.depth, ...r.units.map((u) => u.width)]) if (meas) [meas.deed, meas.mapped, ...meas.terms.map((t) => t.value)].forEach(add);
@@ -87,11 +88,13 @@ function allowedNumbers(r: LotResult, m: MoneyResult | null, rs: RuleSet, block:
   [P.width, P.depth, P.stories, P.height, P.units, P.home_sqft, r.units.length].forEach(add);
   for (const rule of rs.rules) if (typeof rule.value === 'number') add(rule.value);
   if (m) {
-    [m.homes, m.sqft, m.vertical.lo, m.vertical.hi, ...m.vertical.psf, m.gap.lower_bound, m.break_even_psf.value, m.with_assumptions.lo, m.with_assumptions.hi, m.comps.median, m.comps.q1, m.comps.q3, m.comps.count, m.affordable.price, m.affordable.income, m.affordable.household, ...m.signals.map((x) => x.value)].forEach(add);
-    [m.with_assumptions.soft * 100, m.with_assumptions.financing * 100].forEach(add);
+    [m.homes, m.sqft, m.swing, m.site_work.lo, m.site_work.hi, m.with_assumptions.lo, m.with_assumptions.hi, m.comps.median, m.comps.q1, m.comps.q3, m.comps.count, m.affordable.price, m.affordable.income, m.affordable.household, m.new_build?.value].forEach(add);
+    for (const e of m.estimates) [...e.psf, ...e.vertical, ...e.left, -e.left[0], -e.left[1]].forEach(add);
+    [m.with_assumptions.soft * 100, m.with_assumptions.financing * 100, m.site_work.lo / 1000, m.site_work.hi / 1000, Math.round(m.swing / 1000)].forEach(add);
+    for (const sig of [...m.context, ...(m.new_build ? [m.new_build] : [])]) numbersIn(sig.label).forEach(add);
   }
-  if (m) for (const sig of m.signals) numbersIn(sig.label).forEach(add); // e.g. the comparable's floor area
-  [80, 30].forEach(add); // "80% AMI", "30% of income": definitions, not results  if (r.refusal?.values) Object.values(r.refusal.values).forEach((v) => typeof v === 'number' && add(v));
+  [80, 30].forEach(add); // "80% AMI", "30% of income": definitions, not results
+  if (r.refusal?.values) Object.values(r.refusal.values).forEach((v) => typeof v === 'number' && add(v));
   [25].forEach(add); // "25% slope or steeper" is the layer's definition
   // Record values the engine read for these lots (areas quoted in the lot-area check).
   const ps = r.pins.map((p) => block.parcels.find((x) => x.pin === p)).filter((p): p is NonNullable<typeof p> => !!p);
@@ -221,22 +224,22 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
   }
   sections.push({ id: 'questions', heading: 'Questions for the Zoning Administrator', to: 'Zoning Administrator, Department of City Planning', items: qs });
 
-  // Money first (spec §0.12): a screening estimate, before any zoning or site spending.
+  // Money first (spec §0.12, §0.13): what a new-build sale leaves after vertical construction, per home.
   const moneyItems: InquiryItem[] = [];
-  if (m) {
-    const top = m.signals.find((x) => x.id === m.gap.signal)!;
-    moneyItems.push({
-      text: `Vertical construction: $${m.vertical.psf[0]}–$${m.vertical.psf[1]} per sq ft (an estimate from a practitioner at the hackathon; vertical construction only, excluding site work) × ${m.sqft.toLocaleString('en-US')} sq ft = ${usd(m.vertical.lo)}–${usd(m.vertical.hi)} per home.`,
-      trust: 'estimate',
-    });
-    for (const sig of m.signals) moneyItems.push({ text: `${sig.label}: ${usd(sig.value)} (${sig.note}).`, trust: sig.evidence === 'red' ? 'red' : 'ink' });
-    moneyItems.push({
-      text: m.gap.positive
-        ? `So the gap is at least ${usd(m.gap.lower_bound)} per home against the highest of these (${top.label}), before site work, land, soft costs and financing. This is a lower bound from a screening estimate, not a pro forma.`
-        : `Vertical construction at the low end comes in under the highest value signal (${top.label}); site work, land, soft costs and financing are not in this number.`,
-      trust: 'estimate',
-    });
-  } else moneyItems.push({ text: 'Not assessed: we have no comparable sales loaded for this ward.', trust: 'ink' });
+  if (m && m.new_build) {
+    moneyItems.push({ text: `What a new home here sells for: ${m.new_build.label}, ${usd(m.new_build.value)} (${m.new_build.note}).`, trust: 'ink' });
+    for (const e of m.estimates) {
+      const u = (n: number) => usd(n, 100);
+      const lw = e.left[0] < 0 ? 'nothing left: building alone costs more than that sale' : e.left[1] < 0 ? `at most ${u(e.left[0])} left` : e.left[0] === e.left[1] ? `${u(e.left[0])} left` : `${u(e.left[1])}–${u(e.left[0])} left`;
+      moneyItems.push({
+        text: `${e.label}: ${e.psf[0] === e.psf[1] ? `about $${e.psf[0]}` : `$${e.psf[0]}–$${e.psf[1]}`} per sq ft (${e.supplied_by.replace(/, unconfirmed$/, '')}; ${e.note.replace(/\.$/, '')}) × ${m.sqft.toLocaleString('en-US')} sq ft = ${e.vertical[0] === e.vertical[1] ? u(e.vertical[0]) : `${u(e.vertical[0])}–${u(e.vertical[1])}`} per home, which leaves ${lw} for site work, soft costs and land.`,
+        trust: 'estimate',
+      });
+    }
+    moneyItems.push({ text: `Site work for a single unit typically runs $${Math.round(m.site_work.lo / 1000)},000–$${Math.round(m.site_work.hi / 1000)},000 (a practitioner at the hackathon). That is not a cap: fill, soil or deep lines can cost far more.`, trust: 'estimate' });
+    for (const c of m.context) moneyItems.push({ text: `${c.label}: ${usd(c.value)} (${c.note}).`, trust: c.evidence === 'red' ? 'red' : 'ink' });
+    moneyItems.push({ text: `These are screening estimates from a practitioner at the hackathon. Costs vary a lot with builder size, so a builder's price for this building would settle it; the estimate's own range moves what's left by ${usd(m.swing, 100)} per home.`, trust: 'estimate' });
+  } else moneyItems.push({ text: m ? 'Not assessed: no recent new-build sale in this ward to compare with.' : 'Not assessed: we have no comparable sales loaded for this ward.', trust: 'ink' });
   sections.splice(1, 0, { id: 'money', heading: 'Money first (screening estimate)', items: moneyItems });
 
   // Site: not assessed, could change the decision. No dollar amounts.
@@ -247,16 +250,20 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     items: site.map((row) => ({ text: `${row.label}. ${row.signals.join(' ')} What resolves it: ${row.resolves} (cost: ${row.cost}).`, trust: 'ink' as const })),
   });
 
-  // What to check next, in order: cheapest to learn first. Each says what answer would change the decision.
+  // What to check next, in order (spec §0.13 C13): free and decisive first, paid only if the numbers leave room.
   const next: InquiryItem[] = [];
   const cityNames = cityLots.map((p) => p.addr.replace(' (no number)', ` (lot ${p.lot})`));
   const cityQ = r.questions.filter((q) => q.ask === 'City Real Estate').map((q) => humanDates(q.text));
   next.push({
-    text: `Free: City Real Estate and the URA. ${others.length ? `Who owns ${others.map((p) => `lot ${p.lot}`).join(' and ')} (County owner type: ${others.map((p) => (p.assess?.ownercat ?? 'unknown').toLowerCase()).join(', ')}), and would they sell? ` : ''}${cityNames.length ? `What would the City ask for ${cityNames.join(' and ')}, and what are the process and timeline? ` : ''}${cityQ.join(' ')} This changes the decision if a lot can't be had or the price widens the gap.`,
+    text: `Free: City Real Estate and the URA. ${others.length ? `Who owns ${others.map((p) => `lot ${p.lot}`).join(' and ')} (County owner type: ${others.map((p) => (p.assess?.ownercat ?? 'unknown').toLowerCase()).join(', ')}), and would they sell? ` : ''}${cityNames.length ? `What would the City ask for ${cityNames.join(' and ')}, and what are the process and timeline? ` : ''}${cityQ.join(' ')} This changes the decision if a lot can't be had or the price eats what's left.`,
     trust: 'pencil',
   });
   next.push({
-    text: `Free: gap financing. ${m && m.gap.positive ? `Is there gap financing for small for-sale infill of at least ${usd(m.gap.lower_bound)} per home?` : 'Is there gap financing for small for-sale infill here?'} Ask the URA which programs apply; we are not naming programs or assuming eligibility. This changes the decision if no program can cover the gap.`,
+    text: `Free or cheap, and decisive: a builder's price for this building, or recent City and County building-permit valuations. Costs vary a lot with builder size (a practitioner at the hackathon), so this is the check that decides whether anything is left.`,
+    trust: 'pencil',
+  });
+  next.push({
+    text: 'Free: the undermining maps and environmental records. These can stop a deal early; check them before paying for anything.',
     trust: 'pencil',
   });
   next.push({
@@ -264,7 +271,7 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     trust: 'pencil',
   });
   next.push({
-    text: `Paid, and only if the first three pass: ${site.map((x) => x.resolves).join('; ')}. Any of them can change the cost or rule the lot out.`,
+    text: 'Paid, and only if the numbers leave room: a Phase I Environmental Site Assessment, a geotechnical investigation or test pits (for fill), and utility location and depth.',
     trust: 'pencil',
   });
   sections.push({ id: 'next', heading: 'What to check next, in order', items: next });
@@ -276,7 +283,7 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     { text: `The building we described above (width, depth, stories, height) is our proposal, not a requirement.`, trust: 'red' },
     ...r.questions.filter((q) => q.trust === 'red').map((q) => ({ text: `We explored an answer to an open question, but we are not relying on it: ${q.text}`, trust: 'red' as const })),
   ];
-  if (m) assumptions.push({ text: `Soft costs (${Math.round(m.with_assumptions.soft * 100)}%) and financing (${Math.round(m.with_assumptions.financing * 100)}%) are our assumptions and are left out of the gap; with them, vertical construction comes to ${usd(m.with_assumptions.lo)}–${usd(m.with_assumptions.hi)} per home, still without site work or land. Home size: ${m.sqft.toLocaleString('en-US')} sq ft (our proposal).`, trust: 'red' });
+  if (m) assumptions.push({ text: `Soft costs (${Math.round(m.with_assumptions.soft * 100)}%) and financing (${Math.round(m.with_assumptions.financing * 100)}%) are our assumptions and are left out of what's left; with them, construction at the practitioner's estimate comes to ${usd(m.with_assumptions.lo, 100)}–${usd(m.with_assumptions.hi, 100)} per home, still without site work or land. Home size: ${m.sqft.toLocaleString('en-US')} sq ft (our proposal).`, trust: 'red' });
   sections.push({ id: 'assumptions', heading: 'Our assumptions', items: assumptions });
 
   sections.push({

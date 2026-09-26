@@ -43,10 +43,12 @@ apply." highlighted in the saved code text. Reviewer, role, date. The edge label
 ### B04 · Combine three lots · 0:48–1:16  ← the signature frame
 **Link:** `?view=lot&block=10K&lot=25&type=three&lots=25,26,27`
 **On screen:** the envelope reflows across lots 25–27 to **52 ft** in ink (the cue). Internal lot
-lines go dashed and fade. Then the **money panel opens first**: vertical construction $325–$375/sq ft
-(a practitioner's estimate, vertical only) × 1,350 sq ft; three value signals (Ward 5 median $155,000,
-not an appraisal; newest new build $240,000; an 80% AMI household ≈ $268,000); "Gap, at least
-$170,283 per home"; the chip **Only with subsidy (screening estimate)**. The rules panel beside it:
+lines go dashed and fade. Then the **money panel opens first**: vertical construction $200–$250/sq ft
+(a practitioner's estimate for City single-family infill) × 1,350 sq ft = $270,000–$337,500 per home, against
+the newest new build, $240,000: "Nothing left: building alone costs more than the best new-build sale". Beside
+it, the same practitioner's speculative production-builder case ($150/sq ft) leaves $37,500, about what site
+work alone may take ($25,000–$50,000, not a cap). The Ward 5 median ($155,000) and what an 80% AMI buyer could
+pay are context lines, not used. The chip **Only with subsidy (screening estimate)**. The rules panel beside it:
 "Fits the dimensional rules as of right. Needs lot 26: not in the City's inventory."
 **Viewer notices:** the rules open up; the money doesn't, and the app says how sure it is.
 **Action:** start on `type=two`, then click the scenario "Three-unit on lots 25–27" at 0:52.
@@ -82,7 +84,7 @@ were signed and pencil where they weren't.
 ### B09 · Refusal · 2:20–2:30
 **Link:** `?view=lot&block=10K&lot=22&type=two`
 **On screen:** 2247 Humber Way. Stamp: **Can't score**. "County assessment says 1,200 sf; the City
-map measures 2,505 sf (2.09×). Tolerance is ±10%."
+map measures 2,498 sf (2.08×). Tolerance is ±10%."
 **Viewer notices:** it refuses rather than guesses.
 
 ### B10 · Site unknowns → what to check next → the letter · 2:30–2:46

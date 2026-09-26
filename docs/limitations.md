@@ -20,11 +20,15 @@ These are also stated in the app (lot view footer, and "What 24×100 doesn't kno
   are pencil. The narrow-lot question ("does 'single-unit house' include attached houses?") is open; an
   assumption stays red, keeps the Rules chip open, and stays in the inquiry.
 - **There is no score.** Each lot gets a verdict in words and Money · Rules · Site chips.
-- **The money screen is a screening estimate.** Vertical construction cost ($325–$375 per sq ft) is one
-  practitioner's estimate from the hackathon Slack, unconfirmed, excluding site work. The gap is a lower bound
-  against the highest of three value signals; site work, land, soft costs and financing are not in it. The
-  Ward 5 median is mostly older homes and is not an appraisal; the newest new build is one sale and may be
-  price-restricted. Comparable sales are loaded for Ward 5 only, so other wards show "not assessed".
+- **The money screen is a screening estimate.** Vertical construction cost ($200–$250 per sq ft, City
+  single-family infill) is one practitioner's estimate from the hackathon Slack, unconfirmed, excluding site
+  work, and it "varies a lot with builder size"; a builder's price for the building is the decisive check.
+  The $150 production-builder line is the same practitioner's speculation, never the default. "Left for site
+  work, soft costs and land" is the newest new-build sale in the ward minus that cost: one sale, possibly
+  price-restricted, not an appraisal. The ward median is context only (mostly older homes); what an 80% AMI
+  buyer could pay is a ceiling, never used as a value. Site work ($25,000–$50,000 for one home, another
+  practitioner) is typical, not a cap. Comparable sales are loaded for Wards 5 and 12 only; lots in other
+  wards show "Money: not assessed".
 - **Money first is an order, not a finding.** A practitioner said developers check whether a project pencils
   before pursuing a variance; which barrier blocks more often is unproven (H5).
 - **Site is not assessed.** Soil, environmental and water/sewer unknowns can change the decision; the app shows

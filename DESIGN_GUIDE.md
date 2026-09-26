@@ -170,7 +170,7 @@ Nothing else decides how trust looks.
 | **Ink · record** | a dataset value with its pull date | solid `--ink`; dataset chip (`County assessment · 1 Sep 2026`) |
 | **Pencil** | an AI proposal, or anything unresolved | `--graphite`, 1px dashed underline or dashed box, **boiling** (§6.1), italic in prose |
 | **Red** | the user's proposal and assumptions, including an *assumed* answer to an ambiguous clause | `--red`, editable control or a red underline; always labeled with who set it |
-| **Practitioner estimate** | a number a practitioner gave us, unconfirmed (today: vertical construction cost, $325–$375/sq ft) | `--est` violet text with a dotted underline, a hollow rotated-square mark ◇, the words "practitioner estimate" and who supplied it; never red, never ink |
+| **Practitioner estimate** | a number a practitioner gave us, unconfirmed (today: vertical construction cost, $200–$250/sq ft; the $150 production-builder case; typical site work, $25,000–$50,000) | `--est` violet text with a dotted underline, a hollow rotated-square mark ◇, the words "practitioner estimate" and who supplied it; never red, never ink |
 | **City-confirmed** | an interpretation the City confirmed | ink plus a small seal (a 12px circle, double ring, Old Standard "C") and the reference |
 | **Struck** | a rule a reviewer rejected | line-through in `--graphite`; stays visible |
 | **Records disagree** | two sources conflict beyond tolerance | both values in ink side by side; red stamp **Can't score** |

@@ -453,20 +453,35 @@ export interface ValueSignal {
   evidence: Evidence;
 }
 
-/** The money screen (spec §0.12 C3): vertical construction cost against three value signals.
- *  Everything here is a screening estimate; the gap is a lower bound. */
+export interface CostEstimate {
+  id: 'A' | 'B' | 'prod';
+  label: string; // "Vertical construction"
+  psf: [number, number];
+  vertical: [number, number]; // per home
+  /** Left for site work, soft costs and land, per home: new-build value − vertical cost. [best, worst] */
+  left: [number, number];
+  note: string;
+  supplied_by: string;
+  default: boolean;
+  speculative: boolean;
+  formula: string;
+}
+
+/** The money screen (spec §0.12 C3 as refined by §0.13 C10–C11): vertical construction at each
+ *  practitioner estimate, and what a new-build sale would leave for site work, soft costs and land.
+ *  Estimates are shown side by side and never averaged. */
 export interface MoneyResult {
   homes: number;
   sqft: number; // per home (red, from the template)
-  vertical: { lo: number; hi: number; psf: [number, number]; formula: string; supplied_by: string; evidence: Evidence };
-  signals: ValueSignal[];
-  gap: { lower_bound: number; signal: ValueSignal['id']; formula: string; positive: boolean };
-  /** The vertical cost per sq ft at which a home would meet the highest value signal. */
-  break_even_psf: { value: number; signal: ValueSignal['id']; formula: string };
-  /** Secondary line: soft costs and financing are your assumptions, never in the headline. */
-  with_assumptions: { lo: number; hi: number; soft: number; financing: number; formula: string };
+  estimates: CostEstimate[];
+  new_build: ValueSignal | null; // the value used for "left after building"
+  context: ValueSignal[]; // the median (context only) and what an 80% AMI buyer could pay (a ceiling)
+  site_work: { lo: number; hi: number; note: string; supplied_by: string };
+  money_verdict: 'only_with_subsidy' | 'worth_pricing_site' | 'depends_on_builder' | 'no_new_build';
+  swing: number; // how much the estimate's own range moves what's left, per home
+  with_assumptions: { lo: number; hi: number; soft: number; financing: number; formula: string }; // the practitioner estimate (A)
   comps: { median: number; q1: number; q3: number; count: number; thin: boolean; ward: number | null };
   affordable: { price: number; income: number; household: number; formula: string };
-  not_in_number: string[]; // e.g. ["site work", "land", "soft costs", "financing"]
+  source_leads: string[];
   record_ids: string[];
 }

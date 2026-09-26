@@ -265,7 +265,7 @@ export function AboutView({ s, block, audit }: ViewProps) {
           <li>
             <Glyph kind="pencil" />
             <p>
-              <strong>The money screen is an estimate, and “money first” is an order, not a finding.</strong> Vertical construction cost is one practitioner’s estimate ($325–$375 per sq ft, excluding site work); the gap is a lower bound against the highest of three value signals, none of them an appraisal. Checking money first follows a practitioner’s advice about what to learn first; which barrier blocks more often is unproven (hypothesis H5).
+              <strong>The money screen is an estimate, and “money first” is an order, not a finding.</strong> Vertical construction cost is one practitioner’s estimate for City single-family infill ($200–$250 per sq ft, excluding site work), and it varies a lot with builder size; what’s left is the newest new-build sale in the ward minus that cost, and one sale is not an appraisal. Typical site work ($25,000–$50,000 for one home, another practitioner) is not a cap. Checking money first follows a practitioner’s advice about what to learn first; which barrier blocks more often is unproven (hypothesis H5).
             </p>
           </li>
           <li>
@@ -318,7 +318,7 @@ export function AboutView({ s, block, audit }: ViewProps) {
             <dt>
               <span className="ev ev-estimate">
                 <span className="est-mark" aria-hidden="true" />
-                $325
+                $200
               </span>
             </dt>
             <dd>

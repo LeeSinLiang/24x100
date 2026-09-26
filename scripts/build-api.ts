@@ -112,7 +112,7 @@ for (const b of blocks) {
         const m = c && r.state === 'ok' ? moneyFor(r, { comps: c, hud, assumptions }) : null;
         const gap = c ? null : `comparable sales are loaded for Ward ${Object.keys(comps).join(', ')} only`;
         const v = verdictFor(r, m, gap, b);
-        return [t, { verdict: { headline: v.words, chips: v.chips.map((x) => ({ id: x.id, state: x.state, words: x.words })) }, money_screen: m ? { vertical: m.vertical, value_signals: m.signals, gap_lower_bound: m.gap, not_in_number: m.not_in_number } : { not_assessed: gap ?? 'lot not scored' }, ...lotResultJson(r, rs) }];
+        return [t, { verdict: { headline: v.words, chips: v.chips.map((x) => ({ id: x.id, state: x.state, words: x.words })) }, money_screen: m ? { new_build: m.new_build, estimates: m.estimates, site_work: m.site_work, context: m.context, money_verdict: m.money_verdict, source_leads: m.source_leads } : { not_assessed: gap ?? 'lot not scored' }, ...lotResultJson(r, rs) }];
       }),
     );
     const lot = {

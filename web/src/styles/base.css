@@ -999,7 +999,7 @@ button.numeral {
 .bars {
   display: grid;
   gap: 10px;
-  margin: 10px 0 8px;
+  margin: 10px 0 26px; /* room for the new-build label under the dashed line */
   position: relative;
 }
 .bar-row {
@@ -1718,4 +1718,95 @@ button.numeral {
   letter-spacing: 0.12em;
   margin-top: 2px;
   font-weight: 500;
+}
+
+/* §0.13 money table */
+.money-wall .wall-head {
+  position: relative;
+}
+.money-wall .stamp-subsidy {
+  position: absolute;
+  right: 0;
+  top: 2px;
+  float: none;
+}
+.estimates {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--s-small);
+  margin-top: 6px;
+}
+.estimates th,
+.estimates td {
+  padding: 6px 6px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+.estimates thead th {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--ink);
+}
+.estimates .num {
+  text-align: right;
+  white-space: nowrap;
+}
+.est-row th {
+  font-weight: 600;
+  color: var(--est);
+}
+.est-row.is-spec th,
+.est-row.is-spec td {
+  opacity: 0.78;
+}
+.est-row.is-spec th {
+  font-style: italic;
+}
+.est-note {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+.est-row td.left {
+  font-family: var(--f-display);
+  font-size: 17px;
+}
+.est-row td.left.is-none .ev {
+  font-style: italic;
+}
+.bar-sig.sig-newbuild {
+  background: var(--ink);
+}
+.site-work-line {
+  margin: 8px 0 4px;
+  font-size: var(--s-small);
+}
+.context-lines {
+  margin: 4px 0;
+  padding-left: 18px;
+}
+.site-group {
+  margin: 4px 0 6px;
+}
+
+.money-wall .bar-axis {
+  left: 138px;
+  right: 0;
+}
+.money-wall .bar-row {
+  grid-template-columns: 128px minmax(0, 1fr);
+}
+@media (max-width: 767px) {
+  .money-wall .bar-axis {
+    left: 0;
+  }
+  .money-wall .bar-row {
+    grid-template-columns: 1fr;
+  }
 }

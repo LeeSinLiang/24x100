@@ -15,3 +15,4 @@ film/clips/
 .pytest_cache/
 .vite/
 .scratch/
+web/dist-rec/

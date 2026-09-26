@@ -521,23 +521,35 @@ function MoneyCard({ kind, money }: { kind: string; money: MoneyResult | null })
       </article>
     );
   }
-  if ((kind === 'vertical' || kind === 'gap' || kind === 'breakeven') && money) {
-    const top = money.signals.find((x) => x.id === money.gap.signal)!;
+  if ((kind.startsWith('estimate') || kind === 'sitework') && money) {
+    const e = money.estimates.find((x) => x.id === kind.split(':')[1]) ?? money.estimates.find((x) => x.default)!;
     return (
       <article className="card">
-        <Label>{kind === 'vertical' ? 'Vertical construction cost · practitioner estimate' : 'Gap, at least · screening estimate'}</Label>
-        <p className="card-value">
-          <Ev trust="estimate">
-            {kind === 'vertical' ? money.vertical.formula : money.gap.formula}
-          </Ev>
-        </p>
-        <p className="small">
-          The $/sq ft range is {money.vertical.supplied_by}: vertical construction only, excluding site work. It is one practitioner's estimate, not a published benchmark and not total development cost.
-        </p>
-        <p className="small">
-          The gap subtracts the highest of three value signals ({top.label}: {money1(top.value)}) from the low end of vertical cost. It is a lower bound: site work, land, soft costs and financing are not in it.
-        </p>
-        <p className="small">To meet that signal, vertical construction would have to cost about {money.break_even_psf.formula}.</p>
+        <Label>{kind === 'sitework' ? 'Site work, single unit · practitioner estimate' : `${e.label} · practitioner estimate`}</Label>
+        {kind === 'sitework' ? (
+          <>
+            <p className="card-value">
+              <Ev trust="estimate">
+                {money1(money.site_work.lo)}–{money1(money.site_work.hi)}
+              </Ev>
+            </p>
+            <p className="small">{money.site_work.note}</p>
+            <p className="small">Supplied by {money.site_work.supplied_by}.</p>
+          </>
+        ) : (
+          <>
+            <p className="card-value">
+              <Ev trust="estimate">{e.formula}</Ev>
+            </p>
+            <p className="small">
+              {e.note} Supplied by {e.supplied_by}. An estimate from one practitioner, not a published benchmark; costs vary a lot with builder size, and the production-builder line is speculative, never averaged in.
+            </p>
+            <p className="small">
+              What’s left is the newest new-build sale ({money.new_build ? money1(money.new_build.value) : '—'}; one sale; may be price-restricted) minus vertical construction. Site work, soft costs and land have to come out of it.
+            </p>
+          </>
+        )}
+        <p className="small">To check the costs: a builder’s price, or {money.source_leads.join(', ')}. We have not checked these.</p>
         <p className="small red">With your assumptions: {money.with_assumptions.formula}.</p>
       </article>
     );

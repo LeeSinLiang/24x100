@@ -1,6 +1,6 @@
 // Spec §0.12: Money → Rules → Site unknowns → Next steps, and a verdict in words instead of a score.
 import type { BlockFile, Inquiry, LotResult, MoneyResult, SiteRow, Verdict } from '@engine/index';
-import { Chip, Ev, Label, money } from './ui';
+import { Chip, Ev, money, money1 } from './ui';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 const CHIP_NAME = { money: 'Money', rules: 'Rules', site: 'Site' } as const;
@@ -29,21 +29,36 @@ export function EstimateMark() {
   return <span className="est-mark" role="img" aria-label="practitioner estimate" />;
 }
 
+const MONEY_STAMP = {
+  only_with_subsidy: ['ONLY WITH SUBSIDY', 'screening estimate'],
+  depends_on_builder: ['DEPENDS ON THE BUILDER', 'screening estimate'],
+  worth_pricing_site: ['WORTH PRICING THE SITE', 'screening estimate'],
+  no_new_build: null,
+} as const;
+
+function leftText(left: [number, number]): string {
+  if (left[0] < 0) return 'Nothing left';
+  if (left[0] === left[1]) return `${money1(left[0])} left`;
+  if (left[1] < 0) return `${money1(left[0])} at best`;
+  return `${money1(left[1])}–${money1(left[0])}`;
+}
+
 export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResult | null; gap: string | null }) {
-  if (!m) {
+  if (!m || !m.new_build) {
     return (
-      <section className="wall money-wall" aria-labelledby="money-h">
+      <section className="wall money-wall" aria-labelledby="money-h" data-panel="money">
         <header className="wall-head">
           <h2 id="money-h" className="wall-title">
             Money <span className="wall-sub">checked first · screening estimate</span>
           </h2>
         </header>
-        <p className="na">— not assessed: {result.state !== 'ok' ? 'the lot is not scored' : gap ?? 'no money data'}.</p>
+        <p className="na">— not assessed: {result.state !== 'ok' ? 'the lot is not scored' : m ? 'no recent new-build sale in this ward to compare with' : gap ?? 'no money data'}.</p>
       </section>
     );
   }
-  const top = m.signals.find((s) => s.id === m.gap.signal)!;
-  const max = Math.max(m.vertical.hi, ...m.signals.map((s) => s.value), m.comps.q3) * 1.05;
+  const V = m.new_build.value;
+  const stamp = MONEY_STAMP[m.money_verdict];
+  const max = Math.max(V, ...m.estimates.map((e) => e.vertical[1])) * 1.06;
   const x = (v: number) => `${(Math.max(0, v) / max) * 100}%`;
   return (
     <section className="wall money-wall" aria-labelledby="money-h" data-panel="money">
@@ -51,87 +66,120 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
         <h2 id="money-h" className="wall-title">
           Money <span className="wall-sub">checked first · screening estimate</span>
         </h2>
-        <p className="money-lead">
-          <EstimateMark /> Vertical construction alone:{' '}
-          <Ev trust="estimate" refId="money:vertical" num>
-            {money(m.vertical.lo)}–{money(m.vertical.hi)}
+        {stamp && (
+          <span className="stamp stamp-subsidy" data-stamp={m.money_verdict}>
+            {stamp[0]}
+            <small>{stamp[1]}</small>
+          </span>
+        )}
+        <p className="money-lead">Left for site work, soft costs and land, per home</p>
+        <p className="small">
+          A new home here sold for{' '}
+          <Ev trust="ink" refId="money:comps" num>
+            {money(V)}
           </Ev>{' '}
-          per home
-        </p>
-        <p className="small muted">
-          ${m.vertical.psf[0]}–${m.vertical.psf[1]}/sq ft × {m.sqft.toLocaleString('en-US')} sq ft. A practitioner at the hackathon’s estimate: vertical construction only, excluding site work.
+          ({m.new_build.label.replace(/^Newest new build: /, '')}; {m.new_build.note}). Building it costs, per home ({m.sqft.toLocaleString('en-US')} sq ft):
         </p>
       </header>
 
-      <ol className="signals" aria-label="What homes here are worth: three signals, none an appraisal">
-        {m.signals.map((s) => (
-          <li key={s.id} className={`signal ev-class-${s.evidence}`}>
-            <span className="signal-val">
-              <Ev trust={s.evidence === 'red' ? 'red' : 'ink'} refId={s.id === 'affordable' ? 'money:hud' : 'money:comps'} num>
-                {money(s.value)}
-              </Ev>
-            </span>
-            <span className="signal-label">
-              {s.label}
-              <span className="signal-note">{s.note}</span>
-            </span>
+      <table className="estimates">
+        <thead>
+          <tr>
+            <th scope="col">Estimate (a practitioner at the hackathon)</th>
+            <th scope="col">$/sq ft</th>
+            <th scope="col">Building</th>
+            <th scope="col">Left</th>
+          </tr>
+        </thead>
+        <tbody>
+          {m.estimates.map((e) => (
+            <tr key={e.id} className={`est-row ${e.default ? 'is-default' : ''} ${e.speculative ? 'is-spec' : ''}`} data-estimate={e.id}>
+              <th scope="row">
+                <EstimateMark /> {e.label}
+                <span className="est-note">
+                  {e.note} Source: {e.supplied_by.replace(/, unconfirmed$/, '')}.
+                </span>
+              </th>
+              <td className="num est">{e.psf[0] === e.psf[1] ? `~$${e.psf[0]}` : `$${e.psf[0]}–$${e.psf[1]}`}</td>
+              <td className="num est">{e.vertical[0] === e.vertical[1] ? money1(e.vertical[0]) : `${money1(e.vertical[0])}–${money1(e.vertical[1])}`}</td>
+              <td className={`num left ${e.left[0] < 0 ? 'is-none' : ''}`}>
+                <Ev trust="estimate" refId={`money:estimate:${e.id}`} num>
+                  {leftText(e.left)}
+                </Ev>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="small">
+        {m.estimates.some((e) => e.left[0] < 0) ? 'Nothing left means building alone costs more than the best new-build sale. ' : ''}
+        One practitioner’s estimate for city single-family infill, and the same practitioner’s speculative production-builder case beside it (never averaged).
+      </p>
+
+      <div className="bars" role="img" aria-label={`Building cost per home at each estimate against a new-build sale of ${money(V)}.`}>
+        {m.estimates.map((e) => (
+          <div className="bar-row" key={e.id}>
+            <span className="bar-label est">{e.id === 'prod' ? 'Production builder' : e.id === 'A' ? `$${e.psf[0]}–$${e.psf[1]}/sf` : `Estimate ${e.id}`}</span>
+            <div className="bar-track">
+              <div className="bar bar-vertical" style={{ left: x(e.vertical[0]), width: e.vertical[0] === e.vertical[1] ? '3px' : `calc(${x(e.vertical[1])} - ${x(e.vertical[0])})` }} />
+              <div className="bar-sig sig-newbuild" style={{ left: x(V) }} title="the new-build sale" />
+            </div>
+          </div>
+        ))}
+        <div className="bar-axis">
+          <div className="be-line" style={{ left: x(V) }}>
+            <span>new-build sale {money1(V)}</span>
+          </div>
+        </div>
+      </div>
+
+      <p className="site-work-line">
+        <EstimateMark /> <strong>Site work, single unit:</strong>{' '}
+        <Ev trust="estimate" refId="money:sitework" num>
+          {money(m.site_work.lo)}–{money(m.site_work.hi)}
+        </Ev>{' '}
+        typical (a practitioner). Not a cap: fill, soil or deep lines can cost far more.
+      </p>
+      <ul className="context-lines small">
+        {m.context.map((c) => (
+          <li key={c.id}>
+            <Ev trust={c.evidence === 'red' ? 'red' : 'ink'} refId={c.id === 'affordable' ? 'money:hud' : 'money:comps'} num>
+              {money(c.value)}
+            </Ev>{' '}
+            {c.label}: {c.note}.
           </li>
         ))}
-      </ol>
-
-      <div className="bars" role="img" aria-label={`Per home: vertical construction ${money(m.vertical.lo)} to ${money(m.vertical.hi)}; value signals ${m.signals.map((s) => money(s.value)).join(', ')}.`}>
-        <div className="bar-row">
-          <span className="bar-label est">Vertical cost (estimate)</span>
-          <div className="bar-track">
-            <div className="bar-gap" style={{ left: x(top.value), width: `calc(${x(m.vertical.lo)} - ${x(top.value)})` }} />
-            <div className="bar bar-vertical" style={{ left: x(m.vertical.lo), width: `calc(${x(m.vertical.hi)} - ${x(m.vertical.lo)})` }} />
-          </div>
-        </div>
-        <div className="bar-row">
-          <span className="bar-label">Value signals</span>
-          <div className="bar-track">
-            <div className="bar bar-iqr" style={{ left: x(m.comps.q1), width: `calc(${x(m.comps.q3)} - ${x(m.comps.q1)})` }} title="middle half of Ward sales" />
-            {m.signals.map((s) => (
-              <div key={s.id} className={`bar-sig sig-${s.id}`} style={{ left: x(s.value) }} title={s.label} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="gap-line">
-        {m.gap.positive && (
-          <span className="stamp stamp-subsidy" data-stamp="subsidy">
-            ONLY WITH SUBSIDY
-            <small>screening estimate</small>
-          </span>
-        )}
-        <Label>Gap, at least</Label>
-        <p className="gap-num">
-          <EstimateMark />{' '}
-          <Ev trust="estimate" refId="money:gap" num>
-            {m.gap.positive ? `${money(m.gap.lower_bound)} per home` : 'no gap at the low end'}
-          </Ev>
-        </p>
-        <p className="small">
-          Lower bound against the highest signal ({top.label}): excludes site work, soft costs, financing and land.
-        </p>
-      </div>
-
-      <p className="small red">
-        With your assumptions: soft costs {Math.round(m.with_assumptions.soft * 100)}% and financing {Math.round(m.with_assumptions.financing * 100)}% bring vertical construction to{' '}
-        {money(m.with_assumptions.lo)}–{money(m.with_assumptions.hi)} per home, still without site work or land.
+      </ul>
+      <p className="small">
+        Costs vary a lot with builder size (a practitioner), so a builder’s price for this building is the decisive check; the range alone moves what’s left by {money1(m.swing)} per home. Leads: {m.source_leads.join(', ')} (not checked by us).
       </p>
-      <p className="small muted">
-        Not in these numbers: {m.not_in_number.join(', ')}. The lot price is unknown; ask City Real Estate. Money first is the cheapest check to make, not a finding that money blocks more often (hypothesis H5, unproven).{' '}
+      <p className="small red">
+        With your assumptions: soft costs {Math.round(m.with_assumptions.soft * 100)}% and financing {Math.round(m.with_assumptions.financing * 100)}% bring construction to {money(m.with_assumptions.lo)}–{money(m.with_assumptions.hi)} per
+        home, still without site work or land.{' '}
         <Chip refId="money:assumptions" trust="red">
           assumptions
         </Chip>
       </p>
+      <p className="small muted">Money first is the cheapest check to make, per a practitioner, not a finding that money blocks more often (H5, unproven).</p>
     </section>
   );
 }
 
 export function SitePanel({ rows }: { rows: SiteRow[] }) {
+  const early = rows.filter((r) => r.deal_killer);
+  const rest = rows.filter((r) => !r.deal_killer);
+  const Row = ({ r }: { r: SiteRow }) => (
+    <li className="site-row" data-site={r.id}>
+      <span className="mark mark-na" role="img" aria-label="not assessed" />
+      <div>
+        <p className="site-label">{r.label}</p>
+        <p className="small">{r.signals.join(' ')}</p>
+        <p className="small">
+          <strong>Resolves it:</strong> {r.resolves}. <span className="muted">Cost: {r.cost}.</span>
+        </p>
+      </div>
+    </li>
+  );
   return (
     <section className="wall site-wall" aria-labelledby="site-h" data-panel="site">
       <header className="wall-head">
@@ -139,18 +187,16 @@ export function SitePanel({ rows }: { rows: SiteRow[] }) {
           Site <span className="wall-sub">not assessed · could change the decision</span>
         </h2>
       </header>
+      <p className="label site-group">Can stop a deal early (a practitioner) · check these first, for free</p>
       <ul className="site-rows">
-        {rows.map((r) => (
-          <li key={r.id} className="site-row">
-            <span className="mark mark-na" role="img" aria-label="not assessed" />
-            <div>
-              <p className="site-label">{r.label}</p>
-              <p className="small">{r.signals.join(' ')}</p>
-              <p className="small">
-                <strong>Resolves it:</strong> {r.resolves}. <span className="muted">Cost: {r.cost}.</span>
-              </p>
-            </div>
-          </li>
+        {early.map((r) => (
+          <Row key={r.id} r={r} />
+        ))}
+      </ul>
+      <p className="label site-group">Then</p>
+      <ul className="site-rows">
+        {rest.map((r) => (
+          <Row key={r.id} r={r} />
         ))}
       </ul>
     </section>

@@ -5,12 +5,14 @@
 import { usd } from './format';
 import type { BlockFile, LotResult, MoneyResult, Evidence } from './types';
 
-export type Headline = 'cant_tell' | 'only_with_subsidy' | 'doesnt_fit' | 'worth_a_look';
+export type Headline = 'cant_tell' | 'only_with_subsidy' | 'doesnt_fit' | 'depends_on_builder' | 'worth_pricing_site' | 'worth_a_look';
 
 export const HEADLINE_WORDS: Record<Headline, string> = {
   cant_tell: "Can't tell yet",
   only_with_subsidy: 'Only with subsidy (screening estimate)',
   doesnt_fit: "Doesn't fit as of right",
+  depends_on_builder: "Depends on the builder's price",
+  worth_pricing_site: 'Worth pricing the site',
   worth_a_look: 'Worth a closer look, if …',
 };
 
@@ -41,14 +43,19 @@ export function varianceWords(sideSetbacks: boolean): string {
 
 export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string | null, block: BlockFile): Verdict {
   const chips: VerdictChip[] = [];
-  // Money.
-  if (m) {
-    chips.push(
-      m.gap.positive
-        ? { id: 'money', state: 'blocks', words: `vertical cost alone exceeds the highest value signal by at least ${usd(m.gap.lower_bound)} per home`, evidence: 'estimate' }
-        : { id: 'money', state: 'clear', words: 'vertical cost is within the highest value signal (site work, land, soft costs and financing not included)', evidence: 'estimate' },
-    );
-  } else chips.push({ id: 'money', state: 'unknown', words: `not assessed: ${moneyGap ?? (r.state !== 'ok' ? 'the lot is not scored' : 'no money data')}`, evidence: 'unknown' });
+  // Money: what a new-build sale leaves after vertical construction, at the practitioner estimate (A).
+  const A = m?.estimates.find((e) => e.default);
+  if (m && A && m.money_verdict !== 'no_new_build') {
+    const words =
+      m.money_verdict === 'only_with_subsidy'
+        ? A.left[0] < 0
+          ? "nothing left: building alone costs more than the best new-build sale (practitioner's estimate)"
+          : `at most ${usd(A.left[0], 100)} left per home for site work, soft costs and land (practitioner's estimate), under the $${Math.round(m.site_work.lo / 1000)}k typical site work`
+        : m.money_verdict === 'worth_pricing_site'
+          ? `${usd(A.left[1], 100)}–${usd(A.left[0], 100)} left per home for site work, soft costs and land (practitioner's estimate)`
+          : `left per home depends on the builder: ${usd(A.left[0], 100)} at best, ${A.left[1] < 0 ? 'nothing' : usd(A.left[1], 100)} at worst (practitioner's estimate)`;
+    chips.push({ id: 'money', state: m.money_verdict === 'only_with_subsidy' ? 'blocks' : m.money_verdict === 'worth_pricing_site' ? 'clear' : 'open', words, evidence: 'estimate' });
+  } else chips.push({ id: 'money', state: 'unknown', words: `not assessed: ${m && m.money_verdict === 'no_new_build' ? 'no recent new-build sale in this ward' : moneyGap ?? (r.state !== 'ok' ? 'the lot is not scored' : 'no money data')}`, evidence: 'unknown' });
 
   // Rules.
   const width = r.checks.find((c) => c.id === 'width');
@@ -71,15 +78,21 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
   if (r.state !== 'ok') {
     headline = 'cant_tell';
     detail = r.refusal?.code === 'missing_rule' ? 'The rules for this district haven’t been loaded and checked.' : 'The County’s lot area and the City’s map disagree; settle the records first.';
-  } else if (m && m.gap.positive) {
+  } else if (m && m.money_verdict === 'only_with_subsidy') {
     headline = 'only_with_subsidy';
-    detail = `Vertical construction alone (${usd(m.vertical.lo)}–${usd(m.vertical.hi)} per home) exceeds the highest value signal (${usd(signalValue(m))}) by at least ${usd(m.gap.lower_bound)} per home, before site work, land, soft costs and financing.`;
+    detail = `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : `at most ${usd(A!.left[0], 100)}`} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`;
   } else if (dimFail) {
     headline = 'doesnt_fit';
     detail = `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief)}`;
+  } else if (m && m.money_verdict === 'depends_on_builder') {
+    headline = 'depends_on_builder';
+    detail = `At the practitioner's estimate what's left per home runs from ${usd(A!.left[0], 100)} to ${A!.left[1] < 0 ? 'nothing' : usd(A!.left[1], 100)}: a builder's price decides it.`;
+  } else if (m && m.money_verdict === 'worth_pricing_site') {
+    headline = 'worth_pricing_site';
+    detail = `At the practitioner's estimate, ${usd(A!.left[1], 100)}–${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`;
   } else {
     headline = 'worth_a_look';
-    if (!m) conditions.push(`the money works (${moneyGap ?? 'not assessed'})`);
+    if (!m || m.money_verdict === 'no_new_build') conditions.push(`the money works (${moneyGap ?? 'no recent new-build sale to compare'})`);
     if (width?.status === 'open') conditions.push('the City reads the narrow-lot rule to cover attached houses');
     if (dimOpen && width?.status !== 'open') conditions.push('a person checks the unreviewed rules');
     if (otherOpen) conditions.push('use, parking and grading are confirmed');
@@ -87,19 +100,17 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
     conditions.push('the site investigations find nothing that changes the cost');
     detail = `Worth a closer look if ${conditions.join('; ')}.`;
   }
-  const order_key = { cant_tell: 3, only_with_subsidy: 2, doesnt_fit: 1, worth_a_look: 0 }[headline];
+  const order_key = { cant_tell: 5, only_with_subsidy: 4, doesnt_fit: 3, depends_on_builder: 2, worth_pricing_site: 1, worth_a_look: 0 }[headline];
   return { headline, words: HEADLINE_WORDS[headline], detail, conditions, chips, order_key };
 }
 
-function signalValue(m: MoneyResult): number {
-  return m.signals.find((s) => s.id === m.gap.signal)!.value;
-}
 
 // ── Site unknowns (C5): free public signals, and what resolves each. No dollar amounts. ─────────
 
 export interface SiteRow {
-  id: 'soil' | 'environmental' | 'water';
+  id: 'undermining' | 'environmental' | 'fill' | 'soil' | 'water';
   label: string;
+  deal_killer: boolean; // "can stop a deal early" (a practitioner at the hackathon)
   signals: string[];
   resolves: string;
   cost: string;
@@ -112,27 +123,43 @@ export function siteUnknowns(r: LotResult, block: BlockFile): SiteRow[] {
   const y1927 = block.hist_zoning?.['1927'];
   return [
     {
-      id: 'soil',
-      label: 'Soil and foundations',
-      signals: [
-        `Share of the lot at 25%+ slope (City slope layer): ${slopes.join(', ')}.`,
-        under ? `Part of the lot is in a mapped undermined area.` : 'Undermining: none mapped. A blank map is not proof.',
-      ],
-      resolves: 'a geotechnical investigation',
-      cost: 'ask a professional',
+      id: 'undermining',
+      label: 'Undermining',
+      deal_killer: true,
+      signals: [under ? 'Part of the lot is in a mapped undermined area (City layer).' : 'None mapped on the City’s undermined-areas layer. A blank map is not proof.'],
+      resolves: 'the state’s mine maps and a geotechnical investigation',
+      cost: 'free to look first; then ask a professional',
     },
     {
       id: 'environmental',
       label: 'Environmental',
+      deal_killer: true,
       signals: [y1927 ? `Past use: the 1927 zoning map put this block in ${y1927}${/commercial|industr/i.test(y1927) ? ', a commercial district' : ''}.` : 'Past use: not in our data.', 'We hold no contamination records for the lot.'],
-      resolves: 'a Phase I Environmental Site Assessment',
+      resolves: 'free state and federal environmental records first, then a Phase I Environmental Site Assessment',
+      cost: 'free to look first; then ask a professional',
+    },
+    {
+      id: 'fill',
+      label: 'Former house demolished into its basement?',
+      deal_killer: false,
+      signals: ['A practitioner says this is common on City vacant lots: buried debris and fill that need over-excavation. Likely on many City lots; not checked for this lot.'],
+      resolves: 'test pits or a geotechnical investigation',
+      cost: 'ask a professional',
+    },
+    {
+      id: 'soil',
+      label: 'Soil and slope',
+      deal_killer: false,
+      signals: [`Share of the lot at 25%+ slope (City slope layer): ${slopes.join(', ')}.`],
+      resolves: 'a geotechnical investigation',
       cost: 'ask a professional',
     },
     {
       id: 'water',
       label: 'Water and sewer',
-      signals: ['No parcel-level public water or sewer data is in our pipeline. Where a line is, what condition it is in, and how much it can carry are three different questions.'],
-      resolves: 'a PWSA records or tap-in inquiry',
+      deal_killer: false,
+      signals: ['How deep and where the lines are sets the tap cost. No parcel-level public water or sewer data is in our pipeline; location, condition and capacity are three different questions.'],
+      resolves: 'a PWSA records or tap-in inquiry, and utility location',
       cost: 'ask a professional',
     },
   ];

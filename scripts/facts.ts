@@ -8,6 +8,7 @@ import {
   checkQuote,
   classifyCityLot,
   evaluate,
+  leftWords,
   moneyFor,
   siteUnknowns,
   verdictFor,
@@ -106,21 +107,37 @@ put('ward5_all_time', { transfers: raw.counts.transfers_all_dates, valid: raw.co
 put('hud_median', hud.median, `$${hud.median.toLocaleString('en-US')}`, `HUD FY2026 income limits, ${hud.area_name}`, hud.source_url);
 put('hud_80_3p', hud.l80[2], `$${hud.l80[2].toLocaleString('en-US')}`, `HUD FY2026 80% limit, 3 people, ${hud.area_name}`, hud.source_url);
 const inputs = { comps: { ...comps, meta: { ...comps.meta, ward: 5 } }, hud, assumptions };
-for (const [id, r] of [['two', two], ['three', three]] as const) {
-  const m = moneyFor(r, inputs);
-  const v = verdictFor(r, m, null, b);
-  put(`vertical_cost_${id}`, [Math.round(m.vertical.lo), Math.round(m.vertical.hi)], `$${Math.round(m.vertical.lo / 1000)}k–$${Math.round(m.vertical.hi / 1000)}k per home, vertical construction only`, `engine: ${m.vertical.formula}; $/sf is ${m.vertical.supplied_by} (practitioner estimate)`);
-  put(`gap_lower_bound_${id}`, { value: Math.round(m.gap.lower_bound), signal: m.gap.signal }, `at least $${Math.round(m.gap.lower_bound).toLocaleString('en-US')} per home (vs ${m.signals.find((x) => x.id === m.gap.signal)!.label})`, `engine: ${m.gap.formula}; lower bound: excludes site work, soft costs, financing and land`);
-  put(`home_sqft_${id}`, m.sqft, `${m.sqft.toLocaleString('en-US')} sq ft per home`, 'template (red, editable)');
-  put(`verdict_${id}`, { headline: v.headline, words: v.words, chips: v.chips.map((c) => ({ id: c.id, state: c.state, words: c.words })) }, v.words, 'engine verdictFor(): Money · Rules · Site, checked in that order');
-  if (id === 'two') {
-    for (const sig of m.signals) put(`value_signal_${sig.id}`, sig.value, `$${sig.value.toLocaleString('en-US')}`, `${sig.label}: ${sig.note}`);
-    put('affordable_80', Math.round(m.affordable.price), `≈ $${Math.round(m.affordable.price / 1000)}k`, `engine (red mortgage assumptions): ${m.affordable.formula}`);
-    put('vertical_psf', m.vertical.psf, `$${m.vertical.psf[0]}–$${m.vertical.psf[1]} per sq ft`, `${m.vertical.supplied_by}; vertical construction only, excludes site work`);
+const k = (n: number) => `${n < 0 ? '−' : ''}$${Math.abs(Math.round(n)).toLocaleString('en-US')}`;
+function moneyFacts(tag: string, r: ReturnType<typeof evaluate>, blk: BlockFile, inp: typeof inputs, where: string) {
+  const m = moneyFor(r, inp);
+  const v = verdictFor(r, m, null, blk);
+  put(`home_sqft_${tag}`, m.sqft, `${m.sqft.toLocaleString('en-US')} sq ft per home`, `template (red, editable); ${where}`);
+  put(`new_build_value_${tag}`, m.new_build?.value ?? null, m.new_build ? `${k(m.new_build.value)} (${m.new_build.label.replace(/^Newest new build: /, '')})` : 'none', `${m.new_build?.label ?? 'no recent new build'}: ${m.new_build?.note ?? ''}; WPRDC sales, Ward ${inp.comps.meta.ward}`);
+  for (const e of m.estimates) {
+    const sfx = e.id === 'A' ? '' : `_${e.id}`;
+    put(`vertical_cost_${tag}${sfx}`, e.vertical, e.vertical[0] === e.vertical[1] ? `${k(e.vertical[0])} per home` : `${k(e.vertical[0])}–${k(e.vertical[1])} per home`, `engine: ${e.formula.split(';')[0]}; ${e.label}, ${e.supplied_by} (practitioner estimate${e.speculative ? ', speculative' : ''})`);
+    put(`left_after_building_${tag}${sfx}`, e.left, e.left[0] === e.left[1] ? `${k(e.left[0])} left` : `${leftWords(e.left)} (${k(e.left[0])} to ${k(e.left[1])})`, `engine: new-build sale minus vertical construction, per home, ${e.label}; left for site work, soft costs and land`);
   }
+  put(`cost_range_spread_${tag}`, m.swing, `${k(m.swing)} per home across the $${m.estimates[0].psf[0]}–$${m.estimates[0].psf[1]}/sf range`, 'engine: high minus low vertical cost at the practitioner estimate');
+  put(`verdict_${tag}`, { headline: v.headline, words: v.words, money: m.money_verdict, chips: v.chips.map((c) => ({ id: c.id, state: c.state, words: c.words })) }, v.words, `engine verdictFor(); money verdict ${m.money_verdict}; ${where}`);
+  return m;
 }
+const m3 = moneyFacts('three', three, b, inputs, 'three-unit on lots 25–27, Mahon St');
+moneyFacts('two', two, b, inputs, 'two-unit on lot 25 alone, 2241 Mahon St');
+put('site_work_single_unit', [m3.site_work.lo, m3.site_work.hi], `${k(m3.site_work.lo)}–${k(m3.site_work.hi)} typical, not a cap`, `${m3.site_work.supplied_by}; ${m3.site_work.note}`);
+for (const c of m3.context) put(`value_context_${c.id}`, c.value, k(c.value), `${c.label}: ${c.note}`);
+put('affordable_80', Math.round(m3.affordable.price), `≈ ${k(m3.affordable.price)}`, `engine (red mortgage assumptions), a ceiling for an affordable sale: ${m3.affordable.formula}`);
+put('cost_estimates_psf', m3.estimates.map((e) => ({ id: e.id, psf: e.psf, label: e.label, supplied_by: e.supplied_by, speculative: e.speculative })), m3.estimates.map((e) => `${e.label}: ${e.psf[0] === e.psf[1] ? `~$${e.psf[0]}` : `$${e.psf[0]}–$${e.psf[1]}`}/sf`).join('; '), 'data/assumptions.json (practitioner estimates from the hackathon Slack, 26 Sep 2026; never averaged)');
 const v25 = verdictFor(two, moneyFor(two, inputs), null, b);
 put('verdict_lot25_two', v25.words, v25.words, 'engine verdictFor() for 2241 Mahon St, two-unit house on the lot alone');
+// Larimer (held-out, Ward 12).
+if (existsSync('data/blocks/0124P.json') && existsSync('data/money/comps_ward12.json')) {
+  const lb = read<BlockFile>('data/blocks/0124P.json');
+  const lrs = buildRuleSet('R1D-H', rules, questions, audit);
+  const lr = evaluate({ block: lb, rs: lrs, settings: DEFAULT_SETTINGS }, { type: 'detached', pins: ['0124P00203000000'], proposal: proposalFor('detached') });
+  const r12 = read<Comps & { newest_built: Comps['newest'] }>('data/money/comps_ward12.json');
+  moneyFacts('larimer', lr, lb, { comps: { ...r12, newest: r12.newest_built, meta: { ...r12.meta, ward: 12 } }, hud, assumptions }, 'detached house on 511 Lowell St, Larimer (R1D-H rules are unreviewed pencil)');
+}
 const site = siteUnknowns(three, b);
 put('site_soil_slopes_25_27', site[0].signals[0], site[0].signals[0], 'City slope layer (PGHWebSlope25) shares, per lot');
 put('site_environmental_1927', b.hist_zoning?.['1927'], String(b.hist_zoning?.['1927']), 'WPRDC 1927 zoning map at the block centroid');
@@ -153,6 +170,6 @@ if (existsSync('film/heldout.json')) {
 }
 
 mkdirSync('film', { recursive: true });
-writeFileSync('film/facts.json', JSON.stringify({ data_pulled: b.meta.pulled, note: 'Generated by scripts/facts.ts from the engine and data. Do not edit by hand.', facts }, null, 1) + '\n');
+writeFileSync('film/facts.json', JSON.stringify({ data_pulled: b.meta.pulled, superseded: { 'gap_lower_bound_*': 'removed by spec §0.13 C11: the headline is now what a new-build sale leaves after building', '*_B': 'the $325–$375/sf estimate was superseded (team decision, spec §0.13: its author deferred to the other practitioner for local construction cost)', 'vertical_psf': 'replaced by cost_estimates_psf (two practitioners, never averaged)', 'value_signal_*': 'replaced by new_build_value_* and value_context_*' }, note: 'Generated by scripts/facts.ts from the engine and data. Do not edit by hand.', facts }, null, 1) + '\n');
 console.log(`film/facts.json: ${Object.keys(facts).length} facts`);
 for (const [k, v] of Object.entries(facts)) console.log(`  ${k}: ${v.display}`);

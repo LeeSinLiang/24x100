@@ -12,45 +12,59 @@ const h = JSON.parse(readFileSync('data/money/hud_fy2026.json', 'utf8'));
 const hud: Hud = { area_name: h.hud_area_name, median: h.median_family_income, l80: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => h[`l80_${i}`]), source_url: h.meta.url, pulled: h.meta.pulled };
 const assumptions: Assumption[] = JSON.parse(readFileSync('data/assumptions.json', 'utf8'));
 
-describe('money screen', () => {
+describe('money screen (spec §0.13): what a new-build sale leaves after vertical construction', () => {
   const three = evaluate(ctx, scen(b, 'three', [25, 26, 27]));
   const m = moneyFor(three, { comps, hud, assumptions });
+  const est = (id: string) => m.estimates.find((e) => e.id === id)!;
 
-  it('hand-calculated: three-unit, 1,350 sf per home, $325–$375/sf', () => {
+  it('hand-calculated: three-unit, 1,350 sf per home, against 2125 Rose St at $240,000', () => {
     expect(m.sqft).toBe(1350);
-    expect(m.vertical.lo).toBe(325 * 1350); // 438,750
-    expect(m.vertical.hi).toBe(375 * 1350); // 506,250
-    // 80% AMI, 3 people: $79,500 × 30% ÷ 12 = $1,987.50; − $350 = $1,637.50 at 6.5% for 30 years; 3.5% down.
+    expect(m.new_build!.value).toBe(240000);
+    expect(est('A').vertical).toEqual([200 * 1350, 250 * 1350]); // 270,000–337,500
+    expect(est('A').left).toEqual([240000 - 270000, 240000 - 337500]); // −30,000 to −97,500
+    expect(m.estimates.find((e) => e.id === 'B')).toBeUndefined(); // superseded (team decision, spec §0.13)
+    expect(est('prod').vertical).toEqual([202500, 202500]);
+    expect(est('prod').left).toEqual([37500, 37500]);
+    expect(m.swing).toBe(337500 - 270000); // the $200–$250 range alone moves what's left by $67,500
+    expect(m.money_verdict).toBe('only_with_subsidy'); // even A's low end leaves less than $25,000
+  });
+
+  it('one estimate plus the speculative production-builder case, never averaged', () => {
+    expect(m.estimates.map((e) => e.id)).toEqual(['A', 'prod']);
+    expect(m.estimates.filter((e) => e.default).map((e) => e.id)).toEqual(['A']);
+    expect(est('prod').speculative).toBe(true);
+    expect(JSON.stringify(m)).not.toMatch(/\baverag|\bmean\b/i);
+  });
+
+  it('the 80% AMI price is a ceiling in context, never the value for what is left; the median is context only', () => {
+    const aff = m.context.find((c) => c.id === 'affordable')!;
+    expect(aff.note).toMatch(/ceiling/);
+    expect(aff.note).toMatch(/not a value used/);
+    expect(m.context.find((c) => c.id === 'median')!.note).toMatch(/context only/);
+    expect(m.context.find((c) => c.id === 'median')!.note).toMatch(/not an appraisal/);
+    for (const e of m.estimates) expect(e.left[0]).toBe(m.new_build!.value - e.vertical[0]);
+  });
+
+  it('site work carries "not a cap"; nothing shows "$0"; the 80% AMI price is hand-checked', () => {
+    expect(m.site_work).toMatchObject({ lo: 25000, hi: 50000 });
+    expect(m.site_work.note).toMatch(/Not a cap/);
+    expect(JSON.stringify(m)).not.toMatch(/\$0\b/);
     const r = 0.065 / 12;
     const loan = (1637.5 * (1 - Math.pow(1 + r, -360))) / r;
-    expect(m.affordable.price).toBeCloseTo(loan / 0.965, 6);
-    expect(Math.round(m.affordable.price)).toBe(268467);
-    // Highest signal is the affordable price; the gap is a lower bound against it.
-    expect(m.gap.signal).toBe('affordable');
-    expect(Math.round(m.gap.lower_bound)).toBe(438750 - 268467);
-    expect(m.gap.positive).toBe(true);
+    expect(Math.round(m.affordable.price)).toBe(Math.round(loan / 0.965));
   });
 
-  it('labels: the median is not an appraisal; the gap is a lower bound; nothing shows "$0"', () => {
-    expect(m.signals.find((s) => s.id === 'median')!.note).toMatch(/not an appraisal/);
-    expect(m.signals.find((s) => s.id === 'newest')!.note).toMatch(/one sale; may be price-restricted/);
-    expect(m.gap.formula).toMatch(/at least/);
-    expect(m.not_in_number).toEqual(expect.arrayContaining(['site work', 'land', 'soft costs', 'financing']));
-    const all = JSON.stringify(m);
-    expect(all).not.toMatch(/\$0\b/);
-    expect(all).not.toMatch(/sitework/i);
+  it('the money verdict moves with the new-build price: depends on the builder, then worth pricing the site', () => {
+    const at = (price: number) => moneyFor(three, { comps: { ...comps, newest: [{ ...comps.newest[0], price }] }, hud, assumptions }).money_verdict;
+    expect(at(240000)).toBe('only_with_subsidy');
+    expect(at(300000)).toBe('depends_on_builder'); // A leaves 30,000 at best, −37,500 at worst
+    expect(at(400000)).toBe('worth_pricing_site'); // A leaves 62,500–130,000
   });
 
-  it('the cost range is a practitioner estimate, and value signals keep their own evidence', () => {
-    expect(m.vertical.evidence).toBe('estimate');
-    expect(m.vertical.supplied_by).toMatch(/practitioner at the hackathon/);
-    expect(m.signals.find((s) => s.id === 'affordable')!.evidence).toBe('red');
-    expect(m.signals.find((s) => s.id === 'median')!.evidence).toBe('ink');
-  });
-
-  it('soft costs and financing live only in the secondary line', () => {
-    expect(m.with_assumptions.lo).toBeCloseTo(m.vertical.lo * 1.26, 6);
-    expect(m.gap.lower_bound).toBe(m.vertical.lo - Math.max(...m.signals.map((s) => s.value)));
+  it('no recent new build means no money verdict', () => {
+    const old = moneyFor(three, { comps: { ...comps, newest: [{ ...comps.newest[0], yearbuilt: 1973 }] }, hud, assumptions });
+    expect(old.new_build).toBeNull();
+    expect(old.money_verdict).toBe('no_new_build');
   });
 });
 
@@ -66,6 +80,11 @@ describe('verdict (no score)', () => {
       ['site', 'unknown'],
     ]);
     expect(JSON.stringify(v)).not.toMatch(/\/ ?100|score/i);
+    // Amounts in the words are the engine's, not rounded away: $200–$250/sq ft, $216,000–$270,000, $24,000 left.
+    expect(v.detail).toContain('$200–$250/sq ft');
+    expect(v.detail).toContain('$216,000–$270,000');
+    expect(v.detail).toContain('at most $24,000');
+    expect(v.detail).not.toMatch(/\$0\b/);
   });
 
   it('records disagree → "Can\'t tell yet"', () => {
@@ -89,14 +108,17 @@ describe('verdict (no score)', () => {
     expect(v.conditions.join(' ')).toMatch(/site investigations/);
   });
 
-  it('site is never "clean": every row says what resolves it, with no dollar amounts', () => {
+  it('site: the deal-killers first, then fill, soil and utilities; never "clean"; no dollar amounts', () => {
     const rows = siteUnknowns(evaluate(ctx, scen(b, 'three', [25, 26, 27])), b);
-    expect(rows.map((r) => r.id)).toEqual(['soil', 'environmental', 'water']);
+    expect(rows.map((r) => r.id)).toEqual(['undermining', 'environmental', 'fill', 'soil', 'water']);
+    expect(rows.filter((r) => r.deal_killer).map((r) => r.id)).toEqual(['undermining', 'environmental']);
     const text = JSON.stringify(rows);
     expect(text).not.toMatch(/\$\d/);
     expect(text).not.toMatch(/\bclean\b|no risk/i);
-    expect(rows[0].signals.join(' ')).toMatch(/lot 25: 53%, lot 26: 56%, lot 27: 42%/);
     expect(rows[0].signals.join(' ')).toMatch(/A blank map is not proof/);
     expect(rows[1].signals.join(' ')).toMatch(/Commercial U3/);
+    expect(rows[2].signals.join(' ')).toMatch(/not checked for this lot/);
+    expect(rows[3].signals.join(' ')).toMatch(/lot 25: 53%, lot 26: 56%, lot 27: 42%/);
+    expect(rows[4].signals.join(' ')).toMatch(/How deep and where the lines are/);
   });
 });
