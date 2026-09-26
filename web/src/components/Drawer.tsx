@@ -48,6 +48,7 @@ export function ruleValue(r: EffectiveRule): string {
     return `table by lot width; ${last.max_width} ft and below: ${last.interior} ft interior, ${last.streetside} ft street side`;
   }
   if (r.value == null) return r.condition ?? '—';
+  if (r.field === 'contextual_side') return `not below ${r.value} ft, and only next to a built lot; district setback when neighbors are vacant`;
   if (r.unit === 'use') return ({ P: 'permitted by right', S: 'special exception', SPR: 'Site Plan Review', N: 'not permitted' } as Record<string, string>)[String(r.value)] ?? String(r.value);
   if (r.unit === 'sf') return `${Number(r.value).toLocaleString('en-US')} sf`;
   if (r.unit === 'spaces_per_unit') return `${r.value} per unit`;

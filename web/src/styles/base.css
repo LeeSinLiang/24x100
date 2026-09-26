@@ -1191,7 +1191,7 @@ button.numeral {
   font-size: 14.5px;
   line-height: 1.5;
   white-space: pre-wrap;
-  max-height: 280px;
+  max-height: 440px;
   overflow: auto;
   border: 1px solid var(--rule);
 }
