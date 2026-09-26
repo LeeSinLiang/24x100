@@ -213,14 +213,14 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
   );
 }
 
-export function MoneyWall({ result, m }: { result: LotResult; m: MoneyResult | null }) {
+export function MoneyWall({ result, m, gap }: { result: LotResult; m: MoneyResult | null; gap?: string | null }) {
   if (!m || !COMPS || !HUD) {
     return (
       <section className="wall money-wall" aria-labelledby="money-wall-h">
         <header className="wall-head">
           <h2 id="money-wall-h" className="wall-title">The money wall</h2>
         </header>
-        <p className="na">— not assessed: {result.state !== 'ok' ? 'the lot is not scored' : 'money data not loaded'}</p>
+        <p className="na">— not assessed: {result.state !== 'ok' ? 'the lot is not scored' : gap ?? 'money data not loaded'}.</p>
       </section>
     );
   }

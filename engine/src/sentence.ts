@@ -86,9 +86,10 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
   }
   if (area.status === 'pass' && minRule && typeof minRule.value === 'number') {
     const exact = area.available === minRule.value;
-    const since = minRule.enacted ? `Since ${monthYear(minRule.enacted.effective)}, ` : '';
+    const since = minRule.enacted && minRule.state === 'ink' ? `Since ${monthYear(minRule.enacted.effective)}, ` : '';
+    const hedge = area.trust !== 'ink' ? ', on an unreviewed reading of the rules' : '';
     out.push(
-      { t: `${since}${addr} meets the minimum lot size${exact ? ' exactly' : ''} (` },
+      { t: `${since}${addr} meets the minimum lot size${exact ? ' exactly' : ''}${hedge} (` },
       { t: `${int(minRule.value)} sf`, num: true, trust: minRule.state === 'ink' ? 'ink' : 'pencil', ref: `rule:${minRule.id}` },
       { t: '). ' },
     );

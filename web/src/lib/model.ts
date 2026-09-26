@@ -14,7 +14,7 @@ import {
   type EvalContext,
 } from '@engine/index';
 import type { AuditEntry, BlockFile, LotResult, MoneyResult, Parcel, Scenario, TemplateId } from '@engine/types';
-import { ASSUMPTIONS, COMPS, HUD, QUESTIONS, RULES } from './data';
+import { ASSUMPTIONS, COMPS_BY_WARD, HUD, QUESTIONS, RULES } from './data';
 import type { UrlState } from './url';
 
 export function lotKey(p: Parcel): string {
@@ -58,6 +58,7 @@ export interface LotModel {
   row: { parcel: Parcel; result: LotResult }[];
   unlock: ReturnType<typeof unlockSearch>;
   money: MoneyResult | null;
+  moneyGap: string | null; // why the money wall is not assessed
 }
 
 export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: AuditEntry[]): LotModel | null {
@@ -75,8 +76,12 @@ export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: Au
     });
     const unlock = unlockSearch(ctx, { ...scenario, pins: [sel.pin], type: scenario.pins.length > 1 ? 'two' : scenario.type, proposal: scenario.pins.length > 1 ? proposalFor('two') : scenario.proposal });
     const slopeFlag = scenario.pins.some((pin) => (block.parcels.find((p) => p.pin === pin)?.slope25 ?? 0) >= ctx.settings.slope_flag_threshold);
-    const money = COMPS && HUD && ASSUMPTIONS.length && result.state === 'ok' ? moneyFor(result, scenario.pins.length, slopeFlag, { comps: COMPS, hud: HUD, assumptions: ASSUMPTIONS }) : null;
-    return { ctx, scenario, result, row, unlock, money };
+    // Comparable sales are local: use them only for lots in the ward they were pulled for.
+    const comps = block.meta.ward != null ? COMPS_BY_WARD[block.meta.ward] : undefined;
+    const wards = Object.keys(COMPS_BY_WARD).join(', ');
+    const moneyGap = !HUD || !ASSUMPTIONS.length ? 'money data not loaded' : !comps ? `comparable sales are loaded for Ward ${wards || '—'} only; this lot is in Ward ${block.meta.ward ?? 'unknown'}` : null;
+    const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, scenario.pins.length, slopeFlag, { comps, hud: HUD!, assumptions: ASSUMPTIONS }) : null;
+    return { ctx, scenario, result, row, unlock, money, moneyGap };
   }, [block, s.lot, s.lots.join(','), s.type, s.w, s.d, s.st, s.h, s.tol, audit]);
 }
 

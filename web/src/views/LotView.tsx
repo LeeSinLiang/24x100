@@ -231,6 +231,11 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
                       <span>nothing in the dimensional rules{otherLots.length ? `; ${otherLots.map((p) => `lot ${p.lot}`).join(', ')} ${otherLots.length > 1 ? 'are' : 'is'} not City-owned` : ''}.</span>
                     )}
                   </li>
+                  {!m && model.moneyGap && (
+                    <li className="muted">
+                      <span className="wall-tag">Money · H5</span> not assessed: {model.moneyGap}.
+                    </li>
+                  )}
                   {m && (
                     <li>
                       <span className="wall-tag">Money · H5</span> homes here sell for a median {money1(m.value.median)}; break-even needs ≤{' '}
@@ -286,7 +291,7 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
               )}
             </div>
           </div>
-          <MoneyWall result={r} m={m} />
+          <MoneyWall result={r} m={m} gap={model.moneyGap} />
         </div>
       </section>
 

@@ -36,13 +36,28 @@ export const SEED_REVIEWS: unknown = Object.values(reviewFiles)[0] ?? [];
 export const COMPS_RAW = moneyFiles['../../../data/money/comps_ward5.json'] as
   | (Omit<Comps, 'newest' | 'meta'> & { newest: Comps['newest'][number]; newest_built: Comps['newest']; meta: Record<string, unknown>; sales: { addr: string; price: number; saledate: string; use: string; yearbuilt: number | null; sqft: number | null }[] })
   | undefined;
-export const COMPS: Comps | null = COMPS_RAW
-  ? {
-      ...COMPS_RAW,
-      meta: { source: String(COMPS_RAW.meta.source), resource_id: String(COMPS_RAW.meta.resource_id), pulled: String(COMPS_RAW.meta.pulled), filters: JSON.stringify(COMPS_RAW.meta.filters), ward: 5 },
-      newest: COMPS_RAW.newest_built ?? [COMPS_RAW.newest],
-    }
-  : null;
+type CompsRaw = NonNullable<typeof COMPS_RAW>;
+function toComps(raw: CompsRaw, ward: number): Comps {
+  return {
+    ...raw,
+    meta: { source: String(raw.meta.source), resource_id: String(raw.meta.resource_id), pulled: String(raw.meta.pulled), filters: JSON.stringify(raw.meta.filters), ward },
+    newest: raw.newest_built ?? [raw.newest],
+  };
+}
+/** Comparable sales by ward (data/money/comps_ward<N>.json). */
+export const COMPS_BY_WARD: Record<number, Comps> = Object.fromEntries(
+  Object.entries(moneyFiles)
+    .map(([p, v]) => [p.match(/comps_ward(\d+)\.json$/)?.[1], v] as const)
+    .filter(([w]) => w)
+    .map(([w, v]) => [Number(w), toComps(v as CompsRaw, Number(w))]),
+);
+export const COMPS_RAW_BY_WARD: Record<number, CompsRaw> = Object.fromEntries(
+  Object.entries(moneyFiles)
+    .map(([p, v]) => [p.match(/comps_ward(\d+)\.json$/)?.[1], v] as const)
+    .filter(([w]) => w)
+    .map(([w, v]) => [Number(w), v as CompsRaw]),
+);
+export const COMPS: Comps | null = COMPS_BY_WARD[5] ?? null;
 export const HUD: Hud | null = (() => {
   const h = moneyFiles['../../../data/money/hud_fy2026.json'] as Record<string, unknown> | undefined;
   if (!h) return null;
