@@ -271,8 +271,11 @@ export interface Scenario {
 
 export type ApprovalKind =
   | 'variance'
+  | 'use_variance' // the use table says not permitted (§911.02): a use variance from the Zoning Board of Adjustment
+  | 'special_exception' // the use table says special exception (§911.02)
   | 'grading_review'
   | 'administrator_exception'
+  | 'lot_consolidation' // two or more lots made into one zoning lot (the City's process)
   | 'city_public_sale'
   | 'other_owner'
   | 'parking_relief';
@@ -386,7 +389,14 @@ export interface OpenQuestion {
   trust: Trust; // pencil (open) or red (assumed)
 }
 
-export type RefusalCode = 'records_disagree' | 'missing_rule' | 'edges_unclear' | 'sanity' | 'missing_input';
+export type RefusalCode =
+  | 'records_disagree'
+  | 'missing_rule'
+  | 'edges_unclear'
+  | 'sanity'
+  | 'missing_input'
+  | 'not_adjacent' // a group whose lots don't all share edges can't be one zoning lot
+  | 'mixed_districts'; // a group that spans zoning districts
 
 export interface LotResult {
   key: string;

@@ -770,7 +770,7 @@ export function collectApprovals(checks: Check[], settings: Settings): LotResult
     }
   }
   for (const k of ink.keys()) pen.delete(k); // deduct once per distinct approval
-  const order: ApprovalKind[] = ['variance', 'administrator_exception', 'grading_review', 'parking_relief', 'other_owner', 'city_public_sale'];
+  const order: ApprovalKind[] = ['use_variance', 'variance', 'special_exception', 'administrator_exception', 'grading_review', 'parking_relief', 'lot_consolidation', 'other_owner', 'city_public_sale'];
   const sort = (m: Map<ApprovalKind, Approval>) => order.filter((k) => m.has(k)).map((k) => m.get(k)!);
   return { ink: sort(ink), pencil: sort(pen) };
 }
