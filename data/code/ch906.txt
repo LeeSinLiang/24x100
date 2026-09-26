@@ -1,0 +1,2703 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 906
+Source: https://ecode360.com/45474902
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 906.01
+Purpose of Environmental Overlay Zoning Districts. 
+
+§ 906.02
+FP-O, Floodplain overlay district. 
+
+§ 906.03
+(Reserved) 
+
+§ 906.04
+LS-O, Landslide-Prone Overlay District. 
+
+§ 906.05
+UM-O, Undermined Area Overlay District. 
+
+§ 906.06
+VP-O, View Protection Overlay District. 
+
+§ 906.07
+(Reserved) 
+
+§ 906.08
+SS-O, Steep Slope Overlay District. 
+
+§ 906.01
+Purpose of Environmental Overlay Zoning Districts. 
+
+The purpose of the Environmental Overlay Districts is to:
+
+A. 
+
+Reduce hazards to life and protect structures and uses from damages which may be caused by construction on or use of land which is unsafe for development;
+
+B. 
+
+Protect land, public infrastructure, and waters of the City from damages caused by improper use or construction on land which has physical, environmental or aesthetic limitations or development;
+
+C. 
+
+Maintain and enhance natural land features which are environmentally significant or which constitute a natural resource of importance to the community at large, including especially wooded hillsides, river frontages and stream valleys;
+
+D. 
+
+Enhance public access to, and enjoyment of, the City's rivers and riverfronts;
+
+E. 
+
+Implement the policies enumerated in the Vacant, Environmentally Sensitive Land Management Study of 1979; and
+
+F. 
+
+Carry out the mandates imposed upon governments in Pennsylvania by Article I, Section 27 of the Commonwealth's constitution, which states, "The people have a right to clean air, pure water and to the preservation of the natural, scenic, historic and aesthetic values of the environment. As trustee of these resources, the Commonwealth shall conserve and maintain them for the benefit of all of the people."
+
+§ 906.02
+FP-O, Floodplain overlay district. 
+
+[Ord. No. 17-2014, § 1(Att.), 9-23-2014; Ord. No. 34-2021, § 1, eff. 10-11-2021]
+
+A. 
+
+Purpose.
+The purpose of the FP-O Floodplain Overlay District is to reduce the potential for property damage and hazards to life caused by flooding. The regulations are intended to implement and ensure consistency with the Pennsylvania Flood Plain Management Act and the National Flood Insurance Program.
+The intent of this section is to:
+
+1. 
+
+Promote the general health, welfare, and safety of the community.
+
+2. 
+
+Encourage the utilization of appropriate construction practices in order to prevent or minimize flood damage in the future.
+
+3. 
+
+Minimize danger to public health by protecting water supply and natural drainage.
+
+4. 
+
+Reduce financial burdens imposed on the community, its governmental units, and its residents, by preventing excessive development in areas subject to flooding.
+
+5. 
+
+Comply with federal and state floodplain management requirements.
+
+B. 
+
+Applicability. It shall be unlawful for any person, partnership, business or corporation to undertake, or cause to be undertaken, any construction or development anywhere within the floodplain unless zoning approval has been obtained from the Zoning Administrator and a permit has been issued by the Bureau of Building Inspection.
+
+C. 
+
+Warning and Disclaimer of Liability.
+The degree of flood protection sought by the provisions of this section is considered reasonable for regulatory purposes and is based on accepted engineering methods of study. Larger floods may occur or flood heights may be increased by man-made or natural causes, such as ice jams and bridge openings restricted by debris. This chapter does not imply that areas outside any identified floodplain areas, or that land uses permitted within such areas will be free from flooding or flood damages.
+This section shall not create liability on the part of the City or any officer or employee thereof for any flood damages that result from reliance on this section or any administrative decision lawfully made thereunder.
+
+D. 
+
+Administration.
+
+1. 
+
+Floodplain Administrator.
+The Zoning Administrator is hereby appointed to administer and enforce this section. The Zoning Administrator may: (a) Fulfill the duties and responsibilities set forth in these regulations, (b) Delegate duties and responsibilities set forth in these regulations to qualified technical personnel, plan examiners, inspectors, and other employees, or (c) Enter into a written agreement or written contract with another agency or private sector entity to administer specific provisions of these regulations.
+Administration of any part of these regulations by another entity shall not relieve the community of its responsibilities pursuant to the participation requirements of the National Flood Insurance Program as set forth in the Code of Federal Regulations at 44 C.F.R. Section 59.22.
+
+2. 
+
+Approvals Required. Approval from the Zoning Administrator shall be required before any construction or development as defined in Article IX is undertaken within the floodplain overlay. Additional permits may be required at the determination of the Zoning Administrator for items not traditionally needing a building or occupancy permit, which include, but may not be limited to parking of recreation vehicles and storage of equipment and materials.
+
+3. 
+
+Duties and Responsibilities of the Zoning Administrator
+
+(a) 
+
+No approval shall be granted until it has been determined that the proposed work to be undertaken will be in conformance with the requirements of this and all other applicable codes and ordinances.
+
+(b) 
+
+Prior to issuance of zoning approval, the Zoning Administrator shall review the application for the permit to determine if all other necessary government permits required by state and federal laws have been obtained, such as those required by the Pennsylvania Sewage Facilities Act (Act 1966-537, as amended); the Pennsylvania Dam Safety and Encroachments Act (Act 1978-325, as amended); the Pennsylvania Clean Streams Act (Act 1937-394, as amended); and the U.S. Clean Water Act, Section 404, 33, U.S.C. 1344. No zoning approval shall be issued until this determination has been made.
+
+(c) 
+
+The Zoning Administrator shall maintain in perpetuity all records associated with the requirements of this section including, but not limited to, finished construction elevation data, permitting, inspection and enforcement.
+
+(d) 
+
+The Zoning Administrator is the official responsible for submitting a biennial report to FEMA concerning community participation in the National Flood Insurance Program.
+
+(e) 
+
+The responsibility, authority and means to implement the commitments of the Zoning Administrator can be delegated from the person identified. However, the ultimate responsibility lies with the Zoning Administrator.
+
+(f) 
+
+The Zoning Administrator shall delegate the consideration of the requirements of the Building Code in accordance with Title 10 to the Building Code Official.
+
+4. 
+
+Application Procedures and Requirements.
+
+(a) 
+
+In addition to the information required to apply for Zoning Vouchers and Building Permits, if any proposed construction or development is located entirely or partially within any identified floodplain area, applicants shall provide all the necessary information in sufficient detail and clarity to enable the Zoning Administrator to determine that:
+
+(1) 
+
+all such proposals are consistent with the need to minimize flood damage and conform with the requirements of this and all other applicable codes and ordinances;
+
+(2) 
+
+all utilities and facilities, such as sewer, gas, electrical and water systems are located and constructed to minimize or eliminate flood damage;
+
+(3) 
+
+adequate drainage is provided so as to reduce exposure to flood hazards;
+
+(4) 
+
+structures will be anchored to prevent floatation, collapse, or lateral movement;
+
+(5) 
+
+building materials are flood-resistant;
+
+(6) 
+
+appropriate practices that minimize flood damage have been used; and
+
+(7) 
+
+electrical, heating, ventilation, plumbing, air conditioning equipment, and other service facilities have been designed and located to prevent water entry or accumulation.
+
+(b) 
+
+Applicants shall file the following minimum information plus any other pertinent information as may be required by the Zoning Administrator to make the above determination:
+
+(1) 
+
+A completed application form, in writing and submitted to the Zoning Administrator. The application shall contain the following:
+
+(i) 
+
+Name and address of applicant;
+
+(ii) 
+
+Name and address of owner of land on which proposed construction is to occur;
+
+(iii) 
+
+Name and address of contractor;
+
+(iv) 
+
+Site location including address;
+
+(v) 
+
+Listing of other permits required;
+
+(vi) 
+
+Brief description of proposed work and estimated cost, including a breakout of cost of proposed improvement and the market value of the building before the damage occurred where appropriate; and
+
+(vii) 
+
+A plan of the site showing the exact size and location of the proposed construction as well as any existing buildings or structures.
+
+(2) 
+
+A plan of the entire site, clearly and legibly drawn at a scale of one (1) inch being equal to one hundred (100) feet or less, showing the following:
+
+(i) 
+
+North arrow, scale, and date;
+
+(ii) 
+
+Topographic contour lines;
+
+(iii) 
+
+The location of all existing and proposed buildings, structures, and other improvements, including the location of any existing or proposed subdivision and development;
+
+(iv) 
+
+The location of all existing streets, drives, and other access ways; and
+
+(v) 
+
+The location of any existing bodies of water or watercourses, identified floodplain areas, and, if available, information pertaining to the floodway, and the flow of water including direction and velocities.
+
+(3) 
+
+Plans of all proposed buildings, structures and other improvements, drawn at suitable scale showing the following:
+
+(i) 
+
+The proposed lowest floor elevation of any proposed building based upon North American Vertical Datum of 1988;
+
+(ii) 
+
+The elevation of the base flood; and
+
+(iii) 
+
+Supplemental information as may be necessary under the Building Code in accordance with Title 10.
+
+(4) 
+
+The following data and documentation:
+
+(i) 
+
+If available, information concerning flood depths, pressures, velocities, impact and uplift forces and other factors associated with a base flood; and Floodway Area (See Section 906.02.E.2.a) when combined with all other existing and anticipated development, will not increase the base flood elevation at any point;
+
+(ii) 
+
+Documentation, certified by a registered professional engineer or architect, to show that the cumulative effect of any proposed development within an AE Area/District without floodway (See Section 906.02.E.2.b) when combined with all other existing and anticipated development, will not increase the base flood elevation more than one (1) foot at any point within the community;
+
+(iii) 
+
+A document, certified by a registered professional engineer or architect, which states that the proposed construction or development has been adequately designed to withstand the pressures, velocities, impact and uplift forces associated with the base flood. Such statement shall include a description of the type and extent of floodproofing measures which have been incorporated into the design of the structure and/or the development;
+
+(iv) 
+
+Detailed information needed to determine compliance with Section 906.02.F.3.f, Storage, and Section 906.02.F.4, Development Which May Endanger Human Life, including:
+
+A. 
+
+The amount, location and purpose of any materials or substances referred to in Sections 906.02.F.3.f. and 906.02.F.4 which are intended to be used, produced, stored or otherwise maintained on site;
+
+B. 
+
+A description of the safeguards incorporated into the design of the proposed structure to prevent leaks or spills of the dangerous materials or substances listed in Section 906.02.F.4 during a base flood;
+
+(v) 
+
+The appropriate component of the Department of Environmental Protection's Planning Module for Land Development;
+
+(vi) 
+
+Where any excavation or grading is proposed, a plan meeting the requirements of the Department of Environmental Protection, to implement and maintain erosion and sedimentation control; and
+
+(vii) 
+
+Completed Elevation Certificate based on construction drawings.
+
+5. 
+
+Review of Application by Others. A copy of all plans and applications for any proposed construction or development in any identified floodplain area to be considered for approval may be submitted by the Zoning Administrator to any other appropriate agencies and/or individuals (e.g. Planning Commission, etc.) for review and comment.
+
+6. 
+
+Changes. After approval is issued by the Zoning Administrator, no changes of any kind shall be made to the application, permit or any of the plans, specifications or other documents submitted with the application without the written consent or approval of the Zoning Administrator. Requests for any such change shall be in writing, and shall be submitted by the applicant to Zoning Administrator for consideration.
+
+E. 
+
+Identification of Floodplain Areas.
+
+1. 
+
+Identification.
+The identified floodplain area shall be:
+
+(a) 
+
+Any areas of City classified as Special Flood Hazard Areas (SFHAs) in the Flood Insurance Study (FIS) and the accompanying Flood Insurance Rate Maps (FIRMs) dated September 26, 2014 and issued by the Federal Emergency Management Agency (FEMA) or the most recent revision thereof, including all digital data developed as part of the Flood Insurance Study, and
+
+(b) 
+
+Any Community Identified Flood Hazard Areas.
+
+The above referenced FIS and FIRMs, and any subsequent revisions and amendments are hereby adopted by City and declared to be a part of this section.
+
+2. 
+
+Description and Special Requirements of Identified Floodplain Areas. The identified floodplain area shall consist of the following specific areas:
+
+(a) 
+
+The Floodway Area shall be those areas identified in the FIS and the FIRM as floodway and which represent the channel of a watercourse and the adjacent land areas that must be reserved in order to discharge the base flood without increasing the water surface elevation by more than one (1) foot at any point. This term shall also include floodway areas which have been identified in other available studies or sources of information for those Special Flood Hazard Areas where no floodway has been identified in the FIS and FIRM.
+
+(i) 
+
+Within any floodway area, no encroachments, including fill, new construction, substantial improvements, or other development shall be permitted unless it has been demonstrated through hydrologic and hydraulic analysis performed in accordance with standard engineering practice that the proposed encroachment would not result in any increase in flood levels within the community during the occurrence of the base flood discharge.
+
+(ii) 
+
+Within any floodway area, no new construction or development shall be allowed, unless the appropriate permit is obtained from the Department of Environmental Protection Regional Office.
+
+(b) 
+
+The AE Area/District shall be those areas identified as an AE Zone on the FIRM included in the FIS prepared by FEMA for which base flood elevations have been provided.
+
+(i) 
+
+The AE Area adjacent to the floodway shall be those areas identified as an AE Zone on the FIRM included in the FIS prepared by FEMA for which base flood elevations have been provided and a floodway has been delineated.
+
+(c) 
+
+The A Area/District shall be those areas identified as an A Zone on the FIRM included in the FIS prepared by FEMA and for which no base flood elevations have been provided. For these areas, elevation and floodway information from other Federal, State, or other acceptable sources shall be used when available. Where other acceptable information is not available, the base flood elevation shall be determined by using the elevation of a point on the boundary of the identified floodplain area which is nearest the construction site.
+
+ | 
+In lieu of the above, the municipality may require the applicant to determine the elevation with hydrologic and hydraulic engineering techniques. Hydrologic and hydraulic analyses shall be undertaken only by professional engineers or others of demonstrated qualifications, who shall certify that the technical methods used correctly reflect currently accepted technical concepts. Studies, analyses, computations, etc., shall be submitted in sufficient detail to allow a thorough technical review by the municipality.
+
+(d) 
+
+Community Identified Flood Hazard Areas shall be those areas where the City has identified local flood hazard or ponding areas, as delineated and adopted on a "Local Flood Hazard Map" using best available topographic data and locally derived information such as flood of record, historic high water marks, soils or approximate study methodologies.
+
+3. 
+
+Changes in Identification of Area. The Identified Floodplain Area may be revised or modified by the City where studies or information provided by a qualified agency or person documents the need for such revision. However, prior to any such change to the Special Flood Hazard Area, approval must be obtained from FEMA. Additionally, as soon as practicable, but not later than six (6) months after the date such information becomes available, a community shall notify FEMA of the changes to the Special Flood Hazard Area by submitting technical or scientific data. See Section 906.02.F.1.b. for situations where FEMA notification is required.
+
+F. 
+
+Technical Provisions.
+
+1. 
+
+General.
+
+(a) 
+
+Alteration or Relocation of Watercourse.
+
+(1) 
+
+No encroachment, alteration, or improvement of any kind shall be made to any watercourse until all adjacent municipalities which may be affected by such action have been notified by the municipality, and until all required permits or approvals have first been obtained from the Department of Environmental Protection Regional Office.
+
+(2) 
+
+No encroachment, alteration, or improvement of any kind shall be made to any watercourse unless it can be shown that the activity will not reduce or impede the flood carrying capacity of the watercourse in any way.
+
+(3) 
+
+In addition, FEMA and the Pennsylvania Department of Community and Economic Development, shall be notified prior to any alteration or relocation of any watercourse.
+
+(b) 
+
+When the following encroachments are permitted: any development that causes a rise in the base flood elevations within the floodway; any development occurring in Zones A1-30 and Zone AE without a designated floodway, which will cause a rise of more than one foot in the base flood elevation; or alteration or relocation of a stream (including but not limited to installing culverts and bridges), the Applicant shall (as per 44 CFR Part 65.12):
+
+(1) 
+
+Apply to FEMA for conditional approval of such action prior to permitting the encroachments to occur.
+
+(2) 
+
+Upon receipt of the Administrator's conditional approval of map change and prior to approving the proposed encroachments, the City shall provide evidence to FEMA of the adoption of floodplain management ordinances incorporating the increased base flood elevations and / or revised floodway reflecting the post-project condition.
+
+(3) 
+
+Upon completion of the proposed encroachments, the City shall provide as-built certifications. FEMA will initiate a final map revision upon receipt of such certifications in accordance with 44 CFR Part 67.
+
+(c) 
+
+Any new construction, development, uses or activities allowed within any identified floodplain area shall be undertaken in strict compliance with the provisions contained in this section and any other applicable codes, ordinances and regulations.
+
+2. 
+
+Elevation and Floodproofing Requirements.
+
+(a) 
+
+Residential Structures.
+
+(1) 
+
+In AE Zones, any new construction or substantial improvement shall have the lowest floor (including basement) elevated up to, or above, the regulatory flood elevation as defined in Section 906.02.J.
+
+(2) 
+
+In A Zones, where there are no Base Flood Elevations specified on the FIRM, any new construction or substantial improvement shall have the lowest floor (including basement) elevated up to, or above, the regulatory flood elevation determined in accordance with Section 906.02.E.2.b.
+
+(3) 
+
+The design and construction standards and specifications contained in the Building Code in accordance with Title 10 and ASCE 24 shall be utilized, where they are more restrictive.
+
+(b) 
+
+Non-Residential Structures.
+
+(1) 
+
+In AE Zones, any new construction or substantial improvement of a non-residential structure shall have the lowest floor (including basement) elevated up to, or above, the regulatory flood elevation, or be designed and constructed so that the space enclosed below the regulatory flood elevation:
+
+(i) 
+
+Is floodproofed so that the structure is watertight with walls substantially impermeable to the passage of water and,
+
+(ii) 
+
+Has structural components with the capability of resisting hydrostatic and hydrodynamic loads and effects of buoyancy.
+
+(2) 
+
+In A Zones, where there no Base Flood Elevations are specified on the FIRM, any new construction or substantial improvement shall have the lowest floor (including basement) elevated or completely floodproofed up to, or above, the regulatory flood elevation determined in accordance with Section 906.02.E.2.c.
+
+(3) 
+
+Any non-residential structure, or part thereof, made watertight below the regulatory flood elevation shall be floodproofed in accordance with the WI or W2 space classification standards contained in the publication entitled "Flood-Proofing Regulations" published by the U.S. Army Corps of Engineers (June 1972, as amended March 1992) or with some other equivalent standard. All plans and specifications for such floodproofing shall be accompanied by a statement certified by a registered professional engineer or architect which states that the proposed design and methods of construction are in conformance with the above referenced standards.
+
+(4) 
+
+The design and construction standards and specifications contained Building Code in accordance with Title 10 and ASCE 24 shall be utilized, where they are more restrictive.
+
+(c) 
+
+Space Below the Lowest Floor.
+
+(1) 
+
+Fully enclosed space below the lowest floor (excluding basements) which will be used solely for the parking of a vehicle, building access, or incidental storage in an area other than a basement, shall be designed and constructed to allow for the automatic entry and exit of floodwaters for the purpose of equalizing hydrostatic forces on exterior walls. The term "fully enclosed space" also includes crawl spaces.
+
+(2) 
+
+Designs for meeting this requirement must either be certified by a registered professional engineer or architect, or meet or exceed the following minimum criteria:
+
+(i) 
+
+A minimum of two openings having a net total area of not less than one (1) square inch for every square foot of enclosed space.
+
+(ii) 
+
+The bottom of all openings shall be no higher than one (1) foot above grade.
+
+(iii) 
+
+Openings may be equipped with screens, louvers, or other coverings or devices provided that they permit the automatic entry and exit of floodwaters.
+
+(d) 
+
+Historic Structures. Historic structures as defined in Section 906.02.J undergoing repair or rehabilitation that would constitute a substantial improvement as defined in this section, must comply with all requirements in this section that do not preclude the structure's continued designation as a historic structure. Documentation that a specific section requirement will cause removal of the structure from the National Register of Historic Places or the State Inventory of Historic places must be obtained from the Secretary of the Interior or the State Historic Preservation Officer. Any exterior alterations to properties designated by the City as historic must be approved by the City's Historic Review Commission prior to commencement. Any exemption from Code requirements will be the minimum necessary to preserve the historic character and design of the structure.
+
+(e) 
+
+Accessory Structures. Structures accessory to a principal building need not be elevated or floodproofed to remain dry, but shall comply, at a minimum, with the following requirements:
+
+(1) 
+
+The structure shall not be designed or used for human habitation, but shall be limited to the parking of vehicles, or to the storage of tools, material, and equipment related to the principal use or activity;
+
+(2) 
+
+Floor area shall not exceed two hundred (200) square feet;
+
+(3) 
+
+The structure will have a low damage potential;
+
+(4) 
+
+The structure will be located on the site so as to cause the least obstruction to the flow of floodwaters;
+
+(5) 
+
+Power lines, wiring, and outlets will be elevated to the regulatory flood elevation;
+
+(6) 
+
+Permanently affixed utility equipment and appliances such as furnaces, heaters, washers, dryers, etc. are prohibited;
+
+(7) 
+
+Sanitary facilities are prohibited; and
+
+(8) 
+
+The structure shall be adequately anchored to prevent flotation, collapse, and lateral movement and shall be designed to automatically provide for the entry and exit of floodwater for the purpose of equalizing hydrostatic forces on the walls. Designs for meeting this requirement must either be certified by a registered professional engineer or architect, or meet or exceed the following minimum criteria:
+
+(i) 
+
+A minimum of two openings having a net total area of not less than one (1) square inch for every square foot of enclosed space.
+
+(ii) 
+
+The bottom of all openings shall be no higher than one (1) foot above grade.
+
+(iii) 
+
+Openings may be equipped with screens, louvers, etc. or other coverings or devices provided that they permit the automatic entry and exit of floodwaters.
+
+3. 
+
+Design and Construction Standards. The following minimum standards shall apply for all construction and development proposed within any identified floodplain area:
+
+(a) 
+
+Fill. If fill is used, it shall:
+
+(1) 
+
+Extend laterally at least fifteen (15) feet beyond the building line from all points;
+
+(2) 
+
+Consist of soil or small rock materials only - Sanitary Landfills shall not be permitted;
+
+(3) 
+
+Be compacted to provide the necessary permeability and resistance to erosion, scouring, or settling;
+
+(4) 
+
+Be no steeper than one (1) vertical to two (2) horizontal feet unless substantiated data justifying steeper slopes are submitted to, and approved by the Floodplain Administrator; and
+
+(5) 
+
+Be used to the extent to which it does not adversely affect adjacent properties.
+
+(b) 
+
+Drainage Facilities. Storm drainage facilities shall be designed to convey the flow of stormwater runoff in a safe and efficient manner. The system shall ensure proper drainage along streets, and provide positive drainage away from buildings. The system shall also be designed to prevent the discharge of excess runoff onto adjacent properties.
+
+(c) 
+
+Water and Sanitary Sewer Facilities and Systems.
+
+(1) 
+
+All new or replacement water supply and sanitary sewer facilities and systems shall be located, designed and constructed to minimize or eliminate flood damages and the infiltration of floodwaters.
+
+(2) 
+
+Sanitary sewer facilities and systems shall be designed to prevent the discharge of untreated sewage into floodwaters.
+
+(3) 
+
+No part of any on-site waste disposal system shall be located within any identified floodplain area except in strict compliance with all State and local regulations for such systems. If any such system is permitted, it shall be located so as to avoid impairment to it, or contamination from it, during a flood.
+
+(4) 
+
+The design and construction provisions of the UCC and FEMA #348, "Protecting Building Utilities From Flood Damages" and "The International Private Sewage Disposal Code" shall be utilized.
+
+(d) 
+
+Other Utilities. All other utilities such as gas lines, electrical and telephone systems shall be located, elevated (where possible) and constructed to minimize the chance of impairment during a flood.
+
+(e) 
+
+Streets. The finished elevation of all new streets shall be no more than one (1) foot below the Regulatory Flood Elevation.
+
+(f) 
+
+Storage. All materials that are buoyant, flammable, explosive, or in times of flooding, could be injurious to human, animal, or plant life, and not listed in Section 906.02.F.4, Development Which May Endanger Human Life, shall be stored at or above the Regulatory Flood Elevation or floodproofed to the maximum extent possible.
+
+(g) 
+
+Placement of Buildings and Structures. All buildings and structures shall be designed, located, and constructed so as to offer the minimum obstruction to the flow of water and shall be designed to have a minimum effect upon the flow and height of floodwater.
+
+(h) 
+
+Anchoring.
+
+(1) 
+
+All buildings and structures shall be firmly anchored in accordance with accepted engineering practices to prevent flotation, collapse, or lateral movement.
+
+(2) 
+
+All air ducts, large pipes, storage tanks, and other similar objects or components located below the regulatory flood elevation shall be securely anchored or affixed.
+
+(i) 
+
+Floors, Walls, and Ceilings.
+
+(1) 
+
+Wood flooring used at or below the Regulatory Flood Elevation shall be installed to accommodate a lateral expansion of the flooring, perpendicular to the flooring grain without causing structural damage to the building.
+
+(2) 
+
+Plywood used at or below the regulatory flood elevation shall be of a "marine" or "water-resistant" variety.
+
+(3) 
+
+Walls and ceilings at or below the regulatory flood elevation shall be designed and constructed of materials that are "water-resistant" and will withstand inundation.
+
+(4) 
+
+Windows, doors, and other components at or below the regulatory flood elevation shall be made of metal or other "water-resistant" material.
+
+(j) 
+
+Paints and Adhesives.
+
+(1) 
+
+Paints and other finishes used at or below the regulatory flood elevation shall be of "marine" or "water-resistant" quality.
+
+(2) 
+
+Adhesives used at or below the regulatory flood elevation shall be of a "marine" or "water-resistant" variety.
+
+(3) 
+
+All wooden components (doors, trim, cabinets, etc.) used at or below the regulatory flood elevation shall be finished with a "marine" or "water-resistant" paint or other finishing material.
+
+(k) 
+
+Electrical Components.
+
+(1) 
+
+Electrical distribution panels shall be at least three (3) feet above the base flood elevation.
+
+(2) 
+
+Separate electrical circuits shall serve lower levels and shall be dropped from above.
+
+(l) 
+
+Equipment. Water heaters, furnaces, air conditioning and ventilating units, and other electrical, mechanical or utility equipment or apparatus shall not be located below the regulatory flood elevation.
+
+(m) 
+
+Fuel Supply Systems. All gas and oil supply systems shall be designed to prevent the infiltration of floodwaters into the system and discharges from the system into floodwaters. Additional provisions shall be made for the drainage of these systems in the event that floodwater infiltration occurs.
+
+(n) 
+
+Building Code Coordination. The Standards and Specifications contained Title 10 - Building, including adoption of the Uniform Construction Code 34 PA Code (Chapters 401-405), as amended and not limited to the following provisions shall apply to the above and other sections and subsections of this section, to the extent that they are more restrictive and supplement the requirements of this section.
+International Building Code (IBC) 2009 or the latest edition thereof: Secs. 801, 1202, 1403, 1603, 1605, 1612, 3402, and Appendix G.
+International Residential Building Code (IRC) 2009 or the latest edition thereof: Secs. R104, R105, R109, R322, Appendix E, and Appendix J.
+
+4. 
+
+Development Which May Endanger Human Life.
+
+(a) 
+
+In accordance with the Pennsylvania Flood Plain Management Act, and the regulations adopted by the Department of Community and Economic Development as required by the Act, any new or substantially improved structure which:
+
+(1) 
+
+Will be used for the production or storage of any of the following dangerous materials or substances; or,
+
+(2) 
+
+Will be used for any activity requiring the maintenance of a supply of more than five hundred fifty (550) gallons, or other comparable volume, of any of the following dangerous materials or substances on the premises; or,
+
+(3) 
+
+Will involve the production, storage, or use of any amount of radioactive substances;
+Shall be subject to the provisions of this section, in addition to all other applicable provisions. The following list of materials and substances are considered dangerous to human life:
+
+ | 
+• | 
+Acetone
+ | 
+• | 
+Ammonia
+ | 
+• | 
+Benzene
+ | 
+• | 
+Calcium carbide
+ | 
+• | 
+Carbon disulfide
+ | 
+• | 
+Celluloid
+ | 
+• | 
+Chlorine
+ | 
+• | 
+Hydrochloric acid
+ | 
+• | 
+Hydrocyanic acid
+ | 
+• | 
+Magnesium
+ | 
+• | 
+Nitric acid and oxides of nitrogen
+ | 
+• | 
+Petroleum products (gasoline, fuel oil, etc.)
+ | 
+• | 
+Phosphorus
+ | 
+• | 
+Potassium
+ | 
+• | 
+Sodium
+ | 
+• | 
+Sulphur and sulphur products
+ | 
+• | 
+Pesticides (including insecticides, fungicides, and rodenticides)
+ | 
+• | 
+Radioactive substances, insofar as such substances are not otherwise regulated.
+
+(b) 
+
+Within any Floodway Area, any structure of the kind described in Subsection A., above, shall be prohibited. Where permitted within any Identified Floodplain Area, any new or substantially improved residential structure of the kind described in Section 906.02.F.4.a. above, shall be elevated to remain completely dry up to at least one and one-half (1½) feet above base flood elevation and built in accordance with Sections 906.02.F.1, 906.02.F.2, and 906.02.F.3.
+
+(c) 
+
+Where permitted within any Identified Floodplain Area, any new or substantially improved non-residential structure of the kind described in Section 906.02.F.4 above, shall be built in accordance with Sections 906.02.F.1, 906.02.F.2, and 906.02.F.3 including:
+
+(1) 
+
+Elevated, or designed and constructed to remain completely dry up to at least one and one-half (1½) feet above base flood elevation, and
+
+(2) 
+
+Designed to prevent pollution from the structure or activity during the course of a base flood.
+
+ | 
+Any such structure, or part thereof, that will be built below the regulatory flood elevation shall be designed and constructed in accordance with the standards for completely dry floodproofing contained in the publication "Flood-Proofing Regulations (U.S. Army Corps of Engineers, June 1972 as amended March 1992), or with some other equivalent watertight standard.
+
+5. 
+
+Special Requirements for Subdivisions and Development. All subdivision proposals and development proposals containing at least 50 lots or at least 5 acres, whichever is the lesser, in Identified Floodplain Areas where base flood elevation data are not available, shall be supported by hydrologic and hydraulic engineering analyses that determine base flood elevations and floodway information. The analyses shall be prepared by a licensed professional engineer in a format required by FEMA for a Conditional Letter of Map Revision and Letter of Map Revision. Submittal requirements and processing fees shall be the responsibility of the applicant.
+
+6. 
+
+Special Requirements for Manufactured Homes.
+
+(a) 
+
+Within any Floodway Area/District, manufactured homes shall be prohibited. If a variance is obtained in accordance with the criteria in Section 906.02.I, then the following provisions apply:
+
+(b) 
+
+Where permitted within any Identified Floodplain Area, all manufactured homes, and any improvements thereto, shall be:
+
+(1) 
+
+Placed on a permanent foundation;
+
+(2) 
+
+Elevated so that the lowest floor of the manufactured home is at least one and one-half (1½) feet above base flood elevation;
+
+(3) 
+
+Anchored to resist flotation, collapse, or lateral movement; and
+
+(4) 
+
+Have all ductwork and utilities including HVAC/heat pump elevated to the Regulatory Flood Elevation.
+
+(c) 
+
+Installation of manufactured homes shall be done in accordance with the manufacturers' installation instructions as provided by the manufacturer. Where the applicant cannot provide the above information, the requirements of Appendix E of the 2009 "International Residential Building Code" or the "U.S. Department of Housing and Urban Development's Permanent Foundations for Manufactured Housing," 1984 Edition, draft or latest revision thereto and 34 PA Code Chapter 401-405 shall apply.
+
+(d) 
+
+Consideration shall be given to the installation requirements of the Building Code, as prescribed in Title 10 - Building, as amended where appropriate and/or applicable to units where the manufacturers' standards for anchoring cannot be provided or were not established for the proposed unit(s) installation.
+
+7. 
+
+Special Requirements for Recreational Vehicles. Recreational vehicles in Zones A and AE must either:
+
+(a) 
+
+Be on the site for fewer than one hundred eighty (180) consecutive days, and
+
+(b) 
+
+Be fully licensed and ready for highway use, or
+
+(c) 
+
+Meet the permit requirements for manufactured homes in Section 906.02.F.6.
+
+G. 
+
+Activities Requiring Special Permits.
+
+1. 
+
+General. In accordance with the administrative regulations promulgated by the Department of Community and Economic Development to implement the Pennsylvania Flood Plain Management Act, the following activities shall be prohibited within any Identified Floodplain Area unless a Special Permit has been issued by the City.
+
+(a) 
+
+The commencement of any of the following activities; or the construction, enlargement, or expansion of any structure used, or intended to be used, for any of the following activities:
+
+(1) 
+
+Hospitals.
+
+(2) 
+
+Nursing homes (meaning facilities where twenty-four (24) hour staff care or supervision is provided)
+
+(3) 
+
+Correctional Facilities.
+
+2. 
+
+Application Requirements for Special Permits. Applicants for Special Permits shall provide five copies of the following items:
+
+(a) 
+
+A completed Application as prescribed by the Zoning Administrator.
+
+(b) 
+
+A small scale map showing the vicinity in which the proposed site is located.
+
+(c) 
+
+Detailed Site Plan of the entire site that meets the requirements of Section 922.01.D.2 A, clearly and legibly drawn at a scale of one (1) inch being equal to one hundred (100) feet or less, showing the following:
+
+(1) 
+
+Topography based upon the North American Vertical Datum (NAVD) of 1988, showing existing and proposed contours at intervals of two (2) feet;
+
+(2) 
+
+The location of all existing streets, drives, other access ways, and parking areas, with information concerning widths, pavement types and construction, and elevations;
+
+(3) 
+
+The location of any existing bodies of water or watercourses, buildings, structures and other public or private facilities, including railroad tracks and facilities, and any other natural and man-made features affecting, or affected by, the proposed activity or development;
+
+(4) 
+
+The location of the floodplain boundary line, information and spot elevations concerning the base flood elevation, and information concerning the flow of water including direction and velocities;
+
+(5) 
+
+The location of all proposed buildings, structures, utilities, and any other improvements; and
+
+(6) 
+
+Any other information which the municipality considers necessary for adequate review of the application.
+
+(d) 
+
+Plans of all proposed buildings, structures and other improvements, clearly and legibly drawn at suitable scale showing the following:
+
+(1) 
+
+Sufficiently detailed architectural or engineering drawings, including floor plans, sections, and exterior building elevations, as appropriate;
+
+(2) 
+
+For any proposed building, the elevation of the lowest floor (including basement) and, as required, the elevation of any other floor;
+
+(3) 
+
+Complete information concerning flood depths, pressures, velocities, impact and uplift forces, and other factors associated with the base flood;
+
+(4) 
+
+Detailed information concerning any proposed floodproofing measures;
+
+(5) 
+
+Cross section drawings for all proposed streets, drives, other accessways, and parking areas, showing all rights-of-way and pavement widths;
+
+(6) 
+
+Profile drawings for all proposed streets, drives, and vehicular accessways including existing and proposed grades; and
+
+(7) 
+
+Plans and profiles of all proposed sanitary and storm sewer systems, water supply systems, and any other utilities and facilities.
+
+(e) 
+
+The following data and documentation:
+
+(1) 
+
+Certification from a registered professional engineer, architect, or landscape architect that the proposed construction has been adequately designed to protect against damage from the base flood;
+
+(2) 
+
+A statement, certified by a registered professional engineer, architect, landscape architect, or other qualified person which contains a complete and accurate description of the nature and extent of pollution that might possibly occur from the development during the course of a base flood, including a statement concerning the effects such pollution may have on human life;
+
+(3) 
+
+A statement certified by a registered professional engineer, architect, or landscape architect, which contains a complete and accurate description of the effects the proposed development will have on base flood elevation and flows;
+
+(4) 
+
+A statement, certified by a registered professional engineer, architect, or landscape architect, which contains a complete and accurate description of the kinds and amounts of any loose buoyant materials or debris that may possibly exist or be located on the site below the base flood elevation and the effects such materials and debris may have on base flood elevation and flows;
+
+(5) 
+
+The appropriate component of the Department of Environmental Protection's "Planning Module for Land Development;"
+
+(6) 
+
+Where any excavation or grading is proposed, a plan meeting the requirements of the Department of Environmental Protection to implement and maintain erosion and sedimentation control and meeting the requirements of Title 13: Stormwater Management, as applicable;
+
+(7) 
+
+Any other applicable permits such as, but not limited to, a permit for any activity regulated by the Department of Environmental Protection under Section 302 of Act 1978-166; and
+
+(8) 
+
+An evacuation plan which fully explains the manner in which the site will be safely evacuated before or during the course of a base flood.
+
+3. 
+
+Application Review Procedures. Upon the Zoning Administrator's receipt of an application for a Special Permit the following procedures shall apply in addition to those of Section 906.02.D:
+
+(a) 
+
+Promptly upon determining that an application is complete, the Zoning Administrator shall schedule a public hearing before the Planning Commission and notify the applicant of the hearing date. The application shall be reviewed as a Project Development Plan as per Section 922.10 except that the criteria for review shall be provisions 906.02.F of this section.
+
+(b) 
+
+If the Planning Commission and/or City approves an application, it shall file written notification, together with the application and all pertinent information, with the Department of Community and Economic Development, by registered or certified mail, within five (5) working days after the date of approval.
+
+(c) 
+
+Before issuing the Special Permit, the Zoning Administrator shall allow the Department of Community and Economic Development thirty (30) days, after receipt of the notification by the Department, to review the application and decision made by Council.
+
+(d) 
+
+If the Zoning Administrator does not receive any communication from the Department of Community and Economic Development during the thirty (30) day review period, it may issue a Special Permit to the applicant.
+
+(e) 
+
+If the Department of Community and Economic Development should decide to disapprove an application, it shall notify the Zoning Administrator and the applicant, in writing, of the reasons for the disapproval, and the Zoning Administrator shall not issue the Special Permit.
+
+4. 
+
+Special Technical Requirements.
+
+(a) 
+
+In addition to the requirements of Section 906.02.F, the following minimum requirements shall also apply to any proposed development requiring a Special Permit. If there is any conflict between any of the following requirements and those in Section 906.02.F. or in any other code, ordinance, or regulation, the more restrictive provision shall apply.
+
+(b) 
+
+No application for a Special Permit shall be approved unless it can be determined that the structure or activity will be located, constructed and maintained in a manner which will:
+
+(1) 
+
+Fully protect the health and safety of the general public and any occupants of the structure. At a minimum, all new structures shall be designed, located, and constructed so that:
+
+(i) 
+
+The structure will survive inundation by waters of the base flood without any lateral movement or damage to either the structure itself, or to any of its equipment or contents below the BFE.
+
+(ii) 
+
+The lowest floor (including basement) will be elevated to at least one and one-half (1½) feet above base flood elevation.
+
+(iii) 
+
+The occupants of the structure can remain inside for an indefinite period of time and be safely evacuated at any time during the base flood.
+
+(2) 
+
+Prevent any significant possibility of pollution, increased flood levels or flows, or debris endangering life and property.
+
+(c) 
+
+All hydrologic and hydraulic analyses shall be undertaken only by professional engineers or others of demonstrated qualifications, who shall certify that the technical methods used correctly reflect currently accepted technical concepts. Studies, analyses, computations, etc. shall be submitted in sufficient detail to allow a thorough technical review by the Zoning Administrator, Planning Commission, and the Department of Community and Economic Development.
+
+H. 
+
+Existing Structures In Identified Floodplain Areas.
+
+1. 
+
+Existing Structures. The provisions of this section do not require any changes or improvements to be made to lawfully existing structures. However, when an improvement is made to any existing structure, the provisions of Section 906.02.H.2 shall apply.
+
+2. 
+
+Improvements. The following provisions shall apply whenever any improvement is made to an existing structure located within any Identified Floodplain Area:
+
+(a) 
+
+No expansion or enlargement of an existing structure shall be allowed within any Floodway Area/District that would cause any increase in BFE.
+
+(b) 
+
+No expansion or enlargement of an existing structure shall be allowed within AE Area/District without floodway that would, together with all other existing and anticipated development, increase the BFE more than one (1) foot at any point.
+
+(c) 
+
+Any modification, alteration, reconstruction, or improvement of any kind to an existing structure to an extent or amount of fifty (50) percent or more of its market value, shall constitute a substantial improvement and shall be undertaken only in full compliance with the provisions of this section.
+
+(d) 
+
+The above activity shall also address the requirements of the Building Code, as prescribed in Title 10 - Building.
+
+I. 
+
+Variances.
+
+1. 
+
+Variance Procedures and Conditions.
+Requests for variances shall be considered by the Zoning Board of Adjustment in accordance with the procedures contained in Section 922.09 and the following:
+
+(a) 
+
+No variance shall be granted for any construction, development, use, or activity within any Floodway Area/District that would cause any increase in the BFE.
+
+(b) 
+
+No variance shall be granted for any construction, development, use, or activity within any AE Area/District without floodway that would, together with all other existing and anticipated development, increase the BFE more than one (1) foot at any point.
+
+(c) 
+
+Except for a possible modification of the regulatory flood elevation requirement involved, no variance shall be granted for any of the other requirements pertaining specifically to development regulated by Special Permit (or Prohibited Activities) (906.02.G) or to Development Which May Endanger Human Life (Section 906.02.F.4).
+
+(d) 
+
+In reviewing any request for a variance, in addition to the considerations of Section 922.09.E., the Zoning Board of Adjustment shall consider, that the granting of the variance will:
+
+(1) 
+
+Neither result in an unacceptable or prohibited increase in flood heights, additional threats to public safety, or extraordinary public expense.
+
+(2) 
+
+Nor create nuisances, cause fraud on, or victimize the public, or conflict with any other applicable state or local ordinances and regulations.
+
+(e) 
+
+Whenever a variance is granted, the Zoning Board of Adjustment shall notify the applicant in writing that:
+
+(1) 
+
+The granting of the variance may result in increased premium rates for flood insurance.
+
+(2) 
+
+Such variances may increase the risks to life and property.
+
+(f) 
+
+A complete record of all variance requests and related actions shall be maintained by the Zoning Administrator. In addition, a report of all variances granted during the year shall be included in the annual report to the FEMA.
+
+ | 
+Notwithstanding any of the above, however, all structures shall be designed and constructed so as to have the capability of resisting the one-percent (1%) annual chance flood.
+
+J. 
+
+Definitions.
+
+1. 
+
+General. Unless specifically defined below, words and phrases used in this section shall be interpreted in accordance with Section 926.
+
+2. 
+
+Specific Definitions.
+
+(a) 
+
+BASE FLOOD
+means a flood which has a one percent chance of being equaled or exceeded in any given year (also called the "100-year flood" or one-percent (1%) annual chance flood).
+
+(b) 
+
+BASE FLOOD DISCHARGE
+means the volume of water resulting from a Base Flood as it passes a given location within a given time, usually expressed in cubic feet per second (cfs).
+
+(c) 
+
+BASE FLOOD ELEVATION (BFE)
+means the elevation shown on the Flood Insurance Rate Map (FIRM) for Zone AE that indicates the water surface elevation resulting from a flood that has a 1-percent (1%) or greater chance of being equaled or exceeded in any given year.
+
+(d) 
+
+BASEMENT
+means any area of the building having its floor below ground level on all sides.
+
+(e) 
+
+BUILDING
+means a combination of materials to form a permanent structure having walls and a roof. Included shall be all manufactured homes and trailers to be used for human habitation.
+
+(f) 
+
+DEVELOPMENT
+means any man-made change to improved or unimproved real estate, including but not limited to the construction, reconstruction, renovation, repair, expansion, or alteration of buildings or other structures; the placement of manufactured homes; streets, and other paving; utilities; filling, grading and excavation; mining; dredging; drilling operations; storage of equipment or materials; and the subdivision of land.
+
+(g) 
+
+EXISTING MANUFACTURED HOME PARK OR SUBDIVISION
+means a manufactured home park or subdivision for which the construction of facilities for servicing the lots on which the manufactured homes are to be affixed (including, at a minimum, the installation of utilities, the construction of streets, and either final site grading or the pouring of concrete pads) is completed before the effective date of the floodplain management regulations adopted by a community.
+
+(h) 
+
+EXPANSION TO AN EXISTING MANUFACTURED HOME PARK OR SUBDIVISION
+means the preparation of additional sites by the construction of facilities for servicing the lots on which the manufactured homes are to be affixed (including the installation of utilities, the construction of streets, and either final site grading or the pouring of concrete pads).
+
+(i) 
+
+FLOOD
+means a temporary inundation of normally dry land areas.
+
+(j) 
+
+FLOOD INSURANCE RATE MAP (FIRM)
+means the official map on which the Federal Emergency Management Agency has delineated both the areas of special flood hazards and the risk premium zones applicable to the community.
+
+(k) 
+
+FLOOD INSURANCE STUDY (FIS)
+means the official report provided by the Federal Emergency Management Agency that includes flood profiles, the Flood Insurance Rate Map, the Flood Boundary and Floodway Map, and the water surface elevation of the base flood.
+
+(l) 
+
+FLOODPLAIN AREA
+means a relatively flat or low land area which is subject to partial or complete inundation from an adjoining or nearby stream, river or watercourse; and/or any area subject to the unusual and rapid accumulation of surface waters from any source.
+
+(m) 
+
+FLOODPROOFING
+means any combination of structural and nonstructural additions, changes, or adjustments to structures which reduce or eliminate flood damage to real estate or improved real property, water and sanitary facilities, structures and their contents.
+
+(n) 
+
+FLOODWAY
+means the channel of a river or other watercourse and the adjacent land areas that must be reserved in order to discharge the base flood without cumulatively increasing the water surface elevation more than one (1) foot.
+
+(o) 
+
+HIGHEST ADJACENT GRADE
+means the highest natural elevation of the ground surface prior to construction next to the proposed walls of a structure.
+
+(p) 
+
+HISTORIC STRUCTURE
+means any structure that is:
+
+(1) 
+
+Listed individually in the National Register of Historic Places (a listing maintained by the Department of Interior) or preliminarily determined by the Secretary of the Interior as meeting the requirements for individual listing on the National Register;
+
+(2) 
+
+Certified or preliminarily determined by the Secretary of the Interior as contributing to the historical significance of a registered historic district or a district preliminarily determined by the Secretary to qualify as a registered historic district;
+
+(3) 
+
+Individually listed on a state inventory of historic places in states which have been approved by the Secretary of the Interior; or
+
+(4) 
+
+Individually listed on a local inventory of historic places in communities with historic preservation that have been certified either:
+
+(i) 
+
+By an approved state program as determined by the Secretary of the Interior; or
+
+(ii) 
+
+Directly by the Secretary of the Interior in states without approved programs.
+
+(q) 
+
+IDENTIFIED FLOODPLAIN AREA
+is an umbrella term that includes all of the areas within which the community has selected to enforce floodplain regulations. It will always include the area identified as the Special Flood Hazard Area on the Flood Insurance Rate Maps and Flood Insurance Study, but may include additional areas identified by the community. See Section 906.02.E.1 and Section 906.02.E.2 for the specifics on what areas the community has included in the Identified Floodplain Area.
+
+(r) 
+
+LOWEST FLOOR
+means the lowest floor of the lowest fully enclosed area (including basement). An unfinished, flood resistant partially enclosed area, used solely for parking of vehicles, building access, and incidental storage, in an area other than a basement area is not considered the lowest floor of a building, provided that such space is not designed and built so that the structure is in violation of the applicable non-elevation design requirements of this chapter.
+
+(s) 
+
+MANUFACTURED HOME
+means a structure, transportable in one or more sections, which is built on a permanent chassis, and is designed for use with or without a permanent foundation when attached to the required utilities. The term includes park trailers, travel trailers, recreational and other similar vehicles which are placed on a site for more than one hundred eighty (180) consecutive days.
+
+(t) 
+
+MANUFACTURED HOME PARK OR SUBDIVISION
+means a parcel (or contiguous parcels) of land divided into two (2) or more manufactured home lots for rent or sale.
+
+(u) 
+
+MINOR REPAIR
+means the replacement of existing work with equivalent materials for the purpose of its routine maintenance and upkeep, but not including the cutting away of any wall, partition or portion thereof, the removal or cutting of any structural beam or bearing support, or the removal or change of any required means of egress, or rearrangement of parts of a structure affecting the exitway requirements; nor shall minor repairs include addition to, alteration of, replacement or relocation of any standpipe, water supply, sewer, drainage, drain leader, gas, oil, waste, vent, or similar piping, electric wiring, mechanical or other work affecting public health or general safety.
+
+(v) 
+
+NEW CONSTRUCTION
+means structures for which the start of construction commenced on or after September 26, 2014 and includes any subsequent improvements to such structures. Any construction started after December 15, 1981 and before September 26, 2014, is subject to the Code in effect at the time the permit was issued, provided the start of construction was within one hundred eighty (180) days of permit issuance.
+
+(w) 
+
+PERSON
+means an individual, partnership, public or private association or corporation, firm, trust, estate, municipality, governmental unit, public utility or any other legal entity whatsoever, which is recognized by law as the subject of rights and duties.
+
+(x) 
+
+POST-FIRM STRUCTURE
+means a structure for which construction or substantial improvement occurred after December 31, 1974 or on or after the community's initial Flood Insurance Rate Map (FIRM) dated December 15, 1981, whichever is later, and, as such, would be required to be compliant with the regulations of the National Flood Insurance Program.
+
+(y) 
+
+PRE-FIRM STRUCTURE
+means a structure for which construction or substantial improvement occurred on or before December 31, 1974 or before the community's initial Flood Insurance Rate Map (FIRM) dated December 15, 1981, whichever is later, and, as such, would not be required to be compliant with the regulations of the National Flood Insurance Program.
+
+(z) 
+
+RECREATIONAL VEHICLE
+means a vehicle which is:
+
+(1) 
+
+Built on a single chassis;
+
+(2) 
+
+Not more than four hundred (400) square feet, measured at the largest horizontal projections;
+
+(3) 
+
+Designed to be self-propelled or permanently towable by a light-duty truck.
+
+(4) 
+
+Not designed for use as a permanent dwelling but as temporary living quarters for recreational, camping, travel, or seasonal use.
+
+(aa) 
+
+REGULATORY FLOOD ELEVATION
+means the base flood elevation (BFE) or estimated flood height as determined using simplified methods plus a freeboard safety factor of one and one-half (1½) feet.
+
+(bb) 
+
+SPECIAL PERMIT
+means a special approval which is required for hospitals, nursing homes, correctional facilities, and new manufactured home parks/subdivisions and substantial improvements to such existing parks, when such development is located in all, or a designated portion of a floodplain.
+
+(cc) 
+
+SPECIAL FLOOD HAZARD AREA (SFHA)
+means an area in the floodplain subject to a 1-percent (1%) or greater chance of flooding in any given year. It is shown on the FIRM as Zone A or AE.
+
+(dd) 
+
+START OF CONSTRUCTION
+means includes substantial improvement and other proposed new development and means the date the Permit was issued, provided the actual start of construction, repair, reconstruction, rehabilitation, addition, placement, or other improvement was within one hundred eighty (180) days after the date of the permit and shall be completed within twelve (12) months after the date of issuance of the permit unless a time extension is granted, in writing, by the Zoning Administrator. The actual start means either the first placement of permanent construction of a structure on a site, such as the pouring of slab or footings, the installation of piles, the construction of columns, or any work beyond the stage of excavation; or the placement of a manufacture home on a foundation. Permanent construction does not include land preparation, such as clearing, grading, and filling; nor does it include the installation of streets and walkways; nor does it include excavation for a basement, footings, piers, or foundations or the erection of temporary forms; nor does it include the installation on the property of accessory buildings, such as garages or sheds not occupied as dwelling units or not part of the main structure. For a substantial improvement, the actual start of construction means the first alteration of any wall, ceiling, floor, or other structural part of a building, whether or not that alteration affects the external dimensions of the building.
+
+(ee) 
+
+STRUCTURE
+means a walled and roofed building, including a gas or liquid storage tank that is principally above ground, as well as a manufactured home.
+
+(ff) 
+
+SUBDIVISION
+means the division or re-division of a lot, tract, or parcel of land by any means into two or more lots, tracts, parcels or other divisions of land including changes in existing lot lines for the purpose, whether immediate or future, of lease, partition by the court for distribution to heirs, or devisees, transfer of ownership or building or lot development: Provided, however, that the subdivision by lease of land for agricultural purposes into parcels of more than ten acres, not involving any new street or easement of access or any residential dwelling, shall be exempted.
+
+(gg) 
+
+SUBSTANTIAL DAMAGE
+means damage from any cause sustained by a structure whereby the cost of restoring the structure to its before-damaged condition would equal or exceed fifty (50) percent or more of the market value of the structure before the damage occurred.
+
+(hh) 
+
+SUBSTANTIAL IMPROVEMENT
+means any reconstruction, rehabilitation, addition, or other improvement of a structure, of which the cost equals or exceeds fifty (50) percent of the market value of the structure before the "start of construction" of the improvement. This term includes structures which have incurred "substantial damage" regardless of the actual repair work performed. The term does not, however, include any project for improvement of a structure to correct existing violations of state or local health, sanitary, or safety code specifications which have been identified by the local code enforcement official and which are the minimum necessary to assure safe living conditions.
+
+(ii) 
+
+UNIFORM CONSTRUCTION CODE (UCC)
+means the statewide building code adopted by The Pennsylvania General Assembly in 1999 applicable to new construction in all municipalities whether administered by the municipality, a third party or the Department of Labor and Industry. Applicable to residential and commercial buildings, The Code adopted The International Residential Code (IRC) and the International Building Code (IBC), by reference, as the construction standard applicable with the State floodplain construction. For coordination purposes, references to the above are made specifically to various sections of the IRC and the IBC.
+
+(jj) 
+
+VIOLATION
+means the failure of a structure or other development to be fully compliant with the community's floodplain management regulations. A structure or other development without the elevation certificate, other certifications, or other evidence of compliance required in 44 CFR §60.3(b) (5), (c)(4), (c)(10), (d)(3), (e)(2), (e)(4), or (e)(5) is presumed to be in violation until such time as that documentation is provided.
+
+§ 906.03
+(Reserved) 
+
+ [1]
+
+[1]
+Editor's Note: Former § 906.03, which pertained to RF-O, Riverfront Overlay District, and derived from Ord. 2-2005, eff. 1-25-2005, was repealed by Ord. 31-2018, eff. 8-6-2018. 
+
+§ 906.04
+LS-O, Landslide-Prone Overlay District. 
+
+A. 
+
+Purpose. The LS-O, Landslide-Prone Overlay District regulations require subsurface investigations by a registered professional and approval of construction plans by the Chief of the Bureau of Building Inspection prior to issuance of a Certificate of Occupancy for any development in the LS-O District. The purpose of these regulations is to reduce the risk of damage or hazards of life that may occur as a result of construction and land operations on lands susceptible to movement or sliding of earth.
+
+1. 
+
+Warning and Disclaimer. The mapped delineations of land that may be subject to sliding or subsidence do not necessarily include all land that is subject to those hazards. While it is the purpose of the regulations contained in this section to afford reasonable protection against damages caused by construction on or use of hazard-prone land, neither the mapped delineations nor any regulations contained in this section shall create any liability on the part of the City, its officers or employees for damages that may occur.
+
+B. 
+
+Effect of District Regulations. Within the LS-O District, land may be used and structures may be erected, altered or enlarged for any use that is allowed in the underlying zoning district, in accordance with the site development standards of the underlying zoning district and all other applicable requirements. The following requirements shall also apply with the LS-O District.
+
+1. 
+
+Compliance with Hillside Development Standards. Every new or changed use of land and every structure hereafter erected or enlarged within the LS-O District shall comply with the Hillside Development Standards of the Subdivision Regulations.
+
+(a) 
+
+An applicant for approval of a Certificate of Occupancy in the LS-O District shall submit a development plan for the site, which shall include a site plan, building plan and such other information as determined by the Zoning Administrator to be necessary to evaluate the proposed development for compliance with the Hillside Development Standards of the Subdivision Regulations.
+
+(b) 
+
+The Zoning Administrator shall not approve an application for a Certificate of Occupancy in the LS-O District unless the development plan for the subject property complies with the Hillside Development Standards of the Subdivision Regulations.
+
+2. 
+
+Review by the Zoning Administrator. No Certificate of Occupancy application shall be approved for zoning for any structure or for any use of land requiring excavation, fill or removal of vegetation until the applicant has submitted evidence, acceptable to the Zoning Administrator, that the proposed construction or development shall not contribute to or create conditions of increased susceptibility to landslides, soil erosion or any other movement of earth. Such evidence shall be based on field investigation performed by a registered professional as defined in the Land Operations Ordinance or a geotechnical consultant with appropriate professional insurance certification and the appropriate academic credentials and professional association.
+
+3. 
+
+Review by the Chief of the Bureau of Building Inspection. No building permit or land operations permit application shall be approved for any structure or for any use of land requiring excavation, fill or removal of vegetation in a Landslide-Prone District until construction plans and land operations plans for the site in question have been approved by the Chief of the Bureau of Building Inspection, based on findings and recommendations of the site investigation required under Section 906.03.B.2. In the implementation of this requirement, the Chief of the Bureau of Building Inspection may require that construction and land plans be prepared or approved by a registered professional as defined in the Land Operations Ordinance or a geotechnical consultant with appropriate professional insurance certification and the appropriate academic credentials and professional association.
+
+§ 906.05
+UM-O, Undermined Area Overlay District. 
+
+A. 
+
+Purpose. The UM-O, Undermined Area Overlay District regulations of this section are intended to reduce the risk of damage to property and danger to life that may be caused by subsidence of the land surface over underground mines. This objective is implemented by requiring investigation of subsurface conditions in undermined areas and by restricting development in such areas or by requiring the use of specialized construction techniques in mine hazard areas.
+
+1. 
+
+Warning and Disclaimer. The mapped delineations of land that may be subject to subsidence do not necessarily include all land that is subject to such hazards. While it is the purpose of the regulations contained in this section to afford reasonable protection against damages caused by construction on or use of hazard-prone land, neither the mapped delineations nor any regulations contained in this section shall create any liability on the part of the City, its officers or employees for damages that may occur.
+
+B. 
+
+Effect of District Regulations. Within the UM-O District, land may be used and structures may be erected, altered or enlarged for any use that is allowed in the underlying zoning district, in accordance with the site development standards of the underlying zoning district and all other applicable requirements. The following requirements shall also apply within the UM-O District.
+
+1. 
+
+Mines Underlying Property. No Certificate of Occupancy application shall be approved for a use involving new construction or enlargement of an existing structure in an UM-O District until the applicant has submitted all information available from the Pennsylvania Department of Environmental Protection or its successor agencies, Bureau of Mining and Reclamation, Division of Mine Subsidence Insurance and Mine Subsidence Regulations about the location, depth and physical characteristics of any mine that underlies the subject property or adjacent properties and the likelihood of mine subsidence occurring in the pertinent area.
+
+2. 
+
+Single-Unit Dwellings. A Certificate of Occupancy application may be approved for zoning for construction of a single-unit residential use or for another structure that is comparable in size and construction characteristics to single-unit dwelling, provided that competent evidence is provided to the Zoning Administrator showing that the site has more than one hundred (100) feet of overburden above the mine and that there is no known history of subsidence incidents in the vicinity of the proposed construction site. The permit applicant is advised that it is possible for mine subsidence to occur and affect single-unit dwellings or other structures of comparable size and construction characteristic when such structures are placed in an undermined area even when there is more than one hundred (100) feet overburden. It is strongly recommended that the applicant follow the advice of the Bureau of Mining and Reclamation, and seek the advice of a registered professional as defined in the Land Operations Ordinance of the Pittsburgh Code of Ordinances or a geotechnical consultant with appropriate professional insurance certification and the appropriate academic credentials and professional association.
+
+3. 
+
+Other Development Prohibited. Until the applicant has submitted evidence that the site is reasonably safe for the construction of the proposed use, no Certificate of Occupancy application shall be approved for zoning for construction on any site that has less than one hundred (100) feet of overburden or any known history of subsidence incidents in its vicinity; for any structure that is larger or heavier than a typical single-unit dwelling; or for any use that might create a hazard to the public if damaged by subsidence. Such evidence shall be based on a site investigation performed by a registered professional as defined in the Land Operations Ordinance of the Pittsburgh Code of Ordinances Title 10 or a geotechnical consultant with appropriate professional insurance certification and the appropriate academic credentials and professional association.
+
+4. 
+
+Review by Chief. If the site investigations required under the UM-O District includes recommendations for any special construction techniques to ensure safe construction on an undermined site, no building permit or land operations permit shall be issued until construction plans have been approved by the Chief of the Bureau of Building Inspection as safe for the site in question, based upon the findings and recommendations of the site investigation. In the implementation of this requirement, the Chief of the Bureau of Building Inspection may require that construction plans be prepared or approved by a registered professional as defined in the Land Operations Ordinance or a geotechnical consultant with appropriate professional insurance certification and the appropriate academic credentials and professional association.
+
+§ 906.06
+VP-O, View Protection Overlay District. 
+
+A. 
+
+Purpose. The City's hillsides, rivers, entryways, scenic road corridors, and central business district are scenic resources of citywide and regional significance. The VP-O, View Protection Overlay District regulations of this section are intended to preserve the scenic quality of these resources and thereby promote a high quality of life, preserve property values, and promote sustainable economic development by limiting development than would reduce their visual integrity and to insure that development does not block observation of a scenic view from delineated public viewing places.
+
+B. 
+
+Special Definitions. The following special definitions shall apply throughout the VP-O District regulations of this section.
+
+1. 
+
+SCENIC VIEW
+means an outstanding or unique view of a hillside, downtown Pittsburgh, a river valley, or a river and shoreline as seen from a delineated viewing or generalized viewing place.
+
+2. 
+
+VIEW CORRIDOR
+means a space between a viewing place and a scenic view defined by a view plane and view framing lines.
+
+3. 
+
+VIEW FRAMING LINE
+means a line or lines which define the outer edges of a scenic view.
+
+4. 
+
+VIEW PLANE
+means an imaginary plane extending from a viewing place to a scenic view, which defines the space or view corridor which shall be maintained in order to observe a scenic view from a viewing place.
+
+5. 
+
+VIEW PROTECTION OVERLAY DISTRICT
+means an area within which scenic views, viewing places, view corridors, and other scenic values are protected. A View Protection Overlay District may include a scenic view without delineation of a specific viewing place and the associated view corridor, a scenic view, together with a defined viewing place and the associated view corridor, view plan and view framing lines, or any delineated area within which there are scenic values deemed worthy of protection by the City Council.
+
+6. 
+
+VIEWING PLACE
+means a public street or other public area or facility from which a scenic view may be observed.
+
+C. 
+
+Effect of District Regulations. Within the VP-O District, land may be used and structures may be erected, altered or enlarged for any use that is allowed in the underlying zoning district, in accordance with the site development standards of the underlying zoning district and all other applicable requirements.
+
+D. 
+
+Establishment of View Protection Districts. The following requirements shall apply within the VP-O District.
+
+1. 
+
+At the time of establishment of a VP-O District, City Council shall delineate the boundaries or limits of the scenic entryway area, scenic road corridor, or scenic view. With respect to such scenic views, the district regulations shall specify a view place or places, together with the location, elevation, and slope of the view plane and view framing lines. This information shall be incorporated as part of the View Protection Overlay District Zoning Map.
+
+2. 
+
+The Planning Commission shall adopt View Protection Guidelines for each VP-O District, which shall specify the degree and character of protection to be required in each district, and which may include one (1) or more of the following:
+
+(a) 
+
+Protection of the delineated scenic view by such means as limitations on the height, size or bulk of structure; removal of natural vegetation or disturbance of the land through grading or other development which would disrupt or obstruct the delineated view area.
+
+(b) 
+
+Protection of the view corridor by such means as limitations on the height and bulk of structures which shall be allowed to penetrate a view plane delineated within a VP-O District.
+
+(c) 
+
+Protection of the viewing place by such means as requirements for maintenance of yards or other open space designed to prevent blocking of a view from a viewing place.
+
+(d) 
+
+Protection of scenic entryway or scenic road corridor by the adoption of the following types of regulations, including but not limited to controls on:
+
+(1) 
+
+height, bulk, setbacks, materials, and design of structures and parking lots;
+
+(2) 
+
+signs and billboards;
+
+(3) 
+
+vegetation removal, landscaping, screening, fencing, and buffering;
+
+(4) 
+
+protection of sensitive natural and cultural resources, including streams, rivers, wetlands, historic buildings, archeological sites and similar significant features; and
+
+(5) 
+
+maintenance of open space.
+
+E. 
+
+Compliance with View Protection Overlay Regulations. Within any View Protection District, an application for a Certificate of Occupancy for a use involving new construction, enlargement of an existing structure, grading or removal of vegetation shall be approved only in accordance with the View Protection Overlay Guidelines adopted by the Planning Commission for that VP-O District.
+
+§ 906.07
+(Reserved) 
+
+ [1]
+
+[1]
+Editor's Note: Former § 906.07, which pertained to the SM-O, Stormwater Management Overlay District and derived from Ord. 18-2007, eff. 11-19-2007, and Ord. 5-2008, eff. 5-21-2008, was repealed by Ord. 34-2021, eff. 10-11-2021. 
+
+§ 906.08
+SS-O, Steep Slope Overlay District. 
+
+[Ord. 40-2005, § 1G, eff. 12-30-2005]
+
+A. 
+
+Purpose.
+
+1. 
+
+Create a Steep Slope Overlay District (SS-O) that includes any land comprising a steep slope (i.e. a natural slope of twenty-five (25) percent or greater).
+
+2. 
+
+Recognize the importance of the City's steep slopes in defining the character of Pittsburgh.
+
+3. 
+
+Assure that the steep slope site is appropriate for development considering natural site limitations, associated hazards, public safety, and the need to provide public services and infrastructure.
+
+4. 
+
+Assure that the design of the proposed development responds to the site's limitations and attributes.
+
+B. 
+
+Special Definitions.
+
+1. 
+
+SLOPE
+inclination of land expressed as a percentage and derived by dividing the vertical elevation change by the horizontal distance.
+
+2. 
+
+RIDGELINE
+that portion of a hillside that forms the horizon where a steep slope of twenty-five (25) percent or greater interfaces with less steeply sloped land above and beyond the SS-O, Steep Slope Overlay boundary.
+
+3. 
+
+BASE
+transitional point between the valley floor and the hillside where a steep slope of twenty-five (25) percent or greater interfaces with less steeply sloped land below and beyond the SS-O, Steep Slope Overlay boundary.
+
+4. 
+
+HIGH VISIBILITY AREA
+area defined and mapped by An Ecological and Physical Investigation of Pittsburgh Hillsides as City hillside areas that are visible by a large number of people on a daily basis due to the ability of the slope to be viewed from long distances, many vantage points, or numerous significant public viewing areas.
+
+5. 
+
+TRANSITION AREA
+buffer area located adjacent to the top and bottom of a slope (ridgeline or base of the steep slope area) where both the land and the associated land use regulations change form.
+
+6. 
+
+NATIVE VEGETATION
+species of plants that exist in this area prior to European settlement; plants within their pre European settlement range or zone of potential dispersal.
+
+7. 
+
+INVASIVES
+plants which aggressively spread and displace beneficial vegetation.
+
+8. 
+
+DISTURBED AREA
+area of the site where vegetation is removed, structures or paving is removed, or excavation occurs.
+
+C. 
+
+Development on Slopes in the SS-O district.
+
+1. 
+
+Applicability. To ensure that development occurs in a manner that protects the natural and topographic character of slopes twenty-five (25) percent or greater, all uses and structures permitted in the base underlying district shall be reviewed and approved by the Planning Commission per the procedures of this Section.
+
+2. 
+
+Application. All applicants for review in the SS-O District shall first file an application with the Zoning Administrator, along with a nonrefundable fee that has been established to defray the cost of processing applications. No application shall be processed until the Zoning Administrator has established that the application is complete and the required fee has been paid.
+
+3. 
+
+Notice. Promptly upon determining that an application is complete, the Zoning Administrator shall schedule public hearing dates before the Planning Commission, notify the applicant of the hearing dates and give at least twenty-one (21) days notice of the Planning Commission hearing by mail and by posting, in accordance with the notice requirements of Section 922.01.C.1 and Section 922.01.C.2 and with notice to all owners of record of property within the affected area and within one hundred fifty (150) feet thereof, or to such extended distance to ensure that no less than twenty-five (25) nearest owners of record are so notified in writing.
+
+4. 
+
+Hearing and Action by the Planning Commission. The Planning Commission shall hold a public hearing on the application for development in the SS-O District. After the public hearing, the Planning Commission shall act to approve, approve with conditions, or deny the application base on the Review Standards of Section 908.06.C.5 within forty-five (45) days of the Planning Commission hearing. When the Planning Commission fails to render its decision within that period, or fails to hold the required public hearing within sixty (60) days from the date of the completed application being received by the Zoning Administrator, the decision shall be deemed to be rendered in denial of the applicant unless the applicant has agreed in writing or on the record to an extension of time. When a decision has been rendered in denial of the failure of the Planning Commission to meet or render a decision as hereinabove provided, the City shall give public notice of said decision within ten (10) days, according to the provisions of Section 906.08.C.3. Nothing in this subsection shall prejudice the right of any party opposing the application to appeal for reconsideration.
+
+5. 
+
+Review Standards.
+In addition to meeting the Environmental Performance Standards of Section 915.02 and the Residential Compatibility Standards of Section 916, the following additional standards shall apply to all development within the SS-O, Steep Slope Overlay District.
+
+1. 
+
+Natural landforms shall be maintained to the maximum extent possible.
+
+2. 
+
+The scale of the structure shall be contextual with proximate structures of the same use.
+
+3. 
+
+Attached single family residential units shall employ architectural, materials, or color variations to allow the units to read as individual units.
+
+4. 
+
+The proposed development shall minimize impervious surfaces.
+
+5. 
+
+The proposed development shall employ foundations that include ground contours, embankments, vegetation or other such measures.
+
+6. 
+
+Development shall be set back fifty (50) feet in both directions from the edge of the SS-O boundary when it occurs at either the Ridgeline or Base.
+
+7. 
+
+Parking areas shall be internal to the primary structure or screened from view through vegetation or architectural features.
+
+8. 
+
+Utilities and mechanical equipment (including but not limited to HVAC equipment) and storage areas (refuse or otherwise) shall be screened from view.
+
+9. 
+
+All on-site lighting shall be shielded to prevent light spillover onto adjacent properties.
+
+10. 
+
+Vegetation removal solely to create views is prohibited; views to the site shall be considered to be as important as views from the site.
+
+11. 
+
+The proposed structure shall minimize the need for vegetation removal with the exception of invasive species.
+
+12. 
+
+Vegetation with similar appearance and growing requirements as existing proximate vegetation (excepting invasive species) or native species shall be employed in revegetating the site.
+
+13. 
+
+Natural drainage patterns shall be maintained to the extent physically possible.
+
+14. 
+
+Stormwater runoff from impervious surfaces shall be collected and transported from the site rather than directed or allowed to flow onto adjacent properties or rights-of-way.
+
+ | 
+The Planning Commission may waive any of the above standards if finds that other mitigating measures are taken to preserve the environmental integrity of the site.
+
+6. 
+
+Amendments. The process for amending an approved development within the SS-O, Steep Slope Overlay District shall be the same as required for the approval of an original application.
+
+7. 
+
+Lapse of Approval. If the development has not been substantially initiated within one (1) year of the date of approval by the Planning Commission, the approval shall lapse. The approval shall also lapse if, after starting construction, the construction is discontinued for a period of one (1) year or more. No physical improvements shall be made after approval lapses unless the approval or authorization is renewed pursuant to Section 922.06.I.3. The Planning Commission may renew its approval for which approval has lapsed provided that no more than one (1) year has elapsed since the date of the original approval or, in the case of discontinuance of work, since the date of discontinuance. Renewal shall require formal action, but it shall not require public notice or hearings. Renewal shall have the same effect as the original approval.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Art IIIOverlay Zoning Districts
+
+Ch 906Environmental Overlay Districts
+
+§ 906.01Purpose of Environmental Overlay Zoning Districts.
+
+§ 906.02FP-O, Floodplain overlay district.
+
+§ 906.03(Reserved)
+
+§ 906.04LS-O, Landslide-Prone Overlay District.
+
+§ 906.05UM-O, Undermined Area Overlay District.
+
+§ 906.06VP-O, View Protection Overlay District.
+
+§ 906.07(Reserved)
+
+§ 906.08SS-O, Steep Slope Overlay District.
+
+Ch 907Development Overlay Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Art VIINonconformities
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions

@@ -1,0 +1,1803 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 915
+Source: https://ecode360.com/45478225
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 915.01
+General. 
+
+§ 915.02
+Environmental Standards. 
+
+§ 915.03
+(Reserved) 
+
+§ 915.04
+Sustainable Development Bonuses. 
+
+§ 915.06
+Sustainable Development for Publicly Financed Buildings. 
+
+§ 915.07
+Performance Points System. 
+
+§ 915.08
+Sustainable Development for City-Owned Facilities. 
+
+§ 915.01
+General. 
+
+[Ord. 40-2005, § 1H, eff. 12-30-2005; Ord. No. 48-2017, § 6, 12-8-2017]
+
+A. 
+
+Purpose. The performance of the city's natural and built areas is key to the success of its communities. The provisions of this Section are intended to protect environmental areas and to support new development that will make Pittsburgh more livable and resilient.
+
+B. 
+
+Applicability. No structure or land use shall be located, erected, constructed, reconstructed, moved, altered, demolished, converted, enlarged or designed to be so, except in conformance the provisions of this Section.
+
+§ 915.02
+Environmental Standards. 
+
+[Ord. 40-2005, § 1H, eff. 12-30-2005]
+
+A. 
+
+Grading Standards.
+
+1. 
+
+The Grading, Cut, and Fill Standards of this Section Shall Apply to All Slopes.
+
+a. 
+
+To the maximum extent feasible, the grading shall preserve the natural landforms of the site;
+
+b. 
+
+To the maximum extent feasible, cutting, filling and severe benching or terracing of existing slopes to create additional building area or larger building sites shall be avoided;
+
+c. 
+
+Finished grades of fifteen (15) percent or less are strongly encouraged. Cut or filled slopes shall not exceed twenty-five (25) percent unless:
+
+(1) 
+
+The applicant submits a geotechnical investigation report that certifies the safety and suitability of such slopes; and
+
+(2) 
+
+The applicant proposes the use of walls, terraces, or other methods at intervals of not less than ten (10) feet to create planting beds that will stabilize the slope, and such measures are approved in the geotechnical investigation report as sufficient to ensure the stability of the slope and ensure that such slope shall pose no significant risk of danger to any property or public improvements located on or off the proposed development site.
+
+d. 
+
+The top and bottom of the cut or filled slopes shall be located no less than five (5) feet from any property line, street, building, parking area, or other developed area.
+
+e. 
+
+Retaining walls or gabions may be permitted to support steep slopes, but shall not exceed ten (10) feet in height.
+
+f. 
+
+Retaining walls shall follow the existing hillside contours if physically feasible and shall avoid visible unnatural straight slope faces. Walls shall be of a color that is compatible with natural rock outcroppings that occur on Pittsburgh hillsides.
+
+B. 
+
+Slope Revegatation Standards.
+Slopes in excess of a fifteen (15) percent grade that are exposed during construction or site development shall be landscaped or revegetated in order to mitigate adverse environmental and visual effects. Fill soil on slopes must support plant growth. At a minimum, any slope in excess of fifteen (15) percent grade exposed or created during development shall be landscaped or revegetated with trees and other plant material at the following minimum planting densities per one hundred fifty (150) square feet of exposed slope area:
+
+ | 
+• One (1) canopy tree
+ | 
+• Two (2) evergreens
+ | 
+• Two (2) understory trees
+ | 
+• Five (5) shrubs
+Gabions and low walls should be utilized to gain planting pockets on steep grades.
+
+C. 
+
+Tree and Vegetative Surveys. The Zoning Administrator shall require a tree survey for development applications on any site greater than one-quarter (¼) acre (ten thousand eight hundred ninety (10,890) square feet).
+
+D. 
+
+Tree Protection and Replacement. The Zoning Administrator shall require the protection and preservation of trees with a diameter of twelve (12) inches or more, measured at a point four (4) feet above grade. If said trees are removed during site preparation or development, they shall be replaced, at a minimum, equal to the combined total diameter of removed trees. Diameter measurements shall be taken at a point four (4) feet above grade.
+
+§ 915.03
+(Reserved) 
+
+ [1]
+
+[1]
+Editor's Note: Former § 915.03, which pertained to the small project stormwater standard and derived from Ord. 48-2017, adopted 12-8-2017, was repealed by Ord. 34-2021, eff. 10-11-2021. 
+
+§ 915.04
+Sustainable Development Bonuses. 
+
+[Ord. No. 19-2009, § 1, eff. 7-31-2009; Ord. No. 48-2017, § 7, 12-8-2017]
+
+A. 
+
+Purpose. Green buildings improve air and water quality, reduce solid waste, conserve natural resources, reduce operation costs, optimize life-cycle economic performance and minimize the strain on local infrastructure. Given that buildings are responsible for a large portion of the city's energy and resource use, the provisions of this Section are intended to promote sustainable developments that reduce the impact of the built environment in the City of Pittsburgh.
+
+B. 
+
+Applicability. The following bonuses for sustainable development may be permitted in all non-residential zoning districts. These bonuses may not be applied in addition to any other height or FAR bonus or exception. These bonuses may not be applied in addition to any additional height or FAR variances or special exceptions granted by the Zoning Board of Adjustment.
+
+C. 
+
+Special Definitions.
+
+LEED CERTIFIED BUILDING
+shall mean a building certified, under the Leadership in Energy and Environmental Design (LEED) program of the United States Green Building Council, that meets LEED standards for either New Construction and Major Renovation Projects or Core and Shell Projects.
+
+D. 
+
+Floor Area and Height Bonuses. If floor area ratio and density bonuses are permitted pursuant to Section 915.04.E, the maximum floor area ratio and height may exceed the amounts specified for the applicable base zoning district, but shall not exceed an additional twenty (20) percent of floor area ratio and height.
+
+E. 
+
+Review Process.
+
+1) 
+
+For all non-residential zoning districts, except the LNC Zoning District, the floor area and height bonus of this Section may be permitted as an Administrator's Exception.
+
+2) 
+
+In the LNC Zoning District, the approval of the floor area and height bonus of this Section shall require the approval of a Project Development Plan by the Planning Commission after a public hearing.
+
+F. 
+
+Penalty.
+
+(1) 
+
+If a project is awarded a density bonus pursuant to this subsection, then the Developer shall provide the City with satisfactory evidence of having completed the following steps in the process toward achieving LEED certification prior to obtaining a building permit for the project:
+
+ | 
+• | 
+Registering the project with the U.S. Green Building Council for Leadership in Energy and Environmental Design (LEED) certification under USGBC Combined Design and Construction Review
+ | 
+• | 
+Hiring a LEED Accredited Professional (AP) as part of the Project team
+ | 
+• | 
+Documentation that the Project Team has submitted all Design Phase credits for consideration to USGBC
+
+(2) 
+
+If the project does not attain LEED certification within three (3) years of receiving its initial certificate of occupancy, then the developer shall be subject to a fine equal to one (1) percent of the construction costs. If the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building.
+
+§ 915.06
+Sustainable Development for Publicly Financed Buildings. 
+
+[Ord. No. 18-2009, § 1, eff. 7-31-2009; Ord. No. 48-2017, § 7, 12-8-2017; Ord. No. 16-2020, § 1, eff. 6-2-2020]
+
+A. 
+
+Purpose. The City of Pittsburgh is committed to building and supporting sustainable developments, to yield cost savings to the city taxpayers through reduced operating costs, to provide healthy and productive work environments for all residents and employees, and to contribute to the city's goals of protecting, conserving, and enhancing the region's environmental resources. Additionally, the city shall help to set a community standard of sustainable building.
+
+B. 
+
+Applicability. The following development requirements apply to any new construction or renovation project that receives Tax Increment Financing (TIF).
+
+C. 
+
+Definitions.
+
+CONSTRUCTION COSTS
+shall mean the project's total hard and soft costs.
+
+HARD CONSTRUCTION COSTS
+shall mean all costs with respect to the construction or rehabilitation of the property/project, including, without limitation, demolition, excavation, proffers, and all other required on- and off-site work, furniture, fixtures and equipment, and all general conditions and general contractor or construction management fees and profit associated with such costs, if any. Soft Costs shall not be included in Hard Costs.
+
+LEED CERTIFIED BUILDING
+shall mean a building certified, under the Leadership in Energy and Environmental Design (LEED) Program of the United States Green Building Council, that meets LEED standards for either New Construction and Major Renovation Projects or Core and Shell Projects.
+
+SOFT CONSTRUCTION COSTS
+shall mean all architectural, engineering, consulting, accounting, legal and surveying costs, appraisals and inspections (unless related to the financing of the project), costs of licenses and permits, permit expenditures, tests and inspections, cost of bond or insurance premiums, real and personal property taxes, utilities, and title insurance costs, plus any leasing or brokerage fees. Soft Costs shall also include site acquisition costs and financing costs and all development fees. Hard Costs shall not be included in Soft Costs.
+
+D. 
+
+Sustainable Development Requirements. All projects receiving Tax Increment Financing must receive a LEED Silver rating level.
+
+E. 
+
+Penalty.
+
+(1) 
+
+Prior to the sale of any bonds associated with providing Tax Increment Financing (TIF), the Developer shall provide the City with satisfactory evidence of having completed the following steps in the process toward achieving LEED Silver certification:
+
+ | 
+• | 
+Registering the project with the U.S. Green Building Council for Leadership in Energy and Environmental Design (LEED) certification under USGBC Combined Design and Construction Review
+ | 
+• | 
+Hiring a LEED Accredited Professional (AP) as part of the Project team
+ | 
+• | 
+Documentation that the Project Team has submitted all Design Phase credits for consideration to USGBC
+
+(2) 
+
+If the project does not attain LEED Silver certification within three (3) years of receiving its initial certificate of occupancy, then the developer shall be subject to a fine equal to one (1) percent of the construction costs. If the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building.
+
+(3) 
+
+All Penalties shall be deposited into the Green Building Trust Fund.
+
+§ 915.07
+Performance Points System. 
+
+[Ord. No. 48-2017, § 7, 12-8-2017; Ord. No. 31-2018, § 13, eff. 8-6-2018; Ord. No. 34-2021, § 1, eff. 10-11-2021; Ord. No. 17-2022, § 5, eff. 6-30-2022; Ord. No. 1-2023, § 13, eff. 3-1-2023]
+
+A. 
+
+Purpose. The City of Pittsburgh recognizes that communities that embrace innovation and livability while remaining affordable to all citizens will be more sustainable both in their demands on the environment and their ability to continue to grow and succeed over time. This set of incentives for development seeks to increase the provision of affordable housing, increase the number of green buildings constructed, and incent the retention of existing structures that represent the city's built heritage.
+
+B. 
+
+Applicability. The following incentives are available within designated zoning districts that include the following elements:
+
+1. 
+
+Provision enabling use of this bonus system;
+
+2. 
+
+Bonus Goals and Points section specifying the points awarded for each option; and
+
+3. 
+
+Bonus section specifying how points earned through the incentives can be used.
+
+C. 
+
+Definitions.
+
+1. 
+
+(Reserved)
+
+2. 
+
+95TH PERCENTILE RAIN EVENT
+shall mean the measured precipitation depth accumulated over a 24-hour period for the period of record that ranks in the 95th percentile rainfall depth based on the range of all daily event occurrences during this period.
+
+3. 
+
+AFFORDABLE HOUSING
+shall mean housing with a gross cost, including utilities, that does not exceed thirty (30) percent of the occupant's income.
+
+4. 
+
+AREA MEDIAN INCOME (AMI)
+shall mean the average medium income of the metropolitan area (MSA) or Non-Metropolitan areas (counties) as established annually by the U.S. Department of Housing and Urban Development (HUD).
+
+5. 
+
+BUILDING ENERGY MODEL (BEM)
+shall mean the use of a physics-based software simulation of building energy use. A BEM program takes as input a description of a building form and materials, the building's use and operation including schedules for occupancy, lighting, plug-loads, and thermostat settings, and combines these inputs with information about local weather and uses physics equations to calculate thermal loads, system response to those loads, and resulting energy use, along with related metrics like occupant comfort and energy costs.
+
+6. 
+
+DISTRIBUTED ENERGY SYSTEMS
+shall mean a range of smaller-scale technologies designed to provide electricity and thermal energy closer to consumers. These approaches include fossil and renewable energy technologies, micro-grids, on-site energy storage, and combined heat and power systems. Technologies could include: existing district energy facilities combined heat and power systems, microgrids, fuel cells, and batteries.
+
+7. 
+
+FRESH FOOD MARKET
+shall mean an establishment (under Grocery Store - General) primarily engage in the sale of grocery products and that provides all of the following:
+
+i. 
+
+At least five thousand (5,000) sq. ft. of customer-accessible floor area use for display and sales of a general line of food and nonfood grocery products such as dairy, canned and frozen foods, fresh fruits and vegetables, and fresh and prepared meats, fish, and poultry, intended for home preparation, consumption, and use;
+
+ii. 
+
+At least fifty (50) percent of such customer-accessible sales and display area is used for the sale of general line of food products intended for home preparation and consumption;
+
+iii. 
+
+At least twenty-five (25) percent of retail inventory by volume is in the form of perishable goods, which must include dairy, fresh fruits and vegetables, and frozen foods that may include fresh meats, poultry and fish; and
+
+iv. 
+
+At least twenty-five (25) percent of such customer-accessible sales and display area is used for the sale of fresh fruits and vegetables.
+
+8. 
+
+GREEN INFRASTRUCTURE
+shall mean systems and practices that use or mimic natural processes to infiltrate, evapotranspire, or reuse stormwater on the site where it is generated.
+
+9. 
+
+ON-SITE RENEWABLE ENERGY
+shall mean renewable sources, such as wind, solar, and co-generation, that are generated on the project site, thereby relieving reliance on the grid and providing alternative sources of electricity.
+
+10. 
+
+NATIVE PLANTS
+shall mean plants indigenous to Western Pennsylvania. This includes plants that have developed or occurred naturally, excluding invasive species.
+
+11. 
+
+NETWORKED WALKSHED
+shall mean the land area within a defined walking range, traversable on established streets or pathways.
+
+12. 
+
+RAPID SERVICES
+shall mean all modes of transit which use an exclusive right-of-way or have at least seventy-five (75) percent of route miles along a fixed guideway.
+
+13. 
+
+PREFERRED STORMWATER MANAGEMENT TECHNOLOGIES
+shall mean stormwater management practices that can provide additional co-benefits, increased reliability, or better performance than other technologies. Preferred Stormwater Management Technologies must be in accordance with the City of Pittsburgh Stormwater Design Manual.
+
+14. 
+
+LOCAL WORKFORCE GROUP
+shall mean an organization that provides publicly available workforce development services, career training services, entrepreneurial services, or business incubation and startup services or a local, non-franchise business owned and operated by City of Pittsburgh resident.
+
+15. 
+
+UNDERREPRESENTED GROUPS
+shall mean existing residents of the Pittsburgh Metropolitan Statistical Area with incomes at or below eighty (80) percent AMI; or lack a four-year degree; or reside in a City of Pittsburgh neighborhood with an unemployment rate that is more than double the City of Pittsburgh average.
+
+D. 
+
+Bonus Goals and Points.
+
+ | 
+Goal | 
+Points
+ | 
+1. Zero Energy or Zero Carbon Buildings
+ | 
+1.a | 
+Demonstrate compliance with International Energy Conservation Code Section C407 Total Building Performance criteria or ASHRAE Standard 90.1-2019 Appendix G Building Performance Rating Method. | 
+1
+ | 
+1.b | 
+Demonstrate compliance with International Energy Conservation Code Section C407 Total Building Performance criteria or ASHRAE Standard 90.1-2019 Appendix G Building Performance Rating Method and buildings shall be designed and constructed with no gas or fossil-fuel fired equipment as described in Zero Code 2.0. | 
+2
+ | 
+1.c | 
+Demonstrate compliance with International Energy Conservation Code Appendix CC: Zero Energy Commercial Building Provisions. | 
+3
+ | 
+2. (Reserved)
+ | 
+3. On-Site Energy Generation
+ | 
+At least one (1) point from Zero Energy or Zero Carbon Buildings required prior to using the On-Site Energy Generation points below.
+ | 
+3.a | 
+At least 25% of energy use is generated from on-site renewable sources. | 
+1
+ | 
+3.b | 
+At least 50% of energy use is generated from on-site renewable sources; or Connecting to distributed energy systems. | 
+2
+ | 
+3.c | 
+75% or more of energy use is generated from on-site renewable sources. | 
+3
+ | 
+4. Affordable Housing
+ | 
+Available only to projects where at least 50% of the gross floor area is used for residential units.
+ | 
+Points for options 4.c and 4.d below will only be awarded to development projects providing at least 20 housing units.
+ | 
+4.a | 
+At least 5-14.9% of units for rent are affordable housing for persons at or below 80% AMI. | 
+1
+ | 
+4.b | 
+At least 5-14.9% of units for sale are affordable housing for persons at or below 80% AMI; or | 
+2
+ | 
+ | 
+At least 5-14.9% of units for rent are affordable housing for persons at or below 60% AMI; or | 
+
+ | 
+ | 
+At least 15-19.9% of units for rent are affordable housing for persons at or below 80% AMI. | 
+
+ | 
+4.c | 
+At least 15-19.9% of units for sale are affordable housing for persons at or below 80% AMI; or | 
+3
+ | 
+ | 
+At least 15-19.9% of units for rent are affordable housing for persons at or below 60% AMI; or | 
+
+ | 
+ | 
+At least 20% or more of units for rent are affordable housing for persons at or below 80% AMI. | 
+
+ | 
+4.d | 
+20% or more of units for sale are affordable housing for persons at or below 80% AMI; or | 
+4
+ | 
+ | 
+20% or more of units for rent are affordable housing for persons at or below 60% AMI. | 
+
+ | 
+5. Rainwater
+ | 
+All vegetated Green Infrastructure must use at least 50% Native Plants.
+ | 
+5.a | 
+At least 50% of the first two (2) inches of runoff from impervious surfaces is captured and managed using Preferred Stormwater Management Technology installations; or | 
+1
+ | 
+ | 
+At least 15% of the first two (2) inches of runoff from impervious surfaces is captured and reused on-site. | 
+
+ | 
+5.b | 
+At least 75% of the first two (2) inches of runoff from impervious surfaces is captured and managed using Preferred Stormwater Management Technology installations; or | 
+2
+ | 
+ | 
+At least 30% of the first two (2) inches of runoff from impervious surfaces is captured and reused on-site. | 
+
+ | 
+5.c | 
+100% or more of the first two (2) inches of runoff from impervious surfaces is captured and managed using Preferred Stormwater Management Technology installations; or | 
+3
+ | 
+ | 
+45% of the first two (2) inches of runoff from impervious surfaces is captured and reused on-site. | 
+
+ | 
+6. Building Reuse
+ | 
+6.a | 
+Exterior design of new development is compatible with nearby structures more than fifty (50) years old including the use of similar window and door sizes and materials, cladding materials, bays, cornices, and other primary structure elements. | 
+1
+ | 
+6.b | 
+At least 75% of street facing building facades from structures more than 50 years old are restored and integrated into new development. | 
+2
+ | 
+6.c | 
+Existing building shell is restored and retained. | 
+3
+ | 
+7. Riverfront Public Access Easements, Trails and Amenities
+ | 
+7.a | 
+For parcels that abut the riverfront and are not separated by a right-of-way, provision of a riverfront public access easement held by the City of Pittsburgh of at least 20 feet in width and runs the entire length of the parcel's riverfront boundary. | 
+1
+ | 
+7.b | 
+For sites where no trail exists and a public easement has been made, construction of a trail that meets all City standards as well as national standards of Manual on Uniform Traffc Control Devices (MUTCD), and that connects to existing adjacent trails when feasible. | 
+2
+ | 
+7.c | 
+For sites where an existing trail is present and a public easement has been made, improvement of trail to City standards as well as national standards of Manual on Uniform Traffc Control Devices (MUTCD), and that connects to existing adjacent trails when feasible. | 
+1
+ | 
+7.d | 
+For sites where a riverfront or riverfront-adjacent trail is not feasible, development provides public access that allows for or contributes to continuous mobility parallel the riverfront. | 
+2
+ | 
+7.e | 
+Provision of public restrooms accessible from the public riverfront trail, open during expected hours of trail use. | 
+2
+ | 
+7.f | 
+Provision of public access easement and passageway built in accordance with Section 905.04.G.5(a) and (b), providing connections from public rights-of-way to the riverfront. | 
+1
+ | 
+8. Neighborhood Ecology
+ | 
+8.a | 
+Ground-level surface parking area is designed so that a minimum of 50% of the total paved area is shaded by solar panels. | 
+1
+ | 
+8.b | 
+The top level of a parking structure is designed so that a minimum of 50% of the total area is shaded by solar panels. | 
+1
+ | 
+9. Public Art
+ | 
+The percent of estimated gross construction cost applied to public art includes artist engagement; design, fabrication and placement of art; insurance; and funds dedicated for ongoing maintenance.
+ | 
+9.a | 
+At least 1% of the estimated gross construction cost is applied directly to the creation and maintenance of on-site public art as defined by the URA's Public Art Resource Guide for Developers, OR made as a one-time contribution to the City's Public Art Fund for use by the City for art on publicly owned lands within the same neighborhood. | 
+1
+ | 
+9.b | 
+At least 2% of the estimated gross construction cost is applied directly to the creation and maintenance of on-site public art as defined by the URA's Public Art Resource Guide for Developers, OR made as a one-time contribution to the City's Public Art Fund for use by the City for art on publicly owned lands within the same neighborhood. | 
+2
+ | 
+9.c | 
+At least 3% of the estimated gross construction cost is applied directly to the creation and maintenance of on-site public art as defined by the URA's Public Art Resource Guide for Developers, OR made as a one-time contribution to the City's Public Art Fund for use by the City for art on publicly owned lands within the same neighborhood. | 
+3
+ | 
+10. Urban Fabric
+ | 
+10.a | 
+Structured parking is designed to allow for conversion to other (non-parking) uses. | 
+2
+ | 
+11. Transit-Oriented Development
+ | 
+11.a | 
+Site is within ½ mile networked walkshed of rapid service routes. | 
+1
+ | 
+11.b | 
+On-site transit station for rapid service routes, designed as an integral part of the development project and to meet Port Authority standards for transit stations. | 
+3
+ | 
+12. Equitable Development
+ | 
+12.a | 
+Commitment to ensuring ten (10) percent of jobs in the building will be hired from Underrepresented Groups for the first ten (10) years the building is in operation and recertified by the City of Pittsburgh every two (2) years; or | 
+1
+ | 
+ | 
+Contribution of a sum equal to $3 per rentable square foot (RSF) of the project into the City's Equitable Development Trust Fund either in full or annually over a period not to exceed 10 years with a minimum of twenty-five (25) percent of the total sum due at the time the project completes construction; or | 
+
+ | 
+ | 
+A signed lease agreement between the applicant and a Local Workforce Group for a period not less than five (5) years. | 
+
+ | 
+12.b. | 
+Commitment to ensuring 20 percent of jobs in the building will be hired from Underrepresented Groups for the first 10 years the building is in operation and recertified by the City of Pittsburgh every two (2) years; or | 
+2
+ | 
+ | 
+Contribution of a sum equal to $4 per rentable square foot (RSF) of the project into the City's Equitable Development Trust Fund either in full or annually over a period not to exceed 10 years with a minimum of twenty-five (25) percent of the total sum due at the time the project completes construction. | 
+
+ | 
+12.c | 
+Commitment to ensuring thirty (30) percent of jobs in the building will be hired from Underrepresented Groups for the first 10 years the building is in operation and recertified by the City of Pittsburgh every two (2) years; or | 
+3
+ | 
+ | 
+Contribution of a sum equal to $5 per rentable square foot (RSF) of the project into the City's Equitable Development Trust Fund either in full or annually over a period not to exceed ten (10) years with a minimum of twenty-five (25) percent of the total sum due at the time the project completes construction. | 
+
+ | 
+13. Fresh Food Access
+ | 
+13.a | 
+The building is designed and constructed, or a renovation of a building within the District, includes a Fresh Food Market as a tenant. | 
+2
+
+E. 
+
+Compliance and Enforcement.
+
+1. 
+
+If a project is awarded a height or riparian buffer bonus pursuant to this subsection, the Developer shall provide the Department of City Planning with satisfactory evidence of having completed the procedures as developed by the Department of City Planning and the following steps in the process toward achieving the requirements of the bonus:
+
+a. 
+
+Zero Energy or Zero Carbon Buildings:
+
+(1) 
+
+Application and predesign phase: Submission of intent to comply with International Energy Conservation Code Section C407 Total Building Performance criteria or ASHRAE Standard 90.1-2019 Appendix G Building Performance Rating Method and how the project intends to meet this requirement.
+
+(2) 
+
+Design completion and prior to construction: Provide design narrative and construction documents. A BEM will be required showing that the building is designed to comply with International Energy Conservation Code Section C407 Total Building Performance criteria or ASHRAE Standard 90.1-2019 Appendix G Building Performance Rating Method.
+
+(3) 
+
+Construction completion and building occupancy: Provide final performance-based commissioning report and/or a building energy model reflecting the as-built condition showing International Energy Conservation Code Section C407 Total Building Performance criteria or ASHRAE Standard 90.1-2019 Appendix G Building Performance Rating Method.
+
+(4) 
+
+Following first-year operations completion: Provide proof of whole building energy consumption, verified with utility invoices or digital meter data for energy consumed and produced or third party verified by Professional Engineer or equivalent.
+
+b. 
+
+Affordable Housing:
+
+(1) 
+
+All projects shall comply with On-Site Inclusionary Standards 907.04.A.6 (e) through (j).
+
+(2) 
+
+Application and predesign phase: Provide a matrix that documents the unit count and includes AMI of occupants. Identify in writing all subsidies and/or financing programs the project will utilize in the provision of affordable housing. Provide letters of commitment for any subsidies and/or financing secured.
+
+(3) 
+
+Design completion and prior to construction: Provide floor plans that identify housing unit types and location of amenities, entrances, lobbies with American Disabilities Act (ADA) accessibility, and documenting compliance with On-Site Inclusionary Standards 907.04.A.6 (e) through (j). Provide letters of commitment for any subsidies and/or financing secured. Where letters of commitment are forthcoming, this requirement can be met by submitting the project for review by the Housing Department of the Urban Redevelopment Authority which will provide a memo to the Department of City Planning.
+
+c. 
+
+Rainwater:
+
+(1) 
+
+Application and predesign phase: Provide a conceptual stormwater management plan in accordance with Title 13: Stormwater Management and clearly identifying how the project will satisfy the bonus.
+
+(2) 
+
+Design completion and prior to construction: Provide a Stormwater Management Site Plan in accordance with Title 13: Stormwater Management and clearly identifying how the project will satisfy the bonus.
+
+(3) 
+
+Construction completion and building occupancy: Provide documentation of completion of all Record Drawings, Completion Certificate, and Final Inspection requirements in accordance with Title 13: Stormwater Management.
+
+(4) 
+
+Following first-year operations completion: Provide a performance-based report following one (1) year of operation that shows stormwater management installations are performing as specified in the project's Stormwater Management Site Plan and in accordance with Title 13: Stormwater Management requirements.
+
+d. 
+
+On-Site Public Art:
+
+(1) 
+
+Application and predesign phase: Provide a preliminary public art plan that clearly identifies how the project will satisfy the bonus, including estimated gross construction cost, opportunities for inclusion of public art, and a plan for artist engagement.
+
+(2) 
+
+Design completion and prior to construction: The Department of City Planning will approve final plan for public art including a final budget, design of public art element(s), and proof of establishment of fund for ongoing maintenance.
+
+(3) 
+
+Construction completion and building occupancy: Provide Department of City Planning with verification that art was installed as designed along with breakdowns and receipts of final project costs. If art was not installed as designed, provide narrative explanation of what alterations were made and why.
+
+e. 
+
+Equitable Development:
+
+(1) 
+
+For projects providing the percentage employment from Underrepresented Groups, initial compliance report shall be submitted to the Department of City Planning no later than three (3) years following issuance of the Certificate of Occupancy and shall meet standards set by the Department of City Planning at the time of reporting. After that time, compliance reports must be submitted every two (2) years through the first ten (10) years the building is operational.
+
+(2) 
+
+For projects contributing to the City's Equitable Development Trust Fund per rentable commercial square foot (RCSF), seventy-five (75) percent of the structure's Gross Floor Area must contain commercial, non-residential uses. For purposes of this calculation, shared spaces shall be excluded from Gross Floor Area.
+
+(3) 
+
+If a building should be found at any point out of compliance with this Performance Point, the property owner shall beginning that year pay the fee per rentable commercial square foot (RCSF) option for the remainder of the ten (10) years from the date construction was completed. This bonus point shall be exempt from Section 915.07.E.2, however, the first payment shall be made to the Equitable Development Trust Fund within thirty (30) days of the documentation of non-compliance or the City shall have the authority to revoke the certificate of occupancy for the building.
+
+f. 
+
+Food Access:
+
+(1) 
+
+A project which receives bonus points for the presence of a Fresh Food Market pursuant to subsection 13(a) shall maintain such tenant or use for a period of at least ten (10) years from the issuance of a Certificate of Occupancy. The Fresh Food Market must be located on the ground floor of the structure and accessible through a separate entrance that must be located on the primary street frontage. At the time of application, no Fresh Food Market may be in operation within a 2,640-foot radius of the proposed project, as determined by the Department of City Planning.
+
+2. 
+
+If the project does not provide satisfactory evidence of achieving the performance standards of each used bonus within three (3) years of receiving its initial certificate of occupancy, then unless otherwise noted in this section, the property owner shall be subject to a fine equal to one (1) percent of the construction costs and shall provide a plan for compliance with the bonus point. If the plan is not submitted and the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building. If the project is not brought into compliance within one (1) year, then the City shall have the authority to revoke the certificate of occupancy for the building.
+The following Performance Points shall have the compliance path as provided, if projects do not provide satisfactory evidence of achieving the performance standards of each used bonus at time of final inspection,
+
+ | 
+Build
+ | 
+For 3.b, Connecting to distributed energy systems only, the property owner shall be subject to a fine of two (2) percent of construction cost. If the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building.
+ | 
+Building Reuse
+ | 
+For 6.b and 6c., the property owner shall be subject to a fine of two (2) percent of construction cost. If the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building.
+ | 
+Urban Fabric
+ | 
+For 10a., the property owner shall be subject to a fine of two (2) percent of construction cost. If the fine is not paid within thirty (30) days of the date it is imposed, then the City shall have the authority to revoke the certificate of occupancy for the building.
+ | 
+Transit Oriented Development
+ | 
+(1) | 
+For 11.a, no fine shall be imposed, nor compliance required, under section 915.07.E.2 if rapid service routes are discontinued through no fault of the property owner.
+
+§ 915.08
+Sustainable Development for City-Owned Facilities. 
+
+[Ord. No. 16-2020, § 2, eff. 6-2-2020]
+
+A. 
+
+Purpose. The City of Pittsburgh is committed to building and supporting sustainable developments, to yield cost savings to the City taxpayers through reduced operating costs, to provide healthy and productive work environments for all residents and employees, to contribute to the City's goals of protecting, conserving, and enhancing the region's environmental resources, and to deliver on the City's public dedication to upholding the Paris Climate Accord. Additionally, the City shall help to set a community standard of sustainable building.
+
+B. 
+
+Applicability. Unless exempted by Section 915.08.D, all construction of new buildings on City-owned property and all Major Renovations of existing buildings on City-owned property must achieve net-zero energy ready building performance.
+
+C. 
+
+Definitions.
+
+MAJOR RENOVATIONS
+shall mean any facility project intended to physically modify an existing building in a substantial way, including, but not limited to life safety upgrades, aesthetic upgrades, asbestos abatement, structural upgrades, major equipment replacement, or interior layout changes. In cases where a determination is needed regarding whether a facility project is a Major Renovation, the Zoning Administrator, the Director of City Planning, and the Director of the Department of Permits, Licenses, and Inspections together shall make a determination regarding whether a renovation project is a substantial improvement, taking into account a written recommendation from the Director of the Department of Public Works, whether the construction cost is fifty percent or more of the replacement value of the structure, and any other factors deemed relevant to the determination.
+
+NET-ZERO ENERGY BUILDING
+shall mean a building designed and constructed to be highly efficient and to produce enough energy through renewable resources to offset its energy consumption on an annual basis. A net-zero energy building could also be defined as a net-zero energy ready building that includes on-site or local renewable energy. An onsite solar energy requirement will not be included in Section 915.08, but buildings shall be equipped with the necessary infrastructure to accept renewable energy generation technologies.
+
+NET-ZERO ENERGY READY BUILDING
+shall mean a building designed and constructed to be highly energy efficient. These buildings will achieve building performance that complies with the "Pittsburgh Net-Zero Energy Ready Standard," which is defined by the Department of Public Works and can only be updated with approval from the Department of Planning and City Council. These buildings will be designed and constructed with the necessary infrastructure to receive a solar photovoltaic system or other carbon neutral energy generation technologies in the future. Achieving net-zero energy ready will not require any form of building certification, but it will require proof of the building's energy performance over the first twelve (12) months of operation and occupancy, adjusted for annual weather variations.
+
+D. 
+
+Exemptions. Section 915.06.B shall be complied with fully unless one or more of the exemptions listed below applies to the project and reason for the exemption(s) is clearly documented by the City:
+
+(1) 
+
+Where a renovation is planned for a building that will be removed from the City's portfolio because it is reaching the end of its useful life or being transferred to a new owner within five (5) years.
+
+(2) 
+
+Where a renovation occurs in response to an urgent life-safety matter that requires initiating immediate action within three (3) months or less, with the goal to return the building to its normal operating state.
+
+(3) 
+
+Temporary facilities not intended for long-term occupancy, such as construction and office trailers, as well as non-habitable structures, including but not limited to, picnic pavilions, park shelters, dugouts, and small utility structures.
+
+(4) 
+
+In a life-safety emergency situation, such as a natural disaster, where the Director of the Department of Permits, Licenses, and Inspections determines that compliance with this section would impact the City's ability to respond to an emergency in a timely and safe manner.
+
+(5) 
+
+Where a Major Renovation is determined by the Zoning Administrator, the Director of City Planning, and the Director of the Department of Permits, Licenses, and Inspections to be consistent with the purpose of this section, but where full compliance would not be possible or significantly feasible.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Art IIIOverlay Zoning Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Ch 914Parking Loading and Access
+
+Ch 915Environmental Performance Standards
+
+§ 915.01General.
+
+§ 915.02Environmental Standards.
+
+§ 915.03(Reserved)
+
+§ 915.04Sustainable Development Bonuses.
+
+§ 915.06Sustainable Development for Publicly Financed Buildings.
+
+§ 915.07Performance Points System.
+
+§ 915.08Sustainable Development for City-Owned Facilities.
+
+Ch 916Residential Compatibility Standards
+
+Ch 917Operational Performance Standards
+
+Ch 918Landscaping and Screening Standards
+
+Ch 919Signs
+
+Ch 920Child Care Regulations
+
+Art VIINonconformities
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions

@@ -1,0 +1,1555 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 925
+Source: https://ecode360.com/45479639
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 925.01
+Lot Size. 
+
+§ 925.02
+Lot Width. 
+
+§ 925.03
+Density. 
+
+§ 925.04
+Floor Area Ratio (FAR). 
+
+§ 925.05
+Build-To Line. 
+
+§ 925.06
+Setbacks. 
+
+§ 925.07
+Height. 
+
+§ 925.01
+Lot Size. 
+
+[Ord. 35-2002, § 1F, 12-3-2002]
+Lot size or lot area refers to the amount of horizontal land area within lot lines. No building permit or development approval shall be issued for a lot that does not meet the minimum lot size requirements of this Code except in the following cases.
+
+A. 
+
+Reduction for Public Purpose. When an existing lot is reduced as a result of conveyance to a federal, state or local government for a public purpose and the remaining area is at least seventy-five (75) percent of the required minimum lot size for the district in which it is located, then that remaining lot shall be deemed to comply with the minimum lot size standards of this Code.
+
+B. 
+
+Utility Facilities. Utility facilities using land or an unoccupied building requiring less than one thousand (1,000) square feet of site area are exempt from the minimum lot size standards of all zoning districts.
+
+C. 
+
+Single-Unit Dwelling Exemptions.
+
+1. 
+
+The minimum lot size standards of this Code shall not be interpreted as prohibiting the construction of a single-unit residential dwelling unit on a lot that was legally platted or recorded prior to the adoption of this Code.
+
+2. 
+
+A single unit dwelling on a recorded zoning lot with a lot area less than otherwise required by the provisions of Chapter 903 or of Chapter 905, may be approved as an Administrator's Exception according to the provisions of Section 922.08.
+
+§ 925.02
+Lot Width. 
+
+Lot width refers to the horizontal distance between the side lot lines as measured along a straight line parallel to the front lot line or the chord thereof. The minimum lot width shall be measured between the side lot lines along a line that is parallel to the front lot line and located the minimum front setback distance from the front lot line. In the case of cul-de-sac lots, the minimum lot width may be measured between the side lot lines along a line that is parallel to the front lot line and located at the actual front building line.
+
+§ 925.03
+Density. 
+
+Density refers to the number of dwelling units for each (gross) acre of land. Density shall be calculated by dividing the number of dwelling units by the lot area (in acres).
+
+§ 925.04
+Floor Area Ratio (FAR). 
+
+Floor area ratio (FAR) refers to the amount of gross floor area of all principal buildings on a lot divided by the total area of the lot on which such buildings are located.
+
+§ 925.05
+Build-To Line. 
+
+"Build-to line" requirements are established in some zoning districts as a means of preserving the established pattern of development along streets. The build-to line is an imaginary line that falls within three (3) feet of the line along which most buildings in a block have the majority of their front facade.
+
+§ 925.06
+Setbacks. 
+
+[Ord. 28, 11-17-2000/Amend. U-25; Ord. No. 27-2016, § 1, eff. 10-11-2016; Ord. No. 57-2021, § 3, eff. 12-27-2021; Ord. No. 5-2023, § 2, 5-22-2023; Ord. No. 5-2023, § 3, 5-22-2023; Ord. No. 27-2016, § 2, eff. 10-11-2016; Ord. 16(99)/6-1-1999/Amend. U-6; Ord. 21-2002, § 26, 6-18-2002; Ord. 36-2005, § 1, eff. 12-14-2005; Ord. 42-2005, § 39, eff. 12-30-2005; Ord. No. 25-2011, § 2, eff. 12-22-2011; Ord. No. 26-2011, § 1, eff. 12-22-2011; Ord. No. 31-2018, § 18, eff. 8-6-2018; Ord. No. 57-2021, § 3, eff. 12-27-2021]
+Setbacks refer to the required unoccupied open space between the furthermost projection of a structure and the property line of the lot on which the structure is located, except as modified by the standards of this section. Required setbacks shall be unobstructed from the ground to the sky except as specified in this section.
+
+A. 
+
+Features Allowed Within Setbacks. The following structures and features may be located within required setbacks:
+
+1. 
+
+Trees, shrubbery or other features of natural growth provided that they do not obstruct vehicular sight distances;
+
+2. 
+
+Solar energy and small wind energy systems when located on rooftops;
+
+3. 
+
+Small non-permanent residential accessory features that do not require a building permit such as play equipment, landscape decorations, and similar features;
+
+4. 
+
+Railings not more than three and one-half (3½) feet in height constructed on any balcony, stairway, porch or landing platform;
+
+5. 
+
+Driveways and sidewalks;
+
+6. 
+
+Signs, provided that they are specifically permitted by the sign regulations of this Code;
+
+7. 
+
+Bay windows, architectural design embellishments, and cantilevered floor areas of dwellings that do not project more than two (2) feet into the required setback;
+
+8. 
+
+Eaves that do not project more than two (2) feet into the required setback;
+
+9. 
+
+Entrance hoods, terraces, canopies, and balconies that do not project more than five (5) feet into a required front or rear setback nor more than two (2) feet into a required side setback;
+
+10. 
+
+Chimneys, flues and ventilating ducts that do not project more than two (2) feet into a required setback and when placed so as not to obstruct light and ventilation;
+
+11. 
+
+Utility lines, wires and associated structures, such as power poles;
+
+12. 
+
+Retaining walls, provided that they do not obstruct vehicular sight lines;
+
+13. 
+
+Open outside stairways or fire escapes that do not project more than four (4) feet into a required side or rear yard; and
+
+14. 
+
+Open structures such as porches, decks or landing places which do not extend above the first floor of the building, may be erected:
+
+(a) 
+
+In required front, or rear yards, or street side yard, provided the structure is not more than nine (9) feet in depth and no closer to an abutting interior side yard lot line than the existing primary structure;
+
+(b) 
+
+The space beneath the projecting porch, decks or landing place may serve as part of an interior minor garage, provided no portion of the garage extends above the adjoining ground level or farther into the yard than the open porch, deck or landing place and no garage doors open outward.
+
+15. 
+
+Access ramps and lifts for people with disabilities with review of the design, construction and location by the Zoning Administrator to insure appropriate context with the existing structure and neighborhood.
+
+16. 
+
+HVAC units and similar mechanical equipment located on rooftops may be located within setbacks subject to the following standards:
+
+(a) 
+
+Equipment shall be screened by parapets or other devices so it is not visible from Streets or abutting properties at ground level; and
+
+(b) 
+
+Equipment shall be compliant with applicable noise and operational standards.
+
+17. 
+
+HVAC units and similar mechanical equipment, excluding emergency generators, located at grade, may be located within setbacks subject to the following standards:
+
+(a) 
+
+When located within side yards or rear yards, equipment shall be screened so as not to be visible and to buffer sound to abutting properties using landscaping and/or fencing. When located within five (5) feet of an interior sideyard property line, solid privacy fencing must be used; and
+
+(b) 
+
+When located in front yards, mechanical equipment shall be located no closer to the street than an existing front porch or stoop and shall be screened using landscaping and/or decorative fencing so as not to be visible from Streets and abutting properties. Equipment shall not be permitted in front yards where no existing porch or stoop exists; and
+
+(c) 
+
+Units shall be compliant with applicable noise and operational standards.
+
+B. 
+
+Contextual Front Setbacks. Regardless of the minimum front setback requirements imposed by the zoning district standards of this Code, applicants shall be allowed to use the Contextual Front Setback. The Contextual Front Setback shall apply only to primary uses and structures. A Contextual Front Setback for any lot with street frontage may fall at any point between the (zoning district) required front setback and the front setback that exists on a lot that is adjacent and oriented on the same side of the street as the subject lot or that of a build-to line established by at least fifty (50) percent of the primary structures within the same block as the subject property on the same side of the street as demonstrated by the applicant with plot plans, surveys, maps, and other evidence determined to be acceptable by the Zoning Administrator. This provision shall not be interpreted as requiring a greater front setback than imposed by the underlying zoning district, and it shall not be interpreted as allowing setbacks to be reduced to a level that results in right-of-way widths dropping below established minimums. Contextual Front Setbacks may not be applied to the Riparian Buffer Zone as established in Section 905.04.E.4.a, RIV Riverfront Zoning District.
+
+C. 
+
+Contextual Side Setbacks.
+Regardless of the minimum side setback requirements imposed by the zoning standards of this Code, applicants shall be allowed to use a Contextual Side Setback. The Contextual Side Setback shall apply only to primary uses and structures. A Contextual Side Setback may fall at any point between the required side setback and the side setback that exists on a lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet. If the subject lot is a corner lot, the Contextual Side Setback may fall at any point between the required side setback required by the zoning district and the side setback that exists on the lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet. If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply. This provision shall not be interpreted as requiring a greater side setback than imposed by the underlying zoning district, and it shall not be interpreted as allowing setbacks to be reduced to a level that results in right-of-way widths dropping below established minimums. Contextual Side Setbacks may not be applied to the Riparian Buffer Zone as established in Section 905.04.E.4.a, RIV Riverfront Zoning District.
+Regardless of the setbacks of adjacent structures, for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:
+
+ | 
+Lot Width | 
+Required Interior Setback | 
+Required Streetside Setback
+ | 
+59′ | 
+5′ | 
+29′
+ | 
+58′ | 
+5′ | 
+28′
+ | 
+57′ | 
+5′ | 
+27′
+ | 
+56′ | 
+5′ | 
+26′
+ | 
+55′ | 
+5′ | 
+25′
+ | 
+54′ | 
+5′ | 
+24′
+ | 
+53′ | 
+5′ | 
+23′
+ | 
+52′ | 
+5′ | 
+22′
+ | 
+51′ | 
+5′ | 
+21′
+ | 
+50′ | 
+5′ | 
+20′
+ | 
+49 | 
+5′ | 
+20′
+ | 
+48′ | 
+5′ | 
+19′
+ | 
+47′ | 
+5′ | 
+19′
+ | 
+46′ | 
+5′ | 
+18′
+ | 
+45′ | 
+5′ | 
+18′
+ | 
+44′ | 
+4′ | 
+18′
+ | 
+43′ | 
+4′ | 
+17′
+ | 
+42′ | 
+4′ | 
+17′
+ | 
+41′ | 
+4′ | 
+16′
+ | 
+40′ | 
+4′ | 
+16′
+ | 
+39′ | 
+4′ | 
+15′
+ | 
+38′ | 
+4′ | 
+15′
+ | 
+37′ and below | 
+3′ | 
+15′
+
+1. 
+
+Reduced Setback on Both Sides. The applicant may reduce the side setback to three (3) feet on both sides only if adjacent properties have setbacks of three (3) feet or less on the sides abutting the applicant's property.
+
+2. 
+
+Zero Setback on One or Both Sides. The applicant may reduce the side setback to zero when the side of the abutting property has a zero side setback when both building walls abut each other.
+
+D. 
+
+Front Setbacks on Corner and Irregular Lots. In the case of corner or irregular lots, the Zoning Administrator shall determine which frontages shall be considered the "front", "side", and "rear" setbacks. Criteria to be considered shall include but not be limited to orientation of the primary structure, orientation of the neighboring structures, and the location of the entrances to the structure.
+
+E. 
+
+Setbacks Reduced for Public Purpose. When an existing setback is reduced as a result of conveyance to a federal, state or local government for a public purpose and the remaining setback is at least seventy-five (75) percent of the required minimum setback for the district in which it is located, then that remaining setback shall be deemed to be in compliance with the minimum setback standards of this Code.
+
+F. 
+
+Interior Side Setbacks When None Required. When no interior side setback is required and such a setback is provided it shall be a minimum of three (3) feet in depth. If an interior side setback is not provided the wall of the structure shall be on the interior side lot line.
+
+G. 
+
+Features Allowed within Setbacks by Administrator's Exception. The Zoning Administrator shall be authorized, in accordance with the Administrator Exception procedures of Section 922.08, to permit features as per Section 925.06.G.1 within setbacks, according to the provisions of Section 925.06.G.2 below.
+
+1. 
+
+Permitted Features. The following features shall be permitted within setbacks in accordance with the standards of this section:
+
+(a) 
+
+Swimming pool and deck in rear and side yards;
+
+(b) 
+
+Garage, carport or parking stalls for residential uses with four (4) or more parking spaces and all other non-residential uses in rear and side yards;
+
+(c) 
+
+Storage shed or gazebo in rear and side yards;
+
+(d) 
+
+Decks and porches in the front, side or rear yard;
+
+(e) 
+
+Dumpsters;
+
+(f) 
+
+Building additions to primary structures, where the existing primary structure is built within a setback, except for the Riparian Buffer as per Section 905.04.E.4;
+
+(g) 
+
+Enclosures of existing decks and porches in side or rear yards;
+
+(h) 
+
+Rooftop decks on detached garages; and
+
+(i) 
+
+Accessory Structures not listed above, where the primary structure is built within a setback.
+
+2. 
+
+Standards. The applicant shall establish, by submittal of a plot plan, photograph(s) and other pertinent data such as written approval by abutting property owners that:
+
+(a) 
+
+For features other than porches, and decks, with respect to the front and side yard setback requirements, the proposed construction or erection will not place the accessory use, structures, or additions any closer to the front or neighboring property line than the building line of the applicant's existing, legally established, primary structure;
+
+(b) 
+
+The establishment, maintenance, location and operation of the proposed use will not be detrimental to or endanger the public health, safety, morals, comfort or general welfare;
+
+(c) 
+
+Authorization of the proposed exception will not be injurious to the use and enjoyment of other property in the immediate vicinity for the purposes permitted, nor substantially diminish or impair property values within the neighborhood;
+
+(d) 
+
+The establishment of the proposed exception will not impede the normal and orderly development and improvement of surrounding property for uses permitted in that district; and
+
+(e) 
+
+Any illumination or drainage shall be contained on site and directed away from abutting properties.
+
+3. 
+
+Administrator Action. Before approving an application, the Administrator shall recommend reasonable adjustments including, but not limited to, items concerning utilities, drainage, noise, landscaping and maintenance thereof, lighting, access, egress, screening of accessways to ensure that authorization of the proposed exception is consistent with the standards found in Section 925.06.G.2 above.
+
+H. 
+
+Front Yard Parking.
+
+1. 
+
+Authorization of Front Yard District. The City Planning Commission may designate a Front Yard District at the request of at least sixty (60) percent of the property owners on the blockface of any specific street according to the procedure established by the Zoning Administrator. Blockface is defined as all properties on one (1) side of a given street existing between two (2) consecutive intersecting streets. Designation of a Front Yard Parking District allows individual property owners to file for a Special Exception from the Board of Adjustment to park one (1) noncommercial automobile in the front yard of a residence, under certain conditions, as prescribed in Section 925.06.H.2. Designation of a Front Yard District shall be considered subject to the following criteria:
+
+(a) 
+
+The cartway of the block shall be no wider than eighteen (18) feet for a one-way street, or no wider than twenty-seven (27) feet for a two-way street; and
+
+(b) 
+
+A majority of the lots along the subject block shall not be accessible to the rear or side yard; or
+
+(c) 
+
+Where the Planning Commission determines physical conditions warrant creation of a Front Yard Parking District, such as, but not limited to:
+
+(1) 
+
+Excessive topography which prevents parking on lot other than the front yard;
+
+(2) 
+
+Restriction on parking due to fire lane or no parking designation or narrow width of cartway;
+
+(3) 
+
+Location of underground utility lines which prevent access to rear or side yard.
+
+2. 
+
+Conditions of Special Exception. Installation of one (1) parking stall for a noncommercial automobile when accessory to a residential use shall be limited to RSD, Single-Unit Detached Residential, RSA, Single-Unit Attached Residential, and RT, Two-Unit Residential Use Subdistricts when located in an overlay Front Yard Parking District as designated by the Planning Commission, as specified under Section 925.06.H.1, provided:
+
+(a) 
+
+The maximum dimensions of the stall shall not exceed twenty (20) feet in depth and ten (10) feet in width or fifty (50) percent of the property's frontage, whichever is less;
+
+(b) 
+
+The stall shall be designed so that a vehicle parked on it shall not project onto any public right-of-way and will be accessed via a depressed-type cub cut, built according to city standards;
+
+(c) 
+
+The stall shall be located so as to provide a minimum five-foot wide landscaped side yard;
+
+(d) 
+
+The stall shall be paved with concrete, asphalt, or pavers, not including grass, slag, gravel, or mulch;
+
+(e) 
+
+Each lot within the Front Yard Parking District shall be subject to the following criteria:
+
+(1) 
+
+The lot shall not be accessible to the rear or side yard; or
+
+(2) 
+
+The Zoning Board of Adjustment determines that physical conditions warrant inclusion such as but not limited to (1) excessive topography which prevents parking on lot other than the front yard, or (2) location of underground utility lines which prevent access to rear and side yard.
+
+(f) 
+
+The remainder of the front yard shall be landscaped to adequately screen the parking space from view by adjoining properties to the fullest extent possible. Landscaping shall include evergreen shrubs, trees, decorative walls, and other decorative elements to achieve the proper screening.
+
+I. 
+
+Contextual Rear Setbacks. Regardless of the minimum rear setback requirements imposed by the zoning district standards of this Code, applicants shall be allowed to use a Contextual Rear Setback. The Contextual Rear Setback shall apply only to primary uses and structures. A Contextual Rear Setback may fall at any point between the required rear setback and the rear setback that exists on a lot that is adjacent to the subject lot and oriented to the same street as the subject lot. If the subject lot is a corner lot, the Contextual Setback may fall at any point between the rear setback required by the zoning district regulations and the rear setback that is adjacent to the subject lot and oriented to the same street as the subject lot. If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply. This provision shall not be interpreted as requiring a greater rear setback than imposed the zoning district, and it shall not be interpreted as allowing setbacks to be reduced to a level that results in right-of-way widths dropping below established minimums. Contextual Rear Setbacks may not be applied to the Riparian Buffer Zone as established in Section 905.04.E.4.a, Riverfront Zoning District.
+
+§ 925.07
+Height. 
+
+[Ord. No. 6-2007, § 1, 4-12-2007; Ord. No. 27-2016, § 3, eff. 10-11-2016; Ord. No. 6-2007, § 1, 4-12-2007; Ord. No. 31-2018, § 18, eff. 8-6-2018]
+
+A. 
+
+Measured in Feet. When measured in feet, building height refers to the vertical distance between the average finished grade along the wall facing the front street yard at the base of the building and: 1) the highest point of the coping of a flat roof; 2) the deck line of a mansard roof; or 3) the average height level between the eaves and ridge line of a gable, hip or gambrel roof. In the case of fences or walls, other than retaining walls, height shall be measured on the side with the least vertical exposure above finished grade to the top of the fence or wall.
+
+B. 
+
+Measured in Stories. In measuring the height of a building in stories the following measurement rules shall apply:
+
+1. 
+
+A basement, half-story, or penthouse, when designed for dwellings or primary occupancy shall be counted as a full story;
+
+2. 
+
+A basement shall be counted a full story when sixty (60) percent or more of the exterior surface of any street wall thereof, extends above the ground directly abutting such exterior street wall. In determining the percentage of exposed exterior surface of basement street walls, one hundred (100) percent shall be calculated by multiplying the width of such exterior walls by an assumed basement floor elevation of nine (9) feet measured downward from the surface of the first floor above the basement;
+
+3. 
+
+A balcony or mezzanine shall be counted a full story when its floor area is in excess of one-third (⅓) of the total area of the nearest full floor directly below it.
+
+C. 
+
+Exemptions from Height Standards. The following structures and features, except when designed as dwellings or primary occupancy, shall be exempt from the height requirements of this Code:
+
+1. 
+
+Chimneys, smokestacks or flues that cover no more than five (5) percent of the horizontal surface area of the roof;
+
+2. 
+
+Cooling towers and ventilators that cover no more than five (5) percent of the horizontal surface area of the roof;
+
+3. 
+
+Elevator bulkheads and stairway enclosures;
+
+4. 
+
+Fire towers;
+
+5. 
+
+Utility poles and support structures;
+
+6. 
+
+Belfries, spires and steeples;
+
+7. 
+
+Monuments and ornamental towers; and
+
+8. 
+
+Radio and television antennas, including satellite dishes less than thirty-two (32) inches in diameter.
+
+9. 
+
+HVAC units, solar energy systems, similar mechanical equipment, and any necessary screening thereof.
+
+D. 
+
+Contextual Height. Regardless of the maximum height limit imposed by the zoning district standards of this Code, applicants shall be allowed to use a contextual height limit. The allowed contextual height may fall at any point between the (zoning district) maximum height limit and the average height of the buildings that exist on adjoining lots that are oriented on the same side of the street as the subject lot. If the subject lot is a corner lot, the contextual height may fall at any point between the (zoning district) maximum height limit and the building height that exists on the adjoining lot that is oriented on the same side of the street as the subject lot. If lots on either side of the subject lot are vacant, the height that "exists" on such vacant lots shall be interpreted as the maximum height limit that applies to the vacant lot. Items listed in Section 925.07.C - Exemptions from Height Standards shall not be used to determine Contextual Height. This provision shall not be interpreted as requiring a greater minimum heights or lower maximum heights than imposed by the underlying zoning district, and it shall not be interpreted as allowing buildings heights that would conflict with Residential Compatibility Standard height limits of Chapter 916. Where bonus provisions of this code permit height that also qualifies as contextual height, the contextual height provisions of this section may only be used above the maximum allowable bonus height when the necessary requirements to achieve the bonus height have been met.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Art IIIOverlay Zoning Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Art VIINonconformities
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions
+
+Ch 925Measurements
+
+§ 925.01Lot Size.
+
+§ 925.02Lot Width.
+
+§ 925.03Density.
+
+§ 925.04Floor Area Ratio (FAR).
+
+§ 925.05Build-To Line.
+
+§ 925.06Setbacks.
+
+§ 925.07Height.
+
+Ch 926Definitions

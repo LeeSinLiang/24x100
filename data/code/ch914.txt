@@ -1,0 +1,2818 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 914
+Source: https://ecode360.com/45478031
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 914.01
+General. 
+
+§ 914.02
+Off-Street Parking Schedules. 
+
+§ 914.03
+Rules for Computing Requirements. 
+
+§ 914.04
+Off-Street Parking Exemption/Reduction Areas. 
+
+§ 914.05
+Bicycle Parking. 
+
+§ 914.06
+Parking for Persons with Disabilities. 
+
+§ 914.07
+Alternative Access and Parking Plans. 
+
+§ 914.08
+Queuing for Drive-Through Facilities. 
+
+§ 914.09
+Parking Area Location and Design. 
+
+§ 914.10
+Off-Street Loading. 
+
+§ 914.11
+Exceptions to Off-Street Parking, Loading and Access Standards. 
+
+§ 914.01
+General. 
+
+A. 
+
+Purpose. The purpose of these regulations is to:
+
+1. 
+
+Allow flexibility in addressing vehicle parking, loading, and access issues;
+
+2. 
+
+Present a menu of strategies to solve parking issues rather than parking space requirements;
+
+3. 
+
+Maintain and enhance a safe and efficient transportation system that is consistent with environmental goals and clean air; and
+
+4. 
+
+Ensure that off-street parking, loading, and access demands associated with new development will be met without adversely affecting other nearby land uses and surrounding neighborhoods.
+
+B. 
+
+Applicability.
+
+1. 
+
+New Development. The parking, loading and access standards of this chapter shall apply to any new building constructed and to any new use established, in accordance with the standards of this chapter.
+
+2. 
+
+Expansions and Alterations. The parking, loading and access standards of this chapter shall apply when an existing structure or use is expanded or enlarged. Additional offstreet parking and loading spaces shall be required only to serve the enlarged or expanded area, not the entire building or use.
+
+3. 
+
+Change of Occupancy. Off-street parking and loading facilities shall be provided for any change of occupancy or manner of operation that would, based on Parking Schedules A or B (Section 914.02.A and Section 914.02.B) or the Off-Street Loading Schedule of Section 914.10, result in a requirement for more parking or loading spaces than the existing or more recent use. Additional parking or loading spaces shall be required only in proportion to the extent of the change, not for the entire building or use.
+
+C. 
+
+No Reduction Below Minimums and No Increase Above Maximums. Existing parking and loading spaces shall not be reduced below the minimums required in this chapter, nor shall spaces be provided in excess of stated maximums. Any change in use that increases applicable offstreet parking or loading requirements shall be a violation of this code unless parking and loading spaces are provided in accordance with the provisions of this chapter.
+
+D. 
+
+Nonconforming Status. A use that was legally established prior to the adoption of this ordinance shall not be deemed nonconforming solely as a result of providing fewer than the minimum number or more than the maximum number of off-street parking or loading spaces established in Section 914.02.A or Section 914.02.B.
+
+E. 
+
+Compliance with Zoning District Regulations. Unless otherwise specifically stated, off-street parking, loading and circulation areas shall comply with the property development standards of the zoning district in which they are located.
+
+§ 914.02
+Off-Street Parking Schedules. 
+
+[Ord. 23-2004, § 1D, eff. 12-20-2004; Ord. 42-2005, §§ 25, 26, eff. 12-30-2005; Ord. No. 7-2010, § 1, eff. 4-1-2010; Ord. No. 33-2020, § 1, eff. 10-16-2020; Ord. No. 58-2021, § 4, eff. 12-27-2021; Ord. No. 4-2024, § 4, eff. 2-27-2024]
+
+A. 
+
+Schedule A. Off-street parking spaces shall be provided in accordance with the minimum and maximum standards included in Parking Schedule A. In lieu of complying with the standards of Parking Schedule A, an applicant may request approval of an Alternative Access and Parking Plan, pursuant to Section 914.07. The Zoning Administrator may require an Alternative Access and Parking Plan to be submitted for uses allowed in residential district. The parking schedule in this section shall not apply to the Bicycle Parking Requirement of Section 914.05.D.
+
+ | 
+Use Type | 
+Minimum Off-Street Automobile Spaces Required | 
+Maximum Off-Street Automobile Spaces Allowed
+ | 
+Residential Uses
+ | 
+Single-Unit, Detached | 
+1 per unit | 
+4 per unit
+ | 
+Single-Unit Attached | 
+0 per unit | 
+4 per unit
+ | 
+Two-Unit | 
+1 per unit | 
+2 per unit
+ | 
+Three-Unit | 
+1 per unit | 
+2 per unit
+ | 
+Multi-Unit | 
+1 per unit | 
+2 per unit
+ | 
+Group Residential | 
+1 per 4 residents | 
+No maximum
+ | 
+Housing for the Elderly | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Non-Residential Uses
+ | 
+Adult Entertainment | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 150 s.f.
+ | 
+Amusement Arcade | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 150 s.f.
+ | 
+Animal Care | 
+1 per 400 s.f. above first 2,400 s.f. | 
+
+ | 
+Art or Music Studio | 
+1 per 800 s.f. | 
+1 per 300 s.f.
+ | 
+Assembly, Public | 
+Parking Demand Analysis Required, See Section 914.02.B
+ | 
+Bank or Financial Institution | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 300 s.f.
+ | 
+Bed and Breakfast | 
+See Bed and Breakfast Regulations, Section 911.04.A.7-9
+ | 
+Basic Industry | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Car Wash | 
+4 queuing spaces per bay for automatic wash; 2 queuing spaces per bay for self-service | 
+
+ | 
+Cemetery | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Check Cashing | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 175 s.f.
+ | 
+Child Care (Limited) | 
+0 | 
+No Maximum
+ | 
+Child Care (General) | 
+1 per 800 s.f. | 
+1 per 400 s.f.
+ | 
+Club | 
+One (stall) per 125 square feet above the first 2,400 square feet | 
+
+ | 
+Community Center | 
+1 per 500 s.f. | 
+1 per 200 s.f.
+ | 
+Correctional Facility | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Cultural Services | 
+1 per 800 s.f. | 
+1 per 300 s.f.
+ | 
+Educational Institution not otherwise listed | 
+1 per 800 s.f. | 
+1 per 300 s.f.
+ | 
+Freight Terminal | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Funeral Home | 
+4 per viewing room | 
+
+ | 
+Gaming Enterprise | 
+Parking Demand Analysis required, see 914.02.B
+ | 
+Golf Course | 
+2 spaces per hole, plus 1 space per 800 s.f. in clubhouse | 
+4 per unit
+ | 
+Grocery Store, up to 10,000 s.f. | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 200 s.f.
+ | 
+Grocery Store, over 10,000 s.f. | 
+1 per 150 s.f. | 
+1 per 100 s.f.
+ | 
+Hazardous Operations | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Heliport, Helistop, Helipad | 
+1 per 1,000 s.f. of operational area | 
+
+ | 
+Hospital | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Incinerator, Solid Waste | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Institutional Facility not otherwise listed | 
+1 per 800 s.f. | 
+1 per 300 s.f.
+ | 
+Laboratory/Research Service | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 200 s.f.
+ | 
+Laundry Service | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Library | 
+1 per 600 s.f. | 
+1 per 200 s.f.
+ | 
+Manufacturing and Assembly | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Medical Office | 
+1 per 400 s.f. above first 2,400 s.f. | 
+
+ | 
+Office | 
+1 per 500 s.f. above first 2,400 s.f. | 
+
+ | 
+Parks and Recreation | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Pawn Shop | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 175 s.f.
+ | 
+Post Office | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Recreation/Entertainment, Outdoor | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Recreation/Entertainment, Indoor | 
+1 per 500 s.f. above first 2,400 s.f. or 1 per 5 seats, whichever is greater
+ | 
+Recycling Processing Center | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Religious Assembly | 
+1 per 5 seats | 
+
+ | 
+Restaurant, Fast Food | 
+1 per 500 s.f., plus 6 queuing spaces per service window | 
+1 per 175 s.f.
+ | 
+Restaurant | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 175 s.f.
+ | 
+Retail Sales and Services | 
+1 per 500 s.f. above first 2,400 s.f. | 
+1 per 175 s.f.
+ | 
+Safety Service | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Salvage Yard | 
+1 per 1,000 s.f. above first 2,400 s.f., plus 1 per 10,000 s.f. of lot | 
+
+ | 
+School, Elementary or Secondary | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Service Station | 
+2 per service bay | 
+
+ | 
+Transit Facility | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Utility, Public | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Vehicle/Equipment Repair | 
+2 per service bay | 
+
+ | 
+Vehicle/Equipment Sales | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Vocational or Trade School | 
+1 per 500 s.f. | 
+
+ | 
+Warehouse | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Warehouse, Residential Storage | 
+1 space, plus 1 per service bay | 
+
+ | 
+Welding or Machine Shop | 
+Parking Demand Analysis Required, see Section 914.02.B
+
+B. 
+
+Uses Requiring Parking Demand Analysis. Uses requiring parking demand analysis have widely varying parking demands, making it difficult to specify a single requirement. The off-street parking requirement for such uses shall be established by the Zoning Administrator based on estimates of parking demand, which may include recommendations of the Institute of Traffic Engineers (ITE), data collected from uses that are the same or comparable to the proposed use, or other relevant information. The Zoning Administrator may require that an applicant submit a parking study that provides analysis and justification for the proposed number of spaces to be provided. Parking studies shall document the source of data used to develop the recommendations. The Zoning Administrator will review the submitted study along with any other traffic engineering and planning data that are appropriate and establish the minimum and maximum off-street parking requirement (including bicycle parking) for the use proposed.
+
+C. 
+
+Structured Parking Required. All principal and accessory off-street parking uses in the GT, DR, EMI and SP Districts, where more than one hundred fifty (150) number of spaces are provided, shall comply with the following requirements:
+
+(a) 
+
+Surface parking shall be permitted for no more than one hundred fifty (150) spaces;
+
+(b) 
+
+All parking in excess of one hundred fifty (150) spaces shall be structured;
+
+(c) 
+
+In no case shall an accessory parking area or structure occupy more than half the lot area of the lot containing the principal use that the parking area or structure serves.
+
+§ 914.03
+Rules for Computing Requirements. 
+
+The following rules shall apply when computing the number of spaces required pursuant to Parking Schedule A (Section 914.02.A).
+
+A. 
+
+Fractions. When calculation of the number of required offstreet parking spaces results in a fractional number, a fraction of less than one-half (½) shall be disregarded and a fraction of one-half (½) or more shall be rounded to the next highest whole number.
+
+B. 
+
+Multiple Uses or Activities. When two (2) or more uses, activities, or separate establishments are located within the same development, off-street parking shall be provided for each use or separate establishment according to the Parking Schedule A (Section 914.02.A), unless a shared parking plan is approved pursuant to Section 914.07.G.1. In the event that one (1) or more uses within a multi-use development are of a size that would otherwise exempt them from compliance with off-street parking requirements, only one (1) such exemption shall be permitted to be taken for the entire development.
+
+C. 
+
+Calculation of Floor Area. Unless otherwise stated, all square footage-based off-street parking standards shall be computed on the basis of gross floor area used or intended to be used for service to customers, patrons, clients or patients, or as tenants, including areas occupied by fixtures and equipment used for display or sale of merchandise. It need not include floors or parts of floors used principally for nonpublic purposes, such as the storage, incidental repair, processing or packaging of merchandise, for show windows, or for offices incidental to the management or maintenance of stores or buildings when these areas are in separate rooms from the principal use of the building. Floors or parts of floors used principally for rest rooms or for utilities or for fitting rooms, dressing rooms and alteration rooms shall also be excluded from the definition of "floor area" for the purpose of computing off-street parking requirements. These provisions notwithstanding, the "floor area" used as the basis for computing off-street parking requirements shall never be less than eighty (80) percent of the total gross floor area.
+
+D. 
+
+Bench Seating. When seating consists of benches, pews or other similar seating facilities, each twenty (20) linear inches of seating space shall be counted as one (1) seat.
+
+E. 
+
+Employees, Students and Occupants. For the purpose of computing parking requirements based on the number of employees, students, residents or occupants, calculations shall be based on the largest number of persons working on any single shift, the maximum enrollment or the maximum fire-rated capacity, whichever is applicable.
+
+F. 
+
+New and Unlisted Uses. Upon receiving a development application for a use not specifically listed in the Parking Schedule A (Section 914.02.A), the Zoning Administrator shall apply the off-street parking standards of the listed use that is deemed most similar to the use proposed or require that a parking study be submitted pursuant to Section 914.02.B.
+
+§ 914.04
+Off-Street Parking Exemption/Reduction Areas. 
+
+[Ord. No. 7-2010, § 2, eff. 4-1-2010; Ord. No. 1-2015, § 1.F., eff. 2-10-2015; Ord. No. 48-2017, § 5, 12-8-2017; Ord. No. 31-2018, § 12, eff. 8-6-2018; Ord. No. 1-2023, § 12, eff. 3-1-2023]
+The minimum off-street parking requirements of Section 914.02.A shall be decreased as shown in the following table for uses located in districts designated on the Official Zoning Map as "Parking Exempt Areas." Uses located in Parking Exempt Areas shall provide no more than the otherwise required minimum parking ratio established in Section 914.02.A.
+
+ | 
+Area | 
+Use Type | 
+Percent Decrease
+ | 
+SP Districts & PUDs | 
+Any use | 
+Parking Demand Analysis Required, see Section 914.02.B
+ | 
+Downtown | 
+Any use | 
+100
+ | 
+East Liberty | 
+Any use except residential | 
+50
+ | 
+SP-11 Lower Hill Planned Development | 
+Any use | 
+100
+ | 
+North Side | 
+Any use except residential | 
+25
+ | 
+Uptown Public Realm District | 
+Any use | 
+100
+ | 
+Riverfront Zoning Districts | 
+Any use | 
+50
+ | 
+UC-MU and R-MU Zoning Districts | 
+Any use | 
+50
+ | 
+UC-E Zoning Districts | 
+Any use | 
+100
+The parking reductions of this section shall not be applicable to the minimum Bicycle Parking requirements of Section 914.05.
+
+§ 914.05
+Bicycle Parking. 
+
+[Ord. No. 7-2010, § 3, eff. 4-1-2010; Ord. No. 2-2018, § 28, eff. 2-15-2018]
+To further the intent of this Chapter to allow flexibility and equity in addressing vehicle parking issues and to present a menu of parking allocation strategies, this section requires and incentivizes bicycle parking. This section seeks to facilitate the lessening of car-related congestion in the City by promoting bicycle commuting by requiring the provision of adequate and safe facilities for the storage of bicycles. Further, this section allows a reduction in required automobile parking spaces when bicycle parking is accommodated, creating a benefit for meeting the requirements of this Chapter.
+
+A. 
+
+Special Definitions.
+
+1. 
+
+Bicycle Parking Space means a four (4) feet by six (6) feet space provided for locking up to two (2) bicycles to a City approved Bicycle Rack or a bicycle locker that can store up to two (2) bicycles per unit.
+
+2. 
+
+Bicycle Rack means a stationary device with a base that can wedge anchors for surface mounting, provides steel tubing one (1) inch to four (4) inches thick, containing locking points between one (1) feet and three (3) feet off the ground and a gap near the bottom for pedal clearance, enabling one to lock a bicycle frame and one (1) of the wheels with a standard U-Lock. Such a rack must be able to accommodate at least two (2) bicycles upright by rack frame.
+
+3. 
+
+Protected Bicycle Parking Spaces are secure facilities which protect the entire bicycle, its components and accessories against theft and against inclement weather, including wind-driven rain. This type of facility includes, but is not limited to bicycle lockers, check-in facilities, monitored bicycle parking, restricted access parking, and personal storage.
+
+4. 
+
+Unprotected Bicycle Parking Spaces are Bicycle Racks which permit the locking of the bicycle frame and one (1) wheel to the rack and which support the bicycle in a stable position without damage to wheels, frame or components.
+
+5. 
+
+Low Occupancy Facility means a building or use with limited customer or non-employee contact and less than one (1) employee per every ten thousand (10,000) square feet of gross floor area.
+
+B. 
+
+Locations and Facilities.
+
+1. 
+
+Bicycle parking shall be provided in a well-lighted area.
+
+2. 
+
+Bicycle parking shall be at least as conveniently located as the most convenient automobile spaces, other than those spaces for persons with disabilities. Safe and convenient means of ingress and egress to bicycle parking facilities shall be provided. Safe and convenient shall include, but is not limited to stairways, elevators and escalators.
+
+3. 
+
+Bicycle Parking facilities shall not interfere with accessible paths of travel or accessible parking as required by the Americans with Disabilities Act of 1990.
+
+4. 
+
+Protected and Unprotected Bicycle Racks shall be located in highly visible areas to minimize theft and vandalism.
+
+5. 
+
+In cases of structured automobile parking, Protected Bicycle Parking Spaces shall be used.
+
+6. 
+
+Alternative Locations and facilities. In the event that compliance with Section 914.05.B or 914.05.C may not be feasible or ideal because of demonstrable hardship or due to a creative design alternative, the Zoning Administrator may approve an alternative storage location. The Zoning Administrator shall be guided by the following criteria:
+
+a. 
+
+Such alternative facilities shall be well-lighted and secure.
+
+b. 
+
+All Bicycle Parking Spaces outside of a building shall be located within a one hundred (100) foot diameter of the primary building entrance.
+
+c. 
+
+Bicycle Racks may be placed in the public right-of-way provided that the building owner attains an encroachment permit for the installation of racks in the public right-of-way from the Department of Mobility and Infrastructure.
+
+C. 
+
+Layout of Spaces. Bicycle Parking Spaces or alternative spaces approved by the Zoning Administrator shall be laid out according to the following:
+
+1. 
+
+All bicycle parking areas shall afford a four (4) foot wide access aisle to ensure safe access to spaces.
+
+2. 
+
+Bicycle parking and automobile parking shall be located so as to protect bicycles from damage.
+
+3. 
+
+In cases where Bicycle Parking Spaces are not visible from the primary street, signage shall be used to direct cyclists safely to bicycle parking areas.
+
+4. 
+
+All Bicycle Racks and lockers shall be securely anchored to the ground or building structure.
+
+5. 
+
+Bicycle Parking Spaces shall not interfere with pedestrian circulation and shall adhere to ADA requirements.
+
+6. 
+
+Bicycle parking shall be an integral part of the overall site layout and designed to minimize visual clutter.
+
+D. 
+
+Bicycle Parking Requirement. Bicycle Parking Spaces shall be provided in accordance with the following tables:
+
+1. 
+
+For all Non-Residential uses except, Hotel/Motel, Commercial Parking, Parking Structure, and Low Occupancy Facilities (as defined in Section 914.05.A.5):
+
+ | 
+Gross Floor Area | 
+Required Minimum Number of Bicycle Parking Spaces
+ | 
+0—6,000 s.f. | 
+0
+ | 
+6,001—20,000 s.f. | 
+1
+ | 
+Over 20,000 s.f. | 
+1 per every 10,000 s.f. or fraction thereof
+
+2. 
+
+For Multi-Unit Residential:
+
+ | 
+Number of Dwelling Units | 
+Required Minimum Number of Bicycle Parking Spaces
+ | 
+Less than 12 | 
+0
+ | 
+12 or more | 
+1 per every 3 dwelling units or a fraction thereof
+
+(a) 
+
+At least sixty (60) percent of all bicycle parking spaces provided must be Protected Bicycle Parking Spaces.
+
+3. 
+
+For Commercial Parking and Parking Structure uses:
+
+ | 
+Number of Automobile Spaces | 
+Required Minimum Number of Bicycle Parking Spaces
+ | 
+0—4 | 
+0
+ | 
+4—20 | 
+1
+ | 
+21—40 | 
+2
+ | 
+Over 40 | 
+1 per every 10 spaces or a fraction thereof
+
+4. 
+
+For Low Occupancy Facilities and Hotel/Motel uses:
+
+ | 
+Number of Employees | 
+Required Minimum Number of Bicycle Parking Spaces
+ | 
+0—5 | 
+0
+ | 
+6—20 | 
+1
+ | 
+21—80 | 
+2
+ | 
+Over 80 | 
+1 per every 20 employees or a fraction thereof
+
+(a) 
+
+To certify a building or use as a Low Occupancy Facility, the building owner or applicant shall attach to any zoning permit application, an affidavit attesting to the number of employees required for the use.
+
+When calculating the minimum number of Protected and/or Unprotected parking spaces required results in a fractional number, a fraction of less than one-half (½) shall be disregarded and a fraction of one-half (½) or more shall be rounded to the next highest whole number.
+
+E. 
+
+Street Parking Reduction for Bicycle Parking.
+
+1. 
+
+A reduction in the number of off-street parking spaces required by Section 914.02.A (excluding parking spaces for persons with disabilities) shall be permitted for the provision of bicycle parking provided that:
+
+(a) 
+
+No fee is required for using the bicycle parking made available;
+
+(b) 
+
+When calculation of the maximum number of reduced parking spaces results in a fraction, the resulting number shall be rounded to the next highest integer.
+
+2. 
+
+The reduction in the number of automobile parking spaces shall be reduced by no more than one (1) space for each Bicycle Parking Space, but by no more than thirty (30) percent of the total required spaces.
+
+3. 
+
+This provision can not be applied to Single-Unit Residential, Two-Unit Residential, Three-Unit Residential, Animal Care, Car Wash, Salvage Yard, Service Station, and Vehicle/Equipment Repair uses.
+
+For unlisted uses and uses requiring Parking Demand Analysis (Section 914.02.B), bicycle parking shall be integrated into a comprehensive, multimodal transportation plan approach. The extent of required parking and incentive reductions for any mode of travel will reflect the planned, apparent or potential system connectivity opportunities of that area in relation to the City transportation network.
+
+§ 914.06
+Parking for Persons with Disabilities. 
+
+[Ord. 21-2002, §§ 9—13, eff. 6-18-2002]
+A portion of the total number of required parking spaces shall be specifically designated, located and reserved for use by persons with disabilities.
+
+A. 
+
+Number of Spaces.
+Parking spaces reserved for persons with disabilities shall be counted toward fulfilling overall off-street parking standards. The minimum number of spaces to be reserved for persons with disabilities shall be as follows:
+
+ | 
+Residential Uses [up to 25 Dwelling Units]
+ | 
+ | 
+Minimum Reserved Spaces Required
+ | 
+Less than 4 Dwelling Units | 
+0
+ | 
+4 to 25 Dwelling Units | 
+1
+
+ | 
+Non-Residential Uses and Parking Spaces Provided for Dwelling Units in Excess of 25
+ | 
+Parking Spaces Required | 
+Minimum Reserved Spaces Required
+ | 
+1—25 | 
+1
+ | 
+26—50 | 
+2
+ | 
+51—75 | 
+3
+ | 
+76—100 | 
+4
+ | 
+101—150 | 
+5
+ | 
+151—200 | 
+6
+ | 
+201—300 | 
+7
+ | 
+301—400 | 
+8
+ | 
+401—500 | 
+9
+ | 
+501—1,000 | 
+2% of total spaces
+ | 
+Over 1,000 | 
+20, plus 1 for each 100 spaces over 1,000
+One (1) in every eight (8) accessible spaces, but not less than one (1), shall be served by an access aisle eight (8) feet wide minimum and shall be designated "van accessible" as required by Americans with Disabilities Act of 1990. The vertical clearance at such spaces shall comply with Americans with Disabilities Act of 1990. All such spaces may be grouped on one (1) level of a parking structure.
+
+B. 
+
+Minimum Dimensions. All parking spaces reserved for people with disabilities shall be at least nineteen (19) feet in length and at least eight (8) feet wide and shall provide minimum vertical clearance of eight (8) feet two (2) inches at the parking space and along at least one (1) vehicle access route to such spaces from site entrance(s) and exit(s). Parking access aisles shall be part of an accessible route to the building or facility entrance and shall be five (5) feet wide, except parking spaces reserved for vans, which shall be eight (8) feet wide in accordance with Section 914.06.A. Two (2) accessible parking spaces may share a common access aisle. Parked vehicle overhangs shall not reduce the clear width of an accessible route. Parking spaces and access aisles shall be level with surface slopes not exceeding 1:50 (two (2) percent) in all directions.
+
+C. 
+
+Location of Spaces. Accessible parking spaces serving a particular building shall be located on the shortest accessible route of travel from adjacent parking to an accessible entrance. In parking facilities that do not serve a particular building, accessible parking shall be located on the shortest accessible route of travel to an accessible pedestrian entrance of the parking facility. In buildings with multiple accessible entrances with adjacent parking, accessible parking spaces shall be dispersed and located closest to the accessible entrances.
+
+D. 
+
+Signs and Markings.
+Required spaces for persons with disabilities shall be designated with signs and pavement markings identifying them as reserved for persons with disabilities. The required sign shall clearly indicate the maximum fine assessed on violators. The size of the sign shall not exceed four (4) square feet.
+Van-accessible spaces shall have an additional sign "Van-Accessible" mounted below the symbol of accessibility. Such signs shall be located so as not to be obscured by a vehicle parked in the space.
+
+E. 
+
+Parking for Persons with Disabilities, Passenger Loading Zones. Passenger loading zones shall provide an access aisle at least five (5) feet wide and twenty (20) feet long adjacent and parallel to the vehicle pull-up space. If there are curbs between the access aisle and the vehicle pull-up space, then a curb ramp complying with Americans with Disabilities Act of 1990 shall be provided. Vehicle standing spaces and access aisles shall be level with surface slopes not exceeding 1:50 (two (2) percent) in all directions. Minimum vertical clearance of nine (9) feet six (6) inches shall be provided at accessible passenger loading zones and along at least one (1) vehicle access route to such areas from site entrance(s) and exit(s).
+
+§ 914.07
+Alternative Access and Parking Plans. 
+
+[Ord. 28, 11-17-2000, Amend. U-25; Ord. No. 57-2021, § 2, eff. 12-27-2021]
+
+A. 
+
+Scope. An Alternative Access and Parking Plan represents a proposal to meet vehicle parking and transportation access needs by means other than providing parking spaces on-site in accordance with the ratios established in Section 914.02.A.
+
+B. 
+
+Applicability. Applicants who wish to provide fewer or more off-street parking spaces than allowed pursuant to the Parking Schedule A (Section 914.02.A) shall be required to secure approval of an Alternative Access and Parking Plan, in accordance with the standards of this section. The Zoning Administrator may require that an Alternative Access and Parking Plan be submitted in cases where the Zoning Administrator deems the listed standard to be inappropriate based on the unique nature of the use or in cases where the applicable standard is unclear.
+
+C. 
+
+Contents. Alternative Access and Parking Plans shall be submitted in a form established by the Zoning Administrator and made available to the public. At a minimum, such plans shall detail the type of alternative proposed and the rationale for such a proposal.
+
+D. 
+
+Review and Approval Procedure.
+
+1. 
+
+Small Facilities. If ten or fewer off-street parking spaces are required pursuant to Parking Schedule A (Section 914.02.A), the Zoning Administrator shall be authorized to approve, approve with conditions, approve in part, deny, or deny in part the Alternative Access and Parking Plan for that use. Notification shall be provided in the form of a sign posted on the site of the primary use and the proposed parking facility (if any) at least ten (10) days before the Zoning Administrator takes action on the plan.
+
+2. 
+
+Large Facilities. The Zoning Board of Adjustment shall be authorized, in accordance with the Special Exception provisions of Section 922.07, to approve, approve with conditions, approve in part, deny, or deny in part Alternative Access and Parking Plans for uses that require more than ten off-street parking spaces (pursuant to Parking Schedule A [Section 914.02.A]). A public hearing shall be required. Notification shall be provided in the form of (1) a sign posted on the site of the primary use and the proposed parking facility (if any) at least twenty-one (21) days before the hearing and (2) written notification at least fifteen (15) days prior to the hearing to all property owners and registered neighborhood associations within three hundred (300) feet of the proposed use and within three hundred (300) feet of the parking area.
+
+E. 
+
+Recording. An attested copy of an approved Alternative Access and Parking Plan shall be submitted to County Recorder's office for recordation on forms made available in the Office of the Zoning Administrator. Proof of recordation of the agreement shall be presented to the Zoning Administrator prior to issuance of a building permit. An approved Alternative Access and Parking Plan may be amended by the Zoning Board of Adjustment pursuant to Section 914.07.
+
+F. 
+
+Violations. Violations of an approved Alternative Access and Parking Plan shall be considered violations of this Zoning Code and subject to the enforcement and penalty provisions of Chapter 924.
+
+G. 
+
+Eligible Alternatives. A number of specific parking and access alternatives are described in Sections 914.07.G.1 through 914.07.G.6.
+
+1. 
+
+Administrator Exceptions. The Zoning Administrator shall be authorized, in accordance with the Administrator Exception provisions of Section 922.08, to consider and approve the following alternatives to providing off-street parking spaces on the site of the subject development if the applicant demonstrates to the satisfaction of the Zoning Administrator that the proposed plan will result in a better situation with respect to surrounding neighborhoods, citywide traffic circulation and urban design than would strict compliance with otherwise applicable off-street parking standards.
+
+(a) 
+
+Shared Parking. It is the City's policy to encourage efficient use of land and resources by allowing users to share off-street parking facilities for multiple use developments or for uses that are located near one (1) another and that have different peak parking demands or different operating hours. Shared parking shall be subject to the following standards.
+
+(1) 
+
+Location. Shared off-street parking spaces shall be located no further than one thousand (1,000) feet from the buildings and uses they are intended to serve. This distance limitation may be waived by the Zoning Board of Adjustment if adequate assurances are offered that van or shuttle service will be operated between the shared lot and the principal use.
+
+(2) 
+
+Zoning Classification. Shared parking areas shall be considered accessory uses of primary uses that the parking spaces are intended to serve. Shared parking areas shall require the same or a more intensive zoning classification than that required for the most intensive of the uses served by the shared parking area.
+
+(3) 
+
+Required Study and Analysis. The applicant shall submit a shared parking analysis to the Zoning Administrator which clearly demonstrates the feasibility of shared parking. The study shall be provided in a form established by the Zoning Administrator and made available to the public. It shall address, at a minimum, the size and type of the proposed development, the composition of tenants, the anticipated rate of parking turnover and the anticipated peak parking and traffic loads for all uses that will be sharing off-street parking spaces.
+
+(4) 
+
+Report from Planning Director. The Zoning Board of Adjustment shall request a report and recommendation from the Planning Director on the planning aspects of the proposed shared parking use.
+
+(5) 
+
+Shared Parking Agreement. A shared parking plan shall be enforced through written agreement among the owners of record. An attested copy of the agreement shall be submitted to County Recorder's office for recordation on forms made available in the Office of the Zoning Administrator. Proof of recordation of the agreement shall be presented to the Zoning Administrator prior to issuance of a building permit. A shared parking agreement may be revoked by the parties to the agreement only if off-street parking is provided pursuant to Section 914.02.A, or if an Alternative Access and Parking Plan is approved by the Zoning Board of Adjustment pursuant to Section 914.07.
+
+(6) 
+
+Revocation of Permits. Failure to comply with the shared parking provisions of this section shall constitute a violation of this code and shall specifically be cause for revocation of a building permit.
+
+(b) 
+
+Valet Parking. The Zoning Administrator shall be authorized, in accordance with the Administrator Exception provisions of Section 922.08, to permit valet parking as a means of satisfying otherwise applicable off-street parking standards, provided that the following standards are met:
+
+(1) 
+
+An automobile shall be retrievable from its parking space with the movement of a maximum of two (2) additional vehicles; and
+
+(2) 
+
+The Zoning Administrator certifies that the valet parking will not cause interference with the public use of streets or ways or imperil the public safety.
+
+2. 
+
+Special Exceptions. The Zoning Board of Adjustment shall be authorized, in accordance with the Special Exception provisions of Section 922.07, to consider and approve any alternative to providing off-street parking spaces on the site of the subject development if the applicant demonstrates to the satisfaction of the Zoning Board of Adjustment that the proposed plan will result in a better situation with respect to surrounding neighborhoods, citywide traffic circulation and urban design than would strict compliance with otherwise applicable off-street parking standards.
+
+(a) 
+
+Off-Site Parking. The Zoning Board of Adjustment shall be authorized, in accordance with the Special Exception provisions of Section 922.07, to permit all or a portion of the required off-street parking spaces to be located on a remote and separate lot from the lot on which the primary use is located, subject to the following standards.
+
+(1) 
+
+Location. No off-site parking space shall be located more than one thousand (1,000) feet from the primary entrance of the use served, measured along the shortest legal, practical walking route. This distance limitation may be waived by the Zoning Board of Adjustment if adequate assurances are offered that van or shuttle service will be operated between the shared lot and the primary use.
+
+(2) 
+
+Zoning Classification. Off-site parking areas shall be considered accessory uses of primary uses that the parking spaces are intended to serve. Off-site parking areas shall require the same or a less restrictive zoning classification than that required for the use served.
+
+(3) 
+
+Report from Planning Director. The Zoning Board of Adjustment shall request a report and recommendation from the Planning Director on the planning aspects of the proposed shared parking use.
+
+(4) 
+
+Off-Site Parking Agreement. In the event that an off-site parking area is not under the same ownership as the primary use served, a written agreement among the owners of record shall be required. An attested copy of the agreement between the owners of record shall be submitted to County Recorder's Office for recordation on forms made available in the office of the Zoning Administrator. Proof of recordation of the agreement shall be presented to the Zoning Administrator prior to issuance of a building permit. An off-site parking agreement may be revoked by the parties to the agreement only if off-street parking is provided on-site pursuant to Section 914.02.A or if an Alternative Access and Parking Plan is approved by the Zoning Board of Adjustment pursuant to Section 914.07.
+
+(b) 
+
+(Reserved)
+
+(c) 
+
+Transportation Management Plan. The Zoning Board of Adjustment shall be authorized, in accordance with the Special Exception provisions of Section 922.07, to permit a reduction in the number of required off-street parking spaces for developments or uses that institute and commit to maintain a transportation management program, in accordance with the standards of this section.
+
+(1) 
+
+Required Study. The applicant shall submit a study to the Zoning Board of Adjustment which clearly indicates the types of transportation management activities and measures proposed. The study shall be provided in a form established by the Zoning Administrator and made available to the public.
+
+(2) 
+
+Transportation Management Activities. There shall be no limitation on the types of transportation management activities for which reductions may be granted from otherwise required off-street parking ratios. The following measures shall serve as a guide to eligible transportation management activities.
+
+(i) 
+
+Posting and Distribution of Information. The distribution and posting of information from transit agencies and other sources of alternative transportation may be cause for a reduction in otherwise applicable off-street parking requirements.
+
+(ii) 
+
+Transportation Coordinator. The appointment of a Transportation Coordinator with responsibility for disseminating information on ride-sharing and other transportation options may be cause for a reduction in otherwise applicable off-street parking requirements. In addition to acting as liaisons, Transportation Coordinators must be available to attend meetings and training sessions with the City or transit providers.
+
+(iii) 
+
+Off-Peak Work Hours. Employers that institute off-peak work schedules, allowing employees to arrive at times other than the peak morning commute period, may be eligible for a reduction in otherwise applicable off-street parking requirements. The peak morning commute period is defined as 7:30 a.m. - 9:00 a.m.
+
+(iv) 
+
+Preferential Parking. The provision of specially marked spaces for each registered car pool and van pool may be cause for a reduction in otherwise applicable off-street parking requirements.
+
+(v) 
+
+Financial Incentives. The provision of cash or in-kind financial incentives for employees commuting by car pool, van pool and transit may be cause for a reduction in otherwise applicable parking requirements.
+
+(3) 
+
+Report from Planning Director. The Zoning Board of Adjustment shall request a report and recommendation from the Planning Director on the planning aspects of the proposed shared parking use.
+
+(d) 
+
+Transit Stops. The Zoning Board of Adjustment shall be authorized, in accordance with the Special Exception provisions of Section 922.07, to permit the incorporation of transit stops as a means of satisfying the otherwise applicable off-street parking standards, provided the following conditions are met:
+
+(1) 
+
+The transit stop shall be designed to be a station or waiting area for transit riders, clearly identified as such, and open to the public at large;
+
+(2) 
+
+The transit stop shall be designed as an integral part of the development project, with direct access to the station or waiting area from the development site;
+
+(3) 
+
+The transit waiting area or platform shall be designed to accommodate passengers in a covered waiting area, with seating for a minimum of twenty (20) persons, shall include internal lighting, and shall include other features which encourage the use of the facility, such as temperature control within the waiting area or the inclusion of food vendors;
+
+(4) 
+
+The maximum reduction in the number of parking spaces shall be no more than twenty (20) percent of the total required spaces;
+
+(5) 
+
+The Zoning Board of Adjustment shall request a report and recommendation from the Planning Director on the planning aspects, and the potential impacts of the proposed reduction in parking through the provision of a transit facility;
+
+(6) 
+
+The transit stop shall be maintained by the developer for the life of the development project.
+
+§ 914.08
+Queuing for Drive-Through Facilities. 
+
+In addition to meeting the off-street parking requirements of Section 914.02.A, drive-through facilities shall comply with the following standards.
+
+A. 
+
+Queue Space Schedule. The minimum number of queue spaces required shall be as follows. Variations from these minimums may be allowed based on a parking study submitted pursuant to Section 914.07.C.
+
+ | 
+Use Type | 
+Minimum Spaces | 
+Measured From
+ | 
+Bank Teller Lane | 
+3 | 
+Teller or Window
+ | 
+Automated Teller Machine | 
+2 | 
+Teller Machine
+ | 
+Restaurant Drive-Through | 
+6 | 
+Order Box
+ | 
+Car Wash Stall, Automatic | 
+4 | 
+Entrance
+ | 
+Car Wash Stall, Self-service | 
+2 | 
+Entrance
+ | 
+Gasoline Pump Island | 
+1 | 
+End of Island
+
+B. 
+
+Minimum Dimensions. Each queue space shall be a minimum of ten (10) feet by twenty (20) feet in size.
+
+C. 
+
+Design. Each queue lane shall be clearly defined and designed so as not to conflict or interfere with other pedestrian or vehicular traffic using the site.
+
+§ 914.09
+Parking Area Location and Design. 
+
+[Ord. 28, 11-17-2000, Amend. U-25; Ord. 21-2002, § 14, eff. 6-18-2002; Ord. No. 31-2018, § 12, eff. 8-6-2018; Ord. No. 13-2021, § 1, eff. 5-5-2021; Ord. No. 34-2021, § 1, eff. 10-11-2021]
+The location, design and improvement standards of this section shall apply to all off-street parking areas containing five (5) or more parking spaces, except that Section 914.09.J shall apply to the location of parking access for Single-Unit Attached Residential Uses.
+
+A. 
+
+General Design Principles.
+
+1. 
+
+Location. Off-street parking areas shall be located so as to minimize their adverse impact on the visual environment. To the maximum extent possible, off-street parking areas shall not be visible from a public street, and in no case shall a surface parking lot in NDI, LNC or UNC zoning district be located within ten (10) feet of the street right-of-way.
+
+2. 
+
+Layout. There shall be safe, adequate, and convenient arrangement of pedestrian pathways, bikeways, roads, driveways, and off-street parking and loading spaces within off-street parking areas. Streets, pedestrian walks, parking areas, and open space shall be designed as integral parts of an overall site design which shall be properly related to existing and proposed buildings, adjacent uses, landscaped areas, and stormwater management features.
+
+3. 
+
+Appearance. The materials used in the design of paving, lighting fixtures, retaining walls, fences, curbs and benches shall be of good appearance, easily maintained and indicative of their function.
+
+4. 
+
+Maintenance. Parking lots shall be maintained in a safe operating condition so as not to create a hazard or nuisance.
+
+B. 
+
+Surfacing. Areas used for off-street parking, circulation or vehicle display shall be surfaced with asphalt, concrete, masonry, hard packed slag, or other solid paving materials with sufficient strength to support the vehicle loads imposed, provided that the Zoning Administrator shall be authorized to approve parking areas that are not hard-surfaced when four (4) or fewer parking spaces are involved. All off-street parking and other vehicle circulation areas shall be continuously maintained and designed to preclude free flow of stormwater onto adjacent lots, properties, or public streets or ways and in accordance with Title 13: Stormwater Management, as applicable.
+
+C. 
+
+Wheel Stops. Wheel stops or curbing shall be installed to protect walls, poles, structures, pedestrian walkways or landscaped areas. Wheel stops should be placed within two (2) to three (3) feet from the end of parking spaces.
+
+D. 
+
+Landscaping and Screening. Off-street parking, loading and vehicle display areas shall be landscaped and screened from view in accordance with the Landscaping and Screening Standards of Chapter 918.
+
+E. 
+
+Lighting. Lighting shall be arranged and designed so that no source of light is directed toward any lots used or zoned for residential use. Lighting shall be designed to shield public streets and all other adjacent lands from distracting glare, or hazardous interference of any kind. Vehicular use areas shall not be lighted at any time other than the hours of operation of the use that the parking is intended to serve, except for necessary security lighting.
+
+F. 
+
+Parking Area Access. Access to parking garages and parking areas containing more than five (5) spaces shall be designed to ensure that entering and exiting vehicles do not disrupt vehicle and pedestrian circulation patterns. At a minimum, all garage doors, ticket machines or entrance gates shall be located so as to allow a minimum of twenty (20) feet clearance from sidewalks and street rights-of-way. Driveways serving such parking areas shall be located at least sixty (60) feet from intersecting street rights-of-way, and joint access to abutting parcels shall be provided wherever practical.
+
+G. 
+
+Parking Structure Design.
+
+1. 
+
+Screening of Vehicles. Parked vehicles shall be screened from view of adjacent streets and residential zoning districts to the maximum extent feasible.
+
+2. 
+
+Ground-Floor Uses.
+
+(a) 
+
+For parking structures greater than one hundred fifty (150) feet in length that are adjacent to store-front commercial uses, active uses shall be located along a minimum of fifty (50) percent of the length of the street-side, street-level perimeter. For the purposes of this Section, active uses shall include commercial, residential, and accessory uses and activities that typically have user-occupied areas that are expressed through building fenestration and articulation.
+
+(b) 
+
+Within the RIV District, any ground-level structured parking that has primary frontage along the riverfront or along a street or publicly accessible pedestrian easement shall be screened architecturally or be screened according to the provisions of Section 918.03.B.
+
+3. 
+
+Building Lines. Parking structures shall present a horizontal rather than sloped building line on visible facades.
+
+4. 
+
+Parking for Persons with Disabilities, Ground Floor Vehicle Entrances. Parking structures containing more than one (1) floor shall provide a minimum of nine (9) feet six (6) inches of vertical clearance on the ground floor between all spaces and vehicle access routes to site entrance(s) and exit(s). Signage and other objects may not project into this clearance. Van accessible reserved spaces may be placed on this level in accordance with the requirements of Section 914.06.
+
+H. 
+
+Parking Stall Dimensional Standards. The following minimum dimensional standards shall apply to all off-street parking areas.
+
+1. 
+
+Standard-Size Parking Stalls. A minimum of sixty (60) percent of required off-street parking spaces shall be standard-size spaces, designed in accordance the following minimum dimensional standards. All dimensions are measured in feet.
+
+ | 
+A = angle of parking | 
+90° | 
+80° | 
+75° | 
+70° | 
+65° | 
+60° | 
+55° | 
+50° | 
+45°
+ | 
+W = width of stall parallel to aisle | 
+8.50 | 
+8.63 | 
+8.80 | 
+9.05 | 
+9.38 | 
+9.81 | 
+10.38 | 
+11.10 | 
+12.02
+ | 
+W1 = width of stall perpendicular to stall | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50 | 
+8.50
+ | 
+Y = stall length offset | 
+0.00 | 
+1.50 | 
+2.28 | 
+3.09 | 
+3.96 | 
+4.91 | 
+5.95 | 
+7.13 | 
+8.50
+ | 
+X = stall line length | 
+19.00 | 
+20.50 | 
+21.28 | 
+22.09 | 
+22.96 | 
+23.91 | 
+24.95 | 
+26.13 | 
+27.50
+ | 
+L = stall depth perpendicular to wall | 
+19.00 | 
+20.19 | 
+20.55 | 
+20.76 | 
+20.81 | 
+20.70 | 
+20.44 | 
+20.02 | 
+19.45
+ | 
+L 1 = stall length | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00 | 
+19.00
+ | 
+AW = aisle width | 
+24.00 | 
+21.00 | 
+19.75 | 
+18.50 | 
+17.25 | 
+16.00 | 
+14.75 | 
+13.50 | 
+12.25
+ | 
+IL = stall depth | 
+19.00 | 
+19.45 | 
+19.45 | 
+19.31 | 
+19.02 | 
+18.58 | 
+18.00 | 
+17.29 | 
+16.44
+ | 
+BW = module, wall to wall | 
+62.00 | 
+61.37 | 
+30.86 | 
+60.02 | 
+58.87 | 
+57.41 | 
+55.63 | 
+53.54 | 
+51.15
+ | 
+BWI = module, wall to interlock | 
+62.00 | 
+60.64 | 
+59.76 | 
+58.57 | 
+57.08 | 
+55.28 | 
+53.19 | 
+50.81 | 
+48.14
+ | 
+BI = module, interlocking | 
+62.00 | 
+59.90 | 
+58.66 | 
+57.12 | 
+55.28 | 
+53.16 | 
+50.75 | 
+48.07 | 
+45.13
+ | 
+BIC = module, interlock to curb face | 
+59.50 | 
+58.14 | 
+57.26 | 
+56.07 | 
+54.78 | 
+52.98 | 
+50.89 | 
+48.81 | 
+46.14
+ | 
+I = bumper overhang | 
+2.50 | 
+2.50 | 
+2.50 | 
+2.50 | 
+2.00 | 
+2.00 | 
+2.00 | 
+2.00 | 
+2.00
+ | 
+J = offset | 
+0.00 | 
+0.26 | 
+0.59 | 
+1.06 | 
+1.68 | 
+2.45 | 
+3.41 | 
+4.58 | 
+6.01
+ | 
+K = setback | 
+0.00 | 
+3.30 | 
+4.92 | 
+6.50 | 
+8.03 | 
+9.50 | 
+10.09 | 
+12.21 | 
+13.44
+ | 
+B = cross aisle, one-way | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00 | 
+16.00
+ | 
+B1 = cross aisle, two-way | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00 | 
+24.00
+
+ | 
+
+Standard Size Parking Stalls
+
+2. 
+
+Compact-Size Parking Stalls. Up to forty (40) percent of required off-street parking spaces may be compact-size spaces, which shall be designed in accordance the following minimum dimensional standards. Compact-size spaces shall be clearly identified by pavement markings. All dimensions are measured in feet.
+
+ | 
+A = angle of parking | 
+90° | 
+80° | 
+75° | 
+70° | 
+65° | 
+60° | 
+55° | 
+50° | 
+45°
+ | 
+W = width of stall parallel to aisle | 
+7.75 | 
+7.87 | 
+8.02 | 
+8.25 | 
+8.55 | 
+8.95 | 
+9.46 | 
+10.12 | 
+10.95
+ | 
+W 1 = width of stall perpendicular to stall | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75 | 
+7.75
+ | 
+Y = stall length offset | 
+0.00 | 
+1.37 | 
+2.08 | 
+2.82 | 
+3.61 | 
+4.47 | 
+5.43 | 
+6.50 | 
+7.75
+ | 
+X = stall line length | 
+16.50 | 
+17.87 | 
+18.58 | 
+19.32 | 
+20.11 | 
+20.97 | 
+21.93 | 
+23.00 | 
+24.25
+ | 
+L = stall depth perpendicular to wall | 
+16.50 | 
+17.60 | 
+17.94 | 
+18.16 | 
+18.23 | 
+18.16 | 
+17.96 | 
+17.62 | 
+17.15
+ | 
+L 1 = stall length | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50 | 
+16.50
+ | 
+AW = aisle width | 
+20.00 | 
+17.50 | 
+16.64 | 
+15.78 | 
+14.92 | 
+14.06 | 
+13.20 | 
+12.34 | 
+11.48
+ | 
+IL = stall depth | 
+16.50 | 
+16.92 | 
+16.94 | 
+16.83 | 
+16.59 | 
+16.23 | 
+15.74 | 
+15.13 | 
+14.41
+ | 
+BW = module, wall to wall | 
+53.00 | 
+52.69 | 
+52.53 | 
+52.09 | 
+51.38 | 
+50.39 | 
+49.12 | 
+47.58 | 
+45.77
+ | 
+BWI = module, wall to interlock | 
+53.00 | 
+52.02 | 
+51.52 | 
+50.77 | 
+49.74 | 
+48.45 | 
+46.90 | 
+45.09 | 
+43.03
+ | 
+BI = module, interlocking | 
+53.00 | 
+51.34 | 
+50.52 | 
+49.44 | 
+48.10 | 
+46.51 | 
+44.68 | 
+42.60 | 
+40.29
+ | 
+BIC = module, interlock to curb face | 
+50.50 | 
+49.52 | 
+49.02 | 
+48.27 | 
+47.44 | 
+46.15 | 
+44.60 | 
+43.09 | 
+41.03
+ | 
+I = bumper overhang | 
+2.50 | 
+2.50 | 
+2.50 | 
+2.50 | 
+2.30 | 
+2.30 | 
+2.30 | 
+2.00 | 
+2.00
+ | 
+J = offset | 
+0.00 | 
+0.24 | 
+0.54 | 
+0.96 | 
+1.53 | 
+2.24 | 
+3.11 | 
+4.18 | 
+5.48
+ | 
+K = setback | 
+0.00 | 
+2.87 | 
+4.27 | 
+5.64 | 
+6.97 | 
+8.25 | 
+9.46 | 
+10.61 | 
+11.67
+ | 
+B = cross aisle, one-way | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00 | 
+12.00
+ | 
+B1 = cross aisle, two-way | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00 | 
+20.00
+
+I. 
+
+Stripes and Markings. Parking stalls shall be delineated by double-striping, in accordance with the following general design guidelines and rules established and made available to the public by the Transportation Planner.
+
+ | 
+
+Stripes and Markings
+
+J. 
+
+Parking Access for Single-Unit Attached Residential Uses.
+
+1. 
+
+Single-Unit Attached Residential Uses Curb Cut Standards.
+
+(a) 
+
+Garages and parking spaces must be accessed from the rear yard, if rear yard access is available. Corner lots, with or without rear access, may alternatively access garages and parking spaces from the exterior side yard.
+
+(b) 
+
+In cases where front-loaded garage design is the remaining option, shared driveways with one (1) curb cut are encouraged.
+
+§ 914.10
+Off-Street Loading. 
+
+[Ord. No. 34-2021, § 1, eff. 10-11-2021]
+The off-street loading requirement of this section shall apply to those developments of over two thousand four hundred (2,400) square feet in gross floor area.
+
+A. 
+
+Schedule of Off-Street Loading Requirements. Off-street loading spaces shall be provided on the site of new or expanded uses, in accordance with the minimum standards included in the following off-street loading schedule.
+
+ | 
+Floor Area | 
+Minimum Off-Street Loading Requirement
+ | 
+ | 
+Retail Sales and Service,
+Freight Terminal, Warehouse,
+Hospital, Nursing Home,
+Manufacturing Uses | 
+Multi-Unit Residential,
+Hotel/Motel, Office, Restaurant,
+Assembly, Funeral Home,
+Institutional Uses
+ | 
+2,401 to 20,000 s.f | 
+1 | 
+1
+ | 
+20,001 to 50,000 s.f. | 
+2 | 
+1
+ | 
+50,001 to 80,000 s.f. | 
+3 | 
+1
+ | 
+80,001 to 120,000 s.f. | 
+4 | 
+2
+ | 
+120,001 to 160,000 s.f. | 
+5 | 
+2
+ | 
+160,001 to 200,000 s.f. | 
+6 | 
+2
+ | 
+200,001 to 250,000 s.f. | 
+7 | 
+3
+ | 
+250,001 + | 
+7 + 1 per 45,000 s.f. above 250,000 | 
+3 + 1 per 150,000 s.f. above 250,000
+
+B. 
+
+Rules for Computing Off-Street Loading Requirements. The following rules shall apply when computing the number of off-street loading spaces required pursuant to the off-street loading schedule of Section 914.10.A.
+
+1. 
+
+Fractions. When calculation of the number of required offstreet loading spaces results in a fractional number, a fraction of less than one-half (½) shall be disregarded and a fraction of one-half (½) or more shall be rounded to the next highest whole number.
+
+2. 
+
+Multiple Uses. When two (2) or more uses or separate establishments are located within the same development, off-street loading shall be provided for each use or separate establishment according to the off-street loading schedule of Section 914.10.A. In the event that one (1) or more uses within a multi-use development are of a size that would otherwise exempt them from compliance with off-street loading requirements, only one (1) such exemption shall be permitted to be taken for the development.
+
+3. 
+
+Calculation of Floor Area. Unless otherwise stated, all square footage-based off-street loading standards shall be computed on the basis of gross floor area within the principal building.
+
+4. 
+
+New and Unlisted Uses. Upon receiving a development application for a use not specifically listed in the off-street loading schedule, the Zoning Administrator shall apply the off-street loading standards of the listed use that is deemed most similar to the use proposed.
+
+C. 
+
+Loading Area Design and Improvement Standards. The design and improvement standards of this section shall apply to all off-street loading areas.
+
+1. 
+
+Surfacing. Areas used for off-street loading and circulation shall be surfaced with asphalt, concrete, masonry, hard packed slag, or other solid paving materials with sufficient strength to support the vehicle loads imposed. Loading areas shall be continuously maintained and designed to preclude free flow of storm water onto adjacent lots properties, or public streets or ways and in accordance with Title 13: Stormwater Management, as applicable.
+
+2. 
+
+Landscaping and Screening. Off-street loading areas shall be screened from view in accordance with the Landscaping and Screening Standards of Chapter 918.
+
+3. 
+
+Lighting. Lighting shall be arranged and designed so that no source of light is directed toward any lots used or zoned for residential use. Lighting shall be designed to shield public streets and all other adjacent lands from distracting glare, or hazardous interference of any kind. Vehicular use areas shall not be lighted at any time other than the hours of operation of the use that the loading is intended to serve, except for necessary security lighting.
+
+4. 
+
+Loading Area Access. Loading areas shall be located and designed to ensure that entering and exiting vehicles do not disrupt vehicle and pedestrian circulation patterns.
+
+5. 
+
+Loading Area Dimensional Standards.
+
+(a) 
+
+Minimum Standard. Each required off-street loading space shall be a minimum of ten (10) feet in width and twenty-five (25) feet in length, provided that a greater length shall be required whenever necessary to ensure that no vehicle using the space extends beyond a property line.
+
+(b) 
+
+Large Truck Standards. When the Zoning Administrator determines that off-street loading will involve the use of semi-tractor trailer combinations or other vehicles in excess of twenty-five (25) feet in length, the large truck (AWB-50 Design Vehicle) standards of this section shall apply.
+
+ | 
+Angle | 
+Length
+(L) | 
+Clearance
+(D) | 
+Width
+(W) | 
+Apron
+(AP) | 
+T-Offset
+(T)
+ | 
+90° | 
+55 | 
+55 | 
+10 | 
+77 | 
+132
+ | 
+12 | 
+72 | 
+127
+ | 
+14 | 
+67 | 
+122
+ | 
+60° | 
+55 | 
+48 | 
+10 | 
+55 | 
+103
+ | 
+12 | 
+51 | 
+99
+ | 
+14 | 
+46 | 
+94
+ | 
+45° | 
+55 | 
+39 | 
+10 | 
+45 | 
+84
+ | 
+12 | 
+40 | 
+79
+ | 
+14 | 
+37 | 
+76
+
+ | 
+
+Loading Area Dimensional Standards
+
+§ 914.11
+Exceptions to Off-Street Parking, Loading and Access Standards. 
+
+[Ord. No. 33-2020, § 2, eff. 10-16-2020]
+
+A. 
+
+Exceptions Authorized by the Zoning Board of Adjustment. The Zoning Board of Adjustment is authorized to grant the following as Special Exceptions, according to the Special Exception Review Procedures of Section 922.07.
+
+1. 
+
+Exceptions to Off-Street Parking Schedule. The minimum off-street parking standards of Parking Schedule A (Section 914.02.A) may be modified by the Zoning Board of Adjustment, provided that the following conditions are met:
+
+(a) 
+
+The Zoning Board of Adjustment determines that such modification is consistent with the purpose and intent of this Zoning Code;
+
+(b) 
+
+The Zoning Board of Adjustment determines that such modification is:
+
+(1) 
+
+Necessary to develop a site that is severely affected by topographic constraints; or
+
+(2) 
+
+Is of a size, shape or dimension that cannot reasonably accommodate required off-street parking in accordance with Section 914.02.A; or
+
+(3) 
+
+Is located in an area where adequate off-street parking otherwise exists; or
+
+(4) 
+
+Is located in an area where additional parking would be undesirable.
+
+(c) 
+
+The Zoning Board of Adjustment determines that the applicant has requested approval of an Alternative Access and Parking Plan and been denied such approval or that such a request would not have been appropriate given the nature of the exemption requested;
+
+(d) 
+
+The Zoning Board of Adjustment imposes such conditions and limitations with respect to the proposed use and development of the premises as in its opinion are necessary in order to minimize the need for parking facilities and to make such automobile parking facilities as are provided reasonably adequate.
+
+2. 
+
+Parking Areas Accessory to Nonconforming Uses. Off-street parking or loading accessory to a nonconforming use on the same lot may be authorized by the Zoning Board of Adjustment, provided all of the following conditions are met:
+
+(a) 
+
+The parking or loading area complies with the property development standards of the underlying zoning district;
+
+(b) 
+
+The parking area or loading space is not provided for the purpose now or in the future of replacing parking or loading space within a structure in order to allow extensions or enlargements of the nonconforming use;
+
+(c) 
+
+The Zoning Board of Adjustment determines that the requested parking space or loading space is reasonably necessary and essential for the operation of the nonconforming use;
+
+(d) 
+
+Reasonable safeguards are established against possible detriment to neighboring properties, including those with respect to sanitation, noise, traffic movement, general safety and amenity; and
+
+(e) 
+
+The accessory parking or loading space may be continued only so long as the principal nonconforming use remains.
+
+B. 
+
+Exceptions Authorized by the Zoning Administrator. The following exceptions to otherwise applicable standards may be authorized by the Zoning Administrator.
+
+1. 
+
+Exceptions to Parking and Loading Area Dimensional Standards. Minor reductions of standard size aisle and stall dimensions may be authorized by the Zoning Administrator, provided that the following conditions are met:
+
+(a) 
+
+The applicant demonstrates to the satisfaction of the Zoning Administrator that dimensional problems are unique to the dimensions of the land parcel or parcels and not due to decisions by the applicant;
+
+(b) 
+
+Proposed reductions shall be limited to the minimum necessary to provide the relief required;
+
+(c) 
+
+The applicant submits acceptable engineering and architectural drawings showing all proposed dimensions and geometry of the site and the parking and loading facilities; and
+
+(d) 
+
+The Zoning Administrator shall certify that the proposed reduction in standard size aisle and bay dimensions will neither create safety hazards nor cause traffic congestion. The Zoning Administrator may require the submittal of an acceptable Traffic Operations and Management Plan to assure the maintenance of public safety and minimization of traffic congestion.
+
+2. 
+
+Exceptions to Off-Street Loading Schedule. The Zoning Administrator may authorize an exception to the off-street loading standards of Section 914.10.A, provided that the Zoning Administrator determines that projected vehicular service volumes do not warrant the provision of the number of off-street loading spaces otherwise required and that such volume will not cause undue interference with the public use of streets or ways, nor imperil public safety.
+
+3. 
+
+Shared and Off-Site Loading. The Zoning Administrator shall be authorized to approve off-site and shared loading arrangements where deemed appropriate, provided that the following conditions are met:
+
+(a) 
+
+There shall be filed with the application, a plan which will clearly indicate the accessibility of the loading spaces to the structures or uses to be served;
+
+(b) 
+
+The Zoning Administrator determines that joint use of the common loading area is feasible and there is not likely to be conflict in the time of use of such facility; and
+
+(c) 
+
+An attested copy of the agreement between the owners of record shall be submitted to County Recorder's Office for recordation on forms made available in the office of the Zoning Administrator. Proof of recordation of the agreement shall be presented to the Zoning Administrator prior to issuance of a building permit. An off-site or shared loading agreement may be revoked by the parties to the agreement only if off-street loading is provided on-site pursuant to Section 914.10.A.
+
+4. 
+
+Exception to Off-Street Parking Requirements for Infill Housing. The Zoning Administrator may authorize an exception to the off-street parking requirements for Single-Unit Detached and Two-Unit residential uses provided that the following conditions are met:
+
+(a) 
+
+The lot size is less than two thousand five hundred (2,500) square feet;
+
+(b) 
+
+Off-street parking cannot be provided on-site without violation of the setback requirements;
+
+(c) 
+
+The Administrator determines that the location, configuration and design of the parking area would be undesirable for the development of the structure and the adjacent and abutting properties; and
+
+(d) 
+
+The Administrator determines that there is sufficient on-street parking to address the demand of the proposed use.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Art IIIOverlay Zoning Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Ch 914Parking Loading and Access
+
+§ 914.01General.
+
+§ 914.02Off-Street Parking Schedules.
+
+§ 914.03Rules for Computing Requirements.
+
+§ 914.04Off-Street Parking Exemption/Reduction Areas.
+
+§ 914.05Bicycle Parking.
+
+§ 914.06Parking for Persons with Disabilities.
+
+§ 914.07Alternative Access and Parking Plans.
+
+§ 914.08Queuing for Drive-Through Facilities.
+
+§ 914.09Parking Area Location and Design.
+
+§ 914.10Off-Street Loading.
+
+§ 914.11Exceptions to Off-Street Parking, Loading and Access Standards.
+
+Ch 915Environmental Performance Standards
+
+Ch 916Residential Compatibility Standards
+
+Ch 917Operational Performance Standards
+
+Ch 918Landscaping and Screening Standards
+
+Ch 919Signs
+
+Ch 920Child Care Regulations
+
+Art VIINonconformities
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions

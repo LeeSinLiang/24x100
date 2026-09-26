@@ -1,0 +1,1588 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 903
+Source: https://ecode360.com/45474194
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 903.01
+General. 
+
+§ 903.02
+Use Subdistricts. 
+
+§ 903.03
+Development Subdistricts. 
+
+§ 903.01
+General. 
+
+A. 
+
+Purpose. Pittsburgh's overall character is defined to a great degree by its diverse and unique residential areas. The Urban Zoning Code's approach to residential zoning reflects this diversity by allowing very fine-grained adjustments in the range of zoning controls applied within and among neighborhoods. The purpose of these controls is to encourage development and redevelopment while preserving the character of existing residential neighborhoods.
+
+B. 
+
+Overview of Regulations. The residential zoning regulations of this chapter consist of a series of five (5) Use Subdistricts and five (5) Development Subdistricts. This approach results in twenty-five (25) possible residential zoning districts, each of which is regulated by combining a Use Subdistrict with a Development Subdistrict.
+
+§ 903.02
+Use Subdistricts. 
+
+[Ord. 25-2001, § 1A, eff. 11-30-2001; Ord. 45-2003, § 1, eff. 12-31-2003]
+Use Subdistricts establish regulations governing the land use and structure types allowed within residential zoning districts.
+
+A. 
+
+R1D, Single-Unit Detached Residential.
+
+1. 
+
+Use Regulations.
+
+(a) 
+
+Primary Uses. Primary uses shall be allowed in the R1D Subdistrict in accordance with the Use Table of Section 911.02.
+
+(b) 
+
+Accessory Uses. Accessory uses shall be allowed in the R1D Subdistrict in accordance with the Accessory Use regulations of Chapter 912.
+
+B. 
+
+R1A, Single-Unit Attached Residential.
+
+1. 
+
+Use Regulations.
+
+(a) 
+
+Primary Uses. Primary uses shall be allowed in the R1A Subdistrict in accordance with the Use Table of Section 911.02.
+
+(b) 
+
+Accessory Uses. Accessory uses shall be allowed in the R1A Subdistrict in accordance with the Accessory Use regulations of Chapter 912.
+
+C. 
+
+R2, Two-Unit Residential.
+
+1. 
+
+Use Regulations.
+
+(a) 
+
+Primary Uses. Primary uses shall be allowed in the R2 Subdistrict in accordance with the Use Table of Section 911.02.
+
+(b) 
+
+Accessory Uses. Accessory uses shall be allowed in the R2 Subdistrict in accordance with the Accessory Use regulations of Chapter 912.
+
+D. 
+
+R3, Three-Unit Residential.
+
+1. 
+
+Use Regulations.
+
+(a) 
+
+Primary Uses. Primary uses shall be allowed in the R3 Subdistrict in accordance with the Use Table of Section 911.02.
+
+(b) 
+
+Accessory Uses. Accessory uses shall be allowed in the R3 Subdistrict in accordance with the Accessory Use regulations of Chapter 912.
+
+E. 
+
+RM, Multi-Unit Residential.
+
+1. 
+
+Use Regulations.
+
+(a) 
+
+Primary Uses. Primary uses shall be allowed in the RM Subdistrict in accordance with the Use Table of Section 911.02.
+
+(b) 
+
+Accessory Uses. Accessory uses shall be allowed in the RM Subdistrict in accordance with the Accessory Use regulations of Chapter 912.
+
+2. 
+
+Site Plan Review.
+
+(a) 
+
+General. The following shall require Site Plan Review and approval in accordance with the Site Plan Review procedures of Section 922.04:
+
+i. 
+
+Any new construction of a multi-unit residence that includes four (4) or more units; or
+
+ii. 
+
+Any enlargement or exterior renovation of an existing building for a multi-unit residence of four (4) or more units.
+
+(b) 
+
+Standards. Any project requiring Site Plan Review in the RM district shall be subject to the Site Plan Review Criteria of Section 922.04.E.
+
+§ 903.03
+Development Subdistricts. 
+
+[Ord. 25-2001, §§ 1C—1L, eff. 11-30-2001; Ord. No. 25-2011, § 1, eff. 12-22-2011; Ord. No. 10-2025, eff. 5-7-2025]
+Development Subdistricts establish regulations governing site development within residential zoning districts.
+
+A. 
+
+Very Low-Density.
+
+1. 
+
+Map Designation. The zoning map designation for lands classified in the Very Low-Density Subdistrict shall be the letters "VL", which shall follow the Use Subdistrict designation (e.g., R1D-VL)
+
+2. 
+
+Site Development Standards.
+Sites in the Very Low-Density Subdistrict shall be developed in accordance with the following site development standards, provided that:
+
+(a) 
+
+New development shall be allowed to use Contextual Setbacks and Contextual Building Heights in accordance with the provisions of Section 925.06 and Section 925.07; and
+
+(b) 
+
+The Environmental Performance Standards of Chapter 915 shall impose additional regulations on site development if such conditions exist.
+
+ | 
+Article VI and Chapter 925 contain a complete description of site development standards and a listing of exemptions to various standards.
+
+(c) 
+
+When a dwelling unit is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.
+
+ | 
+Site Development Standard | 
+Very-Low Density Subdistrict
+ | 
+Minimum Lot Size | 
+6,000 s.f.
+ | 
+Minimum Front Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+30 ft.
+ | 
+Minimum Rear Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+30 ft.
+ | 
+Minimum Exterior Sideyard Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+30 ft.
+ | 
+Minimum Interior Sideyard Setback | 
+
+ | 
+R1D, R2 & R3 Subdistricts | 
+5 ft, on one side; 10 ft. on the other side
+ | 
+R1A Subdistrict | 
+5 ft.
+ | 
+RM Subdistrict | 
+30 ft.
+ | 
+Maximum Height | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+40 ft. (not to exceed 3 stories)
+ | 
+RM Subdistrict | 
+40 ft. (not to exceed 3 stories)
+
+B. 
+
+Low-Density.
+
+1. 
+
+Map Designation. The zoning map designation for lands classified in the Low-Density Subdistrict shall be the letter "L", which shall follow the Use Subdistrict designation (e.g., R1D-L)
+
+2. 
+
+Site Development Standards.
+Sites in the Low-Density Subdistrict shall be developed in accordance with the following site development standards, provided that:
+
+(a) 
+
+New development shall be allowed to use Contextual Setbacks and Contextual Building Heights in accordance with the provisions of Section 925.06 and Section 925.07; and
+
+(b) 
+
+The Environmental Performance Standards of Chapter 915 shall impose additional regulations on site development if such conditions exist.
+
+ | 
+Article VI and Chapter 925 contain a complete description of site development standards and a listing of exemptions to various standards.
+
+(c) 
+
+When a dwelling is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.
+
+ | 
+Site Development Standard | 
+Low Density Subdistrict
+ | 
+Minimum Lot Size | 
+3,000 s.f.
+ | 
+Minimum Front Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Rear Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Exterior Sideyard Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+30 ft.
+ | 
+Minimum Interior Sideyard Setback | 
+
+ | 
+R1D, R2 & R3 Subdistricts | 
+5 ft
+ | 
+R1A Subdistrict | 
+5 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Maximum Height | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+40 ft. (not to exceed 3 stories)
+ | 
+RM Subdistrict | 
+40 ft. (not to exceed 3 stories)
+
+C. 
+
+Moderate Density.
+
+1. 
+
+Map Designation. The zoning map designation for lands classified in the Moderate-Density Subdistrict shall be the letter "M", which shall follow the Use Subdistrict designation (e.g., R2-M)
+
+2. 
+
+Site Development Standards.
+Sites in the Moderate-Density Subdistrict shall be developed in accordance with the following site development standards, provided that:
+
+(a) 
+
+New development shall be allowed to use Contextual Setbacks and Contextual Building Heights in accordance with the provisions of Section 925.06 and Section 925.07; and
+
+(b) 
+
+The Environmental Performance Standards of Chapter 915 shall impose additional regulations on site development if such conditions exist.
+
+ | 
+Article VI and Chapter 925 contain a complete description of site development standards and a listing of exemptions to various standards.
+
+(c) 
+
+When a dwelling is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.
+
+ | 
+Site Development Standard | 
+Moderate Density Subdistrict
+ | 
+Minimum Lot Size | 
+2,400 s.f.
+ | 
+Minimum Front Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Rear Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Exterior Sideyard Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+30 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Interior Sideyard Setback | 
+
+ | 
+R1D, R2 & R3 Subdistricts | 
+5 ft.
+ | 
+R1A Subdistrict | 
+5 ft.
+ | 
+RM Subdistrict | 
+10 ft.
+ | 
+Maximum Height | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+40 ft. (not to exceed 3 stories)
+ | 
+RM Subdistrict | 
+55 ft. (not to exceed 4 stories)
+
+D. 
+
+High Density.
+
+1. 
+
+Map Designation. The zoning map designation for lands classified in the High-Density Subdistrict shall be the Letter "H" which shall follow the Use Subdistrict designation (e.g., RM-H)
+
+2. 
+
+Site Development Standards.
+Sites in the High-Density Subdistrict shall be developed in accordance with the following site development standards, provided that:
+
+(a) 
+
+New development shall be allowed to use Contextual Setbacks and Contextual Building Heights in accordance with the provisions of Section 925.06 and Section 925.07;
+
+(b) 
+
+Residential Compatibility Standards of Chapter 916 shall impose additional height and setback standards on new High-Density and Very High-Density residential and nonresidential development located near residential and H Districts; and
+
+(c) 
+
+The Environmental Performance Standards of Chapter 915 shall impose additional regulations on site development if such conditions exist.
+
+ | 
+Article VI and Chapter 925 contain a complete description of site development standards and a listing of exemptions to various standards.
+
+(d) 
+
+When a dwelling is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.
+
+ | 
+Site Development Standard | 
+High Density Subdistrict
+ | 
+Minimum Lot Size | 
+1,200 s.f.
+ | 
+Minimum Front Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+15 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Rear Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+15 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Exterior Sideyard Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+15 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Interior Sideyard Setback | 
+
+ | 
+R1D, R2 & R3 Subdistricts | 
+5 ft.
+ | 
+R1A Subdistrict | 
+5 ft.
+ | 
+RM Subdistrict | 
+10 ft.
+ | 
+Maximum Height | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+40 ft. (not to exceed 3 stories)
+ | 
+RM Subdistrict | 
+85 ft. (not to exceed 9 stories)
+
+E. 
+
+Very-High Density.
+
+1. 
+
+Map Designation. The zoning map designation for lands classified in the Very-High Density Subdistrict shall be the letters "VH", which shall follow the Use Subdistrict designation (e.g., RM-VH)
+
+2. 
+
+Site Development Standards.
+Sites in the Very High-Density Subdistrict shall be developed in accordance with the following site development standards, provided that:
+
+(a) 
+
+New development shall be allowed to use Contextual Setbacks and Contextual Building Heights in accordance with the provisions of Section 925.06 and Section 925.07;
+
+(b) 
+
+Residential Compatibility Standards of Chapter 916 shall impose additional height and setback standards on new High-Density and Very High-Density residential and nonresidential development located near residential and H Districts; and
+
+(c) 
+
+The Environmental Performance Standards of Chapter 915 shall impose additional regulations on site development if such conditions exist.
+
+ | 
+Article VI and Chapter 925 contain a complete description of site development standards and a listing of exemptions to various standards.
+
+(d) 
+
+When a dwelling is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.
+
+ | 
+Site Development Standard | 
+Very-High Density Subdistrict
+ | 
+Minimum Front Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+5 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Rear Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+15 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Exterior Sideyard Setback | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+5 ft.
+ | 
+RM Subdistrict | 
+25 ft.
+ | 
+Minimum Interior Sideyard Setback | 
+
+ | 
+R1D, R2 & R3 Subdistricts | 
+5 ft.
+ | 
+R1A Subdistrict | 
+5 ft.
+ | 
+RM Subdistrict | 
+10 ft.
+ | 
+Maximum Height | 
+
+ | 
+R1D, R1A, R2 & R3 Subdistricts | 
+40 ft. (not to exceed 3 stories)
+ | 
+RM Subdistrict | 
+180 ft.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Ch 903Residential Zoning Districts
+
+§ 903.01General.
+
+§ 903.02Use Subdistricts.
+
+§ 903.03Development Subdistricts.
+
+Ch 904Mixed Use Zoning Districts
+
+Ch 905Special Purpose Districts
+
+Art IIIOverlay Zoning Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Art VIINonconformities
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions

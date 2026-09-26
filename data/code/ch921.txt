@@ -1,0 +1,1331 @@
+# Pittsburgh Code, Title Nine (Zoning), Chapter 921
+Source: https://ecode360.com/45478965
+Retrieved: 2026-09-26 (headless Chrome dump; ecode360 blocks curl/WebFetch). ecode360 stated "legislation through 09-16-2026" when read in a browser the same day.
+
+Text extracted from HTML; table cells separated by ' | '. Authoritative interpretation belongs to the City of Pittsburgh.
+
+§ 921.01
+General. 
+
+§ 921.02
+Nonconforming Uses. 
+
+§ 921.03
+Nonconforming Structures. 
+
+§ 921.04
+Nonconforming Lots. 
+
+§ 921.05
+Other Nonconformities. 
+
+§ 921.06
+Certificates of Occupancy. 
+
+§ 921.01
+General. 
+
+A. 
+
+Purpose. It is the general policy of the City to allow uses, structures and lots that came into existence legally in conformance with then-applicable requirements to continue to exist and be put to productive use, but to bring as many aspects of such situations into compliance with existing regulations as is reasonably possible. This chapter establishes regulations governing uses, structures and lots that were lawfully established but that do not conform to one (1) or more existing requirements of this Code. The regulations of this chapter are intended to:
+
+1. 
+
+Recognize the interests of property owners in continuing to use their property;
+
+2. 
+
+Promote reuse and rehabilitation of existing buildings;
+
+3. 
+
+Place reasonable limits on the expansion of nonconformities that have the potential to adversely affect surrounding properties and the community as a whole; and
+
+4. 
+
+Protect the integrity of residential neighborhoods from the potential impacts of nonconforming uses.
+
+B. 
+
+Unsafe Situations. Nothing in this chapter shall be construed to permit the continued use of a building or structure found to be in violation of building, basic life safety or health codes of the City.
+
+C. 
+
+Compliance with Regulations. The right to change or expand any nonconformity shall be subject to all applicable housing, building, health and other life safety codes. Nonconformities shall also be subject to all applicable regulations of this Code.
+
+D. 
+
+Repair and Maintenance. Normal maintenance and incidental repair may be performed on a conforming structure that contains a nonconforming use or on a nonconforming structure. Nothing in this chapter shall be construed to prevent structures from being structurally strengthened or restored to a safe condition, in accordance with an order of the Building Official.
+
+E. 
+
+Accessory Uses and Structures. Nonconforming accessory uses and nonconforming accessory structures shall be subject to all same provisions that govern nonconforming primary uses and structures.
+
+F. 
+
+Determination of Nonconformity Status. The burden of establishing that a nonconforming use or nonconforming structure lawfully exists under this Zoning Code, shall be the owner's burden and not the City's.
+
+§ 921.02
+Nonconforming Uses. 
+
+[Ord. No. 31-2011, § 4, eff. 12-31-2011]
+A nonconforming use which has a valid Certificate of Occupancy and lawfully occupies a structure or vacant site on the date that it becomes nonconforming may be continued as long as it remains otherwise lawful, subject to the standards and limitations of this section.
+
+A. 
+
+Movement, Alteration and Enlargement.
+
+1. 
+
+Enlargement. A nonconforming use may not be enlarged, expanded or extended to occupy parts of another structure or portions of a site that it did not occupy on the date that it became nonconforming, unless approved by the Zoning Board of Adjustment as a special exception, pursuant to the procedures of Section 922.07 and subject to the following limits.
+
+(a) 
+
+Limit on Enlargement.
+
+(1) 
+
+The Zoning Board of Adjustment shall not allow as a special exception any enlargement, expansion or extension that has the effect of increasing the total floor area or lot coverage of a nonconforming use by more than twenty-five (25) percent in a non-residential zoning district or by more than fifteen (15) percent in a residential zoning district, when compared to the floor area or site area coverage of the nonconforming use at the time it became nonconforming.
+
+(2) 
+
+The lot on which a nonconforming use is situated may not be merged with an adjacent lot for purposes of creating a single larger zoning lot on which a nonconforming use shall be situated.
+
+(b) 
+
+Limit on Enlargements that Create Other Nonconformities. The enlargement of a nonconforming use that has the effect of making a structure noncomplying or nonconforming in any other respect shall not be permitted as a special exception, but rather shall be construed as a request for a variance, subject to the procedures of Section 922.09.
+
+2. 
+
+Limits on Improvements. Exterior or interior remodeling or improvements to a structure containing a nonconforming use shall be permitted, provided that any proposed enlargement, expansion or extension shall be subject to the provisions of Section 921.02.A.1.
+
+3. 
+
+Relocation of Structures Containing Nonconforming Uses. A structure containing a nonconforming use shall not be moved unless the use and structure will comply with all of the regulations that apply in the new location. The Zoning Board of Adjustment may authorize as a special exception a structure containing a nonconforming use to be moved to another location on the same lot only if the Zoning Board of Adjustment determines that such a move will not have the effect of increasing the degree of nonconformity.
+
+4. 
+
+Change to Another Nonconforming Use. A nonconforming use may be changed to another nonconforming use, as a special exception, provided that the new use shall be of the same general character or of a character that is more closely conforming than the existing, nonconforming use. The determination of whether a proposed use is a conforming use or is less intense than the existing nonconforming use shall be made by the Zoning Board of Adjustment based on factors including, but not limited to:
+
+ | 
+(a) | 
+Hours of operation;
+ | 
+(b) | 
+Number of parking spaces;
+ | 
+(c) | 
+Number of employees;
+ | 
+(d) | 
+Physical size of building relative to surrounding buildings;
+ | 
+(e) | 
+Design characteristics of building relative to design features of surrounding buildings; and
+ | 
+(f) | 
+Traffic generation.
+ | 
+In addition, in determining whether a proposed change to another nonconforming use is more or less intensive than the existing use, the Zoning Board shall use the Use Classification System of Section 911.02, wherein all residential and mixed use zoning districts are listed in hierarchical order of intensity, with RSD being the least intensive and GI being the most intensive. This hierarchy of zoning districts shall not apply to Special Districts or Downtown districts. Within the Use Classification System, the Zoning Board shall use the following criteria:
+ | 
+1. | 
+Any use which is permitted as-of-right in a less intensive zoning district shall be considered less intensive than a use permitted as-of-right within a more intensive zoning district.
+ | 
+2. | 
+Within the same zoning district, a use shall be considered more intensive than another use if the approval required for such use is a higher level in the following hierarchy: as-of-right (P), Administrator's Exception (A), Special Exception (S), Conditional Use (C).
+ | 
+3. | 
+When two (2) uses cannot be compared according to the above criteria, the Zoning Board shall consider the districts where the uses are permitted, and shall consider the Use Standards of Section 911.04 in determining the relative intensity of use.
+
+5. 
+
+Controlling Negative Impacts. The applicant shall bear the burden of proof that the proposed change, or proposed expansion, enlargement or extension of the nonconforming use will not result in greater negative impacts on nearby residents and properties.
+
+B. 
+
+Abandonment.
+
+1. 
+
+Effect of Abandonment. Once abandoned, a nonconforming use shall not be reestablished or resumed. Any subsequent use or occupancy of the structure or land site must conform with the regulations of the district in which it is located and all other applicable requirements of this Code.
+
+2. 
+
+Evidence of Abandonment. A nonconforming use shall be presumed abandoned when any one (1) of the following has occurred:
+
+(a) 
+
+A less intensive use has replaced the nonconforming use;
+
+(b) 
+
+Greater than twenty-four (24) percent of the building or structure has been removed through the applicable procedures for condemnation of unsafe structures or otherwise by operational law;
+
+(c) 
+
+The owner has physically changed the building or structure or its fixtures or equipment in such a way as to clearly indicate a change in use or activity to something other than the nonconforming use; or
+
+(d) 
+
+The use has been discontinued, vacant or inactive for a continuous period of at least one (1) year, provided this presumption may be rebutted upon showing, to the satisfaction of the Zoning Board of Adjustment, that the owner had no intention to abandon. Where appropriate, the Zoning Board of Adjustment may require contemporaneous documentation of previous use or intended use, such as leases or real estate advertisement, to rebut the presumption.
+
+(e) 
+
+Nonconforming signs relating to a product no longer available for brand new retail purchase and nonconforming signs relating to a business or service which is terminated or relocated, shall be presumed abandoned after a period of at least one (1) year after the termination of the product, business or service. This presumption may be rebutted upon showing, to the satisfaction of the Zoning Board of Adjustment, that the owner had no intention to abandon. Where appropriate, the Zoning Board of Adjustment may require contemporaneous documentation of previous use or intended use, such as leases or real estate advertisement, to rebut the presumption.
+
+§ 921.03
+Nonconforming Structures. 
+
+A nonconforming structure, including a nonconforming sign, which has a valid Certificate of Occupancy and lawfully occupies a site on the date that it becomes nonconforming that does not conform with the site development standards of the underlying zoning district or any other development standards of this Code may be used and maintained, subject to the standards and limitations of this section.
+
+A. 
+
+Maintenance and Repair.
+
+1. 
+
+Maintenance, Remodeling and Repair. Maintenance, remodeling and repair of a nonconforming structure shall be permitted without a variance and without special exception approval, provided that such maintenance, remodeling or repair does not increase the degree of nonconformity.
+
+2. 
+
+Non-residential Nonconforming Structures. In the case of non-residential nonconforming structures in any class of residential zones, maintenance and routine repairs shall be permitted without variance or special exception approval.
+
+3. 
+
+Exterior or Interior Remodeling or Improvements to Structures. Exterior or interior remodeling or improvements to a structure containing a nonconforming use shall be permitted, provided that any proposed enlargement or extension shall be subject to the provisions of Section 921.02.A.1 and Section 921.03.A.4.
+
+4. 
+
+Limits on Improvements to Nonconforming Structures in Residential Areas Containing a Nonconforming Use. In the event of replacement or reconfiguration of major structural (supporting) components, interior partition walls, changes to rooflines, cornice lines and rooftop structures, replacement of windows and doors with inherently more expensive or elaborate type or construction, changes in the configuration of opening, the creation of new openings, installing through-wall vents and air conditioners, installing bays, oriels, and balconies, changes to storefronts, steps and entryways, cladding exterior walls in a new material, barrier-free access improvements, construction of additions, increases in utility capacities or enhancement of electrical, plumbing HVAC systems and other mechanical equipment shall be considered as improvements. The difference in cost for such changes shall not exceed fifty (50) percent of the assessed value of the structure at the time of the first said improvements or before restoration (as described in Section 921.03.C.1). Regional construction cost estimating publications shall be used to establish respective cost differentials except in cases where this is impracticable.
+
+5. 
+
+Conversion of Nonresidential Nonconforming Structures. No limits on costs of improvements shall apply to conversions of nonconforming nonresidential structures to residential uses in residential zoning districts.
+
+B. 
+
+Occupancy by a Conforming Use. A nonconforming structure may be occupied by any use allowed in the zoning district in which the structure is located, subject to all other applicable use approval procedures and conditions.
+
+C. 
+
+Restoration and Reconstruction.
+
+1. 
+
+Restoration of Nonconforming Structures Containing a Nonconforming Use. In any residential zoning district, replacement of major (supporting) structural components, interior partition walls, windows and doors, utility connections and systems, HVAC systems, and other mechanical equipment, the Zoning Board of Adjustment shall be authorized to approve, as a special exception, the rehabilitation of nonresidential nonconforming structures, provided that such work involves restoration of said structures to the character existing at the time they became nonconforming. This determination shall be made by reference to documented use, photographic records, and direct inspection by the Bureau of Building Inspection. Such restoration shall be permissible without limit on costs so long as said replacements are of like kind and capacities of original equipment. With respect to this section, the limitation of fifty (50) percent of assessed valuation of the structure contained within Section 921.03.A.4 above shall not apply.
+
+2. 
+
+Reconstruction of a Damaged Nonconforming Structure. The Zoning Board of Adjustment shall be authorized to approve, as a special exception, the reconstruction of a nonconforming structure damaged by fire, wind, tornado, earthquake, or other natural disaster, provided that such rebuilding does not increase the intensity of use, as determined by the number of dwelling units (for residences) or floor area or ground coverage (for nonresidential uses). Before approving reconstruction as a special exception, the Zoning Board of Adjustment shall determine that the reconstruction will comply with applicable zoning standards to the fullest extent possible and will not result in greater nonconformity than existed before the damage occurred. For the purposes of this section, in any residential district, reconstructions shall be governed by Section 921.03.C.1 of this Chapter, "Restoration of Nonconforming Structures Containing a Nonconforming Use."
+
+3. 
+
+Willful Destruction. In the event of arson or other willful destruction, reconstruction of nonconforming structures shall be prohibited if such casualty is traceable to the owner or his/her agent. Such instances shall result in forfeiture of the nonconforming status, and must subsequently be brought within all the prevailing restrictions applied to the surrounding district.
+
+D. 
+
+Enlargement and Expansion.
+
+1. 
+
+Enlargement and Expansion of a Nonconforming Structure. A nonconforming structure may be enlarged, expanded or extended, in compliance with all applicable regulations of this Code, unless the enlargement, expansion or extension has the effect of increasing the degree of nonconformity or making a use or structure nonconforming in any other respect, subject to any applicable requirements of Section 922.02.
+
+2. 
+
+Displacement of Conforming Structures or Uses. In no case shall the expansion of a nonresidential nonconforming structure be enlarged should such enlargement displace conforming structures or uses on the same lot.
+
+E. 
+
+Relocation. The Zoning Board of Adjustment may authorize, as a special exception, a structure containing a nonconforming use to be moved to another location on the same lot, provided that the Zoning Board of Adjustment determines that such a move will not have the effect of increasing the degree of nonconformity.
+
+F. 
+
+Nonconforming Signs. Nonconforming signs shall be subject to the noncomplying structure regulations of this section, as modified by the following:
+
+1. 
+
+Nonconforming signs may be repaired, provided that no structural alterations shall be made which increase the area of the advertising matter;
+
+2. 
+
+Nonconforming signs may not be enlarged, added to or replaced by another nonconforming sign or by a nonconforming use or structure, except that the substitution or interchange of poster panels and painted boards on nonconforming signs shall be permitted.
+
+3. 
+
+Business signs or identification signs shall not be replaced with advertising signs.
+
+§ 921.04
+Nonconforming Lots. 
+
+A lot shown on an approved and recorded subdivision plat or a parcel shown on the Allegheny County Record Of Deed's records as a separate parcel on such date may be occupied and used although it may not conform in every respect with the dimensional requirements of this Code, subject to the provisions of this section.
+
+A. 
+
+Vacant Lot. If the lot or parcel was vacant on the date which this code became applicable to it and is in separate ownership from abutting lots or parcels, then the Zoning Administrator shall approve the use of the lot as an Administrator Exception for a single-unit residential use, or the Zoning Board of Adjustment shall approve, as a special exception, the lot for a conforming use permitted in the district in which the lot is located, according to the following standards:
+
+1. 
+
+The use and structure shall comply with all applicable dimensional requirements of the code to the extent practicable; and
+
+2. 
+
+If the applicable zoning district permits a variety of uses or a variety of intensities of uses, and one (1) or more uses or intensities would comply with applicable setback requirements while others would not, then only the uses or intensities that would conform with the applicable setback requirements are permitted.
+
+§ 921.05
+Other Nonconformities. 
+
+A. 
+
+Examples of Other Nonconformities. The types of other nonconformities to which this section applies include but are not necessarily limited to: fence height or location; lack of buffers or screening; lack of or inadequate landscaping; lack of or inadequate off-street parking; and other nonconformities not involving the basic design or structural aspects of the building, location of the building on the lot, lot dimensions or land or building use. However, development that is consistent with a site plan approved on the date that this Code became effective shall be deemed to be in conformance with this Code to the extent that it is consistent with the approved plan and to the extent that such plan or conditions imposed thereon directly addresses the specific issue involved in the determination of conformity.
+
+B. 
+
+Policy. Other nonconformities involve less investment and are more easily corrected than those involving lots, buildings and uses. Such other nonconformities shall be eliminated as quickly as practicable.
+
+C. 
+
+Elimination of Other Nonconformities. When reviewing a Special Exception for any nonconforming use or structure, the Zoning Board of Adjustment may require that other nonconformities, as defined in Section 921.05.A, shall be eliminated to the extent that it is possible to eliminate such other nonconformities on the same lot as the nonconforming use or structure.
+
+§ 921.06
+Certificates of Occupancy. 
+
+A. 
+
+Rights Conditional. The rights given to those using or owning property involving a nonconformity are specifically conditioned on the receipt of a valid Certificate of Occupancy.
+
+B. 
+
+Deadlines. For nonconformities existing on the date of adoption of this Code, property owners shall obtain a valid Certificate of Occupancy according to the provisions of Section 921.01. For nonconformities arising because of an amendment to this Code or because of a change in jurisdictional boundaries, property owners shall have one (1) year from the date on which the situation first became nonconforming to obtain a valid Certificate of Occupancy. Subject to the verification procedures established by the Zoning Administrator, nonconformities with a valid Certificate of Occupancy shall be deemed to be lawful nonconformities, to the extent documented. All rights to continuance, maintenance, repair and other continuation of the nonconformity shall apply.
+
+ By using eCode360 you agree to be legally bound by the Terms of Use and Privacy Policy.
+
+ Select Language
+
+163 languages
+
+ Original Language
+ Reset translation
+
+ English
+
+en
+
+ English
+
+ Afrikaans
+
+af
+
+ Afrikaans
+
+ Guarani
+
+gn
+
+ Avañe'ẽ
+
+ Azerbaijani
+
+az
+
+ Azərbaycanca / آذربايجان
+
+ Indonesian
+
+id
+
+ Bahasa Indonesia
+
+ Malay
+
+ms
+
+ Bahasa Melayu
+
+ Javanese
+
+jv
+
+ Basa Jawa
+
+ Sundanese
+
+su
+
+ Basa Sunda
+
+ Maltese
+
+mt
+
+ bil-Malti
+
+ Bosnian
+
+bs
+
+ Bosanski
+
+ Breton
+
+br
+
+ Brezhoneg
+
+ Catalan
+
+ca
+
+ Català
+
+ Czech
+
+cs
+
+ Česky
+
+ Chamorro
+
+ch
+
+ Chamoru
+
+ Chichewa
+
+ny
+
+ Chi-Chewa
+
+ Shona
+
+sn
+
+ chiShona
+
+ Corsican
+
+co
+
+ Corsu
+
+ Welsh
+
+cy
+
+ Cymraeg
+
+ Danish
+
+da
+
+ Dansk
+
+ German
+
+de
+
+ Deutsch
+
+ Navajo
+
+nv
+
+ Diné bizaad
+
+ Nauruan
+
+na
+
+ Dorerin Naoero
+
+ Estonian
+
+et
+
+ Eesti
+
+ Spanish
+
+es
+
+ Español
+
+ Esperanto
+
+eo
+
+ Esperanto
+
+ Basque
+
+eu
+
+ Euskara
+
+ Faroese
+
+fo
+
+ Føroyskt
+
+ French
+
+fr
+
+ Français
+
+ West Frisian
+
+fy
+
+ Frysk
+
+ Peul
+
+ff
+
+ Fulfulde
+
+ Irish
+
+ga
+
+ Gaeilge
+
+ Manx
+
+gv
+
+ Gaelg
+
+ Samoan
+
+sm
+
+ Gagana Samoa
+
+ Scottish Gaelic
+
+gd
+
+ Gàidhlig
+
+ Galician
+
+gl
+
+ Galego
+
+ Kikuyu
+
+ki
+
+ Gĩkũyũ
+
+ Croatian
+
+hr
+
+ Hrvatski
+
+ Igbo
+
+ig
+
+ Igbo
+
+ South Ndebele
+
+nr
+
+ isiNdebele
+
+ Xhosa
+
+xh
+
+ isiXhosa
+
+ Zulu
+
+zu
+
+ isiZulu
+
+ Icelandic
+
+is
+
+ Íslenska
+
+ Italian
+
+it
+
+ Italiano
+
+ Marshallese
+
+mh
+
+ Kajin Majel / Ebon
+
+ Greenlandic
+
+kl
+
+ Kalaallisut
+
+ Kanuri
+
+kr
+
+ Kanuri
+
+ Cornish
+
+kw
+
+ Kernewek
+
+ Kongo
+
+kg
+
+ KiKongo
+
+ Rwandi
+
+rw
+
+ Kinyarwandi
+
+ Kirundi
+
+rn
+
+ Kirundi
+
+ Swahili
+
+sw
+
+ Kiswahili
+
+ Kirghiz
+
+ky
+
+ Kırgızca / Кыргызча
+
+ Haitian
+
+ht
+
+ Krèyol ayisyen
+
+ Kuanyama
+
+kj
+
+ Kuanyama
+
+ Kurdish
+
+ku
+
+ Kurdî / كوردی
+
+ Latin
+
+la
+
+ Latina
+
+ Latvian
+
+lv
+
+ Latviešu
+
+ Tonga
+
+to
+
+ Lea Faka-Tonga
+
+ Luxembourgish
+
+lb
+
+ Lëtzebuergesch
+
+ Lithuanian
+
+lt
+
+ Lietuvių
+
+ Limburgian
+
+li
+
+ Limburgs
+
+ Lingala
+
+ln
+
+ Lingála
+
+ Ganda
+
+lg
+
+ Luganda
+
+ Hungarian
+
+hu
+
+ Magyar
+
+ Malagasy
+
+mg
+
+ Malagasy
+
+ Maori
+
+mi
+
+ Māori
+
+ Moldovan
+
+mo
+
+ Moldovenească
+
+ Fijian
+
+fj
+
+ Na Vosa Vakaviti
+
+ Dutch
+
+nl
+
+ Nederlands
+
+ Norwegian
+
+no
+
+ Norsk
+
+ Norwegian Bokmål
+
+nb
+
+ Norsk bokmål
+
+ Norwegian Nynorsk
+
+nn
+
+ Norsk nynorsk
+
+ Occitan
+
+oc
+
+ Occitan
+
+ Oromo
+
+om
+
+ Oromoo
+
+ Ndonga
+
+ng
+
+ Oshiwambo
+
+ Pali
+
+pi
+
+ Pāli / पाऴि
+
+ Polish
+
+pl
+
+ Polski
+
+ Portuguese
+
+pt
+
+ Português
+
+ Tahitian
+
+ty
+
+ Reo Mā`ohi
+
+ Romanian
+
+ro
+
+ Română
+
+ Raeto Romance
+
+rm
+
+ Rumantsch
+
+ Quechua
+
+qu
+
+ Runa Simi
+
+ Northern Sami
+
+se
+
+ Sámegiella
+
+ Sango
+
+sg
+
+ Sängö
+
+ Sardinian
+
+sc
+
+ Sardu
+
+ Southern Sotho
+
+st
+
+ Sesotho
+
+ Tswana
+
+tn
+
+ Setswana
+
+ Albanian
+
+sq
+
+ Shqip
+
+ North Ndebele
+
+nd
+
+ Sindebele
+
+ Swati
+
+ss
+
+ SiSwati
+
+ Slovak
+
+sk
+
+ Slovenčina
+
+ Slovenian
+
+sl
+
+ Slovenščina
+
+ Somalia
+
+so
+
+ Soomaaliga
+
+ Serbo-Croatian
+
+sh
+
+ Srpskohrvatski / Српскохрватски
+
+ Finnish
+
+fi
+
+ Suomi
+
+ Swedish
+
+sv
+
+ Svenska
+
+ Tagalog / Filipino
+
+tl
+
+ Tagalog
+
+ Tatar
+
+tt
+
+ Tatarça
+
+ Vietnamese
+
+vi
+
+ Tiếng Việt
+
+ Luba-Katanga
+
+lu
+
+ Tshiluba
+
+ Venda
+
+ve
+
+ Tshivenḓa
+
+ Turkish
+
+tr
+
+ Türkçe
+
+ Twi
+
+tw
+
+ Twi
+
+ Uyghur
+
+ug
+
+ Uyƣurqə / ئۇيغۇرچە
+
+ Volapük
+
+vo
+
+ Volapük
+
+ Wolof
+
+wo
+
+ Wollof
+
+ Tsonga
+
+ts
+
+ Xitsonga
+
+ Yoruba
+
+yo
+
+ Yorùbá
+
+ Greek
+
+el
+
+ Ελληνικά
+
+ Bashkir
+
+ba
+
+ Башҡорт
+
+ Belarusian
+
+be
+
+ Беларуская
+
+ Bulgarian
+
+bg
+
+ Български
+
+ Ossetian / Ossetic
+
+os
+
+ Иронау
+
+ Komi
+
+kv
+
+ Коми
+
+ Kazakh
+
+kk
+
+ Қазақша
+
+ Macedonian
+
+mk
+
+ Македонски
+
+ Mongolian
+
+mn
+
+ Монгол
+
+ Russian
+
+ru
+
+ Русский
+
+ Serbian
+
+sr
+
+ Српски
+
+ Tajik
+
+tg
+
+ Тоҷикӣ
+
+ Turkmen
+
+tk
+
+ Туркмен / تركمن
+
+ Uzbek
+
+uz
+
+ Ўзбек
+
+ Ukrainian
+
+uk
+
+ Українська
+
+ Georgian
+
+ka
+
+ ქართული
+
+ Armenian
+
+hy
+
+ Հայերեն
+
+ Yiddish
+
+yi
+
+ ייִדיש
+
+ Hebrew
+
+he
+
+ עברית
+
+ Urdu
+
+ur
+
+ اردو
+
+ Arabic
+
+ar
+
+ العربية
+
+ Pashto
+
+ps
+
+ پښتو
+
+ Persian
+
+fa
+
+ فارسی
+
+ Hausa
+
+ha
+
+ هَوُسَ
+
+ Divehi
+
+dv
+
+ ދިވެހިބަސް
+
+ Tigrinya
+
+ti
+
+ ትግርኛ
+
+ Amharic
+
+am
+
+ አማርኛ
+
+ Kashmiri
+
+ks
+
+ कश्मीरी / كشميري
+
+ Nepali
+
+ne
+
+ नेपाली
+
+ Marathi
+
+mr
+
+ मराठी
+
+ Sanskrit
+
+sa
+
+ संस्कृतम्
+
+ Sindhi
+
+sd
+
+ सिनधि
+
+ Hindi
+
+hi
+
+ हिन्दी
+
+ Assamese
+
+as
+
+ অসমীয়া
+
+ Bengali
+
+bn
+
+ বাংলা
+
+ Panjabi / Punjabi
+
+pa
+
+ ਪੰਜਾਬੀ / पंजाबी / پنجابي
+
+ Gujarati
+
+gu
+
+ ગુજરાતી
+
+ Oriya
+
+or
+
+ ଓଡ଼ିଆ
+
+ Tamil
+
+ta
+
+ தமிழ்
+
+ Telugu
+
+te
+
+ తెలుగు
+
+ Kannada
+
+kn
+
+ ಕನ್ನಡ
+
+ Malayalam
+
+ml
+
+ മലയാളം
+
+ Sinhalese
+
+si
+
+ සිංහල
+
+ Thai
+
+th
+
+ ไทย / Phasa Thai
+
+ Laotian
+
+lo
+
+ ລາວ / Pha xa lao
+
+ Dzongkha
+
+dz
+
+ ཇོང་ཁ
+
+ Tibetan
+
+bo
+
+ བོད་ཡིག / Bod skad
+
+ Burmese
+
+my
+
+ မြန်မာစာ
+
+ Cambodian
+
+km
+
+ ភាសាខ្មែរ
+
+ Inuktitut
+
+iu
+
+ ᐃᓄᒃᑎᑐᑦ
+
+ Ojibwa
+
+oj
+
+ ᐊᓂᔑᓈᐯᒧᐎᓐ / Anishinaabemowin
+
+ Korean
+
+ko
+
+ 한국어
+
+ Japanese
+
+ja
+
+ 日本語
+
+ Chinese (Simplified)
+
+zh
+
+ 简体中文
+
+ Chinese (Traditional)
+
+zh-TW
+
+ 繁體中文
+
+ No languages found
+
+Page ControlsClose
+
+Home Rule Charter
+
+Code of Ordinances
+
+Tables
+
+Zoning Code
+
+Ttl 9Zoning Code
+
+Art IIntroduction and Establishment
+
+Art IIBase Zoning District
+
+Art IIIOverlay Zoning Districts
+
+Art IVPlanning Districts
+
+Art VUse Regulations
+
+Art VIDevelopment Standards
+
+Art VIINonconformities
+
+Ch 921Nonconformities
+
+§ 921.01General.
+
+§ 921.02Nonconforming Uses.
+
+§ 921.03Nonconforming Structures.
+
+§ 921.04Nonconforming Lots.
+
+§ 921.05Other Nonconformities.
+
+§ 921.06Certificates of Occupancy.
+
+Art VIIIReview and Enforcement
+
+Art IXMeasurements and Definitions
