@@ -18,7 +18,7 @@ export interface BlockerStyle {
 export const STYLE: Record<Blocker, BlockerStyle> = {
   width: { id: 'width', words: BLOCKER_WORDS.width, gloss: 'setbacks leave too little width', token: '--red' },
   area: { id: 'area', words: BLOCKER_WORDS.area, gloss: 'smaller than the minimum lot size', token: '--area' },
-  depth: { id: 'depth', words: BLOCKER_WORDS.depth, gloss: 'too shallow after front and rear setbacks', token: '--slope' },
+  depth: { id: 'depth', words: BLOCKER_WORDS.depth, gloss: 'too shallow after front and rear setbacks', token: '--depth' },
   ownership: { id: 'ownership', words: BLOCKER_WORDS.ownership, gloss: 'fits, but the City is not selling it', token: '--gold' },
   fits: { id: 'fits', words: BLOCKER_WORDS.fits, gloss: 'no dimensional rule stops it, and it is for sale', token: '--ink', hollow: true },
   records: { id: 'records', words: BLOCKER_WORDS.records, gloss: 'County and City areas differ: can’t score', token: '--ink', ring: '--red' },

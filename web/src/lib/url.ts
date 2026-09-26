@@ -24,6 +24,8 @@ export interface UrlState {
   slope: boolean;
   section: string | null;
   tol: number | null; // reconciliation tolerance override (red)
+  hood: string | null; // city view: zoomed neighborhood
+  pin: string | null; // city view: selected lot
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
@@ -54,6 +56,8 @@ export function parseUrl(search: string): UrlState {
     slope: q.get('slope') === '1',
     section: q.get('section'),
     tol: num('tol') ?? null,
+    hood: q.get('hood'),
+    pin: q.get('pin'),
   };
 }
 
@@ -69,7 +73,9 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
     if (s.lots && s.lots.length > 1) q.set('lots', s.lots.join(','));
     for (const k of ['w', 'd', 'st', 'h'] as const) if (s[k] != null) q.set(k, String(s[k]));
   }
-  if (s.view === 'city' && s.type) q.set('type', s.type);
+  if ((s.view === 'city' || s.view === 'block') && s.type) q.set('type', s.type);
+  if (s.view === 'city' && s.hood) q.set('hood', s.hood);
+  if (s.view === 'city' && s.pin) q.set('pin', s.pin);
   if (s.assume && s.assume.length) q.set('assume', s.assume.join(','));
   if (s.drawer) q.set('drawer', s.drawer);
   if (s.district) q.set('district', s.district);
