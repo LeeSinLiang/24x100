@@ -619,9 +619,15 @@ button.chip {
 .env.assumed {
   stroke-dasharray: 5 2;
 }
-.env.fits.assumed {
+.env.fits.assumed,
+.env.short.assumed {
   fill: url(#hatch-red);
   stroke: var(--red);
+  stroke-dasharray: 5 2;
+}
+.env-width.fits.assumed,
+.env-width.short.assumed {
+  fill: var(--red);
 }
 .env.is-selected {
   stroke-width: 1.5px;
@@ -869,6 +875,10 @@ button.numeral {
 }
 .wall-verdict.is-red {
   color: var(--red);
+}
+.wall-verdict.is-pencil {
+  color: var(--graphite);
+  font-style: italic;
 }
 .ledger {
   width: 100%;

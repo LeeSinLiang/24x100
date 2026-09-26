@@ -60,7 +60,10 @@ export function Excerpt({ file, section, quote }: { file: string; section: strin
   const span = locateSection(text, section);
   const q = findQuote(text, quote, span ?? undefined) ?? findQuote(text, quote);
   if (!q) return <p className="warn">The quote was not found in the saved text. Treat this rule as unverified.</p>;
-  const lo = Math.max(span?.start ?? 0, q.start - 320);
+  let lo = Math.max(span?.start ?? 0, q.start - 320);
+  const nl = text.lastIndexOf('\n', q.start);
+  if (nl > lo && q.start - nl < 320) lo = nl + 1;
+  else while (lo > (span?.start ?? 0) && /\S/.test(text[lo - 1])) lo--;
   const hi = Math.min(span?.end ?? text.length, q.end + 320);
   const tidy = (s: string) => s.replace(/\n\s*\n+/g, '\n').replace(/ \| \n/g, ' | ');
   return (

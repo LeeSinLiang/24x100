@@ -58,7 +58,7 @@ function Numeral({ r, still }: { r: LotResult; still: boolean }) {
         <span className="numeral-unit">ft</span>
       </Ev>
       <p className="numeral-cap">
-        {w.none ? 'no buildable width' : row ? 'end units, as of right · by deed' : 'wide, as of right · by deed'}
+        {w.none ? 'no buildable width' : tone === 'red' ? `${row ? 'end units, ' : ''}under your assumption · not confirmed` : tone === 'pencil' ? `${row ? 'end units, ' : ''}pencil · depends on an open question` : row ? 'end units, as of right · by deed' : 'wide, as of right · by deed'}
         {!w.none && <span className="muted"> · {ftFmt(w.mapped)} ft on the City map</span>}
       </p>
       {check.alternative && (
@@ -207,10 +207,12 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
                 <ul className="blocks">
                   <li>
                     <span className="wall-tag">Rules</span>{' '}
-                    {r.relief.length ? (
+                    {r.checks.find((c) => c.id === 'width')?.status === 'open' ? (
+                      <span className="pencil-text">an open question: does the narrow-lot rule cover attached houses? If not, {r.relief.map((x) => x.text).join('; ')} (a variance).</span>
+                    ) : r.checks.find((c) => c.id === 'width')?.trust === 'red' ? (
+                      <span className="red-text">nothing, if your assumption holds. The City hasn't answered, so the question stays in the inquiry.</span>
+                    ) : r.relief.length ? (
                       <span className="red-text">{r.relief.map((x) => x.text).join('; ')} (a variance).</span>
-                    ) : r.checks.find((c) => c.id === 'width')?.status === 'open' ? (
-                      <span className="pencil-text">an open question about the narrow-lot rule.</span>
                     ) : (
                       <span>nothing in the dimensional rules{otherLots.length ? `; ${otherLots.map((p) => `lot ${p.lot}`).join(', ')} ${otherLots.length > 1 ? 'are' : 'is'} not City-owned` : ''}.</span>
                     )}

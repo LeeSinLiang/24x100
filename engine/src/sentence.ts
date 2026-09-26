@@ -76,7 +76,7 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
     const alt = r.checks.find((c) => c.id === 'width')!.alternative;
     if (q && q.status === 'open' && alt) {
       out.push({ t: ', or ' }, { t: `${fmtFt(alt.available)} ft`, num: true, trust: 'pencil', ref: `question:${NARROW_Q}` }, { t: ' if the narrow-lot rule covers attached houses' });
-    } else if (q && q.status === 'assumed') out.push({ t: ' under your assumption', trust: 'red', ref: `question:${NARROW_Q}` });
+    } else if (q && q.status === 'assumed') out.push({ t: ' ' }, { t: 'under your assumption', trust: 'red', ref: `question:${NARROW_Q}` });
     out.push({ t: '.' });
     return out;
   }

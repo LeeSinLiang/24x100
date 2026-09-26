@@ -74,7 +74,12 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
   const owners = others.length
     ? ` Needs ${others.map((p) => `lot ${p.lot}`).join(' and ')}: not in the City's inventory; County owner type ${others.map((p) => (p.assess?.ownercat ?? 'unknown').toLowerCase()).join(', ')}.`
     : '';
-  const verdict = result.relief.length
+  const wc = result.checks.find((c) => c.id === 'width')!;
+  const verdict = wc.status === 'open'
+    ? `Depends on an open question. If the narrow-lot rule doesn't cover attached houses: ${result.relief.map((r) => r.text).join('; ')} (a variance). If it does, the end units fit.${owners}`
+    : wc.trust === 'red'
+      ? `Fits only under your assumption; the City hasn't confirmed it.${owners}`
+      : result.relief.length
     ? `Blocks it: ${result.relief.map((r) => r.text).join('; ')}. That is a variance.${owners}`
     : result.checks.some((c) => c.status === 'fail')
       ? `Blocks it: see the failing lines.${owners}`
@@ -85,7 +90,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     <section className="wall rules-wall" aria-labelledby="rules-wall-h">
       <header className="wall-head">
         <h2 id="rules-wall-h" className="wall-title">The rules wall</h2>
-        <p className={`wall-verdict ${result.relief.length ? 'is-red' : ''}`}>{verdict}</p>
+        <p className={`wall-verdict ${wc.status === 'open' ? 'is-pencil' : result.relief.length || wc.trust === 'red' ? 'is-red' : ''}`}>{verdict}</p>
       </header>
       <table className="ledger">
         <thead>

@@ -64,10 +64,10 @@ function proposalRect(f: { a: Pt; b: Pt; setback: number }, w: number, d: number
   return [p(-w / 2, f.setback), p(w / 2, f.setback), p(w / 2, f.setback + d), p(-w / 2, f.setback + d)];
 }
 
-function statusClass(r: LotResult): 'fits' | 'short' | 'open' | 'refused' {
+function statusClass(r: LotResult): string {
   if (r.state !== 'ok') return 'refused';
   const w = r.checks.find((c) => c.id === 'width')!;
-  if (w.trust === 'red') return w.status === 'pass' ? 'fits' : 'short';
+  if (w.trust === 'red') return w.status === 'pass' ? 'fits assumed' : 'short assumed';
   if (w.status === 'open' || w.trust === 'pencil') return 'open';
   return w.status === 'pass' ? 'fits' : 'short';
 }
