@@ -61,3 +61,19 @@ export function codeFor(sourceFile: string): string | null {
   const name = sourceFile.split('/').pop()!;
   return codeText[`../../../data/code/${name}`] ?? null;
 }
+
+export interface RefreshChange {
+  pin: string;
+  addr: string;
+  block: string | null;
+  scope: string;
+  field: string;
+  before: unknown;
+  after: unknown;
+  kind: 'changed' | 'added' | 'removed';
+}
+const refreshFiles = import.meta.glob('../../../data/refresh/latest.json', { eager: true, import: 'default' }) as Record<string, { meta?: { run_at?: string }; changes?: RefreshChange[] }>;
+export const REFRESH = Object.values(refreshFiles)[0] ?? null;
+export function refreshChangesFor(pins: string[]): RefreshChange[] {
+  return (REFRESH?.changes ?? []).filter((c) => pins.includes(c.pin));
+}

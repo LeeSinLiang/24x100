@@ -1455,3 +1455,10 @@ button.numeral {
 .cant.is-grey {
   fill: var(--graphite);
 }
+
+.refresh-note {
+  margin: 0;
+  font-size: var(--s-small);
+  border: 1px dashed var(--graphite);
+  padding: 6px 8px;
+}

@@ -9,6 +9,7 @@ import { Plate } from '../components/Plate';
 import { MoneyWall, RulesWall } from '../components/Walls';
 import { Chip, DISCLAIMER, Ev, ftFmt, Label, money1 } from '../components/ui';
 import { useCountTo } from '../lib/craft';
+import { REFRESH, refreshChangesFor } from '../lib/data';
 import { lotKey, mainRow, TYPE_ORDER, type LotModel } from '../lib/model';
 import type { UrlState } from '../lib/url';
 
@@ -198,6 +199,15 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
           <p className="sentence" aria-live="polite">
             <Segs segs={headline(r, block, model.ctx.rs)} />
           </p>
+          {refreshChangesFor(r.pins).length > 0 && (
+            <p className="refresh-note pencil-text">
+              Changed on the last refresh ({REFRESH?.meta?.run_at?.slice(0, 10)}):{' '}
+              {refreshChangesFor(r.pins)
+                .map((c) => `${c.addr}: ${c.field} ${String(c.before ?? '—')} → ${String(c.after ?? '—')}`)
+                .join('; ')}
+              . Shown in pencil until someone checks it. <a href="?view=changes">What changed</a>
+            </p>
+          )}
           <div className="answers">
             <div className="answer">
               <Label as="h2">What fits</Label>
