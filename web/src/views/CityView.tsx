@@ -159,7 +159,7 @@ export function CityView({ s, update, audit }: ViewProps) {
       </DrawerCtx.Provider>
     ) : null;
 
-  const hoodList = useMemo(() => [...hoods.values()].filter((h) => h.lots > 0).sort((a, b) => a.name.localeCompare(b.name)), [hoods]);
+  const hoodList = useMemo(() => [...hoods.values()].filter((h) => h.lots > 0).sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')), [hoods]);
   const inView = focus ? rows.length : lots.length;
 
   return (

@@ -87,7 +87,7 @@ if (existsSync(work)) {
         {
           pin: l.pin,
           addr: l.addr,
-          hood: l.hood,
+          hood: l.hood ?? 'Neighborhood not recorded',
           ward: l.ward,
           zone: l.zone,
           status: l.city.status,
@@ -107,7 +107,7 @@ if (existsSync(work)) {
     } catch (e) {
       skipped++;
       out.push({
-        pin: l.pin, addr: l.addr, hood: l.hood, ward: l.ward, zone: l.zone, status: l.city.status, status_updated: l.city.status_updated, ll: l.ll,
+        pin: l.pin, addr: l.addr, hood: l.hood ?? 'Neighborhood not recorded', ward: l.ward, zone: l.zone, status: l.city.status, status_updated: l.city.status_updated, ll: l.ll,
         deed: l.deed, assessed: l.assess?.lotarea ?? null, mapped: Math.round(l.mapped_area), front_len: null, flank: [], edges_ok: false,
         edge_note: `Edges not computed: ${String((e as Error).message).slice(0, 80)}`, slope25: l.slope25 ?? 0,
       });

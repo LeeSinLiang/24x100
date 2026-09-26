@@ -2,7 +2,7 @@
 // (buildInquiry). For a lot the engine refused to score, the memo becomes a records question: the
 // zoning questions wait until the records agree. Text added here carries no quantities of its own
 // (checked with the engine's numbersIn), so every number in the export still traces to the engine.
-import { numbersIn, type Inquiry, type InquiryItem, type InquirySection } from '@engine/inquiry';
+import { FROM_PLACEHOLDER, numbersIn, type Inquiry, type InquiryItem, type InquirySection } from '@engine/inquiry';
 import type { BlockFile, LotResult } from '@engine/types';
 
 export type MemoSection = Omit<InquirySection, 'id'> & { id: InquirySection['id'] | 'records'; note?: string };
@@ -22,7 +22,7 @@ export interface Memo {
 
 /** Same line format as the engine's markdown, so both kinds of memo read alike. */
 export function memoMarkdown(m: Pick<Memo, 'title' | 'subtitle' | 'recipients' | 'sections' | 'disclaimer'>): string {
-  const lines: string[] = [`# ${m.title}`, m.subtitle, '', `To: ${m.recipients.map((x) => `${x.who} (${x.why})`).join('; ')}`, ''];
+  const lines: string[] = [`# ${m.title}`, m.subtitle, '', `To: ${m.recipients.map((x) => `${x.who} (${x.why})`).join('; ')}`, `From: ${FROM_PLACEHOLDER}`, ''];
   for (const sec of m.sections) {
     lines.push(`## ${sec.heading}${sec.to ? ` (for ${sec.to})` : ''}`);
     if (!sec.items.length && sec.note) lines.push(sec.note);

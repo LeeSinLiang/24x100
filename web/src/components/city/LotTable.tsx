@@ -43,11 +43,11 @@ export function LotTable({
     const rank = (i: number) => LEGEND_ORDER.indexOf(classes[i].blocker);
     const by: Record<SortKey, (a: number, b: number) => number> = {
       blocker: (a, b) => rank(a) - rank(b),
-      hood: (a, b) => lots[a].hood.localeCompare(lots[b].hood),
-      addr: (a, b) => lots[a].addr.localeCompare(lots[b].addr, 'en', { numeric: true }),
+      hood: (a, b) => (lots[a].hood ?? '').localeCompare(lots[b].hood ?? ''),
+      addr: (a, b) => (lots[a].addr ?? '').localeCompare(lots[b].addr ?? '', 'en', { numeric: true }),
       width: (a, b) => (classes[a].width ?? -1) - (classes[b].width ?? -1),
     };
-    const tie = (a: number, b: number) => lots[a].hood.localeCompare(lots[b].hood) || lots[a].addr.localeCompare(lots[b].addr, 'en', { numeric: true }) || lots[a].pin.localeCompare(lots[b].pin);
+    const tie = (a: number, b: number) => (lots[a].hood ?? '').localeCompare(lots[b].hood ?? '') || (lots[a].addr ?? '').localeCompare(lots[b].addr ?? '', 'en', { numeric: true }) || lots[a].pin.localeCompare(lots[b].pin);
     return [...rows].sort((a, b) => by[sort.key](a, b) * sort.dir || tie(a, b));
   }, [rows, classes, lots, sort]);
 

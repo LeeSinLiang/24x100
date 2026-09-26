@@ -1,3 +1,4 @@
+import { FROM_PLACEHOLDER } from '@engine/inquiry';
 // The inquiry as a one-page letter. Facts are ink with their citations; questions are pencil; our
 // proposal and assumptions are red and labeled; set-aside rules are struck. Rendering only: every
 // sentence comes from the memo model (engine inquiry, or the records memo for a refused lot).
@@ -112,6 +113,14 @@ export function Letter({ memo, result, rs }: { memo: Memo; result: LotResult; rs
               </li>
             ))}
           </ul>
+        </div>
+        <div className="iq-to">
+          <Label as="span" className="iq-to-h">
+            From
+          </Label>
+          <p className="red" data-trust="red">
+            {FROM_PLACEHOLDER} <span className="small muted">(you fill this in; 24×100 never writes as anyone)</span>
+          </p>
         </div>
       </header>
       {memo.sections.map((sec) => {
