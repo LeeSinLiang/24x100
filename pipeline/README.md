@@ -13,6 +13,7 @@ Run from the repo root (the uv env is Python 3.12).
 | `uv run python -m pipeline block --id 10K --offline` | No network. Process the newest raw cache that has every input. |
 | `uv run python -m pipeline money [--offline]` | Write `data/money/comps_ward5.json` and `data/money/hud_fy2026.json`. Exits 1 if the HUD file could not be fetched; comps are still written. |
 | `uv run python -m pipeline money --offline --snapshot pipeline/tests/fixtures/ward5_sales_<date>.json` | Also write the filtered, joined sales snapshot used by the tests. |
+| `uv run python -m pipeline money --hud-file ~/Downloads/Section8-FY26.xlsx` | Ingest a HUD workbook a person downloaded in a browser (huduser.gov challenges scripts; see below). It is cached with its sha256 and a `manual_download` note, then processed. |
 | `uv run python -m pipeline crosscheck --id 10K [--fixture PATH]` | Re-run only the G1 comparison against the research fixture. |
 | `uv run python -m pipeline all [--offline]` | Runs `block --id 10K` and then `money`. |
 | `uv run pytest -q pipeline/tests` | Tests (no network). The determinism test and the raw-cache privacy test skip when `data/raw/` is absent. |
