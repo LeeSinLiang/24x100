@@ -118,8 +118,8 @@ if (existsSync(work)) {
 out.sort((a, b) => a.pin.localeCompare(b.pin));
 mkdirSync('data/city', { recursive: true });
 const meta = {
-  built: new Date().toISOString().slice(0, 10),
   source,
+  pulled: [...new Set(blocks.map((b) => b.meta.pulled.slice(0, 10)))].sort().join(', '),
   count: out.length,
   edges_not_computed: out.filter((l) => !l.edges_ok).length,
   errors: skipped,

@@ -149,7 +149,7 @@ writeFileSync(
   JSON.stringify(
     {
       name: '24×100 static API',
-      built: new Date().toISOString(),
+      data_pulled: [...new Set(blocks.map((b) => b.meta.pulled))].sort(),
       endpoints: { lot: 'api/lots/<pin>.json', block: 'api/blocks/<id>.json', city: 'api/city/summary.json' },
       blocks: blocks.map((b) => b.meta.id),
       lots: lotFiles,
