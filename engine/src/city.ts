@@ -38,7 +38,7 @@ export interface CityClass {
   note: string;
 }
 
-export const BLOCKER_ORDER: Blocker[] = ['records', 'rules', 'edges', 'area', 'width', 'depth', 'ownership', 'fits'];
+export const BLOCKER_ORDER: Blocker[] = ['rules', 'records', 'edges', 'area', 'width', 'depth', 'ownership', 'fits'];
 
 export const BLOCKER_WORDS: Record<Blocker, string> = {
   records: 'records disagree',
@@ -77,9 +77,7 @@ export function cityLotFromGeometry(
 export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: TemplateId, settings: Settings, proposal: Proposal = TEMPLATES[type].proposal): CityClass {
   const none = (blocker: Blocker, note: string, trust: Trust = 'ink'): CityClass => ({ blocker, all: [blocker], width: null, depth: null, area: null, trust, formula: null, note });
   const all: Blocker[] = [];
-  if (lot.assessed != null && lot.assessed > 0 && Math.abs(lot.mapped / lot.assessed - 1) > settings.recon_tolerance) {
-    return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
-  }
+  // Grey first: nothing is computed in a district whose rules haven't been loaded and checked.
   if (!rs || !lot.zone || rs.district !== lot.zone) return none('rules', `Rules not loaded for ${lot.zone ?? 'this district'}`, 'pencil');
   const R = {
     minArea: pick(rs, 'min_lot_area'),
@@ -92,6 +90,9 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   const needed = [R.minArea, R.front, R.rear, R.sideInt, ...(lot.flank.includes('exterior') ? [R.sideExt] : [])];
   if (needed.some((r) => !r || typeof r.value !== 'number')) return none('rules', `Rules not loaded for ${lot.zone}`, 'pencil');
   if (needed.some((r) => ruleTrust(r) !== 'ink')) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
+  if (lot.assessed != null && lot.assessed > 0 && Math.abs(lot.mapped / lot.assessed - 1) > settings.recon_tolerance) {
+    return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
+  }
   if (!lot.edges_ok) return none('edges', lot.edge_note ?? 'Edges not computed');
 
   const front = lot.deed?.front ?? lot.front_len ?? 0;
@@ -151,7 +152,7 @@ export function summarize(lots: CityLot[], classes: CityClass[], type: TemplateI
     const z = lots[i].zone ?? '—';
     const cur = dz.get(z) ?? { lots: 0, computed: false };
     cur.lots++;
-    if (!['rules', 'records', 'edges'].includes(c.blocker) || c.blocker === 'records' || c.blocker === 'edges') cur.computed = cur.computed || c.blocker !== 'rules';
+    cur.computed = cur.computed || c.blocker !== 'rules'; // rules are checked first, so any other blocker means computed
     dz.set(z, cur);
   });
   const computed = classes.filter((c) => !['rules', 'records', 'edges'].includes(c.blocker)).length;

@@ -26,6 +26,7 @@ describe('city classifier agrees with the lot engine', () => {
         const r = evaluate(ctx, { ...scen(b, type, [25]), pins: [l.pin] });
         if (r.state === 'refused') {
           expect(['records', 'edges', 'rules']).toContain(c.blocker);
+          if (r.refusal!.code === 'records_disagree') expect(c.blocker).toBe('records');
           continue;
         }
         expect(Math.abs((c.width ?? 0) - (r.width!.deed ?? r.width!.mapped))).toBeLessThan(0.051);
@@ -45,6 +46,13 @@ describe('city classifier agrees with the lot engine', () => {
   it('pencil rules do not colour the map', () => {
     const pencil = { ...ctx.rs, rules: ctx.rs.rules.map((r) => ({ ...r, state: 'pencil' as const })) };
     expect(classifyCityLot(lots.find((l) => l.edges_ok && l.pin.endsWith('25000000'))!, pencil, 'two', DEFAULT_SETTINGS).blocker).toBe('rules');
+  });
+
+  it('a district without rules is grey even where records disagree, and is not counted as computed', () => {
+    const bad = lots.find((l) => classifyCityLot(l, ctx.rs, 'two', DEFAULT_SETTINGS).blocker === 'records')!;
+    expect(classifyCityLot({ ...bad, zone: 'R2-L' }, null, 'two', DEFAULT_SETTINGS).blocker).toBe('rules');
+    const s = summarize([{ ...bad, zone: 'R2-L' }], [classifyCityLot({ ...bad, zone: 'R2-L' }, null, 'two', DEFAULT_SETTINGS)], 'two');
+    expect(s.districts[0].computed).toBe(false);
   });
 
   it('summary counts width-but-not-area separately (H1)', () => {

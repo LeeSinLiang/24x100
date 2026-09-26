@@ -208,46 +208,843 @@
    "source": "engine (red assumptions): $397,725–$525,300 − $155,000 = $242,725–$370,300 per home; hypothesis H5, not a finding"
   },
   "city_lots_total": {
-   "value": 17,
-   "display": "17",
-   "source": "data/city/lots.json (block files only (citywide work file not present))"
+   "value": 11247,
+   "display": "11,247",
+   "source": "data/city/lots.json (citywide work file pulled 2026-09-26T20:39:21Z)"
   },
   "city_lots_computed": {
-   "value": 5,
-   "display": "5",
+   "value": 563,
+   "display": "563",
    "source": "lots in districts with checked rules, edges computed, records agreeing"
   },
   "city_width_not_area": {
-   "value": 4,
-   "display": "4",
+   "value": 178,
+   "display": "178",
    "source": "two-unit house: lots big enough by area but too narrow (engine classifier)"
   },
   "city_area_any": {
-   "value": 1,
-   "display": "1",
+   "value": 311,
+   "display": "311",
    "source": "two-unit house: lots under the minimum area (engine classifier)"
   },
   "city_by_first_blocker": {
    "value": {
-    "records": 5,
-    "rules": 7,
-    "edges": 0,
-    "area": 1,
-    "width": 4,
-    "depth": 0,
-    "ownership": 0,
-    "fits": 0
+    "rules": 10263,
+    "records": 374,
+    "edges": 47,
+    "area": 311,
+    "width": 178,
+    "depth": 21,
+    "ownership": 24,
+    "fits": 29
    },
-   "display": "{\"records\":5,\"rules\":7,\"edges\":0,\"area\":1,\"width\":4,\"depth\":0,\"ownership\":0,\"fits\":0}",
+   "display": "{\"rules\":10263,\"records\":374,\"edges\":47,\"area\":311,\"width\":178,\"depth\":21,\"ownership\":24,\"fits\":29}",
    "source": "two-unit house, first blocker per lot (engine classifier)"
   },
   "city_districts_computed": {
    "value": [
-    "R1D-H",
     "RM-M"
    ],
-   "display": "R1D-H, RM-M",
+   "display": "RM-M",
    "source": "districts whose rules are at least source-checked"
+  },
+  "extraction_eval": {
+   "value": {
+    "generated_at": "2026-09-26T20:51:30+00:00",
+    "target_agreement": 0.9,
+    "districts": {
+     "RM-M": {
+      "file": "data/rules/extracted/rm-m.json",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "run_at": "2026-09-26T20:29:00+00:00",
+      "prompt_sha": "4a25a48575e3912deab799e63a212ac115ec80d1b6d920affbfef19dff5427b9",
+      "calls": 6,
+      "tokens_in": 8261,
+      "tokens_out": 40361,
+      "tokens_reasoning": 35504,
+      "latency_ms": 217854,
+      "wall_ms": null,
+      "attempts": 12,
+      "quotes": {
+       "proposed": 21,
+       "accepted": 21,
+       "rejected": 0,
+       "rejected_quote": 0,
+       "rejected_other": 0,
+       "quote_pass_rate": 1,
+       "accepted_recheck_failures": []
+      },
+      "trust": {
+       "pencil": 21,
+       "ink": 0,
+       "struck": 0
+      },
+      "cost": {
+       "usd": 0.15755,
+       "usd_from_2027": 0.315099,
+       "tokens_in": 8261,
+       "tokens_out": 40361,
+       "tokens_reasoning": 35504,
+       "pricing": {
+        "url": "https://ai.google.dev/gemini-api/docs/pricing",
+        "read": "2026-09-26",
+        "page_updated": "2026-09-24",
+        "input_per_m": 0.75,
+        "output_per_m": 3.75,
+        "note": "Standard paid tier, through 2026-12-31; $1.50 in / $7.50 out from 2027-01-01. Output price includes thinking tokens.",
+        "after": {
+         "from": "2027-01-01",
+         "input_per_m": 1.5,
+         "output_per_m": 7.5
+        }
+       }
+      },
+      "narrow_lot_flag": {
+       "present": true,
+       "applies_to": [
+        "detached"
+       ],
+       "applies_to_detached_only": true,
+       "ambiguous": true,
+       "question_source": "model",
+       "question_mentions_attached": true,
+       "question_for_city": "Does 'any single-unit house' apply only to single-unit detached houses, or does it also apply to single-unit attached rowhouses?",
+       "flagged_by_model": true
+      },
+      "rejected": [],
+      "agreement": {
+       "fields": 11,
+       "agree": 11,
+       "rate": 1,
+       "rows": [
+        {
+         "field": "min_lot_area",
+         "expected": 2400,
+         "expected_section": "903.03.C",
+         "extracted": 2400,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "front_setback",
+         "expected": 25,
+         "expected_section": "903.03.C",
+         "extracted": 25,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "rear_setback",
+         "expected": 25,
+         "expected_section": "903.03.C",
+         "extracted": 25,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "side_setback_exterior",
+         "expected": 25,
+         "expected_section": "903.03.C",
+         "extracted": 25,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "side_setback_interior",
+         "expected": 10,
+         "expected_section": "903.03.C",
+         "extracted": 10,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "max_height_ft",
+         "expected": 55,
+         "expected_section": "903.03.C",
+         "extracted": 55,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "max_stories",
+         "expected": 4,
+         "expected_section": "903.03.C",
+         "extracted": 4,
+         "extracted_section": "903.03.C.2",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "party_wall_side",
+         "expected": 0,
+         "expected_section": "903.03.C.2(c)",
+         "extracted": 0,
+         "extracted_section": "903.03.C.2(c)",
+         "agree": true,
+         "why": "value matches"
+        },
+        {
+         "field": "contextual_side",
+         "expected": 3,
+         "expected_section": "925.06.C",
+         "extracted": 3,
+         "extracted_section": "925.06.C",
+         "agree": true,
+         "why": "value matches; vacant-neighbor clause quoted and stated in condition",
+         "vacant_clause_in_quote": true,
+         "vacant_clause_in_condition": true
+        },
+        {
+         "field": "contextual_rear",
+         "expected": null,
+         "expected_section": "925.06.I",
+         "extracted": null,
+         "extracted_section": "925.06.I",
+         "agree": true,
+         "why": "value matches; vacant-neighbor clause quoted and stated in condition",
+         "vacant_clause_in_quote": true,
+         "vacant_clause_in_condition": true
+        },
+        {
+         "field": "narrow_lot_side_table",
+         "expected": [
+          {
+           "max_width": 59,
+           "interior": 5,
+           "streetside": 29
+          },
+          {
+           "max_width": 58,
+           "interior": 5,
+           "streetside": 28
+          },
+          {
+           "max_width": 57,
+           "interior": 5,
+           "streetside": 27
+          },
+          {
+           "max_width": 56,
+           "interior": 5,
+           "streetside": 26
+          },
+          {
+           "max_width": 55,
+           "interior": 5,
+           "streetside": 25
+          },
+          {
+           "max_width": 54,
+           "interior": 5,
+           "streetside": 24
+          },
+          {
+           "max_width": 53,
+           "interior": 5,
+           "streetside": 23
+          },
+          {
+           "max_width": 52,
+           "interior": 5,
+           "streetside": 22
+          },
+          {
+           "max_width": 51,
+           "interior": 5,
+           "streetside": 21
+          },
+          {
+           "max_width": 50,
+           "interior": 5,
+           "streetside": 20
+          },
+          {
+           "max_width": 49,
+           "interior": 5,
+           "streetside": 20
+          },
+          {
+           "max_width": 48,
+           "interior": 5,
+           "streetside": 19
+          },
+          {
+           "max_width": 47,
+           "interior": 5,
+           "streetside": 19
+          },
+          {
+           "max_width": 46,
+           "interior": 5,
+           "streetside": 18
+          },
+          {
+           "max_width": 45,
+           "interior": 5,
+           "streetside": 18
+          },
+          {
+           "max_width": 44,
+           "interior": 4,
+           "streetside": 18
+          },
+          {
+           "max_width": 43,
+           "interior": 4,
+           "streetside": 17
+          },
+          {
+           "max_width": 42,
+           "interior": 4,
+           "streetside": 17
+          },
+          {
+           "max_width": 41,
+           "interior": 4,
+           "streetside": 16
+          },
+          {
+           "max_width": 40,
+           "interior": 4,
+           "streetside": 16
+          },
+          {
+           "max_width": 39,
+           "interior": 4,
+           "streetside": 15
+          },
+          {
+           "max_width": 38,
+           "interior": 4,
+           "streetside": 15
+          },
+          {
+           "max_width": 37,
+           "interior": 3,
+           "streetside": 15
+          }
+         ],
+         "expected_section": "925.06.C",
+         "extracted": [
+          {
+           "max_width": 59,
+           "interior": 5,
+           "streetside": 29
+          },
+          {
+           "max_width": 58,
+           "interior": 5,
+           "streetside": 28
+          },
+          {
+           "max_width": 57,
+           "interior": 5,
+           "streetside": 27
+          },
+          {
+           "max_width": 56,
+           "interior": 5,
+           "streetside": 26
+          },
+          {
+           "max_width": 55,
+           "interior": 5,
+           "streetside": 25
+          },
+          {
+           "max_width": 54,
+           "interior": 5,
+           "streetside": 24
+          },
+          {
+           "max_width": 53,
+           "interior": 5,
+           "streetside": 23
+          },
+          {
+           "max_width": 52,
+           "interior": 5,
+           "streetside": 22
+          },
+          {
+           "max_width": 51,
+           "interior": 5,
+           "streetside": 21
+          },
+          {
+           "max_width": 50,
+           "interior": 5,
+           "streetside": 20
+          },
+          {
+           "max_width": 49,
+           "interior": 5,
+           "streetside": 20
+          },
+          {
+           "max_width": 48,
+           "interior": 5,
+           "streetside": 19
+          },
+          {
+           "max_width": 47,
+           "interior": 5,
+           "streetside": 19
+          },
+          {
+           "max_width": 46,
+           "interior": 5,
+           "streetside": 18
+          },
+          {
+           "max_width": 45,
+           "interior": 5,
+           "streetside": 18
+          },
+          {
+           "max_width": 44,
+           "interior": 4,
+           "streetside": 18
+          },
+          {
+           "max_width": 43,
+           "interior": 4,
+           "streetside": 17
+          },
+          {
+           "max_width": 42,
+           "interior": 4,
+           "streetside": 17
+          },
+          {
+           "max_width": 41,
+           "interior": 4,
+           "streetside": 16
+          },
+          {
+           "max_width": 40,
+           "interior": 4,
+           "streetside": 16
+          },
+          {
+           "max_width": 39,
+           "interior": 4,
+           "streetside": 15
+          },
+          {
+           "max_width": 38,
+           "interior": 4,
+           "streetside": 15
+          },
+          {
+           "max_width": 37,
+           "interior": 3,
+           "streetside": 15
+          }
+         ],
+         "extracted_section": "925.06.C",
+         "agree": true,
+         "why": "all 23 rows match",
+         "row_37_and_below": [
+          37,
+          3,
+          15
+         ]
+        }
+       ]
+      },
+      "proposed_rules": [
+       {
+        "id": "rm-m.x.min_lot_area",
+        "field": "min_lot_area",
+        "value": 2400,
+        "unit": "sf",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.front_setback",
+        "field": "front_setback",
+        "value": 25,
+        "unit": "ft",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.rear_setback",
+        "field": "rear_setback",
+        "value": 25,
+        "unit": "ft",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.side_setback_exterior",
+        "field": "side_setback_exterior",
+        "value": 25,
+        "unit": "ft",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.side_setback_interior",
+        "field": "side_setback_interior",
+        "value": 10,
+        "unit": "ft",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.max_height_ft",
+        "field": "max_height_ft",
+        "value": 55,
+        "unit": "ft",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.max_stories",
+        "field": "max_stories",
+        "value": 4,
+        "unit": "stories",
+        "section": "903.03.C.2",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.party_wall_side",
+        "field": "party_wall_side",
+        "value": 0,
+        "unit": "ft",
+        "section": "903.03.C.2(c)",
+        "applies_to": [
+         "row",
+         "row_end"
+        ],
+        "dagger": false,
+        "question_for_city": "Does the zero-foot interior sideyard setback on the party wall side apply to semi-detached two-unit dwellings on separate lots, or only single-unit attached rowhouses?"
+       },
+       {
+        "id": "rm-m.x.contextual_side",
+        "field": "contextual_side",
+        "value": 3,
+        "unit": "ft",
+        "section": "925.06.C",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": "Does 'if lots on either side of the subject lot are vacant' mean both adjacent lots must be vacant, or does one vacant adjacent lot prevent using a contextual side setback on that side?"
+       },
+       {
+        "id": "rm-m.x.contextual_rear",
+        "field": "contextual_rear",
+        "value": null,
+        "unit": "ft",
+        "section": "925.06.I",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": false,
+        "question_for_city": "Does the restriction when 'lots on either side of the subject lot are vacant' require both adjacent lots to be vacant, and is there any minimum setback distance in feet for contextual rear setbacks?"
+       },
+       {
+        "id": "rm-m.x.narrow_lot_side_table",
+        "field": "narrow_lot_side_table",
+        "value": [
+         {
+          "max_width": 59,
+          "interior": 5,
+          "streetside": 29
+         },
+         {
+          "max_width": 58,
+          "interior": 5,
+          "streetside": 28
+         },
+         {
+          "max_width": 57,
+          "interior": 5,
+          "streetside": 27
+         },
+         {
+          "max_width": 56,
+          "interior": 5,
+          "streetside": 26
+         },
+         {
+          "max_width": 55,
+          "interior": 5,
+          "streetside": 25
+         },
+         {
+          "max_width": 54,
+          "interior": 5,
+          "streetside": 24
+         },
+         {
+          "max_width": 53,
+          "interior": 5,
+          "streetside": 23
+         },
+         {
+          "max_width": 52,
+          "interior": 5,
+          "streetside": 22
+         },
+         {
+          "max_width": 51,
+          "interior": 5,
+          "streetside": 21
+         },
+         {
+          "max_width": 50,
+          "interior": 5,
+          "streetside": 20
+         },
+         {
+          "max_width": 49,
+          "interior": 5,
+          "streetside": 20
+         },
+         {
+          "max_width": 48,
+          "interior": 5,
+          "streetside": 19
+         },
+         {
+          "max_width": 47,
+          "interior": 5,
+          "streetside": 19
+         },
+         {
+          "max_width": 46,
+          "interior": 5,
+          "streetside": 18
+         },
+         {
+          "max_width": 45,
+          "interior": 5,
+          "streetside": 18
+         },
+         {
+          "max_width": 44,
+          "interior": 4,
+          "streetside": 18
+         },
+         {
+          "max_width": 43,
+          "interior": 4,
+          "streetside": 17
+         },
+         {
+          "max_width": 42,
+          "interior": 4,
+          "streetside": 17
+         },
+         {
+          "max_width": 41,
+          "interior": 4,
+          "streetside": 16
+         },
+         {
+          "max_width": 40,
+          "interior": 4,
+          "streetside": 16
+         },
+         {
+          "max_width": 39,
+          "interior": 4,
+          "streetside": 15
+         },
+         {
+          "max_width": 38,
+          "interior": 4,
+          "streetside": 15
+         },
+         {
+          "max_width": 37,
+          "interior": 3,
+          "streetside": 15
+         }
+        ],
+        "unit": "table",
+        "section": "925.06.C",
+        "applies_to": [
+         "detached"
+        ],
+        "dagger": false,
+        "question_for_city": "Does 'any single-unit house' apply only to single-unit detached houses, or does it also apply to single-unit attached rowhouses?"
+       },
+       {
+        "id": "rm-m.x.use_detached",
+        "field": "use_detached",
+        "value": "P",
+        "unit": "use",
+        "section": "911.02",
+        "applies_to": [
+         "detached"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.use_row",
+        "field": "use_row",
+        "value": "P",
+        "unit": "use",
+        "section": "911.02",
+        "applies_to": [
+         "row"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.use_two",
+        "field": "use_two",
+        "value": "P",
+        "unit": "use",
+        "section": "911.02",
+        "applies_to": [
+         "two"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.use_three",
+        "field": "use_three",
+        "value": "P",
+        "unit": "use",
+        "section": "911.02",
+        "applies_to": [
+         "three"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.parking_detached",
+        "field": "parking_detached",
+        "value": 1,
+        "unit": "spaces_per_unit",
+        "section": "914.02.A",
+        "applies_to": [
+         "detached"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.parking_row",
+        "field": "parking_row",
+        "value": 0,
+        "unit": "spaces_per_unit",
+        "section": "914.02.A",
+        "applies_to": [
+         "row"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.parking_two",
+        "field": "parking_two",
+        "value": 1,
+        "unit": "spaces_per_unit",
+        "section": "914.02.A",
+        "applies_to": [
+         "two"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.parking_three",
+        "field": "parking_three",
+        "value": 1,
+        "unit": "spaces_per_unit",
+        "section": "914.02.A",
+        "applies_to": [
+         "three"
+        ],
+        "dagger": true,
+        "question_for_city": null
+       },
+       {
+        "id": "rm-m.x.grading_review",
+        "field": "grading_review",
+        "value": null,
+        "unit": "flag",
+        "section": "915.02.A.1.c",
+        "applies_to": [
+         "*"
+        ],
+        "dagger": true,
+        "question_for_city": "Does the City require a geotechnical investigation report and stabilization measures for any cut or filled slope exceeding 25 percent on residential development sites?"
+       },
+       {
+        "id": "rm-m.x.lot_of_record",
+        "field": "lot_of_record",
+        "value": null,
+        "unit": "flag",
+        "section": "925.01.C.1",
+        "applies_to": [
+         "detached"
+        ],
+        "dagger": true,
+        "question_for_city": "Does Section 925.01.C.1 allow single-unit dwellings by right on lots recorded prior to Code adoption, or must they be approved by the Zoning Administrator as an Administrator's Exception under Section 925.01.C.2, and does this exemption apply to single-unit attached (rowhouse) dwellings in addition to detached dwellings?"
+       }
+      ]
+     }
+    },
+    "compare": [],
+    "anthropic_key_present": false,
+    "gate_g2": {
+     "key_present": true,
+     "agreement_ok": true,
+     "quotes_verbatim": true,
+     "ambiguous_clause_in_pencil": true,
+     "pass": true
+    }
+   },
+   "display": "see docs/eval.md",
+   "source": "extract/eval.py against the hand-checked answer key"
   },
   "held_out_link": {
    "value": "?view=lot&block=0124P&lot=203&type=detached",

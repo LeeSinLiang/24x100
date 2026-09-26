@@ -51,12 +51,25 @@ export function normStreet(s: string | null | undefined): { base: string; suffix
   return { base, suffix };
 }
 
+function editDistance(a: string, b: string): number {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...new Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+
+/** Same street, allowing the small spelling differences between County/City addresses and
+ *  OpenStreetMap ("Stolz"/"Stoltz", "Crossman"/"Crosman", "Clairtonica"/"Clairtonic"). */
 export function sameStreet(a: string | null | undefined, b: string | null | undefined): boolean {
   const x = normStreet(a);
   const y = normStreet(b);
   if (!x || !y) return false;
-  if (x.base !== y.base) return false;
-  return !x.suffix || !y.suffix || x.suffix === y.suffix;
+  const suffixOk = !x.suffix || !y.suffix || x.suffix === y.suffix;
+  if (x.base === y.base) return suffixOk;
+  const n = Math.min(x.base.length, y.base.length);
+  const tol = n >= 7 ? 2 : n >= 5 ? 1 : 0;
+  return tol > 0 && suffixOk && x.base[0] === y.base[0] && editDistance(x.base, y.base) <= tol;
 }
 
 /** The street an unshared edge faces: among centerlines within reach, prefer ones running parallel

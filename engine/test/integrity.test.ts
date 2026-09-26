@@ -238,3 +238,16 @@ describe('mutation check (a test that cannot fail proves nothing)', () => {
     expect(() => assertLot25TwoUnit(ctx)).not.toThrow();
   });
 });
+
+describe('street names', () => {
+  it('match across small spelling differences, but not different streets', async () => {
+    const { sameStreet } = await import('../src');
+    expect(sameStreet('STOLZ ST', 'Stoltz Street')).toBe(true);
+    expect(sameStreet('CROSSMAN ST', 'Crosman Street')).toBe(true);
+    expect(sameStreet('CLAIRTONICA ST', 'Clairtonic Street')).toBe(true);
+    expect(sameStreet('MAHON ST', 'Mahon Street')).toBe(true);
+    expect(sameStreet('MAHON ST', 'Mahon Way')).toBe(false);
+    expect(sameStreet('SOHO ST', 'Soto Street')).toBe(false);
+    expect(sameStreet('WYLIE AVE', 'Kirkpatrick Street')).toBe(false);
+  });
+});
