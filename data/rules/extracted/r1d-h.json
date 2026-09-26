@@ -1,0 +1,1034 @@
+{
+ "meta": {
+  "provider": "gemini",
+  "model": "gemini-3.6-flash",
+  "prompt_sha": "3949bf8a4407484d101cfe91df191c7b8f0b2814c01907036c89d18e43ef75ca",
+  "run_at": "2026-09-26T21:19:26+00:00",
+  "district": "R1D-H",
+  "sections": [
+   "903.03.D (data/code/ch903.txt)",
+   "925.06.C (data/code/ch925.txt)",
+   "925.06.I (data/code/ch925.txt)",
+   "911.02 (data/code/ch911.txt; trimmed: residential rows only; ordinance history dropped)",
+   "911.04.A.69A (data/code/ch911.txt)",
+   "914.02.A (data/code/ch914.txt; trimmed: residential rows only)",
+   "915.02.A (data/code/ch915.txt)",
+   "925.01.C (data/code/ch925.txt)",
+   "921.04 (data/code/ch921.txt)"
+  ],
+  "tokens_in": 8346,
+  "tokens_out": 15553,
+  "tokens_reasoning": 11918,
+  "latency_ms": 82204,
+  "wall_ms": 82204,
+  "calls": [
+   {
+    "section": "dimensional: 903.03.D",
+    "tokens_in": 1357,
+    "tokens_out": 3987,
+    "tokens_reasoning": 2981,
+    "latency_ms": 17205,
+    "wall_ms": 17205,
+    "attempts": 1,
+    "retries": [],
+    "error": null,
+    "cached_from": "2026-09-26T21:16:38+00:00"
+   },
+   {
+    "section": "contextual: 925.06.C, 925.06.I",
+    "tokens_in": 1919,
+    "tokens_out": 3707,
+    "tokens_reasoning": 2749,
+    "latency_ms": 17992,
+    "wall_ms": 17992,
+    "attempts": 2,
+    "retries": [
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)"
+    ],
+    "error": null,
+    "cached_from": "2026-09-26T21:17:17+00:00"
+   },
+   {
+    "section": "use: 911.02, 911.04.A.69A",
+    "tokens_in": 1933,
+    "tokens_out": 3261,
+    "tokens_reasoning": 2581,
+    "latency_ms": 15234,
+    "wall_ms": 15234,
+    "attempts": 1,
+    "retries": [],
+    "error": null,
+    "cached_from": "2026-09-26T21:17:32+00:00"
+   },
+   {
+    "section": "parking: 914.02.A",
+    "tokens_in": 1003,
+    "tokens_out": 1661,
+    "tokens_reasoning": 1106,
+    "latency_ms": 7702,
+    "wall_ms": 7702,
+    "attempts": 1,
+    "retries": [],
+    "error": null,
+    "cached_from": "2026-09-26T21:17:40+00:00"
+   },
+   {
+    "section": "grading: 915.02.A",
+    "tokens_in": 1028,
+    "tokens_out": 967,
+    "tokens_reasoning": 771,
+    "latency_ms": 15360,
+    "wall_ms": 15360,
+    "attempts": 3,
+    "retries": [
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 40s)"
+    ],
+    "error": null,
+    "cached_from": "2026-09-26T21:18:59+00:00"
+   },
+   {
+    "section": "lot_of_record: 925.01.C, 921.04",
+    "tokens_in": 1106,
+    "tokens_out": 1970,
+    "tokens_reasoning": 1730,
+    "latency_ms": 8711,
+    "wall_ms": 8711,
+    "attempts": 1,
+    "retries": [],
+    "error": null,
+    "cached_from": "2026-09-26T21:19:13+00:00"
+   }
+  ],
+  "run_note": "Run with gemini-3.6-flash because the free tier refused gemini-3.8-flash (daily limit of 20 requests per model reached, 2026-09-26 ~16:50 ET) and gemini-3.7-flash (repeated 503 'high demand'). Re-run with the default model after the daily reset (midnight Pacific) to replace it.",
+  "incomplete": false,
+  "failed_calls": [],
+  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Fields with no accepted rule: none."
+ },
+ "rules": [
+  {
+   "id": "r1d-h.x.min_lot_area",
+   "district": "R1D-H",
+   "field": "min_lot_area",
+   "value": 1200,
+   "unit": "sf",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "903.03.D.2",
+   "quote": "Minimum Lot Size | 1,200 s.f.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.front_setback",
+   "district": "R1D-H",
+   "field": "front_setback",
+   "value": 15,
+   "unit": "ft",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": "Subject to contextual setbacks if applicable",
+   "section": "903.03.D.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 15 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the front setback be modified using Contextual Setbacks per Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.rear_setback",
+   "district": "R1D-H",
+   "field": "rear_setback",
+   "value": 15,
+   "unit": "ft",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "903.03.D.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 15 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.side_setback_exterior",
+   "district": "R1D-H",
+   "field": "side_setback_exterior",
+   "value": 15,
+   "unit": "ft",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "903.03.D.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 15 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.side_setback_interior",
+   "district": "R1D-H",
+   "field": "side_setback_interior",
+   "value": 5,
+   "unit": "ft",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "903.03.D.2",
+   "quote": "R1D, R2 & R3 Subdistricts | 5 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.max_height_ft",
+   "district": "R1D-H",
+   "field": "max_height_ft",
+   "value": 40,
+   "unit": "ft",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": "Subject to contextual building height if applicable",
+   "section": "903.03.D.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the maximum building height be modified using Contextual Heights per Section 925.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.max_stories",
+   "district": "R1D-H",
+   "field": "max_stories",
+   "value": 3,
+   "unit": "stories",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "903.03.D.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.party_wall_side",
+   "district": "R1D-H",
+   "field": "party_wall_side",
+   "value": 0,
+   "unit": "ft",
+   "applies_to": [
+    "row",
+    "row_end",
+    "two"
+   ],
+   "condition": "When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall",
+   "section": "903.03.D.2(d)",
+   "quote": "When a dwelling is \"attached\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Does the zero interior side setback for attached dwellings apply to lots in the R1D subdistrict?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9"
+  },
+  {
+   "id": "r1d-h.x.contextual_side",
+   "district": "R1D-H",
+   "field": "contextual_side",
+   "value": 3,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": "Applies only to primary uses and structures. The setback may fall at any point between the required side setback and the side setback that exists on an adjacent lot oriented to the same street, with a minimum of 3 feet. Cannot be applied if adjacent lots are vacant or in the Riparian Buffer Zone.",
+   "section": "925.06.C",
+   "quote": "A Contextual Side Setback may fall at any point between the required side setback and the side setback that exists on a lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet.",
+   "source_file": "data/code/ch925.txt",
+   "source_url": "https://ecode360.com/45479639",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Does the contextual side setback minimum of 3 feet apply to both interior side setbacks and streetside setbacks on corner lots?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "81a52cfece9605cbd06958ec12874b1b9ab39a7c768f82715d1715c3a1dc9e1b"
+  },
+  {
+   "id": "r1d-h.x.narrow_lot_side_table",
+   "district": "R1D-H",
+   "field": "narrow_lot_side_table",
+   "value": [
+    {
+     "max_width": 59,
+     "interior": 5,
+     "streetside": 29
+    },
+    {
+     "max_width": 58,
+     "interior": 5,
+     "streetside": 28
+    },
+    {
+     "max_width": 57,
+     "interior": 5,
+     "streetside": 27
+    },
+    {
+     "max_width": 56,
+     "interior": 5,
+     "streetside": 26
+    },
+    {
+     "max_width": 55,
+     "interior": 5,
+     "streetside": 25
+    },
+    {
+     "max_width": 54,
+     "interior": 5,
+     "streetside": 24
+    },
+    {
+     "max_width": 53,
+     "interior": 5,
+     "streetside": 23
+    },
+    {
+     "max_width": 52,
+     "interior": 5,
+     "streetside": 22
+    },
+    {
+     "max_width": 51,
+     "interior": 5,
+     "streetside": 21
+    },
+    {
+     "max_width": 50,
+     "interior": 5,
+     "streetside": 20
+    },
+    {
+     "max_width": 49,
+     "interior": 5,
+     "streetside": 20
+    },
+    {
+     "max_width": 48,
+     "interior": 5,
+     "streetside": 19
+    },
+    {
+     "max_width": 47,
+     "interior": 5,
+     "streetside": 19
+    },
+    {
+     "max_width": 46,
+     "interior": 5,
+     "streetside": 18
+    },
+    {
+     "max_width": 45,
+     "interior": 5,
+     "streetside": 18
+    },
+    {
+     "max_width": 44,
+     "interior": 4,
+     "streetside": 18
+    },
+    {
+     "max_width": 43,
+     "interior": 4,
+     "streetside": 17
+    },
+    {
+     "max_width": 42,
+     "interior": 4,
+     "streetside": 17
+    },
+    {
+     "max_width": 41,
+     "interior": 4,
+     "streetside": 16
+    },
+    {
+     "max_width": 40,
+     "interior": 4,
+     "streetside": 16
+    },
+    {
+     "max_width": 39,
+     "interior": 4,
+     "streetside": 15
+    },
+    {
+     "max_width": 38,
+     "interior": 4,
+     "streetside": 15
+    },
+    {
+     "max_width": 37,
+     "interior": 3,
+     "streetside": 15
+    }
+   ],
+   "unit": "table",
+   "applies_to": [
+    "detached",
+    "row",
+    "row_end"
+   ],
+   "condition": "Applies to any single-unit house on a recorded zoning lot less than 60 feet in width, regardless of setbacks of adjacent structures.",
+   "section": "925.06.C",
+   "quote": "Regardless of the setbacks of adjacent structures, for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:",
+   "source_file": "data/code/ch925.txt",
+   "source_url": "https://ecode360.com/45479639",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Does 'single-unit house' in this subsection apply only to single-unit detached dwellings or also to single-unit attached (rowhouse) dwellings?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "81a52cfece9605cbd06958ec12874b1b9ab39a7c768f82715d1715c3a1dc9e1b"
+  },
+  {
+   "id": "r1d-h.x.contextual_rear",
+   "district": "R1D-H",
+   "field": "contextual_rear",
+   "value": null,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": "Applies only to primary uses and structures. The setback may fall at any point between the required rear setback and the rear setback on an adjacent lot oriented to the same street. Cannot be applied if adjacent lots are vacant or in the Riparian Buffer Zone.",
+   "section": "925.06.I",
+   "quote": "A Contextual Rear Setback may fall at any point between the required rear setback and the rear setback that exists on a lot that is adjacent to the subject lot and oriented to the same street as the subject lot.",
+   "source_file": "data/code/ch925.txt",
+   "source_url": "https://ecode360.com/45479639",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Is there a numerical minimum rear setback in feet for contextual rear setbacks, or is it solely bounded by the existing setback on the adjacent lot?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "81a52cfece9605cbd06958ec12874b1b9ab39a7c768f82715d1715c3a1dc9e1b"
+  },
+  {
+   "id": "r1d-h.x.use_detached",
+   "district": "R1D-H",
+   "field": "use_detached",
+   "value": "P",
+   "unit": "use",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "1750bd397a91bc0ebe3bd86f64016dc1c53db38384f96ba367407909c8a680fa"
+  },
+  {
+   "id": "r1d-h.x.use_row",
+   "district": "R1D-H",
+   "field": "use_row",
+   "value": "S",
+   "unit": "use",
+   "applies_to": [
+    "row"
+   ],
+   "condition": "Permitted by right for lots with lot width of 35 feet or smaller; permitted by special exception for lots with lot width larger than 35 feet pursuant to Sec. 911.04.A.69A.",
+   "section": "911.02",
+   "quote": "Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": "Is the lot width 35 feet or smaller so that the single-unit attached use is permitted by right, or larger than 35 feet requiring a special exception under Sec. 922.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "1750bd397a91bc0ebe3bd86f64016dc1c53db38384f96ba367407909c8a680fa"
+  },
+  {
+   "id": "r1d-h.x.use_two",
+   "district": "R1D-H",
+   "field": "use_two",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "two"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) | |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "1750bd397a91bc0ebe3bd86f64016dc1c53db38384f96ba367407909c8a680fa"
+  },
+  {
+   "id": "r1d-h.x.use_three",
+   "district": "R1D-H",
+   "field": "use_three",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "three"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. | |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "1750bd397a91bc0ebe3bd86f64016dc1c53db38384f96ba367407909c8a680fa"
+  },
+  {
+   "id": "r1d-h.x.parking_detached",
+   "district": "R1D-H",
+   "field": "parking_detached",
+   "value": 1,
+   "unit": "spaces_per_unit",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "914.02.A",
+   "quote": "Single-Unit, Detached | 1 per unit | 4 per unit",
+   "source_file": "data/code/ch914.txt",
+   "source_url": "https://ecode360.com/45478031",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "ce61c1e6b4948376a6c27b05fd5531904b5c1ee24c32cc46e1fa611e7c921b79"
+  },
+  {
+   "id": "r1d-h.x.parking_row",
+   "district": "R1D-H",
+   "field": "parking_row",
+   "value": 0,
+   "unit": "spaces_per_unit",
+   "applies_to": [
+    "row",
+    "row_end"
+   ],
+   "condition": null,
+   "section": "914.02.A",
+   "quote": "Single-Unit Attached | 0 per unit | 4 per unit",
+   "source_file": "data/code/ch914.txt",
+   "source_url": "https://ecode360.com/45478031",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "ce61c1e6b4948376a6c27b05fd5531904b5c1ee24c32cc46e1fa611e7c921b79"
+  },
+  {
+   "id": "r1d-h.x.parking_two",
+   "district": "R1D-H",
+   "field": "parking_two",
+   "value": 1,
+   "unit": "spaces_per_unit",
+   "applies_to": [
+    "two"
+   ],
+   "condition": null,
+   "section": "914.02.A",
+   "quote": "Two-Unit | 1 per unit | 2 per unit",
+   "source_file": "data/code/ch914.txt",
+   "source_url": "https://ecode360.com/45478031",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "ce61c1e6b4948376a6c27b05fd5531904b5c1ee24c32cc46e1fa611e7c921b79"
+  },
+  {
+   "id": "r1d-h.x.parking_three",
+   "district": "R1D-H",
+   "field": "parking_three",
+   "value": 1,
+   "unit": "spaces_per_unit",
+   "applies_to": [
+    "three"
+   ],
+   "condition": null,
+   "section": "914.02.A",
+   "quote": "Three-Unit | 1 per unit | 2 per unit",
+   "source_file": "data/code/ch914.txt",
+   "source_url": "https://ecode360.com/45478031",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "ce61c1e6b4948376a6c27b05fd5531904b5c1ee24c32cc46e1fa611e7c921b79"
+  },
+  {
+   "id": "r1d-h.x.grading_review",
+   "district": "R1D-H",
+   "field": "grading_review",
+   "value": null,
+   "unit": "flag",
+   "applies_to": [
+    "*"
+   ],
+   "condition": "Applies to all slopes. Cut or filled slopes exceeding 25 percent require a geotechnical investigation report and slope stabilization measures.",
+   "section": "915.02.A.1",
+   "quote": "The Grading, Cut, and Fill Standards of this Section Shall Apply to All Slopes.",
+   "source_file": "data/code/ch915.txt",
+   "source_url": "https://ecode360.com/45478225",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": "Does the site development involve grading or cut/fill on slopes exceeding 25 percent, triggering the requirement for a geotechnical investigation report?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "3512a35109f8ba9d09cb280f28a8b6b1725d3a7ec66c8438a66d8a94954b5210"
+  },
+  {
+   "id": "r1d-h.x.lot_of_record",
+   "district": "R1D-H",
+   "field": "lot_of_record",
+   "value": null,
+   "unit": "flag",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": "Approved as an Administrator's Exception according to the provisions of Section 922.08",
+   "section": "925.01.C.2",
+   "quote": "A single unit dwelling on a recorded zoning lot with a lot area less than otherwise required by the provisions of Chapter 903 or of Chapter 905, may be approved as an Administrator's Exception according to the provisions of Section 922.08.",
+   "source_file": "data/code/ch925.txt",
+   "source_url": "https://ecode360.com/45479639",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": "What are the specific standards and criteria required for approval of an Administrator's Exception under Section 922.08 for an undersized lot of record?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.6-flash",
+   "prompt_sha": "b74d74f96d3a4f05a1101846d1e348a500a8ce93bf4a13088e6c60d0f4824588"
+  }
+ ],
+ "rejected": [],
+ "checks": [
+  {
+   "id": "r1d-h.x.min_lot_area",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.front_setback",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.rear_setback",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.side_setback_exterior",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.side_setback_interior",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.max_height_ft",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.max_stories",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.party_wall_side",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.contextual_side",
+   "call": "contextual",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.narrow_lot_side_table",
+   "call": "contextual",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.contextual_rear",
+   "call": "contextual",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.use_detached",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.use_row",
+   "call": "use",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.use_two",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.use_three",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.parking_detached",
+   "call": "parking",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.parking_row",
+   "call": "parking",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.parking_two",
+   "call": "parking",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.parking_three",
+   "call": "parking",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.grading_review",
+   "call": "grading",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1d-h.x.lot_of_record",
+   "call": "lot_of_record",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  }
+ ],
+ "raw": [
+  {
+   "call": "dimensional",
+   "prompt_sha": "7f7e2a030d1370c97c407706a653c70c68ec520ae6e769232c9f6d277dcc66b9",
+   "model": "gemini-3.6-flash",
+   "text": "{\"rules\": [{\"field\": \"min_lot_area\", \"value_number\": 1200, \"value_use\": null, \"value_table\": null, \"unit\": \"sf\", \"applies_to\": [\"detached\"], \"condition\": null, \"section\": \"903.03.D.2\", \"quote\": \"Minimum Lot Size | 1,200 s.f.\", \"ambiguous\": false, \"question_for_city\": null}, {\"field\": \"front_setback\", \"value_number\": 15, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"detached\"], \"condition\": \"Subject to contextual setbacks if applicable\", \"section\": \"903.03.D.2\", \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 15 ft.\", \"ambiguous\": true, \"question_for_city\": \"Can the front setback be modified using Contextual Setbacks per Section 925.06?\"}, {\"field\": \"rear_setback\", \"value_number\": 15, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"detached\"], \"condition\": null, \"section\": \"903.03.D.2\", \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 15 ft.\", \"ambiguous\": false, \"question_for_city\": null}, {\"field\": \"side_setback_exterior\", \"value_number\": 15, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"detached\"], \"condition\": null, \"section\": \"903.03.D.2\", \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 15 ft.\", \"ambiguous\": false, \"question_for_city\": null}, {\"field\": \"side_setback_interior\", \"value_number\": 5, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"detached\"], \"condition\": null, \"section\": \"903.03.D.2\", \"quote\": \"R1D, R2 & R3 Subdistricts | 5 ft.\", \"ambiguous\": false, \"question_for_city\": null}, {\"field\": \"max_height_ft\", \"value_number\": 40, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"detached\"], \"condition\": \"Subject to contextual building height if applicable\", \"section\": \"903.03.D.2\", \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\", \"ambiguous\": true, \"question_for_city\": \"Can the maximum building height be modified using Contextual Heights per Section 925.07?\"}, {\"field\": \"max_stories\", \"value_number\": 3, \"value_use\": null, \"value_table\": null, \"unit\": \"stories\", \"applies_to\": [\"detached\"], \"condition\": null, \"section\": \"903.03.D.2\", \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\", \"ambiguous\": false, \"question_for_city\": null}, {\"field\": \"party_wall_side\", \"value_number\": 0, \"value_use\": null, \"value_table\": null, \"unit\": \"ft\", \"applies_to\": [\"row\", \"row_end\", \"two\"], \"condition\": \"When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall\", \"section\": \"903.03.D.2(d)\", \"quote\": \"When a dwelling is \\\"attached\\\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.\", \"ambiguous\": true, \"question_for_city\": \"Does the zero interior side setback for attached dwellings apply to lots in the R1D subdistrict?\"}]}",
+   "parsing_error": null
+  },
+  {
+   "call": "contextual",
+   "prompt_sha": "81a52cfece9605cbd06958ec12874b1b9ab39a7c768f82715d1715c3a1dc9e1b",
+   "model": "gemini-3.6-flash",
+   "text": "{\"rules\":[{\"field\":\"contextual_side\",\"value_number\":3,\"value_use\":null,\"value_table\":null,\"unit\":\"ft\",\"applies_to\":[\"*\"],\"condition\":\"Applies only to primary uses and structures. The setback may fall at any point between the required side setback and the side setback that exists on an adjacent lot oriented to the same street, with a minimum of 3 feet. Cannot be applied if adjacent lots are vacant or in the Riparian Buffer Zone.\",\"section\":\"925.06.C\",\"quote\":\"A Contextual Side Setback may fall at any point between the required side setback and the side setback that exists on a lot that is adjacent and oriented to the same street as the subject lot, but shall be a minimum of three (3) feet.\",\"ambiguous\":true,\"question_for_city\":\"Does the contextual side setback minimum of 3 feet apply to both interior side setbacks and streetside setbacks on corner lots?\"},{\"field\":\"narrow_lot_side_table\",\"value_number\":null,\"value_use\":null,\"value_table\":[{\"max_width\":59,\"interior\":5,\"streetside\":29},{\"max_width\":58,\"interior\":5,\"streetside\":28},{\"max_width\":57,\"interior\":5,\"streetside\":27},{\"max_width\":56,\"interior\":5,\"streetside\":26},{\"max_width\":55,\"interior\":5,\"streetside\":25},{\"max_width\":54,\"interior\":5,\"streetside\":24},{\"max_width\":53,\"interior\":5,\"streetside\":23},{\"max_width\":52,\"interior\":5,\"streetside\":22},{\"max_width\":51,\"interior\":5,\"streetside\":21},{\"max_width\":50,\"interior\":5,\"streetside\":20},{\"max_width\":49,\"interior\":5,\"streetside\":20},{\"max_width\":48,\"interior\":5,\"streetside\":19},{\"max_width\":47,\"interior\":5,\"streetside\":19},{\"max_width\":46,\"interior\":5,\"streetside\":18},{\"max_width\":45,\"interior\":5,\"streetside\":18},{\"max_width\":44,\"interior\":4,\"streetside\":18},{\"max_width\":43,\"interior\":4,\"streetside\":17},{\"max_width\":42,\"interior\":4,\"streetside\":17},{\"max_width\":41,\"interior\":4,\"streetside\":16},{\"max_width\":40,\"interior\":4,\"streetside\":16},{\"max_width\":39,\"interior\":4,\"streetside\":15},{\"max_width\":38,\"interior\":4,\"streetside\":15},{\"max_width\":37,\"interior\":3,\"streetside\":15}],\"unit\":\"table\",\"applies_to\":[\"detached\",\"row\",\"row_end\"],\"condition\":\"Applies to any single-unit house on a recorded zoning lot less than 60 feet in width, regardless of setbacks of adjacent structures.\",\"section\":\"925.06.C\",\"quote\":\"Regardless of the setbacks of adjacent structures, for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\",\"ambiguous\":true,\"question_for_city\":\"Does 'single-unit house' in this subsection apply only to single-unit detached dwellings or also to single-unit attached (rowhouse) dwellings?\"},{\"field\":\"contextual_rear\",\"value_number\":null,\"value_use\":null,\"value_table\":null,\"unit\":\"ft\",\"applies_to\":[\"*\"],\"condition\":\"Applies only to primary uses and structures. The setback may fall at any point between the required rear setback and the rear setback on an adjacent lot oriented to the same street. Cannot be applied if adjacent lots are vacant or in the Riparian Buffer Zone.\",\"section\":\"925.06.I\",\"quote\":\"A Contextual Rear Setback may fall at any point between the required rear setback and the rear setback that exists on a lot that is adjacent to the subject lot and oriented to the same street as the subject lot.\",\"ambiguous\":true,\"question_for_city\":\"Is there a numerical minimum rear setback in feet for contextual rear setbacks, or is it solely bounded by the existing setback on the adjacent lot?\"}]}",
+   "parsing_error": null
+  },
+  {
+   "call": "use",
+   "prompt_sha": "1750bd397a91bc0ebe3bd86f64016dc1c53db38384f96ba367407909c8a680fa",
+   "model": "gemini-3.6-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"use_detached\",\n      \"value_number\": null,\n      \"value_use\": \"P\",\n      \"value_table\": null,\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"detached\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_row\",\n      \"value_number\": null,\n      \"value_use\": \"S\",\n      \"value_table\": null,\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"row\"\n      ],\n      \"condition\": \"Permitted by right for lots with lot width of 35 feet or smaller; permitted by special exception for lots with lot width larger than 35 feet pursuant to Sec. 911.04.A.69A.\",\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Is the lot width 35 feet or smaller so that the single-unit attached use is permitted by right, or larger than 35 feet requiring a special exception under Sec. 922.07?\"\n    },\n    {\n      \"field\": \"use_two\",\n      \"value_number\": null,\n      \"value_use\": \"N\",\n      \"value_table\": null,\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"two\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) | |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_three\",\n      \"value_number\": null,\n      \"value_use\": \"N\",\n      \"value_table\": null,\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"three\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. | |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
+   "parsing_error": null
+  },
+  {
+   "call": "parking",
+   "prompt_sha": "ce61c1e6b4948376a6c27b05fd5531904b5c1ee24c32cc46e1fa611e7c921b79",
+   "model": "gemini-3.6-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"parking_detached\",\n      \"value_number\": 1,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"spaces_per_unit\",\n      \"applies_to\": [\n        \"detached\"\n      ],\n      \"condition\": null,\n      \"section\": \"914.02.A\",\n      \"quote\": \"Single-Unit, Detached | 1 per unit | 4 per unit\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"parking_row\",\n      \"value_number\": 0,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"spaces_per_unit\",\n      \"applies_to\": [\n        \"row\",\n        \"row_end\"\n      ],\n      \"condition\": null,\n      \"section\": \"914.02.A\",\n      \"quote\": \"Single-Unit Attached | 0 per unit | 4 per unit\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"parking_two\",\n      \"value_number\": 1,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"spaces_per_unit\",\n      \"applies_to\": [\n        \"two\"\n      ],\n      \"condition\": null,\n      \"section\": \"914.02.A\",\n      \"quote\": \"Two-Unit | 1 per unit | 2 per unit\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"parking_three\",\n      \"value_number\": 1,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"spaces_per_unit\",\n      \"applies_to\": [\n        \"three\"\n      ],\n      \"condition\": null,\n      \"section\": \"914.02.A\",\n      \"quote\": \"Three-Unit | 1 per unit | 2 per unit\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
+   "parsing_error": null
+  },
+  {
+   "call": "grading",
+   "prompt_sha": "3512a35109f8ba9d09cb280f28a8b6b1725d3a7ec66c8438a66d8a94954b5210",
+   "model": "gemini-3.6-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"grading_review\",\n      \"value_number\": null,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"flag\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": \"Applies to all slopes. Cut or filled slopes exceeding 25 percent require a geotechnical investigation report and slope stabilization measures.\",\n      \"section\": \"915.02.A.1\",\n      \"quote\": \"The Grading, Cut, and Fill Standards of this Section Shall Apply to All Slopes.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Does the site development involve grading or cut/fill on slopes exceeding 25 percent, triggering the requirement for a geotechnical investigation report?\"\n    }\n  ]\n}",
+   "parsing_error": null
+  },
+  {
+   "call": "lot_of_record",
+   "prompt_sha": "b74d74f96d3a4f05a1101846d1e348a500a8ce93bf4a13088e6c60d0f4824588",
+   "model": "gemini-3.6-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"lot_of_record\",\n      \"value_number\": null,\n      \"value_use\": null,\n      \"value_table\": null,\n      \"unit\": \"flag\",\n      \"applies_to\": [\n        \"detached\"\n      ],\n      \"condition\": \"Approved as an Administrator's Exception according to the provisions of Section 922.08\",\n      \"section\": \"925.01.C.2\",\n      \"quote\": \"A single unit dwelling on a recorded zoning lot with a lot area less than otherwise required by the provisions of Chapter 903 or of Chapter 905, may be approved as an Administrator's Exception according to the provisions of Section 922.08.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"What are the specific standards and criteria required for approval of an Administrator's Exception under Section 922.08 for an undersized lot of record?\"\n    }\n  ]\n}",
+   "parsing_error": null
+  }
+ ]
+}

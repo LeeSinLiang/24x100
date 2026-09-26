@@ -41,7 +41,14 @@ class MissingKey(RuntimeError):
 
 
 class ProviderRefused(RuntimeError):
-    """The provider kept refusing (rate limit / quota) after retries. Stop; don't fabricate."""
+    """The provider kept refusing (rate limit / quota / overload) after retries. Don't fabricate."""
+
+    def __init__(self, msg: str, *, attempts: int = 0, retries: list[str] | None = None, latency_ms: int = 0, daily: bool = False):
+        super().__init__(msg)
+        self.attempts = attempts
+        self.retries = retries or []
+        self.latency_ms = latency_ms
+        self.daily = daily
 
 
 def load_env() -> None:
@@ -86,9 +93,10 @@ def make_chat_model(cfg: Config):
         kw: dict[str, Any] = {}
         if cfg.thinking:
             kw["thinking_level"] = cfg.thinking
-        # Gemini 3 docs: leave temperature at 1.0 (lower values can loop or degrade reasoning).
+        # Temperature is left unset: for Gemini 3+ LangChain then uses 1.0, as Google advises (lower values
+        # can loop or degrade reasoning), and some models (e.g. gemini-3.6-flash) have fixed sampling.
         # max_retries=0: we retry ourselves so every attempt is counted and logged.
-        return ChatGoogleGenerativeAI(model=cfg.model, temperature=1.0, max_retries=0, timeout=300, **kw)
+        return ChatGoogleGenerativeAI(model=cfg.model, max_retries=0, timeout=300, **kw)
     if cfg.provider == "anthropic":
         from langchain_anthropic import ChatAnthropic
 
@@ -183,7 +191,7 @@ class Extractor:
         cfg: Config,
         chat_model: Any | None = None,
         sleep: Callable[[float], None] = time.sleep,
-        max_attempts: int = 10,
+        max_attempts: int = 8,
         on_retry: Callable[[str], None] | None = None,
     ):
         self.cfg = cfg
@@ -219,8 +227,17 @@ class Extractor:
                 if not is_rate_limit(e):
                     raise
                 if is_daily_quota(e):
-                    raise ProviderRefused(scrub(f"{self.cfg.provider} daily quota reached for {self.cfg.model} (not retried): {_short(e)}")) from e
-                wait = _retry_after(e) or min(90.0, 5.0 * 2 ** (attempts - 1))
+                    raise ProviderRefused(
+                        scrub(f"{self.cfg.provider} daily quota reached for {self.cfg.model} (not retried): {_short(e)}"),
+                        attempts=attempts, retries=retries, latency_ms=int(t_total * 1000), daily=True,
+                    ) from e
+                if attempts >= self.max_attempts:
+                    retries.append(f"{type(e).__name__}: {_short(e)} (gave up)")
+                    break
+                overloaded = bool(re.search(r"503|UNAVAILABLE|overloaded|high demand|529", str(e), re.I))
+                # "high demand" 503s last minutes, not seconds: back off harder so retries don't burn a
+                # small free-tier daily request quota.
+                wait = _retry_after(e) or (min(180.0, 20.0 * 2 ** (attempts - 1)) if overloaded else min(90.0, 5.0 * 2 ** (attempts - 1)))
                 retries.append(f"{type(e).__name__}: {_short(e)} (waited {wait:.0f}s)")
                 if self.on_retry:
                     self.on_retry(f"attempt {attempts} refused, retrying in {wait:.0f}s: {retries[-1]}")
@@ -246,4 +263,7 @@ class Extractor:
                 parsing_error=None if perr is None else f"{type(perr).__name__}: {perr}",
                 retries=retries,
             )
-        raise ProviderRefused(scrub(f"{self.cfg.provider} refused {attempts} times (last: {type(last).__name__}: {str(last)[:300]})"))
+        raise ProviderRefused(
+            scrub(f"{self.cfg.provider} refused {attempts} times (last: {type(last).__name__}: {str(last)[:300]})"),
+            attempts=attempts, retries=retries, latency_ms=int(t_total * 1000),
+        )

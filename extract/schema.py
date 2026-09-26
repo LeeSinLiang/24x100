@@ -171,6 +171,7 @@ class CallLog(Strict):
     attempts: int = 1
     retries: list[str] = []
     error: str | None = None
+    cached_from: str | None = None  # response re-used from an earlier identical call (--resume)
 
 
 class Meta(Strict):
@@ -186,6 +187,9 @@ class Meta(Strict):
     latency_ms: int
     wall_ms: int | None = None
     calls: list[CallLog]
+    run_note: str | None = None
+    incomplete: bool = False
+    failed_calls: list[str] = []
     note: str | None = None
 
 

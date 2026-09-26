@@ -1,7 +1,469 @@
 {
- "generated_at": "2026-09-26T20:51:30+00:00",
+ "generated_at": "2026-09-26T21:22:19+00:00",
  "target_agreement": 0.9,
  "districts": {
+  "R1D-H": {
+   "file": "data/rules/extracted/r1d-h.json",
+   "provider": "gemini",
+   "model": "gemini-3.6-flash",
+   "run_at": "2026-09-26T21:19:26+00:00",
+   "prompt_sha": "3949bf8a4407484d101cfe91df191c7b8f0b2814c01907036c89d18e43ef75ca",
+   "calls": 6,
+   "tokens_in": 8346,
+   "tokens_out": 15553,
+   "tokens_reasoning": 11918,
+   "latency_ms": 82204,
+   "wall_ms": 82204,
+   "attempts": 9,
+   "run_note": "Run with gemini-3.6-flash because the free tier refused gemini-3.8-flash (daily limit of 20 requests per model reached, 2026-09-26 ~16:50 ET) and gemini-3.7-flash (repeated 503 'high demand'). Re-run with the default model after the daily reset (midnight Pacific) to replace it.",
+   "incomplete": false,
+   "failed_calls": [],
+   "cached_calls": [
+    "dimensional: 903.03.D",
+    "contextual: 925.06.C, 925.06.I",
+    "use: 911.02, 911.04.A.69A",
+    "parking: 914.02.A",
+    "grading: 915.02.A",
+    "lot_of_record: 925.01.C, 921.04"
+   ],
+   "quotes": {
+    "proposed": 21,
+    "accepted": 21,
+    "rejected": 0,
+    "rejected_quote": 0,
+    "rejected_other": 0,
+    "quote_pass_rate": 1.0,
+    "accepted_recheck_failures": []
+   },
+   "trust": {
+    "pencil": 21,
+    "ink": 0,
+    "struck": 0
+   },
+   "cost": {
+    "usd": 0.064583,
+    "usd_from_2027": 0.129166,
+    "tokens_in": 8346,
+    "tokens_out": 15553,
+    "tokens_reasoning": 11918,
+    "pricing": {
+     "url": "https://ai.google.dev/gemini-api/docs/pricing",
+     "read": "2026-09-26",
+     "page_updated": "2026-09-24",
+     "input_per_m": 0.75,
+     "output_per_m": 3.75,
+     "note": "Standard paid tier, through 2026-12-31; $1.50 in / $7.50 out from 2027-01-01. Output price includes thinking tokens.",
+     "after": {
+      "from": "2027-01-01",
+      "input_per_m": 1.5,
+      "output_per_m": 7.5
+     }
+    }
+   },
+   "narrow_lot_flag": {
+    "present": true,
+    "applies_to": [
+     "detached",
+     "row",
+     "row_end"
+    ],
+    "applies_to_detached_only": false,
+    "ambiguous": true,
+    "question_source": "model",
+    "question_mentions_attached": true,
+    "question_for_city": "Does 'single-unit house' in this subsection apply only to single-unit detached dwellings or also to single-unit attached (rowhouse) dwellings?",
+    "flagged_by_model": false
+   },
+   "hints": [
+    "min_lot_area: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "front_setback: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "rear_setback: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "side_setback_exterior: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "side_setback_interior: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "max_height_ft: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "max_stories: applies_to ['detached'] differs from the RM-M key's ['*']; check whether the clause really limits building types.",
+    "party_wall_side: applies_to ['row', 'row_end', 'two'] differs from the RM-M key's ['row', 'row_end']; check whether the clause really limits building types.",
+    "narrow_lot_side_table: applies_to ['detached', 'row', 'row_end'] differs from the RM-M key's ['detached']; check whether the clause really limits building types.",
+    "front_setback, rear_setback, side_setback_exterior share one quote (\"R1D, R1A, R2 & R3 Subdistricts | 15 ft.\"); check which row or clause each value came from.",
+    "max_height_ft, max_stories share one quote (\"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\"); check which row or clause each value came from."
+   ],
+   "rejected": [],
+   "proposed_rules": [
+    {
+     "id": "r1d-h.x.min_lot_area",
+     "field": "min_lot_area",
+     "value": 1200,
+     "unit": "sf",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.front_setback",
+     "field": "front_setback",
+     "value": 15,
+     "unit": "ft",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": "Can the front setback be modified using Contextual Setbacks per Section 925.06?"
+    },
+    {
+     "id": "r1d-h.x.rear_setback",
+     "field": "rear_setback",
+     "value": 15,
+     "unit": "ft",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.side_setback_exterior",
+     "field": "side_setback_exterior",
+     "value": 15,
+     "unit": "ft",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.side_setback_interior",
+     "field": "side_setback_interior",
+     "value": 5,
+     "unit": "ft",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.max_height_ft",
+     "field": "max_height_ft",
+     "value": 40,
+     "unit": "ft",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": "Can the maximum building height be modified using Contextual Heights per Section 925.07?"
+    },
+    {
+     "id": "r1d-h.x.max_stories",
+     "field": "max_stories",
+     "value": 3,
+     "unit": "stories",
+     "section": "903.03.D.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": false,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.party_wall_side",
+     "field": "party_wall_side",
+     "value": 0,
+     "unit": "ft",
+     "section": "903.03.D.2(d)",
+     "applies_to": [
+      "row",
+      "row_end",
+      "two"
+     ],
+     "dagger": false,
+     "question_for_city": "Does the zero interior side setback for attached dwellings apply to lots in the R1D subdistrict?"
+    },
+    {
+     "id": "r1d-h.x.contextual_side",
+     "field": "contextual_side",
+     "value": 3,
+     "unit": "ft",
+     "section": "925.06.C",
+     "applies_to": [
+      "*"
+     ],
+     "dagger": false,
+     "question_for_city": "Does the contextual side setback minimum of 3 feet apply to both interior side setbacks and streetside setbacks on corner lots?"
+    },
+    {
+     "id": "r1d-h.x.narrow_lot_side_table",
+     "field": "narrow_lot_side_table",
+     "value": [
+      {
+       "max_width": 59,
+       "interior": 5,
+       "streetside": 29
+      },
+      {
+       "max_width": 58,
+       "interior": 5,
+       "streetside": 28
+      },
+      {
+       "max_width": 57,
+       "interior": 5,
+       "streetside": 27
+      },
+      {
+       "max_width": 56,
+       "interior": 5,
+       "streetside": 26
+      },
+      {
+       "max_width": 55,
+       "interior": 5,
+       "streetside": 25
+      },
+      {
+       "max_width": 54,
+       "interior": 5,
+       "streetside": 24
+      },
+      {
+       "max_width": 53,
+       "interior": 5,
+       "streetside": 23
+      },
+      {
+       "max_width": 52,
+       "interior": 5,
+       "streetside": 22
+      },
+      {
+       "max_width": 51,
+       "interior": 5,
+       "streetside": 21
+      },
+      {
+       "max_width": 50,
+       "interior": 5,
+       "streetside": 20
+      },
+      {
+       "max_width": 49,
+       "interior": 5,
+       "streetside": 20
+      },
+      {
+       "max_width": 48,
+       "interior": 5,
+       "streetside": 19
+      },
+      {
+       "max_width": 47,
+       "interior": 5,
+       "streetside": 19
+      },
+      {
+       "max_width": 46,
+       "interior": 5,
+       "streetside": 18
+      },
+      {
+       "max_width": 45,
+       "interior": 5,
+       "streetside": 18
+      },
+      {
+       "max_width": 44,
+       "interior": 4,
+       "streetside": 18
+      },
+      {
+       "max_width": 43,
+       "interior": 4,
+       "streetside": 17
+      },
+      {
+       "max_width": 42,
+       "interior": 4,
+       "streetside": 17
+      },
+      {
+       "max_width": 41,
+       "interior": 4,
+       "streetside": 16
+      },
+      {
+       "max_width": 40,
+       "interior": 4,
+       "streetside": 16
+      },
+      {
+       "max_width": 39,
+       "interior": 4,
+       "streetside": 15
+      },
+      {
+       "max_width": 38,
+       "interior": 4,
+       "streetside": 15
+      },
+      {
+       "max_width": 37,
+       "interior": 3,
+       "streetside": 15
+      }
+     ],
+     "unit": "table",
+     "section": "925.06.C",
+     "applies_to": [
+      "detached",
+      "row",
+      "row_end"
+     ],
+     "dagger": false,
+     "question_for_city": "Does 'single-unit house' in this subsection apply only to single-unit detached dwellings or also to single-unit attached (rowhouse) dwellings?"
+    },
+    {
+     "id": "r1d-h.x.contextual_rear",
+     "field": "contextual_rear",
+     "value": null,
+     "unit": "ft",
+     "section": "925.06.I",
+     "applies_to": [
+      "*"
+     ],
+     "dagger": false,
+     "question_for_city": "Is there a numerical minimum rear setback in feet for contextual rear setbacks, or is it solely bounded by the existing setback on the adjacent lot?"
+    },
+    {
+     "id": "r1d-h.x.use_detached",
+     "field": "use_detached",
+     "value": "P",
+     "unit": "use",
+     "section": "911.02",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.use_row",
+     "field": "use_row",
+     "value": "S",
+     "unit": "use",
+     "section": "911.02",
+     "applies_to": [
+      "row"
+     ],
+     "dagger": true,
+     "question_for_city": "Is the lot width 35 feet or smaller so that the single-unit attached use is permitted by right, or larger than 35 feet requiring a special exception under Sec. 922.07?"
+    },
+    {
+     "id": "r1d-h.x.use_two",
+     "field": "use_two",
+     "value": "N",
+     "unit": "use",
+     "section": "911.02",
+     "applies_to": [
+      "two"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.use_three",
+     "field": "use_three",
+     "value": "N",
+     "unit": "use",
+     "section": "911.02",
+     "applies_to": [
+      "three"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.parking_detached",
+     "field": "parking_detached",
+     "value": 1,
+     "unit": "spaces_per_unit",
+     "section": "914.02.A",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.parking_row",
+     "field": "parking_row",
+     "value": 0,
+     "unit": "spaces_per_unit",
+     "section": "914.02.A",
+     "applies_to": [
+      "row",
+      "row_end"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.parking_two",
+     "field": "parking_two",
+     "value": 1,
+     "unit": "spaces_per_unit",
+     "section": "914.02.A",
+     "applies_to": [
+      "two"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.parking_three",
+     "field": "parking_three",
+     "value": 1,
+     "unit": "spaces_per_unit",
+     "section": "914.02.A",
+     "applies_to": [
+      "three"
+     ],
+     "dagger": true,
+     "question_for_city": null
+    },
+    {
+     "id": "r1d-h.x.grading_review",
+     "field": "grading_review",
+     "value": null,
+     "unit": "flag",
+     "section": "915.02.A.1",
+     "applies_to": [
+      "*"
+     ],
+     "dagger": true,
+     "question_for_city": "Does the site development involve grading or cut/fill on slopes exceeding 25 percent, triggering the requirement for a geotechnical investigation report?"
+    },
+    {
+     "id": "r1d-h.x.lot_of_record",
+     "field": "lot_of_record",
+     "value": null,
+     "unit": "flag",
+     "section": "925.01.C.2",
+     "applies_to": [
+      "detached"
+     ],
+     "dagger": true,
+     "question_for_city": "What are the specific standards and criteria required for approval of an Administrator's Exception under Section 922.08 for an undersized lot of record?"
+    }
+   ]
+  },
   "RM-M": {
    "file": "data/rules/extracted/rm-m.json",
    "provider": "gemini",
@@ -15,6 +477,10 @@
    "latency_ms": 217854,
    "wall_ms": null,
    "attempts": 12,
+   "run_note": null,
+   "incomplete": false,
+   "failed_calls": [],
+   "cached_calls": [],
    "quotes": {
     "proposed": 21,
     "accepted": 21,
@@ -61,6 +527,9 @@
     "question_for_city": "Does 'any single-unit house' apply only to single-unit detached houses, or does it also apply to single-unit attached rowhouses?",
     "flagged_by_model": true
    },
+   "hints": [
+    "max_height_ft, max_stories share one quote (\"Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exc…\"); check which row or clause each value came from."
+   ],
    "rejected": [],
    "agreement": {
     "fields": 11,
@@ -74,7 +543,15 @@
       "extracted": 2400,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "front_setback",
@@ -83,7 +560,15 @@
       "extracted": 25,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "rear_setback",
@@ -92,7 +577,15 @@
       "extracted": 25,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "side_setback_exterior",
@@ -101,7 +594,15 @@
       "extracted": 25,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "side_setback_interior",
@@ -110,7 +611,15 @@
       "extracted": 10,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "max_height_ft",
@@ -119,7 +628,15 @@
       "extracted": 55,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "max_stories",
@@ -128,7 +645,15 @@
       "extracted": 4,
       "extracted_section": "903.03.C.2",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "*"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "party_wall_side",
@@ -137,7 +662,17 @@
       "extracted": 0,
       "extracted_section": "903.03.C.2(c)",
       "agree": true,
-      "why": "value matches"
+      "why": "value matches",
+      "expected_applies_to": [
+       "row",
+       "row_end"
+      ],
+      "extracted_applies_to": [
+       "row",
+       "row_end"
+      ],
+      "applies_to_match": true,
+      "not_run": false
      },
      {
       "field": "contextual_side",
@@ -147,6 +682,18 @@
       "extracted_section": "925.06.C",
       "agree": true,
       "why": "value matches; vacant-neighbor clause quoted and stated in condition",
+      "expected_applies_to": [
+       "detached",
+       "two",
+       "row",
+       "three",
+       "row_end"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false,
       "vacant_clause_in_quote": true,
       "vacant_clause_in_condition": true
      },
@@ -158,6 +705,18 @@
       "extracted_section": "925.06.I",
       "agree": true,
       "why": "value matches; vacant-neighbor clause quoted and stated in condition",
+      "expected_applies_to": [
+       "detached",
+       "two",
+       "row",
+       "three",
+       "row_end"
+      ],
+      "extracted_applies_to": [
+       "*"
+      ],
+      "applies_to_match": true,
+      "not_run": false,
       "vacant_clause_in_quote": true,
       "vacant_clause_in_condition": true
      },
@@ -401,6 +960,14 @@
       "extracted_section": "925.06.C",
       "agree": true,
       "why": "all 23 rows match",
+      "expected_applies_to": [
+       "detached"
+      ],
+      "extracted_applies_to": [
+       "detached"
+      ],
+      "applies_to_match": true,
+      "not_run": false,
       "row_37_and_below": [
        37,
        3,
@@ -782,7 +1349,369 @@
    ]
   }
  },
- "compare": [],
+ "compare": [
+  {
+   "file": "data/rules/extracted/compare/rm-m.gemini.gemini-3.6-flash.json",
+   "provider": "gemini",
+   "model": "gemini-3.6-flash",
+   "run_at": "2026-09-26T21:19:57+00:00",
+   "agree": 8,
+   "fields": 11,
+   "agreement": 0.7272727272727273,
+   "rows": [
+    {
+     "field": "min_lot_area",
+     "expected": 2400,
+     "expected_section": "903.03.C",
+     "extracted": 2400,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "front_setback",
+     "expected": 25,
+     "expected_section": "903.03.C",
+     "extracted": 25,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "rear_setback",
+     "expected": 25,
+     "expected_section": "903.03.C",
+     "extracted": 25,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "side_setback_exterior",
+     "expected": 25,
+     "expected_section": "903.03.C",
+     "extracted": 25,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "side_setback_interior",
+     "expected": 10,
+     "expected_section": "903.03.C",
+     "extracted": 10,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "max_height_ft",
+     "expected": 55,
+     "expected_section": "903.03.C",
+     "extracted": 55,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "max_stories",
+     "expected": 4,
+     "expected_section": "903.03.C",
+     "extracted": 4,
+     "extracted_section": "903.03.C.2",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "*"
+     ],
+     "extracted_applies_to": [
+      "*"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "party_wall_side",
+     "expected": 0,
+     "expected_section": "903.03.C.2(c)",
+     "extracted": 0,
+     "extracted_section": "903.03.C.2(c)",
+     "agree": true,
+     "why": "value matches",
+     "expected_applies_to": [
+      "row",
+      "row_end"
+     ],
+     "extracted_applies_to": [
+      "row",
+      "row_end"
+     ],
+     "applies_to_match": true,
+     "not_run": false
+    },
+    {
+     "field": "contextual_side",
+     "expected": 3,
+     "expected_section": "925.06.C",
+     "extracted": null,
+     "extracted_section": null,
+     "agree": false,
+     "why": "not run: the provider refused this call",
+     "expected_applies_to": [
+      "detached",
+      "two",
+      "row",
+      "three",
+      "row_end"
+     ],
+     "extracted_applies_to": null,
+     "applies_to_match": null,
+     "not_run": true
+    },
+    {
+     "field": "contextual_rear",
+     "expected": null,
+     "expected_section": "925.06.I",
+     "extracted": null,
+     "extracted_section": null,
+     "agree": false,
+     "why": "not run: the provider refused this call",
+     "expected_applies_to": [
+      "detached",
+      "two",
+      "row",
+      "three",
+      "row_end"
+     ],
+     "extracted_applies_to": null,
+     "applies_to_match": null,
+     "not_run": true
+    },
+    {
+     "field": "narrow_lot_side_table",
+     "expected": [
+      {
+       "max_width": 59,
+       "interior": 5,
+       "streetside": 29
+      },
+      {
+       "max_width": 58,
+       "interior": 5,
+       "streetside": 28
+      },
+      {
+       "max_width": 57,
+       "interior": 5,
+       "streetside": 27
+      },
+      {
+       "max_width": 56,
+       "interior": 5,
+       "streetside": 26
+      },
+      {
+       "max_width": 55,
+       "interior": 5,
+       "streetside": 25
+      },
+      {
+       "max_width": 54,
+       "interior": 5,
+       "streetside": 24
+      },
+      {
+       "max_width": 53,
+       "interior": 5,
+       "streetside": 23
+      },
+      {
+       "max_width": 52,
+       "interior": 5,
+       "streetside": 22
+      },
+      {
+       "max_width": 51,
+       "interior": 5,
+       "streetside": 21
+      },
+      {
+       "max_width": 50,
+       "interior": 5,
+       "streetside": 20
+      },
+      {
+       "max_width": 49,
+       "interior": 5,
+       "streetside": 20
+      },
+      {
+       "max_width": 48,
+       "interior": 5,
+       "streetside": 19
+      },
+      {
+       "max_width": 47,
+       "interior": 5,
+       "streetside": 19
+      },
+      {
+       "max_width": 46,
+       "interior": 5,
+       "streetside": 18
+      },
+      {
+       "max_width": 45,
+       "interior": 5,
+       "streetside": 18
+      },
+      {
+       "max_width": 44,
+       "interior": 4,
+       "streetside": 18
+      },
+      {
+       "max_width": 43,
+       "interior": 4,
+       "streetside": 17
+      },
+      {
+       "max_width": 42,
+       "interior": 4,
+       "streetside": 17
+      },
+      {
+       "max_width": 41,
+       "interior": 4,
+       "streetside": 16
+      },
+      {
+       "max_width": 40,
+       "interior": 4,
+       "streetside": 16
+      },
+      {
+       "max_width": 39,
+       "interior": 4,
+       "streetside": 15
+      },
+      {
+       "max_width": 38,
+       "interior": 4,
+       "streetside": 15
+      },
+      {
+       "max_width": 37,
+       "interior": 3,
+       "streetside": 15
+      }
+     ],
+     "expected_section": "925.06.C",
+     "extracted": null,
+     "extracted_section": null,
+     "agree": false,
+     "why": "not run: the provider refused this call",
+     "expected_applies_to": [
+      "detached"
+     ],
+     "extracted_applies_to": null,
+     "applies_to_match": null,
+     "not_run": true
+    }
+   ],
+   "quotes": {
+    "proposed": 8,
+    "accepted": 8,
+    "rejected": 0,
+    "rejected_quote": 0,
+    "rejected_other": 0,
+    "quote_pass_rate": 1.0,
+    "accepted_recheck_failures": []
+   },
+   "narrow_lot_flag": {
+    "present": false
+   },
+   "tokens_in": 1306,
+   "tokens_out": 4656,
+   "tokens_reasoning": 3238,
+   "cost": {
+    "usd": 0.01844,
+    "usd_from_2027": 0.036879,
+    "tokens_in": 1306,
+    "tokens_out": 4656,
+    "tokens_reasoning": 3238,
+    "pricing": {
+     "url": "https://ai.google.dev/gemini-api/docs/pricing",
+     "read": "2026-09-26",
+     "page_updated": "2026-09-24",
+     "input_per_m": 0.75,
+     "output_per_m": 3.75,
+     "note": "Standard paid tier, through 2026-12-31; $1.50 in / $7.50 out from 2027-01-01. Output price includes thinking tokens.",
+     "after": {
+      "from": "2027-01-01",
+      "input_per_m": 1.5,
+      "output_per_m": 7.5
+     }
+    }
+   },
+   "incomplete": true,
+   "failed_calls": [
+    "contextual",
+    "use",
+    "parking",
+    "grading",
+    "lot_of_record"
+   ]
+  }
+ ],
  "anthropic_key_present": false,
  "gate_g2": {
   "key_present": true,
