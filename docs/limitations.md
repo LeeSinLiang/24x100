@@ -18,12 +18,17 @@ These are also stated in the app (lot view footer, and "What 24×100 doesn't kno
   flagged for a teammate to re-check. None is City-confirmed. Rules proposed by the model stay pencil until a
   named person signs them in the review screen. The use table, parking, grading and lot-of-record provisions
   are pencil. The narrow-lot question ("does 'single-unit house' include attached houses?") is open; an
-  assumption keeps the score's range and stays in the inquiry.
-- **The score is a transparent heuristic** (100 minus your weights, once per distinct approval). It is not an
-  approval probability or a feasibility rating.
-- **The money wall is hypothesis H5, not a finding.** It uses real comparable sales (Ward 5, since 2023) and
-  HUD income limits, but construction costs are placeholders (red) until a builder or mentor supplies them.
-  Market value is not an affordable price.
+  assumption stays red, keeps the Rules chip open, and stays in the inquiry.
+- **There is no score.** Each lot gets a verdict in words and Money · Rules · Site chips.
+- **The money screen is a screening estimate.** Vertical construction cost ($325–$375 per sq ft) is one
+  practitioner's estimate from the hackathon Slack, unconfirmed, excluding site work. The gap is a lower bound
+  against the highest of three value signals; site work, land, soft costs and financing are not in it. The
+  Ward 5 median is mostly older homes and is not an appraisal; the newest new build is one sale and may be
+  price-restricted. Comparable sales are loaded for Ward 5 only, so other wards show "not assessed".
+- **Money first is an order, not a finding.** A practitioner said developers check whether a project pencils
+  before pursuing a variance; which barrier blocks more often is unproven (H5).
+- **Site is not assessed.** Soil, environmental and water/sewer unknowns can change the decision; the app shows
+  the free public signal (slope share, 1927 zoning, no utility data) and what resolves each, never "clean".
 - **City sale status may be stale.** The City-Owned Properties dataset last updated lot 25's status on
   2016‑11‑17; the inquiry asks whether it is current.
 - **Coverage.** Lot detail covers the blocks with block files (Block 10‑K, Middle Hill; the held-out Larimer

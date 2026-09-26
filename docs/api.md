@@ -7,7 +7,7 @@ same engine as the app. Served as static files next to the app (`web/dist/api/�
 |---|---|
 | `api/index.json` | What was built, when, and how many lots |
 | `api/blocks/<id>.json` | A block's metadata (pull date, sources, frame, counts note) and a one-line summary per lot |
-| `api/lots/<pin>.json` | One lot. For lots in a block file: the records (assessment, deed, City inventory, mapped area, reconciliation, slope, undermining, built), and the full engine result for a detached house and a two-unit house on the lot alone: widths and depths with their formula strings, every check with its rules (section, quote, source URL, verification level, reviewer, role, time, AI-checked flag) and records, the specific relief, certain and open approvals, the heuristic score, open questions, and what is not assessed. For other City-owned vacant lots: the first blocker for each building type, all blockers, width/depth/area with the formula, and whether the edges could be computed |
+| `api/lots/<pin>.json` | One lot. For lots in a block file: the records (assessment, deed, City inventory, mapped area, reconciliation, slope, undermining, built), and the full engine result for a detached house and a two-unit house on the lot alone: widths and depths with their formula strings, every check with its rules (section, quote, source URL, verification level, reviewer, role, time, AI-checked flag) and records, the specific relief, certain and open approvals, the verdict, the money screen, open questions, and what is not assessed. For other City-owned vacant lots: the first blocker for each building type, all blockers, width/depth/area with the formula, and whether the edges could be computed |
 | `api/city/summary.json` | Citywide counts per building type (first blocker, width-but-not-area, district coverage) |
 
 ## Trust levels in the API
@@ -21,8 +21,9 @@ Rule states come from the committed rule store (`data/rules/base`, `data/rules/e
 review log (`data/rules/reviews.json`), not from anyone's browser. Reviews made in the app reach the API when
 someone exports the log from the review screen, commits it as `data/rules/reviews.json`, and rebuilds.
 
-The score is a transparent heuristic (100 minus red weights, once per distinct approval), not a probability.
-Every file carries the disclaimer: decision support, not legal, financial or zoning advice; the City of
+There is no score. Each result carries a `verdict` (a headline in words and Money · Rules · Site chips) and,
+for Ward 5 lots, a `money_screen` (vertical cost at a practitioner's estimate, three value signals, the gap as a
+lower bound, and what is not in the number). Every file carries the disclaimer: decision support, not legal, financial or zoning advice; the City of
 Pittsburgh interprets its own code.
 
 ## Example

@@ -20,10 +20,12 @@ Since May 2025, **2241 Mahon St** (Middle Hill, lot 25 of Block 10‑K) meets th
 exactly: 2,400 sf (§903.03.C, Ord. 10‑2025). A two-unit house still gets **4 ft** of width: 24 − 10 − 10 = 4,
 because RM needs 10 ft side setbacks and both neighbors are vacant, so the contextual setback can't apply
 (§925.06.C). Every lot down the street shows the same red sliver. Combine lots 25–27 and a three-unit house
-gets **52 ft** (72 − 10 − 10), but lot 26 isn't City-owned. And the money wall shows the other half: homes in
-Ward 5 sold for a median **$155,000** (33 valid 1–2 unit sales since 2023; newest comparable $240,000), so a
-builder would need hard costs at or below about $82–$103 per sq ft to break even. Whether money blocks as
-often as the rules is hypothesis H5, not a finding.
+gets **52 ft** (72 − 10 − 10), but lot 26 isn't City-owned. Then money, which a developer checks first: a
+practitioner at the hackathon put vertical construction at $325–$375 per sq ft, so each 1,350 sq ft home costs
+at least $438,750 to build before site work, land, soft costs or financing. Homes in Ward 5 sold for a median
+**$155,000** (not an appraisal); the newest new build sold for $240,000; an 80% AMI household could afford about
+$268,000. The gap is **at least $170,000 per home**: "Only with subsidy (screening estimate)". Checking money
+first is the cheapest order to learn things in; which barrier blocks more often is unproven.
 
 ## What it does
 
@@ -31,10 +33,13 @@ often as the rules is hypothesis H5, not a finding.
   the building you choose. Districts whose rules haven't been checked stay grey: "rules not loaded". Never a
   guess.
 - **What fits · What blocks it · What to do next** for any lot on a loaded block, with a plate drawn from the
-  City's parcel polygons: every lot's buildable envelope, edge labels, ownership coins.
-- **Two walls.** The rules wall (a ledger: required · available · short · source, the specific relief, the
-  approvals it implies, a heuristic score) and the money wall (a reverse pro forma on real sales and HUD income
-  limits that solves for the break-even cost per sq ft instead of claiming one).
+  City's parcel polygons: every lot's buildable envelope, edge labels, ownership coins. No score: a verdict in
+  words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right", "Worth a closer look, if …") with
+  three chips, Money · Rules · Site.
+- **Four panels, in the order a developer checks them.** Money (vertical construction at a practitioner's
+  estimate against three labelled value signals; the gap as a lower bound), Rules (a ledger: required ·
+  available · short · source, and the specific relief), Site (soil, environmental, water and sewer: not assessed,
+  with the free signal and what resolves each), and What to check next, cheapest first.
 - **AI reads the code; people decide.** A model (Gemini by default, Claude optional, through LangChain)
   proposes typed rules from the saved code text, each tied to a verbatim quote. They stay pencil until a named
   person signs them. Ambiguous clauses become questions for the City; an assumed answer is red, never ink.
@@ -111,8 +116,8 @@ The City of Pittsburgh interprets its own code; 24×100 is decision support, not
 advice. Parcel geometry comes from GIS, not surveys; lot areas are checked against deeds and conflicts are
 shown, not settled. Water and sewer capacity, soils, fill, title and liens are not assessed. Footprints come
 from a 2023 layer. The slope layer is a derived threshold, not the steep-slope overlay. Community priorities
-are not scored; 24×100 points to the RCO. The score is a heuristic, not a probability. The money wall is a
-hypothesis with placeholder costs. Full list: `docs/limitations.md`.
+are not scored; 24×100 points to the RCO. There is no score. The money screen is an estimate: one
+practitioner's construction cost and a gap that is a lower bound. Full list: `docs/limitations.md`.
 
 ## Built with
 

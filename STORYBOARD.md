@@ -42,13 +42,13 @@ apply." highlighted in the saved code text. Reviewer, role, date. The edge label
 
 ### B04 · Combine three lots · 0:48–1:16  ← the signature frame
 **Link:** `?view=lot&block=10K&lot=25&type=three&lots=25,26,27`
-**On screen:** the envelope reflows across lots 25–27 to **52 ft** in ink. Internal lot lines go
-dashed and fade. The rules wall: "Fits as of right on width. Needs lot 26: not in the City's
-inventory; County owner type Corporation." The money wall: three bars per home, the Ward 5 median
-$155,000 and the newest comparable $240,000 against a red cost range, and the dashed break-even:
-"a builder would need to build for ≤ $X/sq ft".
-**Viewer notices:** the rules wall opens; the money wall may not. Both are on one screen, with
-sources.
+**On screen:** the envelope reflows across lots 25–27 to **52 ft** in ink (the cue). Internal lot
+lines go dashed and fade. Then the **money panel opens first**: vertical construction $325–$375/sq ft
+(a practitioner's estimate, vertical only) × 1,350 sq ft; three value signals (Ward 5 median $155,000,
+not an appraisal; newest new build $240,000; an 80% AMI household ≈ $268,000); "Gap, at least
+$170,283 per home"; the chip **Only with subsidy (screening estimate)**. The rules panel beside it:
+"Fits the dimensional rules as of right. Needs lot 26: not in the City's inventory."
+**Viewer notices:** the rules open up; the money doesn't, and the app says how sure it is.
 **Action:** start on `type=two`, then click the scenario "Three-unit on lots 25–27" at 0:52.
 
 ### B05 · The open question · 1:16–1:32
@@ -59,8 +59,8 @@ attached houses", boiling in pencil. The drawer shows the question for the Zonin
 
 ### B06 · Assume it, don't decide it · 1:32–1:44
 **Link:** `?view=lot&block=10K&lot=25&type=row&lots=25,26,27&assume=q.single_unit_includes_attached:yes`
-**On screen:** the end units reflow to 21 ft in **red**, labeled "your assumption". The score
-stays a range. The question stays in the inquiry.
+**On screen:** the end units reflow to 21 ft in **red**, labeled "your assumption". The Rules chip
+stays open. The question stays in the inquiry.
 **Viewer notices:** exploring an answer is not the same as having one.
 **Action:** click "Assume yes" in the drawer at 1:35.
 
@@ -85,8 +85,12 @@ were signed and pencil where they weren't.
 map measures 2,505 sf (2.09×). Tolerance is ±10%."
 **Viewer notices:** it refuses rather than guesses.
 
-### B10 · The letter · 2:30–2:46
-**Link:** `?view=inquiry&block=10K&lot=25&type=three&lots=25,26,27`
+### B10 · Site unknowns → what to check next → the letter · 2:30–2:46
+**Link:** the lot view scrolled to the Site panel, then "What to check next, in order", then
+`?view=inquiry&block=10K&lot=25&type=three&lots=25,26,27`
+**First:** the Site panel (soil: lots 25–27 are 53%, 56%, 42% at 25%+ slope; undermining none mapped, not proof;
+environmental: 1927 Commercial U3; water and sewer: no parcel data) and "What to check next, in order" (free
+calls first, paid studies last).
 **On screen:** the draft inquiry: what we want to build; what the code and records say (ink, with
 citations); questions for the City; questions about money (City Real Estate, URA); our assumptions
 (red); not assessed; disclaimer. "Number check: every number traces to the engine ✓". "Draft ·
