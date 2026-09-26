@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { findQuote, locateSection } from '@engine/source';
 import { AI_ROLE } from '@engine/rules';
 import type { AuditEntry, BlockFile, EffectiveRule, LotResult, MoneyResult, QuestionState, RuleSet, Trust } from '@engine/types';
-import { ASSUMPTIONS, COMPS, COMPS_RAW, HUD, codeFor } from '../lib/data';
+import { ASSUMPTIONS, COMPS_BY_WARD, COMPS_RAW_BY_WARD, HUD, codeFor } from '../lib/data';
 import { dateFmt, Ev, ftFmt, Label, money1 } from './ui';
 
 type AddAudit = (e: Omit<AuditEntry, 'id' | 'at'>) => { ok: boolean; problems: string[] };
@@ -450,10 +450,13 @@ function ProposalCard({ result, setProposal }: { result: LotResult; setProposal?
 }
 
 function MoneyCard({ kind, money }: { kind: string; money: MoneyResult | null }) {
+  const ward = money?.comps.ward ?? 5;
+  const COMPS = COMPS_BY_WARD[ward] ?? null;
+  const COMPS_RAW = COMPS_RAW_BY_WARD[ward];
   if (kind === 'comps' && COMPS && COMPS_RAW) {
     return (
       <article className="card">
-        <Label>Comparable sales · Ward 5 · since 2023</Label>
+        <Label>Comparable sales · Ward {ward} · since 2023</Label>
         <p className="card-value">
           <Ev trust="ink">
             {COMPS.counts.valid_1_2_unit} valid 1–2 unit sales · median {money1(COMPS.median)} · IQR {money1(COMPS.q1)}–{money1(COMPS.q3)}

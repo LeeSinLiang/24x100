@@ -198,7 +198,7 @@ for (const beat of BEATS) {
     const dst = `${OUT}/${beat.id}-${beat.name}`;
     if (ffmpeg) {
       execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', lead.toFixed(2), '-i', src, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-r', '30', `${dst}.mp4`]);
-      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', lead.toFixed(2), '-i', src, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '32', `${dst}.webm`]);
+      if (flag('webm')) execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', lead.toFixed(2), '-i', src, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '32', `${dst}.webm`]);
     } else execFileSync('cp', [src, `${dst}.webm`]);
     console.log(`${beat.id} ${beat.name}: ${secs.toFixed(1)} s after trimming ${lead.toFixed(2)} s of loading → ${dst}.mp4`);
   } else console.log(`${beat.id} ${beat.name}: ${secs.toFixed(1)} s (not recorded; pass --record)`);
