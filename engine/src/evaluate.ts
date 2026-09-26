@@ -366,7 +366,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       if ('error' in b) return refuse('edges_unclear', b.error);
       unitBuilds.push(b);
       const end = b.sides.some((s) => s.kind === 'side_interior' || s.kind === 'side_exterior');
-      units.push({ pin: ps[i].pin, width: b.width, end, trust: b.width.trust });
+      units.push({ pin: ps[i].pin, width: b.width, end, trust: b.width.trust, envelope: b.env.poly, front: frontOf(b) });
     }
     // The binding unit is the narrowest.
     let k = 0;
@@ -382,7 +382,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     if ('error' in b) return refuse('edges_unclear', b.error);
     main = b;
     lotRing = b.ring;
-    units.push({ pin: ps[0].pin, width: b.width, end: true, trust: b.width.trust });
+    units.push({ pin: ps[0].pin, width: b.width, end: true, trust: b.width.trust, envelope: b.env.poly, front: frontOf(b) });
   }
 
   const envPoly = scenario.type === 'row' ? unionEnvelopes(unitBuilds) : main.env.poly;
@@ -690,6 +690,11 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     trust,
     notes,
   };
+}
+
+function frontOf(b: Built): Unit['front'] {
+  const f = b.sides.find((s) => s.kind === 'front');
+  return f ? { a: f.a, b: f.b, setback: f.setback ?? 0 } : null;
 }
 
 /** Never a negative number: "24 − 15 − 15 leaves no buildable width". */

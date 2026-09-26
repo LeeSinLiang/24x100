@@ -1,0 +1,88 @@
+/* 24×100 tokens (DESIGN_GUIDE.md §2–3). Never hard-code a hex value outside this file. */
+:root {
+  --paper: #ece7db;
+  --sheet: #f2eee5;
+  --ink: #1e1a15;
+  --ink-2: #4a443a;
+  --graphite: #7a756b;
+  --red: #b01e33;
+  --brick: #e8a596;
+  --frame: #edd27d;
+  --stone: #a8c3ce;
+  --gold: #b8892a;
+  --slope: #8c7652;
+
+  --rule: color-mix(in srgb, var(--ink) 18%, transparent);
+  --rule-strong: color-mix(in srgb, var(--ink) 55%, transparent);
+  --graphite-soft: color-mix(in srgb, var(--graphite) 45%, transparent);
+  --red-soft: color-mix(in srgb, var(--red) 10%, transparent);
+  --gold-wash: color-mix(in srgb, var(--gold) 22%, transparent);
+  --area: color-mix(in srgb, var(--brick) 75%, var(--ink) 25%);
+  --wash-alpha: 0.05;
+  --grain-opacity: 0.06;
+  --grain-blend: multiply;
+
+  --f-display: 'Old Standard TT', 'Times New Roman', serif;
+  --f-ui: 'Public Sans', system-ui, sans-serif;
+  --f-map: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+
+  --s-numeral: 96px;
+  --s-display: 30px;
+  --s-title: 20px;
+  --s-body: 15px;
+  --s-small: 13px;
+  --s-label: 12px;
+
+  --gutter: 24px;
+  --focus: 2px solid var(--red);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #10263a;
+    --sheet: #132c43;
+    --ink: #e6eef3;
+    --ink-2: #b4c5d2;
+    --graphite: #8ca3b6;
+    --red: #ff8b7b;
+    --brick: #8c4b45;
+    --frame: #8a7632;
+    --stone: #3a6680;
+    --gold: #d9b45a;
+    --slope: #9db4c8;
+    --wash-alpha: 0.07;
+    --grain-opacity: 0.04;
+    --grain-blend: screen;
+    --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --paper: #10263a;
+  --sheet: #132c43;
+  --ink: #e6eef3;
+  --ink-2: #b4c5d2;
+  --graphite: #8ca3b6;
+  --red: #ff8b7b;
+  --brick: #8c4b45;
+  --frame: #8a7632;
+  --stone: #3a6680;
+  --gold: #d9b45a;
+  --slope: #9db4c8;
+  --wash-alpha: 0.07;
+  --grain-opacity: 0.04;
+  --grain-blend: screen;
+  --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
+  color-scheme: dark;
+}
+
+/* Presentation mode: bigger type, 16px floor, no rotated text, lighter hatching. */
+:root[data-present='1'] {
+  --s-numeral: 124px;
+  --s-display: 36px;
+  --s-title: 24px;
+  --s-body: 18px;
+  --s-small: 16px;
+  --s-label: 15px;
+}

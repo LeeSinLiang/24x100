@@ -13,7 +13,9 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": ["node", "vite/client"],
+    "baseUrl": ".",
+    "paths": { "@engine/*": ["engine/src/*"], "@data/*": ["data/*"] }
   },
   "include": ["engine", "web/src", "scripts"]
 }

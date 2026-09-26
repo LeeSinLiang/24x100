@@ -373,6 +373,8 @@ export interface Unit {
   width: Measure;
   end: boolean;
   trust: Trust;
+  envelope: Ring; // this unit's (or building's) envelope
+  front: { a: Pt; b: Pt; setback: number } | null; // front side of this unit's lot
 }
 
 export interface OpenQuestion {
@@ -443,7 +445,7 @@ export interface MoneyResult {
   homes: number;
   sqft: number;
   value: { median: number; q1: number; q3: number; newest: number | null; count: number; thin: boolean };
-  cost: { lo: number; hi: number; formula: string };
+  cost: { lo: number; hi: number; formula: string; hard_psf: [number, number] };
   break_even_psf: { value: number; formula: string; none: boolean };
   gap: { lo: number; hi: number; formula: string };
   affordable: { price: number; income: number; household: number; formula: string };

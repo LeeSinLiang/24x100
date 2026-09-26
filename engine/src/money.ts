@@ -76,7 +76,7 @@ export function moneyFor(result: LotResult, lotsInScenario: number, slopeFlag: b
     homes,
     sqft,
     value: { median: V, q1: m.comps.q1, q3: m.comps.q3, newest: m.comps.newest[0]?.price ?? null, count: m.comps.counts.valid_1_2_unit, thin },
-    cost: { lo: costLo, hi: costHi, formula: costFormula },
+    cost: { lo: costLo, hi: costHi, formula: costFormula, hard_psf: [hLo, hHi] },
     break_even_psf: { value: Math.max(0, beRaw), formula: beFormula, none: beRaw <= 0 },
     gap: { lo: gapLo, hi: gapHi, formula: `${usd(costLo, 1)}–${usd(costHi, 1)} ${MINUS} ${usd(V, 1)} = ${usd(gapLo, 1)}–${usd(gapHi, 1)} per home` },
     affordable: { price: aff.price, income, household, formula: aff.formula },
