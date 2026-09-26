@@ -76,10 +76,12 @@ function domCheck(INK) {
 /** Sections of an exported inquiry markdown; returns the facts lines that carry a pencil/red tag. */
 function factsProblems(md) {
   const lines = md.split('\n');
-  const i = lines.findIndex((l) => /^## What the code and the records say/.test(l));
-  if (i < 0) return ['no "What the code and the records say" section in the export'];
+  // One letter per office: every facts section ("What the code and the records say", "What the records say",
+  // "What the City's records say") must be ink only.
+  const starts = lines.map((l, i) => (/^## What (the code and )?the (City’s |City's )?records say/.test(l) ? i : -1)).filter((i) => i >= 0);
+  if (!starts.length) return ['no "What … records say" section in the export'];
   const out = [];
-  for (let j = i + 1; j < lines.length && !lines[j].startsWith('## '); j++) if (/^- \[(open|our assumption)\]/.test(lines[j])) out.push(lines[j].slice(0, 100));
+  for (const i of starts) for (let j = i + 1; j < lines.length && !lines[j].startsWith('## ') && !lines[j].startsWith('# '); j++) if (/^- \[(open|our assumption)\]/.test(lines[j])) out.push(lines[j].slice(0, 100));
   return out;
 }
 

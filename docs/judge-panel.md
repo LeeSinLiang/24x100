@@ -51,7 +51,20 @@ close behind, and two of its findings are honesty defects we fix regardless of s
 
 ## Fixes after round 1
 
-(Filled in below as they land; each names the commit.)
+Merged Sat 26 Sep ~19:45 (then paused for the team's usage limit; the rest is in `docs/resume.md`):
+
+- **Actionability:** one letter per office, with Real Estate routed to the Department of Finance and no money
+  or "hardship" in the ZA letter (`40746ee`, decision 36); the number check ignores § references, so the
+  Larimer letter can be copied; per-lot slope; no "who owns"; recorded confirmations are quoted (decision 37).
+- **Data & AI integrity:** honest answer-key wording, a true ink legend on the review screen, "signed in this
+  browser · not published", confirmations need a reference, no "score" wording in the Assume form, and no
+  invented district tab (`3b5b353`, decision 39).
+- **Problem value / Technical:** the citywide classifier agrees with the lot engine on built neighbours
+  (`c5d18fc`, decision 38); a search module covering all 11,247 lots (`ef63aac`, not yet wired into the header).
+- **Continuation:** "Send to the steward" export (UI only); the publish script, workflow and runbook are not
+  written yet.
+- Not yet fixed: use permission in suggestions, contiguity, duplicate rows, §925.06.C.1, the console errors
+  in hidden panes, the phone plate, search in the header, the watchlist UI, and C15.
 
 ## Round 2
 
