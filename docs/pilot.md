@@ -29,11 +29,25 @@ so a new steward can see exactly what was checked and by whom.
 The app is a static site plus a static JSON API: hosting is free on any static host. Data sources are public
 and free. The only metered cost is rule extraction, once per district and again when the code text changes.
 
-<!-- cost-per-district: filled from docs/eval.md -->
+Measured from the provider's own token counts (`docs/eval.md`, `data/rules/extracted/*.json` meta), at Google's
+published paid-tier prices for these models ($0.75 per 1M input tokens, $3.75 per 1M output tokens including
+thinking, through 31 Dec 2026; $1.50 / $7.50 after; https://ai.google.dev/gemini-api/docs/pricing, read 26 Sep
+2026):
+
+| District | Model | Calls | Tokens in | Tokens out (thinking) | Time in the API | Cost now | From 2027 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| RM‑M | gemini-3.8-flash | 6 | 8,261 | 40,361 (35,504) | 218 s | $0.16 | $0.32 |
+| R1D‑H | gemini-3.6-flash | 6 | 8,346 | 15,553 (11,918) | 82 s | $0.06 | $0.13 |
+
+So extracting every residential district in the city (about 25 use-and-density combinations) would cost a few
+dollars at paid rates, and $0 on the free tier, whose daily limit is about three districts per model per day.
+On the free tier, prompts may be used by Google to improve its products; we send only public code text.
+Claude as the extraction model is built and tested for shape but was not run (no key), so its cost is not
+measured.
 
 ## How a City analyst adds a district (about 20 minutes)
 
-1. **Extract (about 4 minutes, unattended).** `uv run python -m extract run --district R2-H`. The model reads
+1. **Extract (about 1.5–4 minutes of model time, unattended; longer on the free tier when it backs off).** `uv run python -m extract run --district R2-H`. The model reads
    only the saved code sections for that district and writes proposals to `data/rules/extracted/r2-h.json`,
    each with a verbatim quote that code has already checked against the saved text.
 2. **Review (about 15 minutes).** Open `?view=review&district=R2-H`. For each of about twenty proposed rules,
