@@ -36,13 +36,16 @@ def violations(obj, path="$"):
 
 def data_files():
     files = sorted((REPO / "data" / "blocks").glob("*.json")) + sorted((REPO / "data" / "money").glob("*.json"))
+    files += sorted((REPO / "data" / "city").glob("*.json")) + sorted((REPO / "data" / "city" / "work").glob("*.json"))
+    files += sorted((REPO / "data" / "refresh").glob("*.json"))
+    files += [p for p in [REPO / "data" / "watchlist.json"] if p.exists()]
     files += sorted((REPO / "pipeline" / "tests" / "fixtures").glob("*.json"))
     return files
 
 
 def test_there_are_files_to_check():
     names = {p.name for p in data_files()}
-    assert "10K.json" in names and "comps_ward5.json" in names
+    assert {"10K.json", "0124P.json", "comps_ward5.json", "neighborhoods.json", "water.json"} <= names
 
 
 @pytest.mark.parametrize("path", data_files(), ids=lambda p: p.name)
@@ -62,6 +65,14 @@ def test_checker_catches_mutations():
     assert violations({"x": "CITY OF PITTSBURGH"})
     assert not violations({"ownercat": "CORPORATION", "OWNERDESC": "CORPORATION",
                            "name": "City of Pittsburgh PGHParcels"})
+
+
+def test_digest_preview_has_no_names():
+    p = REPO / "data" / "refresh" / "digest-preview.md"
+    if not p.exists():
+        pytest.skip("no digest preview yet")
+    t = p.read_text().lower()
+    assert "owner" not in t and "mailing" not in t and "city of pittsburgh" not in t
 
 
 def test_raw_city_owned_cache_has_no_owner_column():

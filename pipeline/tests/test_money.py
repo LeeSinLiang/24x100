@@ -50,8 +50,23 @@ def test_quantile_method_matters(snap):
     assert s["quantile_alternatives"]["exclusive_type6"]["q1"] == 103500
 
 
-def test_committed_comps_match_snapshot(snap):
-    assert json.loads(COMPS.read_text()) == comps_file(snap)
+def test_snapshot_numbers_match_committed_comps_of_the_same_pull(snap):
+    committed = json.loads(COMPS.read_text())
+    if committed["meta"]["pulled"][:10] != snap["meta"]["pulled"][:10]:
+        pytest.skip("committed comps come from a later pull; the snapshot stays pinned to 2026-09-26")
+    fresh = comps_file(snap)
+    assert {k: v for k, v in committed.items() if k != "meta"} == {k: v for k, v in fresh.items() if k != "meta"}
+
+
+def test_committed_comps_reproduce_from_raw_cache():
+    from pipeline.fetch import OfflineMiss, RawCache, latest_raw_date
+    from pipeline.money import build_snapshot, dumps
+
+    try:
+        cache = RawCache(latest_raw_date(["sales_105/page_000"]), offline=True)
+    except OfflineMiss:
+        pytest.skip("no raw cache on this machine")
+    assert dumps(comps_file(build_snapshot(cache))) == COMPS.read_text()
 
 
 def test_hud_values():

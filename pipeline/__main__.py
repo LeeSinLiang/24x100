@@ -1,9 +1,11 @@
 """CLI.
 
-  uv run python -m pipeline block --id 10K        fetch today's raw cache if missing, then process
-  uv run python -m pipeline block --id 10K --offline   process the latest raw cache only
-  uv run python -m pipeline money [--offline]
+  uv run python -m pipeline block --id 10K|0124P [--offline]   fetch today's raw cache if missing, process
+  uv run python -m pipeline money [--offline] [--hud-file PATH]
+  uv run python -m pipeline city [--offline]                    citywide work file + outlines
   uv run python -m pipeline crosscheck --id 10K [--fixture PATH]
+  uv run python -m pipeline refresh [--code|--code-dir DIR] [--no-city] [--baseline research-fixture]
+  uv run python -m pipeline digest [--dry-run|--send]
   uv run python -m pipeline all [--offline]
 """
 from __future__ import annotations
@@ -105,14 +107,81 @@ def cmd_money(args) -> int:
         sp.parent.mkdir(parents=True, exist_ok=True)
         sp.write_text(M.dumps(snap))
         print(f"wrote snapshot {sp}")
-    if cache.has("hud_il_fy2026"):
-        hud = M.hud_file(cache)
+    hud_cache = cache if cache.has("hud_il_fy2026") else None
+    if hud_cache is None:
+        try:  # the newest raw cache that holds a HUD workbook (it may be an older pull)
+            hud_cache = RawCache(latest_raw_date(["hud_il_fy2026"]), offline=True)
+        except OfflineMiss:
+            hud_cache = None
+    if hud_cache is not None:
+        hud = M.hud_file(hud_cache)
         hp = M.write(hud, "hud_fy2026.json")
-        print(f"wrote {hp.relative_to(M.REPO)}: {hud['hud_area_name']} median {hud['median_family_income']:,}; "
-              f"80% 1..8: {[hud[f'l80_{n}'] for n in range(1, 9)]}")
+        print(f"wrote {hp.relative_to(M.REPO)} from raw {hud_cache.date}: {hud['hud_area_name']} median "
+              f"{hud['median_family_income']:,}; 80% 1..8: {[hud[f'l80_{n}'] for n in range(1, 9)]}")
         return 0
-    print(f"HUD income limits NOT written: raw cache {cache.date} has no HUD file (huduser.gov fetch failed; use --hud-file)", file=sys.stderr)
+    print("HUD income limits NOT written: no raw cache holds the HUD workbook (huduser.gov challenges "
+          "scripts; download it in a browser and run `money --hud-file PATH`)", file=sys.stderr)
     return 1
+
+
+def cmd_city(args) -> int:
+    import time
+
+    from . import city as C
+
+    t = time.time()
+    cache = _cache(args.offline, ["city/parcels/page_0000", "city/osm_named_highways", "city_owned"], args.date)
+    if not args.offline:
+        C.fetch_city(cache)
+    out = C.write_all(RawCache(cache.date, offline=True))
+    c = out["_work_obj"]["meta"]["counts"]
+    for k in ("work", "neighborhoods", "water"):
+        print(f"wrote {out[k].relative_to(C.REPO)} ({out[k].stat().st_size / 1e6:.2f} MB)")
+    print(f"city: {c['written']} of {c['vacant_land_rows']} City-owned vacant-land rows written, {c['skipped']} skipped "
+          f"{c['skipped_by_reason']}; raw {cache.date}; {time.time() - t:.0f} s")
+    return 0
+
+
+def cmd_refresh(args) -> int:
+    from . import refresh as R
+
+    if args.baseline:
+        if args.baseline != "research-fixture":
+            print("--baseline accepts only research-fixture", file=sys.stderr)
+            return 2
+        rep = R.vs_research_fixture()
+        out = R.OUT / "vs-research-fixture.json"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(B.dumps(rep))
+        print(f"wrote {out.relative_to(B.REPO)}: {rep['summary']}")
+        return 0
+    rep = R.run_refresh(code=bool(args.code or args.code_dir), code_dir=Path(args.code_dir) if args.code_dir else None,
+                        city=not args.no_city)
+    print(f"wrote data/refresh/latest.json: {rep['summary']}")
+    return 1 if rep["meta"]["failed"] and not set(rep["meta"]["failed"]) <= {"fetch HUD"} else 0
+
+
+def cmd_digest(args) -> int:
+    from . import digest as D
+
+    try:
+        text = D.build()
+    except D.Refused as e:
+        print(str(e), file=sys.stderr)
+        return 2
+    if args.send:
+        try:
+            sent = D.send(text)
+        except D.Refused as e:
+            print(str(e), file=sys.stderr)
+            return 2
+        print(f"digest sent via {', '.join(sent)}")
+        return 0
+    D.PREVIEW.parent.mkdir(parents=True, exist_ok=True)
+    D.PREVIEW.write_text(text)
+    print(text)
+    print(f"(dry run: wrote {D.PREVIEW.relative_to(B.REPO)}; nothing sent)")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -135,17 +204,44 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--id", required=True)
     x.add_argument("--fixture")
     x.set_defaults(fn=cmd_crosscheck)
-    a = sub.add_parser("all", help="block 10K + money")
+    c = sub.add_parser("city", help="citywide work file (data/city/work/lots_work.json) + outlines")
+    c.add_argument("--offline", action="store_true")
+    c.add_argument("--date")
+    c.set_defaults(fn=cmd_city)
+    r = sub.add_parser("refresh", help="re-pull everything into a new raw cache, re-process, diff")
+    r.add_argument("--code", action="store_true", help="also re-fetch the ecode360 chapters (honest headless Chrome)")
+    r.add_argument("--code-dir", help="compare ecode360 chapter pages a person saved from a browser (<id>.html)")
+    r.add_argument("--no-city", action="store_true", help="skip the citywide pull (about 10 minutes)")
+    r.add_argument("--baseline", help="research-fixture: diff Block 10-K against the pre-kickoff fixture only")
+    r.set_defaults(fn=cmd_refresh)
+    d = sub.add_parser("digest", help="watchlist digest (dry run by default)")
+    g = d.add_mutually_exclusive_group()
+    g.add_argument("--dry-run", action="store_true", help="write data/refresh/digest-preview.md and print it (default)")
+    g.add_argument("--send", action="store_true", help="post to Slack / send mail, only if keys are set in .env")
+    d.set_defaults(fn=cmd_digest)
+    a = sub.add_parser("all", help="blocks 10K and 0124P, money, city")
     a.add_argument("--offline", action="store_true")
     a.add_argument("--date")
+    a.add_argument("--no-city", action="store_true")
     a.set_defaults(fn=None)
     args = ap.parse_args(argv)
+    if args.cmd in ("digest", "refresh"):
+        try:
+            from dotenv import load_dotenv
+
+            load_dotenv(B.REPO / ".env")
+        except ImportError:
+            pass
     try:
         if args.cmd == "all":
-            rc = cmd_block(argparse.Namespace(id="10K", offline=args.offline, date=args.date, fixture=None,
-                                              no_crosscheck=False))
-            rc2 = cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None, hud_file=None))
-            return rc or rc2
+            rcs = []
+            for bid in B.BLOCKS:
+                rcs.append(cmd_block(argparse.Namespace(id=bid, offline=args.offline, date=args.date, fixture=None,
+                                                        no_crosscheck=False)))
+            rcs.append(cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None, hud_file=None)))
+            if not args.no_city:
+                rcs.append(cmd_city(argparse.Namespace(offline=args.offline, date=args.date)))
+            return max(rcs)
         return args.fn(args)
     except (OfflineMiss, FetchError) as e:
         print(f"error: {e}", file=sys.stderr)

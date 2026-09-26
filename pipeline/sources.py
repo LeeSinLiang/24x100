@@ -157,3 +157,120 @@ def fetch_hud(cache: RawCache) -> bytes:
     # huduser.gov sits behind an AWS WAF that answers bursts with a JS challenge (HTTP 202,
     # x-amzn-waf-action: challenge). We do not try to pass the challenge; we wait and retry.
     return cache.get("hud_il_fy2026", HUD_IL_XLSX, ext="xlsx", validate=validate, retries=3, backoff=60.0)
+
+
+# ---------------------------------------------------------------------------------------------
+# citywide pulls (paged; every page is its own raw-cache entry)
+
+NEIGHBORHOODS_GEOJSON = (
+    "https://data.wprdc.org/dataset/e672f13d-71c4-4a66-8f38-710e75ed80a4/resource/"
+    "4af8e160-57e9-4ebf-a501-76ca1b42fc99/download/neighborhoods.geojson"
+)
+RIVERS_GEOJSON = (
+    "https://data.wprdc.org/dataset/d285f358-154e-4115-b2e2-520ccf48a2f1/resource/"
+    "a749cade-9d56-442b-837f-4a93daa8b62a/download/major_rivers.geojson"
+)
+CITY_BBOX = (-80.10, 40.36, -79.86, 40.51)  # w, s, e, n: the City of Pittsburgh with margin
+PGH_MUNICODES = [str(n) for n in range(101, 133)]  # wards 1-32
+OID = {"PGHParcels": "objectid_1", "Building_Footprints_Adjacency": "OBJECTID", "PGHWebZoning": "OBJECTID",
+       "PGHWebSlope25": "objectid_1", "PGHWebUndermined": "objectid"}
+
+
+def _validate_page(body: bytes) -> None:
+    j = json.loads(body)
+    if "error" in j:
+        raise ValueError(f"ArcGIS error: {j['error']}")
+    if "features" not in j:
+        raise ValueError("ArcGIS page has no features key")
+
+
+def arcgis_count(cache: RawCache, key: str, service: str, where: str = "1=1") -> int:
+    body = cache.get(key, arcgis_url(service), {"where": where, "returnCountOnly": "true", "f": "json"})
+    return int(json.loads(body)["count"])
+
+
+def fetch_arcgis_paged(cache: RawCache, prefix: str, service: str, params: dict, page: int) -> list[str]:
+    """Page a whole layer by object id order until a short page; checks the total against a
+    returnCountOnly request so nothing is dropped silently."""
+    total = arcgis_count(cache, f"{prefix}/count", service, params.get("where", "1=1"))
+    keys = []
+    got = 0
+    offset = 0
+    while True:
+        p = dict(params, orderByFields=OID[service], resultOffset=offset, resultRecordCount=page)
+        key = f"{prefix}/page_{offset // page:04d}"
+        body = cache.get(key, arcgis_url(service), p, validate=_validate_page)
+        n = len(json.loads(body)["features"])
+        keys.append(key)
+        got += n
+        offset += page
+        if n < page or got >= total:
+            break
+    if got != total:
+        raise RuntimeError(f"{service}: paged {got} features but the layer reports {total}")
+    return keys
+
+
+def fetch_city_layers(cache: RawCache) -> dict[str, list[str]]:
+    geo = {"where": "1=1", "outSR": "4326", "f": "geojson", "geometryPrecision": 7}
+    out = {
+        "parcels": fetch_arcgis_paged(cache, "city/parcels", "PGHParcels", dict(geo, outFields="pin"), 1000),
+        "zoning": fetch_arcgis_paged(cache, "city/zoning", "PGHWebZoning", dict(geo, outFields="zon_new"), 1000),
+        "slope25": fetch_arcgis_paged(cache, "city/slope25", "PGHWebSlope25", dict(geo, outFields="objectid_1"), 1000),
+        "undermined": fetch_arcgis_paged(cache, "city/undermined", "PGHWebUndermined", dict(geo, outFields="objectid"), 1000),
+        # footprints: centroids only (returnCentroid), enough for "a footprint centroid in the lot"
+        "footprints": fetch_arcgis_paged(
+            cache, "city/footprints", "Building_Footprints_Adjacency",
+            {"where": "1=1", "outFields": "OBJECTID,Building_Footprints_OBJECTID", "returnGeometry": "false",
+             "returnCentroid": "true", "outSR": "4326", "f": "json"}, 2000),
+    }
+    return out
+
+
+def fetch_ckan_paged(cache: RawCache, prefix: str, resource: str, filters: dict, fields: list[str],
+                     page: int = 10000) -> list[str]:
+    keys: list[str] = []
+    offset, total = 0, None
+    while total is None or offset < total:
+        key = f"{prefix}_{offset // page:03d}"
+        params = {"resource_id": resource, "filters": json.dumps(filters), "limit": page, "offset": offset,
+                  "fields": ",".join(fields), "sort": "_id asc"}
+        body = cache.get(key, CKAN_SEARCH, params, validate=validate_ckan)
+        total = json.loads(body)["result"]["total"]
+        keys.append(key)
+        offset += page
+    return keys
+
+
+def fetch_city_assessments(cache: RawCache) -> list[str]:
+    keys = []
+    for code in PGH_MUNICODES:
+        keys += fetch_ckan_paged(cache, f"city/assess/{code}", ASSESSMENT_RESOURCE, {"MUNICODE": code}, ASSESSMENT_FIELDS)
+    return keys
+
+
+def fetch_city_osm(cache: RawCache) -> bytes:
+    w, s, e, n = CITY_BBOX
+    q = f'[out:json][timeout:300];way["highway"]["name"]({s},{w},{n},{e});out geom;'
+
+    def validate(body: bytes) -> None:
+        j = json.loads(body)
+        if "elements" not in j or (j.get("remark") and "error" in j["remark"].lower()):
+            raise ValueError(f"Overpass: {j.get('remark')}")
+
+    return cache.get("city/osm_named_highways", OVERPASS, method="POST", data={"data": q}, validate=validate,
+                     timeout=400)
+
+
+def fetch_city_outlines(cache: RawCache) -> None:
+    cache.get("city/neighborhoods", NEIGHBORHOODS_GEOJSON, ext="geojson")
+    cache.get("city/major_rivers", RIVERS_GEOJSON, ext="geojson")
+
+
+def fetch_hud_once(cache: RawCache) -> bytes:
+    """One polite attempt (refresh): huduser.gov usually answers scripts with a WAF challenge."""
+    def validate(body: bytes) -> None:
+        if body[:2] != b"PK":
+            raise ValueError("HUD file is not an xlsx (zip) payload")
+
+    return cache.get("hud_il_fy2026", HUD_IL_XLSX, ext="xlsx", validate=validate, retries=1)

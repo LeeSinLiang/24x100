@@ -226,16 +226,18 @@ def _source_entry(cache: RawCache, key: str, sid: str, name: str, url: str | Non
     return {"id": sid, "name": name, "url": url or e["url"], "pulled": e["fetched_at"], "sha256": e["sha256"]}
 
 
-def _assessments(cache: RawCache, cfg: BlockConfig) -> dict[str, dict]:
+def _assessments(cache: RawCache, cfg: BlockConfig, n_pins: int) -> dict[str, dict]:
     out: dict[str, dict] = {}
-    for key in sorted(k for k in cache.manifest if k.startswith(f"{cfg.id}/assessments_")):
+    for key in _assessment_keys(cache, cfg, n_pins):
         for r in cache.read_json(key)["result"]["records"]:
             out[r["PARID"]] = r
     return out
 
 
-def _assessment_keys(cache: RawCache, cfg: BlockConfig) -> list[str]:
-    return sorted(k for k in cache.manifest if k.startswith(f"{cfg.id}/assessments_"))
+def _assessment_keys(cache: RawCache, cfg: BlockConfig, n_pins: int) -> list[str]:
+    """The batches fetch_assessments wrote for this selection (60 PINs each); stale extra batches
+    from an earlier, larger selection are ignored."""
+    return [f"{cfg.id}/assessments_{i:03d}" for i in range(-(-n_pins // 60))]
 
 
 def read_city_owned(raw: bytes) -> dict[str, dict]:
@@ -445,7 +447,7 @@ def process_block(cache: RawCache, cfg: BlockConfig) -> dict[str, Any]:
     if not selected:
         raise RuntimeError(f"block {cfg.id}: no parcels selected")
     osm_names = {w["tags"]["name"] for w in _osm_named_ways(osm)}
-    assess = _assessments(cache, cfg)
+    assess = _assessments(cache, cfg, len(selected))
     city = read_city_owned(cache.read("city_owned"))
     addresses = {pin: parcel_address(city.get(pin), assess.get(pin), osm_names) for pin, _ in selected}
     main_street, main_basis = choose_main_street(cfg, [addresses[p][2] for p, _ in selected], osm_names)
@@ -603,7 +605,7 @@ def process_block(cache: RawCache, cfg: BlockConfig) -> dict[str, Any]:
         _source_entry(cache, f"{cfg.id}/parcels", "pgh_parcels", "City of Pittsburgh PGHParcels"),
         *[_source_entry(cache, k, "wprdc_assessments", "WPRDC Allegheny County Property Assessments",
                         f"https://data.wprdc.org/datastore/dump/{S.ASSESSMENT_RESOURCE}")
-          for k in _assessment_keys(cache, cfg)[:1]],
+          for k in _assessment_keys(cache, cfg, len(selected))[:1]],
         _source_entry(cache, "city_owned", "city_owned", "City of Pittsburgh City-Owned Properties (WPRDC)"),
         _source_entry(cache, f"{cfg.id}/lotdim", "lot_dimensions", S.LAYERS["lotdim"][2]),
         _source_entry(cache, f"{cfg.id}/buildings", "building_footprints", S.LAYERS["buildings"][2]),
@@ -615,7 +617,7 @@ def process_block(cache: RawCache, cfg: BlockConfig) -> dict[str, Any]:
         *[_source_entry(cache, f"hist_zoning_{y}", f"hist_zoning_{y}", f"WPRDC Historic Zoning {y}")
           for y in sorted(S.HIST_ZONING)],
     ]
-    used = [f"{cfg.id}/{k}" for k in ("osm", "parcels", *S.LAYERS)] + _assessment_keys(cache, cfg) + \
+    used = [f"{cfg.id}/{k}" for k in ("osm", "parcels", *S.LAYERS)] + _assessment_keys(cache, cfg, len(selected)) + \
         ["city_owned"] + [f"hist_zoning_{y}" for y in S.HIST_ZONING]
     pulled = max(cache.entry(k)["fetched_at"] for k in used)
 
