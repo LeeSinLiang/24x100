@@ -1,0 +1,32 @@
+{
+ "county": "Allegheny County",
+ "hud_area_code": "METRO38300M38300",
+ "hud_area_name": "Pittsburgh, PA HUD Metro FMR Area",
+ "l50_1": 38650,
+ "l50_2": 44200,
+ "l50_3": 49700,
+ "l50_4": 55200,
+ "l50_5": 59650,
+ "l50_6": 64050,
+ "l50_7": 68450,
+ "l50_8": 72900,
+ "l80_1": 61850,
+ "l80_2": 70650,
+ "l80_3": 79500,
+ "l80_4": 88300,
+ "l80_5": 95400,
+ "l80_6": 102450,
+ "l80_7": 109500,
+ "l80_8": 116600,
+ "median_family_income": 110400,
+ "median_field": "median2026",
+ "meta": {
+  "file_sha256": "bbadf0a080112fc1492c7752692c041c6a4299aad0173873b732c3f892d9aee0",
+  "pipeline_version": "0.1.0",
+  "pulled": "2026-09-26T19:57:31Z",
+  "sheet": "Section8-FY26",
+  "source": "HUD FY2026 Income Limits (Section 8), huduser.gov",
+  "url": "https://www.huduser.gov/portal/datasets/il/il26/Section8-FY26.xlsx"
+ },
+ "state": "PA"
+}
