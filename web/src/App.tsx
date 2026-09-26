@@ -6,11 +6,19 @@ import { linkAssumptions, useAudit } from './lib/audit';
 import { BLOCKS } from './lib/data';
 import { contextFor, lotKey, parcelByLot, useLotModel } from './lib/model';
 import { useUrlState } from './lib/url';
+import { AboutView } from './views/AboutView';
+import { BlockView } from './views/BlockView';
+import { ChangesView } from './views/ChangesView';
+import { CityView } from './views/CityView';
+import { InquiryView } from './views/InquiryView';
 import { LotView } from './views/LotView';
+import { ReviewView } from './views/ReviewView';
+import type { ViewProps } from './views/types';
 
 export function App() {
   const [s, update] = useUrlState();
-  const { entries, add } = useAudit();
+  const auditApi = useAudit();
+  const { entries, add } = auditApi;
   const audit = useMemo(() => [...entries, ...linkAssumptions(s.assume)], [entries, s.assume.join(',')]);
   const block = BLOCKS[s.block];
   const model = useLotModel(s.view === 'lot' || s.view === 'inquiry' ? block : undefined, s, audit);
@@ -67,18 +75,27 @@ export function App() {
         {s.view === 'lot' && block && model ? (
           <LotView block={block} model={model} s={s} update={update} />
         ) : s.view === 'lot' ? (
-          <main className="empty">
+          <main className="empty" id="main">
             <p>That lot isn't in the loaded blocks. Lot detail covers {Object.values(BLOCKS).map((b) => b.meta.name).join(' and ')}.</p>
           </main>
         ) : (
-          <main className="empty" id="main">
-            <h1 className="display">What a Pittsburgh lot can hold, what’s holding it back, and what would move it.</h1>
-            <p>
-              <a className="btn btn-ink" href="?view=lot&block=10K&lot=25&type=two">
-                Start with 2241 Mahon St
-              </a>
-            </p>
-          </main>
+          (() => {
+            const vp: ViewProps = { s, update, block, model, audit, auditApi };
+            switch (s.view) {
+              case 'block':
+                return <BlockView {...vp} />;
+              case 'review':
+                return <ReviewView {...vp} />;
+              case 'inquiry':
+                return <InquiryView {...vp} />;
+              case 'changes':
+                return <ChangesView {...vp} />;
+              case 'about':
+                return <AboutView {...vp} />;
+              default:
+                return <CityView {...vp} />;
+            }
+          })()
         )}
         <Drawer
           refId={s.drawer}

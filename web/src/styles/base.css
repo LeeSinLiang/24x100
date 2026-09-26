@@ -1276,11 +1276,11 @@ button.numeral {
 }
 
 /* ── Presentation and record modes ─────────────────────────────────────── */
-:root[data-present='1'] .plate-legend,
+:root[data-present='1']:not([data-record='1']) .plate-legend,
 :root[data-present='1'] .chip {
   font-size: 14px;
 }
-:root[data-present='1'] .ledger,
+:root[data-present='1']:not([data-record='1']) .ledger,
 :root[data-present='1'] .unlock-table {
   font-size: 15px;
 }

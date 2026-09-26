@@ -473,7 +473,11 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       const f = D.terms[1].value;
       const r = D.terms[2].value;
       const to = Math.max(0, (D.terms[0].value - req) / 2);
-      relief.push({ check: 'depth', text: f === r ? `front and rear setbacks ${fmtFt(f)} → ${fmtFt(to)} ft each` : `front and rear setbacks ${fmtFt(f)} + ${fmtFt(r)} → ${fmtFt(to * 2)} ft in total`, from: f + r, to: to * 2, section: sectionOf(rs, D.rule_ids), approval: 'variance' });
+      relief.push(
+        f === r
+          ? { check: 'depth', text: `front and rear setbacks ${fmtFt(f)} → ${fmtFt(to)} ft each`, from: f, to, section: sectionOf(rs, D.rule_ids), approval: 'variance' }
+          : { check: 'depth', text: `front and rear setbacks ${fmtFt(f)} + ${fmtFt(r)} → ${fmtFt(to * 2)} ft in total`, from: f + r, to: to * 2, section: sectionOf(rs, D.rule_ids), approval: 'variance' },
+      );
     }
     checks.push({ id: 'depth', label: 'Depth', required: req, available: D.none ? 0 : avail, shortfall: ok ? 0 : req - Math.max(0, avail), unit: 'ft', status: ok ? 'pass' : 'fail', trust: D.trust, text, rule_ids: D.rule_ids, record_ids: D.record_ids, approvals });
   }

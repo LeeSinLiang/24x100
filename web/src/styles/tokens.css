@@ -51,7 +51,7 @@
     --stone: #3a6680;
     --gold: #d9b45a;
     --slope: #9db4c8;
-    --wash-alpha: 0.07;
+    --wash-alpha: 0.045;
     --grain-opacity: 0.04;
     --grain-blend: screen;
     --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
@@ -70,7 +70,7 @@
   --stone: #3a6680;
   --gold: #d9b45a;
   --slope: #9db4c8;
-  --wash-alpha: 0.07;
+  --wash-alpha: 0.045;
   --grain-opacity: 0.04;
   --grain-blend: screen;
   --area: color-mix(in srgb, var(--brick) 60%, var(--ink) 40%);
@@ -78,7 +78,7 @@
 }
 
 /* Presentation mode: bigger type, 16px floor, no rotated text, lighter hatching. */
-:root[data-present='1'] {
+:root[data-present='1']:not([data-record='1']) {
   --s-numeral: 124px;
   --s-display: 36px;
   --s-title: 24px;
