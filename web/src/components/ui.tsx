@@ -2,6 +2,12 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Trust } from '@engine/types';
 
+function boilSeed(k: string): number {
+  let h = 0;
+  for (let i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;
+  return h % 5;
+}
+
 export const DrawerCtx = createContext<(ref: string) => void>(() => {});
 export const useOpen = () => useContext(DrawerCtx);
 
@@ -39,13 +45,20 @@ export function Ev({
   const open = useOpen();
   const drying = useDrying(trust);
   const cls = `ev ev-${trust} ${num ? 'ev-num' : ''} ${drying ? 'drying' : ''} ${className}`;
-  if (!refId) return <span className={cls}>{children}</span>;
+  const boil = trust === 'pencil' ? { 'data-boil': String(boilSeed(refId ?? String(children))) } : {};
+  if (!refId)
+    return (
+      <span className={cls} {...boil}>
+        {children}
+      </span>
+    );
   // An inline element (not <button>) so a number inside a sentence wraps like text.
   return (
     <span
       role="button"
       tabIndex={0}
       className={`${cls} is-link`}
+      {...boil}
       onClick={() => open(refId)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

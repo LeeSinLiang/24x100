@@ -1462,3 +1462,40 @@ button.numeral {
   border: 1px dashed var(--graphite);
   padding: 6px 8px;
 }
+
+/* Boiling pencil (DESIGN_GUIDE §6.1): pencil trembles, ink is still. */
+.ev-pencil[data-boil='0'],
+.mark-pencil,
+.row-text.is-pencil {
+  filter: url(#boil-t-0);
+}
+.ev-pencil[data-boil='1'],
+.pencil-text {
+  filter: url(#boil-t-1);
+}
+.ev-pencil[data-boil='2'],
+.wall-verdict.is-pencil {
+  filter: url(#boil-t-2);
+}
+.ev-pencil[data-boil='3'] {
+  filter: url(#boil-t-3);
+}
+.ev-pencil[data-boil='4'] {
+  filter: url(#boil-t-4);
+}
+.is-still .ev-pencil,
+.is-still .mark-pencil,
+.is-still .row-text.is-pencil,
+.is-still .pencil-text,
+.is-still .wall-verdict.is-pencil {
+  filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ev-pencil,
+  .mark-pencil,
+  .row-text.is-pencil,
+  .pencil-text,
+  .wall-verdict.is-pencil {
+    filter: none !important;
+  }
+}

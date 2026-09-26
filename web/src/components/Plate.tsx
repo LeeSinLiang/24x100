@@ -82,7 +82,7 @@ export function Plate(p: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const [size, setSize] = useState({ w: 800, h: 300 });
-  const boil = useBoil(!p.still && !p.record);
+  const boil = useBoil(!p.still);
 
   // Frame: the main row plus pads, or the focus lots on a phone.
   const frame = useMemo(() => {
@@ -274,7 +274,7 @@ export function Plate(p: Props) {
             const cls = statusClass(result);
             const env = result.envelope.poly;
             const f = frontSide(result);
-            return <Envelope key={parcel.pin} ring={env} cls={`${cls} ${selectedPins.has(parcel.pin) ? 'is-selected' : ''}`} anchor={f?.a} ms={ms} filter={cls === 'open' && !p.still && !p.record ? `url(#boil-${hash(parcel.pin) % 5})` : undefined} />;
+            return <Envelope key={parcel.pin} ring={env} cls={`${cls} ${selectedPins.has(parcel.pin) ? 'is-selected' : ''}`} anchor={f?.a} ms={ms} filter={cls === 'open' && !p.still ? `url(#boil-${hash(parcel.pin) % 5})` : undefined} />;
           })}
 
           {/* The selected group: one envelope (combined) or one per unit (rowhouses). */}
@@ -283,7 +283,7 @@ export function Plate(p: Props) {
               ? p.selected.units.map((u) => {
                   const w = p.selected.checks.find((c) => c.id === 'width')!;
                   const cls = !u.end ? 'fits' : w.trust === 'pencil' ? 'open' : w.trust === 'red' ? (w.status === 'pass' ? 'fits assumed' : 'short assumed') : (u.width.deed ?? 0) >= P.width ? 'fits' : 'short';
-                  return <Envelope key={`unit-${u.pin}`} ring={u.envelope} cls={`${cls} is-selected`} anchor={u.front?.a} ms={ms} filter={cls === 'open' && !p.still && !p.record ? `url(#boil-${hash(u.pin) % 5})` : undefined} />;
+                  return <Envelope key={`unit-${u.pin}`} ring={u.envelope} cls={`${cls} is-selected`} anchor={u.front?.a} ms={ms} filter={cls === 'open' && !p.still ? `url(#boil-${hash(u.pin) % 5})` : undefined} />;
                 })
               : [<Envelope key="group" ring={p.selected.envelope.poly} cls={`${statusClass(p.selected)} is-selected`} anchor={selFront?.a} ms={ms} />])}
 

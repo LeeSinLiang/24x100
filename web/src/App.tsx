@@ -3,6 +3,7 @@ import { Drawer } from './components/Drawer';
 import { Header } from './components/Header';
 import { DrawerCtx } from './components/ui';
 import { linkAssumptions, useAudit } from './lib/audit';
+import { useBoil } from './lib/craft';
 import { BLOCKS } from './lib/data';
 import { contextFor, lotKey, parcelByLot, useLotModel } from './lib/model';
 import { useUrlState } from './lib/url';
@@ -56,6 +57,7 @@ export function App() {
     };
   }, []);
 
+  const boil = useBoil(!s.still);
   const open = (ref: string) => update({ drawer: ref });
   const sel = block && (s.view === 'lot' || s.view === 'inquiry') ? parcelByLot(block, s.lot) : undefined;
   const crumbs = [
@@ -67,7 +69,7 @@ export function App() {
 
   return (
     <DrawerCtx.Provider value={open}>
-      <div className={`app ${s.record ? 'is-record' : ''}`}>
+      <div className={`app ${s.record ? 'is-record' : ''} ${s.still ? 'is-still' : ''}`}>
         <a className="skip" href="#main">
           Skip to the lot
         </a>
@@ -109,6 +111,13 @@ export function App() {
           present={s.present}
         />
         <svg className="grain" aria-hidden="true" width="0" height="0">
+          {/* Boiling pencil for HTML text and marks: 8 re-seeds a second, deterministic seeds. */}
+          {[0, 1, 2, 3, 4].map((i) => (
+            <filter key={i} id={`boil-t-${i}`} x="-2%" y="-10%" width="104%" height="120%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves={2} seed={i * 11 + boil} />
+              <feDisplacementMap in="SourceGraphic" scale="1.3" />
+            </filter>
+          ))}
           <filter id="grain-f">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={3} stitchTiles="stitch" />
             <feColorMatrix type="saturate" values="0" />
