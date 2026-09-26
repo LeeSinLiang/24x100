@@ -336,7 +336,7 @@ def process_block(cache: RawCache, cfg: BlockConfig) -> dict[str, Any]:
         polys = polygons(g)
         buildings_out.append({
             "id": bid,
-            "poly": poly_rings(max(polys, key=lambda p: p.area)) if len(polys) == 1 else [poly_rings(p) for p in polys],
+            "poly": poly_rings(max(polys, key=lambda p: p.area)),  # schema: one polygon's rings
             "lot_pin": owner_lot,
             "material": a.get("EXTFINISH_DESC"),
             "source": "Building_Footprints_Adjacency (2023)",

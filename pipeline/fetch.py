@@ -181,6 +181,20 @@ class RawCache:
         return stored
 
 
+    def put_local(self, key: str, path: Path, url: str, ext: str, note: str) -> bytes:
+        """Cache a file a person downloaded by hand (e.g. behind a browser challenge)."""
+        body = Path(path).expanduser().read_bytes()
+        fname = key.replace("/", "__") + "." + ext
+        self.dir.mkdir(parents=True, exist_ok=True)
+        (self.dir / fname).write_bytes(body)
+        self.manifest[key] = {
+            "file": fname, "url": url, "params": {}, "method": "GET", "fetched_at": _now_utc(),
+            "sha256": sha256(body), "bytes": len(body), "manual_download": note,
+        }
+        self._save_manifest()
+        return body
+
+
 def validate_geojson(body: bytes) -> None:
     j = json.loads(body)
     if "error" in j:

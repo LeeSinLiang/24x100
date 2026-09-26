@@ -78,6 +78,15 @@ def cmd_crosscheck(args) -> int:
 def cmd_money(args) -> int:
     required = [f"sales_{M.MUNICODE}/page_000"]
     cache = _cache(args.offline, required, args.date)
+    if args.hud_file:
+        body = Path(args.hud_file).expanduser().read_bytes()
+        if body[:2] != b"PK":
+            print(f"{args.hud_file} is not an xlsx file", file=sys.stderr)
+            return 2
+        cache.offline = False
+        cache.put_local("hud_il_fy2026", Path(args.hud_file), S.HUD_IL_XLSX, "xlsx",
+                        f"downloaded by hand in a browser from {S.HUD_IL_XLSX}; cached with its sha256")
+        cache.offline = args.offline
     if not args.offline:
         try:
             M.fetch_money(cache)
@@ -102,7 +111,7 @@ def cmd_money(args) -> int:
         print(f"wrote {hp.relative_to(M.REPO)}: {hud['hud_area_name']} median {hud['median_family_income']:,}; "
               f"80% 1..8: {[hud[f'l80_{n}'] for n in range(1, 9)]}")
         return 0
-    print("HUD income limits NOT written: the raw cache has no HUD file (see fetch error above)", file=sys.stderr)
+    print(f"HUD income limits NOT written: raw cache {cache.date} has no HUD file (huduser.gov fetch failed; use --hud-file)", file=sys.stderr)
     return 1
 
 
@@ -120,6 +129,7 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--offline", action="store_true")
     m.add_argument("--date")
     m.add_argument("--snapshot", help="also write the filtered joined sales snapshot to this path")
+    m.add_argument("--hud-file", help="HUD Section8-FY26.xlsx downloaded by hand (huduser.gov challenges scripts)")
     m.set_defaults(fn=cmd_money)
     x = sub.add_parser("crosscheck", help="G1 cross-check of data/blocks/<id>.json vs the research fixture")
     x.add_argument("--id", required=True)
@@ -134,7 +144,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.cmd == "all":
             rc = cmd_block(argparse.Namespace(id="10K", offline=args.offline, date=args.date, fixture=None,
                                               no_crosscheck=False))
-            rc2 = cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None))
+            rc2 = cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None, hud_file=None))
             return rc or rc2
         return args.fn(args)
     except (OfflineMiss, FetchError) as e:

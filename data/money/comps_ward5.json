@@ -1,0 +1,401 @@
+{
+ "counts": {
+  "all_dates_range": [
+   "2012-01-06",
+   "2026-09-15"
+  ],
+  "note": "Since 2023-01-01: 517 Ward 5 transfers, 34 valid sales (34 at >= $10,000), 33 of them 1-2 unit homes. The whole sales file (2012-01-06 to 2026-09-15) holds 2274 Ward 5 transfers, 114 of them valid sales.",
+  "transfers": 517,
+  "transfers_all_dates": 2274,
+  "valid": 34,
+  "valid_1_2_unit": 33,
+  "valid_all_dates": 114,
+  "valid_any_price": 34,
+  "window": [
+   "2023-01-01",
+   "2026-09-15"
+  ]
+ },
+ "excluded_by_use": [
+  {
+   "address": "2222 Webster Ave",
+   "parid": "0010K00203000000",
+   "price": 155000,
+   "saledate": "2024-11-08",
+   "use": "SMALL DETACHED RET(UNDER 10000)"
+  }
+ ],
+ "median": 155000,
+ "meta": {
+  "assessment_resource_id": "65855e14-549e-4992-b5be-d629afc676fa",
+  "filters": {
+   "MUNICODE": "105",
+   "PRICE_gte": 10000,
+   "SALEDATE_gte": "2023-01-01",
+   "SALEDESC": "VALID SALE",
+   "USEDESC_in": [
+    "ROWHOUSE",
+    "SINGLE FAMILY",
+    "TOWNHOUSE",
+    "TWO FAMILY"
+   ],
+   "ward": 5
+  },
+  "municode": "105",
+  "pipeline_version": "0.1.0",
+  "privacy": "property addresses only; the sales file carries no party names and none are added",
+  "pulled": "2026-09-26T19:49:12Z",
+  "resource_id": "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
+  "sales_resource_id": "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
+  "source": "WPRDC Allegheny County Real Estate Sales + Property Assessments",
+  "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1"
+ },
+ "newest": {
+  "addr": "2125 Rose St",
+  "parid": "0010P00190000000",
+  "price": 240000,
+  "saledate": "2026-06-26",
+  "sqft": 1442,
+  "use": "SINGLE FAMILY",
+  "yearbuilt": 2025
+ },
+ "newest_built": [
+  {
+   "addr": "2125 Rose St",
+   "parid": "0010P00190000000",
+   "price": 240000,
+   "saledate": "2026-06-26",
+   "sqft": 1442,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2025
+  },
+  {
+   "addr": "146 Davenport St",
+   "parid": "0010N00045000000",
+   "price": 275000,
+   "saledate": "2023-08-15",
+   "sqft": 1436,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2008
+  },
+  {
+   "addr": "15 Davenport St",
+   "parid": "0010N00040000000",
+   "price": 200000,
+   "saledate": "2024-12-16",
+   "sqft": 1040,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1998
+  }
+ ],
+ "newest_rule": "top 3 by assessment YEARBLT (newest first), ties by sale date (newest first)",
+ "q1": 105000,
+ "q3": 235000,
+ "quantile_alternatives": {
+  "exclusive_type6": {
+   "median": 155000,
+   "q1": 103500,
+   "q3": 235000
+  }
+ },
+ "quantile_method": "statistics.quantiles(prices, n=4, method='inclusive'): linear interpolation between order statistics, Hyndman-Fan type 7 (numpy/Excel QUARTILE.INC default)",
+ "sales": [
+  {
+   "address": "3343 Webster Ave",
+   "parid": "0026N00147000000",
+   "price": 77500,
+   "saledate": "2023-01-20",
+   "sqft": 1444,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "730 Adelaide St",
+   "parid": "0026P00160000000",
+   "price": 93750,
+   "saledate": "2023-02-09",
+   "sqft": 1044,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "801 Shawnee St",
+   "parid": "0027B00361000000",
+   "price": 90000,
+   "saledate": "2023-02-17",
+   "sqft": 1783,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1935
+  },
+  {
+   "address": "804 Bryn Mawr Rd",
+   "parid": "0027B00075000000",
+   "price": 185000,
+   "saledate": "2023-02-28",
+   "sqft": 1377,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "816 Adelaide St",
+   "parid": "0026P00178000000",
+   "price": 106500,
+   "saledate": "2023-03-14",
+   "sqft": 1616,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "923 Adelaide St",
+   "parid": "0026R00025000000",
+   "price": 270000,
+   "saledate": "2023-05-02",
+   "sqft": 2683,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1889
+  },
+  {
+   "address": "3357 Mcneil Pl",
+   "parid": "0026N00179000A00",
+   "price": 160000,
+   "saledate": "2023-07-25",
+   "sqft": 900,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1955
+  },
+  {
+   "address": "146 Davenport St",
+   "parid": "0010N00045000000",
+   "price": 275000,
+   "saledate": "2023-08-15",
+   "sqft": 1436,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2008
+  },
+  {
+   "address": "4327 Dakota St",
+   "parid": "0027C00084000000",
+   "price": 67000,
+   "saledate": "2024-02-23",
+   "sqft": 1160,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1928
+  },
+  {
+   "address": "2539 Mahon St",
+   "parid": "0010H00101000000",
+   "price": 118000,
+   "saledate": "2024-03-08",
+   "sqft": 988,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "3426 Milwaukee St",
+   "parid": "0026P00149000000",
+   "price": 121900,
+   "saledate": "2024-04-03",
+   "sqft": 1435,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "741 Bryn Mawr Rd",
+   "parid": "0026P00026000000",
+   "price": 62500,
+   "saledate": "2024-04-26",
+   "sqft": 1943,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "3378 Webster Ave",
+   "parid": "0026N00097000000",
+   "price": 230000,
+   "saledate": "2024-05-10",
+   "sqft": 2218,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "822 Adelaide St",
+   "parid": "0026P00181000000",
+   "price": 150000,
+   "saledate": "2024-05-10",
+   "sqft": 2155,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "4375 Schenley Farms Ter",
+   "parid": "0027C00208000000",
+   "price": 990000,
+   "saledate": "2024-08-06",
+   "sqft": 3295,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  },
+  {
+   "address": "760 Bryn Mawr Rd",
+   "parid": "0027B00065000000",
+   "price": 102000,
+   "saledate": "2024-09-03",
+   "sqft": 1671,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "751 Cherokee St",
+   "parid": "0027B00268000000",
+   "price": 98000,
+   "saledate": "2024-12-02",
+   "sqft": 1692,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1935
+  },
+  {
+   "address": "15 Davenport St",
+   "parid": "0010N00040000000",
+   "price": 200000,
+   "saledate": "2024-12-16",
+   "sqft": 1040,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1998
+  },
+  {
+   "address": "2933 Webster Ave",
+   "parid": "0010D00102000000",
+   "price": 110000,
+   "saledate": "2025-02-28",
+   "sqft": 816,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1940
+  },
+  {
+   "address": "811 Shawnee St",
+   "parid": "0027B00293000000",
+   "price": 235000,
+   "saledate": "2025-04-09",
+   "sqft": 1119,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "3024 Iowa St",
+   "parid": "0027F00091000000",
+   "price": 540000,
+   "saledate": "2025-05-20",
+   "sqft": 2866,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "563 Montague St",
+   "parid": "0010H00111000000",
+   "price": 270000,
+   "saledate": "2025-06-30",
+   "sqft": 1370,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1980
+  },
+  {
+   "address": "811 Bryn Mawr Rd",
+   "parid": "0027B00053000000",
+   "price": 235000,
+   "saledate": "2025-07-07",
+   "sqft": 1247,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "620 Kirkpatrick St",
+   "parid": "0010K00191000000",
+   "price": 190000,
+   "saledate": "2025-09-26",
+   "sqft": 2028,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "732 Adelaide St",
+   "parid": "0026P00162000000",
+   "price": 140000,
+   "saledate": "2025-12-05",
+   "sqft": 1911,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "3341 Mcneil Pl",
+   "parid": "0026N00176000A00",
+   "price": 149900,
+   "saledate": "2026-01-06",
+   "sqft": 900,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1955
+  },
+  {
+   "address": "816 Anaheim St",
+   "parid": "0027B00186000000",
+   "price": 75000,
+   "saledate": "2026-01-21",
+   "sqft": 1116,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "3336 Ajax St",
+   "parid": "0026N00293000000",
+   "price": 105000,
+   "saledate": "2026-01-30",
+   "sqft": 1344,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "2516 Centre Ave",
+   "parid": "0010S00006000000",
+   "price": 155000,
+   "saledate": "2026-04-14",
+   "sqft": 3444,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "2515 Allequippa St",
+   "parid": "0011D00101000000",
+   "price": 232536,
+   "saledate": "2026-05-26",
+   "sqft": 1452,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "903 Adelaide St",
+   "parid": "0026R00034000000",
+   "price": 169000,
+   "saledate": "2026-06-10",
+   "sqft": 1512,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  },
+  {
+   "address": "2125 Rose St",
+   "parid": "0010P00190000000",
+   "price": 240000,
+   "saledate": "2026-06-26",
+   "sqft": 1442,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2025
+  },
+  {
+   "address": "3363 Monroe St",
+   "parid": "0026N00205000000",
+   "price": 545000,
+   "saledate": "2026-07-09",
+   "sqft": 1966,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  }
+ ]
+}
