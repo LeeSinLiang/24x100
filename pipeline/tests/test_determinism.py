@@ -18,14 +18,17 @@ def _cache():
         pytest.skip("no raw cache on this machine (data/raw is gitignored); run `python -m pipeline block --id 10K`")
 
 
-def test_block_twice_identical_and_matches_committed():
+@pytest.mark.parametrize("bid", ["10K", "0124P"])
+def test_block_twice_identical_and_matches_committed(bid):
     cache = _cache()
-    cfg = B.BLOCKS["10K"]
+    cfg = B.BLOCKS[bid]
+    if not cache.has(f"{bid}/parcels"):
+        pytest.skip(f"raw cache {cache.date} has no {bid} inputs")
     a = B.dumps(B.process_block(cache, cfg))
     b = B.dumps(B.process_block(RawCache(cache.date, offline=True), cfg))
     assert a == b
-    committed = (REPO / "data" / "blocks" / "10K.json").read_text()
-    assert a == committed, "committed data/blocks/10K.json differs from processing the raw cache"
+    committed = (REPO / "data" / "blocks" / f"{bid}.json").read_text()
+    assert a == committed, f"committed data/blocks/{bid}.json differs from processing the raw cache"
 
 
 def test_comps_twice_identical():

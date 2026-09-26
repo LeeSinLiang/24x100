@@ -68,6 +68,13 @@ def fetch_arcgis(cache: RawCache, key: str, layer: str, bbox) -> bytes:
     return cache.get(key, arcgis_url(service), arcgis_params(bbox, fields), validate=validate_geojson)
 
 
+def fetch_arcgis_where(cache: RawCache, key: str, layer: str, where: str) -> bytes:
+    """Attribute query (e.g. pin LIKE '0124P%'), all features, geometry in EPSG:4326."""
+    service, fields, _ = LAYERS[layer]
+    params = {"where": where, "outFields": fields, "outSR": "4326", "f": "geojson", "returnGeometry": "true"}
+    return cache.get(key, arcgis_url(service), params, validate=validate_geojson)
+
+
 def fetch_assessments(cache: RawCache, prefix: str, pins: list[str]) -> list[str]:
     """Batches of <= 60 PINs. Returns the cache keys, in batch order."""
     keys = []

@@ -1,0 +1,2660 @@
+{
+ "buildings": [
+  {
+   "id": "b532401",
+   "lot_pin": "0124P00188000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      -0.16,
+      -51.09
+     ],
+     [
+      -20.96,
+      -51.08
+     ],
+     [
+      -20.8,
+      -98.36
+     ],
+     [
+      -18.92,
+      -98.36
+     ],
+     [
+      -18.9,
+      -104.13
+     ],
+     [
+      0.02,
+      -104.14
+     ],
+     [
+      -0.16,
+      -51.09
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b532802",
+   "lot_pin": "0124P00189000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      -25.46,
+      -50.71
+     ],
+     [
+      -45.89,
+      -51.27
+     ],
+     [
+      -44.98,
+      -105.02
+     ],
+     [
+      -23.97,
+      -104.66
+     ],
+     [
+      -25.46,
+      -50.71
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b546808",
+   "lot_pin": "0124P00192000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      -79.84,
+      -60.11
+     ],
+     [
+      -80.3,
+      -40.64
+     ],
+     [
+      -138.32,
+      -41.78
+     ],
+     [
+      -138.23,
+      -45.86
+     ],
+     [
+      -140.85,
+      -45.92
+     ],
+     [
+      -140.66,
+      -53.65
+     ],
+     [
+      -138.41,
+      -53.6
+     ],
+     [
+      -138.37,
+      -55.57
+     ],
+     [
+      -141.23,
+      -55.62
+     ],
+     [
+      -141.08,
+      -61.7
+     ],
+     [
+      -134.48,
+      -61.57
+     ],
+     [
+      -134.43,
+      -63.36
+     ],
+     [
+      -86.23,
+      -62.41
+     ],
+     [
+      -86.28,
+      -60.24
+     ],
+     [
+      -79.84,
+      -60.11
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b570949",
+   "lot_pin": "0124P00193000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      -85.79,
+      -17.5
+     ],
+     [
+      -134.98,
+      -16.74
+     ],
+     [
+      -134.99,
+      -17.74
+     ],
+     [
+      -143.21,
+      -17.62
+     ],
+     [
+      -143.46,
+      -39.12
+     ],
+     [
+      -86.05,
+      -40.01
+     ],
+     [
+      -85.79,
+      -17.5
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b559012",
+   "lot_pin": "0124P00201000000",
+   "material": "Brick",
+   "poly": [
+    [
+     [
+      0.92,
+      98.04
+     ],
+     [
+      -10.95,
+      97.97
+     ],
+     [
+      -10.9,
+      92.52
+     ],
+     [
+      -22.72,
+      92.45
+     ],
+     [
+      -22.15,
+      30.81
+     ],
+     [
+      1.54,
+      30.94
+     ],
+     [
+      0.92,
+      98.04
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b540530",
+   "lot_pin": "0124P00204000000",
+   "material": "Brick",
+   "poly": [
+    [
+     [
+      66.77,
+      50.79
+     ],
+     [
+      66.88,
+      63.53
+     ],
+     [
+      71.08,
+      63.47
+     ],
+     [
+      71.4,
+      100.56
+     ],
+     [
+      49.92,
+      100.83
+     ],
+     [
+      49.48,
+      51.0
+     ],
+     [
+      66.77,
+      50.79
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  },
+  {
+   "id": "b555365",
+   "lot_pin": "0124P00208000000",
+   "material": "Frame",
+   "poly": [
+    [
+     [
+      108.26,
+      28.52
+     ],
+     [
+      92.79,
+      28.11
+     ],
+     [
+      93.51,
+      3.33
+     ],
+     [
+      148.08,
+      3.79
+     ],
+     [
+      147.28,
+      24.79
+     ],
+     [
+      108.34,
+      24.48
+     ],
+     [
+      108.26,
+      28.52
+     ]
+    ]
+   ],
+   "source": "Building_Footprints_Adjacency (2023)"
+  }
+ ],
+ "hist_zoning": {
+  "1927": "A Residence U4.H3.A4",
+  "1958": "R4",
+  "1967": "R4"
+ },
+ "meta": {
+  "bounding_streets": [
+   "Lowell St",
+   "Meadow St",
+   "Winfield St",
+   "Winslow St"
+  ],
+  "counts_note": null,
+  "frame": "local feet; x along main street; y down",
+  "id": "0124P",
+  "main_street": "Lowell Street",
+  "main_street_basis": "8 of 23 parcels are addressed on Lowell Street (then Meadow Street 5, Winfield Street 5, Winslow Street 5)",
+  "name": "Block 124-P (Lowell St)",
+  "neighborhood": "Larimer",
+  "north": "screen-up rotated clockwise by rotation_deg",
+  "origin": {
+   "lat": 40.462801,
+   "lon": -79.910908
+  },
+  "pipeline_version": "0.1.0",
+  "pulled": "2026-09-26T20:28:19Z",
+  "raw_cache": "data/raw/2026-09-26",
+  "recon_tolerance": 0.1,
+  "rotation_basis": "parcel frontage along Lowell Street (9 edges, 297 ft); OSM centerline chord 41.20°",
+  "rotation_deg": 41.146,
+  "selection": "explicit PIN list: the 0124-P parcels inside the Lowell / Meadow / Winfield / Winslow street block (map block 0124-P spans about two dozen street blocks)",
+  "selection_check": {
+   "matches_explicit_list": true,
+   "other_prefix_pins_in_polygon": [],
+   "polygon_pins_with_prefix": 23,
+   "street_polygon": [
+    "Lowell St",
+    "Meadow St",
+    "Winfield St",
+    "Winslow St"
+   ]
+  },
+  "sources": [
+   {
+    "id": "pgh_parcels",
+    "name": "City of Pittsburgh PGHParcels",
+    "pulled": "2026-09-26T20:25:01Z",
+    "sha256": "b941d25980c039eb964459ad6df9940aa47436bb4ce640d73dd60cdbaddf0f86",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHParcels/FeatureServer/0/query"
+   },
+   {
+    "id": "wprdc_assessments",
+    "name": "WPRDC Allegheny County Property Assessments",
+    "pulled": "2026-09-26T20:28:19Z",
+    "sha256": "7c2d1dacc159ac934608df5c3df5d16eb306f578b917c51696596fe335f29721",
+    "url": "https://data.wprdc.org/datastore/dump/65855e14-549e-4992-b5be-d629afc676fa"
+   },
+   {
+    "id": "city_owned",
+    "name": "City of Pittsburgh City-Owned Properties (WPRDC)",
+    "pulled": "2026-09-26T19:42:39Z",
+    "sha256": "3ceaa70e97c474bd87b1173c783808ee95a574fbfebe74a907ad8d85aa7c84fe",
+    "url": "https://data.wprdc.org/datastore/dump/e1dcee82-9179-4306-8167-5891915b62a7"
+   },
+   {
+    "id": "lot_dimensions",
+    "name": "City of Pittsburgh Residential Lot Dimensions (Feb 2025)",
+    "pulled": "2026-09-26T20:28:17Z",
+    "sha256": "829a26fef7c00f206e6b5b3da6b5f3fc6323e66c85cab64e08d67c75af4bf83e",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Parcels_Exp_02052025_Residential_Lot_Dimensions/FeatureServer/0/query"
+   },
+   {
+    "id": "building_footprints",
+    "name": "City of Pittsburgh Building Footprints (2023)",
+    "pulled": "2026-09-26T20:28:18Z",
+    "sha256": "3ed9a5bb9dfe3984ae265bce065b52e33898b7954d172e79ac818bd131e0ba8c",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/Building_Footprints_Adjacency/FeatureServer/0/query"
+   },
+   {
+    "id": "zoning",
+    "name": "City of Pittsburgh Zoning",
+    "pulled": "2026-09-26T20:28:18Z",
+    "sha256": "767a1f179c9b9f955026a8cb13096720531732000e873973b95e20cc95c771d0",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoning/FeatureServer/0/query"
+   },
+   {
+    "id": "zoning_overlays",
+    "name": "City of Pittsburgh Zoning Overlays",
+    "pulled": "2026-09-26T20:28:18Z",
+    "sha256": "ad06a5eac1877a9a7839a4e3d19ae145b1ec94df36056bad459fc47943a592b9",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebZoningOverlays/FeatureServer/0/query"
+   },
+   {
+    "id": "slope25",
+    "name": "City of Pittsburgh 25%+ Slope",
+    "pulled": "2026-09-26T20:28:18Z",
+    "sha256": "1ce7eb457779acd1dc230a1bcb4692d06f27533481f26cbfe0e9e599134c0cd4",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0/query"
+   },
+   {
+    "id": "undermined",
+    "name": "City of Pittsburgh Undermined Areas",
+    "pulled": "2026-09-26T20:28:19Z",
+    "sha256": "1ce7eb457779acd1dc230a1bcb4692d06f27533481f26cbfe0e9e599134c0cd4",
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0/query"
+   },
+   {
+    "id": "osm_streets",
+    "name": "OpenStreetMap (Overpass API), ODbL",
+    "pulled": "2026-09-26T20:28:17Z",
+    "sha256": "c480e53c0f0c3e24160a3106937f0868d5eace7a5c87a2f056c1396a89f42a33",
+    "url": "https://overpass.kumi.systems/api/interpreter"
+   },
+   {
+    "id": "hist_zoning_1927",
+    "name": "WPRDC Historic Zoning 1927",
+    "pulled": "2026-09-26T19:42:39Z",
+    "sha256": "72ea1c4624fbca93f07c2f7f98f9319fcbddf8c762bfd59b64d1e98a9e316f65",
+    "url": "https://data.wprdc.org/dataset/2706f171-3803-4ee4-bbf7-b8e9014ce490/resource/8e9391ff-e700-49a9-929b-36fe46309ed0/download/pghzoning1927.geojson"
+   },
+   {
+    "id": "hist_zoning_1958",
+    "name": "WPRDC Historic Zoning 1958",
+    "pulled": "2026-09-26T19:42:40Z",
+    "sha256": "03d926dffd9e61306c6338920dca1990be4007d210296fcc7e78445b8fd06402",
+    "url": "https://data.wprdc.org/dataset/c644fd38-0efb-4e47-896a-886d44d92056/resource/3796160e-2d96-48d6-81a1-088e34e4644d/download/pghzoning1958.geojson"
+   },
+   {
+    "id": "hist_zoning_1967",
+    "name": "WPRDC Historic Zoning 1967",
+    "pulled": "2026-09-26T19:42:40Z",
+    "sha256": "4df4d2b8dfde09fe26c8e15817993ed293c42b590b58366ad6d0e7fe404aa2bc",
+    "url": "https://data.wprdc.org/dataset/a946ffe7-2900-42d3-8916-6b0e10f0e415/resource/3be6661e-0435-4b68-b31d-819d09dbce23/download/pghzoning1967.geojson"
+   }
+  ],
+  "ward": 12
+ },
+ "parcels": [
+  {
+   "addr": "6432 Winslow St",
+   "addr_source": "city_owned",
+   "addr_street": "Winslow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN PTS 32-33-34 35 LOT 23.05XAVG98",
+    "lotarea": 2276,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 2276,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": null,
+   "deed_note": "LEGAL1 fills its 47-character field and ends inside the dimensions, so the last number may be cut off; no deed dimensions are read",
+   "lot": 181,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 92.1,
+    "width": 19.8
+   },
+   "mapblocklo": "124-P-181",
+   "mapped_area": 1729.2,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00181000000",
+   "poly": [
+    [
+     [
+      82.52,
+      -33.43
+     ],
+     [
+      148.15,
+      -32.38
+     ],
+     [
+      148.3,
+      -14.27
+     ],
+     [
+      56.81,
+      -14.2
+     ],
+     [
+      56.55,
+      -33.91
+     ],
+     [
+      82.52,
+      -33.43
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2276,
+    "deed_area": null,
+    "mapped": 1729.2,
+    "ratio": 0.76,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    102.46,
+    -23.32
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "6430 Winslow St",
+   "addr_source": "city_owned",
+   "addr_street": "Winslow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN PTS 32-33-34 LOT 24X74 IN ALL W",
+    "lotarea": 1776,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1776,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 74,
+    "depth_avg": false,
+    "dims": "24X74",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Enterprise Plan",
+    "plan_lot": "PTS 32-33-34"
+   },
+   "lot": 182,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 66.6,
+    "width": 28.5
+   },
+   "mapblocklo": "124-P-182",
+   "mapped_area": 1853.2,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00182000000",
+   "poly": [
+    [
+     [
+      147.9,
+      -60.48
+     ],
+     [
+      148.15,
+      -32.38
+     ],
+     [
+      82.52,
+      -33.43
+     ],
+     [
+      82.37,
+      -61.85
+     ],
+     [
+      147.9,
+      -60.48
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1776,
+    "deed_area": 1776,
+    "mapped": 1853.2,
+    "ratio": 1.043,
+    "state": "ok"
+   },
+   "rep_point": [
+    115.24,
+    -46.96
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Winslow St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Winslow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "E PLAN PTS 32-33-34 LOT 24X74 IN ALL WINSLOW ST",
+    "lotarea": 1776,
+    "ownercat": "REGULAR",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": null,
+   "deed": {
+    "depth": 74,
+    "depth_avg": false,
+    "dims": "24X74",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "E Plan",
+    "plan_lot": "PTS 32-33-34"
+   },
+   "lot": 183,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 65.7,
+    "width": 24.2
+   },
+   "mapblocklo": "124-P-183",
+   "mapped_area": 1480.7,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00183000000",
+   "poly": [
+    [
+     [
+      147.76,
+      -84.64
+     ],
+     [
+      147.9,
+      -60.48
+     ],
+     [
+      82.37,
+      -61.85
+     ],
+     [
+      82.23,
+      -82.89
+     ],
+     [
+      147.76,
+      -84.64
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1776,
+    "deed_area": 1776,
+    "mapped": 1480.7,
+    "ratio": 0.834,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    115.07,
+    -72.37
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "6426 Winslow St",
+   "addr_source": "city_owned",
+   "addr_street": "Winslow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "JOS DICK ENTERPRISE PLAN PTS 32-33-34 LOT 21.04",
+    "lotarea": 1557,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1557,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": null,
+   "deed_note": "LEGAL1 fills its 47-character field and ends inside the dimensions, so the last number may be cut off; no deed dimensions are read",
+   "lot": 184,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 65.8,
+    "width": 22.7
+   },
+   "mapblocklo": "124-P-184",
+   "mapped_area": 1399.8,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00184000000",
+   "poly": [
+    [
+     [
+      147.76,
+      -84.64
+     ],
+     [
+      82.23,
+      -82.89
+     ],
+     [
+      82.09,
+      -105.49
+     ],
+     [
+      147.66,
+      -104.74
+     ],
+     [
+      147.76,
+      -84.64
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1557,
+    "deed_area": null,
+    "mapped": 1399.8,
+    "ratio": 0.899,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    114.93,
+    -94.69
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "520 Winfield St",
+   "addr_source": "city_owned",
+   "addr_street": "Winfield Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "PLAN 35 LOT 25.14X69.37 WINFIELD ST BET MEADOW",
+    "lotarea": 1734,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1734,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 69.37,
+    "depth_avg": false,
+    "dims": "25.14X69.37",
+    "front": 25.14,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Plan",
+    "plan_lot": "35"
+   },
+   "lot": 185,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 72.8,
+    "width": 26.4
+   },
+   "mapblocklo": "124-P-185",
+   "mapped_area": 1881.4,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00185000000",
+   "poly": [
+    [
+     [
+      55.78,
+      -105.76
+     ],
+     [
+      82.09,
+      -105.49
+     ],
+     [
+      82.23,
+      -82.89
+     ],
+     [
+      82.37,
+      -61.85
+     ],
+     [
+      82.52,
+      -33.43
+     ],
+     [
+      56.55,
+      -33.91
+     ],
+     [
+      55.78,
+      -105.76
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1734,
+    "deed_area": 1744,
+    "mapped": 1881.4,
+    "ratio": 1.085,
+    "state": "ok"
+   },
+   "rep_point": [
+    69.22,
+    -72.37
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "516 Winfield St",
+   "addr_source": "city_owned",
+   "addr_street": "Winfield Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "GOVERNMENT",
+    "finish": null,
+    "legal": "JAS C DICK PLAN 36 LOT 25XAVG92.7 WINIFIELD ST",
+    "lotarea": 2318,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "MUNICIPAL GOVERNMENT",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 2318,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 92.7,
+    "depth_avg": true,
+    "dims": "25XAVG92.7",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Jas C Dick Plan",
+    "plan_lot": "36"
+   },
+   "lot": 186,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 92.1,
+    "width": 29.8
+   },
+   "mapblocklo": "124-P-186",
+   "mapped_area": 2594.0,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00186000000",
+   "poly": [
+    [
+     [
+      28.84,
+      -106.05
+     ],
+     [
+      55.78,
+      -105.76
+     ],
+     [
+      56.55,
+      -33.91
+     ],
+     [
+      56.81,
+      -14.2
+     ],
+     [
+      27.14,
+      -14.18
+     ],
+     [
+      28.84,
+      -106.05
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2318,
+    "deed_area": 2317.5,
+    "mapped": 2594.0,
+    "ratio": 1.119,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    42.17,
+    -69.84
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Winfield St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Winfield Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN 37 LOT 25XAVG92.86 WINFIELD ST",
+    "lotarea": 2322,
+    "ownercat": "REGULAR",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": null,
+   "deed": {
+    "depth": 92.86,
+    "depth_avg": true,
+    "dims": "25XAVG92.86",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "37"
+   },
+   "lot": 187,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 92.5,
+    "width": 29.6
+   },
+   "mapblocklo": "124-P-187",
+   "mapped_area": 2561.0,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00187000000",
+   "poly": [
+    [
+     [
+      -0.69,
+      -106.38
+     ],
+     [
+      28.84,
+      -106.05
+     ],
+     [
+      27.14,
+      -14.18
+     ],
+     [
+      1.04,
+      -14.13
+     ],
+     [
+      -0.69,
+      -106.38
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2322,
+    "deed_area": 2321.5,
+    "mapped": 2561.0,
+    "ratio": 1.103,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    14.08,
+    -60.11
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "512 Winfield St",
+   "addr_source": "assessment",
+   "addr_street": "Winfield Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "ENTERPRISE PLAN 38 LOT 25XAVG93 WINFIELD ST",
+    "lotarea": 2325,
+    "ownercat": "REGULAR",
+    "sqft": 1570,
+    "stories": 2,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1920
+   },
+   "building_ids": [
+    "b532401"
+   ],
+   "built": true,
+   "built_basis": "footprint b532401 centroid in lot; assessment YEARBLT 1920 (SINGLE FAMILY)",
+   "city": null,
+   "deed": {
+    "depth": 93,
+    "depth_avg": true,
+    "dims": "25XAVG93",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "38"
+   },
+   "lot": 188,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 92.8,
+    "width": 27.4
+   },
+   "mapblocklo": "124-P-188",
+   "mapped_area": 2381.1,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00188000000",
+   "poly": [
+    [
+     [
+      1.04,
+      -14.13
+     ],
+     [
+      -26.28,
+      -14.13
+     ],
+     [
+      -24.91,
+      -106.7
+     ],
+     [
+      -0.69,
+      -106.38
+     ],
+     [
+      1.04,
+      -14.13
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2325,
+    "deed_area": 2325,
+    "mapped": 2381.1,
+    "ratio": 1.024,
+    "state": "ok"
+   },
+   "rep_point": [
+    -12.71,
+    -60.26
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "510 Winfield St",
+   "addr_source": "assessment",
+   "addr_street": "Winfield Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "ENTERPRISE PLAN 39 LOT 25XAVG93.15 WINFIELD ST",
+    "lotarea": 2329,
+    "ownercat": "REGULAR",
+    "sqft": 1570,
+    "stories": 2,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1920
+   },
+   "building_ids": [
+    "b532802"
+   ],
+   "built": true,
+   "built_basis": "footprint b532802 centroid in lot; assessment YEARBLT 1920 (SINGLE FAMILY)",
+   "city": null,
+   "deed": {
+    "depth": 93.15,
+    "depth_avg": true,
+    "dims": "25XAVG93.15",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "39"
+   },
+   "lot": 189,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 93.1,
+    "width": 26.8
+   },
+   "mapblocklo": "124-P-189",
+   "mapped_area": 2449.5,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00189000000",
+   "poly": [
+    [
+     [
+      -26.28,
+      -14.13
+     ],
+     [
+      -52.45,
+      -14.15
+     ],
+     [
+      -52.17,
+      -38.61
+     ],
+     [
+      -52.03,
+      -63.1
+     ],
+     [
+      -51.8,
+      -84.39
+     ],
+     [
+      -51.62,
+      -106.98
+     ],
+     [
+      -24.91,
+      -106.7
+     ],
+     [
+      -26.28,
+      -14.13
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2329,
+    "deed_area": 2328.8,
+    "mapped": 2449.5,
+    "ratio": 1.052,
+    "state": "ok"
+   },
+   "rep_point": [
+    -38.92,
+    -50.86
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Meadow St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Meadow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN PTS 40-41- 42-43 LOT 23.45X99.2",
+    "lotarea": 2327,
+    "ownercat": "REGULAR",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": null,
+   "deed": null,
+   "deed_note": "LEGAL1 fills its 47-character field and ends inside the dimensions, so the last number may be cut off; no deed dimensions are read",
+   "lot": 190,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 93.5,
+    "width": 22.6
+   },
+   "mapblocklo": "124-P-190",
+   "mapped_area": 2070.4,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00190000000",
+   "poly": [
+    [
+     [
+      -51.8,
+      -84.39
+     ],
+     [
+      -144.62,
+      -86.03
+     ],
+     [
+      -144.63,
+      -108.0
+     ],
+     [
+      -51.62,
+      -106.98
+     ],
+     [
+      -51.8,
+      -84.39
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2327,
+    "deed_area": null,
+    "mapped": 2070.4,
+    "ratio": 0.89,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    -98.16,
+    -96.5
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Meadow St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Meadow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN 40-41-42-43 LOT 23.45X99 IN ALL",
+    "lotarea": 2277,
+    "ownercat": "REGULAR",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": null,
+   "deed": {
+    "depth": 99,
+    "depth_avg": false,
+    "dims": "23.45X99",
+    "front": 23.45,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "40-41-42-43"
+   },
+   "lot": 191,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 93.1,
+    "width": 23.8
+   },
+   "mapblocklo": "124-P-191",
+   "mapped_area": 2087.5,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00191000000",
+   "poly": [
+    [
+     [
+      -52.03,
+      -63.1
+     ],
+     [
+      -144.76,
+      -62.31
+     ],
+     [
+      -144.62,
+      -86.03
+     ],
+     [
+      -51.8,
+      -84.39
+     ],
+     [
+      -52.03,
+      -63.1
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2277,
+    "deed_area": 2321.5,
+    "mapped": 2087.5,
+    "ratio": 0.917,
+    "state": "ok"
+   },
+   "rep_point": [
+    -98.3,
+    -73.75
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "223 Meadow St",
+   "addr_source": "assessment",
+   "addr_street": "Meadow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "ENTERPRISE PLAN PTS 40-41 42-43 LOT 23.45X99.47",
+    "lotarea": 2277,
+    "ownercat": "REGULAR",
+    "sqft": 2221,
+    "stories": 2,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1900
+   },
+   "building_ids": [
+    "b546808"
+   ],
+   "built": true,
+   "built_basis": "footprint b546808 centroid in lot; assessment YEARBLT 1900 (SINGLE FAMILY)",
+   "city": null,
+   "deed": null,
+   "deed_note": "LEGAL1 fills its 47-character field and ends inside the dimensions, so the last number may be cut off; no deed dimensions are read",
+   "lot": 192,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 93.2,
+    "width": 24.7
+   },
+   "mapblocklo": "124-P-192",
+   "mapped_area": 2276.3,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00192000000",
+   "poly": [
+    [
+     [
+      -52.17,
+      -38.61
+     ],
+     [
+      -144.85,
+      -37.69
+     ],
+     [
+      -144.76,
+      -62.31
+     ],
+     [
+      -52.03,
+      -63.1
+     ],
+     [
+      -52.17,
+      -38.61
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2277,
+    "deed_area": null,
+    "mapped": 2276.3,
+    "ratio": 1.0,
+    "state": "no_deed"
+   },
+   "rep_point": [
+    -98.45,
+    -50.46
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "225 Meadow St",
+   "addr_source": "assessment",
+   "addr_street": "Meadow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "DICKS ENTERPRISE PL PTS 40-41-42-43 LOT 23.45XA",
+    "lotarea": 2277,
+    "ownercat": "REGULAR",
+    "sqft": 2350,
+    "stories": 2,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1910
+   },
+   "building_ids": [
+    "b570949"
+   ],
+   "built": true,
+   "built_basis": "footprint b570949 centroid in lot; assessment YEARBLT 1910 (SINGLE FAMILY)",
+   "city": null,
+   "deed": null,
+   "deed_note": "LEGAL1 fills its 47-character field and ends inside the dimensions, so the last number may be cut off; no deed dimensions are read",
+   "lot": 193,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 93.0,
+    "width": 24.5
+   },
+   "mapblocklo": "124-P-193",
+   "mapped_area": 2223.6,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00193000000",
+   "poly": [
+    [
+     [
+      -52.45,
+      -14.15
+     ],
+     [
+      -144.89,
+      -14.1
+     ],
+     [
+      -144.85,
+      -37.69
+     ],
+     [
+      -52.17,
+      -38.61
+     ],
+     [
+      -52.45,
+      -14.15
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2277,
+    "deed_area": null,
+    "mapped": 2223.6,
+    "ratio": 0.977,
+    "state": "no_deed"
+   },
+   "rep_point": [
+    -98.59,
+    -25.92
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "243 Meadow St",
+   "addr_source": "city_owned",
+   "addr_street": "Meadow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "COMMERCIAL",
+    "finish": null,
+    "legal": "LOT 100X100 MEADOW ST COR LOWELL",
+    "lotarea": 10000,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT COMMERCIAL LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 10000,
+    "status": "Sale Pending",
+    "status_updated": "2018-03-15",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 100,
+    "depth_avg": false,
+    "dims": "100X100",
+    "front": 100,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 199,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 100.1,
+    "width": 100.0
+   },
+   "mapblocklo": "124-P-199",
+   "mapped_area": 9958.6,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00199000000",
+   "poly": [
+    [
+     [
+      -49.9,
+      104.93
+     ],
+     [
+      -149.59,
+      104.93
+     ],
+     [
+      -149.21,
+      5.04
+     ],
+     [
+      -49.51,
+      5.04
+     ],
+     [
+      -49.9,
+      104.93
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 10000,
+    "deed_area": 10000,
+    "mapped": 9958.6,
+    "ratio": 0.996,
+    "state": "ok"
+   },
+   "rep_point": [
+    -99.55,
+    54.99
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "Lowell St (no number)",
+   "addr_source": "assessment",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "LOT 26.05X100 LOWELL & MEADOW ST",
+    "lotarea": 2600,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "depth_avg": false,
+    "dims": "26.05X100",
+    "front": 26.05,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 200,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 100.1,
+    "width": 26.0
+   },
+   "mapblocklo": "124-P-200",
+   "mapped_area": 2594.2,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00200000000",
+   "poly": [
+    [
+     [
+      -49.51,
+      5.04
+     ],
+     [
+      -23.54,
+      5.04
+     ],
+     [
+      -23.93,
+      104.93
+     ],
+     [
+      -49.9,
+      104.93
+     ],
+     [
+      -49.51,
+      5.04
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2600,
+    "deed_area": 2605,
+    "mapped": 2594.2,
+    "ratio": 0.998,
+    "state": "ok"
+   },
+   "rep_point": [
+    -36.72,
+    54.99
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "507 Lowell St",
+   "addr_source": "assessment",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Brick",
+    "legal": "LOT 26.05X100X26.05 RR LOWELL ST",
+    "lotarea": 2600,
+    "ownercat": "REGULAR",
+    "sqft": 2448,
+    "stories": 2,
+    "use": "TWO FAMILY",
+    "yearbuilt": 1904
+   },
+   "building_ids": [
+    "b559012"
+   ],
+   "built": true,
+   "built_basis": "footprint b559012 centroid in lot; assessment YEARBLT 1904 (TWO FAMILY)",
+   "city": null,
+   "deed": {
+    "depth": 100,
+    "depth_avg": false,
+    "dims": "26.05X100X26.05",
+    "front": 26.05,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": null,
+    "plan_lot": null
+   },
+   "lot": 201,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 100.1,
+    "width": 26.1
+   },
+   "mapblocklo": "124-P-201",
+   "mapped_area": 2594.2,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00201000000",
+   "poly": [
+    [
+     [
+      2.05,
+      104.93
+     ],
+     [
+      -23.93,
+      104.93
+     ],
+     [
+      -23.54,
+      5.04
+     ],
+     [
+      2.43,
+      5.04
+     ],
+     [
+      2.05,
+      104.93
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2600,
+    "deed_area": 2605,
+    "mapped": 2594.2,
+    "ratio": 0.998,
+    "state": "ok"
+   },
+   "rep_point": [
+    -10.75,
+    54.99
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "509 Lowell St",
+   "addr_source": "city_owned",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "J C DICK ENTERPRISE PLAN 44 LOT 25X100X23.92 RR",
+    "lotarea": 1550,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1550,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 100,
+    "depth_avg": false,
+    "dims": "25X100X23.92",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "J C Dick Enterprise Plan",
+    "plan_lot": "44"
+   },
+   "lot": 202,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 100.1,
+    "width": 23.9
+   },
+   "mapblocklo": "124-P-202",
+   "mapped_area": 2382.1,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00202000000",
+   "poly": [
+    [
+     [
+      25.89,
+      104.93
+     ],
+     [
+      2.05,
+      104.93
+     ],
+     [
+      2.43,
+      5.04
+     ],
+     [
+      26.28,
+      5.04
+     ],
+     [
+      25.89,
+      104.93
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1550,
+    "deed_area": 2500,
+    "mapped": 2382.1,
+    "ratio": 1.537,
+    "state": "records_disagree"
+   },
+   "rep_point": [
+    14.16,
+    54.99
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "511 Lowell St",
+   "addr_source": "city_owned",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN 45 LOT 24X100 LOWELL ST",
+    "lotarea": 2400,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 2400,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 100,
+    "depth_avg": false,
+    "dims": "24X100",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "45"
+   },
+   "lot": 203,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 100.1,
+    "width": 24.0
+   },
+   "mapblocklo": "124-P-203",
+   "mapped_area": 2390.1,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00203000000",
+   "poly": [
+    [
+     [
+      50.11,
+      30.12
+     ],
+     [
+      49.82,
+      104.93
+     ],
+     [
+      25.89,
+      104.93
+     ],
+     [
+      26.28,
+      5.04
+     ],
+     [
+      50.21,
+      5.04
+     ],
+     [
+      50.11,
+      30.12
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2400,
+    "deed_area": 2400,
+    "mapped": 2390.1,
+    "ratio": 0.996,
+    "state": "ok"
+   },
+   "rep_point": [
+    38.0,
+    67.53
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "513 Lowell St",
+   "addr_source": "assessment",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Brick",
+    "legal": "ENTERPRISE PLAN PT 46 LOT 24X75 LOWELL ST",
+    "lotarea": 1800,
+    "ownercat": "REGULAR",
+    "sqft": 2216,
+    "stories": 3,
+    "use": "SINGLE FAMILY",
+    "yearbuilt": 1900
+   },
+   "building_ids": [
+    "b540530"
+   ],
+   "built": true,
+   "built_basis": "footprint b540530 centroid in lot; assessment YEARBLT 1900 (SINGLE FAMILY)",
+   "city": null,
+   "deed": {
+    "depth": 75,
+    "depth_avg": false,
+    "dims": "24X75",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Enterprise Plan",
+    "plan_lot": "46"
+   },
+   "lot": 204,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 75.0,
+    "width": 24.0
+   },
+   "mapblocklo": "124-P-204",
+   "mapped_area": 1790.0,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00204000000",
+   "poly": [
+    [
+     [
+      50.11,
+      30.12
+     ],
+     [
+      74.04,
+      30.12
+     ],
+     [
+      73.75,
+      104.93
+     ],
+     [
+      49.82,
+      104.93
+     ],
+     [
+      50.11,
+      30.12
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1800,
+    "deed_area": 1800,
+    "mapped": 1790.0,
+    "ratio": 0.994,
+    "state": "ok"
+   },
+   "rep_point": [
+    61.93,
+    67.53
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "515 Lowell St",
+   "addr_source": "city_owned",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN PT 47 LOT 24X75 LOWELL ST",
+    "lotarea": 1800,
+    "ownercat": "REGULAR",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1800,
+    "status": "Sale Pending",
+    "status_updated": "2019-05-06",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 75,
+    "depth_avg": false,
+    "dims": "24X75",
+    "front": 24,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Enterprise Plan",
+    "plan_lot": "47"
+   },
+   "lot": 205,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 75.0,
+    "width": 24.0
+   },
+   "mapblocklo": "124-P-205",
+   "mapped_area": 1790.1,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00205000000",
+   "poly": [
+    [
+     [
+      74.04,
+      30.12
+     ],
+     [
+      97.96,
+      30.12
+     ],
+     [
+      97.67,
+      104.93
+     ],
+     [
+      73.75,
+      104.93
+     ],
+     [
+      74.04,
+      30.12
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1800,
+    "deed_area": 1800,
+    "mapped": 1790.1,
+    "ratio": 0.994,
+    "state": "ok"
+   },
+   "rep_point": [
+    85.86,
+    67.53
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "517 Lowell St",
+   "addr_source": "city_owned",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN 48 LOT 23.34X75 LOWELL ST BET M",
+    "lotarea": 1725,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1725,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 75,
+    "depth_avg": false,
+    "dims": "23.34X75",
+    "front": 23.34,
+    "parsed_from": "LEGAL1",
+    "part": false,
+    "plan": "Enterprise Plan",
+    "plan_lot": "48"
+   },
+   "lot": 206,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 75.0,
+    "width": 23.3
+   },
+   "mapblocklo": "124-P-206",
+   "mapped_area": 1740.8,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00206000000",
+   "poly": [
+    [
+     [
+      120.94,
+      104.93
+     ],
+     [
+      97.67,
+      104.93
+     ],
+     [
+      97.96,
+      30.12
+     ],
+     [
+      121.23,
+      30.12
+     ],
+     [
+      120.94,
+      104.93
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1725,
+    "deed_area": 1750.5,
+    "mapped": 1740.8,
+    "ratio": 1.009,
+    "state": "ok"
+   },
+   "rep_point": [
+    109.45,
+    67.53
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "519 Lowell St",
+   "addr_source": "city_owned",
+   "addr_street": "Lowell Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": null,
+    "legal": "ENTERPRISE PLAN PTS 48-49 LOT 25.7X75X26.5 RR I",
+    "lotarea": 1875,
+    "ownercat": "CORPORATION",
+    "sqft": null,
+    "stories": null,
+    "use": "VACANT LAND",
+    "yearbuilt": null
+   },
+   "building_ids": [],
+   "built": false,
+   "built_basis": "no footprint centroid in lot; assessment has no YEARBLT",
+   "city": {
+    "class": "Vacant Land",
+    "inventory": "Public Sale",
+    "sq_ft": 1875,
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "zoned_as": "R1D-H"
+   },
+   "deed": {
+    "depth": 75,
+    "depth_avg": false,
+    "dims": "25.7X75X26.5",
+    "front": 25.7,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Enterprise Plan",
+    "plan_lot": "PTS 48-49"
+   },
+   "lot": 207,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 75.0,
+    "width": 26.8
+   },
+   "mapblocklo": "124-P-207",
+   "mapped_area": 1997.4,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00207000000",
+   "poly": [
+    [
+     [
+      120.94,
+      104.93
+     ],
+     [
+      121.23,
+      30.12
+     ],
+     [
+      147.93,
+      30.12
+     ],
+     [
+      147.64,
+      104.93
+     ],
+     [
+      120.94,
+      104.93
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 1875,
+    "deed_area": 1927.5,
+    "mapped": 1997.4,
+    "ratio": 1.065,
+    "state": "ok"
+   },
+   "rep_point": [
+    134.44,
+    67.53
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  },
+  {
+   "addr": "6434 Winslow St",
+   "addr_source": "assessment",
+   "addr_street": "Winslow Street",
+   "assess": {
+    "asof": "2026-09-01",
+    "class": "RESIDENTIAL",
+    "finish": "Frame",
+    "legal": "ENTERPRISE PLAN PTS 46-47- 48-49 LOT 25X98.12 I",
+    "lotarea": 2453,
+    "ownercat": "REGULAR",
+    "sqft": 2170,
+    "stories": 2,
+    "use": "THREE FAMILY",
+    "yearbuilt": 1910
+   },
+   "building_ids": [
+    "b555365"
+   ],
+   "built": true,
+   "built_basis": "footprint b555365 centroid in lot; assessment YEARBLT 1910 (THREE FAMILY)",
+   "city": null,
+   "deed": {
+    "depth": 98.12,
+    "depth_avg": false,
+    "dims": "25X98.12",
+    "front": 25,
+    "parsed_from": "LEGAL1",
+    "part": true,
+    "plan": "Enterprise Plan",
+    "plan_lot": "PTS 46-47- 48-49"
+   },
+   "lot": 208,
+   "lot_suffix": null,
+   "lotdim": {
+    "len": 98.6,
+    "width": 25.1
+   },
+   "mapblocklo": "124-P-208",
+   "mapped_area": 2418.8,
+   "overlays": [
+    "RCO - Larimer Consensus Group"
+   ],
+   "pin": "0124P00208000000",
+   "poly": [
+    [
+     [
+      147.93,
+      30.12
+     ],
+     [
+      121.23,
+      30.12
+     ],
+     [
+      97.96,
+      30.12
+     ],
+     [
+      74.04,
+      30.12
+     ],
+     [
+      50.11,
+      30.12
+     ],
+     [
+      50.21,
+      5.04
+     ],
+     [
+      148.49,
+      5.87
+     ],
+     [
+      147.93,
+      30.12
+     ]
+    ]
+   ],
+   "recon": {
+    "assessed": 2453,
+    "deed_area": 2453,
+    "mapped": 2418.8,
+    "ratio": 0.986,
+    "state": "ok"
+   },
+   "rep_point": [
+    99.18,
+    17.99
+   ],
+   "slope25": 0.0,
+   "undermined": 0.0,
+   "zone": "R1D-H",
+   "zone_frac": 1.0
+  }
+ ],
+ "slope": [],
+ "streets": [
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -269.59,
+     130.24
+    ],
+    [
+     -196.55,
+     129.31
+    ],
+    [
+     -174.37,
+     129.02
+    ],
+    [
+     -158.55,
+     129.01
+    ],
+    [
+     150.75,
+     128.33
+    ],
+    [
+     172.48,
+     128.71
+    ]
+   ],
+   "name": "Lowell Street",
+   "osm_id": 11809320
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     172.48,
+     128.71
+    ],
+    [
+     189.51,
+     128.66
+    ],
+    [
+     268.49,
+     128.42
+    ]
+   ],
+   "name": "Lowell Street",
+   "osm_id": 1512853012
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -171.54,
+     -228.0
+    ],
+    [
+     -172.66,
+     -129.26
+    ],
+    [
+     -175.76,
+     -5.51
+    ],
+    [
+     -174.55,
+     112.09
+    ],
+    [
+     -174.37,
+     129.02
+    ],
+    [
+     -174.88,
+     150.61
+    ],
+    [
+     -176.66,
+     224.93
+    ]
+   ],
+   "name": "Meadow Street",
+   "osm_id": 55127964
+  },
+  {
+   "highway": "service",
+   "line": [
+    [
+     -262.19,
+     224.93
+    ],
+    [
+     -269.59,
+     208.88
+    ]
+   ],
+   "name": "Roslyn Way",
+   "osm_id": 1463042439
+  },
+  {
+   "highway": "service",
+   "line": [
+    [
+     -175.76,
+     -5.51
+    ],
+    [
+     -156.07,
+     -5.57
+    ],
+    [
+     154.75,
+     -6.56
+    ],
+    [
+     172.45,
+     -6.61
+    ],
+    [
+     192.12,
+     -6.78
+    ],
+    [
+     268.49,
+     -7.43
+    ]
+   ],
+   "name": "Victor Way",
+   "osm_id": 11955607
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     -172.66,
+     -129.26
+    ],
+    [
+     -154.18,
+     -129.11
+    ],
+    [
+     157.71,
+     -126.36
+    ],
+    [
+     173.87,
+     -126.21
+    ]
+   ],
+   "name": "Winfield Street",
+   "osm_id": 11833116
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     173.87,
+     -126.21
+    ],
+    [
+     192.03,
+     -126.29
+    ],
+    [
+     268.49,
+     -126.59
+    ]
+   ],
+   "name": "Winfield Street",
+   "osm_id": 1512837642
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     175.0,
+     -228.0
+    ],
+    [
+     174.06,
+     -142.0
+    ],
+    [
+     173.87,
+     -126.21
+    ],
+    [
+     173.72,
+     -114.21
+    ],
+    [
+     172.45,
+     -6.61
+    ],
+    [
+     172.44,
+     30.27
+    ]
+   ],
+   "name": "Winslow Street",
+   "osm_id": 11839851
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     172.48,
+     128.71
+    ],
+    [
+     172.46,
+     147.89
+    ],
+    [
+     172.48,
+     224.93
+    ]
+   ],
+   "name": "Winslow Street",
+   "osm_id": 885854610
+  },
+  {
+   "highway": "residential",
+   "line": [
+    [
+     172.44,
+     30.27
+    ],
+    [
+     172.48,
+     110.2
+    ],
+    [
+     172.48,
+     128.71
+    ]
+   ],
+   "name": "Winslow Street",
+   "osm_id": 1512837637
+  }
+ ],
+ "undermined": []
+}

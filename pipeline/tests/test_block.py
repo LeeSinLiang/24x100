@@ -45,7 +45,8 @@ def test_lot_22_records_disagree(by_pin):
     assert 2450 <= p["recon"]["mapped"] <= 2550
     assert 2.0 <= p["recon"]["ratio"] <= 2.2
     assert p["deed"]["plan_lot"] == "64" and p["deed"]["part"] is True
-    assert p["built"] is True and set(p["built_evidence"]) == {"footprint", "assessment"}
+    assert p["built"] is True
+    assert "centroid in lot" in p["built_basis"] and "YEARBLT 1910" in p["built_basis"]
 
 
 def test_lot_25_ok(by_pin):
@@ -58,7 +59,7 @@ def test_lot_25_ok(by_pin):
     assert abs(p["recon"]["mapped"] - 2287) / 2287 < 0.01
     assert 0.94 <= p["recon"]["ratio"] <= 0.96
     assert p["deed"] == {"plan": "Robt Robb Plan", "plan_lot": "67", "part": False, "front": 24, "depth": 100,
-                         "dims": "24X100", "parsed_from": "LEGAL1"}
+                         "depth_avg": False, "dims": "24X100", "parsed_from": "LEGAL1"}
     assert p["city"]["status"] == "Available for Sale"
     assert p["city"]["status_updated"] == "2016-11-17"
     assert p["zone"] == "RM-M" and p["zone_frac"] == 1.0

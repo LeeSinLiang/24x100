@@ -1,4 +1,4 @@
-from pipeline.legal import addr_display, normalize_street, parse_legal1, pin_lot, split_address
+from pipeline.legal import addr_display, legal1_cut, match_osm_street, normalize_street, parse_legal1, pin_lot, split_address
 
 
 def test_robb_plan_lot_67():
@@ -63,3 +63,32 @@ def test_addresses():
     assert normalize_street("MAHON ST") == "Mahon Street"
     assert normalize_street("WYLIE AV") == "Wylie Avenue"
     assert normalize_street("HUMBER WAY") == "Humber Way"
+
+
+def test_average_depth_and_pl_abbreviation():
+    d = parse_legal1("J C DICK ENTERPRISE PLAN 24-25 LOT 50XAVG90.72 ")
+    assert (d["front"], d["depth"], d["depth_avg"], d["plan_lot"]) == (50, 90.72, True, "24-25")
+    d = parse_legal1("ENTERPRISE PL PTS 16-17-18-19 LOT 22.28XAVG100 ")
+    assert d["plan"] == "Enterprise Pl" and d["plan_lot"] == "PTS 16-17-18-19" and d["part"] is True
+
+
+def test_cut_legal1_is_not_parsed():
+    # 47-character field, text runs out inside the dimensions: never read a cut number
+    for t in ("MELLONS COLLINS PARK PLAN PT 42 ALL 41 LOT 30X1",
+              "JOS DICK ENTERPRISE PLAN PTS 32-33-34 LOT 21.04",
+              "DICKS ENTERPRISE PL PTS 40-41-42-43 LOT 23.45XA",
+              "ENTERPRISE PLAN PTS 32-33-34 35 LOT 23.05XAVG98"):
+        assert len(t) == 47 and legal1_cut(t) and parse_legal1(t) is None
+    # padded (complete) or dimensions ending before the last character: parsed
+    for t in ("ENTERPRISE PL PTS 16-17-18-19 LOT 22.28XAVG100 ",
+              "ROBT ROBB PLAN 67 LOT 24X100 MAHON ST BET KIRKP",
+              "MELLON PLAN PTS 5-6 LOT 18.75X49.75 IN ALL LOWELL ST"):
+        assert not legal1_cut(t) and parse_legal1(t) is not None
+
+
+def test_osm_street_match():
+    names = ["Shetland Street", "Lowell Street", "Renfrew Street", "Mahon Street", "Humber Way"]
+    assert match_osm_street("SHETLAND AV", names) == "Shetland Street"
+    assert match_osm_street("MAHON ST", names) == "Mahon Street"
+    assert match_osm_street("HUMBER WAY", names) == "Humber Way"
+    assert match_osm_street("REMFREW ST", names) == "Remfrew Street"  # no fuzzy guessing
