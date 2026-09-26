@@ -40,23 +40,25 @@ Composition at 1440×900 and at 1920×1080 (record mode):
 
 ```
 ┌ header: cartouche · breadcrumb (City › Middle Hill › Block 10‑K › 2241 Mahon St) · search · Present ┐
-│ SENTENCE (display serif, 2 lines max)                             │ WIDTH NUMERAL "4 ft"  (huge)     │
-│ scenario rail: Detached · Two-unit · Rowhouses ×3 · Three-unit on 3 lots                              │
-├─────────────────────────────────────── PLATE (full width) ───────────────────────────────────────────┤
-│  Humber Way seam                                                                                     │
-│  [34][33][32][31][30][29][28][27][26][25][24][23][22][21]   every lot shows its envelope             │
-│  MAHON STREET                                                                  N arrow · 0–50–100 ft │
-├──────────────── RULES WALL ────────────────┬──────────────── MONEY WALL (hypothesis H5) ─────────────┤
-│ verdict line                               │ verdict line                                            │
-│ ledger: check · required · available ·     │ three bars per home on one $ scale:                     │
-│ short · source                             │ cost (red range) · sells for (IQR band, median tick) ·  │
-│ approvals · score stamp (small, heuristic) │ affordable at 80% AMI · dashed break-even               │
-└────────────────────────────────────────────┴─────────────────────────────────────────────────────────┘
+│ scenario rail: Detached · Two-unit · Rowhouses on 25–27 · Three-unit on 25–27 │ SENTENCE (display serif)   │
+│ PLATE (62%): the row, every lot's envelope                                    │ WHAT FITS: numeral          │
+│                                                                               │ WHAT BLOCKS IT: verdict +   │
+│                                                                               │   Money · Rules · Site chips│
+│ explanation · legend                                                          │ WHAT TO DO NEXT: first check│
+├──────────────── MONEY (checked first) ───────────┬──────────────── RULES (checked second) ────────────┤
+│ vertical cost (practitioner estimate) · three    │ ledger: check · required · available · short ·     │
+│ value signals · gap "at least $X" (lower bound)  │ source · relief · approvals · ways forward          │
+├──────────────── SITE (not assessed) ─────────────┼──────────────── WHAT TO CHECK NEXT, IN ORDER ──────┤
+│ soil · environmental · water and sewer: signal → │ free → free → low cost → paid; draft the letter      │
+│ what resolves it                                 │                                                      │
+└──────────────────────────────────────────────────┴──────────────────────────────────────────────────────┘
 ```
 
 The three answers a first-time user needs, **What fits · What blocks it · What to do next**, are
-the first three things the eye meets: the numeral (what fits), the two wall verdicts (what blocks
-it) and the unlock button under the sentence (what to do next). Label them with those exact words.
+the first three things the eye meets: the numeral (what fits), the verdict with its Money · Rules · Site
+chips (what blocks it) and the first check or the smallest unlock (what to do next). Label them with
+those exact words. Below them the four panels run in the order a developer checks them (spec §0.12):
+**Money → Rules → Site → What to check next**. There is **no score** anywhere.
 
 ---
 
@@ -72,7 +74,8 @@ inverted atlas: pale lines on deep blue, washes desaturated.
 | `--ink` | #1E1A15 | #E6EEF3 | sourced facts, lot lines, body text |
 | `--ink-2` | #4A443A | #B4C5D2 | secondary text |
 | `--graphite` | #7A756B | #8CA3B6 | pencil: AI proposals, unresolved |
-| `--red` | #B01E33 | #FF8B7B | the user's proposal, assumptions, weights, score |
+| `--red` | #B01E33 | #FF8B7B | the user's proposal and assumptions |
+| `--est` | #5A4A9C | #C3B3F2 | a practitioner's estimate (not ink, not pencil, not your red) |
 | `--brick` | #E8A596 | #8C4B45 | brick building wash |
 | `--frame` | #EDD27D | #8A7632 | wood-frame building wash |
 | `--stone` | #A8C3CE | #3A6680 | stone / public building wash |
@@ -166,7 +169,8 @@ Nothing else decides how trust looks.
 | **Ink · rule** | a rule a named reviewer matched to the quoted code text | solid `--ink`; section chip (`§903.03.C`) |
 | **Ink · record** | a dataset value with its pull date | solid `--ink`; dataset chip (`County assessment · 1 Sep 2026`) |
 | **Pencil** | an AI proposal, or anything unresolved | `--graphite`, 1px dashed underline or dashed box, **boiling** (§6.1), italic in prose |
-| **Red** | the user's proposal, assumptions and weights, including an *assumed* answer to an ambiguous clause | `--red`, editable control or a red underline; always labeled with who set it |
+| **Red** | the user's proposal and assumptions, including an *assumed* answer to an ambiguous clause | `--red`, editable control or a red underline; always labeled with who set it |
+| **Practitioner estimate** | a number a practitioner gave us, unconfirmed (today: vertical construction cost, $325–$375/sq ft) | `--est` violet text with a dotted underline, a hollow rotated-square mark ◇, the words "practitioner estimate" and who supplied it; never red, never ink |
 | **City-confirmed** | an interpretation the City confirmed | ink plus a small seal (a 12px circle, double ring, Old Standard "C") and the reference |
 | **Struck** | a rule a reviewer rejected | line-through in `--graphite`; stays visible |
 | **Records disagree** | two sources conflict beyond tolerance | both values in ink side by side; red stamp **Can't score** |
@@ -181,7 +185,7 @@ Rules for combining states:
    carries a small `AI-checked · needs a teammate` tag until a person re-signs it.
 3. **No † citation is ever ink** until a named person signs it in the review screen.
 4. **Assumption ≠ confirmation.** Choosing an answer to an ambiguous clause turns the affected
-   numbers red, keeps the score range open, and keeps the question in the inquiry.
+   numbers red, keeps the Rules chip open, and keeps the question in the inquiry.
 
 ## 6. Craft
 
@@ -236,10 +240,17 @@ busy. Write the way a good planner talks across a table.
 - **Separate the four kinds of thing:** geometry ("as of right, the widest two-unit here is 4 ft"),
   your proposal ("your 16 ft proposal"), regulation ("needs the side setbacks cut from 10 to 4 ft on
   each side") and procedure ("which is a variance").
-- **The score is a heuristic.** Always "score (heuristic)" or "a rough count of approvals". Never
-  "probability", "feasibility rating" or "likelihood".
-- **H5 is a hypothesis.** "Hypothesis H5 (not confirmed): the money gap blocks as often as the
-  rules do." Never state it as a finding.
+- **No score.** A verdict in words: "Can't tell yet", "Only with subsidy (screening estimate)", "Doesn't
+  fit as of right", "Worth a closer look, if …". Never a number out of 100, a probability or a rating.
+- **Money first is an order, not a finding.** "We check money first because it's the cheapest thing to
+  learn (a practitioner's advice); which barrier blocks more often is unproven (H5)." The gap is "at least
+  $X per home" and always carries "lower bound: excludes site work, soft costs, financing and land". The
+  median is "not an appraisal". Never "$0 lot" or "$0 sitework": say "not in this number".
+- **Variance wording, everywhere:** "Doesn't fit as of right. A side-setback variance is a plausible route (a
+  practitioner at the hackathon called this a clear hardship case). It is not approval, and it adds time and
+  cost we can't estimate."
+- **Site is never clean.** "Not assessed, could change the decision", with the free signal and what resolves
+  it (geotechnical investigation, Phase I ESA, PWSA inquiry). No dollar amounts.
 - **Drafts stay drafts.** "Draft inquiry · you send it". Never "send", never "submitted".
 - **Disclaimer, verbatim, on the lot view footer and in every inquiry:** "Decision support, not
   legal, financial or zoning advice. The City of Pittsburgh interprets its own code."
@@ -268,9 +279,11 @@ see the legend.
 | **Unlock button** | Under the sentence: "What to do next → Three-unit on lots 25–27 · 52 ft · lot 26 not City-owned [Try it]". |
 | **Ledger row** | Grid: state mark · check · required · available · short · source chip. The state mark is a 10px square: filled ink, dashed pencil, red outline, struck. |
 | **Source chip** | Barlow caps 11px, underlined; opens the evidence drawer. Rules: `§903.03.C`. Records: `CITY-OWNED PROPERTIES · 2016-11-17`. |
-| **Score stamp** | Secondary. A red ellipse stamp, Old Standard numerals, "score (heuristic)" and "30–60". Can't score → the stamp reads "CAN'T SCORE" with the reason beside it. |
+| **Verdict** | The headline in Old Standard (23px) and three chips, Money · Rules · Site: a glyph (✕ blocks, ? open, ✓ clear, — not assessed), the name in Barlow caps, one line of words in the chip's evidence colour. Can't tell → a "CAN'T SCORE" or grey "RULES NOT LOADED" stamp with the reason. |
 | **Evidence drawer** | Right side, 440px, sheet background, focus-trapped, Esc closes. Shows: quote in context (the matched span highlighted with a `--gold` wash), section, file, URL, retrieved date, verification level with reviewer, role, time, note, and the audit history for that rule. |
-| **Money bars** | One horizontal $ scale per home. Cost: red hatched range. Sells for: ink band from Q1 to Q3, median tick, newest comparable as a dot. Affordable at 80% AMI: red outline (it uses your assumptions). Break-even: dashed vertical line with its label. |
+| **Money panel** | Checked first. Lead: vertical construction per home in `--est` with the ◇ mark and its source. Three value signals as a list (value, label, what it is not). One $ scale: vertical cost as an estimate-hatched range, signals as ticks (median with the middle-half band, the newest build as a dot, the affordable price in red), the gap shaded. "Gap, at least" in Old Standard with its lower-bound label. A red secondary line with soft costs and financing. |
+| **Site panel** | Three rows (soil and foundations, environmental, water and sewer), each a not-assessed dashed mark, the free signal, "Resolves it: …", "Cost: ask a professional". |
+| **What to check next** | An ordered list, Free · Free · Low cost · Paid, each saying what answer would change the decision; then "Draft the letter". |
 | **Review card** | Quote (verbatim), proposed value, section, model name, prompt hash. Actions: Sign as source-checked (needs name, role, note), Strike (needs a reason), Assume (for ambiguous clauses only), Record City confirmation (needs reference, date, who). |
 | **Audit log row** | when · who · role · level · rule · decision · reason. Newest first. Export and import buttons. |
 | **Inquiry** | One page, memo layout, Old Standard title, Public Sans body, source chips inline, red assumptions section, "not assessed" section, disclaimer, "Draft · not sent" watermark in the header. |
@@ -293,7 +306,7 @@ Breakpoints:
 - **≥ 1200px:** as drawn in §1.
 - **768–1199px:** plate full width; the walls stack.
 - **< 768px (390 target):** order is sentence → numeral → plate cropped to the selected lot and
-  its two neighbors → What to do next → rules wall → money wall → ledger. Touch targets ≥ 44px.
+  its two neighbors → money → rules → site → what to check next. Touch targets ≥ 44px.
   No horizontal page scroll. The lot list replaces hover.
 
 Presentation mode (`?present=1`): type ×1.3, floor 16px, no rotated text, lighter hatching, the

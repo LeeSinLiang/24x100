@@ -311,7 +311,18 @@ export function AboutView({ s, block, audit }: ViewProps) {
               <span className="ev ev-red legend-red">16 ft</span>
             </dt>
             <dd>
-              <strong>Red</strong>: yours. Your proposal, your assumptions and weights, labeled with who set them.
+              <strong>Red</strong>: yours. Your proposal and your assumptions, labeled with who set them.
+            </dd>
+          </div>
+          <div>
+            <dt>
+              <span className="ev ev-estimate">
+                <span className="est-mark" aria-hidden="true" />
+                $325
+              </span>
+            </dt>
+            <dd>
+              <strong>Practitioner estimate</strong>: a number a practitioner gave us, unconfirmed, with who supplied it. Not a checked fact and not your assumption.
             </dd>
           </div>
           <div>
