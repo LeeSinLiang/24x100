@@ -259,13 +259,13 @@ export function AboutView({ s, block, audit }: ViewProps) {
           <li>
             <Glyph kind="stamp" />
             <p>
-              <strong>The score is a heuristic, not a probability.</strong> It is a rough, weighted count of the approvals a project would need; the weights are assumptions, shown in red.
+              <strong>There is no score.</strong> Each lot gets a verdict in words (Can’t tell yet · Only with subsidy · Doesn’t fit as of right · Worth a closer look, if …) and three chips, Money · Rules · Site, checked in that order because that is the cheapest order to learn them.
             </p>
           </li>
           <li>
             <Glyph kind="pencil" />
             <p>
-              <strong>“Both walls block” is hypothesis H5, not a finding.</strong> The money wall shows what homes sell for against what a builder would need; it does not prove the gap blocks building.
+              <strong>The money screen is an estimate, and “money first” is an order, not a finding.</strong> Vertical construction cost is one practitioner’s estimate ($325–$375 per sq ft, excluding site work); the gap is a lower bound against the highest of three value signals, none of them an appraisal. Checking money first follows a practitioner’s advice about what to learn first; which barrier blocks more often is unproven (hypothesis H5).
             </p>
           </li>
           <li>
