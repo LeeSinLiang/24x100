@@ -4,9 +4,8 @@
 import { useRef, useState } from 'react';
 import { AI_ROLE } from '@engine/rules';
 import type { AuditEntry, EffectiveRule, QuestionState } from '@engine/types';
-import { fieldName, History, levelWords, ReviewForm, ruleValue } from '../Drawer';
+import { History, levelWords, ReviewForm, ruleValue } from '../Drawer';
 import { Chip, dateFmt, Ev } from '../ui';
-import { hash } from '../../lib/craft';
 import { Seal, TrustMark, type TrustKind } from './marks';
 
 export type AddEntry = (e: Omit<AuditEntry, 'id' | 'at'>) => { ok: boolean; problems: string[] };
@@ -28,10 +27,27 @@ export function ruleKind(r: EffectiveRule): TrustKind {
   return r.state === 'struck' ? 'struck' : r.sealed ? 'sealed' : r.state;
 }
 
-function originWords(r: EffectiveRule): string {
-  if (r.origin === 'answer_key') return 'Answer key · hand-checked';
-  const who = r.model ? `Proposed by ${r.model}` : 'Proposed by the model';
-  return r.prompt_sha ? `${who} · prompt ${String(r.prompt_sha).slice(0, 8)}` : who;
+function originWords(r: EffectiveRule): { label: string; detail: string | null } {
+  if (r.origin === 'answer_key') return { label: 'Answer key', detail: null };
+  const who = r.model ? `proposed by ${r.model}` : 'proposed by the model';
+  return { label: 'Model', detail: r.prompt_sha ? `${who} · prompt ${String(r.prompt_sha).slice(0, 8)}` : who };
+}
+
+/** The verbatim quote, with the saved text's table-cell separators drawn as light rules. */
+export function Quote({ text }: { text: string }) {
+  const parts = text.split(' | ');
+  return (
+    <>
+      “
+      {parts.map((p, i) => (
+        <span key={i}>
+          {i > 0 && <span className="rv-pipe"> | </span>}
+          {p}
+        </span>
+      ))}
+      ”
+    </>
+  );
 }
 
 export function ReviewCard({
@@ -39,14 +55,12 @@ export function ReviewCard({
   active,
   onLocate,
   add,
-  still,
   located,
 }: {
   r: EffectiveRule;
   active: boolean;
   onLocate: () => void;
   add: AddEntry;
-  still: boolean;
   located: boolean; // the quote was found in the text on the left
 }) {
   const [form, setForm] = useState<null | 'sign' | 'strike' | 'confirm'>(null);
@@ -75,8 +89,8 @@ export function ReviewCard({
       data-sealed={r.sealed ? '1' : undefined}
     >
       <div className="rv-card-head">
-        <TrustMark kind={kind} label={lv.text} seed={hash(r.id)} still={still} />
-        <p className="rv-value">
+        <TrustMark kind={kind} label={lv.text} />
+        <p className={`rv-value ${r.value == null ? 'is-text' : ''}`}>
           <Ev trust={lv.trust}>{ruleValue(r)}</Ev>
           {r.sealed && <Seal title={`City-confirmed: ${v.reference?.who ?? ''} ${v.reference?.date ?? ''}`} />}
           {r.dagger && (
@@ -90,13 +104,16 @@ export function ReviewCard({
         </button>
       </div>
       <p className="rv-origin">
-        <span className="label">{originWords(r)}</span>
+        <span className="label">{originWords(r).label}</span>
+        {originWords(r).detail && <span>{originWords(r).detail}</span>}
         <span className="rv-applies">
           {r.district === '*' ? 'All districts' : r.district} · {types}
         </span>
       </p>
-      {r.condition && <p className="small rv-cond">{r.condition}</p>}
-      <blockquote className={`rv-quote ${r.state === 'struck' ? 'is-struck' : ''}`}>“{r.quote}”</blockquote>
+      {r.condition && r.value != null && <p className="small rv-cond">{r.condition}</p>}
+      <blockquote className={`rv-quote ${r.state === 'struck' ? 'is-struck' : ''}`}>
+        <Quote text={r.quote} />
+      </blockquote>
       {r.quote_status === 'failed' ? (
         <p className="warn">Not found word for word in §{r.section} of the saved text. It stays pencil until the quote matches.</p>
       ) : !located ? (
@@ -183,7 +200,7 @@ export function questionTrust(q: QuestionState): 'pencil' | 'red' | 'ink' {
   return q.status === 'open' ? 'pencil' : q.status === 'assumed' ? 'red' : 'ink';
 }
 
-export function QuestionCard({ q, active, onLocate, add, still, located }: { q: QuestionState; active: boolean; onLocate: () => void; add: AddEntry; still: boolean; located: boolean }) {
+export function QuestionCard({ q, active, onLocate, add, located }: { q: QuestionState; active: boolean; onLocate: () => void; add: AddEntry; located: boolean }) {
   const [form, setForm] = useState<null | 'assume-yes' | 'assume-no' | 'confirm'>(null);
   const card = useRef<HTMLElement>(null);
   const t = questionTrust(q);
@@ -198,7 +215,7 @@ export function QuestionCard({ q, active, onLocate, add, still, located }: { q: 
       data-trust={t}
     >
       <div className="rv-card-head">
-        <TrustMark kind={kind} label={q.status === 'open' ? 'open question' : q.status} seed={hash(q.question.id)} still={still} />
+        <TrustMark kind={kind} label={q.status === 'open' ? 'open question' : q.status} />
         <p className="rv-value rv-qtext">
           <Ev trust={t}>{q.question.question}</Ev>
         </p>
@@ -210,7 +227,9 @@ export function QuestionCard({ q, active, onLocate, add, still, located }: { q: 
         <span className="label">Open question · ask the {q.question.ask}</span>
         <span className="rv-applies">affects {q.question.affects.join(', ')}</span>
       </p>
-      <blockquote className="rv-quote">“{q.question.quote}”</blockquote>
+      <blockquote className="rv-quote">
+        <Quote text={q.question.quote} />
+      </blockquote>
       <div className={`rv-level v-${t}`}>
         {q.status === 'open' && <p>Open. Only the City can settle what this clause means. Until it does, the range stays open and the inquiry asks it.</p>}
         {q.status === 'assumed' && (

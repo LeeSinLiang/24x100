@@ -68,46 +68,30 @@ export interface EvalLine {
   total: number;
   verbatim: string | null; // e.g. "every accepted quote verbatim"
   model: string | null;
-  note: string | null;
 }
 
-const AGREE = ['agree', 'agreed', 'agreement_count', 'matches', 'matched', 'match', 'correct', 'fields_agree'];
-const TOTAL = ['total', 'fields', 'compared', 'n', 'count', 'fields_total', 'fields_compared'];
-
-function num(o: Json, keys: string[]): number | null {
-  for (const k of keys) if (typeof o[k] === 'number' && Number.isFinite(o[k])) return o[k] as number;
-  return null;
-}
-
-function findAgreement(o: unknown, depth = 0): Json | null {
-  if (!o || typeof o !== 'object' || depth > 4) return null;
-  const j = o as Json;
-  if (num(j, AGREE) != null && num(j, TOTAL) != null) return j;
-  for (const v of Object.values(j)) {
-    const hit = findAgreement(v, depth + 1);
-    if (hit) return hit;
-  }
-  return null;
-}
-
-/** The eval result (data/rules/extracted/eval.json) as one line of facts, or null. Nothing is
- *  invented: a field missing from the file is left out of the line. */
-export function evalLine(): EvalLine | null {
+/** The eval result (data/rules/extracted/eval.json, written by `python -m extract eval`) as one line
+ *  per district. Shape read: { districts: { "RM-M": { model, agreement: { agree, fields },
+ *  quotes: { accepted, rejected_quote, accepted_recheck_failures } } } }. Nothing is invented: a
+ *  field missing from the file is left out of the line, and an unknown shape shows no line at all. */
+export function evalLines(): EvalLine[] {
   const e = EXTRACTED.eval as Json | undefined;
-  if (!e) return null;
-  const hit = findAgreement(e);
-  if (!hit) return null;
-  const agree = num(hit, AGREE)!;
-  const total = num(hit, TOTAL)!;
-  const meta = (e.meta ?? {}) as Json;
-  const district = str(hit.district) ?? str(e.district) ?? str(meta.district) ?? 'RM-M';
-  const rejectedQuotes = num(e, ['quotes_failed', 'quote_failures', 'non_verbatim']) ?? num(hit, ['quotes_failed', 'quote_failures', 'non_verbatim']);
-  const verbatimFlag = e.quotes_verbatim ?? e.verbatim ?? hit.quotes_verbatim ?? hit.verbatim;
-  const verbatim =
-    verbatimFlag === true || rejectedQuotes === 0
-      ? 'every accepted quote verbatim'
-      : typeof rejectedQuotes === 'number'
-        ? `${rejectedQuotes} accepted quote${rejectedQuotes === 1 ? '' : 's'} not verbatim`
-        : null;
-  return { district, agree, total, verbatim, model: str(e.model) ?? str(meta.model) ?? str(hit.model), note: str(e.note) ?? str(meta.note) };
+  const ds = (e?.districts ?? null) as Record<string, Json> | null;
+  if (!ds || typeof ds !== 'object') return [];
+  const out: EvalLine[] = [];
+  for (const [district, d] of Object.entries(ds)) {
+    const a = (d?.agreement ?? {}) as Json;
+    if (typeof a.agree !== 'number' || typeof a.fields !== 'number') continue;
+    const q = (d.quotes ?? {}) as Json;
+    const fails = Array.isArray(q.accepted_recheck_failures) ? q.accepted_recheck_failures.length : null;
+    const rejectedQuote = typeof q.rejected_quote === 'number' ? q.rejected_quote : null;
+    const verbatim =
+      fails === 0 && rejectedQuote != null
+        ? `every accepted quote verbatim${rejectedQuote ? ` (${rejectedQuote} rejected by the quote guard)` : ''}`
+        : fails
+          ? `${fails} accepted quote${fails === 1 ? '' : 's'} no longer verbatim`
+          : null;
+    out.push({ district, agree: a.agree, total: a.fields, verbatim, model: str(d.model) });
+  }
+  return out;
 }

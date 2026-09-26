@@ -1,10 +1,9 @@
 // The saved code text of the sections a district's rules cite, tidied for reading: blank lines
 // collapsed, structural markers ("C.", "2.", "(c)") joined to their text and indented, and the
 // ecode360 table cells (" | ") laid out as rows. Every rule's quote is highlighted in place, by raw
-// character offsets, so the highlight is exactly the span findQuote() matched.
+// character offsets, so the highlight is exactly the span findQuote() matched. The law's own words
+// are ink; only the mark (dashed, solid, struck) carries the rule's state, so marks don't boil.
 import type { ReactNode } from 'react';
-import { hash } from '../../lib/craft';
-import { boilStyle } from './marks';
 
 type Piece = [number, number]; // raw [start, end) in the file text
 
@@ -138,7 +137,7 @@ export function parseBlock(text: string, start: number, end: number): Node[] {
 // Which style wins where highlights overlap: the weakest one (pencil, then red, then ink).
 const RANK: Record<HlStyle, number> = { pencil: 4, red: 3, ink: 2, sealed: 2, struck: 1 };
 
-function Pieces({ text, pieces, hls, active, onPick, still }: { text: string; pieces: Piece[]; hls: Highlight[]; active: Set<string>; onPick: (ids: string[]) => void; still: boolean }) {
+function Pieces({ text, pieces, hls, active, onPick }: { text: string; pieces: Piece[]; hls: Highlight[]; active: Set<string>; onPick: (ids: string[]) => void }) {
   const out: ReactNode[] = [];
   pieces.forEach(([a, b], pi) => {
     if (pi > 0) out.push(' ');
@@ -166,7 +165,6 @@ function Pieces({ text, pieces, hls, active, onPick, still }: { text: string; pi
           data-question-id={cover.find((h) => h.id.startsWith('q:'))?.id.slice(2)}
           data-trust={trust}
           onClick={() => onPick(ids)}
-          style={boilStyle(top.style, hash(top.id), still)}
         >
           {s}
         </mark>,
@@ -187,19 +185,17 @@ export function CodeText({
   hls,
   active,
   onPick,
-  still,
 }: {
   block: CodeBlock;
   text: string;
   hls: Highlight[];
   active: Set<string>;
   onPick: (ids: string[]) => void;
-  still: boolean;
 }) {
   const nodes = parseBlock(text, block.start, block.end);
   const mine = hls.filter((h) => h.start < block.end && h.end > block.start);
   const src = sourceLine(text);
-  const P = (pieces: Piece[]) => <Pieces text={text} pieces={pieces} hls={mine} active={active} onPick={onPick} still={still} />;
+  const P = (pieces: Piece[]) => <Pieces text={text} pieces={pieces} hls={mine} active={active} onPick={onPick} />;
   return (
     <section className="ct-block" data-file={block.file} data-section={block.label} aria-label={`Saved text of §${block.label}`}>
       <header className="ct-head">
