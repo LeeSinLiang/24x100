@@ -1,0 +1,235 @@
+/* Changes view: refresh differences in pencil, datasets, signatures and the digest dry run.
+   Colors only through tokens.css. */
+
+.changes-view code {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 1em;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  white-space: nowrap;
+}
+.chg-head {
+  max-width: 900px;
+  margin-bottom: 14px;
+}
+.chg-title {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: calc(var(--s-title) * 1.6);
+  line-height: 1.1;
+  margin: 0 0 4px;
+}
+.chg-sub {
+  margin: 0;
+  color: var(--ink-2);
+}
+.chg-summary {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: calc(var(--s-body) * 1.2);
+  color: var(--graphite);
+  margin: 6px 0 0;
+}
+.chg-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+  gap: 28px;
+  align-items: start;
+}
+.chg-main,
+.chg-side {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.chg-section {
+  border-top: 3px double var(--ink);
+  padding-top: 8px;
+  min-width: 0;
+  overflow-x: auto;
+}
+.chg-section.na {
+  border: 1px dashed var(--rule-strong);
+  padding: 10px 12px;
+}
+.chg-section.na p {
+  margin: 0;
+}
+.chg-section > .label {
+  margin-bottom: 6px;
+}
+.chg-group + .chg-group {
+  margin-top: 10px;
+}
+.chg-kind {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin: 0 0 2px;
+}
+
+/* A difference is pencil: graphite, italic, a dashed underline. */
+.chg-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chg-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 4px 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.chg-line,
+.chg-pencil {
+  color: var(--graphite);
+  font-style: italic;
+  text-decoration: underline dashed var(--graphite);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.chg-line {
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.08);
+}
+.chg-sets .num {
+  text-align: right;
+}
+.chg-sets .is-changed td:first-child {
+  font-weight: 600;
+}
+.chg-sha {
+  font-family: var(--f-map);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.chg-code {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.chg-fixture {
+  border-top: 1px solid var(--ink);
+  padding-top: 6px;
+}
+.chg-fixture summary {
+  cursor: pointer;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 0;
+}
+
+/* The digest: a framed sheet stamped as a dry run. */
+.chg-digest {
+  border: 3px double var(--ink);
+  background: var(--sheet);
+  padding: 10px 16px 12px;
+  position: relative;
+}
+.chg-digest-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 6px;
+}
+.chg-stamp {
+  font-size: 13px;
+  padding: 5px 10px;
+  letter-spacing: 0.18em;
+}
+.chg-digest-body {
+  padding: 4px 0;
+}
+.chg-digest-body h3 {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: var(--s-title);
+  margin: 8px 0 4px;
+}
+.chg-digest-body h4 {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin: 10px 0 2px;
+}
+.chg-digest-body p,
+.chg-digest-body ul {
+  margin: 4px 0;
+}
+.chg-digest-body ul {
+  padding-left: 18px;
+}
+.chg-digest-body blockquote {
+  margin: 4px 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--rule-strong);
+  color: var(--ink-2);
+}
+.chg-digest-foot {
+  border-top: 1px solid var(--rule);
+  padding-top: 6px;
+  color: var(--ink-2);
+}
+.chg-digest-foot p {
+  margin: 3px 0;
+}
+.chg-note {
+  margin: 0 0 8px;
+  font-size: var(--s-small);
+}
+.chg-signs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chg-signs li {
+  display: grid;
+  gap: 1px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--s-small);
+}
+.chg-rule {
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.05);
+}
+.chg-fresh {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+@media (max-width: 1099px) {
+  .chg-cols {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 767px) {
+  .chg-list li {
+    grid-template-columns: 1fr;
+  }
+  .changes-view code {
+    white-space: normal;
+  }
+  .chg-sets th:nth-child(5),
+  .chg-sets td:nth-child(5) {
+    display: none;
+  }
+}
