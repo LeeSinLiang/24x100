@@ -33,7 +33,7 @@ didn't compute.
 **Action:** hover-free; at 0:26 the Middle Hill cluster is highlighted, then cut to B03.
 
 ### B03 · Why · 0:32–0:48
-**Link:** `?view=lot&block=10K&lot=25&type=two&drawer=rule:rm-m.contextual_side`
+**Link:** `?view=lot&block=10K&lot=25&type=two&drawer=rule:pgh.contextual_side`
 **On screen:** the evidence drawer over the lot view: §925.06, with the sentence "If lots on either
 side of the subject lot are vacant, the setback that is required by the zoning district shall
 apply." highlighted in the saved code text. Reviewer, role, date. The edge labels on lot 25 read
@@ -52,7 +52,7 @@ sources.
 **Action:** start on `type=two`, then click the scenario "Three-unit on lots 25–27" at 0:52.
 
 ### B05 · The open question · 1:16–1:32
-**Link:** `?view=lot&block=10K&lot=25&type=row&lots=25,26,27&drawer=rule:rm-m.narrow_lot_side`
+**Link:** `?view=lot&block=10K&lot=25&type=row&lots=25,26,27&drawer=question:q.single_unit_includes_attached`
 **On screen:** rowhouses ×3. End units read "14 ft, or 21 ft if the narrow-lot table covers
 attached houses", boiling in pencil. The drawer shows the question for the Zoning Administrator.
 **Viewer notices:** the app doesn't pretend to know; the range stays open.
