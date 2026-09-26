@@ -1,6 +1,7 @@
 // The city map and the lot view must agree: same deed arithmetic, same edge labels.
 import { describe, expect, it } from 'vitest';
-import { classifyCityLot, cityLotFromGeometry, evaluate, openRing, summarize, DEFAULT_SETTINGS, type CityLot } from '../src';
+import { readFileSync } from 'node:fs';
+import { classifyCityLot, cityLotFromGeometry, cityRoutes, evaluate, openRing, summarize, DEFAULT_SETTINGS, type CityLot } from '../src';
 import { block10K, ctxFor, scen } from './load';
 
 const b = block10K();
@@ -61,5 +62,119 @@ describe('city classifier agrees with the lot engine', () => {
     expect(s.total).toBe(lots.length);
     expect(s.widthNotArea).toBeGreaterThan(0);
     expect(s.widthNotArea).toBeLessThanOrEqual(s.widthAny);
+  });
+});
+
+// §925.06.C: a side next to a built lot may take less than the district setback, down to 3 ft. The
+// lot engine marks that situation pencil (its contextual check); the classifier must agree, and must
+// keep the width in ink only where no neighbor's setback could change the answer.
+describe('contextual side setback: the classifier agrees with the lot engine', () => {
+  const MIN = 3; // pgh.contextual_side
+  for (const type of ['two', 'detached', 'three'] as const) {
+    it(`${type}: built neighbors and pencil width match the engine on every Block 10‑K lot with full detail`, () => {
+      let built = 0;
+      for (const l of lots) {
+        const r = evaluate(ctx, { ...scen(b, type, [25]), pins: [l.pin] });
+        if (r.state === 'refused') continue;
+        const c = classifyCityLot(l, ctx.rs, type, DEFAULT_SETTINGS);
+        const cx = r.checks.find((x) => x.id === 'contextual')!;
+        // Same neighbors: the engine's contextual check is pencil exactly where the classifier sees a built one.
+        expect(c.context!.neighbors === 'built').toBe(cx.trust === 'pencil');
+        if (cx.trust === 'pencil') built++;
+        // Same best case, from the engine's own sides: each side next to a built lot at the minimum.
+        const flank = r.sides.filter((s) => s.kind === 'side_interior' || s.kind === 'side_exterior');
+        const best = r.width!.terms[0].value - flank.reduce((a, s) => a + (s.kind === 'side_interior' && s.neighbors.some((n) => n.built) ? Math.min(s.setback!, MIN) : s.setback!), 0);
+        const fails = r.checks.find((x) => x.id === 'width')!.status === 'fail';
+        const couldChange = cx.trust === 'pencil' && fails && best >= r.scenario.proposal.width;
+        expect(c.context!.matters).toBe(couldChange);
+        expect(c.widthTrust).toBe(couldChange ? 'pencil' : r.width!.trust);
+      }
+      expect(built).toBeGreaterThanOrEqual(4);
+    });
+  }
+
+  it('Block 10‑K has both cases: a built neighbor that could change the answer, and one that can’t', () => {
+    const at = (pin: string, type: 'two' | 'three') => classifyCityLot(lots.find((l) => l.pin === pin)!, ctx.rs, type, DEFAULT_SETTINGS);
+    // 2245 Mahon St, 24 ft, a built house on one side: even at 3 ft, 24 − 3 − 10 = 11 ft < 16 ft.
+    const mahon = at('0010K00023000000', 'two');
+    expect(mahon.context).toMatchObject({ neighbors: 'built', matters: false, formula: '24 − 3 − 10 = 11' });
+    expect(mahon.widthTrust).toBe('ink');
+    // 2240 Wylie Ave, 48 ft, three-unit house (30 ft): 48 − 10 − 3 = 35 ft could fit.
+    const wylie = at('0010K00073000000', 'three');
+    expect(wylie.context).toMatchObject({ neighbors: 'built', matters: true, best: 35 });
+    expect(wylie.widthTrust).toBe('pencil');
+    expect(wylie.trust).toBe('pencil');
+    expect(wylie.areaTrust).toBe('ink'); // area comes from the deed; the neighbor doesn't touch it
+  });
+});
+
+describe('contextual side setback on a lot without block detail', () => {
+  const base = lots.find((l) => l.pin === '0010K00025000000')!; // 24 × 100, both neighbors vacant
+  const lot = (front: number, flank: CityLot['flank'], depth = 100): CityLot => ({ ...base, deed: { front, depth }, assessed: front * depth, mapped: front * depth, flank });
+
+  it('7406 Race St: 30 ft between two built houses is pencil, with the best case in words', () => {
+    const c = classifyCityLot(lot(30, ['interior_built', 'interior_built']), ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect(c.blocker).toBe('width');
+    expect(c.formula).toBe('30 − 10 − 10 = 10');
+    expect(c.context).toMatchObject({ neighbors: 'built', minimum: 3, best: 24, formula: '30 − 3 − 3 = 24', matters: true, rule: 'pgh.contextual_side' });
+    expect(c.widthTrust).toBe('pencil');
+    expect(c.widthNote).toMatch(/built neighbor may allow a contextual side setback/);
+    const routes = cityRoutes(lot(30, ['interior_built', 'interior_built']), c, ctx.rs, 'two');
+    expect(routes[0]).toMatchObject({ kind: 'contextual', trust: 'pencil' });
+    expect(routes[0].text).toContain('30 − 3 − 3 = 24 ft');
+    expect(routes.find((x) => x.kind === 'variance')!.text).toBe('A side-setback variance (10 → 7 ft on each side) from the Zoning Board of Adjustment is a plausible route, not approval.');
+  });
+
+  it('the same lot between vacant lots stays ink: the district setback applies', () => {
+    const c = classifyCityLot(lot(30, ['interior_vacant', 'interior_vacant']), ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect(c.context).toMatchObject({ neighbors: 'vacant', matters: false, best: null });
+    expect(c.widthTrust).toBe('ink');
+    const routes = cityRoutes(lot(30, ['interior_vacant', 'interior_vacant']), c, ctx.rs, 'two');
+    expect(routes.map((x) => x.kind)).toEqual(['group', 'variance']);
+  });
+
+  it('a lot that fits stays ink next to a built house: the contextual setback only ever relaxes', () => {
+    const c = classifyCityLot(lot(40, ['interior_built', 'interior_built']), ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect(c.all).not.toContain('width');
+    expect(c.context!.matters).toBe(false);
+    expect(c.widthTrust).toBe('ink');
+  });
+
+  it('without a checked contextual rule, a width failure next to a built lot is pencil, never bounded by a guess', () => {
+    const rs = { ...ctx.rs, rules: ctx.rs.rules.map((r) => (r.field === 'contextual_side' ? { ...r, state: 'pencil' as const } : r)) };
+    const narrow = lot(18, ['interior_built', 'interior_vacant']); // 18 − 3 − 10 = 5: can't fit even at 3 ft
+    expect(classifyCityLot(narrow, ctx.rs, 'two', DEFAULT_SETTINGS).context).toMatchObject({ matters: false, best: 5 });
+    const c = classifyCityLot(narrow, rs, 'two', DEFAULT_SETTINGS);
+    expect(c.context).toMatchObject({ neighbors: 'built', minimum: null, best: null, matters: true });
+    expect(c.widthTrust).toBe('pencil');
+  });
+
+  it('a lot narrower than the house says a variance can’t make room', () => {
+    const l = lot(14, ['interior_vacant', 'interior_vacant'], 200); // 2,800 sf: big enough
+    const c = classifyCityLot(l, ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect(c.blocker).toBe('width');
+    expect(c.formula).toBe('14 − 10 − 10 leaves no buildable width');
+    const v = cityRoutes(l, c, ctx.rs, 'two').find((x) => x.kind === 'variance')!;
+    expect(v.text).toMatch(/narrower than 16 ft even with no side setbacks/);
+  });
+
+  it('the headline splits width-not-area into ink, a built neighbor’s setback, and mapped frontage', () => {
+    const set = [
+      lot(30, ['interior_built', 'interior_built']), // context
+      lot(30, ['interior_vacant', 'interior_vacant']), // ink
+      lot(26, ['interior_built', 'interior_vacant']), // 26 − 3 − 10 = 13 < 16: ink
+      { ...lot(30, ['interior_vacant', 'interior_vacant']), deed: null, front_len: 30 }, // mapped
+    ];
+    const s = summarize(set, set.map((l) => classifyCityLot(l, ctx.rs, 'two', DEFAULT_SETTINGS)), 'two');
+    expect(s.widthNotArea).toBe(4);
+    expect([s.widthNotAreaInk, s.widthNotAreaContext, s.widthNotAreaMapped]).toEqual([2, 1, 1]);
+  });
+
+  it('the real record for 7406 Race St (data/city/lots.json) reads pencil', () => {
+    const city = JSON.parse(readFileSync('data/city/lots.json', 'utf8')) as { lots: CityLot[] };
+    const race = city.lots.find((l) => l.pin === '0174L00001000000')!;
+    expect(race.flank).toEqual(['interior_built', 'interior_built']);
+    const c = classifyCityLot(race, ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect(c).toMatchObject({ blocker: 'width', formula: '30 − 10 − 10 = 10', widthTrust: 'pencil' });
   });
 });
