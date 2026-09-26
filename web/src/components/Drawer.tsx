@@ -54,7 +54,7 @@ export function ruleValue(r: EffectiveRule): string {
   return `${r.value} ${r.unit === 'stories' ? 'stories' : r.unit}`;
 }
 
-function Excerpt({ file, section, quote }: { file: string; section: string; quote: string }) {
+export function Excerpt({ file, section, quote }: { file: string; section: string; quote: string }) {
   const text = codeFor(file);
   if (!text) return <p className="muted">Source text not bundled.</p>;
   const span = locateSection(text, section);
@@ -93,7 +93,7 @@ function useReviewer(): [{ name: string; role: string }, (v: { name: string; rol
   return [v, save];
 }
 
-function ReviewForm({
+export function ReviewForm({
   kind,
   onSubmit,
   onCancel,
@@ -179,7 +179,7 @@ function ReviewForm({
   );
 }
 
-function History({ list }: { list: AuditEntry[] }) {
+export function History({ list }: { list: AuditEntry[] }) {
   if (!list.length) return null;
   return (
     <div className="history">
@@ -197,7 +197,7 @@ function History({ list }: { list: AuditEntry[] }) {
   );
 }
 
-function levelWords(r: EffectiveRule): { trust: Trust | 'struck'; text: string } {
+export function levelWords(r: EffectiveRule): { trust: Trust | 'struck'; text: string } {
   if (r.state === 'struck') return { trust: 'struck', text: 'Struck by a reviewer. Not used.' };
   if (r.sealed) return { trust: 'ink', text: 'City-confirmed.' };
   if (r.state === 'ink') return { trust: 'ink', text: r.ai_checked ? 'Source-checked by an AI agent. A teammate should re-check it.' : 'Source-checked by a named person.' };
@@ -205,7 +205,7 @@ function levelWords(r: EffectiveRule): { trust: Trust | 'struck'; text: string }
   return { trust: 'pencil', text: 'Pencil: proposed by the model, not reviewed. It does not count as ink yet.' };
 }
 
-function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; addAudit: AddAudit }) {
+export function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; addAudit: AddAudit }) {
   const [form, setForm] = useState<null | 'sign' | 'strike'>(null);
   const lv = levelWords(r);
   const v = r.verification;
@@ -274,7 +274,7 @@ function RuleCard({ r, rs, addAudit }: { r: EffectiveRule; rs: RuleSet; addAudit
   );
 }
 
-function QuestionCard({ q, addAudit }: { q: QuestionState; addAudit: AddAudit }) {
+export function QuestionCard({ q, addAudit }: { q: QuestionState; addAudit: AddAudit }) {
   const [form, setForm] = useState<null | 'assume-yes' | 'assume-no' | 'confirm'>(null);
   return (
     <article className="card">
