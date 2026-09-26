@@ -21,7 +21,7 @@ export function TypeRail({ type, onType, label = 'Try' }: { type: TemplateId; on
         const on = type === t;
         return (
           <button key={t} role="radio" aria-checked={on} tabIndex={on ? 0 : -1} data-type-opt={t} className={`rail-opt ${on ? 'is-on' : ''}`} onClick={() => onType(t)} onKeyDown={onKey}>
-            {TEMPLATES[t].short}
+            {TEMPLATES[t].short.replace('-', '\u2011')}
           </button>
         );
       })}

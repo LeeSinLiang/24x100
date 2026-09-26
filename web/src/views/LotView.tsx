@@ -162,7 +162,7 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
               const on = s.type === t;
               return (
                 <button key={t} role="radio" aria-checked={on} className={`rail-opt ${on ? 'is-on' : ''}`} onClick={() => selectScenario(t)}>
-                  {TEMPLATES[t].short}
+                  {TEMPLATES[t].short.replace('-', '\u2011')}
                   {TEMPLATES[t].multi_lot && <span className="nowrap"> on {lotsLabel(block, group)}</span>}
                 </button>
               );
