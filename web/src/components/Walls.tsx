@@ -58,11 +58,17 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
           <h2 id="rules-wall-h" className="wall-title">The rules wall</h2>
         </header>
         <div className="refusal">
-          <div className="stamp stamp-refuse" aria-hidden="true">
-            CAN’T SCORE
+          <div className={`stamp stamp-refuse ${result.refusal?.code === 'missing_rule' ? 'is-grey' : ''}`} aria-hidden="true">
+            {result.refusal?.code === 'missing_rule' ? 'RULES NOT LOADED' : 'CAN’T SCORE'}
           </div>
           <p>{result.refusal?.reason}</p>
-          <p className="small">24×100 refuses rather than guesses. Resolve the records (a survey, or the County's lot area) and the lot can be scored.</p>
+          <p className="small">
+            {result.refusal?.code === 'records_disagree'
+              ? "24×100 refuses rather than guesses. Resolve the records (a survey, or the County's lot area) and the lot can be scored."
+              : result.refusal?.code === 'missing_rule'
+                ? 'No rules for this district have been loaded and reviewed, so nothing is computed. Grey is honest: it means we have not read the rules yet.'
+                : '24×100 refuses rather than guesses.'}
+          </p>
         </div>
       </section>
     );

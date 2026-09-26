@@ -1,0 +1,268 @@
+// One rule, or one open question, on the review screen. The value is an <Ev>, so a pencil rule that
+// a person signs dries to ink in place. Decisions go through the shared ReviewForm and are written to
+// the audit log; the effective state always comes from the engine (buildRuleSet), never from here.
+import { useRef, useState } from 'react';
+import { AI_ROLE } from '@engine/rules';
+import type { AuditEntry, EffectiveRule, QuestionState } from '@engine/types';
+import { fieldName, History, levelWords, ReviewForm, ruleValue } from '../Drawer';
+import { Chip, dateFmt, Ev } from '../ui';
+import { hash } from '../../lib/craft';
+import { Seal, TrustMark, type TrustKind } from './marks';
+
+export type AddEntry = (e: Omit<AuditEntry, 'id' | 'at'>) => { ok: boolean; problems: string[] };
+
+const TYPE_WORDS: Record<string, string> = {
+  detached: 'detached houses',
+  two: 'two-unit houses',
+  three: 'three-unit houses',
+  row: 'rowhouses',
+  row_end: 'rowhouse end units',
+  '*': 'every building type',
+};
+
+export function ruleTrust(r: EffectiveRule): 'ink' | 'pencil' | 'struck' {
+  return r.state;
+}
+
+export function ruleKind(r: EffectiveRule): TrustKind {
+  return r.state === 'struck' ? 'struck' : r.sealed ? 'sealed' : r.state;
+}
+
+function originWords(r: EffectiveRule): string {
+  if (r.origin === 'answer_key') return 'Answer key · hand-checked';
+  const who = r.model ? `Proposed by ${r.model}` : 'Proposed by the model';
+  return r.prompt_sha ? `${who} · prompt ${String(r.prompt_sha).slice(0, 8)}` : who;
+}
+
+export function ReviewCard({
+  r,
+  active,
+  onLocate,
+  add,
+  still,
+  located,
+}: {
+  r: EffectiveRule;
+  active: boolean;
+  onLocate: () => void;
+  add: AddEntry;
+  still: boolean;
+  located: boolean; // the quote was found in the text on the left
+}) {
+  const [form, setForm] = useState<null | 'sign' | 'strike' | 'confirm'>(null);
+  const card = useRef<HTMLElement>(null);
+  const lv = levelWords(r);
+  const v = r.verification;
+  const kind = ruleKind(r);
+  const ambiguous = !!r.question_for_city && !r.sealed;
+  const canSign = !ambiguous && (r.state !== 'ink' || r.ai_checked || v.role === AI_ROLE);
+  const done = () => {
+    setForm(null);
+    requestAnimationFrame(() => card.current?.focus({ preventScroll: true }));
+  };
+  const types = r.applies_to.map((t) => TYPE_WORDS[t] ?? t).join(', ');
+  return (
+    <article
+      ref={card}
+      tabIndex={-1}
+      id={`rv-card-${r.id}`}
+      className={`rv-card is-${kind} ${active ? 'is-active' : ''}`}
+      data-rule-id={r.id}
+      data-trust={ruleTrust(r)}
+      data-level={v.level}
+      data-dagger={r.dagger ? '1' : undefined}
+      data-ai-checked={r.ai_checked ? '1' : undefined}
+      data-sealed={r.sealed ? '1' : undefined}
+    >
+      <div className="rv-card-head">
+        <TrustMark kind={kind} label={lv.text} seed={hash(r.id)} still={still} />
+        <p className="rv-value">
+          <Ev trust={lv.trust}>{ruleValue(r)}</Ev>
+          {r.sealed && <Seal title={`City-confirmed: ${v.reference?.who ?? ''} ${v.reference?.date ?? ''}`} />}
+          {r.dagger && (
+            <span className="rv-dagger" title="† in the research notes: not yet checked by a person">
+              †
+            </span>
+          )}
+        </p>
+        <button type="button" className="rv-locate" onClick={onLocate} aria-label={`Show the quote for this rule in §${r.section}`} disabled={!located}>
+          <Chip trust={r.state === 'ink' ? 'ink' : 'pencil'}>§{r.section}</Chip>
+        </button>
+      </div>
+      <p className="rv-origin">
+        <span className="label">{originWords(r)}</span>
+        <span className="rv-applies">
+          {r.district === '*' ? 'All districts' : r.district} · {types}
+        </span>
+      </p>
+      {r.condition && <p className="small rv-cond">{r.condition}</p>}
+      <blockquote className={`rv-quote ${r.state === 'struck' ? 'is-struck' : ''}`}>“{r.quote}”</blockquote>
+      {r.quote_status === 'failed' ? (
+        <p className="warn">Not found word for word in §{r.section} of the saved text. It stays pencil until the quote matches.</p>
+      ) : !located ? (
+        <p className="warn">The quote is in the file but not where §{r.section} is. Check the citation.</p>
+      ) : null}
+      <div className={`rv-level v-${lv.trust}`}>
+        <p>
+          {lv.text}
+          {r.ai_checked && <span className="rv-tag">AI-checked · needs a teammate</span>}
+        </p>
+        {v.reviewer && (
+          <p className="small">
+            {v.reviewer} ({v.role}) · {dateFmt(v.at)}
+            {v.note ? ` · “${v.note}”` : ''}
+          </p>
+        )}
+        {r.sealed && v.reference && (
+          <p className="small">
+            Reference: {v.reference.who}, {v.reference.date}: {v.reference.text}
+          </p>
+        )}
+      </div>
+      {r.question_for_city && (
+        <p className="rv-qfc">
+          <span className="label">Question for the City</span> {r.question_for_city}
+        </p>
+      )}
+      {ambiguous && !form && <p className="small muted">This clause is ambiguous. A teammate’s signature can’t settle it; record the City’s answer when you have it.</p>}
+      {!form && (
+        <div className="form-actions">
+          {canSign && (
+            <button type="button" className="btn btn-ink" onClick={() => setForm('sign')}>
+              Sign as source-checked
+            </button>
+          )}
+          {ambiguous && (
+            <button type="button" className="btn btn-ink" onClick={() => setForm('confirm')}>
+              Record City confirmation
+            </button>
+          )}
+          {r.state !== 'struck' && (
+            <button type="button" className="btn" onClick={() => setForm('strike')}>
+              Strike
+            </button>
+          )}
+        </div>
+      )}
+      {form && (
+        <ReviewForm
+          kind={form}
+          onCancel={() => setForm(null)}
+          onSubmit={(x) => {
+            const cityNo = form === 'confirm' && x.choice === 'no';
+            const res = add({
+              rule_id: r.id,
+              question_id: null,
+              reviewer: x.name,
+              role: x.role,
+              action: form === 'sign' ? 'source_checked' : form === 'strike' || cityNo ? 'struck' : 'city_confirmed',
+              quote: r.quote,
+              decision: form === 'sign' ? 'matches the quoted text' : form === 'strike' ? 'does not match' : cityNo ? 'the City says this reading is wrong' : 'the City confirms this reading',
+              reason: x.reason,
+              choice: null,
+              reference: form === 'confirm' ? x.ref ?? null : null,
+            });
+            if (res.ok) done();
+            return res.problems;
+          }}
+        />
+      )}
+      {r.history.length > 0 && (
+        <details className="rv-hist">
+          <summary>
+            History · {r.history.length} {r.history.length === 1 ? 'entry' : 'entries'}
+          </summary>
+          <History list={r.history} />
+        </details>
+      )}
+    </article>
+  );
+}
+
+export function questionTrust(q: QuestionState): 'pencil' | 'red' | 'ink' {
+  return q.status === 'open' ? 'pencil' : q.status === 'assumed' ? 'red' : 'ink';
+}
+
+export function QuestionCard({ q, active, onLocate, add, still, located }: { q: QuestionState; active: boolean; onLocate: () => void; add: AddEntry; still: boolean; located: boolean }) {
+  const [form, setForm] = useState<null | 'assume-yes' | 'assume-no' | 'confirm'>(null);
+  const card = useRef<HTMLElement>(null);
+  const t = questionTrust(q);
+  const kind: TrustKind = q.status === 'city_confirmed' ? 'sealed' : t;
+  return (
+    <article
+      ref={card}
+      tabIndex={-1}
+      id={`rv-card-q:${q.question.id}`}
+      className={`rv-card rv-question is-${kind} ${active ? 'is-active' : ''}`}
+      data-question-id={q.question.id}
+      data-trust={t}
+    >
+      <div className="rv-card-head">
+        <TrustMark kind={kind} label={q.status === 'open' ? 'open question' : q.status} seed={hash(q.question.id)} still={still} />
+        <p className="rv-value rv-qtext">
+          <Ev trust={t}>{q.question.question}</Ev>
+        </p>
+        <button type="button" className="rv-locate" onClick={onLocate} aria-label={`Show the clause in §${q.question.section}`} disabled={!located}>
+          <Chip trust="pencil">§{q.question.section}</Chip>
+        </button>
+      </div>
+      <p className="rv-origin">
+        <span className="label">Open question · ask the {q.question.ask}</span>
+        <span className="rv-applies">affects {q.question.affects.join(', ')}</span>
+      </p>
+      <blockquote className="rv-quote">“{q.question.quote}”</blockquote>
+      <div className={`rv-level v-${t}`}>
+        {q.status === 'open' && <p>Open. Only the City can settle what this clause means. Until it does, the range stays open and the inquiry asks it.</p>}
+        {q.status === 'assumed' && (
+          <p>
+            Assumed <strong>{q.choice}</strong> by {q.by} ({q.role}){q.at ? `, ${dateFmt(q.at)}` : ''}. Red: an assumption to explore the outcome, not an answer.
+          </p>
+        )}
+        {q.status === 'city_confirmed' && (
+          <p>
+            <Seal /> City-confirmed <strong>{q.choice}</strong>: {q.reference?.who}, {q.reference?.date}: {q.reference?.text}
+          </p>
+        )}
+      </div>
+      {!form && (
+        <div className="form-actions">
+          <button type="button" className="btn btn-red" onClick={() => setForm('assume-yes')}>
+            Assume yes
+          </button>
+          <button type="button" className="btn btn-red" onClick={() => setForm('assume-no')}>
+            Assume no
+          </button>
+          <button type="button" className="btn btn-ink" onClick={() => setForm('confirm')}>
+            Record City confirmation
+          </button>
+        </div>
+      )}
+      {form && (
+        <ReviewForm
+          kind={form}
+          onCancel={() => setForm(null)}
+          onSubmit={(x) => {
+            const choice = form === 'confirm' ? x.choice! : form === 'assume-yes' ? 'yes' : 'no';
+            const res = add({
+              rule_id: null,
+              question_id: q.question.id,
+              reviewer: x.name,
+              role: x.role,
+              action: form === 'confirm' ? 'city_confirmed' : 'assumed',
+              quote: q.question.quote,
+              decision: form === 'confirm' ? `City says ${choice}` : `assume ${choice}`,
+              reason: x.reason,
+              choice,
+              reference: form === 'confirm' ? x.ref! : null,
+            });
+            if (res.ok) {
+              setForm(null);
+              requestAnimationFrame(() => card.current?.focus({ preventScroll: true }));
+            }
+            return res.problems;
+          }}
+        />
+      )}
+    </article>
+  );
+}

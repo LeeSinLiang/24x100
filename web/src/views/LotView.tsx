@@ -44,7 +44,7 @@ function Numeral({ r, still }: { r: LotResult; still: boolean }) {
   if (r.state !== 'ok' || !w) {
     return (
       <div className="numeral-block">
-        <div className="stamp stamp-refuse big">CAN’T SCORE</div>
+        <div className={`stamp stamp-refuse big ${r.refusal?.code === 'missing_rule' ? 'is-grey' : ''}`}>{r.refusal?.code === 'missing_rule' ? 'RULES NOT LOADED' : 'CAN’T SCORE'}</div>
       </div>
     );
   }
@@ -184,8 +184,12 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
             <Segs segs={explanation(r, block)} />
           </p>
           <p className="plate-legend">
-            <span className="lg lg-short" /> narrower than your proposal <span className="lg lg-fits" /> fits <span className="lg lg-open" /> pencil: open question <span className="lg lg-prop" /> your proposal (red) <span className="lg lg-coin" /> City-owned, for sale
-            <span className="lg lg-held" /> City-owned, held
+            <span className="nowrap"><span className="lg lg-short" /> narrower than your proposal</span>
+            <span className="nowrap"><span className="lg lg-fits" /> fits</span>
+            <span className="nowrap"><span className="lg lg-open" /> pencil: open question</span>
+            <span className="nowrap"><span className="lg lg-prop" /> your proposal (red)</span>
+            <span className="nowrap"><span className="lg lg-coin" /> City-owned, for sale</span>
+            <span className="nowrap"><span className="lg lg-held" /> City-owned, held</span>
           </p>
           <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={tryOption} block={block} />
         </div>
@@ -232,7 +236,18 @@ export function LotView({ block, model, s, update, crumbsSet }: { block: BlockFi
             <div className="answer">
               <Label as="h2">What to do next</Label>
               {r.state !== 'ok' ? (
-                <p>Ask the County or a surveyor to settle the lot area; then it can be scored.</p>
+                r.refusal?.code === 'missing_rule' ? (
+                  <p>
+                    Load and check the {r.district} rules first; until a person signs them, the numbers stay pencil.{' '}
+                    <a className="btn btn-ink btn-small" href={`?view=review&district=${r.district}`}>
+                      Review {r.district} rules
+                    </a>
+                  </p>
+                ) : r.refusal?.code === 'records_disagree' ? (
+                  <p>Ask the County or a surveyor to settle the lot area; then it can be scored.</p>
+                ) : (
+                  <p>{r.refusal?.reason}</p>
+                )
               ) : fits || multi ? (
                 <p>
                   {cityLots.length ? `Ask City Real Estate about ${cityLots.map((p) => placeName(p)).join(' and ')}. ` : ''}

@@ -22,14 +22,14 @@ export const STATES = [
   { id: 'B05', name: 'lot25-row-open', q: 'view=lot&block=10K&lot=25&type=row&lots=25,26,27&drawer=question:q.single_unit_includes_attached' },
   { id: 'B06', name: 'lot25-row-assumed', q: 'view=lot&block=10K&lot=25&type=row&lots=25,26,27&assume=q.single_unit_includes_attached:yes' },
   { id: 'B07', name: 'review-r1dh', q: 'view=review&district=R1D-H' },
-  { id: 'B08', name: 'heldout', q: 'view=lot&block=0124P&type=detached' },
+  { id: 'B08', name: 'heldout', q: 'view=lot&block=0124P&lot=203&type=detached' },
   { id: 'B09', name: 'lot22-refusal', q: 'view=lot&block=10K&lot=22&type=two' },
   { id: 'B10', name: 'inquiry', q: 'view=inquiry&block=10K&lot=25&type=three&lots=25,26,27' },
   { id: 'B11', name: 'changes', q: 'view=changes' },
   { id: 'B12', name: 'limits', q: 'view=about&block=10K&section=limits' },
 ];
 
-const SIZE = { desktop: { width: 1440, height: 900 }, phone: { width: 390, height: 844 }, record: { width: 1920, height: 1080 } };
+const SIZE = { desktop: { width: 1440, height: 900 }, tablet: { width: 1024, height: 768 }, phone: { width: 390, height: 844 }, record: { width: 1920, height: 1080 }, projector: { width: 1280, height: 720 } };
 
 const browser = await chromium.launch({ channel: 'chrome' });
 mkdirSync(OUT, { recursive: true });
@@ -43,7 +43,7 @@ for (const st of STATES) {
       const errors = [];
       page.on('pageerror', (e) => errors.push(String(e)));
       page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
-      const url = `${BASE}?${st.q}${EXTRA ? `&${EXTRA}` : ''}${size === 'record' ? '&record=1' : ''}&still=1`;
+      const url = `${BASE}?${st.q}${EXTRA ? `&${EXTRA}` : ''}${size === 'record' ? '&record=1' : size === 'projector' ? '&present=1' : ''}&still=1`;
       await page.goto(url, { waitUntil: 'networkidle' });
       await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 15000 }).catch(() => {});
       await page.waitForTimeout(250);

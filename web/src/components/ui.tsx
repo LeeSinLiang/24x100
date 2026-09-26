@@ -40,10 +40,23 @@ export function Ev({
   const drying = useDrying(trust);
   const cls = `ev ev-${trust} ${num ? 'ev-num' : ''} ${drying ? 'drying' : ''} ${className}`;
   if (!refId) return <span className={cls}>{children}</span>;
+  // An inline element (not <button>) so a number inside a sentence wraps like text.
   return (
-    <button type="button" className={cls} onClick={() => open(refId)} title={title ?? 'Open the source'}>
+    <span
+      role="button"
+      tabIndex={0}
+      className={`${cls} is-link`}
+      onClick={() => open(refId)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open(refId);
+        }
+      }}
+      title={title ?? 'Open the source'}
+    >
       {children}
-    </button>
+    </span>
   );
 }
 

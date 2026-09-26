@@ -327,10 +327,10 @@ export function Plate(p: Props) {
                   </text>
                 )}
                 {result.state !== 'ok' && (
-                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className="cant" fontSize={fs(8.5)} textAnchor="middle">
-                    CAN’T
+                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`cant ${result.refusal?.code === 'records_disagree' ? '' : 'is-grey'}`} fontSize={fs(8.5)} textAnchor="middle">
+                    {result.refusal?.code === 'records_disagree' ? 'CAN’T' : result.refusal?.code === 'missing_rule' ? 'NO' : 'NOT'}
                     <tspan x={frontMid[0]} dy={fs(9)}>
-                      SCORE
+                      {result.refusal?.code === 'records_disagree' ? 'SCORE' : result.refusal?.code === 'missing_rule' ? 'RULES' : 'SCORED'}
                     </tspan>
                   </text>
                 )}
@@ -362,7 +362,7 @@ export function Plate(p: Props) {
 
         {/* Frame, north arrow, scale bar. */}
         <rect x={frame.x + px(3)} y={frame.y + px(3)} width={frame.w - px(6)} height={frame.h - px(6)} className="plate-frame" />
-        <g transform={`translate(${frame.x + frame.w - px(34)} ${frame.y + frame.h - px(30)}) rotate(${-north})`} className="north" aria-hidden="true">
+        <g transform={`translate(${frame.x + frame.w - px(26)} ${frame.y + frame.h - px(20)}) rotate(${-north})`} className="north" aria-hidden="true">
           <circle r={px(11)} className="north-ring" />
           <path d={`M0 ${-px(9)} L${px(3.2)} ${px(5)} L0 ${px(2.5)} L${-px(3.2)} ${px(5)} Z`} className="north-arrow" />
           <text y={-px(14)} fontSize={fs(10)} textAnchor="middle" className="north-n" transform={`rotate(${north} 0 ${-px(14)})`}>

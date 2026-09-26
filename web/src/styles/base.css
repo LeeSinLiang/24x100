@@ -282,6 +282,22 @@ button {
   cursor: default;
   text-decoration: none;
 }
+.ev.is-link {
+  cursor: pointer;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+}
+.ev.is-link:hover {
+  background: var(--gold-wash);
+}
+.ev-pencil.is-link {
+  border-bottom: 1px dashed var(--graphite);
+}
+.ev-red.is-link {
+  border-bottom-color: var(--red);
+}
+.ev-num {
+  white-space: nowrap;
+}
 button.ev {
   cursor: pointer;
   text-align: inherit;
@@ -512,7 +528,7 @@ button.chip {
   display: inline-block;
   width: 14px;
   height: 10px;
-  margin-right: -8px;
+  margin-right: 4px;
   vertical-align: -1px;
 }
 .lg-short {
@@ -535,14 +551,12 @@ button.chip {
   height: 9px;
   border-radius: 50%;
   background: var(--gold);
-  margin-right: -6px;
 }
 .lg-held {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   border: 1.5px solid var(--gold);
-  margin-right: -6px;
 }
 
 /* SVG marks. */
@@ -786,6 +800,7 @@ button.chip {
   line-height: 0.9;
   letter-spacing: -0.02em;
 }
+.numeral.is-link,
 button.numeral {
   border-bottom: 0;
 }
@@ -1430,4 +1445,13 @@ button.numeral {
   .crumbs ol {
     font-size: 11.5px;
   }
+}
+
+.stamp.is-grey {
+  color: var(--graphite);
+  border-color: var(--graphite);
+  box-shadow: inset 0 0 0 2px var(--sheet), inset 0 0 0 3px var(--graphite);
+}
+.cant.is-grey {
+  fill: var(--graphite);
 }

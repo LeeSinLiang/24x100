@@ -74,7 +74,7 @@ it dries from graphite to ink. The eval line: "RM‑M: N of M fields agree with 
 **Action:** fill the sign form and submit at 1:52.
 
 ### B08 · A district nobody typed · 2:06–2:20 **(G4)**
-**Link:** `?view=lot&block=0124P&lot=TBD&type=detached`
+**Link:** `?view=lot&block=0124P&lot=203&type=detached` (511 Lowell St)
 **On screen:** a Larimer lot in R1D‑H running on the extracted rules. Numbers are ink where rules
 were signed and pencil where they weren't.
 **Viewer notices:** the same engine runs on a district nobody typed by hand.
