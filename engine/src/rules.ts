@@ -73,6 +73,8 @@ export function effectiveRule(rule: Rule, audit: AuditEntry[]): EffectiveRule {
   // A † rule is never ink until a person (not an AI agent) signs it.
   let state: EffectiveRule['state'] = struck ? 'struck' : level === 'unreviewed' ? 'pencil' : 'ink';
   if (state === 'ink' && rule.dagger && !humanSigned) state = 'pencil';
+  // If the saved code text no longer contains the quote (a refresh changed it), the rule is pencil again.
+  if (state === 'ink' && rule.quote_status === 'failed') state = 'pencil';
   return {
     ...rule,
     verification: { ...verification, level },
@@ -136,4 +138,13 @@ export function weakest(...ts: Trust[]): Trust {
 
 export function getQuestion(rs: RuleSet, id: string): QuestionState | undefined {
   return rs.questions.find((q) => q.question.id === id);
+}
+
+/** Check every rule's quote against the saved code text; failures can never be ink. */
+export function withQuoteStatus(rules: Rule[], textFor: (file: string) => string | null, check: (text: string, section: string, quote: string) => { ok: boolean }): Rule[] {
+  return rules.map((r) => {
+    const t = textFor(r.source_file);
+    if (t == null) return { ...r, quote_status: 'failed' as const };
+    return { ...r, quote_status: check(t, r.section, r.quote).ok ? ('verified' as const) : ('failed' as const) };
+  });
 }

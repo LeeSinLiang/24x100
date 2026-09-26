@@ -7,6 +7,8 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import {
   BLOCKER_WORDS,
+  checkQuote,
+  withQuoteStatus,
   DEFAULT_SETTINGS,
   buildRuleSet,
   classifyCityLot,
@@ -27,10 +29,11 @@ const OUT = 'web/public/api';
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
 const read = <T>(f: string): T => JSON.parse(readFileSync(f, 'utf8')) as T;
 
-const rules: Rule[] = [
+const rulesRaw: Rule[] = [
   ...readdirSync('data/rules/base').flatMap((f) => read<Rule[]>(`data/rules/base/${f}`)),
   ...(existsSync('data/rules/extracted') ? readdirSync('data/rules/extracted').filter((f) => f.endsWith('.json') && f !== 'eval.json').flatMap((f) => read<{ rules?: Rule[] }>(`data/rules/extracted/${f}`).rules ?? []) : []),
 ];
+const rules = withQuoteStatus(rulesRaw, (f) => (existsSync(f) ? readFileSync(f, 'utf8') : null), checkQuote);
 const questions = read<Question[]>('data/rules/questions.json');
 const reviewsRaw = existsSync('data/rules/reviews.json') ? read<{ entries?: AuditEntry[] } | AuditEntry[]>('data/rules/reviews.json') : [];
 const audit: AuditEntry[] = Array.isArray(reviewsRaw) ? reviewsRaw : reviewsRaw.entries ?? [];

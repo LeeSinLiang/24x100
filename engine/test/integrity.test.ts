@@ -1,8 +1,11 @@
 // Integrity tests (spec §12): one result object, no double counting, preference vs regulation,
 // trust states, audit rules, sanity limits, and the mutation check.
 import { describe, expect, it } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
   auditProblems,
+  checkQuote,
+  withQuoteStatus,
   evaluate,
   explanation,
   headline,
@@ -167,6 +170,16 @@ describe('trust states', () => {
     expect(r.state).toBe('ink');
     expect(r.ai_checked).toBe(true);
     expect(r.sealed).toBe(false);
+  });
+
+  it('a rule whose quote no longer appears in the saved text drops back to pencil', () => {
+    const changed = withQuoteStatus(baseRules(), (f) => readFileSync(f, 'utf8').replace('RM Subdistrict | \n10 ft.', 'RM Subdistrict | \n12 ft.'), checkQuote);
+    const c = ctxFor(b, { rules: changed });
+    expect(changed.find((r) => r.id === 'rm-m.side_interior')!.quote_status).toBe('failed');
+    expect(c.rs.rules.find((r) => r.id === 'rm-m.side_interior')!.state).toBe('pencil');
+    expect(evaluate(c, scen(b, 'two', [25])).width!.trust).toBe('pencil');
+    const same = withQuoteStatus(baseRules(), (f) => readFileSync(f, 'utf8'), checkQuote);
+    expect(same.every((r) => r.quote_status === 'verified')).toBe(true);
   });
 
   it('audit entries need a name, role and reason; City confirmation needs a reference; only questions are assumed', () => {

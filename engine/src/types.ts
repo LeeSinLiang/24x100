@@ -191,6 +191,7 @@ export interface Rule {
   model: string | null;
   prompt_sha: string | null;
   enacted?: { ordinance: string; effective: string; quote: string } | null; // history note, verbatim
+  quote_status?: 'verified' | 'failed'; // set when loaded against the saved code text
 }
 
 export interface Question {

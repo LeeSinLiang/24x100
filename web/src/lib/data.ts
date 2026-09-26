@@ -1,5 +1,7 @@
 // Static data shipped with the app. Everything here was produced by the pipeline or the rule store;
 // nothing is typed in by the interface.
+import { withQuoteStatus } from '@engine/rules';
+import { checkQuote } from '@engine/source';
 import type { Assumption, BlockFile, Comps, Hud, Question, Rule } from '@engine/types';
 
 const blockFiles = import.meta.glob('../../../data/blocks/*.json', { eager: true, import: 'default' }) as Record<string, BlockFile>;
@@ -21,10 +23,11 @@ export const BLOCKS: Record<string, BlockFile> = Object.fromEntries(
 
 export const EXTRACTED = Object.fromEntries(Object.entries(extractedFiles).map(([p, f]) => [base(p), f]));
 
-export const RULES: Rule[] = [
-  ...Object.values(baseRuleFiles).flat(),
-  ...Object.values(extractedFiles).flatMap((f) => f.rules ?? []),
-];
+export const RULES: Rule[] = withQuoteStatus(
+  [...Object.values(baseRuleFiles).flat(), ...Object.values(extractedFiles).flatMap((f) => f.rules ?? [])],
+  (file) => codeText[`../../../data/code/${file.split('/').pop()}`] ?? null,
+  checkQuote,
+);
 
 export const QUESTIONS: Question[] = Object.values(questionFiles).flat();
 
