@@ -121,7 +121,17 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
                 {c.label}
                 {c.status === 'pass' && c.trust === 'ink' ? null : <div className={`row-text ${c.trust === 'pencil' ? 'is-pencil' : ''}`}>{c.text}</div>}
               </th>
-              <td className="num red">{c.id === 'width' || c.id === 'depth' || c.id === 'height' ? fmtVal(c, c.required) : c.id === 'area' || c.id === 'parking' ? fmtVal(c, c.required) : ''}</td>
+              <td className="num">
+                {c.id === 'width' || c.id === 'depth' || c.id === 'height' ? (
+                  <Ev trust="red" refId="proposal:width" title="Your proposal (red): edit it">
+                    {fmtVal(c, c.required)}
+                  </Ev>
+                ) : c.id === 'area' || c.id === 'parking' ? (
+                  c.required != null ? <Ev trust={c.id === 'parking' || c.trust === 'pencil' ? 'pencil' : 'ink'}>{fmtVal(c, c.required)}</Ev> : ''
+                ) : (
+                  ''
+                )}
+              </td>
               <td className="num">
                 {c.available != null && c.id !== 'grading' && c.id !== 'undermined' ? (
                   <Ev trust={c.trust === 'red' ? 'red' : c.status === 'open' || c.trust === 'pencil' ? 'pencil' : 'ink'} refId={c.id === 'width' ? 'measure:width' : c.id === 'depth' ? 'measure:depth' : undefined}>
