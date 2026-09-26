@@ -889,7 +889,9 @@ button.numeral {
   font-size: var(--s-body);
 }
 .wall-verdict.is-red {
-  color: var(--red);
+  /* a statement about the regulation: ink (red means yours) */
+  color: var(--ink);
+  font-weight: 500;
 }
 .wall-verdict.is-pencil {
   color: var(--graphite);
