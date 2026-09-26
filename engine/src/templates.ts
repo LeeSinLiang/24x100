@@ -48,21 +48,28 @@ export const TEMPLATES: Record<TemplateId, Template> = {
 
 export const APPROVAL_LABEL: Record<ApprovalKind, string> = {
   variance: 'Variance (Zoning Board of Adjustment)',
+  use_variance: 'Use variance (Zoning Board of Adjustment)',
+  special_exception: 'Special exception (Zoning Board of Adjustment)',
   grading_review: 'Grading review',
   administrator_exception: 'Administrator exception',
+  // No consolidation, subdivision or lot-line section is in data/code/*.txt, so none is cited.
+  lot_consolidation: 'Lot consolidation (the City’s process; the section isn’t in our saved code text)',
   city_public_sale: 'City public sale',
   other_owner: 'Buy from another owner',
   parking_relief: 'Parking relief',
 };
 
-export const DISCRETIONARY: ApprovalKind[] = ['variance', 'grading_review', 'administrator_exception', 'parking_relief'];
+export const DISCRETIONARY: ApprovalKind[] = ['variance', 'use_variance', 'special_exception', 'grading_review', 'administrator_exception', 'parking_relief'];
 
 export const DEFAULT_SETTINGS: Settings = {
   recon_tolerance: 0.1,
   weights: {
     variance: 35,
+    use_variance: 35,
+    special_exception: 20,
     grading_review: 20,
     administrator_exception: 10,
+    lot_consolidation: 5,
     city_public_sale: 5,
     other_owner: 15,
     parking_relief: 10,
