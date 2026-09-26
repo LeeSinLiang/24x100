@@ -1,0 +1,555 @@
+{
+ "counts": {
+  "all_dates_range": [
+   "2012-01-05",
+   "2026-08-20"
+  ],
+  "note": "Since 2023-01-01: 796 Ward 12 transfers, 51 valid sales (51 at >= $10,000), 51 of them 1-2 unit homes. The whole sales file (2012-01-05 to 2026-08-20) holds 3217 Ward 12 transfers, 129 of them valid sales.",
+  "transfers": 796,
+  "transfers_all_dates": 3217,
+  "valid": 51,
+  "valid_1_2_unit": 51,
+  "valid_all_dates": 129,
+  "valid_any_price": 51,
+  "window": [
+   "2023-01-01",
+   "2026-08-20"
+  ]
+ },
+ "excluded_by_use": [],
+ "median": 85000,
+ "meta": {
+  "assessment_resource_id": "65855e14-549e-4992-b5be-d629afc676fa",
+  "filters": {
+   "MUNICODE": "112",
+   "PRICE_gte": 10000,
+   "SALEDATE_gte": "2023-01-01",
+   "SALEDESC": "VALID SALE",
+   "USEDESC_in": [
+    "ROWHOUSE",
+    "SINGLE FAMILY",
+    "TOWNHOUSE",
+    "TWO FAMILY"
+   ],
+   "ward": 12
+  },
+  "municode": "112",
+  "pipeline_version": "0.1.0",
+  "privacy": "property addresses only; the sales file carries no party names and none are added",
+  "pulled": "2026-09-26T21:55:09Z",
+  "resource_id": "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
+  "sales_resource_id": "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1",
+  "source": "WPRDC Allegheny County Real Estate Sales + Property Assessments",
+  "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1"
+ },
+ "newest": {
+  "addr": "22 Mayflower St",
+  "parid": "0083M00174000000",
+  "price": 240000,
+  "saledate": "2025-09-24",
+  "sqft": 1742,
+  "use": "SINGLE FAMILY",
+  "yearbuilt": 2024
+ },
+ "newest_built": [
+  {
+   "addr": "22 Mayflower St",
+   "parid": "0083M00174000000",
+   "price": 240000,
+   "saledate": "2025-09-24",
+   "sqft": 1742,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2024
+  },
+  {
+   "addr": "448 Enright Ct",
+   "parid": "0084D00052000001",
+   "price": 95000,
+   "saledate": "2024-01-05",
+   "sqft": 1015,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1973
+  },
+  {
+   "addr": "450 Enright Ct",
+   "parid": "0084D00053000000",
+   "price": 110000,
+   "saledate": "2023-10-27",
+   "sqft": 1032,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1973
+  }
+ ],
+ "newest_rule": "top 3 by assessment YEARBLT (newest first), ties by sale date (newest first)",
+ "q1": 57500,
+ "q3": 122500,
+ "quantile_alternatives": {
+  "exclusive_type6": {
+   "median": 85000,
+   "q1": 55000,
+   "q3": 125000
+  }
+ },
+ "quantile_method": "statistics.quantiles(prices, n=4, method='inclusive'): linear interpolation between order statistics, Hyndman-Fan type 7 (numpy/Excel QUARTILE.INC default)",
+ "sales": [
+  {
+   "address": "116 Auburn St",
+   "parid": "0083S00295000000",
+   "price": 107000,
+   "saledate": "2023-01-06",
+   "sqft": 2387,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "1587 Lincoln Ave",
+   "parid": "0173B00225000000",
+   "price": 65000,
+   "saledate": "2023-01-13",
+   "sqft": 1637,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1939
+  },
+  {
+   "address": "1814 Funston Ave",
+   "parid": "0173C00318000000",
+   "price": 168500,
+   "saledate": "2023-02-07",
+   "sqft": 1842,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1915
+  },
+  {
+   "address": "7076-7078 Lemington Ave",
+   "parid": "0173E00022000000",
+   "price": 133000,
+   "saledate": "2023-02-23",
+   "sqft": 2912,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "6522 Deary St",
+   "parid": "0124L00129000000",
+   "price": 64000,
+   "saledate": "2023-04-14",
+   "sqft": 1765,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "1646 Westmoreland Ave",
+   "parid": "0173C00064000000",
+   "price": 65000,
+   "saledate": "2023-05-05",
+   "sqft": 1274,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1956
+  },
+  {
+   "address": "7131 Wiltsie St",
+   "parid": "0173B00195000000",
+   "price": 120000,
+   "saledate": "2023-05-22",
+   "sqft": 1148,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1960
+  },
+  {
+   "address": "1263 Grotto St",
+   "parid": "0173J00241000000",
+   "price": 119000,
+   "saledate": "2023-06-01",
+   "sqft": 1122,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "6403 Clifford St",
+   "parid": "0124G00060000000",
+   "price": 60000,
+   "saledate": "2023-07-17",
+   "sqft": 1644,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "7347 Somerset St",
+   "parid": "0173G00165000000",
+   "price": 85000,
+   "saledate": "2023-08-15",
+   "sqft": 1137,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1959
+  },
+  {
+   "address": "6540 Deary St",
+   "parid": "0124L00121000000",
+   "price": 85000,
+   "saledate": "2023-10-17",
+   "sqft": 1728,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "1255 Album St",
+   "parid": "0124H00021000000",
+   "price": 60000,
+   "saledate": "2023-10-19",
+   "sqft": 1140,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1929
+  },
+  {
+   "address": "450 Enright Ct",
+   "parid": "0084D00053000000",
+   "price": 110000,
+   "saledate": "2023-10-27",
+   "sqft": 1032,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1973
+  },
+  {
+   "address": "6914 Chaucer St",
+   "parid": "0124S00348000000",
+   "price": 98000,
+   "saledate": "2023-11-15",
+   "sqft": 1584,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "1323 Pointview St",
+   "parid": "0173J00028000000",
+   "price": 37000,
+   "saledate": "2023-11-15",
+   "sqft": 1440,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "7109 Campania Ave",
+   "parid": "0172P00056000000",
+   "price": 98500,
+   "saledate": "2023-11-16",
+   "sqft": 1020,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1960
+  },
+  {
+   "address": "6535 Deary St",
+   "parid": "0124L00091000000",
+   "price": 67500,
+   "saledate": "2023-11-21",
+   "sqft": 1692,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "914 Laxton St",
+   "parid": "0124S00198000000",
+   "price": 50000,
+   "saledate": "2024-01-04",
+   "sqft": 1768,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "448 Enright Ct",
+   "parid": "0084D00052000001",
+   "price": 95000,
+   "saledate": "2024-01-05",
+   "sqft": 1015,
+   "use": "TOWNHOUSE",
+   "yearbuilt": 1973
+  },
+  {
+   "address": "1217 Lincoln Ave",
+   "parid": "0173J00113000000",
+   "price": 50000,
+   "saledate": "2024-02-23",
+   "sqft": 1241,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  },
+  {
+   "address": "408 Larimer Ave",
+   "parid": "0124N00224000000",
+   "price": 260200,
+   "saledate": "2024-04-29",
+   "sqft": 1200,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1910
+  },
+  {
+   "address": "1431 Oberlin St",
+   "parid": "0173R00054000000",
+   "price": 55000,
+   "saledate": "2024-04-30",
+   "sqft": 1150,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1955
+  },
+  {
+   "address": "6621 Tennis St",
+   "parid": "0124R00256000000",
+   "price": 50000,
+   "saledate": "2024-05-08",
+   "sqft": 2674,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1918
+  },
+  {
+   "address": "1657 Broadhead St",
+   "parid": "0173C00129000000",
+   "price": 50000,
+   "saledate": "2024-06-19",
+   "sqft": 1320,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "7239 Somerset St",
+   "parid": "0173F00275000000",
+   "price": 135000,
+   "saledate": "2024-06-19",
+   "sqft": 1080,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1956
+  },
+  {
+   "address": "6582 Navarro St",
+   "parid": "0124H00045000600",
+   "price": 45000,
+   "saledate": "2024-07-16",
+   "sqft": 960,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "626 Thompson St",
+   "parid": "0124K00197000A00",
+   "price": 102500,
+   "saledate": "2024-07-18",
+   "sqft": 1859,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  },
+  {
+   "address": "7313 Somerset St",
+   "parid": "0173G00215000000",
+   "price": 80000,
+   "saledate": "2024-07-26",
+   "sqft": 1150,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "520 Paulson Ave",
+   "parid": "0124P00090000000",
+   "price": 51000,
+   "saledate": "2024-09-18",
+   "sqft": 1220,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "7131 Vassar St",
+   "parid": "0173J00376000100",
+   "price": 26500,
+   "saledate": "2024-10-14",
+   "sqft": 930,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1942
+  },
+  {
+   "address": "343 Ladson St",
+   "parid": "0124R00049000000",
+   "price": 217000,
+   "saledate": "2024-11-05",
+   "sqft": 2747,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "1367 Montezuma St",
+   "parid": "0173E00090000000",
+   "price": 37000,
+   "saledate": "2024-12-17",
+   "sqft": 1190,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1908
+  },
+  {
+   "address": "7115 Lemington Ave",
+   "parid": "0173E00285000000",
+   "price": 96000,
+   "saledate": "2025-01-16",
+   "sqft": 1772,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "7220 Hilliards St",
+   "parid": "0173P00091000000",
+   "price": 149000,
+   "saledate": "2025-02-19",
+   "sqft": 2231,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  },
+  {
+   "address": "6578 Navarro St",
+   "parid": "0124H00045000200",
+   "price": 45000,
+   "saledate": "2025-04-30",
+   "sqft": 1360,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "531 Lenora St",
+   "parid": "0124J00060000000",
+   "price": 175000,
+   "saledate": "2025-05-23",
+   "sqft": 960,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1890
+  },
+  {
+   "address": "636 Lincoln Ave",
+   "parid": "0125C00071000000",
+   "price": 73000,
+   "saledate": "2025-06-25",
+   "sqft": 1518,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "7161 Wiltsie St",
+   "parid": "0173B00212000000",
+   "price": 157000,
+   "saledate": "2025-06-26",
+   "sqft": 1116,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "15 Mayflower St",
+   "parid": "0083M00197000000",
+   "price": 75000,
+   "saledate": "2025-08-29",
+   "sqft": 1650,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "6601 Apple St",
+   "parid": "0124M00242000000",
+   "price": 67000,
+   "saledate": "2025-09-12",
+   "sqft": 1293,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1956
+  },
+  {
+   "address": "22 Mayflower St",
+   "parid": "0083M00174000000",
+   "price": 240000,
+   "saledate": "2025-09-24",
+   "sqft": 1742,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 2024
+  },
+  {
+   "address": "6719 Deary St",
+   "parid": "0124M00031000000",
+   "price": 45000,
+   "saledate": "2025-09-24",
+   "sqft": 1912,
+   "use": "TWO FAMILY",
+   "yearbuilt": 1912
+  },
+  {
+   "address": "6511 Clifford St",
+   "parid": "0124H00045000700",
+   "price": 70000,
+   "saledate": "2025-10-10",
+   "sqft": 858,
+   "use": "ROWHOUSE",
+   "yearbuilt": 1920
+  },
+  {
+   "address": "6826 Upland St",
+   "parid": "0124S00204000000",
+   "price": 53000,
+   "saledate": "2025-10-20",
+   "sqft": 1361,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1928
+  },
+  {
+   "address": "6552 Deary St",
+   "parid": "0124L00115000000",
+   "price": 125000,
+   "saledate": "2025-11-12",
+   "sqft": 1344,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "6444 Apple St",
+   "parid": "0124G00297000000",
+   "price": 180000,
+   "saledate": "2026-01-29",
+   "sqft": 1404,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "7258 Campania Ave",
+   "parid": "0173C00114000000",
+   "price": 94000,
+   "saledate": "2026-02-20",
+   "sqft": 1050,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1930
+  },
+  {
+   "address": "228 Mayflower St",
+   "parid": "0125A00207000000",
+   "price": 190000,
+   "saledate": "2026-05-22",
+   "sqft": 1642,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1900
+  },
+  {
+   "address": "133 Carver St",
+   "parid": "0124N00213000000",
+   "price": 87000,
+   "saledate": "2026-05-26",
+   "sqft": 1224,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1905
+  },
+  {
+   "address": "6419 Olivant St",
+   "parid": "0124D00020000000",
+   "price": 127000,
+   "saledate": "2026-06-15",
+   "sqft": 1232,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1950
+  },
+  {
+   "address": "1539 Broadhead St",
+   "parid": "0173F00210000000",
+   "price": 90000,
+   "saledate": "2026-07-08",
+   "sqft": 2054,
+   "use": "SINGLE FAMILY",
+   "yearbuilt": 1925
+  }
+ ]
+}

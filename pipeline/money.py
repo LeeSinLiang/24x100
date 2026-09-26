@@ -1,4 +1,4 @@
-"""Money inputs: Ward 5 comparable sales and HUD FY2026 income limits."""
+"""Money inputs: comparable sales by ward (5 and 12 by default) and HUD FY2026 income limits."""
 from __future__ import annotations
 
 import io
@@ -13,7 +13,8 @@ from . import sources as S
 from .fetch import REPO, RawCache
 
 OUT_DIR = REPO / "data" / "money"
-MUNICODE = "105"          # Pittsburgh Ward 5
+MUNICODE = "105"          # Pittsburgh Ward 5 (the default ward)
+WARDS = (5, 12)           # wards with a comps file: 10-K is Ward 5, held-out 0124-P is Ward 12
 SINCE = "2023-01-01"
 MIN_PRICE = 10000
 VALID = "VALID SALE"
@@ -30,16 +31,29 @@ HUD_COUNTY = "Allegheny"
 # comparables
 
 
-def fetch_money(cache: RawCache) -> None:
-    keys = S.fetch_sales(cache, MUNICODE)
+def municode(ward: int) -> str:
+    """County MUNICODE of a City of Pittsburgh ward: Ward 5 -> '105', Ward 12 -> '112'."""
+    if not 1 <= int(ward) <= 32:
+        raise ValueError(f"Pittsburgh wards are 1-32, not {ward}")
+    return f"1{int(ward):02d}"
+
+
+def fetch_sales_and_assessments(cache: RawCache, ward: int = 5) -> None:
+    code = municode(ward)
+    keys = S.fetch_sales(cache, code)
     recs = _sales_records(cache, keys)
     pins = sorted({r["PARID"] for r in recs if _is_valid_recent(r)})
-    S.fetch_assessments(cache, f"sales_{MUNICODE}", pins)
-    S.fetch_hud(cache)
+    S.fetch_assessments(cache, f"sales_{code}", pins)
 
 
-def _sales_keys(cache: RawCache) -> list[str]:
-    return sorted(k for k in cache.manifest if k.startswith(f"sales_{MUNICODE}/page_"))
+def fetch_money(cache: RawCache, ward: int = 5, hud: bool = True) -> None:
+    fetch_sales_and_assessments(cache, ward)
+    if hud:
+        S.fetch_hud(cache)
+
+
+def _sales_keys(cache: RawCache, ward: int = 5) -> list[str]:
+    return sorted(k for k in cache.manifest if k.startswith(f"sales_{municode(ward)}/page_"))
 
 
 def _sales_records(cache: RawCache, keys: list[str]) -> list[dict]:
@@ -79,12 +93,13 @@ def _num(v):
     return int(f) if f.is_integer() else f
 
 
-def build_snapshot(cache: RawCache) -> dict[str, Any]:
+def build_snapshot(cache: RawCache, ward: int = 5) -> dict[str, Any]:
     """Filtered, joined records plus the upstream counts: the input to summarize()."""
-    sales_keys = _sales_keys(cache)
+    code = municode(ward)
+    sales_keys = _sales_keys(cache, ward)
     recs = _sales_records(cache, sales_keys)
     assess: dict[str, dict] = {}
-    for k in sorted(k for k in cache.manifest if k.startswith(f"sales_{MUNICODE}/assessments_")):
+    for k in sorted(k for k in cache.manifest if k.startswith(f"sales_{code}/assessments_")):
         for a in cache.read_json(k)["result"]["records"]:
             assess[a["PARID"]] = a
     records = []
@@ -112,7 +127,7 @@ def build_snapshot(cache: RawCache) -> dict[str, Any]:
             "sales_resource_id": S.SALES_RESOURCE,
             "assessment_resource_id": S.ASSESSMENT_RESOURCE,
             "pulled": first["fetched_at"],
-            "municode": MUNICODE,
+            "municode": code,
             "record_filter": {"SALEDESC": VALID, "PRICE_gte": MIN_PRICE, "SALEDATE_gte": SINCE},
         },
         "upstream": {
@@ -141,6 +156,7 @@ def summarize(snapshot: dict[str, Any]) -> dict[str, Any]:
         key=lambda r: (-r["yearbuilt"], _neg_date(r["saledate"]), r["parid"]),
     )[:3]
     up = snapshot["upstream"]
+    ward = int(snapshot["meta"]["municode"]) - 100
 
     def money(v):
         return int(v) if float(v).is_integer() else round(v, 2)
@@ -156,10 +172,10 @@ def summarize(snapshot: dict[str, Any]) -> dict[str, Any]:
             "valid_all_dates": up["valid_all_dates"],
             "all_dates_range": [up["transfers_all_dates_first"], up["transfers_all_dates_last"]],
             "note": (
-                f"Since {SINCE}: {up['transfers_since']} Ward 5 transfers, {up['valid_since']} valid sales "
+                f"Since {SINCE}: {up['transfers_since']} Ward {ward} transfers, {up['valid_since']} valid sales "
                 f"({len(recs)} at >= ${MIN_PRICE:,}), {len(keep)} of them 1-2 unit homes. The whole sales "
                 f"file ({up['transfers_all_dates_first']} to {up['transfers_all_dates_last']}) holds "
-                f"{up['transfers_all_dates']} Ward 5 transfers, {up['valid_all_dates']} of them valid sales."
+                f"{up['transfers_all_dates']} Ward {ward} transfers, {up['valid_all_dates']} of them valid sales."
             ),
         },
         "median": money(med),
@@ -198,9 +214,10 @@ def comps_file(snapshot: dict[str, Any]) -> dict[str, Any]:
     s = summarize(snapshot)
     meta = dict(snapshot["meta"])
     meta.pop("record_filter", None)
+    code = meta["municode"]
     meta.update({
         "filters": {
-            "MUNICODE": MUNICODE, "ward": 5, "SALEDESC": VALID, "PRICE_gte": MIN_PRICE,
+            "MUNICODE": code, "ward": int(code) - 100, "SALEDESC": VALID, "PRICE_gte": MIN_PRICE,
             "SALEDATE_gte": SINCE, "USEDESC_in": list(USES_1_2),
         },
         "resource_id": S.SALES_RESOURCE,
@@ -256,6 +273,10 @@ def hud_file(cache: RawCache) -> dict[str, Any]:
         for n in range(1, 9):
             out[f"{lvl}_{n}"] = int(d[f"{lvl}_{n}"])
     return out
+
+
+def comps_name(ward: int) -> str:
+    return f"comps_ward{int(ward)}.json"
 
 
 def dumps(obj: Any) -> str:

@@ -12,7 +12,7 @@ Run from the repo root (the uv env is Python 3.12).
 | `uv run python -m pipeline block --id 10K` | Fetch anything missing from today's raw cache (`data/raw/<today>/`), then write `data/blocks/10K.json` and the G1 cross-check `data/blocks/10K.crosscheck.json`. |
 | `uv run python -m pipeline block --id 0124P` | Held-out block (Larimer, R1D‑H): writes `data/blocks/0124P.json`. |
 | `uv run python -m pipeline block --id 10K --offline` | No network. Process the newest raw cache that has every input. |
-| `uv run python -m pipeline money [--offline]` | Write `data/money/comps_ward5.json` and `data/money/hud_fy2026.json`. HUD comes from the newest raw cache that holds the workbook (it may be an older pull). Exits 1 only if no raw cache has one; comps are still written. |
+| `uv run python -m pipeline money [--ward N] [--offline]` | Write `data/money/comps_ward<N>.json` (default Ward 5; `--ward 12` for the held-out block) and `data/money/hud_fy2026.json`. HUD comes from the newest raw cache that holds the workbook (it may be an older pull). Exits 1 only if no raw cache has one; comps are still written. |
 | `uv run python -m pipeline money --offline --snapshot pipeline/tests/fixtures/ward5_sales_<date>.json` | Also write the filtered, joined sales snapshot used by the tests. |
 | `uv run python -m pipeline money --hud-file ~/Downloads/Section8-FY26.xlsx` | Ingest a HUD workbook a person downloaded in a browser (huduser.gov challenges scripts; see below). It is cached with its sha256 and a `manual_download` note, then processed. |
 | `uv run python -m pipeline crosscheck --id 10K [--fixture PATH]` | Re-run only the G1 comparison against the research fixture. |
@@ -22,7 +22,7 @@ Run from the repo root (the uv env is Python 3.12).
 | `uv run python -m pipeline refresh --baseline research-fixture` | Diff Block 10‑K against the pre-kickoff research fixture: `data/refresh/vs-research-fixture.json`. |
 | `uv run python -m pipeline digest --dry-run` | Render the watchlist digest to `data/refresh/digest-preview.md` and print it. The default; nothing is sent. |
 | `uv run python -m pipeline digest --send` | Post to Slack or send mail, only if the keys are in `.env`; otherwise it refuses. |
-| `uv run python -m pipeline all [--offline] [--no-city]` | Blocks 10K and 0124P, then money, then city. |
+| `uv run python -m pipeline all [--offline] [--no-city]` | Blocks 10K and 0124P, then money for Wards 5 and 12, then city. |
 | `uv run pytest -q pipeline/tests` | Tests (no network). Some tests need files that aren't in git (`data/raw/`, `data/city/work/`, the refresh files). When those files are missing, the tests skip and say why. |
 
 `--date YYYY-MM-DD` pins a specific raw cache folder.
@@ -291,7 +291,20 @@ It never sends an inquiry.
 
 ## Money · `data/money/`
 
-### `comps_ward5.json` (PLAN.md §2.6)
+### `comps_ward<N>.json` (PLAN.md §2.6)
+
+There is one file per ward, with the same schema and filters. `MUNICODE` is 100 + ward: Ward 5
+is `105` (Block 10‑K) and Ward 12 is `112` (held-out block 0124‑P). `money.WARDS` lists the
+wards that `all` and `refresh` produce.
+
+| Ward | Valid 1–2 unit sales since 2023 | Median | IQR | Newest build |
+|---|---|---|---|---|
+| 5 | 33 | $155,000 | $105,000–$235,000 | 2125 Rose St, built 2025, $240,000, 1,442 sq ft |
+| 12 | 51 | $85,000 | $57,500–$122,500 | 22 Mayflower St, built 2024, $240,000, 1,742 sq ft |
+
+Both wards were pulled on 26 Sep 2026. For Ward 12 the exclusive method gives $55,000–$125,000.
+
+The Ward 5 details:
 
 **Filter.** Ward 5 (`MUNICODE` 105) sales with `SALEDESC == "VALID SALE"`, `PRICE >= 10000` and
 `SALEDATE >= 2023-01-01`. Each is joined to the assessment by PARID, and we keep `USEDESC` in
@@ -311,10 +324,11 @@ It never sends an inquiry.
 | `sales[]` | `{parid, address, saledate, price, use, yearbuilt, sqft}`. `address` is the property address only. |
 | `excluded_by_use[]` | Valid recent sales dropped by the use filter. |
 
-**Test snapshot.** `pipeline/tests/fixtures/ward5_sales_2026-09-26.json` holds the 26 Sep snapshot:
-the filtered, joined records plus the upstream counts. `tests/test_money.py` checks that it
-reproduces the fixture: 33 sales, median $155,000, IQR $105,000–$235,000, newest 2125 Rose St
-(built 2025, $240,000, 1,442 sq ft).
+**Test snapshots.** `pipeline/tests/fixtures/ward5_sales_2026-09-26.json` and
+`ward12_sales_2026-09-26.json` each hold the 26 Sep snapshot for their ward:
+the filtered, joined records plus the upstream counts. `tests/test_money.py` checks that each
+reproduces the numbers in the table above. It also checks that Ward 12 has exactly the same
+schema and filters as Ward 5, apart from `MUNICODE` and `ward`.
 
 ### `hud_fy2026.json`
 

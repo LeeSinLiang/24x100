@@ -168,7 +168,7 @@ def diff_money(before: dict | None, after: dict | None, fields: list[str], name:
         if vb != va:
             out.append({"pin": None, "addr": None, "block": None, "scope": "money", "field": f"{name}.{f}",
                         "before": vb, "after": va, "kind": "changed"})
-    if name == "comps":
+    if name.startswith("comps"):
         kb = {(s["parid"], s["saledate"]): s for s in before.get("sales", [])}
         ka = {(s["parid"], s["saledate"]): s for s in after.get("sales", [])}
         for k in sorted(set(kb) ^ set(ka)):
@@ -184,7 +184,7 @@ def snapshot_outputs() -> dict[str, Any]:
     work = REPO / "data" / "city" / "work" / "lots_work.json"
     return {
         "blocks": blocks,
-        "comps": _load(M.OUT_DIR / "comps_ward5.json"),
+        "comps": {w: _load(M.OUT_DIR / M.comps_name(w)) for w in M.WARDS},
         "hud": _load(M.OUT_DIR / "hud_fy2026.json"),
         "city": _load(work),
     }
@@ -207,7 +207,9 @@ def diff_outputs(before: dict, after: dict) -> list[dict]:
             if sb != sa:
                 changes.append({"pin": None, "addr": None, "block": bid, "scope": "block", "field": "streets",
                                 "before": sb, "after": sa, "kind": "changed"})
-    changes += diff_money(before.get("comps"), after.get("comps"), COMPS_FIELDS, "comps")
+    for w in M.WARDS:
+        changes += diff_money((before.get("comps") or {}).get(w), (after.get("comps") or {}).get(w), COMPS_FIELDS,
+                              f"comps_ward{w}")
     changes += diff_money(before.get("hud"), after.get("hud"), HUD_FIELDS, "hud")
     return changes
 
@@ -423,8 +425,7 @@ def run_refresh(*, code: bool = False, code_dir: Path | None = None, log: Callab
             return False
 
     ok_blocks = {bid: step(f"fetch block {bid}", lambda c=cfg: B.fetch_block(cache, c)) for bid, cfg in B.BLOCKS.items()}
-    ok_sales = step("fetch sales", lambda: (S.fetch_sales(cache, M.MUNICODE),
-                                            S.fetch_assessments(cache, f"sales_{M.MUNICODE}", _sales_pins(cache))))
+    ok_sales = {w: step(f"fetch sales ward {w}", lambda w=w: M.fetch_sales_and_assessments(cache, w)) for w in M.WARDS}
     step("fetch HUD", lambda: S.fetch_hud_once(cache))
     ok_city = step("fetch city", lambda: C.fetch_city(cache)) if city else False
 
@@ -440,8 +441,9 @@ def run_refresh(*, code: bool = False, code_dir: Path | None = None, log: Callab
 
         step("G1 cross-check", lambda: (B.OUT_DIR / "10K.crosscheck.json").write_text(
             B.dumps(X.crosscheck(json.loads((B.OUT_DIR / "10K.json").read_text()), FIXTURE))))
-    if ok_sales:
-        step("process comps", lambda: M.write(M.comps_file(M.build_snapshot(off)), "comps_ward5.json"))
+    for w, ok in ok_sales.items():
+        if ok:
+            step(f"process comps ward {w}", lambda w=w: M.write(M.comps_file(M.build_snapshot(off, w)), M.comps_name(w)))
     if off.has("hud_il_fy2026"):
         step("process HUD", lambda: M.write(M.hud_file(off), "hud_fy2026.json"))
     if ok_city:
@@ -536,8 +538,3 @@ def _retry_older_osm(prev: RawCache, cache: RawCache, log: Callable[[str], None]
             (cache.dir / e["file"]).write_bytes(body_before)
             cache.manifest[key] = e
             cache._save_manifest()
-
-
-def _sales_pins(cache: RawCache) -> list[str]:
-    recs = M._sales_records(cache, M._sales_keys(cache))
-    return sorted({r["PARID"] for r in recs if M._is_valid_recent(r)})

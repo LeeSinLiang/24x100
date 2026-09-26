@@ -45,7 +45,7 @@ def data_files():
 
 def test_there_are_files_to_check():
     names = {p.name for p in data_files()}
-    assert {"10K.json", "0124P.json", "comps_ward5.json", "neighborhoods.json", "water.json"} <= names
+    assert {"10K.json", "0124P.json", "comps_ward5.json", "comps_ward12.json", "neighborhoods.json", "water.json"} <= names
 
 
 @pytest.mark.parametrize("path", data_files(), ids=lambda p: p.name)

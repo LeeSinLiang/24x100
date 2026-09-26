@@ -1,7 +1,7 @@
 """CLI.
 
   uv run python -m pipeline block --id 10K|0124P [--offline]   fetch today's raw cache if missing, process
-  uv run python -m pipeline money [--offline] [--hud-file PATH]
+  uv run python -m pipeline money [--ward 5|12] [--offline] [--hud-file PATH]
   uv run python -m pipeline city [--offline]                    citywide work file + outlines
   uv run python -m pipeline crosscheck --id 10K [--fixture PATH]
   uv run python -m pipeline refresh [--code|--code-dir DIR] [--no-city] [--baseline research-fixture]
@@ -78,7 +78,8 @@ def cmd_crosscheck(args) -> int:
 
 
 def cmd_money(args) -> int:
-    required = [f"sales_{M.MUNICODE}/page_000"]
+    ward = int(getattr(args, "ward", 5) or 5)
+    required = [f"sales_{M.municode(ward)}/page_000"]
     cache = _cache(args.offline, required, args.date)
     if args.hud_file:
         body = Path(args.hud_file).expanduser().read_bytes()
@@ -91,15 +92,16 @@ def cmd_money(args) -> int:
         cache.offline = args.offline
     if not args.offline:
         try:
-            M.fetch_money(cache)
+            M.fetch_money(cache, ward)
         except FetchError as e:
             # comps can still be written if the sales side is complete; HUD is reported and skipped
             print(f"fetch error: {e}", file=sys.stderr)
-    snap = M.build_snapshot(cache)
+    snap = M.build_snapshot(cache, ward)
     comps = M.comps_file(snap)
-    p = M.write(comps, "comps_ward5.json")
+    p = M.write(comps, M.comps_name(ward))
     c = comps["counts"]
-    print(f"wrote {p.relative_to(M.REPO)}: {c['valid_1_2_unit']} valid 1-2 unit sales since {M.SINCE}; "
+    thin = " (fewer than 30: thin market)" if c["valid_1_2_unit"] < 30 else ""
+    print(f"wrote {p.relative_to(M.REPO)}: {c['valid_1_2_unit']} valid 1-2 unit sales since {M.SINCE}{thin}; "
           f"median {comps['median']:,}, IQR {comps['q1']:,}-{comps['q3']:,}; newest {comps['newest']['addr']} "
           f"({comps['newest']['yearbuilt']}, {comps['newest']['price']:,})")
     if args.snapshot:
@@ -197,6 +199,7 @@ def main(argv: list[str] | None = None) -> int:
     m = sub.add_parser("money", help="fetch + process comps and HUD income limits")
     m.add_argument("--offline", action="store_true")
     m.add_argument("--date")
+    m.add_argument("--ward", type=int, default=5, help="City ward (MUNICODE 100 + ward); default 5")
     m.add_argument("--snapshot", help="also write the filtered joined sales snapshot to this path")
     m.add_argument("--hud-file", help="HUD Section8-FY26.xlsx downloaded by hand (huduser.gov challenges scripts)")
     m.set_defaults(fn=cmd_money)
@@ -219,7 +222,7 @@ def main(argv: list[str] | None = None) -> int:
     g.add_argument("--dry-run", action="store_true", help="write data/refresh/digest-preview.md and print it (default)")
     g.add_argument("--send", action="store_true", help="post to Slack / send mail, only if keys are set in .env")
     d.set_defaults(fn=cmd_digest)
-    a = sub.add_parser("all", help="blocks 10K and 0124P, money, city")
+    a = sub.add_parser("all", help="blocks 10K and 0124P, money for wards 5 and 12, city")
     a.add_argument("--offline", action="store_true")
     a.add_argument("--date")
     a.add_argument("--no-city", action="store_true")
@@ -238,7 +241,9 @@ def main(argv: list[str] | None = None) -> int:
             for bid in B.BLOCKS:
                 rcs.append(cmd_block(argparse.Namespace(id=bid, offline=args.offline, date=args.date, fixture=None,
                                                         no_crosscheck=False)))
-            rcs.append(cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None, hud_file=None)))
+            for ward in M.WARDS:
+                rcs.append(cmd_money(argparse.Namespace(offline=args.offline, date=args.date, snapshot=None,
+                                                        hud_file=None, ward=ward)))
             if not args.no_city:
                 rcs.append(cmd_city(argparse.Namespace(offline=args.offline, date=args.date)))
             return max(rcs)
