@@ -94,7 +94,7 @@ export function AssemblyPanel(props: {
       </p>
       <p className="small">Combining lots needs a lot consolidation and the owners’ agreement; this is not an offer, and it hasn’t been checked with the City.</p>
       <p className="small muted">
-        Rules loaded for RM‑M only; other districts not assessed. Checked {n(data.meta.candidates)} City-owned vacant lots; skipped {skipped.join(' and ')}. Built neighbours are not partners (buying or demolishing a home is a
+        Rules checked for RM‑M and R1D‑H; R1D‑H doesn’t permit two- or three-unit houses, so its lots don’t appear. Other districts not assessed. Checked {n(data.meta.candidates)} City-owned vacant lots; skipped {skipped.join(' and ')}. Built neighbours are not partners (buying or demolishing a home is a
         different decision). Use, parking and grading are still to check. Owner type only, never names.
       </p>
       <div className="asm-sort" role="group" aria-label="Sort">

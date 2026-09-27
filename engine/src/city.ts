@@ -6,7 +6,7 @@ import { getQuestion, pick, ruleTrust } from './rules';
 import { TEMPLATES } from './templates';
 import type { NarrowRow, Proposal, Ring, RuleSet, Settings, Street, TemplateId, Trust } from './types';
 
-export type Blocker = 'records' | 'rules' | 'edges' | 'area' | 'width' | 'depth' | 'ownership' | 'fits';
+export type Blocker = 'records' | 'rules' | 'edges' | 'use' | 'area' | 'width' | 'depth' | 'ownership' | 'fits';
 export type FlankKind = 'interior_vacant' | 'interior_built' | 'exterior';
 
 export interface CityLot {
@@ -61,10 +61,11 @@ export interface CityClass {
   widthNote: string | null;
 }
 
-export const BLOCKER_ORDER: Blocker[] = ['rules', 'records', 'edges', 'area', 'width', 'depth', 'ownership', 'fits'];
+export const BLOCKER_ORDER: Blocker[] = ['rules', 'records', 'edges', 'use', 'area', 'width', 'depth', 'ownership', 'fits'];
 
 export const BLOCKER_WORDS: Record<Blocker, string> = {
   records: 'records disagree',
+  use: 'not permitted here',
   rules: 'rules not loaded',
   edges: 'edges not computed',
   area: 'lot area',
@@ -139,6 +140,11 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
     return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
   }
   if (!lot.edges_ok) return none('edges', lot.edge_note ?? 'Edges not computed');
+  // The use table first: where this building type isn't permitted, it is the blocker, not the setbacks (a
+  // district whose rules are signed can still forbid a two-unit house; R1D‑H does).
+  const useRule = pick(rs, `use_${type}` as never);
+  if (useRule && useRule.value === 'N')
+    return { ...none('use', `${TEMPLATES[type].name}: not permitted in ${lot.zone} (§${useRule.section})`, ruleTrust(useRule) === 'ink' ? 'ink' : 'pencil') };
 
   const front = lot.deed?.front ?? lot.front_len ?? 0;
   const single = TEMPLATES[type].single_unit;

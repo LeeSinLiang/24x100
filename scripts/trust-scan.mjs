@@ -32,15 +32,13 @@ const PAGES = [
   { id: 'inquiry lot 22 (refused)', kind: 'inquiry', q: 'view=inquiry&block=10K&lot=22&type=two' },
 ];
 
-// A reopened rule: effective state unreviewed (pencil). Written straight into this browser's log, dated
-// now so it is the rule's latest entry (a fixed date fell behind the committed signatures of 27 Sep and
-// the reopened run then exercised nothing).
+// A reopened rule: effective state unreviewed (pencil). Written straight into this browser's log.
 const REOPEN = [
   {
     id: 'a-trust-scan-reopen-side-interior',
     rule_id: 'rm-m.side_interior',
     question_id: null,
-    at: new Date().toISOString(),
+    at: new Date().toISOString(), // after every published signature, so the reopen wins
     reviewer: 'trust-scan',
     role: 'test',
     action: 'reopened',

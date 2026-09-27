@@ -532,7 +532,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           </p>
           <p className="small">The City lot alone: {run.candidate_alone}.</p>
           <p className="small">Still to check: {run.still_to_check.join(', ')}.</p>
-          <p className="small muted">Rules loaded for RM‑M only; other districts not assessed. Owner type only, never names. {RUN_ADDR_NOTE}</p>
+          <p className="small muted">Rules checked for RM‑M and R1D‑H (R1D‑H doesn’t permit two- or three-unit houses); other districts not assessed. Owner type only, never names. {RUN_ADDR_NOTE}</p>
         </>
       ),
     },
@@ -610,9 +610,9 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
   const runs = asm && asm !== 'loading' ? asm.runs.filter((r) => r.type === s.type && (!s.hood || r.lots.some((l) => hoodByPin.get(l.pin) === s.hood))) : [];
   const allCity = runs.filter((r) => r.non_city === 0).length;
   const pencil = runs.filter((r) => r.trust !== 'ink').length;
-  // Runs overlap (judge round 2: "1311 · 1309 · 1305 Lincoln" and "1309 · 1305 Lincoln" are both runs),
-  // so the sentence says so and counts the City-owned lots they touch once each.
-  const { cityLots, shared } = runCounts(runs);
+  // Lot groups overlap (judge round 2: "1311 · 1309 · 1305 Lincoln" and "1309 · 1305 Lincoln" are both
+  // groups), so the sentence says so and counts the City lots they rescue once each (as facts.json does).
+  const { candidates, shared } = runCounts(runs);
   const ready = asm && asm !== 'loading';
   const tabs: TabDef[] = [
     {
@@ -648,7 +648,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
       sentence={
         ready ? (
           <>
-            <Ev num>{n(runs.length)}</Ev> possible {runs.length === 1 ? 'lot group' : 'lot groups'} of 2–3 side-by-side lots{shared ? ' (some share lots)' : ''}, touching <Ev num>{n(cityLots)}</Ev> City-owned {cityLots === 1 ? 'lot' : 'lots'}, {runs.length === 1 ? 'fits' : 'fit'} {aType(s.type)} when combined; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
+            <Ev num>{n(runs.length)}</Ev> possible {runs.length === 1 ? 'lot group' : 'lot groups'} of 2–3 side-by-side lots{shared ? ' (some share lots)' : ''}, touching <Ev num>{n(candidates)}</Ev> City-owned {candidates === 1 ? 'lot that doesn’t' : 'lots that don’t'} fit alone, {runs.length === 1 ? 'fits' : 'fit'} {aType(s.type)} when combined; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
           </>
         ) : (
           <span className="muted">Loading the lots that fit when combined…</span>

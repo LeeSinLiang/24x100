@@ -207,8 +207,14 @@ export function runAddrs(lots: { pin: string; addr: string | null }[]): string {
 /** The honesty line for the addresses in a run; shown once on a screen that lists runs. */
 export const RUN_ADDR_NOTE = 'Addresses are the City’s and County’s; lots are paired from the parcel map, not by house number.';
 
-/** The City-owned lots the runs touch (each counted once), and whether any lot sits in more than one run. */
-export function runCounts(runs: { lots: { pin: string; city: boolean }[] }[]): { cityLots: number; shared: boolean } {
+/** Lot groups, counted honestly: `cityLots` the City-owned lots they touch, `candidates` the City lots among
+ *  them that don't fit alone (the finder's candidates; film/facts.json counts these), each counted once;
+ *  `shared` whether any lot sits in more than one group. */
+export function runCounts(runs: { lots: { pin: string; city: boolean }[]; candidates: string[] }[]): { cityLots: number; candidates: number; shared: boolean } {
   const all = runs.flatMap((r) => r.lots.map((l) => l.pin));
-  return { cityLots: new Set(runs.flatMap((r) => r.lots.filter((l) => l.city).map((l) => l.pin))).size, shared: new Set(all).size < all.length };
+  return {
+    cityLots: new Set(runs.flatMap((r) => r.lots.filter((l) => l.city).map((l) => l.pin))).size,
+    candidates: new Set(runs.flatMap((r) => r.candidates)).size,
+    shared: new Set(all).size < all.length,
+  };
 }
