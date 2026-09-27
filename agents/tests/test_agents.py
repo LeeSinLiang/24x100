@@ -79,7 +79,8 @@ def test_a_name_field_a_server_sends_anyway_never_reaches_a_finding(tmp_path, mo
 
 
 def test_every_committed_case_file_is_clear_of_name_like_keys():
-    files = list(CASES.glob("*.json")) + list(CASES.glob("raw/*/*.json"))  # the case files and the responses they cite
+    # the case files, the responses they cite, and tonight's shortlist
+    files = list(CASES.glob("*.json")) + list(CASES.glob("raw/*/*.json")) + list((CASES.parent / "shortlist").glob("*.json"))
     for p in files:
         doc = json.loads(p.read_text())
         assert verifier._names(doc) == [], p.name
