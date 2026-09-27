@@ -145,10 +145,10 @@ const BEATS = [
   {
     id: 'B07',
     name: 'ai-reads-the-code',
-    q: 'view=review&district=R1D-H&section=r1d-h.x.min_lot_area',
+    q: 'view=review&district=R1D-H&section=r1d-h.x.side_setback_exterior',
     run: async (p, c) => {
       // The first R1D-H rule: minimum lot size, §903.03.D.
-      const card = p.locator('article[data-rule-id="r1d-h.x.min_lot_area"]');
+      const card = p.locator('article[data-rule-id="r1d-h.x.side_setback_exterior"]');
       await card.scrollIntoViewIfNeeded();
       if (REVIEWER) {
         await c.until(5);
@@ -156,14 +156,14 @@ const BEATS = [
         const form = card.locator('.review-form');
         await form.getByLabel('Name').fill(REVIEWER.name);
         await form.getByLabel('Role').fill(REVIEWER.role);
-        await form.getByRole('textbox', { name: /Note/ }).fill('Compared with the saved §903.03.D table: Minimum Lot Size 1,200 s.f.');
+        await form.getByRole('textbox', { name: /Note/ }).fill('Quote matches the saved code text');
         await c.until(10.8);
         await form.getByRole('button', { name: 'Sign as source-checked' }).click();
-        await p.waitForFunction(() => document.querySelector('article[data-rule-id="r1d-h.x.min_lot_area"]')?.getAttribute('data-trust') === 'ink', null, { timeout: 4000 });
+        await p.waitForFunction(() => document.querySelector('article[data-rule-id="r1d-h.x.side_setback_exterior"]')?.getAttribute('data-trust') === 'ink', null, { timeout: 4000 });
         const placeholder = /placeholder/i.test(REVIEWER.name) || /replace/i.test(REVIEWER.role);
         cues.B07 = {
           cue: Math.round(c.now() * 100) / 100,
-          rule: 'r1d-h.x.min_lot_area (minimum lot size 1,200 sf, §903.03.D)',
+          rule: 'r1d-h.x.side_setback_exterior (exterior side setback 15 ft, §903.03.D.2)',
           note: placeholder
             ? `PLACEHOLDER signature ("${REVIEWER.name}", "${REVIEWER.role}"): not a real review. Re-record with a real teammate before submission. The signature lived only in the recording browser's storage; no committed data depends on it.`
             : `signed on camera by ${REVIEWER.name} (${REVIEWER.role})`,

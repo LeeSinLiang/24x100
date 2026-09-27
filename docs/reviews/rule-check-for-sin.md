@@ -58,3 +58,13 @@ app, the graph and the letters.
 - `rm-m.party_wall` (§903.03.C.2(c)): “When a dwelling is "attached" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.”
 - `rm-m.rear` (§903.03.C): “Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft. | RM Subdistrict | 25 ft.”
 - `rm-m.side_interior` (§903.03.C): “Minimum Interior Sideyard Setback | | R1D, R2 & R3 Subdistricts | 5 ft. | R1A Subdistrict | 5 ft. | RM Subdistrict | 10 ft.”
+
+## For B07 (signed on camera, when recording resumes)
+
+| Rule | Field | Value | Section | Quote verbatim in the saved text | Value matches the quote |
+|---|---|---|---|---|---|
+| `r1d-h.x.side_setback_exterior` | side_setback_exterior | 15 | §903.03.D.2 | yes | yes |
+
+The quote: “R1D, R1A, R2 & R3 Subdistricts | 15 ft.” The recorder signs it as Sin ("Student, team 24×100") in the
+recording browser only; it is not published unless Sin signs it in the app too. Sin confirms this rule before the
+final pass.
