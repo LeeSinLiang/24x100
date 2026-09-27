@@ -4,6 +4,7 @@
 import { pick } from '@engine/rules';
 import { TEMPLATES } from '@engine/templates';
 import { cityRoutes, type CityClass } from '@engine/city';
+import { WatchToggle } from '../WatchToggle';
 import type { NarrowRow, RuleField, RuleSet, TemplateId } from '@engine/types';
 import { Chip, dateFmt, Ev, Label } from '../ui';
 import { STYLE, n, zoneName } from './blockers';
@@ -128,6 +129,7 @@ export function LotActions({ lot, cls, type, rs, link, openLot }: CardProps & { 
   const lotHref = link ? `?view=lot&block=${link.block}&lot=${link.lot}&type=${type}` : null;
   return (
     <div className="city-card-actions">
+      <WatchToggle pin={lot.pin} />
       {lotHref && link ? (
         <a
           className="btn btn-ink"
@@ -194,3 +196,4 @@ export function LotCard(props: CardProps & { onClose: () => void; openLot: (l: B
     </section>
   );
 }
+

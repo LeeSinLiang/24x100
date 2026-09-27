@@ -6,6 +6,7 @@ import type { AuditEntry } from '@engine/types';
 import { fieldName } from '../components/Drawer';
 import { Label, dateFmt } from '../components/ui';
 import { BLOCKS, RULES } from '../lib/data';
+import { exportWatchlist, useWatchlist } from '../lib/watch';
 import { lotKey } from '../lib/model';
 import type { ViewProps } from './types';
 import '../styles/changes.css';
@@ -330,6 +331,8 @@ function Signatures({ audit, since }: { audit: AuditEntry[]; since: string | nul
 
 function Digest() {
   return (
+    <>
+    <WatchExport />
     <section className="chg-digest" aria-labelledby="chg-digest-h">
       <header className="chg-digest-head">
         <Label as="h2">
@@ -345,6 +348,7 @@ function Digest() {
         <p>Sending needs a Slack webhook or SMTP credentials that you supply, and it is off by default. Inquiries are never sent automatically: they are drafts, and you send them.</p>
       </footer>
     </section>
+    </>
   );
 }
 
@@ -394,5 +398,37 @@ export function ChangesView({ audit }: ViewProps) {
         </div>
       </div>
     </main>
+  );
+}
+
+const watchFiles = import.meta.glob('../../../data/watchlist.json', { eager: true, import: 'default' }) as Record<string, unknown>;
+
+/** The lots watched in this browser, and the watchlist.json to hand to the steward (the digest never sends from here). */
+function WatchExport() {
+  const w = useWatchlist();
+  const committed = Object.values(watchFiles)[0];
+  const n = ((committed as { watch?: { pins: string[] }[] })?.watch ?? []).reduce((a, g) => a + g.pins.length, 0);
+  const download = () => {
+    const blob = new Blob([exportWatchlist(committed, w.pins)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'watchlist.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  return (
+    <section className="chg-watch" aria-labelledby="chg-watch-h">
+      <h2 id="chg-watch-h" className="label">
+        Watchlist
+      </h2>
+      <p className="small">
+        The digest watches {n} lots from <code>data/watchlist.json</code>
+        {w.pins.length ? `, and you added ${w.pins.length} in this browser (“Watch this lot” on a lot's card)` : '; add more with “Watch this lot” on a lot’s card'}. It is off by default and runs as a dry run; nothing is sent from here.
+      </p>
+      <button type="button" className="btn btn-small" onClick={download}>
+        Export watchlist.json
+      </button>{' '}
+      <span className="small muted">Give the file to your steward to commit as data/watchlist.json.</span>
+    </section>
   );
 }
