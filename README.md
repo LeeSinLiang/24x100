@@ -40,6 +40,25 @@ Also worth a click: **Graph** on any lot (every node a real record, down to who 
 lot** on the Next tab (what the Slack and email digest will send), and **Draft the letter** (one per office,
 every number traced to the engine). On a phone, the same links work.
 
+## The agents
+
+One goal in, a team of agents works the lot, and a person holds every gate. The engine computes every number; a
+model only plans, picks checks and drafts words, and a verifier checks all of it before a case file is published.
+
+| Agent | What it does | Re-run |
+|---|---|---|
+| **Steward** | Reads the engine's answer for the lot, plans, dispatches the others, collects the drafts and gates (a LangGraph graph) | `npm run steward -- 0010K00025000000 --goal two` |
+| **Due diligence** | The free public checks: PLI permits and violations, condemnations, tax liens, 311, the undermining and slope layers, each with its URL, pull time and sha256; paid studies drafted, never done | (in the steward's run) |
+| **Policy** | Asked by the steward when a rule is the first blocker: finds the sentence, writes the redline, counts the change citywide, drafts a memo | `uv run python -m agents.policy "What if …?" --building two` |
+| **Watch** | When a watched lot's answer changes: the before and after with the math, and the next move drafted; a simulation is labelled | `npm run agents -- watch --baseline d87dce4^` |
+| **Verifier** | Blocks publication on a quote not word for word in the saved code, a number the engine or a source doesn't hold, a garbled word a model copied, a finding without a source, or a name-like field | (last in every run) |
+
+Three gates wait for a person: **send** (every letter and memo), **spend** (every paid study) and **sign** (every
+rule still in pencil). Nothing is sent, paid for or signed by an agent. See [lot 25's case file](https://24x100.example/?view=case&pin=0010K00025000000),
+[the watch run](https://24x100.example/?view=case&pin=watch) and [the policy agent's Q1](https://24x100.example/?view=city&type=two&tab=whatif&whatif=Q1).
+The model is `gemini-3.5-flash-lite` (and the policy agent's free-model fallback) on the free tier of a team
+member's Google key, loaded at run time and never stored; without a key the steward runs by a fixed plan and says so.
+
 ## The story in one lot
 
 Since May 2025, **2241 Mahon St** (Middle Hill, lot 25 of Block 10‑K) meets the RM‑M minimum lot size
