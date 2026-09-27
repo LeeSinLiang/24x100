@@ -16,6 +16,15 @@ import type {
 
 export const AI_ROLE = 'AI agent';
 
+/** A signature that reads as an AI's rather than a person's: the role says so ("AI agent", "AI model", "language
+ *  model", "LLM"), or the name is a model's (Claude, ChatGPT, GPT…, Gemini, Copilot). Judge round 2 signed as
+ *  "Claude / AI agent" and the app called it a named person. */
+export function isAiReviewer(name: string | null | undefined, role: string | null | undefined): boolean {
+  const r = (role ?? '').trim();
+  const n = (name ?? '').trim();
+  return r === AI_ROLE || /\b(ai|a\.i\.)\s*(agent|model|assistant|system)\b|\blanguage model\b|\bllm\b|\bchatbot\b/i.test(r) || /^(claude|chatgpt|gpt[-\s\d.o]*|gemini|copilot|bard)\b/i.test(n);
+}
+
 /** Reasons an audit entry is not accepted (it then has no effect). */
 export function auditProblems(e: AuditEntry): string[] {
   const p: string[] = [];
@@ -42,15 +51,17 @@ export function effectiveRule(rule: Rule, audit: AuditEntry[]): EffectiveRule {
   const history = audit.filter((e) => e.rule_id === rule.id && auditProblems(e).length === 0).sort(byTime);
   let level = rule.verification.level;
   let struck = false;
-  let humanSigned = rule.verification.level !== 'unreviewed' && rule.verification.role !== AI_ROLE;
-  let aiChecked = rule.verification.level !== 'unreviewed' && rule.verification.role === AI_ROLE;
+  const seedAi = isAiReviewer(rule.verification.reviewer, rule.verification.role);
+  let humanSigned = rule.verification.level !== 'unreviewed' && !seedAi;
+  let aiChecked = rule.verification.level !== 'unreviewed' && seedAi;
   let verification = { ...rule.verification };
   for (const e of history) {
     if (e.action === 'source_checked') {
       level = level === 'city_confirmed' ? level : 'source_checked';
       struck = false;
       verification = { level, reviewer: e.reviewer, role: e.role, at: e.at, note: e.reason, reference: verification.reference };
-      if (e.role !== AI_ROLE) {
+      if (isAiReviewer(e.reviewer, e.role)) aiChecked = !humanSigned; // an AI's check never reads as a person's
+      else {
         humanSigned = true;
         aiChecked = false;
       }

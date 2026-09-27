@@ -1,7 +1,7 @@
 // The evidence drawer: every number opens here, with the quote or record it came from.
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { findQuote, locateSection } from '@engine/source';
-import { AI_ROLE } from '@engine/rules';
+import { AI_ROLE, isAiReviewer } from '@engine/rules';
 import type { AuditEntry, BlockFile, EffectiveRule, LotResult, MoneyResult, QuestionState, RuleSet, Trust } from '@engine/types';
 import { publishedIds, questionDecisionPublished } from '../lib/audit';
 import { ASSUMPTIONS, COMPS_BY_WARD, COMPS_RAW_BY_WARD, HUD, codeFor } from '../lib/data';
@@ -126,6 +126,8 @@ export function ReviewForm({
   const [choice, setChoice] = useState<'yes' | 'no'>('yes');
   const [problems, setProblems] = useState<string[]>([]);
   const [tried, setTried] = useState(false);
+  // Warn and confirm (never refuse): a signature that reads as an AI's is saved as an AI check, labelled so.
+  const [aiAck, setAiAck] = useState(false);
   const first = useRef<HTMLInputElement>(null);
   const uid = useId();
   useEffect(() => first.current?.focus(), []);
@@ -156,8 +158,13 @@ export function ReviewForm({
           requestAnimationFrame(() => form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
           return;
         }
+        const ai = isAiReviewer(who.name, who.role);
+        if (ai && !aiAck) {
+          setAiAck(true); // show the warning; the next click signs as an AI check
+          return;
+        }
         const ref = kind === 'confirm' && refKind ? { text: composeReference(refKind, refDetail), date: refDate, who: refWho.trim() } : undefined;
-        const p = onSubmit({ name: who.name.trim(), role: who.role.trim(), reason: reason.trim(), ref, choice: kind === 'confirm' ? choice : undefined });
+        const p = onSubmit({ name: who.name.trim(), role: ai ? AI_ROLE : who.role.trim(), reason: reason.trim(), ref, choice: kind === 'confirm' ? choice : undefined });
         setProblems(p);
       }}
     >
@@ -251,9 +258,14 @@ export function ReviewForm({
           Not saved: {problems.join('; ')}.
         </p>
       )}
+      {aiAck && isAiReviewer(who.name, who.role) && (
+        <p className="warn" role="alert">
+          “{who.name.trim()} · {who.role.trim()}” reads as an AI, not a person. A signature here says a person compared the rule with its quote. You can still save it: it will be recorded as an AI check (“AI-checked · needs a teammate”), and it won’t count as a person’s review.
+        </p>
+      )}
       <div className="form-actions">
         <button type="submit" className="btn btn-ink">
-          {title}
+          {aiAck && isAiReviewer(who.name, who.role) ? 'Save as an AI check' : title}
         </button>
         <button type="button" className="btn" onClick={onCancel}>
           Cancel

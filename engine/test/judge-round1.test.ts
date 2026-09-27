@@ -103,3 +103,26 @@ describe('refusal wording', () => {
     expect(r.refusal?.reason).not.toMatch(/your setting/);
   });
 });
+
+describe('an AI signature never reads as a person’s (judge round 2)', () => {
+  it('isAiReviewer: AI roles and model names, not people', async () => {
+    const { isAiReviewer } = await import('../src/rules');
+    expect(isAiReviewer('Claude', 'AI agent')).toBe(true);
+    expect(isAiReviewer('Claude', 'Zoning analyst')).toBe(true);
+    expect(isAiReviewer('Jordan Rivera', 'AI model')).toBe(true);
+    expect(isAiReviewer('ChatGPT', 'reviewer')).toBe(true);
+    expect(isAiReviewer('Jordan Rivera', 'Zoning analyst')).toBe(false);
+    expect(isAiReviewer('Claudette Moore', 'Planner')).toBe(false);
+    expect(isAiReviewer('Sam Lee', 'Real estate agent')).toBe(false);
+  });
+
+  it('a pencil rule signed by "Claude / AI agent" is ink but marked AI-checked, not a person’s check', async () => {
+    const { effectiveRule } = await import('../src/rules');
+    const rule = { ...ctxL.rs.rules.find((r) => r.id === 'r1d-h.x.min_lot_area')! } as never;
+    const e = effectiveRule(rule, [
+      { id: 'x', rule_id: 'r1d-h.x.min_lot_area', question_id: null, at: '2026-09-27T01:00:00Z', reviewer: 'Claude', role: 'AI agent', action: 'source_checked', quote: '', decision: '', reason: 'test fixture', choice: null, reference: null },
+    ]);
+    expect(e.state).toBe('ink');
+    expect(e.ai_checked).toBe(true);
+  });
+});
