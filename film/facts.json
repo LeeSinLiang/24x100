@@ -197,7 +197,7 @@
     -30000,
     -97500
    ],
-   "display": "nothing left: building alone costs more than the best new-build sale (−$30,000 to −$97,500)",
+   "display": "nothing left: building alone costs more than the best new-build sale (-$97,500 to -$30,000)",
    "source": "engine: new-build sale minus vertical construction, per home, Vertical construction; left for site work, soft costs and land"
   },
   "vertical_cost_three_prod": {
@@ -278,7 +278,7 @@
     24000,
     -30000
    ],
-   "display": "$24,000 at best, nothing at the high end ($24,000 to −$30,000)",
+   "display": "$24,000 at best, nothing at the high end (-$30,000 to $24,000)",
    "source": "engine: new-build sale minus vertical construction, per home, Vertical construction; left for site work, soft costs and land"
   },
   "vertical_cost_two_prod": {
@@ -413,7 +413,7 @@
     9600,
     -48000
    ],
-   "display": "$9,600 at best, nothing at the high end ($9,600 to −$48,000)",
+   "display": "$9,600 at best, nothing at the high end (-$48,000 to $9,600)",
    "source": "engine: new-build sale minus vertical construction, per home, Vertical construction; left for site work, soft costs and land"
   },
   "vertical_cost_larimer_prod": {

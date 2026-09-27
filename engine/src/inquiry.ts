@@ -8,7 +8,7 @@
 // to the Zoning Administrator; gap financing to the URA; a lot-area dispute to the County's Office of
 // Property Assessments; the community meeting to the RCO.
 import { evaluate } from './evaluate';
-import { listAnd } from './format';
+import { listAnd, NEG } from './format';
 import { APPROVAL_LABEL, DEFAULT_SETTINGS, TEMPLATES } from './templates';
 import { varianceWords, type VarianceContext } from './verdict';
 import type { BlockFile, CityReference, EffectiveRule, LotResult, MoneyResult, Parcel, QuestionState, RuleSet, Settings, Trust } from './types';
@@ -87,7 +87,7 @@ function cap(x: string): string {
 
 function usd(n: number, round = 1000): string {
   const v = Math.round(n / round) * round;
-  return `${v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('en-US')}`;
+  return `${v < 0 ? NEG : ''}$${Math.abs(v).toLocaleString('en-US')}`;
 }
 function ft(n: number): string {
   const r = Math.round(n * 10) / 10;

@@ -25,6 +25,7 @@ import {
   type Rule,
   type Scenario,
   type TemplateId,
+  NEG,
 } from '../engine/src/index';
 
 const read = <T>(f: string): T => JSON.parse(readFileSync(f, 'utf8')) as T;
@@ -108,7 +109,7 @@ put('ward5_all_time', { transfers: raw.counts.transfers_all_dates, valid: raw.co
 put('hud_median', hud.median, `$${hud.median.toLocaleString('en-US')}`, `HUD FY2026 income limits, ${hud.area_name}`, hud.source_url);
 put('hud_80_3p', hud.l80[2], `$${hud.l80[2].toLocaleString('en-US')}`, `HUD FY2026 80% limit, 3 people, ${hud.area_name}`, hud.source_url);
 const inputs = { comps: { ...comps, meta: { ...comps.meta, ward: 5 } }, hud, assumptions };
-const k = (n: number) => `${n < 0 ? '−' : ''}$${Math.abs(Math.round(n)).toLocaleString('en-US')}`;
+const k = (n: number) => `${n < 0 ? NEG : ''}$${Math.abs(Math.round(n)).toLocaleString('en-US')}`;
 function moneyFacts(tag: string, r: ReturnType<typeof evaluate>, blk: BlockFile, inp: typeof inputs, where: string) {
   const m = moneyFor(r, inp);
   const v = verdictFor(r, m, null, blk);
@@ -117,7 +118,7 @@ function moneyFacts(tag: string, r: ReturnType<typeof evaluate>, blk: BlockFile,
   for (const e of m.estimates) {
     const sfx = e.id === 'A' ? '' : `_${e.id}`;
     put(`vertical_cost_${tag}${sfx}`, e.vertical, e.vertical[0] === e.vertical[1] ? `${k(e.vertical[0])} per home` : `${k(e.vertical[0])}–${k(e.vertical[1])} per home`, `engine: ${e.formula.split(';')[0]}; ${e.label}, ${e.supplied_by} (practitioner estimate${e.speculative ? ', speculative' : ''})`);
-    put(`left_after_building_${tag}${sfx}`, e.left, e.left[0] === e.left[1] ? `${k(e.left[0])} left` : `${leftWords(e.left)} (${k(e.left[0])} to ${k(e.left[1])})`, `engine: new-build sale minus vertical construction, per home, ${e.label}; left for site work, soft costs and land`);
+    put(`left_after_building_${tag}${sfx}`, e.left, e.left[0] === e.left[1] ? `${k(e.left[0])} left` : `${leftWords(e.left)} (${k(Math.min(...e.left))} to ${k(Math.max(...e.left))})`, `engine: new-build sale minus vertical construction, per home, ${e.label}; left for site work, soft costs and land`);
   }
   const r100 = (n: number) => k(Math.round(n / 100) * 100); // as the app shows it (exact to $100)
   if (m.gap) put(`subsidy_gap_${tag}`, [m.gap.lo, m.gap.hi], `${r100(m.gap.lo)}–${r100(m.gap.hi)} per home before land (a screening estimate, with our soft-cost and financing assumptions)`, `engine: ${m.gap.formula}`);

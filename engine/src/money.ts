@@ -90,7 +90,7 @@ export function moneyFor(result: LotResult, m: MoneyInputs, quote: number | null
     const left: [number, number] = [V - vertical[0], V - vertical[1]];
     const psfWords = psf[0] === psf[1] ? `${usd(psf[0], 1)}/sf` : `${usd(psf[0], 1)}–${usd(psf[1], 1)}/sf`;
     const vWords = vertical[0] === vertical[1] ? usd(vertical[0], 1) : `${usd(vertical[0], 1)}–${usd(vertical[1], 1)}`;
-    const lWords = left[0] === left[1] ? usd(left[0], 1) : `${usd(left[0], 1)} to ${usd(left[1], 1)}`;
+    const lWords = left[0] === left[1] ? usd(left[0], 1) : `${usd(Math.min(...left), 1)} to ${usd(Math.max(...left), 1)}`; // low to high
     return {
       id,
       label: e?.label ?? id,

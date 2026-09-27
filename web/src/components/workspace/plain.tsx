@@ -6,7 +6,7 @@ import { needsUseVariance } from '@engine/evaluate';
 import { HEADLINE_WORDS, type Headline } from '@engine/verdict';
 import { TEMPLATES } from '@engine/templates';
 import type { BlockFile, LotResult, MoneyResult, TemplateId } from '@engine/types';
-import { usd } from '@engine/format';
+import { NEG, usd } from '@engine/format';
 import { Ev, ftFmt } from '../ui';
 
 /** The glossary (DESIGN_GUIDE §8), shown as a dotted-underline tooltip on first use in a tab. */
@@ -31,11 +31,11 @@ export function Gloss({ k, children }: { k: keyof typeof GLOSSARY | string; chil
   );
 }
 
-/** "$270k", "−$30k", "$9.6k": the tile's short money (one decimal under $100k, so $9,600 never reads as $10k). */
+/** "$270k", "-$30k", "$9.6k": the tile's short money (one decimal under $100k, so $9,600 never reads as $10k). */
 export function kFmt(n: number): string {
   const k = n / 1000;
   const v = Math.abs(k) >= 100 ? Math.round(k) : Math.round(k * 10) / 10;
-  return `${v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('en-US')}k`;
+  return `${v < 0 ? NEG : ''}$${Math.abs(v).toLocaleString('en-US')}k`;
 }
 
 export function aType(type: TemplateId): string {

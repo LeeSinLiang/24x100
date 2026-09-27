@@ -166,7 +166,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
                 <th scope="row">Left after building</th>
                 <td className={`num left ${A.left[0] < 0 ? 'is-none' : ''}`}>
                   <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
-                    {A.left[0] === A.left[1] ? money1(A.left[0]) : `${money1(A.left[0])} to ${money1(A.left[1])}`}
+                    {A.left[0] === A.left[1] ? money1(A.left[0]) : `${money1(Math.min(...A.left))} to ${money1(Math.max(...A.left))}`}
                   </Ev>
                 </td>
                 <td className="money-src">{leftText(A.left)} · the sale − building</td>

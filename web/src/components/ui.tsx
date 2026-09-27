@@ -1,6 +1,7 @@
 // Small shared pieces. Every fact on screen goes through <Ev>, which alone decides how trust looks.
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Trust } from '@engine/types';
+import { NEG } from '@engine/format';
 
 function boilSeed(k: string): number {
   let h = 0;
@@ -102,10 +103,10 @@ export const DISCLAIMER = 'Decision support, not legal, financial or zoning advi
 
 export function money(n: number): string {
   const v = Math.round(n / 1000) * 1000;
-  return `${v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('en-US')}`;
+  return `${v < 0 ? NEG : ''}$${Math.abs(v).toLocaleString('en-US')}`;
 }
 export function money1(n: number): string {
-  return `${n < 0 ? '−' : ''}$${Math.abs(Math.round(n)).toLocaleString('en-US')}`;
+  return `${n < 0 ? NEG : ''}$${Math.abs(Math.round(n)).toLocaleString('en-US')}`;
 }
 export function ftFmt(n: number): string {
   const r = Math.round(n * 10) / 10;

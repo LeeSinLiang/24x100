@@ -1,7 +1,10 @@
 // Number and formula formatting. Every formula string on screen is built here from the same numbers
 // that sit in the result object, and `parseFormula` reads them back for the round-trip tests.
 
-export const MINUS = '−'; // U+2212
+export const MINUS = '−'; // U+2212, between terms: "24 − 10 − 10 = 4"
+/** The sign of a negative amount: a hyphen-minus. Old Standard draws U+2212 as wide as a plus sign, so "−$30k" read
+ *  as a dash ("$24k to —$30k"); the hyphen reads as a sign at every size and in every font. */
+export const NEG = '-';
 export const TIMES = '×'; // U+00D7
 
 /** Deed-based feet are integers. */
@@ -18,7 +21,7 @@ export function int(n: number): string {
 export function usd(n: number, round = 1000): string {
   const v = Math.round(n / round) * round;
   const s = Math.abs(v).toLocaleString('en-US');
-  return v < 0 ? `${MINUS}$${s}` : `$${s}`;
+  return v < 0 ? `${NEG}$${s}` : `$${s}`;
 }
 export function pct(x: number): string {
   return `${Math.round(x * 100)}%`;

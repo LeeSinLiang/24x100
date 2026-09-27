@@ -190,7 +190,8 @@ function LotTiles({ model }: { model: LotModel }) {
                   kFmt(A.left[0])
                 ) : (
                   <>
-                    <span className="nowrap">{kFmt(A.left[0])} to</span> <span className="nowrap">{kFmt(A.left[1])}</span>
+                    {/* Low to high: "-$30k to $24k". */}
+                    <span className="nowrap">{kFmt(Math.min(...A.left))} to</span> <span className="nowrap">{kFmt(Math.max(...A.left))}</span>
                   </>
                 )}
               </Ev>
