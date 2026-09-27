@@ -1,8 +1,10 @@
 # Resume here
 
-Work paused Sat 26 Sep ~19:45 at the team's request (usage limit). Everything below is unfinished; each item
-names its exact next step. Merged and working is listed in `docs/decisions.md` 33–41. No film beat is
-recorded until the team approves the site.
+Updated Sun 27 Sep ~00:20. Resumed after the usage pause; items 1, 2 (engine, city/search) and 5 (C15) below are
+**done** (commits `f32967c`, `94eeeaa`, `f9c5e65`; decisions 42–46). Still open: sections 3 and 4 (publishing path,
+letter polish), the watchlist UI and readable street-name diffs (2.5–2.6), the phone plate label and scale bar
+(held for the §0.15 readability pass), and section 6 (film, judges; recording waits for the team's go-ahead).
+The text below is the original plan, kept for reference.
 
 ## 1. Engine correctness (judge round 1; groundwork merged in `4065aeb`)
 
