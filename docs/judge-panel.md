@@ -340,3 +340,64 @@ The unlock answer is spread across the plate caption, "What to do next" and a co
 - The width tile reads "your plan 16 ft · or 16 ft": http://localhost:4173/?view=lot&block=0124P&lot=203&type=detached
 - At 1280 wide, the "CAN'T SCORE" labels on lots 22 and 21 collide on the plate: http://localhost:4173/?view=lot&block=10K&lot=25&type=two
 - Combine to fit counts overlapping runs as separate opportunities. For example, "1311 · 1309 · 1305 Lincoln" and "1309 · 1305 Lincoln" are both counted; 58 lots appear in more than one run, and about 66 of the 111 runs are disjoint: http://localhost:4173/?view=city&type=three&layer=assemble
+
+## Round 3
+
+**Different panel, not comparable with rounds 1–2.** Four fresh personas chosen for the night's questions: a City
+Council policy analyst, a small infill builder, a civic-tech product designer and a data reporter. They ran on
+Sonnet, not the model used for rounds 1–2, on the production build of Sun 27 Sep ~03:50 (commit `b712bd2`). The
+build had the rule what-ifs, the four pencil districts, the graph focus mode and the round-3 layout fixes. The
+prompt added:
+- the competitive context (most Track 1 entries: parcel lookup, a zoning summary, a pro forma and an LLM chat);
+- two cold tasks done before reading the README: the first 30 seconds at the bare home URL, and whether the
+  what-ifs, the graph and combine-to-fit can be found without being told;
+- a yes/no on "Start here" chips.
+
+| Criterion | Policy analyst | Infill builder | Product designer | Data reporter | Total /20 |
+|---|---:|---:|---:|---:|---:|
+| Problem value | 4 | 4 | 5 | 5 | 18 |
+| Usability | 4 | 4 | 4 | 4 | 16 |
+| Technical execution | 4 | 4 | 5 | 5 | 18 |
+| Data & AI integrity | 5 | 5 | 5 | 4 | 19 |
+| Actionability | 4 | 4 | 5 | 5 | 18 |
+| Continuation | 3 | 3 | 4 | 4 | 14 |
+| **Total /30** | 24 | 24 | 28 | 27 | **103/120** |
+
+**Cold start.** All four understood the page as a citywide map of City-owned vacant lots coloured by what blocks
+them. All four were slowed by density and unexplained labels ("records disagree", "edges not computed", "pencil").
+All four would have clicked the bottom tray's "2241 Mahon St … Open lot" next.
+- Found in one action by all four: the what-ifs (the tab row) and combine to fit (the rail, and the tray).
+- The graph: found in one action, but at city level it only says to pick a lot. A populated graph took 2–3 actions.
+- First-run task: 3 actions to the blocker and a way forward, by all four, on desktop and phone. One more click
+  gives the reason. The tray's "Open lot" makes it 1.
+
+**All four said yes to "Start here" chips.** The best paths already exist but sit in a muted strip at the bottom
+("I only registered it on a deliberate second look").
+
+**What they valued most:**
+- the what-ifs as bill-memo evidence ("turns my exact job into a button": policy analyst);
+- chain of custody on every rule: the verbatim quote, the model and prompt hash, and a named signer;
+- the sign form refusing to record "Claude / AI agent" as a person (builder).
+
+**What worried them:**
+- coverage: only 2 districts computed, so most of the map is grey (all four);
+- one teammate's sign-off carries the ink (reporter, policy analyst);
+- the cost estimates are unnamed and can't be overridden in the app (builder, policy analyst);
+- the publish workflow has never run, and no owner has agreed to run the tool (all four).
+
+**Bugs:** one. The combine-to-fit list counts overlapping groups as separate rows (lot 25 with lot 24, and with
+lot 26), which inflates the 148 (policy analyst). No console errors in about 50 URLs, including malformed ones.
+
+**Fixed after round 3 (commit after `b712bd2`):**
+- "Start here" chips above the city map: "2241 Mahon St: why 4 ft", "Combine to fit", "Rule what-ifs". Real links
+  that navigate in place; hidden in record and present mode.
+- The combine-to-fit list says overlapping groups are alternatives, not separate sites, and how many distinct
+  City lots they touch. A new fact counts the most groups that share no lot, found exactly: 80 of the 111
+  three-unit groups, up to 240 homes.
+- The build cost states the home size ("Build cost · 1,080 sf home"), so the two-unit and three-unit figures read
+  as different homes.
+- Tried and reverted: opening the city on the Rules tab (it broke the 250-word first-screen budget).
+
+**Not done, and why:** editable cost assumptions in the app (a larger change, deferred); a second, independent
+reviewer, a City confirmation, more signed districts, a named owner and a real publish run (the team's to do, not
+code's). Condensed from the four reports; the scores and quoted phrases are verbatim.

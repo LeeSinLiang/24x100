@@ -109,13 +109,13 @@ export function Rail({
           {ready && sum && sum.rulesProposed > 0 && (
             // The grey explained: some of these districts have rules the model proposed, waiting for a person.
             <p className="ws-layer-note" data-count="rules-proposed">
-              {n(sum.rulesProposed)} of them: rules proposed, awaiting a person’s check
+              {n(sum.rulesProposed)} have rules proposed, awaiting a check
             </p>
           )}
           <label className="ws-layer is-asm" data-layer="assemble">
             <input type="checkbox" checked={s.layer === 'assemble'} onChange={() => update({ view: 'city', layer: s.layer === 'assemble' ? null : 'assemble', run: null, pin: null }, { push: true })} />
             <span className="ws-asm-ring" aria-hidden="true" />
-            <span className="ws-layer-name">Combine to fit</span>
+            <span className="ws-layer-name" title="Possible lot groups of 2–3 side-by-side lots. Groups that share a lot are alternatives, not separate sites.">Combine to fit</span>
             <span className="ws-layer-n">{runCount != null ? n(runCount) : '…'}</span>
           </label>
         </div>

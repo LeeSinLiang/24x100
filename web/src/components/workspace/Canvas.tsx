@@ -480,6 +480,10 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
         Combine to fit · {TEMPLATES[s.type].name.toLowerCase()} · <span data-count="lot-groups">{n(runs.length)} lot groups</span>
         {s.hood ? ` · ${s.hood}` : ' · citywide'}
       </h2>
+      {/* Judge panel, round 3: overlapping groups read as separate sites. They are alternatives. */}
+      <p className="small muted ws-runs-note" data-count="lot-groups-city-lots">
+        Groups that share a lot are alternatives, not separate sites: together they touch {n(new Set(runs.flatMap((r) => r.candidates)).size)} City-owned lots that don’t fit alone.
+      </p>
       <table className="lots-table ws-runs">
         <thead>
           <tr>

@@ -124,7 +124,7 @@ function LotTiles({ model }: { model: LotModel }) {
       {A ? (
         <Tile
           id="cost"
-          label="Build cost per home"
+          label={`Build cost · ${m!.sqft.toLocaleString('en-US')} sf home`}
           title={`${A.label}: ${A.psf[0] === A.psf[1] ? `$${A.psf[0]}` : `$${A.psf[0]}–$${A.psf[1]}`}/sq ft × ${m!.sqft.toLocaleString('en-US')} sq ft. ${A.note} Source: ${A.supplied_by}.`}
           className="is-est"
           value={

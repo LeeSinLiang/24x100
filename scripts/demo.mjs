@@ -597,7 +597,13 @@ const V6 = [
       if (hb) await glide(p, hb.x - 30, hb.y + hb.height / 2, { steps: 30, rest: 0.6 });
       if (!(await p.evaluate(() => new URLSearchParams(location.search).get('record') === '1'))) (cues.B10.missing ??= []).push('the letter opened without record=1');
       await mark(p, 'B10', 'letter', p.locator('.iq-title').first(), c, "the draft letter's heading", { tight: true });
-      await c.until(13 + HOLD);
+      await mark(p, 'B10', 'letter_draft', p.locator('.iq-stamp').first(), c, 'the stamp "DRAFT · YOU SEND IT" on the letter');
+      const trace = await mark(p, 'B10', 'letter_trace', p.locator('#iq-check p').first(), c, 'the number check: "all N numbers in 4 letters trace to the engine ✓"', { tight: true });
+      if (trace) cues.B10.letter_trace_words = (await p.locator('#iq-check p').first().innerText()).replace(/\s+/g, ' ').trim();
+      // The pointer points at the number check, then rests beside it; the letter stays on screen.
+      const tb2 = await p.locator('#iq-check p').first().boundingBox();
+      if (tb2) await glide(p, tb2.x + tb2.width + 26, tb2.y + tb2.height / 2, { steps: 28, rest: 0.6 });
+      await c.until(Math.max(13, cues.B10.letter_shown + 5) + HOLD);
     },
   },
   {

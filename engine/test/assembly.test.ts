@@ -125,3 +125,17 @@ describe('assembly finder: the committed output', () => {
     expect(JSON.stringify(f)).not.toMatch(/PROPERTYOWNER|CHANGENOTICE|TAXBILL|owner_name/i);
   });
 });
+
+describe('assembly finder: groups that share no lot', () => {
+  it('counts the most groups that share no lot, exactly', async () => {
+    const { maxDisjoint } = await import('../../scripts/build-assemblies');
+    // A block face 1–2–3–4–5: groups 1·2, 2·3, 3·4, 4·5 and 1·2·3. At most two share no lot (1·2 with 3·4, …).
+    const g = (...p: string[]) => ({ pins: p });
+    expect(maxDisjoint([g('1', '2'), g('2', '3'), g('3', '4'), g('4', '5'), g('1', '2', '3')])).toBe(2);
+    expect(maxDisjoint([g('1', '2'), g('3', '4'), g('5', '6')])).toBe(3); // none overlap
+    expect(maxDisjoint([g('1', '2'), g('1', '3'), g('1', '4')])).toBe(1); // all share lot 1
+    // The committed file: 111 three-unit groups; the best set that shares no lot is 80.
+    const f = JSON.parse(readFileSync('data/city/assemblies.json', 'utf8'));
+    expect(maxDisjoint(f.runs.filter((r: { type: string }) => r.type === 'three'))).toBe(80);
+  });
+});

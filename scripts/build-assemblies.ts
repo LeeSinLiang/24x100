@@ -31,9 +31,44 @@ export interface AssemblyFile {
   runs: (AssemblyRun & { candidates: string[]; block: string | null; lot_key: string | null; lots_param: string | null })[];
 }
 
+/** The most lot groups that share no lot (the groups that overlap are alternatives): exact, by trying every subset of
+ *  each cluster of overlapping groups. Refuses (null) rather than guess if a cluster is too big to try exhaustively. */
+export function maxDisjoint(runs: { pins: string[] }[]): number | null {
+  const n = runs.length;
+  const adj = runs.map((a, i) => new Set(runs.map((b, j) => (i !== j && b.pins.some((p) => a.pins.includes(p)) ? j : -1)).filter((j) => j >= 0)));
+  const seen = new Set<number>();
+  let total = 0;
+  for (let i = 0; i < n; i++) {
+    if (seen.has(i)) continue;
+    const comp: number[] = [];
+    const stack = [i];
+    seen.add(i);
+    while (stack.length) {
+      const x = stack.pop()!;
+      comp.push(x);
+      for (const y of adj[x]) if (!seen.has(y)) (seen.add(y), stack.push(y));
+    }
+    if (comp.length > 20) return null;
+    let best = 0;
+    for (let mask = 1; mask < 1 << comp.length; mask++) {
+      const pick = comp.filter((_, k) => mask & (1 << k));
+      if (pick.length > best && pick.every((a, x) => pick.every((b, y) => x === y || !adj[a].has(b)))) best = pick.length;
+    }
+    total += best;
+  }
+  return total;
+}
+
 export function assemblyFacts(f: AssemblyFile) {
   const three = f.meta.by_type.three;
+  const disjoint = maxDisjoint(f.runs.filter((r) => r.type === 'three'));
   return {
+    ...(disjoint != null
+      ? {
+          assemblies_disjoint_three: { value: disjoint, display: `${disjoint} of the ${three.runs} lot groups share no lot with each other: one three-unit house each, up to ${disjoint * 3} homes`, source: 'data/city/assemblies.json: the most groups that share no lot (exact: every cluster of overlapping groups tried in full; scripts/build-assemblies.ts maxDisjoint). Every group needs a lot consolidation and, where a lot is not City-owned, its owner’s agreement.' },
+          assemblies_homes_three: { value: disjoint * 3, display: `up to ${disjoint * 3} homes, one three-unit house on each of ${disjoint} lot groups that share no lot`, source: 'data/city/assemblies.json (maxDisjoint × 3 homes)' },
+        }
+      : {}),
     assemblies_citywide: { value: three.runs, display: `${three.runs} lot groups of 2–3 side-by-side lots (some share lots), touching ${three.candidates_covered} City-owned lots that don't fit alone, fit a three-unit house as of right when combined`, source: `data/city/assemblies.json (${f.meta.district}, ${f.meta.candidates} City-owned vacant lots checked)` },
     assemblies_all_city_owned: { value: three.all_city, display: `${three.all_city} of those lot groups are all City-owned`, source: 'data/city/assemblies.json' },
   };

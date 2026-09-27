@@ -17,6 +17,7 @@ import { inquiryHref, LotInspector, lotSteps } from '../components/workspace/Lot
 import { MapInsetOutline } from '../components/workspace/OutlineInset';
 import { aType } from '../components/workspace/plain';
 import { Rail } from '../components/workspace/Rail';
+import { StartHere } from '../components/workspace/StartHere';
 import { pullEvents, refreshEvent, ruleEvents, Tray, type Step, type TimelineEvent } from '../components/workspace/Tray';
 import { BLOCKS, COMPS_BY_WARD, HUD } from '../lib/data';
 import { useBlockModel } from '../lib/block';
@@ -278,6 +279,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
     <main className={`ws ws-kind-${kind} ws-canvas-${canvas}${graphFolded ? ' ws-ins-folded' : ''}`} id="main" data-canvas={canvas} data-selection={kind}>
       <Rail canvas={canvas === 'table' && s.view !== 'city' ? 'plan' : canvas} s={s} update={update} cm={needCity ? cm : null} runCount={runsOfType?.length ?? null} planType={aType(s.type)} graphFilters={<GraphRailFilters graph={graph} s={s} update={update} />} />
       <section className="ws-canvas" aria-label={`Canvas: ${canvas}`}>
+        {s.view === 'city' && <StartHere s={s} update={update} />}
         {canvasEl}
       </section>
       {inspector}

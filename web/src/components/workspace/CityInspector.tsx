@@ -122,7 +122,7 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
       panel: (
         <>
           <NotAssessed>Money is checked lot by lot, on lots with block detail. Pick a lot.</NotAssessed>
-          <Label as="h3">Comparable sales loaded</Label>
+          <Label as="h3">Comparable sales loaded · context only, not appraisals</Label>
           <ul className="ws-list small">
             {wards.map((c) => (
               <li key={c.meta.ward ?? 'x'}>
@@ -130,7 +130,7 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
                 <Ev num refId="money:comps">
                   ${n(c.median)}
                 </Ev>{' '}
-                <span className="muted">(context only, not an appraisal) · pulled {dateFmt(c.meta.pulled)}</span>
+                <span className="muted">· pulled {dateFmt(c.meta.pulled)}</span>
               </li>
             ))}
           </ul>

@@ -579,6 +579,16 @@
    "display": "20 more City lots could hold a three-unit home (what-if, not the law)",
    "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 13 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M"
   },
+  "assemblies_disjoint_three": {
+   "value": 80,
+   "display": "80 of the 111 lot groups share no lot with each other: one three-unit house each, up to 240 homes",
+   "source": "data/city/assemblies.json: the most groups that share no lot (exact: every cluster of overlapping groups tried in full; scripts/build-assemblies.ts maxDisjoint). Every group needs a lot consolidation and, where a lot is not City-owned, its owner’s agreement."
+  },
+  "assemblies_homes_three": {
+   "value": 240,
+   "display": "up to 240 homes, one three-unit house on each of 80 lot groups that share no lot",
+   "source": "data/city/assemblies.json (maxDisjoint × 3 homes)"
+  },
   "assemblies_citywide": {
    "value": 111,
    "display": "111 lot groups of 2–3 side-by-side lots (some share lots), touching 128 City-owned lots that don't fit alone, fit a three-unit house as of right when combined",
