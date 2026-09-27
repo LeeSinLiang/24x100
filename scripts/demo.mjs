@@ -527,44 +527,57 @@ const V6 = [
   {
     id: 'B02',
     name: 'not-one-lot',
-    // anim=1: the staged map still zooms and pans (record mode is otherwise a still picture).
+    // Not one lot: on the citywide map, a too-narrow red dot in the Hill District is clicked (2831 Wylie Ave, Middle Hill,
+    // 24 ft by deed: 24 − 10 − 10 = 4 ft), its plan opens over the map (outline only: the 4 ft sliver against the red
+    // 16 ft plan) with its card; back to Pittsburgh; then the rail: 11,247 City lots, 428 of them too narrow.
+    // anim=1: the staged map still moves (record mode is otherwise a still picture).
     q: 'view=city&type=two&anim=1',
     run: async (p, c) => {
       const layer = (t) => p.locator('.ws-rail .ws-layer').filter({ hasText: t }).first();
-      cues.B02 = {};
-      // The rail and the tiles never move in this clip: citywide counts, whatever the camera does.
-      await mark(p, 'B02', 'city_total', layer('City-owned vacant lots').locator('.ws-layer-n'), c, 'the rail count, citywide; on screen the whole clip', { tight: true });
+      const PIN = '0010D00282000000'; // 2831 Wylie Ave
+      cues.B02 = { lot: '2831 Wylie Ave, Middle Hill, RM-M: 24 ft by deed, 24 − 10 − 10 = 4 ft (ink), for sale', marks: [] };
+      await c.until(1.5);
+      const xy = await p.evaluate((pin) => window.__lotAt?.(pin) ?? null, PIN); // CityMap's record-mode hook
+      if (!xy) throw new Error('not found: 2831 Wylie Ave on the map');
+      await glide(p, xy[0], xy[1], { steps: 30, rest: 0.2 }); // on the dot by ~2.0 s
+      await pushMark(p, 'B02', 'city_pick', [xy[0] - 14, xy[1] - 14, 28, 28], c, "2831 Wylie Ave's red dot (too narrow), the one clicked");
+      await c.until(2.5);
+      await p.mouse.down();
+      await sleep(90);
+      await p.mouse.up();
+      await p.waitForSelector('.map-inset-plan', { timeout: 5000 });
+      cues.B02.lot_open = at(c);
+      cues.B02.marks.find((m) => m.id === 'city_pick').until = cues.B02.lot_open; // the map moves to the lot
+      await sleep(450); // the overlay and the card have drawn
+      const plan = p.locator('.map-inset-plan').first();
+      await mark(p, 'B02', 'city_plan', plan, c, 'the plan over the map: "plan detail: outline only", the 4′ sliver against the red 16 ft plan (dashed)');
+      await mark(p, 'B02', 'city_width', p.locator('[data-tile="width"] .ws-tile-value').first(), c, 'the card: BUILDABLE WIDTH 4 ft', { tight: true });
+      await mark(p, 'B02', 'city_ease', p.locator('.ws-status [data-ease]').first(), c, 'the card: Ease 0–60 / 100');
+      cues.B02.card_words = {
+        width: (await p.locator('[data-tile="width"] .ws-tile-value').first().innerText()).replace(/\s+/g, ' ').trim(),
+        ease: await p.locator('.ws-status [data-ease]').first().evaluate((e) => `${e.dataset.easeLo}–${e.dataset.easeHi}`),
+      };
+      // The pointer rests beside the sliver, then under the Ease bar.
+      await hoverSlow(p, plan, { fx: 0.6, fy: 0.46, rest: 2.0 });
+      await hoverSlow(p, p.locator('.ws-status [data-ease]').first(), { fx: 0.5, fy: 1.5, rest: 1.0 });
+      await c.until(7.4); // the glide and settle take ~1.1 s: the click lands at ~8.5 s
+      await clickSlow(p, p.locator('button.ws-back').first());
+      cues.B02.back = at(c);
+      await p.waitForSelector('.map-inset-plan', { state: 'detached', timeout: 5000 }).catch(() => {});
+      await sleep(600); // the citywide card and tiles are back
+      cues.B02.city_back = at(c);
+      // The rail and the tiles: citywide counts.
+      await mark(p, 'B02', 'city_total', layer('City-owned vacant lots').locator('.ws-layer-n'), c, 'the rail count, citywide', { tight: true });
       await mark(p, 'B02', 'width_178', layer('Too narrow').locator('.ws-layer-n'), c, "the rail's Too narrow count; the cursor rests on this row from hover_178", { tight: true });
       await mark(p, 'B02', 'width_178_row', layer('Too narrow'), c, 'the whole Too narrow row: red swatch, words and count');
-      await mark(p, 'B02', 'width_178_tile', p.locator('[data-tile="narrow"] .ws-tile-value'), c, 'the right-panel tile TOO NARROW 178', { tight: true });
-      await mark(p, 'B02', 'grey', layer('Not checked'), c, 'the grey key: "Not checked" 9,413 (districts whose rules are not loaded), the grey dots on the map');
-      // The camera: to the Hill District's red cluster (the map's pixel for it at 1920×1080), a slow wheel zoom
-      // about that point, then a short drag that centres it.
-      const HILL = [790, 410];
-      await c.until(0.8);
-      await glide(p, HILL[0], HILL[1], { rest: 0.4 });
-      await c.until(1.8);
-      cues.B02.zoom_start = at(c);
-      for (let i = 0; i < 36; i++) {
-        await p.mouse.wheel(0, -30);
-        await sleep(FAST ? 5 : 80);
-      }
-      cues.B02.zoom_end = at(c);
-      await c.until(5.6);
-      await glide(p, 762, 470, { steps: 14, rest: 0.2 });
-      await p.mouse.down();
-      await glide(p, 762, 555, { steps: 34 });
-      await p.mouse.up();
-      cues.B02.pan_end = at(c);
-      await sleep(400); // the map settles and letters its neighbourhoods
-      const hood = await p.evaluate(() => [...document.querySelectorAll('.city-plate svg text')].map((e) => e.textContent).filter((t) => /HILL/i.test(t)));
-      cues.B02.hill_labels = hood; // proof the camera is on the Hill
-      if (!hood.length) (cues.B02.missing ??= []).push('the zoom did not land on the Hill District (no Hill label on the map)');
-      await c.until(8);
+      await mark(p, 'B02', 'width_178_tile', p.locator('[data-tile="narrow"] .ws-tile-value'), c, 'the right-panel tile TOO NARROW', { tight: true });
+      await mark(p, 'B02', 'grey', layer('Not checked'), c, 'the grey key: "Not checked" (districts whose rules are not loaded), the grey dots on the map');
+      cues.B02.rail_words = { total: (await layer('City-owned vacant lots').locator('.ws-layer-n').innerText()).trim(), narrow: (await layer('Too narrow').locator('.ws-layer-n').innerText()).trim() };
+      await c.until(cues.B02.city_back + 1.2);
       const row = await layer('Too narrow').boundingBox();
       if (row) await glide(p, row.x + 36, row.y + row.height / 2, { steps: 32, rest: 0.6 }); // on the red swatch: the words stay readable
       cues.B02.hover_178 = at(c);
-      await c.until(12.2 + HOLD);
+      await c.until(Math.max(cues.B02.hover_178 + 5, 18) + HOLD);
     },
   },
   {

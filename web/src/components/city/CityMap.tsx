@@ -762,6 +762,22 @@ export function CityMap(p: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [p.hoods, shown.k, shown.ox, shown.oy, pos, p.present, w, h, p.focus, insetBox?.join(','), riverLabels]);
 
+  // Record mode only: the film's pointer (scripts/demo.mjs) asks where a lot's dot is on screen, the inverse of local().
+  useEffect(() => {
+    if (!p.record) return;
+    const g = window as unknown as { __lotAt?: (pin: string) => [number, number] | null };
+    g.__lotAt = (pin) => {
+      const i = p.lots.findIndex((l) => l.pin === pin);
+      const el = wrap.current;
+      if (i < 0 || !el) return null;
+      const b = el.getBoundingClientRect();
+      const s = el.clientWidth ? b.width / el.clientWidth : 1;
+      return [b.left + pos.xs[i] * s, b.top + pos.ys[i] * s];
+    };
+    return () => {
+      delete g.__lotAt;
+    };
+  }, [p.record, p.lots, pos]);
   const hitLot = (x: number, y: number, radius: number): number | null => {
     let best = -1;
     let bd = radius * radius;
