@@ -121,3 +121,42 @@ export interface WhatIfScenario {
 }
 const scenarioFiles = import.meta.glob('../../../data/city/scenarios.json', { eager: true, import: 'default' }) as Record<string, { meta?: { note: string; districts: string[] }; scenarios?: WhatIfScenario[] }>;
 export const WHATIF = Object.values(scenarioFiles)[0] ?? { scenarios: [] };
+
+// Questions the policy agent answered (agents/policy; committed runs, data/policy/q*.json). A counted one has the same
+// fields as a rule what-if (quote, strike, insert, by_type) plus the agent's steps and its memo; a refused one keeps the reason.
+export interface PolicyStep {
+  n: number;
+  action: 'plan' | 'tool' | 'draft' | 'verify';
+  tool?: string;
+  summary: string;
+  ok: boolean;
+  t: string;
+  sources: { file?: string; url?: string; sha256: string }[];
+}
+export interface PolicyRun {
+  id: string;
+  status: 'counted' | 'refused';
+  question: string;
+  building: string;
+  name: string;
+  reason?: string;
+  section?: string;
+  quote?: string;
+  source_file?: string;
+  change?: string;
+  strike?: string;
+  insert?: string | null;
+  by_type?: Partial<Record<string, WhatIfType>>;
+  caveats?: string[];
+  labels: string[];
+  verified?: boolean;
+  memo_md?: string;
+  steps: PolicyStep[];
+  model: { name?: string | null; planned_by: 'model' | 'hand'; note?: string; fallbacks?: { model: string }[]; cost?: { usd: number | null } };
+  usage?: { tokens_in: number; tokens_out: number; calls: number };
+}
+const policyFiles = import.meta.glob('../../../data/policy/q*.json', { eager: true, import: 'default' }) as Record<string, PolicyRun>;
+export const POLICY: PolicyRun[] = Object.values(policyFiles).sort((a, b) => Number(a.id.slice(1)) - Number(b.id.slice(1)));
+/** A rule what-if (S1–S3) or a question the policy agent counted, by id: what the map lights. */
+export const whatIfById = (id: string | null): { by_type?: Partial<Record<string, WhatIfType>> } | undefined =>
+  id ? ((WHATIF.scenarios ?? []).find((x) => x.id === id) ?? POLICY.find((x) => x.id === id && x.status === 'counted')) : undefined;

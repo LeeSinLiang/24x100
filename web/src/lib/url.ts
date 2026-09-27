@@ -60,7 +60,9 @@ const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', '
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
 const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
 export const WHATIFS = ['S1', 'S2', 'S3'] as const;
-export type WhatIfId = (typeof WHATIFS)[number];
+// The policy agent's committed questions (data/policy/q1-….json → Q1), linkable like S1–S3; only each file's id is imported.
+export const POLICY_IDS = Object.values(import.meta.glob('../../../data/policy/q*.json', { eager: true, import: 'id' }) as Record<string, string>);
+export type WhatIfId = (typeof WHATIFS)[number] | `Q${number}`;
 const TRAYS: TrayTab[] = ['next', 'timeline', 'changes', 'closed'];
 const OFFICES: Office[] = ['assessment', 'real_estate', 'zoning', 'ura', 'rco'];
 const oneOf = <T extends string>(v: string | null, list: readonly T[]): T | null => (v != null && (list as readonly string[]).includes(v) ? (v as T) : null);
@@ -126,7 +128,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     zone: q.get('zone'),
     letter: oneOf(q.get('letter'), OFFICES),
     anim: q.get('anim') === '1',
-    whatif: oneOf(q.get('whatif'), WHATIFS),
+    whatif: oneOf(q.get('whatif'), [...WHATIFS, ...POLICY_IDS] as WhatIfId[]),
     ai: q.get('ai') === '1',
     quote: (() => {
       const v = Number(q.get('quote'));

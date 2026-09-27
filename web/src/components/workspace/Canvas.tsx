@@ -10,7 +10,7 @@ import { CityMap, InsetRoom, MAP_ASPECT } from '../city/CityMap';
 import { LotTable } from '../city/LotTable';
 import { lotsWord, n, zoneName } from '../city/blockers';
 import { Plate } from '../Plate';
-import { BLOCKS, WHATIF } from '../../lib/data';
+import { BLOCKS, whatIfById } from '../../lib/data';
 import { Ev, ftFmt, Label } from '../ui';
 import { byLot, type BlockModel } from '../../lib/block';
 import type { CityModel } from '../../lib/city';
@@ -89,7 +89,7 @@ export function MapCanvas({
   const idx = (pins: string[]) => pins.map((p) => at.get(p)).filter((j): j is number => j != null);
   const sel = idx(selectedPins)[0] ?? (inset ? idx(runPins)[0] : undefined) ?? null;
   const marks = useMemo(() => idx(asmPins), [asmPins.join(','), at]);
-  const whatIfPins = (s.whatif && WHATIF.scenarios?.find((x) => x.id === s.whatif)?.by_type[s.type]?.pins) || [];
+  const whatIfPins = (s.whatif && whatIfById(s.whatif)?.by_type?.[s.type]?.pins) || [];
   const whatIf = useMemo(() => idx(whatIfPins), [whatIfPins.join(','), at]);
   const strong = useMemo(() => idx([...runPins, ...(selectedPins.length > 1 ? selectedPins : [])]), [runPins.join(','), selectedPins.join(','), at]);
   const w = stacked ? box.w : Math.max(0, Math.min(box.w, box.h / MAP_ASPECT));
