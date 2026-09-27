@@ -12,8 +12,8 @@ export const HEADLINE_WORDS: Record<Headline, string> = {
   cant_tell: "Can't tell yet",
   only_with_subsidy: 'Only with subsidy (screening estimate)',
   doesnt_fit: "Doesn't fit as of right",
-  depends_on_builder: "Depends on the builder's price",
-  worth_pricing_site: 'Worth pricing the site',
+  depends_on_builder: "Depends on the builder's price (screening estimate)",
+  worth_pricing_site: 'Worth pricing the site (screening estimate)',
   worth_a_look: 'Worth a closer look, if …',
 };
 
@@ -171,7 +171,7 @@ export function siteUnknowns(r: LotResult, block: BlockFile): SiteRow[] {
       id: 'environmental',
       label: 'Environmental',
       deal_killer: true,
-      signals: [y1927 ? `Past use: the 1927 zoning map put this block in ${y1927}${/commercial|industr/i.test(y1927) ? ', a commercial district' : ''}.` : 'Past use: not in our data.', 'We hold no contamination records for the lot.'],
+      signals: [y1927 ? `Historic zoning: the 1927 zoning map put this block in ${y1927}${/commercial|industr/i.test(y1927) ? ', a commercial district' : ''} (a zoning map, not a record of past land use).` : 'Historic zoning: not in our data.', 'We hold no contamination records for the lot.'],
       resolves: 'free state and federal environmental records first, then a Phase I Environmental Site Assessment',
       cost: 'free to look first; then ask a professional',
     },

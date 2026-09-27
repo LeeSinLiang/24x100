@@ -136,7 +136,7 @@ function LotTiles({ model }: { model: LotModel }) {
           }
           sub={
             <span className="gloss" tabIndex={0} title={`Caveat: ${m.new_build.note}.`}>
-              {m.new_build.label.replace(/^Newest new build: /, '').replace(/,\s*[\d,]+ sf\)$/, ')')}
+              {m.new_build.label.replace(/^Newest new build: /, '').replace(/,\s*[\d,]+ sf\)$/, ')')} · one sale · unverified
             </span>
           }
         />

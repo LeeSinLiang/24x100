@@ -1810,3 +1810,33 @@ button.numeral {
     grid-template-columns: 1fr;
   }
 }
+
+/* Money chart labels on the bars (Codex review, 27 Sep). */
+.bar-track .bar-val-on {
+  position: absolute;
+  top: -15px;
+  text-align: right;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--est);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.bar-row {
+  margin-top: 14px;
+}
+.bar-spec {
+  display: inline-block;
+  font-size: 10.5px;
+  font-style: italic;
+  color: var(--est);
+  border: 1px dotted var(--est);
+  padding: 0 3px;
+  margin-left: 2px;
+}
+.bar-extra {
+  margin: -14px 0 8px;
+  color: var(--ink-2);
+}

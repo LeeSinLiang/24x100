@@ -89,7 +89,7 @@ export function AssemblyPanel(props: {
         {props.focus ? ` · ${props.focus}` : ''}
       </h2>
       <p className="sentence asm-sentence">
-        <Ev num>{n(runs.length)}</Ev> {runs.length === 1 ? 'run' : 'runs'} of 2–3 lots fit a {props.typeName.toLowerCase()} as of right when combined, where the City lot alone doesn’t;{' '}
+        <Ev num>{n(runs.length)}</Ev> {runs.length === 1 ? 'lot group' : 'lot groups'} of 2–3 lots fit a {props.typeName.toLowerCase()} as of right when combined, where the City lot alone doesn’t;{' '}
         <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
       </p>
       <p className="small">Combining lots needs a lot consolidation and the owners’ agreement; this is not an offer, and it hasn’t been checked with the City.</p>
