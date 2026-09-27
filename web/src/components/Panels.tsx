@@ -57,6 +57,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
     );
   }
   const V = m.new_build.value;
+  const A = m.estimates.find((e) => e.default) ?? m.estimates[0];
   const stamp = MONEY_STAMP[m.money_verdict];
   const max = Math.max(V, ...m.estimates.map((e) => e.vertical[1])) * 1.06;
   const x = (v: number) => `${(Math.max(0, v) / max) * 100}%`;
@@ -72,16 +73,96 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
             <small>{stamp[1]}</small>
           </span>
         )}
-        <p className="money-lead">Left for site work, soft costs and land, per home</p>
-        <p className="small">
+      </header>
+
+      {/* The money at a glance (spec §0.15, concept v2-1 density): one scale, then the key values with
+          their sources. Prices are rows keyed by id, so a second price line can be added without a relayout. */}
+      <div className="money-top">
+        <div className="bars" role="img" aria-label={`Building cost per home at each estimate against a new-build sale of ${money(V)}.`}>
+        {m.estimates.map((e) => (
+          <div className="bar-row" key={e.id}>
+            <span className="bar-label est">{e.id === 'prod' ? 'Production builder' : e.id === 'A' ? `$${e.psf[0]}–$${e.psf[1]}/sf` : `Estimate ${e.id}`}</span>
+            <div className="bar-track">
+              <div className="bar bar-vertical" style={{ left: x(e.vertical[0]), width: e.vertical[0] === e.vertical[1] ? '3px' : `calc(${x(e.vertical[1])} - ${x(e.vertical[0])})` }} />
+              <div className="bar-sig sig-newbuild" style={{ left: x(V) }} title="the new-build sale" />
+            </div>
+          </div>
+        ))}
+        <div className="bar-axis">
+          <div className="be-line" style={{ left: x(V) }}>
+            <span>new-build sale {money1(V)}</span>
+          </div>
+        </div>
+      </div>
+
+        <table className="money-keys">
+          <caption className="visually-hidden">Key values and their sources, per home</caption>
+          <thead className="visually-hidden">
+            <tr>
+              <th scope="col">Per home</th>
+              <th scope="col" className="num">Value</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-price="newest">
+              <th scope="row">Newest new-build sale</th>
+              <td className="num">
+                <Ev trust="ink" refId="money:comps" num>
+                  {money(V)}
+                </Ev>
+              </td>
+              <td className="money-src" title={m.new_build.note}>
+                {m.new_build.label.replace(/^Newest new build: /, '')}
+              </td>
+            </tr>
+            {A && (
+              <tr className="est-row" data-estimate={A.id}>
+                <th scope="row">
+                  <EstimateMark /> Building
+                </th>
+                <td className="num est">{A.vertical[0] === A.vertical[1] ? money1(A.vertical[0]) : `${money1(A.vertical[0])}–${money1(A.vertical[1])}`}</td>
+                <td className="money-src est">{A.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')}</td>
+              </tr>
+            )}
+            <tr className="est-row">
+              <th scope="row">
+                <EstimateMark /> Site work
+              </th>
+              <td className="num est">
+                <Ev trust="estimate" refId="money:sitework" num>
+                  {money(m.site_work.lo)}–{money(m.site_work.hi)}
+                </Ev>
+              </td>
+              <td className="money-src est">{m.site_work.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')} · not a cap</td>
+            </tr>
+            {A && (
+              <tr className="est-row is-left">
+                <th scope="row">Left after building</th>
+                <td className={`num left ${A.left[0] < 0 ? 'is-none' : ''}`}>
+                  <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
+                    {A.left[0] === A.left[1] ? money1(A.left[0]) : `${money1(A.left[0])} to ${money1(A.left[1])}`}
+                  </Ev>
+                </td>
+                <td className="money-src">{leftText(A.left)} · the sale − building</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* The detail, one click deeper (spec §0.15): both estimates side by side, the context lines and
+          your assumptions. The key values above carry the same numbers. */}
+      <details className="money-more">
+        <summary>Both estimates, context and your assumptions</summary>
+      <p className="money-lead">Left for site work, soft costs and land, per home</p>
+      <p className="small">
           A new home here sold for{' '}
           <Ev trust="ink" refId="money:comps" num>
             {money(V)}
           </Ev>{' '}
           ({m.new_build.label.replace(/^Newest new build: /, '')}; {m.new_build.note}). Building it costs, per home ({m.sqft.toLocaleString('en-US')} sq ft):
         </p>
-      </header>
-
       <table className="estimates">
         <thead>
           <tr>
@@ -116,23 +197,6 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
         One practitioner’s estimate for city single-family infill, and the same practitioner’s speculative production-builder case beside it (never averaged).
       </p>
 
-      <div className="bars" role="img" aria-label={`Building cost per home at each estimate against a new-build sale of ${money(V)}.`}>
-        {m.estimates.map((e) => (
-          <div className="bar-row" key={e.id}>
-            <span className="bar-label est">{e.id === 'prod' ? 'Production builder' : e.id === 'A' ? `$${e.psf[0]}–$${e.psf[1]}/sf` : `Estimate ${e.id}`}</span>
-            <div className="bar-track">
-              <div className="bar bar-vertical" style={{ left: x(e.vertical[0]), width: e.vertical[0] === e.vertical[1] ? '3px' : `calc(${x(e.vertical[1])} - ${x(e.vertical[0])})` }} />
-              <div className="bar-sig sig-newbuild" style={{ left: x(V) }} title="the new-build sale" />
-            </div>
-          </div>
-        ))}
-        <div className="bar-axis">
-          <div className="be-line" style={{ left: x(V) }}>
-            <span>new-build sale {money1(V)}</span>
-          </div>
-        </div>
-      </div>
-
       <p className="site-work-line">
         <EstimateMark /> <strong>Site work, single unit:</strong>{' '}
         <Ev trust="estimate" refId="money:sitework" num>
@@ -161,6 +225,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
         </Chip>
       </p>
       <p className="small muted">Money first is the cheapest check to make, per a practitioner, not a finding that money blocks more often (H5, unproven).</p>
+      </details>
     </section>
   );
 }

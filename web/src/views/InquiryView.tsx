@@ -81,7 +81,8 @@ export function InquiryView({ s, block, model }: ViewProps) {
   usePrintLight();
   const date = useMemo(todayIso, []);
   const inq = useMemo(() => (block && model ? buildInquiry(model.result, block, model.ctx.rs, model.money, date, model.ctx.settings) : null), [block, model, date]);
-  const [office, setOffice] = useState<OfficeId | null>(null);
+  // ?letter=<office> opens that office's letter (the workspace's route links to it).
+  const [office, setOffice] = useState<OfficeId | null>(s.letter);
   const [status, setStatus] = useState<Status>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
 

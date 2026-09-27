@@ -50,16 +50,18 @@ function load(): Promise<CityData> {
     .catch((e: unknown): CityData => ({ state: 'error', message: String((e as Error)?.message ?? e) }));
 }
 
-export function useCityData(): CityData {
+/** The citywide file, loaded the first time `on` is true (the lot view's Plan canvas never pays for it). */
+export function useCityData(on = true): CityData {
   const [d, setD] = useState<CityData>({ state: 'loading' });
   useEffect(() => {
+    if (!on) return;
     let alive = true;
     cache = cache ?? load();
     cache.then((x) => alive && setD(x));
     return () => {
       alive = false;
     };
-  }, []);
+  }, [on]);
   return d;
 }
 

@@ -40,31 +40,134 @@ function RuleChips({ rs, fields }: { rs: RuleSet | null; fields: RuleField[] }) 
   );
 }
 
-export function LotCard({
-  lot,
-  cls,
-  type,
-  rs,
-  link,
-  onClose,
-  openLot,
-}: {
+interface CardProps {
   lot: CityLotRow;
   cls: CityClass;
   type: TemplateId;
   rs: RuleSet | null;
   link: BlockLink | null;
-  onClose: () => void;
-  openLot: (l: BlockLink) => void;
-}) {
+}
+
+/** What the city map knows about one lot: the first blocker, the width arithmetic in ink or pencil,
+ *  the lot area against the minimum, and the City's status. The classifier's numbers only. */
+export function LotFacts({ lot, cls, type, rs, link }: CardProps) {
   const st = STYLE[cls.blocker];
   const tname = TEMPLATES[type].name.toLowerCase();
-  // What would unlock it, in words, where the classifier knows (engine/src/city.ts cityRoutes).
-  const routes = link ? [] : cityRoutes(lot, cls, rs, type);
   const also = cls.all.filter((b) => b !== cls.blocker && b !== 'fits');
   const computed = !['rules', 'records', 'edges'].includes(cls.blocker);
   const minArea = rs ? pick(rs, 'min_lot_area') : undefined;
+  return (
+    <dl className="city-card-facts">
+      <div>
+        <dt>First blocker</dt>
+        <dd>
+          <span className={`bk bk-${st.id}`} aria-hidden="true" /> <strong>{st.words}</strong>
+          {also.length ? <span className="muted"> · also {also.map((b) => STYLE[b].words).join(', ')}</span> : null}
+          {cls.blocker === 'rules' || cls.blocker === 'edges' ? <span className="small muted city-card-gloss">{cls.blocker === 'rules' ? cls.note : lot.edge_note ?? cls.note}.</span> : <span className="muted"> for a {tname}</span>}
+        </dd>
+      </div>
+
+      {cls.blocker === 'records' && (
+        <div>
+          <dt>Lot area</dt>
+          <dd>
+            <span className="stamp stamp-refuse city-stamp">CAN’T SCORE</span> County assessment <Ev>{n(Math.round(lot.assessed ?? 0))} sf</Ev>; the City map measures <Ev>{n(Math.round(lot.mapped))} sf</Ev> (
+            {(lot.mapped / (lot.assessed || 1)).toFixed(2)}×).
+          </dd>
+        </div>
+      )}
+
+      {computed && cls.formula && (
+        <div>
+          <dt>Width as of right</dt>
+          <dd>
+            <Ev trust={cls.widthTrust} num className="city-formula">
+              {cls.formula}
+              {cls.formula.includes('=') ? ' ft' : ''}
+            </Ev>{' '}
+            <RuleChips rs={rs} fields={widthRuleFields(lot, rs!, type)} />
+            {cls.widthTrust !== 'ink' && <span className="small pencil-text city-card-gloss">{cls.widthNote ?? cls.note}.</span>}
+          </dd>
+        </div>
+      )}
+
+      {computed && (
+        <div>
+          <dt>Lot area</dt>
+          <dd>
+            <Ev trust={cls.areaTrust} num>
+              {n(cls.area ?? 0)} sf
+            </Ev>{' '}
+            <span className="muted small">{lot.deed ? `by deed, ${lot.deed.front} × ${lot.deed.depth}` : 'no deed dimensions'}</span>
+            {minArea && typeof minArea.value === 'number' && (
+              <>
+                {' '}
+                <span className="small muted">· minimum {n(minArea.value)} sf</span> <RuleChips rs={rs} fields={['min_lot_area']} />
+              </>
+            )}
+          </dd>
+        </div>
+      )}
+
+      <div>
+        <dt>City status</dt>
+        <dd>
+          {lot.status}
+          {lot.status_updated ? <span className="muted"> · updated {dateFmt(lot.status_updated)}</span> : null}{' '}
+          {link ? <Chip refId={`record:${lot.pin}:city`}>City-owned properties</Chip> : <Chip>City-owned properties</Chip>}
+        </dd>
+      </div>
+    </dl>
+  );
+}
+
+/** Where to go next from one lot: open its lot view, or what would unlock it, in words. */
+export function LotActions({ lot, cls, type, rs, link, openLot }: CardProps & { openLot: (l: BlockLink) => void }) {
+  // What would unlock it, in words, where the classifier knows (engine/src/city.ts cityRoutes).
+  const routes = link ? [] : cityRoutes(lot, cls, rs, type);
   const lotHref = link ? `?view=lot&block=${link.block}&lot=${link.lot}&type=${type}` : null;
+  return (
+    <div className="city-card-actions">
+      {lotHref && link ? (
+        <a
+          className="btn btn-ink"
+          href={lotHref}
+          onClick={(e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+            e.preventDefault();
+            openLot(link);
+          }}
+        >
+          Open lot
+        </a>
+      ) : (
+        <div className="small city-card-routes">
+          <p>Lot detail isn’t generated for this block yet, so there’s no plate or letter here; what the city map knows:</p>
+          {routes.length > 0 && (
+            <ul>
+              {routes.map((r) => (
+                <li key={r.kind + r.text}>
+                  <Ev trust={r.trust}>{r.text}</Ev>
+                </li>
+              ))}
+            </ul>
+          )}
+          <p className="muted">
+            Record: <a href={`api/lots/${lot.pin}.json`}>api/lots/{lot.pin}.json</a>
+          </p>
+        </div>
+      )}
+      {cls.blocker === 'rules' && lot.zone && (
+        <a className="btn" href={`?view=review&district=${lot.zone}`}>
+          Check {zoneName(lot.zone)} rules
+        </a>
+      )}
+    </div>
+  );
+}
+
+export function LotCard(props: CardProps & { onClose: () => void; openLot: (l: BlockLink) => void }) {
+  const { lot, link, onClose } = props;
   return (
     <section className="city-card" aria-labelledby="city-card-h" aria-live="polite">
       <header className="city-card-head">
@@ -86,105 +189,8 @@ export function LotCard({
           </>
         ) : null}
       </p>
-
-      <dl className="city-card-facts">
-        <div>
-          <dt>First blocker</dt>
-          <dd>
-            <span className={`bk bk-${st.id}`} aria-hidden="true" /> <strong>{st.words}</strong>
-            {also.length ? <span className="muted"> · also {also.map((b) => STYLE[b].words).join(', ')}</span> : null}
-            {cls.blocker === 'rules' || cls.blocker === 'edges' ? <span className="small muted city-card-gloss">{cls.blocker === 'rules' ? cls.note : lot.edge_note ?? cls.note}.</span> : <span className="muted"> for a {tname}</span>}
-          </dd>
-        </div>
-
-        {cls.blocker === 'records' && (
-          <div>
-            <dt>Lot area</dt>
-            <dd>
-              <span className="stamp stamp-refuse city-stamp">CAN’T SCORE</span> County assessment <Ev>{n(Math.round(lot.assessed ?? 0))} sf</Ev>; the City map measures <Ev>{n(Math.round(lot.mapped))} sf</Ev> (
-              {(lot.mapped / (lot.assessed || 1)).toFixed(2)}×).
-            </dd>
-          </div>
-        )}
-
-        {computed && cls.formula && (
-          <div>
-            <dt>Width as of right</dt>
-            <dd>
-              <Ev trust={cls.widthTrust} num className="city-formula">
-                {cls.formula}
-                {cls.formula.includes('=') ? ' ft' : ''}
-              </Ev>{' '}
-              <RuleChips rs={rs} fields={widthRuleFields(lot, rs!, type)} />
-              {cls.widthTrust !== 'ink' && <span className="small pencil-text city-card-gloss">{cls.widthNote ?? cls.note}.</span>}
-            </dd>
-          </div>
-        )}
-
-        {computed && (
-          <div>
-            <dt>Lot area</dt>
-            <dd>
-              <Ev trust={cls.areaTrust} num>
-                {n(cls.area ?? 0)} sf
-              </Ev>{' '}
-              <span className="muted small">{lot.deed ? `by deed, ${lot.deed.front} × ${lot.deed.depth}` : 'no deed dimensions'}</span>
-              {minArea && typeof minArea.value === 'number' && (
-                <>
-                  {' '}
-                  <span className="small muted">· minimum {n(minArea.value)} sf</span> <RuleChips rs={rs} fields={['min_lot_area']} />
-                </>
-              )}
-            </dd>
-          </div>
-        )}
-
-        <div>
-          <dt>City status</dt>
-          <dd>
-            {lot.status}
-            {lot.status_updated ? <span className="muted"> · updated {dateFmt(lot.status_updated)}</span> : null}{' '}
-            {link ? <Chip refId={`record:${lot.pin}:city`}>City-owned properties</Chip> : <Chip>City-owned properties</Chip>}
-          </dd>
-        </div>
-      </dl>
-
-      <div className="city-card-actions">
-        {lotHref && link ? (
-          <a
-            className="btn btn-ink"
-            href={lotHref}
-            onClick={(e) => {
-              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-              e.preventDefault();
-              openLot(link);
-            }}
-          >
-            Open lot
-          </a>
-        ) : (
-          <div className="small city-card-routes">
-            <p>Lot detail isn’t generated for this block yet, so there’s no plate or letter here; what the city map knows:</p>
-            {routes.length > 0 && (
-              <ul>
-                {routes.map((r) => (
-                  <li key={r.kind + r.text}>
-                    <Ev trust={r.trust}>{r.text}</Ev>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <p className="muted">
-              Record: <a href={`api/lots/${lot.pin}.json`}>api/lots/{lot.pin}.json</a>
-            </p>
-          </div>
-        )}
-        {cls.blocker === 'rules' && lot.zone && (
-          <a className="btn" href={`?view=review&district=${lot.zone}`}>
-            Check {zoneName(lot.zone)} rules
-          </a>
-        )}
-      </div>
+      <LotFacts {...props} />
+      <LotActions {...props} />
     </section>
   );
 }

@@ -27,8 +27,8 @@ export interface AssemblyRunRow {
   lot_key: string | null;
   lots_param: string | null;
 }
-interface AssemblyFile {
-  meta: { district: string; candidates: number; skipped: Record<string, number>; partners_ruled_out: Record<string, number>; built_neighbours: string; corners: string };
+export interface AssemblyFile {
+  meta: { district: string; candidates: number; skipped: Record<string, number>; partners_ruled_out: Record<string, number>; built_neighbours: string; corners: string; note?: string; pulled?: string; sources?: { id?: string; name: string; pulled?: string; url?: string }[] };
   runs: AssemblyRunRow[];
 }
 

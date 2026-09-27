@@ -24,6 +24,7 @@ interface Props {
   focus?: string[]; // crop to these pins (phone)
   label: string;
   hideSelection?: boolean; // block view: no selected lot, no proposal outline
+  maxHeight?: number; // workspace canvas: fit the drawing inside this height (px), keeping its aspect
 }
 
 const PAD = { top: 16, bottom: 40, side: 16 };
@@ -96,15 +97,20 @@ export function Plate(p: Props) {
   useLayoutEffect(() => {
     const el = wrap.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => {
-      const w = el.clientWidth;
+    // In the workspace the plate is sized to fit its box (width and height); elsewhere it takes the width.
+    const host = p.maxHeight ? el.parentElement ?? el : el;
+    const read = () => {
+      const avail = host.clientWidth;
+      const w = p.maxHeight ? Math.min(avail, (p.maxHeight * frame.w) / frame.h) : avail;
       // A hidden pane reports 0 px: keep the last size rather than scale everything to Infinity.
       if (!(w > 0) || !(frame.w > 0)) return;
       setSize({ w, h: (w * frame.h) / frame.w });
-    });
-    ro.observe(el);
+    };
+    const ro = new ResizeObserver(read);
+    ro.observe(host);
+    read();
     return () => ro.disconnect();
-  }, [frame.w, frame.h]);
+  }, [frame.w, frame.h, p.maxHeight]);
 
   const k = frame.w > 0 && size.w > 0 ? size.w / frame.w : 1; // px per foot (guarded: never Infinity)
   const px = (n: number) => n / k; // px → feet (user units)
@@ -183,7 +189,7 @@ export function Plate(p: Props) {
   const north = p.block.meta.rotation_deg;
 
   return (
-    <div className={`plate ${p.present ? 'is-present' : ''}`} ref={wrap} style={{ height: size.h }}>
+    <div className={`plate ${p.present ? 'is-present' : ''}`} ref={wrap} style={{ height: size.h, ...(p.maxHeight ? { width: size.w } : {}) }}>
       <canvas ref={canvas} className="plate-wash" style={{ width: size.w, height: size.h }} aria-hidden="true" />
       <svg className="plate-svg" viewBox={`${frame.x} ${frame.y} ${frame.w} ${frame.h}`} width={size.w} height={size.h} aria-label={p.label}>
         <defs>

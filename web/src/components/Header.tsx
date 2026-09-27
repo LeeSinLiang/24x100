@@ -14,40 +14,9 @@ export function Cartouche() {
   );
 }
 
-interface Crumb {
-  label: string;
-  href?: string;
-}
-
-export function Header({ crumbs, s, update }: { crumbs: Crumb[]; s: UrlState; update: (p: Partial<UrlState>, o?: { push?: boolean }) => void }) {
-  return (
-    <header className="app-head">
-      <Cartouche />
-      <nav className="crumbs" aria-label="Where you are">
-        <ol>
-          {crumbs.map((c, i) => (
-            <li key={i} aria-current={i === crumbs.length - 1 ? 'page' : undefined}>
-              {c.href && i < crumbs.length - 1 ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}
-            </li>
-          ))}
-        </ol>
-      </nav>
-      {!s.record && <Search update={update} />}
-      {!s.record && (
-        <div className="head-tools">
-          <a className="btn btn-quiet" href="?view=review&district=RM-M">
-            Rules
-          </a>
-          <button className="btn btn-quiet" onClick={() => update({ present: !s.present })} aria-pressed={s.present}>
-            {s.present ? 'Exit presentation' : 'Present'}
-          </button>
-        </div>
-      )}
-    </header>
-  );
-}
-
-function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolean }) => void }) {
+/** The command search: every lot on a detailed block, and every City-owned vacant lot once the citywide
+ *  file has loaded. A lot on a detailed block opens the lot view; any other opens its city card. */
+export function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolean }) => void }) {
   const [q, setQ] = useState('');
   const [open, setOpen] = useState(false);
   // Every lot on a detailed block at once; every City-owned vacant lot once the citywide file has loaded
@@ -78,7 +47,7 @@ function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolea
       <input
         id="search"
         value={q}
-        placeholder="Address or lot, e.g. 2241 Mahon"
+        placeholder="Search a lot, street or block…"
         autoComplete="off"
         onFocus={warm}
         onChange={(e) => {
@@ -94,11 +63,14 @@ function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolea
         aria-expanded={open && q.length >= 2}
         aria-controls="search-results"
       />
-      <p id="search-cover" className="search-cover">
-        Lot detail covers {covers}.
+      <p id="search-cover" className="visually-hidden">
+        Address or lot, e.g. 2241 Mahon. Lot detail covers {covers}.
       </p>
       {open && q.trim().length >= 2 && (
         <ul id="search-results" className="search-results" role="listbox">
+          <li className="search-note" role="presentation">
+            Lot detail covers {covers}; every other City-owned vacant lot opens its city card.
+          </li>
           {hits.map((h) => (
             <li key={h.entry.pin} role="option" aria-selected="false">
               <button onClick={() => go(h)}>
