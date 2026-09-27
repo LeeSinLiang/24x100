@@ -48,13 +48,17 @@ export function contextFor(block: BlockFile, district: string | null, audit: Aud
 export function scenarioFrom(block: BlockFile, s: UrlState): Scenario | null {
   const sel = parcelByLot(block, s.lot);
   if (!sel) return null;
-  const group = s.lots.length > 1 ? s.lots.map((l) => parcelByLot(block, l)).filter((p): p is Parcel => !!p) : [sel];
+  // The selected lot comes first; lot keys that aren't on the block are passed through so the engine can say so.
+  const keys = s.lots.length > 1 ? [s.lot, ...s.lots.filter((l) => l !== s.lot && parcelByLot(block, l)?.pin !== sel.pin)] : [s.lot];
+  const found = keys.map((l) => parcelByLot(block, l));
+  const group = found.filter((p): p is Parcel => !!p);
+  const unknown = keys.filter((_, i) => !found[i]);
   const over: Record<string, number> = {};
   if (s.w != null) over.width = s.w;
   if (s.d != null) over.depth = s.d;
   if (s.st != null) over.stories = s.st;
   if (s.h != null) over.height = s.h;
-  return { type: s.type, pins: group.map((p) => p.pin), proposal: proposalFor(s.type, over) };
+  return { type: s.type, pins: group.map((p) => p.pin), proposal: proposalFor(s.type, over), ...(unknown.length ? { unknown_lots: unknown } : {}) };
 }
 
 export interface LotModel {

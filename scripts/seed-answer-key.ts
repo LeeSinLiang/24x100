@@ -139,6 +139,19 @@ const questions: Question[] = [
     yes: { extends_applies_to: ['row_end'] },
     no: {},
   },
+  {
+    id: 'q.narrow_both_sides_3ft',
+    district: '*',
+    section: '925.06.C.1',
+    quote: "The applicant may reduce the side setback to three (3) feet on both sides only if adjacent properties have setbacks of three (3) feet or less on the sides abutting the applicant's property.",
+    source_file: C925,
+    question:
+      'Can a single-unit house on a narrow lot use the narrow-lot table\'s 3 ft side yard on both sides when a neighbouring lot is vacant or its setback is unknown? §925.06.C.1 allows 3 ft on both sides only if adjacent properties have setbacks of 3 ft or less. If not, which setback applies on the other side? (We read it as the district setback.)',
+    ask: 'Zoning Administrator',
+    affects: ['pgh.narrow_lot_side'],
+    yes: {},
+    no: {},
+  },
 ];
 
 let bad = 0;

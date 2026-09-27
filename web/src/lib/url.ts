@@ -55,7 +55,13 @@ export function parseUrl(search: string): UrlState {
     theme: (q.get('theme') as 'light' | 'dark') ?? null,
     slope: q.get('slope') === '1',
     section: q.get('section'),
-    tol: num('tol') ?? null,
+    // Reconciliation tolerance override, as a fraction (0.12) or a percent (12); anything outside 1–50% is ignored.
+    tol: (() => {
+      const t = num('tol');
+      if (t == null || !Number.isFinite(t)) return null;
+      const f = t > 1 ? t / 100 : t;
+      return f >= 0.01 && f <= 0.5 ? f : null;
+    })(),
     hood: q.get('hood'),
     pin: q.get('pin'),
   };

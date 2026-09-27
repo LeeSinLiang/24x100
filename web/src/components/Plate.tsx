@@ -98,13 +98,15 @@ export function Plate(p: Props) {
     if (!el) return;
     const ro = new ResizeObserver(() => {
       const w = el.clientWidth;
+      // A hidden pane reports 0 px: keep the last size rather than scale everything to Infinity.
+      if (!(w > 0) || !(frame.w > 0)) return;
       setSize({ w, h: (w * frame.h) / frame.w });
     });
     ro.observe(el);
     return () => ro.disconnect();
   }, [frame.w, frame.h]);
 
-  const k = size.w / frame.w; // px per foot
+  const k = frame.w > 0 && size.w > 0 ? size.w / frame.w : 1; // px per foot (guarded: never Infinity)
   const px = (n: number) => n / k; // px → feet (user units)
   const ms = p.still ? 0 : p.record ? 280 : 320;
 

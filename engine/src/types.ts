@@ -267,6 +267,7 @@ export interface Scenario {
   pins: string[]; // the lot(s); first is the selected lot unless a group is ordered along the street
   proposal: Proposal;
   pending_parking_repeal?: boolean; // lever 4 (Bill 2025-1545, pending, †)
+  unknown_lots?: string[]; // lot keys asked for (lots=) that aren't in the block file; the scenario is refused
 }
 
 export type ApprovalKind =

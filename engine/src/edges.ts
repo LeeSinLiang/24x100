@@ -107,6 +107,43 @@ export function nearestParallelStreet(a: Pt, b: Pt, streets: Street[]): string |
 }
 
 /** Label the sides of `ring` against its neighbors and the street network. */
+/** Two parcels share a lot line (not just a corner): some edge of `a` has at least 2 of 9 samples within
+ *  SHARE_TOL of `b`, the same test `labelEdges` uses to call an edge shared. */
+export function sharesEdge(a: Ring, b: Ring): boolean {
+  const r = openRing(a);
+  const rb = openRing(b);
+  for (let i = 0; i < r.length; i++) {
+    const p0 = r[i];
+    const p1 = r[(i + 1) % r.length];
+    let hits = 0;
+    for (let k = 1; k <= 9; k++) {
+      const t = k / 10;
+      if (distPointRing([p0[0] + (p1[0] - p0[0]) * t, p0[1] + (p1[1] - p0[1]) * t], rb) <= SHARE_TOL) hits++;
+      if (hits >= 2) return true;
+    }
+  }
+  return false;
+}
+
+/** Connected groups of rings under `sharesEdge`; each group lists indexes into `rings`. */
+export function contiguousGroups(rings: Ring[]): number[][] {
+  const seen = new Set<number>();
+  const out: number[][] = [];
+  for (let s = 0; s < rings.length; s++) {
+    if (seen.has(s)) continue;
+    const comp: number[] = [];
+    const stack = [s];
+    seen.add(s);
+    while (stack.length) {
+      const i = stack.pop()!;
+      comp.push(i);
+      for (let j = 0; j < rings.length; j++) if (!seen.has(j) && sharesEdge(rings[i], rings[j])) (seen.add(j), stack.push(j));
+    }
+    out.push(comp.sort((x, y) => x - y));
+  }
+  return out;
+}
+
 export function labelEdges(ring: Ring, neighbors: Neighbor[], streets: Street[], addrStreet: string | null): EdgeLabelResult {
   const r = orientLeft(openRing(ring));
   const n = r.length;

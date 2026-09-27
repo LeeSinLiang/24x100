@@ -85,7 +85,7 @@ describe('one result object: every formula string round-trips to the result numb
         .replace(/\b[Ll]ots? \d+(–\d+)?/g, '');
       const known = new Set<number>([
         ...[r.width!, r.depth!, ...r.units.map((u) => u.width)].flatMap((m) => [m.deed ?? -1, m.mapped, ...m.terms.map((t) => t.value)]),
-        ...r.checks.flatMap((c) => [c.required ?? -1, c.available ?? -1, c.alternative?.available ?? -1]),
+        ...r.checks.flatMap((c) => [c.required ?? -1, c.available ?? -1, c.alternative?.available ?? -1, ...(c.alternative ? numbersIn(c.alternative.formula) : [])]),
         ...r.relief.flatMap((x) => [x.from, x.to]),
         r.scenario.proposal.width,
         2025, 60, 3, // "since May 2025"; "less than 60 ft" and the 3 ft minimum are quoted rule text

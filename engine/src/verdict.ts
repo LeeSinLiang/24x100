@@ -3,6 +3,7 @@
 // free; a variance and site studies cost months and money). The order says nothing about which barrier
 // blocks more often: that is unproven (H5).
 import { usd } from './format';
+import { needsUseVariance } from './evaluate';
 import type { BlockFile, LotResult, MoneyResult, Evidence } from './types';
 
 export type Headline = 'cant_tell' | 'only_with_subsidy' | 'doesnt_fit' | 'depends_on_builder' | 'worth_pricing_site' | 'worth_a_look';
@@ -63,8 +64,20 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
   const dimOpen = r.state === 'ok' && r.checks.some((c) => ['width', 'depth', 'area', 'height'].includes(c.id) && (c.status === 'open' || c.status === 'needs_survey' || c.trust !== 'ink'));
   const otherOpen = r.state === 'ok' && r.checks.some((c) => ['use', 'parking', 'grading'].includes(c.id) && c.status === 'open');
   const sideRelief = r.relief.some((x) => x.check === 'width');
-  if (r.state !== 'ok') chips.push({ id: 'rules', state: 'unknown', words: r.refusal?.code === 'missing_rule' ? 'rules not loaded for this district' : "can't tell: the records disagree", evidence: 'unknown' });
-  else if (dimFail) chips.push({ id: 'rules', state: 'blocks', words: `doesn't fit as of right: ${r.relief.map((x) => x.text).join('; ')}`, evidence: 'ink' });
+  // The use table can block a building type even when it fits: a "not permitted" reading (ink or pencil)
+  // means a use variance, and the Rules chip never says "fits".
+  const useNo = needsUseVariance(r);
+  const useInk = useNo && r.approvals.ink.some((a) => a.kind === 'use_variance');
+  const useText = r.checks.find((c) => c.id === 'use')?.text ?? '';
+  const refusedWords: Record<string, string> = {
+    missing_rule: 'rules not loaded for this district',
+    records_disagree: "can't tell: the records disagree",
+    not_adjacent: "can't tell: these lots don't share lot lines",
+    mixed_districts: "can't tell: these lots are in different districts",
+  };
+  if (r.state !== 'ok') chips.push({ id: 'rules', state: 'unknown', words: refusedWords[r.refusal?.code ?? ''] ?? `can't tell: ${r.refusal?.reason ?? 'not scored'}`, evidence: 'unknown' });
+  else if (dimFail) chips.push({ id: 'rules', state: 'blocks', words: `doesn't fit as of right: ${r.relief.map((x) => x.text).join('; ')}${useNo ? `; ${useText}` : ''}`, evidence: 'ink' });
+  else if (useNo) chips.push({ id: 'rules', state: 'blocks', words: `the use isn't permitted${useInk ? '' : ' (an unreviewed reading)'}: ${useText}`, evidence: useInk ? 'ink' : 'pencil' });
   else if (dimOpen) chips.push({ id: 'rules', state: 'open', words: width?.status === 'open' ? 'depends on an open question for the City' : 'fits on unreviewed rules (pencil)', evidence: 'pencil' });
   else chips.push({ id: 'rules', state: otherOpen ? 'open' : 'clear', words: `fits as of right on dimensions${otherOpen ? '; use, parking or grading still unconfirmed' : ''}`, evidence: otherOpen ? 'pencil' : 'ink' });
 
@@ -77,13 +90,20 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
   const conditions: string[] = [];
   if (r.state !== 'ok') {
     headline = 'cant_tell';
-    detail = r.refusal?.code === 'missing_rule' ? 'The rules for this district haven’t been loaded and checked.' : 'The County’s lot area and the City’s map disagree; settle the records first.';
+    const code = r.refusal?.code;
+    detail =
+      code === 'missing_rule'
+        ? 'The rules for this district haven’t been loaded and checked.'
+        : code === 'records_disagree'
+          ? 'The County’s lot area and the City’s map disagree; settle the records first.'
+          : (r.refusal?.reason ?? 'This scenario could not be scored.');
   } else if (m && m.money_verdict === 'only_with_subsidy') {
     headline = 'only_with_subsidy';
     detail = `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : `at most ${usd(A!.left[0], 100)}`} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`;
-  } else if (dimFail) {
+  } else if (dimFail || useNo) {
     headline = 'doesnt_fit';
-    detail = `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief)}`;
+    const useLine = useNo ? `${useInk ? 'The use table says' : 'An unreviewed reading of the use table says'} this building type isn't permitted here; a use variance from the Zoning Board of Adjustment is a possible route, not approval.` : '';
+    detail = dimFail ? `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief)}${useLine ? ` ${useLine}` : ''}` : useLine;
   } else if (m && m.money_verdict === 'depends_on_builder') {
     headline = 'depends_on_builder';
     detail = `At the practitioner's estimate what's left per home runs from ${usd(A!.left[0], 100)} to ${A!.left[1] < 0 ? 'nothing' : usd(A!.left[1], 100)}: a builder's price decides it.`;

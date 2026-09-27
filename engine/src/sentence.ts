@@ -1,7 +1,7 @@
 // The one sentence that rewrites itself from state (the "lens lab" pattern). Built only from the
 // result object, so the words can't disagree with the plate or the ledger. Each segment carries the
 // trust of the number it shows and a reference the UI opens in the evidence drawer.
-import { NARROW_Q } from './evaluate';
+import { BOTH_SIDES_Q, NARROW_Q } from './evaluate';
 import { ftInt, ft1, int, listAnd } from './format';
 import { getQuestion, pick } from './rules';
 import { TEMPLATES } from './templates';
@@ -50,6 +50,9 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
   const addr = placeName(p0) || r.pins[0];
   const tpl = TEMPLATES[r.scenario.type];
   if (r.state === 'refused') {
+    // A refusal names the lot the user selected (scenario.pins[0]), not the first lot along the street.
+    const sel = block.parcels.find((p) => p.pin === r.scenario.pins[0]);
+    const selAddr = placeName(sel) || addr;
     if (r.refusal?.code === 'records_disagree') {
       const v = r.refusal.values ?? {};
       return [
@@ -61,13 +64,18 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
         { t: '.' },
       ];
     }
-    return [{ t: `${addr}: can't score. ` }, { t: r.refusal?.reason ?? '' }];
+    return [{ t: `${selAddr}: can't score. ` }, { t: r.refusal?.reason ?? '' }];
   }
   const W = r.width!;
   const w = W.deed ?? W.mapped;
   const wSeg: Seg = { t: `${fmtFt(w)} ft`, num: true, trust: W.trust, ref: 'measure:width' };
   const width = r.checks.find((c) => c.id === 'width')!;
   const area = r.checks.find((c) => c.id === 'area')!;
+  // §925.06.C.1 open: never "as of right" alone; say both readings.
+  const c1 = width.alternative?.question_id === BOTH_SIDES_Q ? width.alternative : null;
+  const asOfRight: Seg[] = c1
+    ? [{ t: ' with 3 ft side yards on both sides, or ' }, { t: `${fmtFt(c1.available)} ft`, num: true, trust: 'pencil', ref: `question:${BOTH_SIDES_Q}` }, { t: ' if §925.06.C.1 limits that (open question).' }]
+    : [{ t: ' of width as of right.' }];
   const minRule = pick(rs, 'min_lot_area');
   const out: Seg[] = [];
   if (r.scenario.type === 'row') {
@@ -82,7 +90,7 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
     return out;
   }
   if (r.pins.length > 1) {
-    out.push({ t: `Combined, ${lotsLabel(block, r.pins)} give a ${tpl.name.toLowerCase()} ` }, wSeg, { t: ' of width as of right.' });
+    out.push({ t: `Combined, ${lotsLabel(block, r.pins)} give a ${tpl.name.toLowerCase()} ` }, wSeg, ...asOfRight);
     return out;
   }
   if (area.status === 'pass' && minRule && typeof minRule.value === 'number') {
@@ -95,7 +103,7 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
       { t: '). ' },
     );
     if (width.status === 'fail') out.push({ t: `A ${tpl.name.toLowerCase()} still gets ` }, wSeg, { t: '.' });
-    else out.push({ t: `A ${tpl.name.toLowerCase()} gets ` }, wSeg, { t: ' of width as of right.' });
+    else out.push({ t: `A ${tpl.name.toLowerCase()} gets ` }, wSeg, ...asOfRight);
     return out;
   }
   if (area.status === 'fail' && minRule && typeof minRule.value === 'number') {
@@ -110,7 +118,7 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
     );
     return out;
   }
-  out.push({ t: `${addr}: a ${tpl.name.toLowerCase()} gets ` }, wSeg, { t: ' of width as of right.' });
+  out.push({ t: `${addr}: a ${tpl.name.toLowerCase()} gets ` }, wSeg, ...asOfRight);
   return out;
 }
 
@@ -126,11 +134,21 @@ export function explanation(r: LotResult, block: BlockFile): Seg[] {
   if (r.scenario.type === 'row') {
     out.push({ t: `${width.text} `, trust: width.trust });
   } else {
-    out.push(
-      { t: `As of right, the widest ${tpl.name.toLowerCase()} here is ` },
-      { t: `${fmtFt(w)} ft`, num: true, trust: W.trust, ref: 'measure:width' },
-      { t: ` (${W.formula}). ` },
-    );
+    const c1 = width.alternative?.question_id === BOTH_SIDES_Q ? width.alternative : null;
+    if (c1)
+      out.push(
+        { t: `With the narrow-lot table's 3 ft side yards (§925.06.C), the widest ${tpl.name.toLowerCase()} here is ` },
+        { t: `${fmtFt(w)} ft`, num: true, trust: W.trust, ref: 'measure:width' },
+        { t: ` (${W.formula}). §925.06.C.1 allows 3 ft on both sides only if the neighbours are set back 3 ft or less; if that rules it out here, ` },
+        { t: `${fmtFt(c1.available)} ft`, num: true, trust: 'pencil', ref: `question:${BOTH_SIDES_Q}` },
+        { t: ` (${c1.formula}, on our reading that the other side takes the district setback). An open question for the Zoning Administrator. ` },
+      );
+    else
+      out.push(
+        { t: `As of right, the widest ${tpl.name.toLowerCase()} here is ` },
+        { t: `${fmtFt(w)} ft`, num: true, trust: W.trust, ref: 'measure:width' },
+        { t: ` (${W.formula}). ` },
+      );
     const rel = r.relief.find((x) => x.check === 'width');
     if (width.status === 'fail' && rel) {
       out.push(
@@ -139,7 +157,9 @@ export function explanation(r: LotResult, block: BlockFile): Seg[] {
         { t: ` proposal needs the ${rel.text.replace(/^side setbacks /, 'side setbacks cut from ').replace(' → ', ' to ')}. ${varianceWords(rel.text.startsWith('side setbacks'))} ` },
       );
     } else if (width.status === 'pass') {
-      out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: ' proposal fits. ' });
+      out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: c1 ? ' proposal fits either way. ' : ' proposal fits. ' });
+    } else if (width.status === 'open' && c1) {
+      out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: ' proposal fits only on the first reading. ' });
     }
   }
   const ctx = r.checks.find((c) => c.id === 'contextual');
@@ -154,7 +174,7 @@ export function explanation(r: LotResult, block: BlockFile): Seg[] {
 }
 
 export function nextStep(u: { recommended: UnlockOption | null; options: UnlockOption[] }, block: BlockFile): { primary: UnlockOption | null; fewest: UnlockOption | null; text: string } {
-  const fewest = u.options.find((o) => o.fits && o.discretionary === 0 && !o.hypothetical && !o.pending) ?? null;
+  const fewest = u.options.find((o) => o.fits && !o.needs_use && o.discretionary === 0 && !o.hypothetical && !o.pending) ?? null;
   const primary = u.recommended;
   if (!primary && !fewest) return { primary: null, fewest: null, text: 'No lever on this list fits without a variance. Ask for the variance, or ask the City.' };
   const describe = (o: UnlockOption) => {

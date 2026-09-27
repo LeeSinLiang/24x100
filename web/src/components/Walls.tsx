@@ -1,6 +1,7 @@
 // The rules panel: the engine's ledger, the specific relief, the approvals it would need, and the
 // unlock search. (The money panel is in Panels.tsx; it is checked first.)
 import { useState } from 'react';
+import { BOTH_SIDES_Q, needsUseVariance } from '@engine/evaluate';
 import { APPROVAL_LABEL } from '@engine/templates';
 import { varianceWords } from '@engine/verdict';
 import type { BlockFile, Check, LotResult, RuleSet } from '@engine/types';
@@ -83,8 +84,12 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     : '';
   const wc = result.checks.find((c) => c.id === 'width')!;
   const sideRelief = result.relief.some((x) => x.check === 'width');
-  const verdict = wc.status === 'open'
-    ? `Depends on an open question. If the narrow-lot rule doesn't cover attached houses: ${result.relief.map((r) => r.text).join('; ')}; a variance would be a possible route, not approval. If it does, the end units fit.${owners}`
+  const useCheck = result.checks.find((c) => c.id === 'use');
+  const useNote = needsUseVariance(result) ? ` But ${useCheck?.text.replace(/\.$/, '') ?? 'the use isn’t permitted'}.` : '';
+  const verdict = wc.status === 'open' && wc.alternative?.question_id === BOTH_SIDES_Q
+    ? `Depends on an open question. With 3 ft side yards on both sides the widest is ${wc.available} ft; if §925.06.C.1 rules that out here, ${wc.alternative.available} ft (${wc.alternative.formula}, our reading), under your ${wc.required} ft proposal. Ask the Zoning Administrator.${useNote}${owners}`
+    : wc.status === 'open'
+    ? `Depends on an open question. If the narrow-lot rule doesn't cover attached houses: ${result.relief.map((r) => r.text).join('; ')}; a variance would be a possible route, not approval. If it does, the end units fit.${useNote}${owners}`
     : wc.trust === 'red'
       ? `Fits only under your assumption; the City hasn't confirmed it.${owners}`
       : result.relief.length
@@ -93,7 +98,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
       ? `Blocks it: see the failing lines.${owners}`
       : result.checks.find((c) => c.id === 'width')!.status === 'open'
         ? `Depends on an open question.${owners}`
-        : `Fits the dimensional rules as of right.${owners}`;
+        : `Fits the dimensional rules as of right.${useNote}${owners}`;
   return (
     <section className="wall rules-wall" aria-labelledby="rules-wall-h">
       <header className="wall-head">

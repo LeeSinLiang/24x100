@@ -2,11 +2,11 @@
 // Four kinds of thing stay separate (spec §0.5.3): geometry (the envelope allowed as of right), the
 // proposal (red), regulation (does the proposal fit; what specific relief if not) and procedure
 // (the approvals that relief implies).
-import { labelEdges, type Neighbor } from './edges';
+import { contiguousGroups, labelEdges, type Neighbor } from './edges';
 import { MINUS, ft1, ftInt, int, listAnd as listAndWords, minusFormula, pct } from './format';
 import { area, centroid, dropCollinear, envelope, extent, openRing, sub, unionRings, unit } from './geom';
 import { getQuestion, pick, ruleTrust, weakest } from './rules';
-import { APPROVAL_LABEL, TEMPLATES } from './templates';
+import { APPROVAL_LABEL, DEFAULT_SETTINGS, TEMPLATES } from './templates';
 import type {
   Approval,
   ApprovalKind,
@@ -30,6 +30,8 @@ import type {
 } from './types';
 
 export const NARROW_Q = 'q.single_unit_includes_attached';
+/** §925.06.C.1: the narrow-lot table's 3 ft on BOTH sides only if the adjacent properties' setbacks are 3 ft or less. */
+export const BOTH_SIDES_Q = 'q.narrow_both_sides_3ft';
 
 export const NOT_ASSESSED = [
   'Water and sewer capacity (no public parcel-level data)',
@@ -128,6 +130,11 @@ interface Built {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** True when the use table (on any reading, ink or pencil) says this building type is not permitted. */
+export function needsUseVariance(r: LotResult): boolean {
+  return r.state === 'ok' && [...r.approvals.ink, ...r.approvals.pencil].some((a) => a.kind === 'use_variance');
+}
+
 export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
   const { block, rs, settings } = ctx;
   const tpl = TEMPLATES[scenario.type];
@@ -163,10 +170,30 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     trust: 'ink',
   });
 
+  if (scenario.unknown_lots?.length) {
+    const u = scenario.unknown_lots;
+    return refuse('missing_input', `${u.length === 1 ? `Lot ${u[0]} isn't` : `Lots ${u.join(' and ')} aren't`} on Block ${block.meta.id}; nothing was combined.`, { unknown: u.join(', ') });
+  }
   if (parcels.some((p) => !p)) return refuse('missing_input', 'A lot in this scenario is not in the block file.');
   const ps = parcels as Parcel[];
   const zones = [...new Set(ps.map((p) => p.zone))];
-  if (zones.length > 1) return refuse('missing_input', `These lots are in different districts (${zones.join(', ')}).`);
+  const lotName = (p: Parcel) => `${p.lot ?? p.pin}${p.lot_suffix ?? ''}`;
+  if (zones.length > 1)
+    return refuse('mixed_districts', `These lots are in different zoning districts (${ps.map((p) => `lot ${lotName(p)}: ${p.zone ?? 'none recorded'}`).join(', ')}); they can't form one zoning lot under one set of rules.`);
+  if (ps.length > 1) {
+    // Only lots that share lot lines can be one zoning lot. The selected lot is scenario.pins[0].
+    const groups = contiguousGroups(ps.map((p) => openRing(p.poly[0])));
+    if (groups.length > 1) {
+      const selIdx = Math.max(0, ps.findIndex((p) => p.pin === scenario.pins[0]));
+      const mine = groups.find((g) => g.includes(selIdx))!;
+      const apart = ps.filter((_, i) => !mine.includes(i)).map(lotName);
+      const with_ = ps.filter((_, i) => mine.includes(i)).map(lotName);
+      return refuse(
+        'not_adjacent',
+        `${apart.length === 1 ? `Lot ${apart[0]} doesn't` : `Lots ${apart.join(' and ')} don't`} touch ${with_.length === 1 ? `lot ${with_[0]}` : `lots ${with_.join(', ')}`}; lots that don't share a lot line can't form one zoning lot.`,
+      );
+    }
+  }
   if (!ps[0].zone) return refuse('missing_input', 'No zoning district is recorded for this lot.');
   if (ps[0].zone !== rs.district) return refuse('missing_rule', `Rules not loaded for ${ps[0].zone}.`);
 
@@ -178,7 +205,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       const ratio = p.mapped_area / assessed;
       return refuse(
         'records_disagree',
-        `Records disagree. County assessment says ${int(assessed)} sf; the City map measures ${int(p.mapped_area)} sf (${ratio.toFixed(2)}×). Tolerance is ±${pct(settings.recon_tolerance)} (your setting).`,
+        `Records disagree. County assessment says ${int(assessed)} sf; the City map measures ${int(p.mapped_area)} sf (${ratio.toFixed(2)}×). Tolerance is ±${pct(settings.recon_tolerance)}${settings.recon_tolerance === DEFAULT_SETTINGS.recon_tolerance ? ' (the default; change it with &tol= in the link)' : ' (set in the link)'}.`,
         { pin: p.pin, addr: p.addr, assessed, mapped: Math.round(p.mapped_area), ratio: Math.round(ratio * 100) / 100 },
       );
     }
@@ -213,6 +240,10 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     lotOfRecord: pick(rs, 'lot_of_record'),
   };
   const narrowQ = getQuestion(rs, NARROW_Q);
+  const bothQ = getQuestion(rs, BOTH_SIDES_Q);
+  // Set by the main build when §925.06.C.1 bears on the width: the table's 3 ft on both interior sides.
+  type BothSides = { status: 'open' | 'assumed_yes' | 'assumed_no' | 'confirmed_yes' | 'confirmed_no'; lotFront: number; district: number };
+  let bothSides = null as BothSides | null;
   const notes: string[] = [];
   const questions: OpenQuestion[] = [];
 
@@ -279,7 +310,7 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
             note = [note, `Contextual setback may apply: ${built.map((n) => n.addr).join(', ')} is built, but its actual setback hasn't been surveyed (§925.06, pencil).`]
               .filter(Boolean)
               .join(' ');
-          } else if (vacant.length) {
+          } else if (vacant.length && ids.length && ids[0] === R.sideInt?.id) {
             note = [note, `${vacant.map((n) => (n.lot != null ? `Lot ${n.lot}` : n.addr)).join(', ')} vacant: the district setback applies (§925.06).`]
               .filter(Boolean)
               .join(' ');
@@ -295,6 +326,33 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       return { ...s, kind, setback, setback_rule_ids: ids, setback_trust: trust, setback_note: note };
     });
     if (sides.some((s) => s.setback == null)) return { error: `Rules not loaded for ${rs.district}: exterior side setback.` };
+    // §925.06.C.1: "The applicant may reduce the side setback to three (3) feet on both sides only if adjacent
+    // properties have setbacks of three (3) feet or less on the sides abutting the applicant's property."
+    // Nobody has surveyed the neighbours, and a vacant lot has no setback to compare, so 3 ft on both sides is
+    // an open question for the Zoning Administrator. Our reading of "no": one side keeps 3 ft and the other
+    // takes the district setback (a reading, labelled as such).
+    if (tpl.single_unit && role !== 'row_unit' && bothQ && R.narrow) {
+      const tableSides = sides.filter((x) => x.kind === 'side_interior' && x.setback === 3 && x.setback_rule_ids[0] === R.narrow!.id);
+      if (tableSides.length >= 2) {
+        const st = bothQ.status;
+        const ch = bothQ.choice;
+        const district = num(R.sideInt) ?? 0;
+        const key = st === 'city_confirmed' ? (ch === 'no' ? 'confirmed_no' : 'confirmed_yes') : st === 'assumed' ? (ch === 'no' ? 'assumed_no' : 'assumed_yes') : 'open';
+        bothSides = { status: key, lotFront: lotWidthForNarrow, district };
+        const c1 = `3 ft on both sides only if the neighbours' setbacks are 3 ft or less (§925.06.C.1)`;
+        if (key === 'confirmed_no' || key === 'assumed_no') {
+          const x = tableSides[1];
+          x.setback = district;
+          x.setback_rule_ids = R.sideInt ? [R.sideInt.id] : [];
+          x.setback_trust = key === 'assumed_no' ? 'red' : ruleTrust(R.sideInt);
+          x.setback_note = `${key === 'assumed_no' ? 'Your assumption' : 'City-confirmed'}: ${c1} doesn't allow it here, so this side takes the district setback, ${district} ft (our reading of what applies instead).`;
+        } else if (key === 'assumed_yes') {
+          for (const x of tableSides) (x.setback_trust = 'red'), (x.setback_note = `Your assumption: the narrow-lot table's 3 ft applies on both sides; ${c1}. Not confirmed by the City.`);
+        } else if (key === 'open') {
+          for (const x of tableSides) (x.setback_trust = weakest(x.setback_trust, 'pencil')), (x.setback_note = `Narrow-lot side yard for a single-unit house on a lot under 60 ft (§925.06.C): 3 ft, but ${c1}: open question for the Zoning Administrator.`);
+        }
+      }
+    }
 
     const per: number[] = new Array(lab.ring.length).fill(0);
     for (const s of sides) for (const i of s.edge_idx) per[i] = s.setback ?? 0;
@@ -437,6 +495,22 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
           relief.push({ check: 'width', text: `end-unit side setback ${fmtFt(s.setback)} → ${fmtFt(to)} ft`, from: s.setback, to, section: sectionOf(rs, s.setback_rule_ids), approval: 'variance' });
         }
       }
+    } else if (bothSides && (bothSides.status === 'open' || bothSides.status === 'assumed_yes')) {
+      // §925.06.C.1 open: 3 ft on both sides (the table), or 3 ft + the district setback (our reading of "no").
+      const altW = Math.max(0, bothSides.lotFront - 3 - bothSides.district);
+      alternative = { available: altW, formula: `${fmtFt(bothSides.lotFront)} ${MINUS} 3 ${MINUS} ${fmtFt(bothSides.district)} = ${fmtFt(altW)}`, question_id: BOTH_SIDES_Q, choice: 'no', trust: 'pencil' };
+      const both = `${fmtFt(avail)} ft with the narrow-lot table's 3 ft on both sides${bothSides.status === 'assumed_yes' ? ' (your assumption)' : ''}, or ${fmtFt(altW)} ft if §925.06.C.1 limits that to lots whose neighbours are set back 3 ft or less (open question)`;
+      if (!ok) {
+        text = `The widest ${tpl.name.toLowerCase()} here is ${both}. Your ${fmtFt(req)} ft proposal doesn't fit either way.`;
+        approvals.push({ kind: 'variance', trust: 'pencil', why: 'width' });
+      } else if (altW >= req) {
+        text = `The widest ${tpl.name.toLowerCase()} here is ${both}. Your ${fmtFt(req)} ft proposal fits either way.`;
+      } else {
+        status = 'open';
+        text = `The widest ${tpl.name.toLowerCase()} here is ${both}. Your ${fmtFt(req)} ft proposal fits only on the first reading.`;
+        approvals.push({ kind: 'variance', trust: 'pencil', why: `width ${fmtFt(altW)} ft if §925.06.C.1 limits the 3 ft side yards` });
+      }
+      if (bothSides.status === 'assumed_yes') trust = 'red';
     } else if (ok) {
       text = `As of right, the widest ${tpl.name.toLowerCase()} here is ${fmtFt(avail)} ft; your ${fmtFt(req)} ft proposal fits.`;
     } else {
@@ -561,13 +635,22 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       text = `${tpl.name}: use rule not loaded (§911.02). If it isn't permitted by right, it would need a variance or special exception.`;
       approvals.push({ kind: 'variance', trust: 'pencil', why: 'use not confirmed' });
     } else if (t !== 'ink') {
+      // Open until a person signs the reading, but a "not permitted" reading still drives what we suggest.
       status = 'open';
-      text = `${tpl.name}: ${useWords(v)} in ${rs.district}, per an unreviewed reading of §${r.section}.`;
-      approvals.push({ kind: 'variance', trust: 'pencil', why: 'use not confirmed' });
+      text = `${tpl.name}: ${useWords(v)} in ${rs.district}, per an unreviewed reading of §${r.section}.${v === 'N' ? ' It would need a use variance from the Zoning Board of Adjustment.' : v === 'S' ? ' It would need a special exception.' : ''}`;
+      approvals.push(
+        v === 'N'
+          ? { kind: 'use_variance', trust: 'pencil', why: 'an unreviewed reading says the use is not permitted' }
+          : v === 'S'
+            ? { kind: 'special_exception', trust: 'pencil', why: 'an unreviewed reading says the use needs a special exception' }
+            : { kind: 'variance', trust: 'pencil', why: 'use not confirmed' },
+      );
     } else {
       status = v === 'P' ? 'pass' : 'fail';
-      text = `${tpl.name}: ${useWords(v)} in ${rs.district} (§${r.section}).`;
-      if (v !== 'P') approvals.push({ kind: 'variance', trust: 'ink', why: `use is ${useWords(v)}` });
+      text = `${tpl.name}: ${useWords(v)} in ${rs.district} (§${r.section}).${v === 'N' ? ' It would need a use variance from the Zoning Board of Adjustment.' : ''}`;
+      if (v === 'N') approvals.push({ kind: 'use_variance', trust: 'ink', why: 'the use is not permitted' });
+      else if (v === 'S') approvals.push({ kind: 'special_exception', trust: 'ink', why: 'the use needs a special exception' });
+      else if (v !== 'P') approvals.push({ kind: 'variance', trust: 'ink', why: `use is ${useWords(v)}` });
     }
     checks.push({ id: 'use', label: 'Use', required: null, available: null, shortfall: null, unit: '', status, trust: status === 'open' ? 'pencil' : t, text, rule_ids: r ? [r.id] : [], record_ids: [], approvals });
   }
@@ -636,9 +719,15 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
         parts.push(`${label}: not in the City's inventory; County owner type ${titleCase(p.assess?.ownercat ?? 'unknown')}.`);
       }
     }
+    // Two or more lots as one building site: a lot consolidation (pencil: the process isn't in our saved code
+    // text). Not for rowhouses: under §911 each single-unit attached house sits on its own lot.
+    if (ps.length > 1 && scenario.type !== 'row') {
+      approvals.push({ kind: 'lot_consolidation', trust: 'pencil', why: `combining ${listAndWords(ps.map((p) => (p.lot != null ? `lot ${p.lot}${p.lot_suffix ?? ''}` : p.addr)))} into one zoning lot` });
+      parts.push("Combining them into one zoning lot needs a lot consolidation (the City's process; the section isn't in our saved code text).");
+    }
     const stale = ps.filter((p) => p.city?.status_updated && p.city.status_updated < '2024-01-01');
     if (stale.length)
-      questions.push({ id: 'q.city_status_current', text: `The City's inventory last updated the sale status of ${listAndWords(stale.map((p) => p.addr))} on ${stale[0].city!.status_updated}. Is it still current?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
+      questions.push({ id: 'q.city_status_current', text: `The City's inventory last updated the sale status of ${listAndWords(stale.map((p) => p.addr))} on ${stale[0].city!.status_updated}. ${stale.length > 1 ? 'Are they' : 'Is it'} still current?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
     checks.push({ id: 'ownership', label: 'Ownership', required: null, available: null, shortfall: null, unit: '', status: 'info', trust: 'ink', text: parts.join(' '), rule_ids: [], record_ids: ps.map((p) => recordId(p.pin, 'city')), approvals });
   }
 
@@ -649,8 +738,10 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     const vacant = flank.flatMap((s) => s.neighbors.filter((n) => !n.built && !groupSet.has(n.pin)));
     if (R.ctxSide && flank.length) {
       const text = built.length
-        ? `Contextual side setback may apply next to ${built.map((n) => n.addr).join(', ')} (built). Its actual setback hasn't been surveyed, so this stays pencil (§${R.ctxSide.section}).`
-        : `${vacant.length > 1 ? 'Both neighbors are' : 'The neighbor is'} vacant, so the contextual setback can't apply; the district setback stands (§${R.ctxSide.section}).`;
+        ? `Contextual side setback may apply next to ${built.map((n) => n.addr).join(', ')} (built). ${built.length > 1 ? "Their actual setbacks haven't" : "Its actual setback hasn't"} been surveyed, so this stays pencil (§${R.ctxSide.section}).`
+        : flank.some((x) => x.setback_rule_ids[0] === R.narrow?.id)
+          ? `${vacant.length > 1 ? 'Both neighbors are' : 'The neighbor is'} vacant, so the contextual setback can't apply; the narrow-lot table sets the side yards (§925.06.C)${bothSides && !bothSides.status.startsWith('confirmed') ? ', and 3 ft on both sides is an open question (§925.06.C.1)' : ''}.`
+          : `${vacant.length > 1 ? 'Both neighbors are' : 'The neighbor is'} vacant, so the contextual setback can't apply; the district setback stands (§${R.ctxSide.section}).`;
       checks.push({ id: 'contextual', label: 'Contextual setback', required: null, available: null, shortfall: null, unit: '', status: 'info', trust: built.length ? 'pencil' : ruleTrust(R.ctxSide), text, rule_ids: [R.ctxSide.id], record_ids: [...built, ...vacant].map((n) => recordId(n.pin, 'built')), approvals: [] });
     }
   }
@@ -659,6 +750,8 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
   if (scenario.type === 'row' && narrowQ && narrowQ.status !== 'city_confirmed') {
     questions.push({ id: NARROW_Q, text: narrowQ.question.question, ask: narrowQ.question.ask, section: narrowQ.question.section, trust: narrowQ.status === 'assumed' ? 'red' : 'pencil' });
   }
+  if (bothQ && bothSides && bothSides.status !== 'confirmed_yes' && bothSides.status !== 'confirmed_no')
+    questions.push({ id: BOTH_SIDES_Q, text: bothQ.question.question, ask: bothQ.question.ask, section: bothQ.question.section, trust: bothSides.status.startsWith('assumed') ? 'red' : 'pencil' });
   // A rule's question for the City stays open after a person source-checks the rule's value: signing says
   // the value matches the text; only the City settles what a conditional or ambiguous clause means.
   for (const r of [R.use, R.parking, R.grading, R.front, R.rear, R.sideInt, R.sideExt, R.height]) {

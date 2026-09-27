@@ -1,8 +1,8 @@
 // Unlock search over a FIXED list of levers (spec §8). It re-runs the engine for every candidate and
 // ranks them: fewest discretionary approvals, then ownership difficulty, then smallest change. The
 // answer is "the smallest change within these levers", never a global optimum.
-import { labelEdges } from './edges';
-import { evaluate, orderAlongStreet, parcelByPin, type EvalContext, NARROW_Q } from './evaluate';
+import { labelEdges, sameStreet } from './edges';
+import { BOTH_SIDES_Q, evaluate, needsUseVariance, orderAlongStreet, parcelByPin, type EvalContext, NARROW_Q } from './evaluate';
 import { openRing } from './geom';
 import { DISCRETIONARY, TEMPLATES, proposalFor } from './templates';
 import type { LotResult, QuestionState, Scenario, TemplateId } from './types';
@@ -22,6 +22,7 @@ export interface UnlockOption {
   discretionary: number; // distinct discretionary approvals certainly needed
   discretionary_possible: number; // ... plus those that open questions could add
   ownership_rank: number; // 0 City lots for sale · 1 a City lot not listed for sale · 2 another owner
+  needs_use: boolean; // the use table (any reading) says not permitted: a use variance; ranked last, never recommended
   change_size: number;
   rank: number;
 }
@@ -35,12 +36,22 @@ export function adjacentLots(ctx: EvalContext, pin: string): string[] {
     .map((q) => ({ pin: q.pin, ring: openRing(q.poly[0]), built: q.built, addr: q.addr, lot: q.lot }));
   const lab = labelEdges(openRing(p.poly[0]), others, ctx.block.streets, p.addr_street ?? ctx.block.meta.main_street);
   if (!lab.ok) return [];
+  // A partner must front the same street as this lot (the same block face): a lot behind it on another
+  // street (28A on Humber Way) or around the corner (a Winslow St lot) isn't part of this frontage.
+  const front = lab.sides.find((s) => s.kind === 'front')?.street ?? p.addr_street ?? ctx.block.meta.main_street;
+  const frontsOn = (q: string): boolean => {
+    const qp = parcelByPin(ctx.block, q);
+    if (!qp) return false;
+    const rest = ctx.block.parcels.filter((x) => x.pin !== q).map((x) => ({ pin: x.pin, ring: openRing(x.poly[0]), built: x.built, addr: x.addr, lot: x.lot }));
+    const ql = labelEdges(openRing(qp.poly[0]), rest, ctx.block.streets, front);
+    return ql.ok && ql.sides.some((s) => s.kind === 'front' && sameStreet(s.street, front));
+  };
   return [
     ...new Set(
       lab.sides
         .filter((s) => s.kind === 'side_interior')
         .flatMap((s) => s.neighbors.map((n) => n.pin))
-        .filter((q) => parcelByPin(ctx.block, q)?.zone === p.zone),
+        .filter((q) => parcelByPin(ctx.block, q)?.zone === p.zone && frontsOn(q)),
     ),
   ];
 }
@@ -74,7 +85,10 @@ function ownershipRank(ctx: EvalContext, pins: string[]): number {
 }
 
 function lotLabel(ctx: EvalContext, pins: string[]): string {
-  const lots = pins.map((pin) => parcelByPin(ctx.block, pin)!.lot).filter((x): x is number => x != null);
+  const ps = pins.map((pin) => parcelByPin(ctx.block, pin)!);
+  // A lettered lot (28A) never joins a numeric range: "lots 27, 28A, 29", not "lots 27–29".
+  if (ps.some((p) => p.lot_suffix)) return `lots ${ps.map((p) => `${p.lot ?? p.pin}${p.lot_suffix ?? ''}`).join(', ')}`;
+  const lots = ps.map((p) => p.lot).filter((x): x is number => x != null);
   if (lots.length === pins.length && lots.length > 1) {
     const sorted = [...lots].sort((a, b) => a - b);
     const contiguous = sorted.every((v, i) => i === 0 || v === sorted[i - 1] + 1);
@@ -87,9 +101,9 @@ function homesOf(r: LotResult): number {
   return r.scenario.type === 'row' ? r.units.length : r.scenario.proposal.units;
 }
 
-function withQuestion(ctx: EvalContext, choice: 'yes' | 'no'): EvalContext {
+function withQuestion(ctx: EvalContext, choice: 'yes' | 'no', qid: string = NARROW_Q): EvalContext {
   const questions: QuestionState[] = ctx.rs.questions.map((q) =>
-    q.question.id === NARROW_Q
+    q.question.id === qid
       ? { ...q, status: 'city_confirmed', choice, by: 'hypothetical', role: 'hypothetical', at: null, reference: { text: 'hypothetical outcome', date: '', who: '' } }
       : q,
   );
@@ -99,7 +113,7 @@ function withQuestion(ctx: EvalContext, choice: 'yes' | 'no'): EvalContext {
 export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotResult; options: UnlockOption[]; recommended: UnlockOption | null } {
   const baseline = evaluate(ctx, base);
   const pin = base.pins[0];
-  const opts: Omit<UnlockOption, 'rank' | 'discretionary' | 'discretionary_possible' | 'fits' | 'homes' | 'ownership_rank'>[] = [];
+  const opts: Omit<UnlockOption, 'rank' | 'discretionary' | 'discretionary_possible' | 'fits' | 'homes' | 'ownership_rank' | 'needs_use'>[] = [];
   const mk = (type: TemplateId, pins: string[], extra: Partial<Scenario> = {}): Scenario => ({
     type,
     pins,
@@ -112,7 +126,23 @@ export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotR
     for (const t of ['detached', 'two'] as TemplateId[]) {
       if (t === base.type) continue;
       const s = mk(t, [pin]);
-      opts.push({ id: `type:${t}`, lever: 'type', label: `${TEMPLATES[t].name} on ${lotLabel(ctx, [pin])} alone`, scenario: s, result: evaluate(ctx, s), hypothetical: null, pending: false, change_size: 1 });
+      const r = evaluate(ctx, s);
+      opts.push({ id: `type:${t}`, lever: 'type', label: `${TEMPLATES[t].name} on ${lotLabel(ctx, [pin])} alone`, scenario: s, result: r, hypothetical: null, pending: false, change_size: 1 });
+      // Lever 3 for §925.06.C.1 (3 ft on both sides): show both outcomes, labelled as hypothetical.
+      if (r.questions.some((q) => q.id === BOTH_SIDES_Q)) {
+        for (const choice of ['yes', 'no'] as const) {
+          opts.push({
+            id: `interp:${BOTH_SIDES_Q}:${choice}:${t}:${pin}`,
+            lever: 'interpretation',
+            label: `${TEMPLATES[t].name} on ${lotLabel(ctx, [pin])} alone, if the City says ${choice === 'yes' ? '3 ft side yards on both sides apply here' : '§925.06.C.1 rules out 3 ft on both sides here'}`,
+            scenario: s,
+            result: evaluate(withQuestion(ctx, choice, BOTH_SIDES_Q), s),
+            hypothetical: `if the Zoning Administrator answers ${choice}`,
+            pending: false,
+            change_size: 2,
+          });
+        }
+      }
     }
   }
   // Lever 2: combine with 1–2 adjacent lots.
@@ -155,10 +185,20 @@ export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotR
     const disc = refused ? 99 : r.approvals.ink.filter((a) => DISCRETIONARY.includes(a.kind)).length;
     const discP = refused ? 99 : disc + r.approvals.pencil.filter((a) => DISCRETIONARY.includes(a.kind)).length;
     const fits = !refused && ['width', 'depth', 'area', 'height'].every((id) => r.checks.find((c) => c.id === id)?.status === 'pass');
-    return { ...o, homes: homesOf(r), fits, discretionary: o.lever === 'variance' ? Math.max(1, disc) : disc, discretionary_possible: discP, ownership_rank: ownershipRank(ctx, o.scenario.pins) };
+    const needs_use = needsUseVariance(r);
+    const needsSE = r.state === 'ok' && [...r.approvals.ink, ...r.approvals.pencil].some((a) => a.kind === 'special_exception');
+    const label = needs_use
+      ? o.lever === 'variance'
+        ? `${o.label}; the use also needs a use variance (Zoning Board of Adjustment)`
+        : `${o.label} (needs a use variance from the Zoning Board of Adjustment)`
+      : needsSE
+        ? `${o.label} (needs a special exception${r.approvals.ink.some((a) => a.kind === 'special_exception') ? '' : ', on an unreviewed reading'})`
+        : o.label;
+    return { ...o, label, needs_use, homes: homesOf(r), fits, discretionary: o.lever === 'variance' ? Math.max(1, disc) : disc, discretionary_possible: discP, ownership_rank: ownershipRank(ctx, o.scenario.pins) };
   });
   scored.sort(
     (a, b) =>
+      (a.needs_use ? 1 : 0) - (b.needs_use ? 1 : 0) ||
       a.discretionary - b.discretionary ||
       (a.fits ? 0 : 1) - (b.fits ? 0 : 1) ||
       a.ownership_rank - b.ownership_rank ||
@@ -167,11 +207,18 @@ export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotR
       b.homes - a.homes ||
       a.id.localeCompare(b.id),
   );
-  const options = scored.map((o, i) => ({ ...o, rank: i + 1 }));
+  // One row per (building type, lot set, hypothesis): keep the best-ranked.
+  const seenOpt = new Set<string>();
+  const options = scored
+    .filter((o) => {
+      const k = `${o.scenario.type}|${[...o.scenario.pins].sort().join('+')}|${o.lever === 'variance' ? 'variance' : ''}|${o.hypothetical ?? ''}|${o.pending ? 'pending' : ''}`;
+      return seenOpt.has(k) ? false : (seenOpt.add(k), true);
+    })
+    .map((o, i) => ({ ...o, rank: i + 1 }));
   const baseHomes = homesOf(baseline);
   // Headline recommendation: the best-ranked option that fits, needs no certain discretionary approval,
   // isn't hypothetical or pending, and keeps at least the proposal's number of homes.
   const recommended =
-    options.find((o) => o.fits && o.discretionary === 0 && !o.hypothetical && !o.pending && o.homes >= baseHomes && o.result.trust !== 'red') ?? null;
+    options.find((o) => o.fits && !o.needs_use && o.discretionary === 0 && !o.hypothetical && !o.pending && o.homes >= baseHomes && o.result.trust !== 'red') ?? null;
   return { baseline, options, recommended };
 }

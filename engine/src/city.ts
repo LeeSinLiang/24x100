@@ -1,7 +1,8 @@
 // Citywide first-blocker classification (spec §0.6). The same deed arithmetic as evaluate(), on a
 // compact per-lot input whose edge labels were computed by labelEdges() at build time.
 import { labelEdges, type Neighbor } from './edges';
-import { pick, ruleTrust } from './rules';
+import { BOTH_SIDES_Q } from './evaluate';
+import { getQuestion, pick, ruleTrust } from './rules';
 import { TEMPLATES } from './templates';
 import type { NarrowRow, Proposal, Ring, RuleSet, Settings, Street, TemplateId, Trust } from './types';
 
@@ -177,12 +178,19 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
       context = { ...context, minimum, best: Math.max(0, r1(best)), formula: formulaOf(front, relaxed, best), matters: widthFails && best >= proposal.width };
     } else context = { ...context, matters: widthFails };
   }
-  const widthTrust: Trust = context.matters ? 'pencil' : recordTrust;
+  // §925.06.C.1, the same open question the lot engine raises: the narrow-lot table's 3 ft on both interior
+  // sides applies only if the neighbours' setbacks are 3 ft or less. Open → the width is pencil.
+  const bothQ = getQuestion(rs, BOTH_SIDES_Q);
+  const bothOpen =
+    !!nrow && nrow.interior === 3 && lot.flank.filter((k) => k !== 'exterior').length >= 2 && !!bothQ && bothQ.status !== 'city_confirmed';
+  const widthTrust: Trust = context.matters || bothOpen ? 'pencil' : recordTrust;
   const widthNote = context.matters
     ? 'a built neighbor may allow a contextual side setback; it depends on that building’s actual setback'
-    : lot.deed
-      ? null
-      : 'no deed dimensions: mapped frontage (pencil)';
+    : bothOpen
+      ? '3 ft on both sides only if the neighbours are set back 3 ft or less (§925.06.C.1): open question'
+      : lot.deed
+        ? null
+        : 'no deed dimensions: mapped frontage (pencil)';
   return {
     blocker: all[0],
     all,

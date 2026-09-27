@@ -43,10 +43,54 @@ describe('lot 25 · 2241 Mahon St (deed 24 × 100)', () => {
     expect(r.width!.trust).toBe('ink');
   });
 
-  it('detached house: narrow-lot side yards give 24 − 3 − 3 = 18 ft and it passes', () => {
+  it('detached house: the narrow-lot table gives 24 − 3 − 3 = 18 ft, but §925.06.C.1 keeps it open (11 ft on our reading of "no")', () => {
     const r = evaluate(ctx, scen(b, 'detached', [25]));
     expect(width(r)).toBe(18);
-    expect(r.checks.find((c) => c.id === 'width')!.status).toBe('pass');
+    const w = r.checks.find((c) => c.id === 'width')!;
+    // Both neighbours are vacant: 3 ft on both sides is allowed only if they're set back 3 ft or less.
+    expect(w.status).toBe('open');
+    expect(w.trust).toBe('pencil');
+    expect(w.alternative).toMatchObject({ available: 11, question_id: 'q.narrow_both_sides_3ft', choice: 'no', formula: '24 − 3 − 10 = 11' });
+    expect(r.questions.map((q) => q.id)).toContain('q.narrow_both_sides_3ft');
+    expect(r.sides.filter((s) => s.kind === 'side_interior').map((s) => s.setback_trust)).toEqual(['pencil', 'pencil']);
+    expect(w.text).not.toMatch(/district setback stands/);
+  });
+
+  it('§925.06.C.1: a City "yes" inks 18 ft; an assumed "no" puts the district setback on one side (red, 11 ft)', () => {
+    const at = (status: 'city_confirmed' | 'assumed', choice: 'yes' | 'no') =>
+      evaluate(
+        ctxFor(b, {
+          audit: [
+            {
+              id: 't1',
+              rule_id: null,
+              question_id: 'q.narrow_both_sides_3ft',
+              at: '2026-09-26T00:00:00Z',
+              reviewer: 'Test fixture',
+              role: 'test',
+              action: status,
+              quote: '',
+              decision: '',
+              reason: 'test fixture',
+              choice,
+              reference: status === 'city_confirmed' ? { who: 'ZA', text: 'Letter: test fixture', date: '2026-09-26' } : null,
+            },
+          ],
+        }),
+        scen(b, 'detached', [25]),
+      );
+    const yes = at('city_confirmed', 'yes');
+    expect(width(yes)).toBe(18);
+    expect(yes.checks.find((c) => c.id === 'width')!.status).toBe('pass');
+    expect(yes.questions.map((q) => q.id)).not.toContain('q.narrow_both_sides_3ft');
+    const no = at('assumed', 'no');
+    expect(width(no)).toBe(11);
+    expect(no.width!.trust).toBe('red');
+  });
+
+  it('rowhouse end units are not touched by §925.06.C.1 (a party wall on one side)', () => {
+    const r = evaluate(ctx, scen(b, 'row', [25, 26, 27]));
+    expect(r.questions.map((q) => q.id)).not.toContain('q.narrow_both_sides_3ft');
   });
 
   it('three-unit on lots 25–27: 72 − 10 − 10 = 52 ft, passes; lot 26 is not City-owned', () => {
