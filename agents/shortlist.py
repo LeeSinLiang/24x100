@@ -10,8 +10,8 @@ layers, per lot). 311 is checked for the shortlisted lots only, by street: it do
 the sweep is a fixed plan and deterministic; it costs nothing but the requests.
 
 The shortlist (DEFINITION, kept in the output): the engine's reading, not a model's. City-owned vacant lots in the
-districts a person has signed where a two-unit house fits today, listed for sale or not, with nothing found against
-them in the four risk checks. Slope is shown, not excluded; steepest last.
+districts a person has signed where a two-unit house fits today, listed for sale or not, that passed the zoning and
+records checks (the four risk checks). Site conditions and money still need review. Slope is shown, not excluded; steepest last.
 """
 from __future__ import annotations
 
@@ -39,9 +39,10 @@ HISTORY_KEEP = 14
 DEFINITION = {
     "building": "two",
     "text": ("City-owned vacant lots in the districts a person has signed where a two-unit house fits today (the engine's "
-             "reading, listed for sale or not), with nothing found against them: no open code-enforcement case (any status "
-             "other than Closed or Clean & Lien), not on the condemned or dead-end list, no unsatisfied tax lien, and none of "
-             "the lot in the City's undermined-areas layer. Slope is shown, not excluded: steepest last."),
+             "reading, listed for sale or not) that passed the zoning and records checks: no open code-enforcement case (any "
+             "status other than Closed or Clean & Lien), not on the condemned or dead-end list, no unsatisfied tax lien, and no "
+             "overlap with the City's mapped undermined areas. Slope is shown, not excluded (steepest last). Site conditions, "
+             "water and sewer, and money still need review."),
     "risk_checks": ["violations (open)", "condemned", "liens (unsatisfied)", "undermining"],
     "shown": ["permits", "slope", "311 (shortlisted lots only)"],
 }
@@ -143,8 +144,8 @@ def checks_of(lot: dict[str, Any], s: dict[str, Any]) -> dict[str, dict[str, Any
         "condemned": {"status": "found" if s["condemned"] else "nothing", "fact": "on the list" if s["condemned"] else "not listed"},
         "liens": {"status": "found" if s["liens_open"] else "nothing", "open": s["liens_open"], "total": round(s["liens_total"], 2),
                   "fact": f"{s['liens_open']} unsatisfied · ${s['liens_total']:,.0f}" + (f" · {min(yrs)}–{max(yrs)}" if yrs else "") if s["liens_open"] else "none open"},
-        "undermining": {"status": "found" if und else "nothing", "percent": und, "fact": (f"{und}% undermined" if uf >= 0.005 else "<1% undermined") if und else "not undermined"},
-        "slope": {"status": "found" if slope else "nothing", "percent": slope, "fact": (f"{slope}% steep" if sf >= 0.005 else "<1% steep") if slope else "not steep"},
+        "undermining": {"status": "found" if und else "nothing", "percent": und, "fact": (f"{und}% overlaps mapped mines" if uf >= 0.005 else "<1% overlaps mapped mines") if und else "no overlap with mapped mines"},
+        "slope": {"status": "found" if slope else "nothing", "percent": slope, "fact": (f"{slope}% of lot mapped ≥25% slope" if sf >= 0.005 else "<1% of lot mapped ≥25% slope") if slope else "none mapped ≥25% slope"},
     }
 
 

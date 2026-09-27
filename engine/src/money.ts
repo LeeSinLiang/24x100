@@ -107,8 +107,17 @@ export function moneyFor(result: LotResult, m: MoneyInputs, quote: number | null
   const estimates = [est('A', 'cost_estimate_A', true, false), ...(a.cost_estimate_B ? [est('B', 'cost_estimate_B', false, false)] : []), est('prod', 'cost_estimate_prod', false, true)];
   const A = estimates[0];
   const [swLo, swHi] = range(a, 'site_work_single_unit');
-  // C11 verdict on an estimate: even its low end must leave the low site-work figure.
-  const verdictOf = (e: CostEstimate): MoneyResult['money_verdict'] => (!newBuild ? 'no_new_build' : e.left[0] < swLo ? 'only_with_subsidy' : e.left[1] >= swLo ? 'worth_pricing_site' : 'depends_on_builder');
+  const soft = val(a, 'soft_cost_pct');
+  const fin = val(a, 'financing_pct');
+  // The verdict on an estimate is its FULL cost against the sale (Codex review, 27 Sep): building × (1 + soft costs +
+  // financing) + site work − the sale, per home, before land. Subsidy even at the best case; covered even at the worst;
+  // otherwise the builder's price decides. ("Left after building" stays an intermediate, labelled so.)
+  const fullGap = (e: CostEstimate): [number, number] => [e.vertical[0] * (1 + soft + fin) + swLo - V, e.vertical[1] * (1 + soft + fin) + swHi - V];
+  const verdictOf = (e: CostEstimate): MoneyResult['money_verdict'] => {
+    if (!newBuild) return 'no_new_build';
+    const [g0, g1] = fullGap(e);
+    return g0 > 0 ? 'only_with_subsidy' : g1 <= 0 ? 'worth_pricing_site' : 'depends_on_builder';
+  };
   // The user's builder's quote: one figure, so it settles "depends on the builder" one way or the other.
   const q: CostEstimate | null = validQuote(quote)
     ? (() => {
@@ -129,8 +138,6 @@ export function moneyFor(result: LotResult, m: MoneyInputs, quote: number | null
     : null;
   const D = q ?? A; // the estimate that decides
   const money_verdict = verdictOf(D);
-  const soft = val(a, 'soft_cost_pct');
-  const fin = val(a, 'financing_pct');
   const wLo = D.vertical[0] * (1 + soft + fin);
   const wHi = D.vertical[1] * (1 + soft + fin);
   const median: ValueSignal = {

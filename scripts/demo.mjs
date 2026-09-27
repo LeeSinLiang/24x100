@@ -811,7 +811,7 @@ const V6 = [
       cues.B21 = {};
       await p.waitForSelector('[data-shortlist-count]', { timeout: 8000 });
       cues.B21.count_shown = at(c);
-      await mark(p, 'B21', 'shortlist_count', p.locator('[data-shortlist-count]').first(), c, "Tonight's shortlist: 42 City lots (a two-unit house fits today, nothing found against them)", { tight: true });
+      await mark(p, 'B21', 'shortlist_count', p.locator('[data-shortlist-count]').first(), c, "Tonight's shortlist: 42 City lots (a two-unit house fits today; passed the zoning and records checks)", { tight: true });
       await c.until(0.6);
       await hoverSlow(p, p.locator('[data-shortlist-count]'), { fx: 0.5, fy: 0.9, rest: 0.8 });
       await p.waitForSelector('[data-shortlist-map] canvas', { timeout: 15000 });

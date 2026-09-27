@@ -1,0 +1,128 @@
+/* Development Ease (components/workspace/Ease.tsx): a range on a ruled bar, and its parts. Colors only through tokens. */
+
+.ease {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid var(--ink);
+  padding: 3px 8px;
+  background: var(--sheet);
+  font-family: var(--f-map);
+  font-weight: 600;
+  color: var(--ink);
+  cursor: default;
+}
+button.ease {
+  cursor: pointer;
+}
+button.ease:focus-visible {
+  outline: var(--focus);
+}
+.ease-label {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.ease-track {
+  position: relative;
+  width: 110px;
+  height: 10px;
+  border: 1px solid var(--ink);
+  background: repeating-linear-gradient(90deg, transparent 0 10.9px, var(--rule) 10.9px 11px);
+}
+.ease-fill {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  background: var(--ink);
+}
+.ease-num {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.ease-of {
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.ease-cant {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.ease.is-cant {
+  border-style: dashed;
+  border-color: var(--graphite);
+}
+.ease.is-compact {
+  padding: 1px 6px;
+  gap: 6px;
+}
+.ease.is-compact .ease-track {
+  width: 70px;
+  height: 8px;
+}
+.ease.is-compact .ease-num {
+  font-size: 13px;
+}
+
+.ease-wall {
+  display: grid;
+  gap: 8px;
+}
+.ease-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--s-small);
+}
+.ease-table th,
+.ease-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--rule);
+}
+.ease-table thead th {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.ease-table tbody th {
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ease-table .num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.ease-src {
+  display: block;
+  margin-top: 2px;
+}
+.ease-part .ease-mark {
+  display: inline-block;
+  width: 1.2em;
+  text-align: center;
+  font-weight: 700;
+}
+.ease-part.is-blocks .ease-mark {
+  color: var(--red);
+}
+.ease-part.is-unknown {
+  color: var(--ink-2);
+}
+.ease-part.is-unknown .ease-mark {
+  color: var(--graphite);
+}
+.ease-formula {
+  font-family: var(--f-map);
+  letter-spacing: 0.03em;
+  margin: 0;
+}

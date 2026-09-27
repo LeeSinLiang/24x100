@@ -1,5 +1,5 @@
 // Tonight's shortlist (agents/shortlist.py, `npm run shortlist`): every City-owned vacant lot re-checked against the
-// public records, and the lots where a two-unit house fits today with nothing found against them. At a glance: the
+// public records, and the lots where a two-unit house fits today that passed the zoning and records checks. At a glance: the
 // funnel, the count, the map with the shortlisted lots lit, one row per lot with its checks. The definition travels
 // with the data and is printed here; nothing on this page is a model's word.
 import { useMemo, useState } from 'react';
@@ -7,6 +7,9 @@ import { CityMap, MAP_ASPECT } from '../components/city/CityMap';
 import { useBox } from '../components/workspace/Canvas';
 import { useCityModel } from '../lib/city';
 import { CASES } from './CaseView';
+import { easeForCity } from '@engine/ease';
+import { DEFAULT_SETTINGS } from '@engine/templates';
+import { EaseBar } from '../components/workspace/Ease';
 import type { ViewProps } from './types';
 import '../styles/shortlist.css';
 
@@ -62,8 +65,8 @@ const TILES: [string, string][] = [
   ['violations', 'Cases'],
   ['condemned', 'Condemned'],
   ['liens', 'Liens'],
-  ['undermining', 'Mines'],
-  ['slope', 'Slope'],
+  ['undermining', 'Mapped mines'],
+  ['slope', '≥25% slope'],
   ['311', '311'],
 ];
 const EXCL: Record<string, [string, string]> = { liens: ['has an unsatisfied tax lien', 'have unsatisfied tax liens'], undermining: ['is over old mines', 'are over old mines'], violations: ['has an open case', 'have open cases'], condemned: ['is condemned', 'are condemned'] };
@@ -77,6 +80,7 @@ export function ShortlistView({ s, audit }: ViewProps) {
   const lit = useMemo(() => cm.lots.map((l, i) => (pins.has(l.pin) ? i : -1)).filter((i) => i >= 0), [cm.lots, pins]);
   const sale = useMemo(() => new Set(L?.lots.filter((l) => l.for_sale).map((l) => l.pin) ?? []), [L]);
   const litSale = useMemo(() => lit.filter((i) => sale.has(cm.lots[i].pin)), [lit, sale, cm.lots]);
+  const idxOf = useMemo(() => new Map(cm.lots.map((l, i) => [l.pin, i])), [cm.lots]);
   if (!L) {
     return (
       <main className="sl-view" id="main">
@@ -100,7 +104,7 @@ export function ShortlistView({ s, audit }: ViewProps) {
           <span className="sl-count" data-shortlist-count>
             {n(c.shortlist)} City lots
           </span>{' '}
-          <span className="sl-sub">where a two-unit house fits today, and nothing was found against them</span>
+          <span className="sl-sub">where a two-unit house fits today and that passed the zoning and records checks</span>
         </h1>
         <p className="sl-split">
           <span className="sl-chip is-sale">{c.shortlist_for_sale} listed for sale</span>
@@ -117,7 +121,7 @@ export function ShortlistView({ s, audit }: ViewProps) {
           </span>
           <span aria-hidden="true">→</span>
           <span>
-            <strong>{n(c.shortlist)}</strong> with nothing against them
+            <strong>{n(c.shortlist)}</strong> passed the zoning and records checks
           </span>
           <span className="small muted">
             {' '}
@@ -163,6 +167,7 @@ export function ShortlistView({ s, audit }: ViewProps) {
                 <li key={l.pin} className="sl-row" data-shortlist-row={l.pin}>
                   <p className="sl-row-head">
                     <a href={cf ? `?view=case&pin=${l.pin}` : l.link}>{l.address}</a> <span className="small muted">· {l.hood} · {l.district}</span>
+                    {idxOf.has(l.pin) ? <EaseBar ease={easeForCity(cm.classes[idxOf.get(l.pin)!], cm.lots[idxOf.get(l.pin)!], DEFAULT_SETTINGS)} compact /> : null}
                     <span className={`sl-chip ${l.for_sale ? 'is-sale' : ''}`}>{l.for_sale ? 'for sale' : 'not listed'}</span>
                   </p>
                   <ul className="sl-checks">
@@ -173,7 +178,7 @@ export function ShortlistView({ s, audit }: ViewProps) {
                       return (
                         <li key={k} className={`sl-check ${ch.status === 'couldnt' ? 'is-couldnt' : bad ? 'is-found' : 'is-nothing'} ${k === 'slope' || k === '311' ? 'is-shown' : ''}`} title={ch.fact}>
                           <span className="sl-check-name">{name}</span>{' '}
-                          {ch.status === 'couldnt' ? '—' : k === '311' ? ((ch as Check & { near?: number }).near ?? 0) : bad ? (k === 'slope' ? `${ch.percent}%` : '⚠︎') : '✓'}
+                          {ch.status === 'couldnt' ? '—' : k === '311' ? ((ch as Check & { near?: number }).near ?? 0) : bad ? (k === 'slope' ? `${ch.percent}% of lot` : '⚠︎') : '✓'}
                         </li>
                       );
                     })}

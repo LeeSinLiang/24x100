@@ -68,4 +68,4 @@ def test_batches_of_500_pins_and_the_condemned_list_whole():
 
 def test_the_definition_travels_with_the_output():
     out = SL.run(post=fake_ckan([]), candidates=CAND, lots=LOTS, write=False, with_311=False)
-    assert "two-unit house fits today" in out["definition"]["text"] and "Slope is shown, not excluded" in out["definition"]["text"]
+    assert "two-unit house fits today" in out["definition"]["text"] and "passed the zoning and records checks" in out["definition"]["text"] and "Slope is shown, not excluded" in out["definition"]["text"]

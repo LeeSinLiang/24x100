@@ -66,15 +66,15 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
   const A = m?.quote ?? m?.estimates.find((e) => e.default);
   const by = m?.quote ? 'your builder’s quote, not checked' : "practitioner's estimate";
   if (m && A && m.money_verdict !== 'no_new_build') {
-    const leftRange = A.left[0] === A.left[1] ? usd(A.left[0], 100) : `${usd(A.left[1], 100)}–${usd(A.left[0], 100)}`;
+    // The full-cost gap per home, before land: building with soft costs and financing, plus site work, minus the sale.
+    const g = m.gap;
+    const gapRange = g ? (g.lo === g.hi ? usd(g.lo, 100) : `${usd(g.lo, 100)}–${usd(g.hi, 100)}`) : '';
     const words =
       m.money_verdict === 'only_with_subsidy'
-        ? A.left[0] < 0
-          ? `nothing left: building alone costs more than the best new-build sale (${by})`
-          : `at most ${usd(A.left[0], 100)} left per home for site work, soft costs and land (${by}), under the $${Math.round(m.site_work.lo / 1000)}k typical site work`
+        ? `a home needs ${gapRange} of subsidy before land, at full cost (${by})`
         : m.money_verdict === 'worth_pricing_site'
-          ? `${leftRange} left per home for site work, soft costs and land (${by})`
-          : `left per home depends on the builder: ${usd(A.left[0], 100)} at best, ${A.left[1] < 0 ? 'nothing' : usd(A.left[1], 100)} at worst (${by})`;
+          ? `the sale covers full cost, site work included, even at the high end (${by})`
+          : `the gap runs from nothing to ${usd(g?.hi ?? 0, 100)} a home before land: a builder's price decides it (${by})`;
     chips.push({ id: 'money', state: m.money_verdict === 'only_with_subsidy' ? 'blocks' : m.money_verdict === 'worth_pricing_site' ? 'clear' : 'open', words, evidence: m.quote ? 'red' : 'estimate' });
   } else chips.push({ id: 'money', state: 'unknown', words: `not assessed: ${m && m.money_verdict === 'no_new_build' ? 'no recent new-build sale in this ward' : moneyGap ?? (r.state !== 'ok' ? 'the lot is not scored' : 'no money data')}`, evidence: 'unknown' });
 
@@ -119,21 +119,21 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
           : (r.refusal?.reason ?? 'This scenario could not be scored.');
   } else if (m && m.money_verdict === 'only_with_subsidy') {
     headline = 'only_with_subsidy';
+    const gap = m.gap ? `${usd(m.gap.lo, 100)}–${usd(m.gap.hi, 100)}` : '';
+    const left = A!.left[0] < 0 ? 'nothing' : A!.left[0] === A!.left[1] ? usd(A!.left[0], 100) : `at most ${usd(A!.left[0], 100)}`;
     detail = m.quote
-      ? `At your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked), building one home costs ${usd(A!.vertical[0], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : usd(A!.left[0], 100)} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`
-      : `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : `at most ${usd(A!.left[0], 100)}`} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`;
+      ? `At your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked), building one home costs ${usd(A!.vertical[0], 100)} and leaves ${left} of the ${usd(m.new_build!.value)} sale; with soft costs, financing and ${usd(m.site_work.lo)}–${usd(m.site_work.hi)} site work, a home needs ${gap} of subsidy before land.`
+      : `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)} and leaves ${left} of the ${usd(m.new_build!.value)} sale; with soft costs, financing and ${usd(m.site_work.lo)}–${usd(m.site_work.hi)} site work, a home needs ${gap} of subsidy before land.`;
   } else if (dimFail || useNo) {
     headline = 'doesnt_fit';
     const useLine = useNo ? `${useInk ? 'The use table says' : 'An unreviewed reading of the use table says'} this building type isn't permitted here; a use variance from the Zoning Board of Adjustment is a possible route, not approval.` : '';
     detail = dimFail ? `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief, vctx, r.district)}${useLine ? ` ${useLine}` : ''}` : useLine;
   } else if (m && m.money_verdict === 'depends_on_builder') {
     headline = 'depends_on_builder';
-    detail = `At the practitioner's estimate what's left per home runs from ${usd(A!.left[0], 100)} to ${A!.left[1] < 0 ? 'nothing' : usd(A!.left[1], 100)}: a builder's price decides it.`;
+    detail = `At ${m.quote ? 'your builder’s quote' : "the practitioner's estimate"}, full cost (building, soft costs, financing, site work) runs from within the sale to ${usd(m.gap?.hi ?? 0, 100)} a home over it, before land: a builder's price decides it.`;
   } else if (m && m.money_verdict === 'worth_pricing_site') {
     headline = 'worth_pricing_site';
-    detail = m.quote
-      ? `At your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked), ${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`
-      : `At the practitioner's estimate, ${usd(A!.left[1], 100)}–${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`;
+    detail = `At ${m.quote ? `your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked)` : "the practitioner's estimate"}, the sale covers building, soft costs, financing and site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap), before land. Price the site next.`;
   } else {
     headline = 'worth_a_look';
     if (!m || m.money_verdict === 'no_new_build') conditions.push(`the money works (${moneyGap ?? 'no recent new-build sale to compare'})`);

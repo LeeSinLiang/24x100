@@ -2,6 +2,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { evaluate, moneyFor, siteUnknowns, verdictFor, type Assumption, type Comps, type Hud } from '../src';
+import { easeForLot } from '../src/ease';
+import { DEFAULT_SETTINGS } from '../src/templates';
 import { block10K, ctxFor, scen } from './load';
 
 const b = block10K();
@@ -58,11 +60,13 @@ describe('money screen (spec §0.13): what a new-build sale leaves after vertica
     expect(Math.round(m.affordable.price)).toBe(Math.round(loan / 0.965));
   });
 
-  it('the money verdict moves with the new-build price: depends on the builder, then worth pricing the site', () => {
+  it('the money verdict is the full-cost gap and moves with the new-build price: depends on the builder, then worth pricing the site', () => {
     const at = (price: number) => moneyFor(three, { comps: { ...comps, newest: [{ ...comps.newest[0], price }] }, hud, assumptions }).money_verdict;
-    expect(at(240000)).toBe('only_with_subsidy');
-    expect(at(300000)).toBe('depends_on_builder'); // A leaves 30,000 at best, −37,500 at worst
-    expect(at(400000)).toBe('worth_pricing_site'); // A leaves 62,500–130,000
+    // A at 1,350 sf: 270,000–337,500 × 1.26 (20% soft + 6% financing) = 340,200–425,250; + 25,000 / 50,000 site work.
+    expect(at(240000)).toBe('only_with_subsidy'); // gap 125,200–235,250 before land
+    expect(at(360000)).toBe('only_with_subsidy'); // 365,200 − 360,000 = 5,200 even at best
+    expect(at(400000)).toBe('depends_on_builder'); // −34,800 at best, 75,250 at worst
+    expect(at(480000)).toBe('worth_pricing_site'); // 475,250 − 480,000 ≤ 0 even at worst
   });
 
   it('no recent new build means no money verdict', () => {
@@ -83,26 +87,36 @@ describe("the user's builder's quote: red, decides the verdict, never replaces t
     expect(today.money_verdict_estimate).toBe(today.money_verdict);
   });
 
-  it('$150/sf on lots 25–27: 240,000 − 1,350 × 150 = $37,500 left, which covers $25,000 site work: worth pricing the site', () => {
+  it('$150/sf on lots 25–27: $37,500 left after building only, but at full cost a home needs $40,150–$65,150 before land: only with subsidy', () => {
     const m = moneyFor(three, inp, 150);
     expect(m.quote).toMatchObject({ id: 'quote', psf: [150, 150], vertical: [202500, 202500], left: [37500, 37500], supplied_by: 'you (not checked)' });
-    expect(m.money_verdict).toBe('worth_pricing_site');
-    expect(m.money_verdict_estimate).toBe('only_with_subsidy'); // the practitioner's estimate still says so
-    expect(m.estimates).toEqual(today.estimates); // never replaced
     // The gap from the quote: 202,500 × 1.26 + 25,000 − 240,000 = 40,150; + 50,000 = 65,150.
     expect(m.gap).toMatchObject({ lo: 40150, hi: 65150 });
+    expect(m.money_verdict).toBe('only_with_subsidy');
+    expect(m.money_verdict_estimate).toBe('only_with_subsidy');
+    expect(m.estimates).toEqual(today.estimates); // never replaced
     const v = verdictFor(three, m, null, b);
-    expect(v.headline).toBe('worth_pricing_site');
-    expect(v.chips.find((c) => c.id === 'money')).toMatchObject({ state: 'clear', evidence: 'red' });
-    expect(v.detail).toMatch(/your builder's quote \(\$150\/sq ft, yours, not checked\)/);
+    expect(v.headline).toBe('only_with_subsidy');
+    expect(v.chips.find((c) => c.id === 'money')).toMatchObject({ state: 'blocks', evidence: 'red' });
+    expect(v.detail).toMatch(/your builder's quote \(\$150\/sq ft, yours, not checked\).*subsidy before land/);
+  });
+
+  it('$100/sf: 135,000 × 1.26 + 50,000 − 240,000 ≤ 0 even at the high site work: worth pricing the site', () => {
+    const m = moneyFor(three, inp, 100);
+    expect(m.money_verdict).toBe('worth_pricing_site');
+    expect(m.money_verdict_estimate).toBe('only_with_subsidy'); // the practitioner's estimate still says so
+    expect(verdictFor(three, m, null, b).chips.find((c) => c.id === 'money')).toMatchObject({ state: 'clear', evidence: 'red' });
   });
 
   it('$140/sf: $51,000 left; $200/sf: 240,000 − 270,000, nothing left, only with subsidy', () => {
-    expect(moneyFor(three, inp, 140).quote!.left).toEqual([51000, 51000]);
+    const q140 = moneyFor(three, inp, 140);
+    expect(q140.quote!.left).toEqual([51000, 51000]); // after building only
+    expect(q140.gap).toMatchObject({ lo: 23140, hi: 48140 }); // 189,000 × 1.26 + 25,000 / 50,000 − 240,000
+    expect(q140.money_verdict).toBe('only_with_subsidy');
     const m = moneyFor(three, inp, 200);
     expect(m.quote!.left).toEqual([-30000, -30000]);
     expect(m.money_verdict).toBe('only_with_subsidy');
-    expect(verdictFor(three, m, null, b).chips.find((c) => c.id === 'money')!.words).toMatch(/^nothing left: .*\(your builder’s quote, not checked\)$/);
+    expect(verdictFor(three, m, null, b).chips.find((c) => c.id === 'money')!.words).toMatch(/^a home needs \$.+ of subsidy before land, at full cost \(your builder’s quote, not checked\)$/);
   });
 
   it('a quote outside $20–$2,000/sf is a typo, not a quote: ignored', () => {
@@ -163,5 +177,28 @@ describe('verdict (no score)', () => {
     expect(rows[2].signals.join(' ')).toMatch(/not checked for this lot/);
     expect(rows[3].signals.join(' ')).toMatch(/lot 25: 53%, lot 26: 56%, lot 27: 42%/);
     expect(rows[4].signals.join(' ')).toMatch(/How deep and where the lines are/);
+  });
+});
+
+describe('Development Ease (engine/src/ease.ts): a range, never a lone number; an unknown only lowers the low end', () => {
+  const inputs = { comps, hud, assumptions };
+  const parcels = (r: ReturnType<typeof evaluate>) => r.pins.map((p) => b.parcels.find((x) => x.pin === p)!);
+  it('lot 25, two-unit: 100 − 35 variance − 5 City sale − 20 subsidy gap = 40 at best; unknowns take it to 0', () => {
+    const r = evaluate(ctx, scen(b, 'two', [25]));
+    const e = easeForLot(r, moneyFor(r, inputs), parcels(r), DEFAULT_SETTINGS);
+    expect(e).toMatchObject({ scored: true, hi: 40, lo: 0 });
+    expect(e.parts.find((p) => p.id === 'infrastructure')).toMatchObject({ state: 'unknown', minus: [0, 20] });
+    expect(e.parts.find((p) => p.id === 'zoning')!.state).toBe('blocks');
+  });
+  it('an unknown never raises the top: making money unknown leaves hi up by its weight, lo unmoved', () => {
+    const r = evaluate(ctx, scen(b, 'two', [25]));
+    const known = easeForLot(r, moneyFor(r, inputs), parcels(r), DEFAULT_SETTINGS);
+    const unknown = easeForLot(r, null, parcels(r), DEFAULT_SETTINGS);
+    expect(unknown.hi).toBe(known.hi + 20);
+    expect(unknown.lo).toBe(known.lo);
+  });
+  it("a refused lot can't be scored", () => {
+    const r = evaluate(ctx, scen(b, 'two', [22])); // the records disagree
+    expect(easeForLot(r, null, parcels(r), DEFAULT_SETTINGS).scored).toBe(false);
   });
 });

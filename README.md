@@ -40,6 +40,30 @@ Also worth a click: **Graph** on any lot (every node a real record, down to who 
 lot** on the Next tab (what the Slack and email digest will send), and **Draft the letter** (one per office,
 every number traced to the engine). On a phone, the same links work.
 
+## Who it's for
+
+The four people Track 1 names, each with a way in from the home page (Start here):
+
+| Who | Their first question | Where it opens |
+|---|---|---|
+| **Nonprofit / CDC** | Which City lots could we build on, and what subsidy would a home need? | [Tonight's shortlist](https://24x100.example/?view=shortlist), then a lot's money at full cost |
+| **Developer** | For this parcel: how easy, and does my builder's price work? | A parcel's [Development Ease and quote](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=ease); search by parcel ID or address |
+| **Planner** | Where does what block building, and how do sites compare? | The city map by first blocker, and [compare sites](https://24x100.example/?view=compare) |
+| **Policy analyst** | Which sentence of the code blocks the most, and what would changing it open? | [Rule what-ifs](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1) and the policy agent's questions |
+
+## Development Ease
+
+A range out of 100, never a lone number (`engine/src/ease.ts`). Six parts, each clear, blocks or unknown, with its
+source or who to ask: **zoning fit** (variances), **approvals needed** (special exceptions, grading review, parking
+relief), **ownership and assembly** (a City sale, another owner, consolidation), **site** (share of the lot mapped at
+≥25% slope; overlap with mapped mines), **water and sewer** (not modelled: always unknown, ask PWSA) and **money at
+full cost**. It starts at 100; a known step takes its weight off both ends, an unknown only off the low end, so an
+unknown never makes a lot look easier, and a lot with four of its five assessable parts unknown says "can't score
+yet". The weights are ours and printed with every result: variance 35, special exception 20, grading review 20,
+parking relief 10, another owner 15, City sale 5, consolidation 5; steep ground 15, mapped mines 20, water and sewer 20,
+a subsidy gap 20. Lot 25 alone reads 0–40; lots 25–27 read 0–60; 156 Meadow St (tonight's shortlist) reads 35–95.
+[Compare them on the same columns](https://24x100.example/?view=compare).
+
 ## The agents
 
 One goal in, a team of agents works the lot, and a person holds every gate. The engine computes every number; a
@@ -51,7 +75,7 @@ model only plans, picks checks and drafts words, and a verifier checks all of it
 | **Due diligence** | The free public checks: PLI permits and violations, condemnations, tax liens, 311, the undermining and slope layers, each with its URL, pull time and sha256; paid studies drafted, never done | (in the steward's run) |
 | **Policy** | Asked by the steward when a rule is the first blocker: finds the sentence, writes the redline, counts the change citywide, drafts a memo | `uv run python -m agents.policy "What if …?" --building two` |
 | **Watch** | When a watched lot's answer changes: the before and after with the math, and the next move drafted; a simulation is labelled | `npm run agents -- watch --baseline d87dce4^` |
-| **Shortlist** | Every night, due diligence over all 11,247 City-owned vacant lots (about 100 requests, no model, $0), and the lots where a two-unit house fits today with nothing found against them: [Tonight's shortlist](https://24x100.example/?view=shortlist) | `npm run shortlist` |
+| **Shortlist** | Every night, due diligence over all 11,247 City-owned vacant lots (about 100 requests, no model, $0), and the lots where a two-unit house fits today that passed the zoning and records checks (site conditions and money still need review): [Tonight's shortlist](https://24x100.example/?view=shortlist) | `npm run shortlist` |
 | **Verifier** | Blocks publication on a quote not word for word in the saved code, a number the engine or a source doesn't hold, a garbled word a model copied, a finding without a source, or a name-like field | (last in every run) |
 
 Three gates wait for a person: **send** (every letter and memo), **spend** (every paid study) and **sign** (every
@@ -86,8 +110,11 @@ things in; which barrier blocks more often is unproven.
   you choose. Districts whose rules haven't been checked stay grey: "rules not loaded". Never a guess. Pick a lot
   and its plan appears in an inset joined to its dot.
 - **The Plan** is drawn from the City's parcel polygons: every lot's buildable envelope, edge labels, ownership
-  coins. No score: a verdict in words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right",
-  "Worth a closer look, if …") with three chips, Money · Rules · Site, checked in that order.
+  coins. A verdict in words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right",
+  "Worth a closer look, if …") with three chips, Money · Rules · Site, and beside it the Development Ease range.
+- **Money at full cost.** The headline is the subsidy a home needs before land: building × (1 + soft costs +
+  financing) + site work − the newest new-build sale. At your $140/sf builder's quote on lots 25–27 that is
+  $23.1k–$48.1k a home; the $51k "left after building only" stays on its tile, labelled as the intermediate it is.
 - **The Graph** links the lot to the rules that constrain it (each with its verbatim quote and who signed it),
   the datasets behind it (with pull times), the cost estimates and the sale, the site checks and the offices
   to write to. Every node is a real record.
@@ -212,10 +239,10 @@ output for them.
 | Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 162 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone (the CI run) 151 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
-| CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, no-score and the trust scan. Every step passes on a fresh local clone of the committed tree (27 Sep, Node 26, macOS); not yet run on GitHub (the repository isn't public). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
+| CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, the ease guard and the trust scan. Every step passes on a fresh local clone of the committed tree (27 Sep, Node 26, macOS); not yet run on GitHub (the repository isn't public). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
 | Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the quote flip to $51k, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
-| No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
+| Development Ease is never a lone number | Every ease on screen is a range with its parts one click away, never a bare "NN / 100"; a planted bare score is caught (the guard replaced the no-score check when the team chose to show the score) | `scripts/ease-guard.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
 | Citywide number | Six districts computed (RM‑M, R1D‑H, R2‑L, R1D‑L, R2‑H, R1D‑M), 2,318 City-owned vacant lots checked. For a two-unit house, **428 are big enough but too narrow** (the side setbacks; 239 for certain, 150 depend on a built neighbour, 39 measured from the map) and 641 are under the minimum area; the R1D districts don't permit two-unit houses (962 lots) | `docs/evidence/problem.md`, `film/facts.json` |
 
@@ -234,8 +261,10 @@ The City of Pittsburgh interprets its own code; 24×100 is decision support, not
 advice. Parcel geometry comes from GIS, not surveys; lot areas are checked against deeds and conflicts are
 shown, not settled. Water and sewer capacity, soils, fill, title and liens are not assessed. Footprints come
 from a 2023 layer. The slope layer is a derived threshold, not the steep-slope overlay. Community priorities
-are not scored; 24×100 points to the RCO. There is no score. The money screen is an estimate: one
-practitioner's construction cost and a gap that is a lower bound. Six districts are computed from rules a person
+are not assessed; 24×100 points to the RCO. Infrastructure isn't modelled yet: water and sewer is an explicit
+unknown in every Development Ease range ("ask PWSA"), never a pass. The Development Ease weights are our own
+assumptions, shown with every result. The money screen is an estimate: one practitioner's construction cost, one
+new-build sale and our soft-cost and financing assumptions; land is not included. Six districts are computed from rules a person
 signed; the others are grey, or, on the "AI-read" layer, shown in pencil as the model read them, never counted.
 The free tier's daily limits stopped the second coverage run after three districts: R1A-H read in full, R1A-VH and
 R1A-M only in part (a call refused), so their lots stay grey; 34 districts with City lots have no rule read yet.

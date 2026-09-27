@@ -17,6 +17,7 @@ import { UrlNotice } from './components/workspace/UrlNotice';
 import { AboutView } from './views/AboutView';
 import { BriefView } from './views/BriefView';
 import { ShortlistView } from './views/ShortlistView';
+import { CompareView } from './views/CompareView';
 import { CaseView, CASES } from './views/CaseView';
 import { ChangesView } from './views/ChangesView';
 import { InquiryView } from './views/InquiryView';
@@ -121,6 +122,8 @@ export function App() {
       ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
       : s.view === 'changes'
         ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
+        : s.view === 'compare'
+          ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Compare sites' }]
         : s.view === 'shortlist'
           ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Tonight’s shortlist' }]
         : s.view === 'case'
@@ -176,6 +179,8 @@ export function App() {
                 return <BriefView {...vp} />;
               case 'shortlist':
                 return <ShortlistView {...vp} />;
+              case 'compare':
+                return <CompareView {...vp} />;
               default:
                 return <AboutView {...vp} />;
             }

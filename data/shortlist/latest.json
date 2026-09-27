@@ -1,8 +1,8 @@
 {
- "run_at": "2026-09-27T18:18:13Z",
+ "run_at": "2026-09-27T20:35:48Z",
  "definition": {
   "building": "two",
-  "text": "City-owned vacant lots in the districts a person has signed where a two-unit house fits today (the engine's reading, listed for sale or not), with nothing found against them: no open code-enforcement case (any status other than Closed or Clean & Lien), not on the condemned or dead-end list, no unsatisfied tax lien, and none of the lot in the City's undermined-areas layer. Slope is shown, not excluded: steepest last.",
+  "text": "City-owned vacant lots in the districts a person has signed where a two-unit house fits today (the engine's reading, listed for sale or not) that passed the zoning and records checks: no open code-enforcement case (any status other than Closed or Clean & Lien), not on the condemned or dead-end list, no unsatisfied tax lien, and no overlap with the City's mapped undermined areas. Slope is shown, not excluded (steepest last). Site conditions, water and sewer, and money still need review.",
   "risk_checks": [
    "violations (open)",
    "condemned",
@@ -41,7 +41,7 @@
   "open_violations": 58
  },
  "sweep": {
-  "wall_s": 85.8,
+  "wall_s": 64.7,
   "requests": 102,
   "model": null,
   "planned_by": "rule, no model",
@@ -67,7 +67,7 @@
    ],
    "requests": 23,
    "rows": 228,
-   "pulled_at": "2026-09-27T18:16:53Z",
+   "pulled_at": "2026-09-27T20:34:49Z",
    "sha256": "b5c6734cf2e4efb27a720b8ef6502c7a6dea86e0945c36d07963120d8b671158",
    "requests_sha256": "77e142eeb5fd8a7cd4d5aa6844adda0fb9c482f186b1bbdd56d2462e40713456",
    "by": "500 PINs a request"
@@ -90,7 +90,7 @@
    ],
    "requests": 23,
    "rows": 9146,
-   "pulled_at": "2026-09-27T18:17:05Z",
+   "pulled_at": "2026-09-27T20:35:02Z",
    "sha256": "bab879e6fbed9a277193103b509679298c0f287cf6398af0ddd4d1b9ed7820bd",
    "requests_sha256": "93e12f4201479ddc945b7e35ac493f0dfb8df968308216c060f9d77a9c8fdf6e",
    "by": "500 PINs a request"
@@ -111,7 +111,7 @@
    ],
    "requests": 23,
    "rows": 104562,
-   "pulled_at": "2026-09-27T18:17:40Z",
+   "pulled_at": "2026-09-27T20:35:24Z",
    "sha256": "62af641be17896a6921194db66d23f07f7159d17d8211e97cb33e870b29a0002",
    "requests_sha256": "4a3aff6d6a607ecde7b7bb2b0bca5da66bd58109606921b6a3e73eb25dd80dcd",
    "by": "500 PINs a request"
@@ -132,7 +132,7 @@
    ],
    "requests": 1,
    "rows": 3569,
-   "pulled_at": "2026-09-27T18:17:41Z",
+   "pulled_at": "2026-09-27T20:35:24Z",
    "sha256": "790fe9298c50ba991b7522576577643e62faf8def80b5d42de79b5819ed4bdc9",
    "requests_sha256": "3e372a649a2dd951ff1319e9af4e5588d38c112b5a7d9a4a5e27045750dae5f3",
    "by": "the whole list, joined here"
@@ -144,224 +144,224 @@
    "pulls": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Larimer%22%2C+%22street%22%3A+%22MEADOW+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:42Z",
+     "pulled_at": "2026-09-27T20:35:26Z",
      "sha256": "8453e6db8c7a330a92d3f30fba5583c3b3c5dabe4b08033f63b3798e07c26c8d",
      "street": "MEADOW ST",
      "hood": "Larimer"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22NIMICK+PL%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:43Z",
-     "sha256": "7ae05f6708fa93c9381666094426f582fbc98de6ff08f45760233c2070cb6e32",
+     "pulled_at": "2026-09-27T20:35:27Z",
+     "sha256": "8dc924b297255fe36efe4e30592b28996639a6be892853600d3c630ef2adce8d",
      "street": "NIMICK PL",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22POINTVIEW+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:44Z",
+     "pulled_at": "2026-09-27T20:35:28Z",
      "sha256": "f0f23e55e2e9edf36df1f2eb692fe96fb1d1e2a523286ea23ee4a83b24dbe1c8",
      "street": "POINTVIEW ST",
      "hood": "Lincoln-Lemington-Belmar"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22WILKINSBURG+AV%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:45Z",
+     "pulled_at": "2026-09-27T20:35:29Z",
      "sha256": "2959db31d232412f5dab2b2f05711ffcb1675e050c5d7479b722458b47b043bf",
      "street": "WILKINSBURG AV",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22FRANKSTOWN+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:46Z",
+     "pulled_at": "2026-09-27T20:35:30Z",
      "sha256": "8bbd75a29d1741f4991ebf1817ca7a9777f5fc29cd8b55932c43334ac63a0834",
      "street": "FRANKSTOWN AVE",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22HAVERHILL+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:47Z",
+     "pulled_at": "2026-09-27T20:35:30Z",
      "sha256": "6c1544381d5d03a07858d41de7e5d311322fcd4437e18c733f1208a5adc1a6cd",
      "street": "HAVERHILL ST",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22FAHNESTOCK+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:48Z",
+     "pulled_at": "2026-09-27T20:35:31Z",
      "sha256": "88ed77ed8fd41c41b14c6238093acaf808e55b508ca084f31bb27107db902821",
      "street": "FAHNESTOCK AVE",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22KARL+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:49Z",
+     "pulled_at": "2026-09-27T20:35:32Z",
      "sha256": "00119835f31aa22ec30a1803fef66ec7b10024c077e232c703f2f2775e165dc0",
      "street": "KARL ST",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22LINCOLN+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:50Z",
-     "sha256": "8d29079cc9b326cc61e8a96bc6820c6d801131298405849fbe217e98fe864dc9",
+     "pulled_at": "2026-09-27T20:35:32Z",
+     "sha256": "d496455c08d05cbcf39d268b09dbb14838beca738aab47eaec403a89023dcd3b",
      "street": "LINCOLN AVE",
      "hood": "Lincoln-Lemington-Belmar"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22GERITT+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:51Z",
+     "pulled_at": "2026-09-27T20:35:33Z",
      "sha256": "f659e97002f2ca901b39f499aed2e31132a41374d882cf74907323568e503a3f",
      "street": "GERITT ST",
      "hood": "Homewood West"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Brookline%22%2C+%22street%22%3A+%22ANSONIA+PL%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:52Z",
+     "pulled_at": "2026-09-27T20:35:34Z",
      "sha256": "aec71b3f5078ce89c893ec94a0b3187e629dc342e337137082835c9ee923ed9a",
      "street": "ANSONIA PL",
      "hood": "Brookline"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+South%22%2C+%22street%22%3A+%22ROSEDALE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:53Z",
+     "pulled_at": "2026-09-27T20:35:34Z",
      "sha256": "24071b0c71f7d22c0476f79402fba86c6f43ea551a6f0d31ee429ade4548f150",
      "street": "ROSEDALE",
      "hood": "Homewood South"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22ATWELL+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:54Z",
+     "pulled_at": "2026-09-27T20:35:35Z",
      "sha256": "34a02a2fc9ad75f2c3c4888a4f8b34c74950fdf899ec63f197721f92a0b6395c",
      "street": "ATWELL ST",
      "hood": "Homewood West"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22LYRIC+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:55Z",
+     "pulled_at": "2026-09-27T20:35:36Z",
      "sha256": "e38df010781ee691c2bee0526252923269d604b317a8ab1ccbd77a3045bde632",
      "street": "LYRIC ST",
      "hood": "Homewood West"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22UPLAND+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:56Z",
+     "pulled_at": "2026-09-27T20:35:36Z",
      "sha256": "a8b7a98b7618a2bb028a7d10111d232ae5b0cad5377913cd133270a1d54db511",
      "street": "UPLAND ST",
      "hood": "Homewood West"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+South%22%2C+%22street%22%3A+%22BENNETT+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:57Z",
+     "pulled_at": "2026-09-27T20:35:37Z",
      "sha256": "353090e03a22765eebd72842788d40873b477bc6a076a94bba6b9d764c46955c",
      "street": "BENNETT ST",
      "hood": "Homewood South"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22BAXTER+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:58Z",
+     "pulled_at": "2026-09-27T20:35:38Z",
      "sha256": "5595d644d014d68f14fea8cbe842b2ff99ad57d1f762341dd13a0e74fc399f4a",
      "street": "BAXTER ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22CALWAY+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:17:59Z",
+     "pulled_at": "2026-09-27T20:35:39Z",
      "sha256": "eed8070a06a1b03eef45b7dd39c3bd6b37840d88041d6a5b98b94352a37331b2",
      "street": "CALWAY ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22SNOWDEN+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:00Z",
+     "pulled_at": "2026-09-27T20:35:39Z",
      "sha256": "275e75887df0d3cb399265b98cec320b865775c82d1dc2e0a1bd065e3d438582",
      "street": "SNOWDEN ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22LA+PLACE+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:01Z",
+     "pulled_at": "2026-09-27T20:35:40Z",
      "sha256": "8e39efa8d95ea385acd11f374f93ae228d3c5469cd10638c1d94c18faf512a27",
      "street": "LA PLACE ST",
      "hood": "Middle Hill"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22FRANKSTOWN+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:01Z",
-     "sha256": "e951e8e0b6707448acfe415f509085f18e930abf48ac4ea70fcd69bedd290ddb",
+     "pulled_at": "2026-09-27T20:35:41Z",
+     "sha256": "331f699cbfe67136cdbf8b68ecb8080315da342033b004e3d72fcb533c7c72dd",
      "street": "FRANKSTOWN AVE",
      "hood": "Homewood West"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Crawford-Roberts%22%2C+%22street%22%3A+%22GRANVILLE+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:02Z",
+     "pulled_at": "2026-09-27T20:35:42Z",
      "sha256": "aea2d3c7bed148836e979fce35c24281724e07e1070b2fa5b06407d978231827",
      "street": "GRANVILLE ST",
      "hood": "Crawford-Roberts"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22S+WHEELER+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:03Z",
+     "pulled_at": "2026-09-27T20:35:42Z",
      "sha256": "7ef7e9a3e995d87b371c1cc7de4cb8b41fbcc841c25be8fc21fd21474c654293",
      "street": "S WHEELER ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22HANSEL+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:04Z",
+     "pulled_at": "2026-09-27T20:35:43Z",
      "sha256": "787cf6a4b863f435fc95f1fc307f540423f895b2f0e3048a6e1b59c8b15bfbaf",
      "street": "HANSEL ST",
      "hood": "East Hills"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Crawford-Roberts%22%2C+%22street%22%3A+%22VINE+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:05Z",
+     "pulled_at": "2026-09-27T20:35:44Z",
      "sha256": "beb2b029dbf73425258f0df5440356be1c9780172dc334e5eea79dd150bdbcd7",
      "street": "VINE ST",
      "hood": "Crawford-Roberts"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22BLACKADORE+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:06Z",
+     "pulled_at": "2026-09-27T20:35:44Z",
      "sha256": "d65a9cc39b52fe15b062ab7afbbcbb2ae53cd613ef2b404e36f8f07b1d6d95ec",
      "street": "BLACKADORE AVE",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Windgap%22%2C+%22street%22%3A+%22BERRY+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:07Z",
+     "pulled_at": "2026-09-27T20:35:45Z",
      "sha256": "a8b4c0cec4482bea9381d12605f6c4a475240466d74ecb33acf1410250da8844",
      "street": "BERRY ST",
      "hood": "Windgap"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22CENTRE+AV%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:09Z",
+     "pulled_at": "2026-09-27T20:35:46Z",
      "sha256": "14d8834de2581a55f4c9e13ad52063004c57df2628189307b0c2940319334cde",
      "street": "CENTRE AV",
      "hood": "Middle Hill"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22LAWNDALE+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:10Z",
-     "sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2",
+     "pulled_at": "2026-09-27T20:35:46Z",
+     "sha256": "ae168f9d67506647e2e4df567f28fb731650b93f7687373bec53441fa51966f7",
      "street": "LAWNDALE ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22CALHOUN+AVE%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:11Z",
+     "pulled_at": "2026-09-27T20:35:47Z",
      "sha256": "e10882f0156d380e2af35bd5e76adbab654abf67c3069fc92623c33324b76ec6",
      "street": "CALHOUN AVE",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22MOHLER+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:12Z",
+     "pulled_at": "2026-09-27T20:35:48Z",
      "sha256": "4d79d2ef5c4cc86e8501b39413de5d9af89fefeaed9127c554be61477bdced55",
      "street": "MOHLER ST",
      "hood": "Homewood North"
     },
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Polish+Hill%22%2C+%22street%22%3A+%22DOWNING+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T18:18:13Z",
+     "pulled_at": "2026-09-27T20:35:48Z",
      "sha256": "09470c1fc6b4fe334c1a68e94a73e47bd1d31f0dcc3a6c19d3066a5299dec9a7",
      "street": "DOWNING ST",
      "hood": "Polish Hill"
@@ -415,12 +415,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -475,18 +475,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 6,
-     "fact": "6% steep"
+     "fact": "6% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 79,
      "fact": "79 requests nearby",
-     "source_sha256": "7ae05f6708fa93c9381666094426f582fbc98de6ff08f45760233c2070cb6e32"
+     "source_sha256": "8dc924b297255fe36efe4e30592b28996639a6be892853600d3c630ef2adce8d"
     }
    }
   },
@@ -535,12 +535,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 12,
-     "fact": "12% steep"
+     "fact": "12% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -595,12 +595,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 40,
-     "fact": "40% steep"
+     "fact": "40% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -655,12 +655,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 40,
-     "fact": "40% steep"
+     "fact": "40% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -715,12 +715,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 55,
-     "fact": "55% steep"
+     "fact": "55% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -775,12 +775,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 65,
-     "fact": "65% steep"
+     "fact": "65% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -835,12 +835,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 72,
-     "fact": "72% steep"
+     "fact": "72% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -895,12 +895,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 86,
-     "fact": "86% steep"
+     "fact": "86% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -955,12 +955,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 99,
-     "fact": "99% steep"
+     "fact": "99% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1015,18 +1015,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 100,
-     "fact": "100% steep"
+     "fact": "100% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 30,
      "fact": "30 requests nearby",
-     "source_sha256": "8d29079cc9b326cc61e8a96bc6820c6d801131298405849fbe217e98fe864dc9"
+     "source_sha256": "d496455c08d05cbcf39d268b09dbb14838beca738aab47eaec403a89023dcd3b"
     }
    }
   },
@@ -1075,12 +1075,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -1135,12 +1135,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1195,12 +1195,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -1255,12 +1255,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1315,12 +1315,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1375,12 +1375,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1435,12 +1435,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1495,12 +1495,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not steep"
+     "fact": "none mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1555,12 +1555,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 6,
-     "fact": "6% steep"
+     "fact": "6% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1615,12 +1615,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 6,
-     "fact": "6% steep"
+     "fact": "6% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -1675,12 +1675,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 7,
-     "fact": "7% steep"
+     "fact": "7% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1735,18 +1735,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 8,
-     "fact": "8% steep"
+     "fact": "8% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 53,
      "fact": "53 requests nearby",
-     "source_sha256": "e951e8e0b6707448acfe415f509085f18e930abf48ac4ea70fcd69bedd290ddb"
+     "source_sha256": "331f699cbfe67136cdbf8b68ecb8080315da342033b004e3d72fcb533c7c72dd"
     }
    }
   },
@@ -1795,12 +1795,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 9,
-     "fact": "9% steep"
+     "fact": "9% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -1855,12 +1855,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 28,
-     "fact": "28% steep"
+     "fact": "28% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -1915,12 +1915,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 28,
-     "fact": "28% steep"
+     "fact": "28% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -1975,12 +1975,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 28,
-     "fact": "28% steep"
+     "fact": "28% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2035,12 +2035,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 39,
-     "fact": "39% steep"
+     "fact": "39% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2095,12 +2095,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 40,
-     "fact": "40% steep"
+     "fact": "40% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -2155,12 +2155,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 49,
-     "fact": "49% steep"
+     "fact": "49% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -2215,12 +2215,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 55,
-     "fact": "55% steep"
+     "fact": "55% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2275,12 +2275,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 55,
-     "fact": "55% steep"
+     "fact": "55% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -2335,12 +2335,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 65,
-     "fact": "65% steep"
+     "fact": "65% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -2395,18 +2395,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 75,
-     "fact": "75% steep"
+     "fact": "75% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 97,
      "fact": "97 requests nearby",
-     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+     "source_sha256": "ae168f9d67506647e2e4df567f28fb731650b93f7687373bec53441fa51966f7"
     }
    }
   },
@@ -2455,18 +2455,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 78,
-     "fact": "78% steep"
+     "fact": "78% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 96,
      "fact": "96 requests nearby",
-     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+     "source_sha256": "ae168f9d67506647e2e4df567f28fb731650b93f7687373bec53441fa51966f7"
     }
    }
   },
@@ -2515,18 +2515,18 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 79,
-     "fact": "79% steep"
+     "fact": "79% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
      "near": 55,
      "fact": "55 requests nearby",
-     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+     "source_sha256": "ae168f9d67506647e2e4df567f28fb731650b93f7687373bec53441fa51966f7"
     }
    }
   },
@@ -2575,12 +2575,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 80,
-     "fact": "80% steep"
+     "fact": "80% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "nothing",
@@ -2635,12 +2635,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 81,
-     "fact": "81% steep"
+     "fact": "81% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2695,12 +2695,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 89,
-     "fact": "89% steep"
+     "fact": "89% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2755,12 +2755,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 98,
-     "fact": "98% steep"
+     "fact": "98% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2815,12 +2815,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 100,
-     "fact": "100% steep"
+     "fact": "100% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",
@@ -2875,12 +2875,12 @@
     "undermining": {
      "status": "nothing",
      "percent": 0,
-     "fact": "not undermined"
+     "fact": "no overlap with mapped mines"
     },
     "slope": {
      "status": "found",
      "percent": 100,
-     "fact": "100% steep"
+     "fact": "100% of lot mapped ≥25% slope"
     },
     "311": {
      "status": "found",

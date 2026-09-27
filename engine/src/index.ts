@@ -12,3 +12,4 @@ export * from './city';
 export * from './inquiry';
 export * from './source';
 export * from './verdict';
+export * from './ease';

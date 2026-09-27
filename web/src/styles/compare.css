@@ -1,0 +1,70 @@
+/* Compare sites (views/CompareView.tsx): one ruled table, a column per site. Colors only through tokens. */
+.cmp-view {
+  display: grid;
+  gap: 12px;
+  max-width: 1320px;
+}
+.cmp-head p {
+  margin: 0;
+}
+.cmp-title {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: calc(var(--s-title) * 1.6);
+  margin: 2px 0 4px;
+}
+.cmp-scroll {
+  overflow-x: auto;
+}
+.cmp-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid var(--ink);
+  background: var(--sheet);
+  font-size: var(--s-small);
+}
+.cmp-table th,
+.cmp-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+}
+.cmp-table thead th {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: calc(var(--s-body) * 1.15);
+  border-bottom: 1.5px solid var(--ink);
+}
+.cmp-sub {
+  display: block;
+  font-family: var(--f-ui);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.cmp-table tbody th {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  width: 1%;
+}
+.cmp-ease-row td {
+  background: var(--paper);
+}
+.cmp-why {
+  display: block;
+  margin-top: 4px;
+}
+.cmp-table .cmp-fits {
+  color: var(--ink);
+  border-color: var(--ink);
+  font-family: var(--f-map);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+}

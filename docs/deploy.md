@@ -63,7 +63,7 @@ ubuntu-latest. Once the Actions tab shows it green, add the badge under the READ
 [![CI](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml)
 ```
 
-If it's red, the likely suspect is the runner's Chrome (the no-score and trust-scan steps drive it through
+If it's red, the likely suspect is the runner's Chrome (the ease-guard and trust-scan steps drive it through
 Playwright's `chrome` channel); the typecheck, vitest, pytest and build steps don't touch a browser.
 
 ## One command instead

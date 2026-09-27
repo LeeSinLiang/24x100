@@ -1,17 +1,21 @@
-# Nightly for 24×100: refresh the public data, re-check every City lot (tonight's shortlist), then the watchlist digest.
+# Nightly for 24×100 (02:00 ET): refresh the public data, rebuild what the site reads from it, re-check every City lot
+# (tonight's shortlist), then the watchlist digest.
 #   1. refresh    re-pull the public datasets and record what changed (data/refresh/latest.json, shown in pencil)
-#   2. shortlist  the due-diligence agent over all City-owned vacant lots (agents/shortlist.py): WPRDC in PIN batches
+#   2. build      rebuild the city file, summary, what-ifs and API from the refreshed pull (npm run build:data), so the
+#                 shortlist reads tonight's inventory, not last week's
+#   3. shortlist  the due-diligence agent over all City-owned vacant lots (agents/shortlist.py): WPRDC in PIN batches
 #                 with field whitelists (never an owner's name), no model, about 100 requests; data/shortlist/
-#   3. commit     the refresh record and the shortlist, so the site shows tonight's run
+#   4. commit     everything the site reads (city, blocks, money, refresh, shortlist), so it shows tonight's run
 #   4. digest     Slack and/or email, ONLY when a channel's secret is set (SLACK_WEBHOOK_URL; RESEND_API_KEY and
 #                 DIGEST_TO, DIGEST_FROM optional; SMTP_* as a fallback); it reports watched lots that changed and the
 #                 lots new on the shortlist. Secrets are never printed. It never sends anything to the City.
-# A failed refresh doesn't stop the shortlist (the step shows as failed in the run). Not yet run on GitHub.
+# A failed refresh doesn't stop the shortlist (the step shows as failed in the run; the build then keeps the committed
+# city file). Not yet run on GitHub: after the repository is public, run it once by hand (workflow_dispatch).
 name: nightly
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *' # 08:00 ET
+    - cron: '0 6 * * *' # 02:00 ET (06:00 UTC)
 permissions:
   contents: write
 jobs:
@@ -39,16 +43,18 @@ jobs:
       - name: Refresh the public data (record what changed)
         continue-on-error: true
         run: uv run python -m pipeline refresh
+      - name: Rebuild what the site reads (city file, summary, what-ifs, API)
+        run: npm run build:data
       - name: Tonight's shortlist (every City lot re-checked; no model)
         run: npm run shortlist
       - name: Commit tonight's run
         run: |
           git config user.name "24x100 nightly"
           git config user.email "nightly@users.noreply.github.com"
-          git add data/shortlist
+          git add data/shortlist data/city/lots.json data/city/summary.json data/city/scenarios.json data/blocks data/money
           if [ -f data/refresh/latest.json ]; then git add data/refresh/latest.json; fi
           if ! git diff --cached --quiet; then
-            git commit -m "Nightly: tonight's shortlist and the data refresh"
+            git commit -m "Nightly: the data refresh, the rebuilt city data and tonight's shortlist"
             git push
           fi
       - name: Is a digest channel set?

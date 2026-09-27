@@ -238,7 +238,17 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
     steps = link
       ? [{ tag: null, head: 'Open the lot', text: 'This lot has block detail: its plate, money and letters are in the lot view.', links: [{ href: `?view=lot&block=${link.block}&lot=${link.lot}&type=${s.type}`, label: 'Open lot' }] }]
       : cityRoutes(lot, c, rs, s.type).map((rt) => ({ tag: null, head: rt.text.split(/[:;.](\s|$)/)[0], text: rt.text, trust: rt.trust === 'ink' ? 'ink' : rt.trust === 'red' ? 'red' : 'pencil', links: [] }));
-    if (!steps.length) stepsNote = <p className="ws-tray-note">Nothing to check from the city map; lot detail isn’t generated for this block yet.</p>;
+    if (!steps.length) {
+      // A lot that fits from the map still has unpriced site work, water and sewer, and (often) steep ground: say so.
+      const steep = (lot.slope25 ?? 0) >= 0.05;
+      const mines = (lot.undermined ?? 0) > 0;
+      steps = [
+        ...(steep ? [{ tag: 'PAID', head: 'Price the steep ground', text: `${Math.round((lot.slope25 ?? 0) * 100)}% of the lot is mapped at 25% slope or more: a geotechnical report and a grading estimate before anything else.`, trust: 'pencil' as const, links: [] }] : []),
+        ...(mines ? [{ tag: 'PAID', head: 'Check the mapped mines', text: 'The lot overlaps the City’s undermined-areas layer: a mine subsidence inspection.', trust: 'pencil' as const, links: [] }] : []),
+        { tag: 'FREE', head: 'Ask PWSA about water and sewer', text: 'Service, capacity and connection cost aren’t modelled here.', trust: 'pencil' as const, links: [] },
+        { tag: 'FREE OR CHEAP', head: 'Price the site work', text: 'Site work isn’t priced for lots without block detail: a builder’s walk-through.', trust: 'pencil' as const, links: [] },
+      ];
+    }
     events = [...cityEvents(), ...refreshEvent()];
     pins = [lot.pin];
   } else if (kind === 'run' && run) {

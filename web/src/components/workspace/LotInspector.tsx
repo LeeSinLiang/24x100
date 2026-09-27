@@ -22,6 +22,8 @@ import { QuoteForm } from './QuoteForm';
 import { cityLotOfParcel } from '@engine/city';
 import { watchState as watchStateOf } from '@engine/digest';
 import { CASES } from '../../views/CaseView';
+import { easeForLot } from '@engine/ease';
+import { EaseBar, EaseTable } from './Ease';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 
@@ -198,7 +200,7 @@ export function LotTiles({ model }: { model: LotModel }) {
               </Ev>
             </span>
           }
-          sub={<span className={Q ? 'red-text' : 'est'}>{A.left[0] < 0 ? 'nothing left, ' : ''}per {m!.sqft.toLocaleString('en-US')} sf home{Q ? ', at your quote' : ''}</span>}
+          sub={<span className={Q ? 'red-text' : 'est'}>building only{Q ? ', your quote' : ''}</span>}
         />
       ) : (
         <Tile id="left" label="Left after building" value={<Dash why={moneyWhy} />} sub="not assessed" title={moneyWhy} className="is-na" />
@@ -447,6 +449,8 @@ export function LotInspector({
   const ctxAt = ctxCheck ? expl.findIndex((sg) => sg.t === ctxCheck.text) : -1;
   const whyTail = ctxAt >= 0 ? expl.slice(ctxAt) : [];
 
+  // Development Ease (engine/src/ease.ts): a range from six parts; the lots of the scenario give its site facts.
+  const ease = easeForLot(r, model.money, r.pins.map((p) => block.parcels.find((x) => x.pin === p)!), model.ctx.settings, model.moneyGap ?? 'no money data');
   // A single lot that a rule what-if (spec §0.16) would open: one line in the Rules tab, never a verdict.
   const wi = r.pins.length === 1 ? whatIfLine(r.pins[0], r.scenario.type) : null;
   const tabs: TabDef[] = [
@@ -460,6 +464,11 @@ export function LotInspector({
           <MoneyPanel result={r} m={model.money} gap={model.moneyGap} />
         </>
       ),
+    },
+    {
+      id: 'ease',
+      label: 'Ease',
+      panel: <EaseTable ease={ease} />,
     },
     {
       id: 'rules',
@@ -541,6 +550,7 @@ export function LotInspector({
     <InspectorShell
       title={title}
       status={<VerdictStamp headline={v.headline} refusal={r.refusal?.code} quote={!!model.money?.quote} />}
+      statusExtra={<EaseBar ease={ease} onOpen={() => onTab('ease')} />}
       statusDetail={
         <>
           <Label as="h3">What blocks it</Label>

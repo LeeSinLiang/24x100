@@ -134,7 +134,7 @@ function main() {
   const prevRun = hist.length > 1 ? new Set(hist[hist.length - 2].shortlist) : null;
   const newOnShortlist = last && prevRun ? last.shortlist.filter((p) => !prevRun.has(p)).length : 0;
   const shortlistLine = last
-    ? ` Tonight's shortlist (${appUrl.replace(/\/?$/, '/')}?view=shortlist): ${last.counts.shortlist} City lots where a two-unit house fits with nothing found against them, all ${last.counts.swept.toLocaleString('en-US')} re-checked${prevRun ? `; ${newOnShortlist} new since the run before` : ''}.`
+    ? ` Tonight's shortlist (${appUrl.replace(/\/?$/, '/')}?view=shortlist): ${last.counts.shortlist} City lots where a two-unit house fits and that passed the zoning and records checks, all ${last.counts.swept.toLocaleString('en-US')} re-checked${prevRun ? `; ${newOnShortlist} new since the run before` : ''}.`
     : '';
   const note = `${watched} City lots watched. Compared with ${before ? before.label : 'nothing (the first digest)'}.${shortlistLine}${appUrl.includes('example') ? ' Links point at a placeholder until the app is deployed (APP_URL).' : ''}`;
   const msg = renderDigest(changes, { appUrl, watched, note, at });

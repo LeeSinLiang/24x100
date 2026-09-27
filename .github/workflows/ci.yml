@@ -51,7 +51,7 @@ jobs:
           done
           cat /tmp/dev.log
           exit 1
-      - name: No score anywhere (spec §0.12 C1; the self-test plants one first)
-        run: node scripts/no-score.mjs --self-test
+      - name: Development Ease is always a range with its parts (the self-test plants a bare score first)
+        run: node scripts/ease-guard.mjs --self-test
       - name: Trust states on screen (nothing pencil, struck or unsigned drawn in ink)
         run: node scripts/trust-scan.mjs

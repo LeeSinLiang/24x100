@@ -2,12 +2,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TemplateId } from '@engine/types';
 
-export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case' | 'brief' | 'shortlist';
+export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case' | 'brief' | 'shortlist' | 'compare';
 
 /** The workspace's centre canvas (spec §0.15). Defaults: city → map; lot and block → plan. */
 export type Canvas = 'map' | 'plan' | 'graph' | 'table';
 /** The inspector's tabs, in the order a developer checks them (spec §0.12). */
-export type InspectorTab = 'money' | 'rules' | 'site' | 'next' | 'sources' | 'whatif';
+export type InspectorTab = 'money' | 'ease' | 'rules' | 'site' | 'next' | 'sources' | 'whatif';
 /** The bottom tray's tabs; 'closed' collapses it. */
 export type TrayTab = 'next' | 'timeline' | 'changes' | 'closed';
 export type Office = 'assessment' | 'real_estate' | 'zoning' | 'ura' | 'rco';
@@ -56,9 +56,9 @@ export interface UrlState {
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
-const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case', 'brief', 'shortlist'];
+const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case', 'brief', 'shortlist', 'compare'];
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
-const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
+const TABS: InspectorTab[] = ['money', 'ease', 'rules', 'site', 'next', 'sources', 'whatif'];
 export const WHATIFS = ['S1', 'S2', 'S3'] as const;
 // The policy agent's committed questions (data/policy/q1-….json → Q1), linkable like S1–S3; only each file's id is imported.
 export const POLICY_IDS = Object.values(import.meta.glob('../../../data/policy/q*.json', { eager: true, import: 'id' }) as Record<string, string>);

@@ -6,7 +6,8 @@
 //   - the city view: "CHECKED IN 6 DISTRICTS", each of the six signed districts named, and 428 too narrow;
 //   - the rule what-if S1 opens 196 lots;
 //   - lot 25 leaves 4 ft for a two-unit house;
-//   - the builder's quote flips the verdict (film beat B16: $140/sf → WORTH PRICING THE SITE, $51k left);
+//   - the builder's quote moves the money to the full-cost gap (film beat B16: $140/sf → $23.1k–$48.1k a home before land,
+//     $51k left after building only);
 //   - the letters: a draft, four letters, every number traced to the engine;
 //   - the static API (api/city/summary.json, api/lots/<pin>.json), the link-preview image and the favicon;
 //   - on every page: no console error, no uncaught error, no failed request to the site itself;
@@ -28,11 +29,11 @@ const E = {
   whatif: facts.scenario_s1_two.value, // 196
   width: facts.lot25_two_width.value, // 4
   quote: 140, // $/sf, the builder's quote typed in beat B16
-  quoteStamp: 'WORTH PRICING THE SITE',
-  quoteLeft: '$51k', // 240,000 − 1,350 sf × 140
+  quoteGap: '$23.1k–$48.1k', // 189,000 × 1.26 + 25,000 / 50,000 − 240,000, per home before land
+  quoteLeft: '$51k', // 240,000 − 1,350 sf × 140 (after building only)
   letters: 4,
 };
-if (MUTATE) Object.assign(E, { districts: [...E.districts, 'R3-M'], narrow: E.narrow + 1, whatif: E.whatif + 1, width: E.width + 1, quoteStamp: 'NOT WORTH IT', quoteLeft: '$52k', letters: 5 });
+if (MUTATE) Object.assign(E, { districts: [...E.districts, 'R3-M'], narrow: E.narrow + 1, whatif: E.whatif + 1, width: E.width + 1, quoteGap: '$24.1k–$49.1k', quoteLeft: '$52k', letters: 5 });
 
 const n = (x) => x.toLocaleString('en-US');
 const norm = (s) => s.replace(/[‑‐]/g, '-').replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim();
@@ -97,11 +98,8 @@ try {
   const after = await textWhen('.ws-status .stamp', /builder/i);
   const leftAfter = await textWhen('[data-tile="left"] .ws-tile-value', /\$/);
   const flagged = await page.locator('.ws-status .stamp[data-quote="1"]').count();
-  check(
-    `quote $${E.quote}/sf flips the verdict to ${E.quoteStamp}`,
-    flagged && before !== after && after.toUpperCase().startsWith(E.quoteStamp) && !before.toUpperCase().startsWith(E.quoteStamp),
-    `"${before}" → "${after}"`,
-  );
+  const sentence = await textWhen('.ws-sentence', /subsidy|covers/);
+  check(`quote $${E.quote}/sf: a home needs ${E.quoteGap} before land`, flagged && before !== after && sentence.includes(E.quoteGap), `"${after}" · "${sentence.slice(0, 140)}"`);
   check(`quote $${E.quote}/sf leaves ${E.quoteLeft}`, leftAfter === E.quoteLeft && leftBefore !== leftAfter, `left after building ${leftBefore} → ${leftAfter}`);
 
   // The letters.

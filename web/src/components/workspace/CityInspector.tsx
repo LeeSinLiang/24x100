@@ -22,6 +22,8 @@ import { WatchToggle } from '../WatchToggle';
 import { WhatIfs } from '../city/WhatIfs';
 import { watchState as watchStateOf } from '@engine/digest';
 import { DEFAULT_SETTINGS } from '@engine/templates';
+import { easeForCity } from '@engine/ease';
+import { EaseBar, EaseTable } from './Ease';
 
 const listAnd = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
@@ -467,7 +469,9 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
         <span className={`bk bk-${c.blocker}`} aria-hidden="true" /> {LAYER_WORDS[c.blocker]}
       </span>
     );
+  const ease = easeForCity(c, lot, DEFAULT_SETTINGS);
   const tabs: TabDef[] = [
+    { id: 'ease', label: 'Ease', panel: <EaseTable ease={ease} /> },
     { id: 'money', label: 'Money', panel: <NotAssessed>Money not assessed: it is {moneyWhy} ({Object.values(BLOCKS).map((b) => b.meta.name.replace(/-/g, '‑')).join(' and ')}). {link ? 'Open the lot to see it.' : ''}</NotAssessed> },
     {
       id: 'rules',
@@ -553,6 +557,7 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
             {status} <span className="small muted">{lot.hood}</span>
           </>
         }
+        statusExtra={<EaseBar ease={ease} compact onOpen={() => onTab('ease')} />}
         sentence={cityLotSentence(lot, c, s.type, minArea)}
         defaultTab="rules"
         tiles={

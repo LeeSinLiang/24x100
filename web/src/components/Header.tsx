@@ -47,7 +47,7 @@ export function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?:
       <input
         id="search"
         value={q}
-        placeholder="Search a lot, street or block…"
+        placeholder="Parcel ID or address…"
         autoComplete="off"
         onFocus={warm}
         onChange={(e) => {

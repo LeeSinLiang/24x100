@@ -23,6 +23,7 @@ export function InspectorShell({
   note,
   defaultTab,
   statusDetail,
+  statusExtra,
 }: {
   title: ReactNode;
   status: ReactNode;
@@ -35,6 +36,7 @@ export function InspectorShell({
   note?: ReactNode; // a pencil note under the sentence (e.g. changed on the last refresh)
   defaultTab?: InspectorTab; // the tab to open when the link names none (else the first)
   statusDetail?: ReactNode; // what the status chip opens: the verdict in full (what blocks it)
+  statusExtra?: ReactNode; // beside the status chip: the Development Ease range
 }) {
   const [why, setWhy] = useState(false);
   const on = tabs.find((t) => t.id === active) ?? tabs.find((t) => t.id === defaultTab) ?? tabs[0];
@@ -61,6 +63,7 @@ export function InspectorShell({
           ) : (
             status
           )}
+          {statusExtra}
         </div>
         {statusDetail && why ? (
           <div className="ws-why" id="ws-why">

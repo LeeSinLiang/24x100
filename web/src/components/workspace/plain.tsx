@@ -6,7 +6,7 @@ import { needsUseVariance } from '@engine/evaluate';
 import { HEADLINE_WORDS, type Headline } from '@engine/verdict';
 import { TEMPLATES } from '@engine/templates';
 import type { BlockFile, LotResult, MoneyResult, TemplateId } from '@engine/types';
-import { NEG, usd } from '@engine/format';
+import { NEG } from '@engine/format';
 import { Ev, ftFmt } from '../ui';
 
 /** The glossary (DESIGN_GUIDE §8), shown as a dotted-underline tooltip on first use in a tab. */
@@ -82,29 +82,30 @@ function moneyClause(m: MoneyResult | null): ReactNode {
   // The deciding estimate: the user's builder's quote when given (red, theirs), else the practitioner's.
   const A = m.quote ?? m.estimates.find((e) => e.default) ?? m.estimates[0];
   const ev = m.quote ? ({ trust: 'red' } as const) : ({ trust: 'estimate', refId: `money:estimate:${A.id}` } as const);
-  const at = m.quote ? ' at your builder’s quote' : '';
-  if (m.money_verdict === 'only_with_subsidy')
-    return A.left[0] < 0 ? (
-      <>building costs more than the newest sale{at}</>
-    ) : (
+  const at = m.quote ? ` at your $${A.psf[0]} quote` : '';
+  const g = m.gap;
+  // The full-cost gap per home, before land (building with soft costs and financing, plus site work, minus the sale).
+  if (m.money_verdict === 'only_with_subsidy' && g)
+    return (
       <>
-        at most{' '}
+        {at ? `${at.trim()}, ` : ''}a home needs{' '}
         <Ev {...ev} num>
-          {usd(A.left[0], 100)}
+          {g.lo === g.hi ? kFmt(g.lo) : `${kFmt(g.lo)}–${kFmt(g.hi)}`}
         </Ev>{' '}
-        is left per home{at}, under typical site work
+        of subsidy before land, at full cost
       </>
     );
-  if (m.money_verdict === 'depends_on_builder') return <>whether any money is left depends on the builder’s price</>;
-  return (
-    <>
-      building leaves{' '}
-      <Ev {...ev} num>
-        {A.left[0] === A.left[1] ? usd(A.left[0], 100) : `${usd(A.left[1], 100)}–${usd(A.left[0], 100)}`}
-      </Ev>{' '}
-      per home for the site{at}: worth pricing it
-    </>
-  );
+  if (m.money_verdict === 'depends_on_builder')
+    return (
+      <>
+        {at ? `${at.trim()}, ` : ''}the gap runs from nothing to{' '}
+        <Ev {...ev} num>
+          {kFmt(g?.hi ?? 0)}
+        </Ev>{' '}
+        a home before land: a builder’s price decides it
+      </>
+    );
+  return <>the sale covers full cost, site work included{at}: worth pricing the site</>;
 }
 
 export function LotSentence({ r, m, block, detail }: { r: LotResult; m: MoneyResult | null; block: BlockFile; detail: string }) {

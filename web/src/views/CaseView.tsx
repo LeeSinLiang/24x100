@@ -282,7 +282,7 @@ export function CaseView({ s, audit }: ViewProps) {
           {model ? <VerdictStamp headline={model.verdict.headline} refusal={model.result.refusal?.code} /> : null}
           {done ? (
             <span className={`stamp case-stamp ${c.status === 'published' ? 'is-ok' : 'is-blocked'}`} data-case-stamp={c.status}>
-              {c.status === 'published' ? 'Verified' : 'Blocked by the verifier'}
+              {c.status === 'published' ? `${(c.verifier.checked.numbers ?? 0).toLocaleString('en-US')} numbers traced to sources` : 'Blocked by the verifier'}
             </span>
           ) : (
             <span className="stamp stamp-pencil case-stamp" data-case-stamp="running">
