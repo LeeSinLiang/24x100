@@ -71,7 +71,13 @@ def resolve_district(name: str) -> District:
     name = name.strip().upper()
     m = re.match(r"^([A-Z0-9]+)-([A-Z]+)$", name)
     if not m:
-        raise ValueError(f"expected a residential district like RM-M or R1D-H, got {name!r}")
+        # A base district with its own column in the §911.02 Use Table (H, P, EMI, …): its use permissions
+        # can be read, nothing else (its dimensional rules are in chapters not saved). Use-only.
+        from .usetable import columns
+
+        if name in columns() and not re.match(r"^(R1D|R1A|R2|R3|RM)$", name):
+            return District(name=name, use=name, use_name=f"the {name} column", use_section="911.02", density="", density_name="", density_section="")
+        raise ValueError(f"expected a residential district like RM-M or R1D-H, or a §911.02 use-table column like H, got {name!r}")
     use, dens = m.group(1), m.group(2)
     t = read_code(C903)
 
@@ -134,11 +140,42 @@ def _drop_ordinance_history(text: str) -> str:
     return "\n".join(ln for ln in text.split("\n") if not re.match(r"^\s*\[Ord\..*\]\s*$", ln))
 
 
+USE_CODES_GUIDANCE = (
+    "value_use: P = permitted by right, S = special exception, N = not permitted (a blank cell), SPR = site "
+    "plan review. An A (Administrator Exception) or C (Conditional Use) cell also needs an approval: return S "
+    "and name the letter and who decides in `condition`. If a cell holds more than one code (e.g. \"P/S\"), "
+    "use the more restrictive code, state the condition that decides it in `condition` and cite the standard "
+    "that sets it. applies_to = the one matching building type (detached, row, two, three). Quote the use's "
+    "row starting at its name, far enough to include the cell you read."
+)
+
+
 def plan(d: District) -> list[CallPlan]:
-    dens = d.density_section
     use_tbl = _drop_ordinance_history(
         _cut_before(section_text("911.02", C911), "Assisted Living means", "the §911.02 use table")
     )
+    use_sections = [
+        SectionInput("911.02", C911, use_tbl, trimmed="residential rows only; ordinance history dropped"),
+        SectionInput("911.04.A.69A", C911, _cut_before(section_text("911.04.A.69A", C911), "70.", "§911.04.A.69A")),
+    ]
+    use_types = (
+        "use_detached = Single-Unit Detached Residential, use_row = Single-Unit Attached Residential, use_two = "
+        "Two-Unit Residential, use_three = Three-Unit Residential. "
+    )
+    if not d.density_section:  # a use-only district (H, P, …): the use call alone
+        return [
+            CallPlan(
+                id="use",
+                fields=["use_detached", "use_row", "use_two", "use_three"],
+                sections=use_sections,
+                guidance=(
+                    f"Read the column headed {d.use} in the table's header (a base zoning district listed with "
+                    "the Special districts, not a residential subdistrict); count the cells of each row carefully, "
+                    "an empty cell is a column too. " + use_types + USE_CODES_GUIDANCE
+                ),
+            )
+        ]
+    dens = d.density_section
     parking = _cut_before(section_text("914.02.A", C914), "Non-Residential Uses", "Parking Schedule A")
 
     return [
@@ -183,21 +220,11 @@ def plan(d: District) -> list[CallPlan]:
         CallPlan(
             id="use",
             fields=["use_detached", "use_row", "use_two", "use_three"],
-            sections=[
-                SectionInput("911.02", C911, use_tbl, trimmed="residential rows only; ordinance history dropped"),
-                SectionInput("911.04.A.69A", C911, _cut_before(section_text("911.04.A.69A", C911), "70.", "§911.04.A.69A")),
-            ],
+            sections=use_sections,
             guidance=(
                 f"Read the column for the {d.use} Use Subdistrict ({d.use_name}, §{d.use_section}). "
                 "The district's suffix (e.g. -H) is a Development Subdistrict of §903.03, not a column "
-                "of the use table. use_detached = Single-Unit Detached Residential, use_row = "
-                "Single-Unit Attached Residential, use_two = Two-Unit Residential, use_three = "
-                "Three-Unit Residential. value_use: P = permitted by right, S = special exception, "
-                "N = not permitted (a blank cell), SPR = site plan review. If a cell holds more than "
-                "one code (e.g. \"P/S\"), use the more restrictive code, state the condition that "
-                "decides it in `condition` and cite the standard that sets it. applies_to = the one "
-                "matching building type (detached, row, two, three). Quote the use's row starting at "
-                "its name, far enough to include the cell you read."
+                "of the use table. " + use_types + USE_CODES_GUIDANCE
             ),
         ),
         CallPlan(

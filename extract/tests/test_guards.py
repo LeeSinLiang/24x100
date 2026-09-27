@@ -125,3 +125,30 @@ def test_soft_checks_and_section_normalization():
     assert not number_in_text(24, "Minimum Lot Size | 2,400 s.f.")
     assert normalize_section("§ 903.03.C.2.(c)") == "903.03.C.2(c)"
     assert normalize_section("Section 925.06.C") == "925.06.C"
+
+
+# ── The use table, read by position (extract/usetable.py) ────────────────────
+TWO_ROW = "Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.)"
+
+
+def test_use_table_columns_and_cells_by_position():
+    from extract.usetable import cell, columns
+
+    cols = columns()
+    assert len(cols) == 25 and cols[:5] == ["R1D", "R1A", "R2", "R3", "RM"] and cols[15:18] == ["P", "H", "EMI"] and cols[19] == "DT"
+    assert cell("use_two", "RM-M") == "P" and cell("use_two", "R1D-H") == "" and cell("use_three", "R2-L") == ""
+    assert cell("use_row", "R1D-H") == "P/S" and cell("use_detached", "H") == "A" and cell("use_detached", "P") == "P"
+    assert cell("use_two", "H") == "" and cell("use_three", "P") == ""
+
+
+def test_a_use_reading_that_disagrees_with_the_table_is_rejected():
+    def U(district, value):
+        p = P(field="use_two", value_number=None, value_use=value, unit="use", applies_to=["two"], section="911.02", quote=TWO_ROW)
+        return guard(p, district=district, allowed_fields=["use_two"], model="m", prompt_sha="s")
+
+    assert U("RM-M", "P").rule is not None  # RM's column reads P
+    assert U("R1D-H", "N").rule is not None  # an empty cell: not permitted
+    bad = U("H", "P")  # the Hillside column's cell is empty
+    assert bad.rule is None and "H column" in bad.reason
+    assert U("R2-L", "N").rule is None  # R2 permits a two-unit house
+    assert U("H", "N").rule is not None

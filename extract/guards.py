@@ -4,7 +4,8 @@
    AND inside the cited section span (same logic as engine/src/source.ts). Else: rejected.
 2. Schema, units and plausible ranges: setbacks 0-100 ft, lot area 0-20,000 sf, height 0-200 ft,
    stories 1-20, parking 0-10 spaces per unit, use in {P, S, SPR, N}. A table's rows must each
-   appear as consecutive cells in the cited section. Else: rejected.
+   appear as consecutive cells in the cited section. A use permission read from the §911.02 table must
+   agree with the district's column of that row, read by position (extract/usetable.py). Else: rejected.
 3. Trust: every extracted rule is `unreviewed` (pencil), reviewer null. A rule that is ambiguous,
    conditional or cross-referenced must carry a question_for_city; if the model gave none, the
    guard writes one and the check log says so.
@@ -20,6 +21,8 @@ from dataclasses import dataclass, field
 from .schema import FIELD_UNIT, UNREVIEWED, ProposedRule
 from .sections import DAGGER_FIELDS
 from .source import check_quote, header, locate_section, normalize_ws, read_code, source_file_for
+from .usetable import cell as use_cell
+from .usetable import mismatch as use_mismatch
 
 SETBACK_FIELDS = {
     "front_setback",
@@ -137,6 +140,12 @@ def guard(p: ProposedRule, *, district: str, allowed_fields: list[str], model: s
         if p.value_use not in USE_CODES:
             return Verdict(None, f"{fld} use permission {p.value_use!r} is not one of P, S, SPR, N")
         value = p.value_use
+        # The use table is read by position too, with no model: the district's column in the field's row.
+        if section.startswith("911.02"):
+            if use_cell(fld, district) is None:
+                notes.append("the use table cell could not be located by position (check by eye)")
+            elif (why := use_mismatch(fld, district, value)) is not None:
+                return Verdict(None, why)
     elif want_unit == "table":
         rows = p.value_table or []
         if not rows:

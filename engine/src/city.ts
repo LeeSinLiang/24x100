@@ -105,7 +105,19 @@ const formulaOf = (front: number, setbacks: number[], width: number) => {
   return width > 0 ? `${terms} = ${r1(width)}` : `${terms} leaves no buildable width`;
 };
 
-export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: TemplateId, settings: Settings, proposal: Proposal = TEMPLATES[type].proposal): CityClass {
+/** A what-if (spec §0.16): one clause of today's rules read differently. It never adds a rule; the rules and
+ *  their values stay as stored (a value change is made on the rule set itself). Off by default. */
+export interface WhatIf {
+  /** §925.06.C's last sentence struck ("If lots on either side of the subject lot are vacant, the setback that
+   *  is required by the zoning district shall apply."): a side facing a vacant lot may take the contextual
+   *  minimum, as a side facing a built lot may. */
+  vacantSidesContextual?: boolean;
+  /** The §925.06.C narrow-lot side-yard table, today "for any single-unit house", read as applying to these
+   *  building types too. */
+  narrowTableFor?: TemplateId[];
+}
+
+export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: TemplateId, settings: Settings, proposal: Proposal = TEMPLATES[type].proposal, what: WhatIf = {}): CityClass {
   const none = (blocker: Blocker, note: string, trust: Trust = 'ink'): CityClass => ({
     blocker,
     all: [blocker],
@@ -134,22 +146,32 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
     narrow: pick(rs, 'narrow_lot_side_table'),
   };
   const needed = [R.minArea, R.front, R.rear, R.sideInt, ...(lot.flank.includes('exterior') ? [R.sideExt] : [])];
-  if (needed.some((r) => !r || typeof r.value !== 'number')) return none('rules', `Rules not loaded for ${lot.zone}`, 'pencil');
-  if (needed.some((r) => ruleTrust(r) !== 'ink')) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
+  const useRule = pick(rs, `use_${type}` as never);
+  const useNo = !!useRule && useRule.value === 'N';
+  if (needed.some((r) => !r || typeof r.value !== 'number')) {
+    // No dimensional rules (a district whose other chapters aren't saved, e.g. Hillside or Parks): the use
+    // table alone can still decide, when a person has checked that it forbids this building here.
+    if (!useNo) return none('rules', `Rules not loaded for ${lot.zone}`, 'pencil');
+    if (ruleTrust(useRule!) !== 'ink') return none('rules', `${lot.zone} rules are still pencil: not checked by a person (the use table's reading: not permitted, §${useRule!.section})`, 'pencil');
+  } else if (needed.some((r) => ruleTrust(r) !== 'ink')) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
   if (lot.assessed != null && lot.assessed > 0 && Math.abs(lot.mapped / lot.assessed - 1) > settings.recon_tolerance) {
     return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
   }
   if (!lot.edges_ok) return none('edges', lot.edge_note ?? 'Edges not computed');
   // The use table first: where this building type isn't permitted, it is the blocker, not the setbacks (a
   // district whose rules are signed can still forbid a two-unit house; R1D‑H does).
-  const useRule = pick(rs, `use_${type}` as never);
-  if (useRule && useRule.value === 'N')
-    return { ...none('use', `${TEMPLATES[type].name}: not permitted in ${lot.zone} (§${useRule.section})`, ruleTrust(useRule) === 'ink' ? 'ink' : 'pencil') };
+  if (useNo)
+    return { ...none('use', `${TEMPLATES[type].name}: not permitted in ${lot.zone} (§${useRule!.section})`, ruleTrust(useRule!) === 'ink' ? 'ink' : 'pencil') };
 
   const front = lot.deed?.front ?? lot.front_len ?? 0;
-  const single = TEMPLATES[type].single_unit;
+  const single = TEMPLATES[type].single_unit || !!what.narrowTableFor?.includes(type);
   const nrow = single ? narrowRow(R.narrow?.value, front) : null;
-  const setbacks = lot.flank.map((k) => (k === 'exterior' ? (nrow ? nrow.streetside : (R.sideExt!.value as number)) : nrow ? nrow.interior : (R.sideInt!.value as number)));
+  const ctxRule = pick(rs, 'contextual_side');
+  const ctxMin = ctxRule && typeof ctxRule.value === 'number' && ruleTrust(ctxRule) === 'ink' ? ctxRule.value : null;
+  const setbacks = lot.flank.map((k) => {
+    const v = k === 'exterior' ? (nrow ? nrow.streetside : (R.sideExt!.value as number)) : nrow ? nrow.interior : (R.sideInt!.value as number);
+    return what.vacantSidesContextual && k === 'interior_vacant' && ctxMin != null ? Math.min(v, ctxMin) : v;
+  });
   const width = front - setbacks.reduce((a, b) => a + b, 0);
   const depth = lot.deed ? lot.deed.depth - (R.front!.value as number) - (R.rear!.value as number) : null;
   const area = lot.deed ? lot.deed.front * lot.deed.depth : lot.assessed ?? lot.mapped;
@@ -173,14 +195,13 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
 
   // Contextual side setback (§925.06.C), the same situation the lot engine marks pencil: a side
   // next to a built lot may take less than the district setback, down to the rule's minimum.
-  const ctxRule = pick(rs, 'contextual_side');
   const builtSides = lot.flank.filter((k) => k === 'interior_built').length;
   const neighbors: CityContext['neighbors'] = builtSides ? 'built' : lot.flank.includes('interior_vacant') ? 'vacant' : 'none';
   let context: CityContext = { neighbors, minimum: null, best: null, formula: null, matters: false, rule: ctxRule?.id ?? null, section: ctxRule?.section ?? null };
   if (builtSides) {
     // The minimum bounds the best case only when the rule is loaded and checked; otherwise any
     // width failure next to a built lot is open (never a guess either way).
-    const minimum = ctxRule && typeof ctxRule.value === 'number' && ruleTrust(ctxRule) === 'ink' ? ctxRule.value : null;
+    const minimum = ctxMin;
     if (minimum != null) {
       const relaxed = setbacks.map((v, i) => (lot.flank[i] === 'interior_built' ? Math.min(v, minimum) : v));
       const best = front - relaxed.reduce((a, b) => a + b, 0);

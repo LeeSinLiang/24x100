@@ -18,6 +18,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .source import REPO, check_quote, normalize_ws, read_code
+from .usetable import mismatch as use_mismatch
 
 EXTRACTED = REPO / "data" / "rules" / "extracted"
 COMPARE = EXTRACTED / "compare"
@@ -261,6 +262,10 @@ def recheck_all() -> list[str]:
             c = check_quote(read_code(r["source_file"]), r["section"], r["quote"])
             if not c.ok:
                 bad.append(f"{p.relative_to(REPO)}: {r['id']}: {c.reason}")
+            if r["field"].startswith("use_") and str(r["section"]).startswith("911.02") and r.get("district") not in (None, "*"):
+                why = use_mismatch(r["field"], r["district"], r["value"])
+                if why:
+                    bad.append(f"{p.relative_to(REPO)}: {r['id']}: {why}")
     return bad
 
 

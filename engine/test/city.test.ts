@@ -56,6 +56,24 @@ describe('city classifier agrees with the lot engine', () => {
     expect(s.districts[0].computed).toBe(false);
   });
 
+  it('a district with only use rules (Hillside): the use table decides once a person has checked it, never from pencil', () => {
+    const l = { ...lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!, zone: 'H' };
+    const shape = ctx.rs.rules.find((r) => r.district === '*')!; // any stored rule: the H rule takes its shape
+    const hRule = (state: 'ink' | 'pencil', value: string) => ({ ...shape, id: 'h.x.use_two', district: 'H', field: 'use_two', unit: 'use', applies_to: ['two'], section: '911.02', value, state, ai_checked: false });
+    const rsH = (state: 'ink' | 'pencil', value = 'N') => ({ district: 'H', rules: [...ctx.rs.rules.filter((r) => r.district === '*'), hRule(state, value)], questions: [] }) as unknown as typeof ctx.rs;
+    // Pencil: the model's reading of the table, not checked by a person: grey, and said to be pencil.
+    const pencil = classifyCityLot(l, rsH('pencil'), 'two', DEFAULT_SETTINGS);
+    expect(pencil.blocker).toBe('rules');
+    expect(pencil.note).toMatch(/still pencil/);
+    // Checked: not permitted here, in ink, without any dimensional rule.
+    const ink = classifyCityLot(l, rsH('ink'), 'two', DEFAULT_SETTINGS);
+    expect(ink).toMatchObject({ blocker: 'use', trust: 'ink' });
+    // Permitted (or needing an approval) with no dimensional rules: nothing to compute, grey.
+    expect(classifyCityLot(l, rsH('ink', 'S'), 'two', DEFAULT_SETTINGS)).toMatchObject({ blocker: 'rules', note: 'Rules not loaded for H' });
+    // A district with signed dimensional rules is unchanged: RM‑M permits a two-unit house.
+    expect(classifyCityLot(lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!, ctx.rs, 'two', DEFAULT_SETTINGS).blocker).toBe('width');
+  });
+
   it('summary counts width-but-not-area separately (H1)', () => {
     const cls = lots.map((l) => classifyCityLot(l, ctx.rs, 'two', DEFAULT_SETTINGS));
     const s = summarize(lots, cls, 'two');

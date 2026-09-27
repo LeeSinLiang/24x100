@@ -61,11 +61,17 @@ def log(msg: str) -> None:
     print(msg, file=sys.stderr, flush=True)
 
 
-def run_district(district: str, cfg: Config, extractor: Extractor | None = None, out_dir: Path = OUT_DIR, compare: bool = False, resume: bool = False, cache_dir: Path | None = CACHE, run_note: str | None = None) -> dict:
+def run_district(district: str, cfg: Config, extractor: Extractor | None = None, out_dir: Path = OUT_DIR, compare: bool = False, resume: bool = False, cache_dir: Path | None = CACHE, run_note: str | None = None, only: list[str] | None = None) -> dict:
     """Extract one district. compare=True writes data/rules/extracted/compare/<d>.<provider>.<model>.json,
     which the app does not load (for the side-by-side provider table only)."""
     d = resolve_district(district)
     calls = plan(d)
+    if only:
+        # Only some calls (e.g. dimensional and use: the §925.06 rules are already stored once, citywide).
+        unknown = set(only) - {c.id for c in calls}
+        if unknown:
+            raise ValueError(f"unknown call(s) {sorted(unknown)}; this district's calls are {[c.id for c in calls]}")
+        calls = [c for c in calls if c.id in only]
     ex = extractor or Extractor(cfg, on_retry=lambda m: log(f"    {m}"))
     run_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -172,7 +178,9 @@ def run_district(district: str, cfg: Config, extractor: Extractor | None = None,
             "failed_calls": failed,
             "note": (
                 "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named "
-                "person source-checks it in the app. Fields with no accepted rule: " + (", ".join(missing) or "none") + "."
+                "person source-checks it in the app."
+                + (f" Only these calls were run: {', '.join(only)}." if only else "")
+                + " Fields with no accepted rule: " + (", ".join(missing) or "none") + "."
                 + (f" Calls refused by the provider (no rules from them): {', '.join(failed)}." if failed else "")
             ),
         },
