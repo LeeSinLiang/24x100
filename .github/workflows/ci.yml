@@ -1,0 +1,58 @@
+# CI: every check a fresh clone can run. No model calls, no City pulls, no secrets, nothing sent.
+# Tests that need the gitignored raw pulls (data/raw, data/city/work) skip and say why (-rs lists each skip).
+# Node 26 is the version these checks were verified on (a fresh clone, 27 Sep 2026).
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - uses: astral-sh/setup-uv@v5
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Engine tests (vitest)
+        run: npx vitest run
+      - name: Pipeline and extraction tests (pytest; skips listed with their reasons)
+        run: uv run pytest -q -rs
+      - name: Build (the static API, then the site)
+        run: npm run build
+      - name: The build reproduces the committed data
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+      - name: Chrome for the page checks
+        run: command -v google-chrome || npx playwright install --with-deps chrome
+      - name: Start the dev server (the trust scan imports the engine from it) and the built site
+        run: |
+          nohup npm run dev > /tmp/dev.log 2>&1 &
+          nohup npm run preview > /tmp/preview.log 2>&1 &
+          for i in $(seq 90); do
+            curl -sf http://localhost:5173/ > /dev/null && curl -sf http://localhost:4173/ > /dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/dev.log /tmp/preview.log
+          exit 1
+      - name: No score anywhere (spec §0.12 C1; the self-test plants one first)
+        run: node scripts/no-score.mjs --self-test
+      - name: Trust states on screen (nothing pencil, struck or unsigned drawn in ink)
+        run: node scripts/trust-scan.mjs
+      - name: Word budgets, no page scroll, no console errors
+        run: node scripts/words.mjs
+      - name: Smoke test of the built site (the film's numbers, the quote flip, the letters)
+        run: npm run smoke -- http://localhost:4173/

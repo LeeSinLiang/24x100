@@ -10,7 +10,7 @@ the settings, so the dashboard needs no build configuration.
 | Build | `npm run build` (the static API, then the site) |
 | Output | `web/dist` (about 11,300 files, 53 MB) |
 | Framework preset | Other |
-| Environment variables | none; don't add `GOOGLE_API_KEY` (only the offline extraction uses it) |
+| Environment variables | none needed; `SITE_URL` optional (link previews, below). Don't add `GOOGLE_API_KEY` (only the offline extraction uses it) |
 
 The app routes by query string only (`/?view=lot&block=10K&lot=25`), so no rewrites are needed.
 
@@ -22,10 +22,18 @@ The app routes by query string only (`/?view=lot&block=10K&lot=25`), so no rewri
    come from `vercel.json`). Under Settings → General → Node.js Version, pick 22.x or newer (Vite 8 needs Node
    20.19+ or 22.12+).
 3. **Deploy.** Click Deploy; the build takes under a minute.
-4. **Check the site:**
-   - `/?view=city&type=two`: "City-owned vacant lots 11,247" on the left, "Too narrow 178" on the right.
-   - `/?view=lot&block=10K&lot=25&type=two`: "The rules leave only 4 ft to build on…".
-   - `/api/lots/0010K00025000000.json`: returns JSON.
+4. **Check the site** from a checkout, with Chrome installed:
+   ```bash
+   npm run smoke -- https://<your-project>.vercel.app/
+   ```
+   It opens the city view (6 districts, 428 too narrow), the what-if (196), lot 25 (4 ft), the builder's quote
+   ($140/sf → WORTH PRICING THE SITE, $51k), the letters and the static API, and fails on any console error or
+   failed request. The numbers come from `film/facts.json`, so it checks the site against what the film says.
+
+Link previews (Slack, iMessage, social) need an absolute image URL. On Vercel the build takes the production
+domain from `VERCEL_PROJECT_PRODUCTION_URL` (a system variable Vercel sets); elsewhere set `SITE_URL` (for example
+`https://24x100.example/`) for the build. Without either the tags point at `./og.png`, which browsers resolve but
+unfurlers may not.
 
 ## One command instead
 

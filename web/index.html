@@ -11,7 +11,25 @@
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=block"
       rel="stylesheet"
     />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='5' width='26' height='22' fill='%23F2EEE5' stroke='%231E1A15' stroke-width='2'/%3E%3Cpath d='M12 5v22M20 5v22' stroke='%231E1A15' stroke-width='1.2'/%3E%3Cpath d='M14 12h4v12h-4z' fill='%23B01E33'/%3E%3C/svg%3E" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="theme-color" content="#ece7db" />
+    <!-- Link previews (scripts/og.mjs draws og.png). %SITE_URL% is the deployed origin, set at build time by
+         web/vite.config.ts from SITE_URL or Vercel's production domain; previews need an absolute image URL. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="24×100" />
+    <meta property="og:title" content="24×100 · Pittsburgh lot atlas" />
+    <meta property="og:description" content="What a Pittsburgh lot can hold, what's holding it back, and what would move it: City-owned vacant lots checked lot by lot against the zoning code." />
+    <meta property="og:url" content="%SITE_URL%" />
+    <meta property="og:image" content="%SITE_URL%og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The 24×100 city map of Pittsburgh's City-owned vacant lots, beside the line: in the districts checked so far, hundreds of lots are big enough for a two-unit house but too narrow." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="24×100 · Pittsburgh lot atlas" />
+    <meta name="twitter:description" content="What a Pittsburgh lot can hold, what's holding it back, and what would move it." />
+    <meta name="twitter:image" content="%SITE_URL%og.png" />
   </head>
   <body>
     <div id="root"></div>

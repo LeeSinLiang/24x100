@@ -1,5 +1,7 @@
 # 24×100
 
+[![CI](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml)
+
 **What a Pittsburgh lot can hold, what's holding it back, and what would move it.**
 
 Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100 ft deep, repeated in
@@ -107,10 +109,12 @@ npm run dev            # http://localhost:5173
 |---|---|
 | `npm test` | Engine tests (vitest) and pipeline/extraction tests (pytest) |
 | `npm run build` | Static API (`api/lots/<pin>.json`, `api/blocks/<id>.json`) and the site in `web/dist` |
+| `npm run smoke -- <url>` | After a deploy: the film's numbers (6 districts, 428, 196), the quote flip, the letters, the API and no console errors, in Chrome (default `http://localhost:4173/`, `npm run preview`) |
 | `npm run rebuild` | Everything from raw public data: pull → join → reconcile → rules → engine → API → site |
 | `npm run refresh` | Re-pull every dataset and write the differences (shown in pencil in the app) |
 | `npm run digest -- --dry-run` | Preview the watchlist digest without sending it |
 | `uv run python -m extract run --district R1D-H` | Live rule extraction for a district (needs `GOOGLE_API_KEY` in `.env`) |
+| `npm run og` | The link-preview image (`web/public/og.png`, 1200×630) and favicons, drawn from the running app |
 | `npm run shoot` | Screenshots of every storyboard state (1440 and 390 px, light and dark) |
 | `npm run demo -- --record` | One 1920×1080 clip per storyboard beat in `film/clips/` |
 | `npx tsx scripts/build-scenarios.ts` | The rule what-ifs (`data/city/scenarios.json`); also part of `npm run build` |
