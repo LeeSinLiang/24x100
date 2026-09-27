@@ -88,28 +88,119 @@ async function mark(page, beat, id, locator, c, note, opts = {}) {
     cues[beat].missing.push(`${id}: not found on this screen${note ? ` (${note})` : ''}`);
     return null;
   }
-  const box = [Math.round(b.x), Math.round(b.y), Math.round(b.width), Math.round(b.height)];
+  return pushMark(page, beat, id, [b.x, b.y, b.width, b.height], c, note);
+}
+function pushMark(page, beat, id, b, c, note) {
+  const box = b.map((v) => Math.round(v));
   cues[beat].marks.push({ id, t: Math.round(c.now() * 100) / 100, box, ...(note ? { note } : {}) });
+  // SHOTS=dir: a screenshot per mark with its box drawn, to check the boxes by eye (dry runs only: it costs time).
+  if (process.env.SHOTS && !RECORD)
+    return page
+      .evaluate((bx) => {
+        const d = document.createElement('div');
+        d.className = 'demo-shot-box';
+        d.style.cssText = `position:fixed;z-index:2147483646;pointer-events:none;outline:3px solid #0a0;left:${bx[0]}px;top:${bx[1]}px;width:${bx[2]}px;height:${bx[3]}px`;
+        document.documentElement.appendChild(d);
+      }, box)
+      .then(() => page.screenshot({ path: `${process.env.SHOTS}/${beat}-${id}.png` }))
+      .then(() => page.evaluate(() => document.querySelectorAll('.demo-shot-box').forEach((e) => e.remove())))
+      .then(() => box);
   return box;
 }
+/** One box around every element the selector matches that is on screen (a row of things, one mark). */
+async function markUnion(page, beat, id, selector, c, note) {
+  const b = await page.evaluate((sel) => {
+    const rs = [...document.querySelectorAll(sel)].map((e) => e.getBoundingClientRect()).filter((r) => r.width && r.height && r.bottom > 0 && r.top < innerHeight);
+    if (!rs.length) return null;
+    const x0 = Math.min(...rs.map((r) => r.left));
+    const y0 = Math.min(...rs.map((r) => r.top));
+    return [x0, y0, Math.max(...rs.map((r) => r.right)) - x0, Math.max(...rs.map((r) => r.bottom)) - y0];
+  }, selector);
+  cues[beat] ??= {};
+  cues[beat].marks ??= [];
+  if (!b) {
+    (cues[beat].missing ??= []).push(`${id}: not found on this screen${note ? ` (${note})` : ''}`);
+    return null;
+  }
+  return pushMark(page, beat, id, b, c, note);
+}
+const at = (c) => Math.round(c.now() * 100) / 100;
 
-// A visible cursor (the recorder's video has none): a dot that follows the mouse and rings on each click.
+// A visible mouse pointer (the recorder's video has none; Sin: "show the actual cursor clicking and navigating").
+// The standard arrow (white, black outline, soft shadow), about 34 px tall in the 1920×1080 frame, its tip on the
+// point; the pointing hand wherever the page itself shows one (a link, a button, a clickable lot); on a press it
+// dips and a ring spreads from the tip. Record mode zooms the root (App.tsx) and the pointer lives in it, so its
+// position and size are divided by that zoom.
 const CURSOR = `
   addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const zoom = () => parseFloat(root.style.zoom || getComputedStyle(root).zoom) || 1;
+    const ARROW = '<svg xmlns="http://www.w3.org/2000/svg" width="23" height="34" viewBox="0 0 23 34"><path d="M1.5 1.5 L1.5 27.2 L7.6 21.4 L11.6 31.4 L16 29.6 L12 19.8 L20.4 19.8 Z" fill="#fff" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+    const HAND = '<svg xmlns="http://www.w3.org/2000/svg" width="27" height="34" viewBox="0 0 27 34"><path d="M9.5 1.5c-1.5 0-2.7 1.2-2.7 2.7v13.4l-1.9-2c-1.1-1.1-2.8-1.2-3.8-.1-1 1-1 2.5-.1 3.6l6.3 8.1c1.7 2.2 4 3.4 6.8 3.4h2.4c4.3 0 7.8-3.5 7.8-7.8v-8.4c0-1.4-1.1-2.5-2.5-2.5-.6 0-1.2.2-1.6.6-.3-1.1-1.3-1.9-2.5-1.9-.7 0-1.3.3-1.8.7-.4-1-1.3-1.6-2.4-1.6-.4 0-.8.1-1.2.3V4.2c0-1.5-1.2-2.7-2.8-2.7z" fill="#fff" stroke="#111" stroke-width="1.7" stroke-linejoin="round"/><path d="M12.3 14.6v5.4M16.6 15.5v4.6M20.7 16.8v3.4" stroke="#111" stroke-width="1.3" stroke-linecap="round"/></svg>';
+    const TIP = { arrow: [1.5, 1.5], hand: [9.5, 1.5] };
     const d = document.createElement('div');
     d.id = 'demo-cursor';
-    d.style.cssText = 'position:fixed;z-index:2147483647;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:rgba(160,30,30,.85);box-shadow:0 0 0 3px rgba(255,255,255,.9);pointer-events:none;transition:transform .12s ease;opacity:0';
-    document.documentElement.appendChild(d);
-    addEventListener('mousemove', (e) => { d.style.opacity = '1'; d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; }, true);
-    addEventListener('mousedown', () => { d.style.transform = 'scale(1.6)'; }, true);
-    addEventListener('mouseup', () => { d.style.transform = 'scale(1)'; }, true);
+    d.style.cssText = 'position:fixed;z-index:2147483647;left:0;top:0;pointer-events:none;transform-origin:0 0;filter:drop-shadow(0 1.5px 2px rgba(0,0,0,.45));opacity:0;line-height:0;transition:transform .09s ease-out';
+    root.appendChild(d);
+    let kind = '', press = 1, x = 0, y = 0;
+    const place = () => {
+      const k = zoom(), t = TIP[kind];
+      d.style.left = x / k + 'px';
+      d.style.top = y / k + 'px';
+      d.style.transform = 'translate(' + (-t[0] * press) / k + 'px,' + (-t[1] * press) / k + 'px) scale(' + press / k + ')';
+    };
+    const CLICKABLE = 'a[href],button:not(:disabled),[role=tab],[role=radio],[role=button],select,summary,label,input[type=checkbox],input[type=radio]';
+    const set = (k) => { if (k !== kind) { kind = k; d.innerHTML = k === 'hand' ? HAND : ARROW; } };
+    set('arrow');
+    addEventListener('mousemove', (e) => {
+      x = e.clientX; y = e.clientY;
+      const t = e.target instanceof Element ? e.target : null;
+      set(t && (getComputedStyle(t).cursor === 'pointer' || t.closest(CLICKABLE)) ? 'hand' : 'arrow');
+      d.style.opacity = '1';
+      place();
+    }, true);
+    addEventListener('mousedown', () => {
+      press = 0.9; place();
+      const k = zoom(), r = document.createElement('div');
+      r.style.cssText = 'position:fixed;z-index:2147483646;pointer-events:none;border-radius:50%;box-sizing:border-box;left:' + (x - 20) / k + 'px;top:' + (y - 20) / k + 'px;width:' + 40 / k + 'px;height:' + 40 / k + 'px;border:' + 2.5 / k + 'px solid rgba(17,17,17,.8);box-shadow:0 0 0 ' + 1.5 / k + 'px rgba(255,255,255,.85)';
+      root.appendChild(r);
+      r.animate([{ transform: 'scale(.15)', opacity: 1 }, { transform: 'scale(1)', opacity: 0 }], { duration: 350, easing: 'ease-out' }).onfinish = () => r.remove();
+    }, true);
+    addEventListener('mouseup', () => { press = 1; place(); }, true);
   });`;
-/** Move the (visible) mouse to an element smoothly, then click it. */
+const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+/** Move the pointer to (x, y) along a slight arc, eased, so the eye can follow it (never a jump); then rest. */
+async function glide(page, x, y, { steps = 26, rest = 0 } = {}) {
+  const [x0, y0] = page.__pt ?? [x, y];
+  const dx = x - x0;
+  const dy = y - y0;
+  if (Math.hypot(dx, dy) < 2 || FAST) await page.mouse.move(x, y);
+  else {
+    const cx = x0 + dx / 2 - dy * 0.1; // the arc's control point, off the straight line
+    const cy = y0 + dy / 2 + dx * 0.1;
+    for (let i = 1; i <= steps; i++) {
+      const t = ease(i / steps);
+      await page.mouse.move((1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * cx + t * t * x, (1 - t) * (1 - t) * y0 + 2 * (1 - t) * t * cy + t * t * y);
+      await sleep(16);
+    }
+  }
+  page.__pt = [x, y];
+  if (rest && !FAST) await sleep(rest * 1000);
+}
+/** Glide to the middle of an element (or a point inside it, as fractions of its box) and rest there. */
+async function hoverSlow(page, locator, { fx = 0.5, fy = 0.5, rest = 0.6 } = {}) {
+  const el = typeof locator === 'string' ? page.locator(locator).first() : locator.first();
+  const b = await el.boundingBox();
+  if (b) await glide(page, b.x + b.width * fx, b.y + b.height * fy, { rest });
+  return b;
+}
+/** Glide to an element, settle, then click it where the pointer is. */
 async function clickSlow(page, locator) {
   const el = typeof locator === 'string' ? page.locator(locator).first() : locator.first();
   const b = await el.boundingBox();
-  if (b) await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 18 });
+  if (b) await glide(page, b.x + b.width / 2, b.y + b.height / 2, { rest: 0.3 });
   await el.click();
+  if (b) page.__pt = [b.x + b.width / 2, b.y + b.height / 2];
 }
 const failed = [];
 
@@ -241,8 +332,8 @@ const LEGACY = [
 
 
 // Film v6 (27 Sep): every clip moves, one thing to look at per phrase, pointer marks for the film's red pen,
-// 2 s of hold at the end. Beats whose screens are still being built (B02 map zoom, B01 focus ring, B14 graph
-// focus, B08 Rules tab, B10 Next tab) are recorded after that work lands.
+// 2 s of hold at the end. Round 3 (map zoom, the plate's selection, graph focus, the Rules and Next tabs) adds
+// B02, B01, B14, B08 and B10.
 const HOLD = 2;
 const MAHON = '0010K00025000000,0010K00026000000,0010K00027000000';
 const V6 = [
@@ -310,7 +401,7 @@ const V6 = [
       cues.B04b = { money_tab: Math.round(c.now() * 100) / 100 };
       await mark(p, 'B04b', 'stamp', p.locator('.ws-status .stamp'), c);
       const s = await p.locator('.ws-status .stamp').boundingBox();
-      if (s) await p.mouse.move(s.x + s.width / 2, s.y + s.height / 2, { steps: 20 }); // the eye goes to the stamp
+      if (s) await glide(p, s.x + s.width / 2, s.y + s.height / 2, { rest: 0.6 }); // the eye goes to the stamp
       await c.until(3 + HOLD);
     },
   },
@@ -322,7 +413,7 @@ const V6 = [
       await c.until(0.5);
       const st = p.locator('.ws-status .stamp');
       const b = await st.boundingBox();
-      if (b) await p.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 20 });
+      if (b) await glide(p, b.x + b.width / 2, b.y + b.height / 2, { rest: 0.6 });
       cues.B09 = {};
       const box = await mark(p, 'B09', 'cant_score', st, c);
       if (box) cues.B09.mark = [box[0] + Math.round(box[2] / 2), box[1] + Math.round(box[3] / 2), Math.round(box[2] / 2) + 18, Math.round(box[3] / 2) + 14];
@@ -350,6 +441,162 @@ const V6 = [
       await p.waitForSelector('.city-inset.is-wide', { timeout: 8000 });
       cues.B13.map_inset = Math.round(c.now() * 100) / 100;
       await c.until(8 + HOLD);
+    },
+  },
+  {
+    id: 'B02',
+    name: 'not-one-lot',
+    // anim=1: the staged map still zooms and pans (record mode is otherwise a still picture).
+    q: 'view=city&type=two&anim=1',
+    run: async (p, c) => {
+      const layer = (t) => p.locator('.ws-rail .ws-layer').filter({ hasText: t }).first();
+      cues.B02 = {};
+      // The rail and the tiles never move in this clip: citywide counts, whatever the camera does.
+      await mark(p, 'B02', 'city_total', layer('City-owned vacant lots').locator('.ws-layer-n'), c, 'the rail count, citywide; on screen the whole clip', { tight: true });
+      await mark(p, 'B02', 'width_178', layer('Too narrow').locator('.ws-layer-n'), c, "the rail's Too narrow count; the cursor rests on this row from hover_178", { tight: true });
+      await mark(p, 'B02', 'width_178_row', layer('Too narrow'), c, 'the whole Too narrow row: red swatch, words and count');
+      await mark(p, 'B02', 'width_178_tile', p.locator('[data-tile="narrow"] .ws-tile-value'), c, 'the right-panel tile TOO NARROW 178', { tight: true });
+      await mark(p, 'B02', 'grey', layer('Not checked'), c, 'the grey key: "Not checked" 9,413 (districts whose rules are not loaded), the grey dots on the map');
+      // The camera: to the Hill District's red cluster (the map's pixel for it at 1920×1080), a slow wheel zoom
+      // about that point, then a short drag that centres it.
+      const HILL = [790, 410];
+      await c.until(0.8);
+      await glide(p, HILL[0], HILL[1], { rest: 0.4 });
+      await c.until(1.8);
+      cues.B02.zoom_start = at(c);
+      for (let i = 0; i < 36; i++) {
+        await p.mouse.wheel(0, -30);
+        await sleep(FAST ? 5 : 80);
+      }
+      cues.B02.zoom_end = at(c);
+      await c.until(5.6);
+      await glide(p, 762, 470, { steps: 14, rest: 0.2 });
+      await p.mouse.down();
+      await glide(p, 762, 555, { steps: 34 });
+      await p.mouse.up();
+      cues.B02.pan_end = at(c);
+      await sleep(400); // the map settles and letters its neighbourhoods
+      const hood = await p.evaluate(() => [...document.querySelectorAll('.city-plate svg text')].map((e) => e.textContent).filter((t) => /HILL/i.test(t)));
+      cues.B02.hill_labels = hood; // proof the camera is on the Hill
+      if (!hood.length) (cues.B02.missing ??= []).push('the zoom did not land on the Hill District (no Hill label on the map)');
+      await c.until(8);
+      const row = await layer('Too narrow').boundingBox();
+      if (row) await glide(p, row.x + 36, row.y + row.height / 2, { steps: 32, rest: 0.6 }); // on the red swatch: the words stay readable
+      cues.B02.hover_178 = at(c);
+      await c.until(12.2 + HOLD);
+    },
+  },
+  {
+    id: 'B01',
+    name: 'surprise',
+    // Opens on the block (every lot, no selection), then lot 25 is clicked: the plate's ink selection and the
+    // inspector's 4 ft.
+    q: 'view=block&block=10K&type=two',
+    run: async (p, c) => {
+      cues.B01 = {};
+      const row0 = await mark(p, 'B01', 'street_row', p.locator('[data-plate="envelopes"]'), c, "every Mahon St lot's red sliver (the lots' envelopes); stays put the whole clip");
+      await c.until(1.0);
+      const lot = p.locator('[data-lot="25"]').first();
+      const b = await lot.boundingBox();
+      if (!b) throw new Error('not found: lot 25 on the plate');
+      await glide(p, b.x + b.width / 2, b.y + 34, { rest: 0.3 }); // the lot's numbers, above its sliver
+      await p.mouse.down();
+      await sleep(90);
+      await p.mouse.up();
+      await p.waitForSelector('.lot.is-selected[data-lot="25"]', { timeout: 5000 });
+      cues.B01.lot_selected = at(c);
+      await sleep(350);
+      await mark(p, 'B01', 'four_ft', p.locator('[data-lot-width="25"]'), c, "lot 25's 4′ on the plate, under its sliver", { tight: true });
+      await mark(p, 'B01', 'four_ft_tile', p.locator('[data-tile="width"] .ws-tile-value, .ws-tile[data-tile="width"] .ev-num').first(), c, 'the inspector tile BUILDABLE WIDTH 4 ft', { tight: true });
+      const row1 = await p.locator('[data-plate="envelopes"]').boundingBox();
+      if (row0 && row1 && Math.abs(row1.y - row0[1]) + Math.abs(row1.x - row0[0]) > 2) (cues.B01.missing ??= []).push('street_row moved when lot 25 was selected: re-measure');
+      // The cursor comes down onto lot 25's sliver and rests there.
+      await c.until(2.6);
+      const sl = await p.locator('[data-plate="envelopes"] .is-selected').first().boundingBox();
+      if (sl) await glide(p, sl.x + sl.width / 2, sl.y + sl.height * 0.55, { rest: 0.6 });
+      cues.B01.hover_sliver = at(c);
+      await c.until(5.8 + HOLD);
+    },
+  },
+  {
+    id: 'B14',
+    name: 'graph',
+    start: [640, 872], // under the legend: the paper's nodes show a label on hover
+    q: 'view=lot&block=10K&lot=25&type=two&canvas=graph',
+    run: async (p, c) => {
+      cues.B14 = {};
+      const rule = p.locator('[data-node="rule:rm-m.side_interior"]').first(); // the node (its hover label shares the id)
+      await c.until(0.8);
+      await clickSlow(p, rule); // the rule's links light up; the rest dims
+      cues.B14.rule_selected = at(c);
+      await c.until(2.2);
+      await rule.dblclick(); // focus mode: only the chain behind this rule's decision
+      await p.waitForSelector('[data-graph-mode="focus"]', { timeout: 5000 });
+      await sleep(500);
+      cues.B14.focus = at(c);
+      await mark(p, 'B14', 'record', p.locator('[data-node="source:wprdc_assessments"]'), c, 'Allegheny County Property Assessments (WPRDC): a public record');
+      await mark(p, 'B14', 'rule', rule, c, 'Interior side setback · 10 ft (§903.03.C, RM-M)');
+      await mark(p, 'B14', 'signer', p.locator('[data-node^="person:Sin|"]'), c, 'Sin (Student, team 24×100), signed 2026-09-26, with the sign-off note');
+      // The pointer leaves the rule's old place and rests beside the rule → signer link, off every label.
+      const sg = await p.locator('[data-node^="person:Sin|"]').first().boundingBox();
+      if (sg) await glide(p, sg.x - 40, sg.y - 30, { steps: 30, rest: 0.6 });
+      await c.until(5.5 + HOLD);
+    },
+  },
+  {
+    id: 'B08',
+    name: 'held-out',
+    q: `${heldOut}&tab=rules`,
+    run: async (p, c) => {
+      cues.B08 = {};
+      // An R1D-H rule the model proposed and Sin signed: the Depth row's front-setback chip (§903.03.D.2).
+      const row = p.locator('[data-tabpanel="rules"] tr.row-pass').filter({ hasText: 'Depth' }).first();
+      await c.until(0.2);
+      await row.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await c.until(0.9);
+      await clickSlow(p, row.locator('.chip-ink').first());
+      await p.waitForSelector('.drawer blockquote.excerpt mark', { timeout: 5000 });
+      await sleep(450); // the drawer has slid in
+      cues.B08.drawer = at(c);
+      await mark(p, 'B08', 'quote', p.locator('.drawer blockquote.excerpt mark').first(), c, 'the verbatim quote, highlighted in the saved code text');
+      await mark(p, 'B08', 'ink_rules', p.locator('.drawer').getByText('Source-checked by a named person.').locator('xpath=..'), c, 'Source-checked by a named person: Sin, with the sign-off note');
+      await mark(p, 'B08', 'model', p.locator('.drawer').getByText(/proposed by gemini/).first(), c, "the provenance line: 'proposed by gemini-3.6-flash (prompt 7f7e2a03)'");
+      // The pointer moves off the drawer's words to its left margin, level with the quote.
+      const qb = await p.locator('.drawer blockquote.excerpt').first().boundingBox();
+      if (qb) await glide(p, qb.x - 14, qb.y + 24, { rest: 0.6 });
+      await c.until(3 + HOLD);
+    },
+  },
+  {
+    id: 'B10',
+    name: 'next-letter',
+    q: 'view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=next',
+    run: async (p, c) => {
+      cues.B10 = { next_steps: 0 };
+      const tag = p.locator('[data-tabpanel="next"] .step-tag').first();
+      await mark(p, 'B10', 'free_tags', tag, c, 'FREE on step 1 in the Next tab; visible until the tab scrolls to the letter link (letter_scroll)', { tight: true });
+      await markUnion(p, 'B10', 'free_tags_tray', '.ws-tray-body .ws-step-tag', c, 'the five cost tags along the tray (FREE · FREE OR CHEAP · FREE · LOW COST · PAID); visible until the click');
+      await c.until(0.8);
+      const tb = await tag.boundingBox();
+      if (tb) await glide(p, tb.x + tb.width / 2, tb.y + tb.height / 2, { rest: 0.6 });
+      await c.until(3.4);
+      const draft = p.locator('[data-tabpanel="next"] a[href*="view=inquiry"]').first();
+      cues.B10.letter_scroll = at(c);
+      await draft.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await c.until(5.6);
+      await clickSlow(p, draft);
+      cues.B10.letter = at(c);
+      await p.waitForSelector('.iq-title', { timeout: 15000 });
+      await p.waitForFunction(() => document.documentElement.dataset.ready === '1' || !!document.querySelector('.iq-title'), null, { timeout: 15000 });
+      await sleep(400);
+      cues.B10.letter_shown = at(c);
+      // The page loaded afresh: the pointer reappears where it clicked, then moves to the letter's heading.
+      if (p.__pt) await p.mouse.move(p.__pt[0], p.__pt[1]);
+      const hb = await p.locator('.iq-title').first().boundingBox();
+      if (hb) await glide(p, hb.x - 30, hb.y + hb.height / 2, { steps: 30, rest: 0.6 });
+      if (!(await p.evaluate(() => new URLSearchParams(location.search).get('record') === '1'))) (cues.B10.missing ??= []).push('the letter opened without record=1');
+      await mark(p, 'B10', 'letter', p.locator('.iq-title').first(), c, "the draft letter's heading", { tight: true });
+      await c.until(13 + HOLD);
     },
   },
 ];
@@ -385,6 +632,10 @@ for (const beat of BEATS) {
   await page.goto(`${BASE}?${beat.q}&record=1${THEME === 'dark' ? '&theme=dark' : ''}`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 20000 });
   if (beat.first) await beat.first(page);
+  // The pointer is on screen from the first frame (never arriving from 0,0), somewhere it covers nothing.
+  const [sx, sy] = beat.start ?? [1150, 720];
+  await page.mouse.move(sx, sy);
+  page.__pt = [sx, sy];
   await sleep(250);
   const lead = (Date.now() - tStart) / 1000; // seconds of loading to trim from the clip's start
   const c = clock();
@@ -394,6 +645,7 @@ for (const beat of BEATS) {
     errors.push(`beat failed: ${String(e).split('\n')[0]}`);
   }
   const secs = c.now();
+  if (process.env.SHOTS && !RECORD) await page.screenshot({ path: `${process.env.SHOTS}/${beat.id}-end.png` }).catch(() => {});
   if (errors.length) failed.push(`${beat.id}: ${errors.join(' | ').slice(0, 300)}`);
   const video = page.video();
   await ctx.close();

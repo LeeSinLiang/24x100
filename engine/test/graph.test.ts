@@ -383,6 +383,16 @@ describe('graph: other shapes', () => {
     expect(g.edges).toContainEqual({ from: 'rule:rm-m.x.use_three', to: 'person:A. Teammate|Housing lead', kind: 'signed by' });
   });
 
+  it('a signature is dated by its day in Pittsburgh: 23:49 ET on 26 Sep (03:49Z on the 27th) reads 2026-09-26', () => {
+    const sign: AuditEntry = { id: 'rv-test-2', rule_id: 'rm-m.x.use_three', question_id: null, at: '2026-09-27T03:49:44.525Z', reviewer: 'A. Teammate', role: 'Housing lead', action: 'source_checked', quote: '', decision: 'matches', reason: 'late-night check', choice: null, reference: null };
+    const g = buildGraph(inputs('three', [25, 26, 27], { audit: [sign] }));
+    const rule = g.nodes.find((n) => n.id === 'rule:rm-m.x.use_three')!;
+    expect(rule.detail.find((d) => d.k === 'Signed')!.v).toContain('· 2026-09-26 ·');
+    const person = g.nodes.find((n) => n.id === 'person:A. Teammate|Housing lead')!;
+    expect(person.detail.map((d) => d.v).join(' ')).toContain('source-checked · 2026-09-26');
+    expect(JSON.stringify([rule.detail, person.detail])).not.toContain('2026-09-27');
+  });
+
   it('only the model’s proposed rules (no answer key): every cited rule is pencil and none has a signer', () => {
     const inp = inputs('three', [25, 26, 27], { rules: allRules().filter((r) => r.origin === 'extracted') });
     const g = buildGraph(inp);

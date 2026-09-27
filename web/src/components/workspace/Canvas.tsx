@@ -112,7 +112,8 @@ export function MapCanvas({
             onSelect={(j) => onSelect(j == null ? null : vis[j])}
             onZoom={onZoom}
             present={s.present}
-            record={s.record && !s.anim}
+            record={s.record}
+            animate={s.anim}
             inset={inset && sel != null ? inset : null}
             insetWide={!!inset}
             onInsetOpen={onInsetOpen}

@@ -37,7 +37,9 @@ export function ChipLine({ c }: { c: VerdictChip | undefined }) {
 }
 
 export function inquiryHref(block: BlockFile, s: UrlState, lot: string, office?: string): string {
-  return `?view=inquiry&block=${block.meta.id}&lot=${lot}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}${s.assume.length ? `&assume=${s.assume.join(',')}` : ''}${office ? `&letter=${office}` : ''}`;
+  // A full page load: the stage (record, present) and the theme come along, or the film's letter opens unstaged.
+  const stage = `${s.record ? '&record=1' : s.present ? '&present=1' : ''}${s.theme ? `&theme=${s.theme}` : ''}`;
+  return `?view=inquiry&block=${block.meta.id}&lot=${lot}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}${s.assume.length ? `&assume=${s.assume.join(',')}` : ''}${office ? `&letter=${office}` : ''}${stage}`;
 }
 
 function LotTiles({ model }: { model: LotModel }) {

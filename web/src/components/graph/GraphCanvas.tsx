@@ -7,6 +7,7 @@
 // and a focus mode: `focus` (engine/src/graph.ts focusGraph) keeps only the chain behind one decision,
 // laid out left to right (records → the lot and its result → the rule → its exact quote → who reviewed it).
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type JSX, type KeyboardEvent, type MouseEvent, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
+import { dayOf } from '@engine/format';
 import { focusFrame, GRAPH_FRAME, layoutFocus, layoutGraph, type Cluster, type EdgeKind, type GraphEdge, type GraphFocus, type GraphNode, type LotGraph, type NodeType } from '@engine/graph';
 import '../../styles/graph.css';
 
@@ -397,7 +398,7 @@ export function GraphCanvas(p: {
     const rule = graph.edges.filter((e) => e.kind === 'signed by' && e.to === n.id).map((e) => byId.get(e.from)).find((r) => r?.signed);
     const sg = rule?.signed;
     if (!sg) return [];
-    return [...(sg.at ? [`signed ${sg.at.slice(0, 10)}`] : []), ...(sg.note ? wrap(`“${sg.note.replace(/\s*\(docs\/[^)]*\)\s*$/, '')}”`, 150, ADV.sub, 3) : [])];
+    return [...(sg.at ? [`signed ${dayOf(sg.at)}`] : []), ...(sg.note ? wrap(`“${sg.note.replace(/\s*\(docs\/[^)]*\)\s*$/, '')}”`, 150, ADV.sub, 3) : [])];
   };
   const faces = new Map(nodes.map((n) => [n.id, faceOf(n, pos.get(n.id)!, W, compact, focus ? { extra: n.type === 'person' ? signedExtra(n) : [] } : null)]));
 

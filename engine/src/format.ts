@@ -49,3 +49,11 @@ export function listAnd(items: string[]): string {
   if (items.length === 2) return `${items[0]} and ${items[1]}`;
   return `${items.slice(0, -1).join(', ')} and ${items[items.length - 1]}`;
 }
+
+/** The calendar day of a timestamp in Pittsburgh (ET), as YYYY-MM-DD; a bare date is returned as is. A signature
+ *  made at 23:49 ET on 26 Sep is stored as 03:49Z on the 27th, so slicing the ISO string dates it a day late. */
+export function dayOf(iso: string): string {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso;
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? iso.slice(0, 10) : d.toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+}

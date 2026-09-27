@@ -9,7 +9,7 @@
 //
 // Not exported from ./index: this file's EdgeKind (the graph's edge vocabulary) would collide with the
 // lot-side EdgeKind in ./types. Import it as '@engine/graph'.
-import { usd } from './format';
+import { dayOf, usd } from './format';
 import { isAiReviewer } from './rules';
 import { TEMPLATES } from './templates';
 import type { AuditEntry, BlockFile, Check, CheckStatus, EffectiveRule, LotResult, MoneyResult, Parcel, RuleSet } from './types';
@@ -368,7 +368,7 @@ export function buildGraph(input: GraphInput): LotGraph {
         {
           k: 'Signed',
           v: sig
-            ? `${sig.reviewer} (${sig.role})${isAiReviewer(sig.reviewer, sig.role) ? ', an AI check, not a person' : ''}${sig.at ? ` · ${sig.at.slice(0, 10)}` : ''}${sig.entry ? ' · review log' : ' · recorded in the rule file'}`
+            ? `${sig.reviewer} (${sig.role})${isAiReviewer(sig.reviewer, sig.role) ? ', an AI check, not a person' : ''}${sig.at ? ` · ${dayOf(sig.at)}` : ''}${sig.entry ? ' · review log' : ' · recorded in the rule file'}`
             : 'Not signed: pencil until a person source-checks it.',
         },
         {
@@ -430,7 +430,7 @@ export function buildGraph(input: GraphInput): LotGraph {
       { k: 'Kind', v: n.ai ? 'An AI check (the research pass), not a person’s review. A teammate should re-sign.' : 'A person’s review, as recorded.' },
       ...s.rules.map(({ r: x, at, action, note }) => ({
         k: `§${x.section} ${ruleFieldWords(x.field).toLowerCase()}`,
-        v: `${action === 'city_confirmed' ? 'recorded a City confirmation' : 'source-checked'}${at ? ` · ${at.slice(0, 10)}` : ''}${note ? ` · “${note}”` : ''}${x.history.length ? '' : ' (recorded in the rule file)'}`,
+        v: `${action === 'city_confirmed' ? 'recorded a City confirmation' : 'source-checked'}${at ? ` · ${dayOf(at)}` : ''}${note ? ` · “${note}”` : ''}${x.history.length ? '' : ' (recorded in the rule file)'}`,
       })),
     ];
   }

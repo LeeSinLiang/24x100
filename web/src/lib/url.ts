@@ -193,8 +193,8 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if (s.slope) q.set('slope', '1');
   if (s.tol != null) q.set('tol', String(s.tol));
   if (s.record) q.set('record', '1');
-  if (s.anim) q.set('anim', '1');
   else if (s.present) q.set('present', '1');
+  if (s.anim) q.set('anim', '1');
   if (s.still) q.set('still', '1');
   if (s.theme) q.set('theme', s.theme);
   return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')}`;

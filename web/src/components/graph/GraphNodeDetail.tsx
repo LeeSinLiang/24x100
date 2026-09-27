@@ -2,6 +2,7 @@
 // link and date, its signer, the rest of its record, and what it links to. Every word comes from the
 // node and the graph (engine/src/graph.ts); nothing here is looked up or computed anew.
 import type { JSX, ReactNode } from 'react';
+import { dayOf } from '@engine/format';
 import { trustWords, type EdgeKind, type GraphNode, type LotGraph } from '@engine/graph';
 import { NODE_TYPE_WORDS } from './GraphCanvas';
 import '../../styles/graph.css';
@@ -19,7 +20,7 @@ function host(url: string): string {
 /** Where a node's source is, in words and a link. */
 function SourceLine({ n }: { n: GraphNode }): ReactNode {
   const s = n.source;
-  const when = s.pulled ? (n.type === 'person' ? `signed ${s.pulled.slice(0, 10)}` : /^\d{4}-\d{2}-\d{2}$/.test(s.pulled) ? `retrieved ${s.pulled}` : `pulled ${s.pulled}`) : null;
+  const when = s.pulled ? (n.type === 'person' ? `signed ${dayOf(s.pulled)}` : /^\d{4}-\d{2}-\d{2}$/.test(s.pulled) ? `retrieved ${s.pulled}` : `pulled ${s.pulled}`) : null;
   if (s.kind === 'review')
     return (
       <p className="gnd-source">
@@ -84,7 +85,7 @@ export function GraphNodeDetail(p: { node: GraphNode; graph: LotGraph; onSelect?
             <>
               <p className="gnd-signer-line">
                 <span className="gnd-label">Signed by</span> {rule.signed.by} <span className="gnd-muted">({rule.signed.role})</span>
-                {rule.signed.at ? <span className="gnd-muted"> · {rule.signed.at.slice(0, 10)}</span> : null}
+                {rule.signed.at ? <span className="gnd-muted"> · {dayOf(rule.signed.at)}</span> : null}
               </p>
               <p className="gnd-muted gnd-small">
                 {rule.signed.ai ? 'An AI check (the research pass), not a person’s review. ' : ''}

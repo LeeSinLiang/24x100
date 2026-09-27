@@ -145,6 +145,7 @@ interface Props {
   onZoom: (hood: string | null) => void;
   present: boolean;
   record: boolean;
+  animate?: boolean; // film (anim=1): a staged page that still zooms and pans, so a clip can show the camera move
   stacked?: boolean; // the page scrolls (phone): one-finger touch scrolls the page; zoom with the buttons
   label: string;
   inset?: ReactNode; // the selected lot's card, set in the corner away from its dot
@@ -185,7 +186,7 @@ export function CityMap(p: Props) {
   const hoverOn = !p.present && !p.record;
   // A still map: the film and the projector get a fixed view (no gestures, no animation).
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const still = p.present || p.record;
+  const still = (p.present || p.record) && !p.animate;
 
   useLayoutEffect(() => {
     const el = wrap.current;
@@ -498,8 +499,12 @@ export function CityMap(p: Props) {
     });
   };
   const local = (e: { clientX: number; clientY: number }): XY => {
-    const b = wrap.current!.getBoundingClientRect();
-    return [e.clientX - b.left, e.clientY - b.top];
+    // In layout px: under record and present mode's CSS zoom the rect is zoomed and the map's own units are not,
+    // so a wheel zoomed about the wrong point (the Hill came out as Greenfield).
+    const el = wrap.current!;
+    const b = el.getBoundingClientRect();
+    const s = el.clientWidth ? b.width / el.clientWidth : 1;
+    return [(e.clientX - b.left) / s, (e.clientY - b.top) / s];
   };
   useEffect(() => {
     const el = canvas.current;
@@ -661,9 +666,16 @@ export function CityMap(p: Props) {
       const lx = hd.lots ? toPx([(hd.lotBox[0] + hd.lotBox[2]) / 2, 0])[0] : cx;
       const cands: [number, number][] = [...(hd.rings.length ? [[cx, cy] as [number, number]] : []), ...(hd.lots ? [[lx, top - 8] as [number, number], [lx, bottom + fs + 6] as [number, number]] : [])];
       let best: { x: number; y: number; box: [number, number, number, number]; hidden: number } | null = null;
-      for (const [x, y] of cands) {
+      for (const [k, [x, y]] of cands.entries()) {
         const box = at(x, y);
         if (box[0] < 10 || box[2] > w - 10 || box[1] < 34 || box[3] > h - 44) continue;
+        // Zoomed in, a name reads as a place: above or below the dots it must not land inside another neighbourhood
+        // (Troy Hill's lowest lots are on the river bank, and "just below" them put its name across the Allegheny,
+        // on the Strip District). Citywide, a name above its cluster labels the cluster, as before.
+        if (zoomedIn && k > 0 && hd.rings.length) {
+          const q: XY = [(x - shown.ox) / shown.k, (y - fs / 2 - shown.oy) / shown.k];
+          if (!hd.rings.some((ring) => inRing(q, ring)) && [...p.hoods.values()].some((o) => o !== hd && o.rings.some((ring) => inRing(q, ring)))) continue;
+        }
         if (placed.some((q) => !(box[2] < q[0] || box[0] > q[2] || box[3] < q[1] || box[1] > q[3]))) continue;
         const hidden = covers(box);
         if (!best || hidden < best.hidden) best = { x, y, box, hidden };
