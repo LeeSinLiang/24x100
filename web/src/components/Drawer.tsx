@@ -520,7 +520,7 @@ function MeasureCard({ result, which, rs }: { result: LotResult; which: 'width' 
       <p className="small">
         Deed dimensions lead for rule checks; the City map measures {ftFmt(m.mapped)} ft (shape and drawing only).
       </p>
-      <p className="small">Rules used: {m.rule_ids.map((id) => rs.rules.find((r) => r.id === id)).filter(Boolean).map((r) => `${fieldName(r!.field)} §${r!.section}`).join('; ')}</p>
+      <p className="small">Rules used: {[...new Set(m.rule_ids)].map((id) => rs.rules.find((r) => r.id === id)).filter(Boolean).map((r) => `${fieldName(r!.field)} §${r!.section}`).join('; ')}</p>
     </article>
   );
 }

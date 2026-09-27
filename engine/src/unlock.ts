@@ -127,9 +127,11 @@ export function unlockSearch(ctx: EvalContext, base: Scenario): { baseline: LotR
       if (t === base.type) continue;
       const s = mk(t, [pin]);
       const r = evaluate(ctx, s);
-      opts.push({ id: `type:${t}`, lever: 'type', label: `${TEMPLATES[t].name} on ${lotLabel(ctx, [pin])} alone`, scenario: s, result: r, hypothetical: null, pending: false, change_size: 1 });
+      const c1 = r.questions.some((q) => q.id === BOTH_SIDES_Q);
+      // With §925.06.C.1 open, the plain row would contradict its two readings: show only the two.
+      if (!c1) opts.push({ id: `type:${t}`, lever: 'type', label: `${TEMPLATES[t].name} on ${lotLabel(ctx, [pin])} alone`, scenario: s, result: r, hypothetical: null, pending: false, change_size: 1 });
       // Lever 3 for §925.06.C.1 (3 ft on both sides): show both outcomes, labelled as hypothetical.
-      if (r.questions.some((q) => q.id === BOTH_SIDES_Q)) {
+      if (c1) {
         for (const choice of ['yes', 'no'] as const) {
           opts.push({
             id: `interp:${BOTH_SIDES_Q}:${choice}:${t}:${pin}`,

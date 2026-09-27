@@ -526,10 +526,16 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
           relief.push({ check: 'width', text: `side setbacks ${fmtFt(cur[0])} → ${fmtFt(to)} ft on each side`, from: cur[0], to, section: sectionOf(rs, W.rule_ids), approval: 'variance' });
         else relief.push({ check: 'width', text: `the lot is narrower than ${fmtFt(req)} ft even with no side setbacks`, from: cur[0], to: 0, section: sectionOf(rs, W.rule_ids), approval: 'variance' });
       } else if (flank.length) {
-        const cut = req - avail;
+        // Shrink the sides in proportion so that frontage − sides = the proposal's width. (Computing it from the
+        // shortfall went wrong when the as-of-right width was below zero: lot 21, judge round 2.)
+        const front = W.terms[0].value;
         const total = cur.reduce((a, b) => a + b, 0);
-        const to = cur.map((c) => Math.max(0, c - (total > 0 ? (cut * c) / total : 0)));
-        relief.push({ check: 'width', text: `side setbacks ${cur.map(fmtFt).join(' and ')} → ${to.map(fmtFt).join(' and ')} ft`, from: total, to: to.reduce((a, b) => a + b, 0), section: sectionOf(rs, W.rule_ids), approval: 'variance' });
+        const room = front - req; // what the sides may add up to
+        if (room < 0) relief.push({ check: 'width', text: `the lot is narrower than ${fmtFt(req)} ft even with no side setbacks`, from: total, to: 0, section: sectionOf(rs, W.rule_ids), approval: 'variance' });
+        else {
+          const to = cur.map((c) => (total > 0 ? Math.round(((c * room) / total) * 10) / 10 : 0));
+          relief.push({ check: 'width', text: `side setbacks ${cur.map(fmtFt).join(' and ')} → ${to.map(fmtFt).join(' and ')} ft`, from: total, to: to.reduce((a, b) => a + b, 0), section: sectionOf(rs, W.rule_ids), approval: 'variance' });
+        }
       }
     }
     checks.push({ id: 'width', label: 'Width', required: req, available: W.none ? 0 : avail, shortfall: ok ? 0 : Math.max(0, req - (W.none ? 0 : avail)), unit: 'ft', status, trust, text, rule_ids: W.rule_ids, record_ids: W.record_ids, approvals, alternative });

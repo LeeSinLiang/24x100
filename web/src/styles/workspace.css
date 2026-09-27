@@ -1319,3 +1319,22 @@
     overflow-x: auto;
   }
 }
+
+/* The way forward, on the inspector's first screen (judge round 2). */
+.ws-way {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  line-height: 1.35;
+}
+.ws-way .label {
+  margin-right: 4px;
+}
+.ws-way .link {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+}

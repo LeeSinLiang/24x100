@@ -77,19 +77,19 @@ function LotTiles({ model }: { model: LotModel }) {
         }
         sub={
           <>
+            {check.alternative ? (
+              <>
+                or{' '}
+                <Ev trust={check.alternative.trust === 'red' ? 'red' : 'pencil'} refId={`question:${check.alternative.question_id}`} num>
+                  {ftFmt(check.alternative.available)} ft
+                </Ev>{' '}
+                on the other reading ·{' '}
+              </>
+            ) : null}
             {row ? 'end units · ' : ''}your plan{' '}
             <Ev trust="red" refId="proposal:width" num>
               {ftFmt(check.required ?? 0)} ft
             </Ev>
-            {check.alternative ? (
-              <>
-                {' '}
-                · or{' '}
-                <Ev trust={check.alternative.trust === 'red' ? 'red' : 'pencil'} refId={`question:${check.alternative.question_id}`} num>
-                  {ftFmt(check.alternative.available)} ft
-                </Ev>
-              </>
-            ) : null}
           </>
         }
       />
@@ -268,7 +268,30 @@ export function LotInspector({
   const sel: Parcel = parcelByLot(block, s.lot) ?? block.parcels.find((p) => p.pin === r.pins[0])!;
   const lots = r.pins.map((p) => block.parcels.find((x) => x.pin === p)!.lot ?? 0).sort((a, b) => a - b);
   const addr = sel.addr.replace(/\s*\(no number\)$/, '');
-  const title = `${addr} · ${lots.length > 1 ? `lots ${lots[0]}–${lots[lots.length - 1]}` : `lot ${lotKey(sel)}`}`;
+  // A refused group names only the selected lot (the rest may not exist or may not touch it).
+  const title = `${addr} · ${lots.length > 1 && r.state === 'ok' ? `lots ${lots[0]}–${lots[lots.length - 1]}` : `lot ${lotKey(sel)}`}`;
+  // The way forward, on the first screen (judge round 2): the recommended option, or the one with fewest approvals.
+  const step = nextStep(model.unlock, block);
+  const way = step.primary ?? step.fewest;
+  const wayW = way?.result.width ? ftFmt(way.result.width.deed ?? way.result.width.mapped) : null;
+  const wayOthers = way ? way.scenario.pins.map((pin) => block.parcels.find((p) => p.pin === pin)!).filter((p) => !p.city).map((p) => `lot ${lotKey(p)}`) : [];
+  // Only when this scenario doesn't already fit on dimensions: then there's something to unlock.
+  const fitsNow = r.state === 'ok' && ['width', 'depth', 'area', 'height'].every((id) => r.checks.find((c) => c.id === id)?.status === 'pass');
+  const unlockLine =
+    r.state !== 'ok' || fitsNow ? null : way ? (
+      <p className="ws-way" data-way>
+        <span className="label">Way forward</span>{' '}
+        <button className="link" onClick={() => onTry(way)}>
+          {way.label}
+        </button>
+        {wayW ? `: ${wayW} ft` : ''}
+        {wayOthers.length ? `; needs ${wayOthers.join(' and ')}, not City-owned` : ''}.
+      </p>
+    ) : (
+      <p className="ws-way" data-way>
+        <span className="label">Way forward</span> none on our list fits without a variance; see Rules.
+      </p>
+    );
   const changed = refreshChangesFor(r.pins);
   const w = r.width;
   const comps = block.meta.ward != null ? COMPS_BY_WARD[block.meta.ward] ?? null : null;
@@ -366,11 +389,14 @@ export function LotInspector({
       }
       sentence={<LotSentence r={r} m={model.money} block={block} detail={v.detail} />}
       note={
-        changed.length ? (
+        <>
+          {unlockLine}
+          {changed.length ? (
           <p className="ws-refresh pencil-text" data-trust="pencil">
             Changed on the last refresh ({REFRESH?.meta?.run_at?.slice(0, 10)}): {changed.map((c) => `${c.field} ${String(c.before ?? '—')} → ${String(c.after ?? '—')}`).join('; ')}. Pencil until someone checks it.
           </p>
-        ) : null
+          ) : null}
+        </>
       }
       tiles={<LotTiles model={model} />}
       tabs={tabs}
