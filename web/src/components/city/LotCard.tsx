@@ -3,7 +3,7 @@
 // the classifier's.
 import { pick } from '@engine/rules';
 import { TEMPLATES } from '@engine/templates';
-import type { CityClass } from '@engine/city';
+import { cityRoutes, type CityClass } from '@engine/city';
 import type { NarrowRow, RuleField, RuleSet, TemplateId } from '@engine/types';
 import { Chip, dateFmt, Ev, Label } from '../ui';
 import { STYLE, n, zoneName } from './blockers';
@@ -59,6 +59,8 @@ export function LotCard({
 }) {
   const st = STYLE[cls.blocker];
   const tname = TEMPLATES[type].name.toLowerCase();
+  // What would unlock it, in words, where the classifier knows (engine/src/city.ts cityRoutes).
+  const routes = link ? [] : cityRoutes(lot, cls, rs, type);
   const also = cls.all.filter((b) => b !== cls.blocker && b !== 'fits');
   const computed = !['rules', 'records', 'edges'].includes(cls.blocker);
   const minArea = rs ? pick(rs, 'min_lot_area') : undefined;
@@ -109,11 +111,12 @@ export function LotCard({
           <div>
             <dt>Width as of right</dt>
             <dd>
-              <Ev trust={cls.trust} num className="city-formula">
-                {cls.formula} ft
+              <Ev trust={cls.widthTrust} num className="city-formula">
+                {cls.formula}
+                {cls.formula.includes('=') ? ' ft' : ''}
               </Ev>{' '}
               <RuleChips rs={rs} fields={widthRuleFields(lot, rs!, type)} />
-              {cls.trust !== 'ink' && <span className="small pencil-text city-card-gloss">{cls.note}.</span>}
+              {cls.widthTrust !== 'ink' && <span className="small pencil-text city-card-gloss">{cls.widthNote ?? cls.note}.</span>}
             </dd>
           </div>
         )}
@@ -122,7 +125,7 @@ export function LotCard({
           <div>
             <dt>Lot area</dt>
             <dd>
-              <Ev trust={cls.trust} num>
+              <Ev trust={cls.areaTrust} num>
                 {n(cls.area ?? 0)} sf
               </Ev>{' '}
               <span className="muted small">{lot.deed ? `by deed, ${lot.deed.front} × ${lot.deed.depth}` : 'no deed dimensions'}</span>
@@ -160,12 +163,21 @@ export function LotCard({
             Open lot
           </a>
         ) : (
-          <p className="small">
-            Lot detail not generated for this block.{' '}
-            <a href={`api/lots/${lot.pin}.json`}>
-              Its record: <span className="nowrap">api/lots/{lot.pin}.json</span>
-            </a>
-          </p>
+          <div className="small city-card-routes">
+            <p>Lot detail isn’t generated for this block yet, so there’s no plate or letter here; what the city map knows:</p>
+            {routes.length > 0 && (
+              <ul>
+                {routes.map((r) => (
+                  <li key={r.kind + r.text}>
+                    <Ev trust={r.trust}>{r.text}</Ev>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="muted">
+              Record: <a href={`api/lots/${lot.pin}.json`}>api/lots/{lot.pin}.json</a>
+            </p>
+          </div>
         )}
         {cls.blocker === 'rules' && lot.zone && (
           <a className="btn" href={`?view=review&district=${lot.zone}`}>

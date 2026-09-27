@@ -123,7 +123,7 @@ export function LotTable({
                 </td>
                 <td className="num">
                   {c.width != null && !st.grey ? (
-                    <Ev trust={c.trust} num>
+                    <Ev trust={c.widthTrust} num>
                       {c.width} ft
                     </Ev>
                   ) : (

@@ -2,7 +2,7 @@
 // Street", "1926 Arlington Ave" and "7406 Race St" all returned "No match").
 import { readFileSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { addressTokens, buildSearchIndex, normalizeAddress, pinPrefix, searchLots } from '../src/search';
+import { addressTokens, buildSearchIndex, normalizeAddress, pinPrefix, searchLots, searchEntry } from '../src/search';
 import type { BlockFile, CityLot } from '../src';
 
 const blocks: BlockFile[] = readdirSync('data/blocks')
@@ -77,3 +77,14 @@ describe('search over every lot the app knows', () => {
     expect(searchLots(index, 'x')).toEqual([]);
   });
 });
+
+describe('ranking: a lot with full detail comes before a city card with the same words', () => {
+  it('ranks by detail, not by position in the index', () => {
+    const entries = [
+      searchEntry({ pin: '0999Z00001000000', addr: '100 Sample St', hood: 'Elsewhere', detail: false }),
+      searchEntry({ pin: '0999Z00002000000', addr: '100 Sample St', hood: 'Here', detail: true, lot: '2', place: 'Block 999-Z' }),
+    ];
+    expect(searchLots(entries, '100 Sample St')[0].entry.detail).toBe(true);
+  });
+});
+

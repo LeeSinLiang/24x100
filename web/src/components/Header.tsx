@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import type { BlockFile, Parcel } from '@engine/types';
+import { buildSearchIndex, searchLots, type SearchHit } from '@engine/search';
 import { BLOCKS } from '../lib/data';
+import { loadCityData } from './city/cityData';
 import { lotKey } from '../lib/model';
 import type { UrlState } from '../lib/url';
 
@@ -46,22 +47,26 @@ export function Header({ crumbs, s, update }: { crumbs: Crumb[]; s: UrlState; up
   );
 }
 
-function allLots(): { block: BlockFile; p: Parcel; text: string }[] {
-  return Object.values(BLOCKS).flatMap((block) =>
-    block.parcels.map((p) => ({ block, p, text: `${p.addr} ${lotKey(p)} lot ${p.lot} ${p.pin} ${block.meta.name} ${block.meta.neighborhood}`.toLowerCase() })),
-  );
-}
-
 function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolean }) => void }) {
   const [q, setQ] = useState('');
   const [open, setOpen] = useState(false);
-  const index = useMemo(allLots, []);
-  const hits = q.trim().length >= 2 ? index.filter((x) => q.toLowerCase().split(/\s+/).every((t) => x.text.includes(t))).slice(0, 7) : [];
+  // Every lot on a detailed block at once; every City-owned vacant lot once the citywide file has loaded
+  // (it loads when the search box is first used, not on every page).
+  const [cityLots, setCityLots] = useState<{ pin: string; addr: string; hood: string }[] | null>(null);
+  const warm = () => {
+    if (cityLots) return;
+    loadCityData().then((d) => d.state === 'ready' && setCityLots(d.lots.map((l) => ({ pin: l.pin, addr: l.addr, hood: l.hood ?? '' }))));
+  };
+  const index = useMemo(() => buildSearchIndex(Object.values(BLOCKS), cityLots ?? []), [cityLots]);
+  const hits: SearchHit[] = useMemo(() => searchLots(index, q), [index, q]);
   const covers = Object.values(BLOCKS)
     .map((b) => `${b.meta.name} (${b.meta.neighborhood})`)
     .join(' and ');
-  const go = (x: { block: BlockFile; p: Parcel }) => {
-    update({ view: 'lot', block: x.block.meta.id, lot: lotKey(x.p), lots: [], drawer: null }, { push: true });
+  const go = (h: SearchHit) => {
+    const block = h.entry.detail ? Object.values(BLOCKS).find((b) => b.parcels.some((p) => p.pin === h.entry.pin)) : undefined;
+    const p = block?.parcels.find((x) => x.pin === h.entry.pin);
+    if (block && p) update({ view: 'lot', block: block.meta.id, lot: lotKey(p), lots: [], drawer: null }, { push: true });
+    else update({ view: 'city', pin: h.entry.pin, hood: h.entry.hood || null, layer: null, run: null, drawer: null }, { push: true });
     setQ('');
     setOpen(false);
   };
@@ -75,7 +80,9 @@ function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolea
         value={q}
         placeholder="Address or lot, e.g. 2241 Mahon"
         autoComplete="off"
+        onFocus={warm}
         onChange={(e) => {
+          warm();
           setQ(e.target.value);
           setOpen(true);
         }}
@@ -92,16 +99,17 @@ function Search({ update }: { update: (p: Partial<UrlState>, o?: { push?: boolea
       </p>
       {open && q.trim().length >= 2 && (
         <ul id="search-results" className="search-results" role="listbox">
-          {hits.map((x) => (
-            <li key={x.p.pin} role="option" aria-selected="false">
-              <button onClick={() => go(x)}>
-                <strong>{x.p.addr}</strong> · lot {lotKey(x.p)} · {x.block.meta.name}
+          {hits.map((h) => (
+            <li key={h.entry.pin} role="option" aria-selected="false">
+              <button onClick={() => go(h)}>
+                <strong>{h.entry.addr}</strong>
+                {h.entry.detail ? ` · lot ${h.entry.lot} · ${h.entry.place}` : ` · ${h.entry.hood || 'City-owned vacant lot'} · city card`}
               </button>
             </li>
           ))}
           {!hits.length && (
             <li className="no-match">
-              No match for “{q}”. Lot detail covers {covers}. The city map shows every City-owned vacant lot.
+              {cityLots ? `No match for “${q}” among the lots on detailed blocks and every City-owned vacant lot.` : `No match for “${q}” yet; loading every City-owned vacant lot…`} Lot detail covers {covers}.
             </li>
           )}
         </ul>

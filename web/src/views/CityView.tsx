@@ -105,6 +105,13 @@ export function CityView({ s, update, audit }: ViewProps) {
     if (next !== window.location.search) window.history.replaceState(null, '', next);
   }, [focus, pin, s.type, s.drawer, s.district]);
 
+  // A search (or any link) that sets ?pin= / ?hood= while this view is open selects that lot.
+  useEffect(() => {
+    if (s.pin && s.pin !== pin) setPin(s.pin);
+    if (s.hood !== undefined && s.hood !== focus && (s.hood || s.pin)) setFocus(s.hood);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [s.pin, s.hood]);
+
   const zoom = (h: string | null) => {
     setFocus(h);
     if (h && pin && lots[idxOf.get(pin) ?? -1]?.hood !== h) setPin(null);
@@ -253,7 +260,9 @@ export function CityView({ s, update, audit }: ViewProps) {
           ) : (
           <>
           <p className="sentence city-sentence" aria-live="polite">
-            {data.state !== 'ready' ? (
+            {data.state === 'loading' ? (
+              <span className="muted" role="status">Loading every City-owned vacant lot…</span>
+            ) : data.state !== 'ready' ? (
               <span className="pencil-text">The citywide lot file isn’t loaded, so there is no citywide count yet.</span>
             ) : sum.computed > 0 && sum.widthNotArea > 0 ? (
               <>
@@ -287,10 +296,14 @@ export function CityView({ s, update, audit }: ViewProps) {
                   {data.state === 'ready' ? n(fitsDim) : '—'}
                   <span className="numeral-unit">{fitsDim === 1 ? 'lot' : 'lots'}</span>
                 </Ev>
-                <p className="numeral-cap">
-                  A {tname.toLowerCase()} fits as of right on {n(fitsDim)} City-owned {lotsWord(fitsDim)} in checked districts
-                  {fitsDim > 0 ? <span className="muted"> · {n(sum.byBlocker.fits)} listed for sale</span> : null}.
-                </p>
+                {data.state === 'ready' ? (
+                  <p className="numeral-cap">
+                    A {tname.toLowerCase()} fits as of right on {n(fitsDim)} City-owned {lotsWord(fitsDim)} in checked districts
+                    {fitsDim > 0 ? <span className="muted"> · {n(sum.byBlocker.fits)} listed for sale</span> : null}.
+                  </p>
+                ) : (
+                  <p className="numeral-cap muted">Counting…</p>
+                )}
               </div>
             </div>
 
@@ -301,6 +314,29 @@ export function CityView({ s, update, audit }: ViewProps) {
                   Width blocks <Ev num>{n(sum.widthNotArea)}</Ev> {lotsWord(sum.widthNotArea)} that are big enough; area blocks <Ev num>{n(sum.areaAny)}</Ev>.
                 </p>
               )}
+              {sum.computed > 0 && sum.widthNotArea > sum.widthNotAreaInk && (
+                <p className="small">
+                  Of the {n(sum.widthNotArea)}, <Ev num>{n(sum.widthNotAreaInk)}</Ev> are too narrow for certain;{' '}
+                  {sum.widthNotAreaContext > 0 && (
+                    <>
+                      <Ev trust="pencil" num>
+                        {n(sum.widthNotAreaContext)}
+                      </Ev>{' '}
+                      could fit if a built neighbour’s actual setback allows a contextual setback
+                      {sum.widthNotAreaMapped > 0 ? '; ' : '.'}
+                    </>
+                  )}
+                  {sum.widthNotAreaMapped > 0 && (
+                    <>
+                      <Ev trust="pencil" num>
+                        {n(sum.widthNotAreaMapped)}
+                      </Ev>{' '}
+                      are measured from the City map, with no deed dimensions.
+                    </>
+                  )}
+                </p>
+              )}
+              {data.state === 'ready' ? (
               <table className="city-counts">
                 <caption className="visually-hidden">Lots by first blocker for a {tname.toLowerCase()}</caption>
                 <thead className="visually-hidden">
@@ -325,6 +361,7 @@ export function CityView({ s, update, audit }: ViewProps) {
                   })}
                 </tbody>
               </table>
+              ) : null}
             </div>
 
             <div className="answer">

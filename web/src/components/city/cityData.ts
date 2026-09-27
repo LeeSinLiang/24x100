@@ -62,3 +62,9 @@ export function useCityData(): CityData {
   }, []);
   return d;
 }
+
+/** Start (or reuse) the citywide load outside a component, e.g. when the search box gets focus. */
+export function loadCityData(): Promise<CityData> {
+  cache = cache ?? load();
+  return cache;
+}
