@@ -551,12 +551,12 @@
   },
   "assemblies_citywide": {
    "value": 111,
-   "display": "111 runs of 2–3 lots (128 City lots) fit a three-unit house as of right when combined",
+   "display": "111 lot groups of 2–3 side-by-side lots (some share lots), touching 128 City lots, fit a three-unit house as of right when combined",
    "source": "data/city/assemblies.json (RM-M, 563 City-owned vacant lots checked)"
   },
   "assemblies_all_city_owned": {
    "value": 42,
-   "display": "42 of those runs are all City-owned",
+   "display": "42 of those lot groups are all City-owned",
    "source": "data/city/assemblies.json"
   },
   "extraction_eval": {

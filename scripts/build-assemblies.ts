@@ -34,8 +34,8 @@ export interface AssemblyFile {
 export function assemblyFacts(f: AssemblyFile) {
   const three = f.meta.by_type.three;
   return {
-    assemblies_citywide: { value: three.runs, display: `${three.runs} runs of 2–3 lots (${three.candidates_covered} City lots) fit a three-unit house as of right when combined`, source: `data/city/assemblies.json (${f.meta.district}, ${f.meta.candidates} City-owned vacant lots checked)` },
-    assemblies_all_city_owned: { value: three.all_city, display: `${three.all_city} of those runs are all City-owned`, source: 'data/city/assemblies.json' },
+    assemblies_citywide: { value: three.runs, display: `${three.runs} lot groups of 2–3 side-by-side lots (some share lots), touching ${three.candidates_covered} City lots, fit a three-unit house as of right when combined`, source: `data/city/assemblies.json (${f.meta.district}, ${f.meta.candidates} City-owned vacant lots checked)` },
+    assemblies_all_city_owned: { value: three.all_city, display: `${three.all_city} of those lot groups are all City-owned`, source: 'data/city/assemblies.json' },
   };
 }
 
