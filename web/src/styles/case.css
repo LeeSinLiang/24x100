@@ -1,5 +1,5 @@
-/* The case file (views/CaseView.tsx): the agents' run as a timeline, findings, gates, drafts and the verifier.
-   Colors only through tokens.css. */
+/* The case file at a glance (views/CaseView.tsx): the agent lane, the checks' tiles, the gates; the full log one click
+   down. Paper and ink, like the plates: ruled boxes, roman numerals, condensed small caps. Colors only through tokens. */
 
 .case-view code {
   font-family: var(--f-map);
@@ -10,72 +10,334 @@
   background: var(--paper);
   overflow-wrap: anywhere;
 }
+.case-view {
+  display: grid;
+  gap: 18px;
+  max-width: 1320px;
+}
 .case-head {
-  max-width: 980px;
-  margin-bottom: 16px;
+  display: grid;
+  gap: 4px;
 }
 .case-kicker {
-  margin: 0 0 4px;
+  margin: 0;
 }
 .case-title {
   font-family: var(--f-display);
   font-weight: 400;
   font-size: calc(var(--s-title) * 1.6);
   line-height: 1.1;
-  margin: 0 0 6px;
+  margin: 0;
 }
 .case-title a {
   color: inherit;
 }
 .case-sub {
   color: var(--ink-2);
-  font-size: 0.7em;
+  font-size: 0.66em;
 }
-.case-goal {
-  margin: 0 0 6px;
-  font-family: var(--f-display);
-  font-size: calc(var(--s-body) * 1.15);
+.case-stamps {
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 }
 .case-stamp {
-  margin-left: 8px;
-  vertical-align: 2px;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 2px solid currentColor;
+  padding: 3px 10px;
 }
-.case-stamp.is-ok {
+.case-stamps .case-stamp.is-ok {
   color: var(--ink);
   border-color: var(--ink);
 }
-.case-stamp.is-blocked {
+.case-stamps .case-stamp.is-blocked {
   color: var(--red);
   border-color: var(--red);
 }
+
+/* The agent lane: five ruled cards in a row, lit in order. */
+.case-lane {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  border: 1.5px solid var(--ink);
+  background: var(--sheet);
+}
+.case-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 10px;
+  padding: 10px 12px 12px;
+  border-left: 1px solid var(--rule-strong);
+  min-width: 0;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.case-card:first-child {
+  border-left: 0;
+}
+.case-card-glyph {
+  grid-row: 1 / span 3;
+  font-family: var(--f-display);
+  font-size: 30px;
+  line-height: 1;
+  min-width: 1.4em;
+  color: var(--ink);
+}
+.case-card-name {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.case-card-state {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+.case-card-line {
+  font-size: var(--s-small);
+  line-height: 1.35;
+  color: var(--ink-2);
+  min-height: 2.7em; /* two lines, held from the start: the replay never shifts the layout */
+}
+.case-card.is-idle {
+  color: var(--graphite);
+}
+.case-card.is-idle .case-card-glyph {
+  color: var(--graphite-soft);
+}
+.case-card.is-working {
+  background: var(--gold-wash);
+}
+.case-card.is-found .case-card-state,
+.case-card.is-blocked .case-card-state {
+  color: var(--red);
+}
+.case-card.is-waiting .case-card-state {
+  color: var(--ink-2);
+}
+
+.case-block {
+  display: grid;
+  gap: 8px;
+}
+.case-block > h2 {
+  margin: 0;
+  border-top: 3px double var(--ink);
+  padding-top: 8px;
+}
+
+/* The checks: one tile each, a big status chip, one fact. */
+.case-tiles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 8px;
+}
+.case-tile {
+  border: 1px solid var(--rule-strong);
+  background: var(--sheet);
+  min-width: 0;
+}
+.case-tile.is-open {
+  grid-column: span 2;
+}
+.case-tile-btn {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  padding: 9px 10px 10px;
+  cursor: pointer;
+}
+.case-tile-btn:disabled {
+  cursor: default;
+}
+.case-tile-btn:focus-visible {
+  outline: var(--focus);
+}
+.case-tile-name {
+  font-family: var(--f-display);
+  font-size: 18px;
+  line-height: 1.1;
+}
+.case-chip {
+  justify-self: start;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid currentColor;
+  padding: 1px 7px;
+}
+.case-tile-fact {
+  font-size: var(--s-small);
+  line-height: 1.35;
+  color: var(--ink-2);
+  min-height: 2.7em;
+}
+.case-tile.is-found .case-chip {
+  color: var(--red);
+}
+.case-tile.is-nothing .case-chip {
+  color: var(--ink);
+}
+.case-tile.is-pending {
+  background: none;
+  border-style: dashed;
+}
+.case-tile.is-pending .case-chip,
+.case-tile.is-couldnt .case-chip {
+  color: var(--graphite);
+  border-style: dashed;
+}
+.case-tile.is-not_done .case-chip {
+  color: var(--est);
+}
+.case-tile.is-not_done .case-tile-fact {
+  color: var(--est);
+}
+.case-tile-more {
+  padding: 0 10px 10px;
+}
+.case-tile-more p {
+  margin: 4px 0 0;
+}
+
+/* The gates: three pills that open their lists. */
+.case-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.case-pill {
+  font-family: var(--f-ui);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--sheet);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 7px 16px 7px 8px;
+  cursor: pointer;
+}
+.case-pill:disabled {
+  cursor: default;
+  color: var(--graphite);
+  border-color: var(--rule-strong);
+}
+.case-pill.is-open {
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+.case-pill-kind {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-right: 4px;
+  color: var(--sheet);
+  background: var(--ink);
+}
+.case-pill.is-sign .case-pill-kind {
+  background: var(--red);
+}
+.case-pill.is-spend .case-pill-kind {
+  background: var(--est);
+}
+.case-pill:disabled .case-pill-kind {
+  background: var(--graphite);
+}
+.case-gate-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: var(--s-small);
+  display: grid;
+  gap: 3px;
+}
+
+/* The watch run: one row per change; the simulation apart, dashed. */
+.case-changes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.case-change {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  border-left: 3px solid var(--ink);
+  padding-left: 12px;
+}
+.case-change-line {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.25);
+}
+.case-open {
+  flex-basis: 100%;
+  max-width: 760px;
+}
+.case-sim {
+  border: 1.5px dashed var(--rule-strong);
+  padding: 8px 12px;
+  max-width: 760px;
+}
+.case-sim p {
+  margin: 4px 0 0;
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.1);
+}
+.case-sim-kind {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+/* The log: everything, one click down. */
+.case-log {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 8px;
+}
+.case-log > summary {
+  cursor: pointer;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
 .case-meta {
-  margin: 0 0 8px;
+  margin: 8px 0;
 }
 .case-summary {
   font-family: var(--f-display);
-  font-size: calc(var(--s-body) * 1.15);
   line-height: 1.45;
   margin: 8px 0;
   max-width: 900px;
-}
-.case-replay {
-  margin-top: 4px;
-}
-.case-cols {
-  display: grid;
-  grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
-  gap: 28px;
-  align-items: start;
-}
-.case-side {
-  display: grid;
-  gap: 20px;
-  min-width: 0;
-}
-.case-section {
-  border-top: 3px double var(--ink);
-  padding-top: 8px;
-  min-width: 0;
 }
 .case-steps {
   list-style: none;
@@ -91,13 +353,6 @@
   align-items: baseline;
   padding: 6px 0;
   border-bottom: 1px solid var(--rule);
-  animation: case-in 0.35s ease-out;
-}
-@keyframes case-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
 }
 .case-agent {
   font-family: var(--f-map);
@@ -133,87 +388,6 @@
 .case-src {
   white-space: nowrap;
 }
-.case-findings,
-.case-gates,
-.case-events {
-  list-style: none;
-  margin: 8px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
-}
-.case-finding {
-  border: 1px solid var(--rule-strong);
-  padding: 8px 10px;
-  background: var(--sheet);
-}
-.case-finding-title {
-  display: block;
-  font-weight: 500;
-}
-.case-finding-text {
-  margin: 4px 0 0;
-}
-.case-tag {
-  float: right;
-  font-family: var(--f-map);
-  font-weight: 600;
-  font-size: var(--s-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border: 1.5px solid currentColor;
-  padding: 1px 6px;
-  margin-left: 8px;
-}
-.case-finding.is-pending .case-tag {
-  color: var(--graphite);
-  border-style: dashed;
-}
-.case-finding.is-found .case-tag {
-  color: var(--red);
-}
-.case-finding.is-nothing .case-tag {
-  color: var(--ink);
-}
-.case-finding.is-couldnt .case-tag {
-  color: var(--graphite);
-}
-.case-finding.is-not_done .case-tag {
-  color: var(--est);
-}
-.case-finding.is-pending {
-  background: none;
-  border-style: dashed;
-}
-.case-gate-kind {
-  font-family: var(--f-map);
-  font-weight: 600;
-  font-size: var(--s-label);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border: 1px solid var(--rule-strong);
-  padding: 0 5px;
-  margin-right: 4px;
-}
-.case-gate.is-send .case-gate-kind {
-  color: var(--ink);
-}
-.case-gate.is-spend .case-gate-kind {
-  color: var(--est);
-}
-.case-gate.is-sign .case-gate-kind {
-  color: var(--red);
-}
-.case-event {
-  border-left: 3px solid var(--ink);
-  padding-left: 10px;
-}
-.case-event.is-simulated {
-  border-left-style: dashed;
-}
-.case-event p {
-  margin: 4px 0 0;
-}
 .case-draft {
   border-bottom: 1px solid var(--rule);
   padding: 6px 0;
@@ -230,17 +404,34 @@
   padding: 8px 10px;
   max-height: 280px;
   overflow: auto;
+  margin: 0;
 }
-.case-verifier.is-blocked {
+.case-verifier-line.is-blocked {
   color: var(--red);
 }
 .case-link {
   margin-right: 12px;
 }
 
-@media (max-width: 900px) {
-  .case-cols {
-    grid-template-columns: minmax(0, 1fr);
+@media (max-width: 700px) {
+  .case-lane {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .case-card {
+    border-left: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .case-card:nth-child(-n + 2) {
+    border-top: 0;
+  }
+  .case-card:nth-child(2n) {
+    border-left: 1px solid var(--rule-strong);
+  }
+  .case-card-glyph {
+    font-size: 22px;
+  }
+  .case-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .case-step {
     grid-template-columns: minmax(0, 1fr);

@@ -742,67 +742,62 @@ const V6 = [
   {
     id: 'B18',
     name: 'case-file',
-    // The agents' case file for lot 25 (agents/, npm run steward): the committed run replays step by step; each
-    // due-diligence check flips from "FREE · NOT RUN" to what it found, with its source; the verifier's stamp closes it.
+    // The agents' case file for lot 25 (agents/, npm run steward), at a glance: the lane of five agents lights in order,
+    // each check's tile flips from FREE · NOT RUN to what it found, the verifier's card turns ✓ and the run stamp VERIFIED;
+    // last, the policy agent's card (Q4: the side setback 10 → 4 ft opens 135 lots).
     q: 'view=case&pin=0010K00025000000&anim=1',
     run: async (p, c) => {
       cues.B18 = {};
       await p.waitForSelector('[data-case-stamp="running"]', { timeout: 8000 });
-      await mark(p, 'B18', 'case_title', p.locator('.case-title').first(), c, 'CASE FILE · 2241 Mahon St, lot 25, Middle Hill; goal: a two-unit house', { tight: true });
-      await mark(p, 'B18', 'findings_free', p.locator('[data-case-findings]').first(), c, 'the due-diligence checks, every one "FREE · NOT RUN" before the agents reach it; until the first one flips');
-      const list = await p.locator('[data-case-findings]').first().boundingBox();
-      if (list) await glide(p, list.x - 30, list.y + 60, { steps: 26, rest: 0.4 });
+      await mark(p, 'B18', 'agent_lane', p.locator('[data-agent-lane]').first(), c, 'the five agents in a row: Steward, Due diligence, Policy, Watch, Verifier (they light in order)');
+      await p.waitForSelector('[data-agent-card="steward"]:not([data-card-state="idle"])', { timeout: 8000 });
+      cues.B18.lane_lit = at(c);
+      const lane = await p.locator('[data-agent-lane]').first().boundingBox();
+      if (lane) await glide(p, lane.x + lane.width * 0.3, lane.y + lane.height + 40, { steps: 26, rest: 0.4 });
       await p.waitForSelector('[data-finding="violations"][data-finding-status="found"]', { timeout: 15000 });
-      cues.B18.violations_found = at(c);
-      await sleep(250);
-      await mark(p, 'B18', 'violations_found', p.locator('[data-finding="violations"]').first(), c, 'FOUND: 1 code-enforcement case file since 2022 (Weeds/Debris), "Clean & Lien", with its WPRDC source');
-      await p.waitForSelector('[data-finding="slope"][data-finding-status="found"]', { timeout: 15000 });
-      cues.B18.slope_found = at(c);
-      await p.waitForSelector('[data-case-stamp="published"]', { timeout: 20000 });
+      cues.B18.found = at(c);
+      await sleep(200);
+      await mark(p, 'B18', 'found_tile', p.locator('[data-finding="violations"]').first(), c, 'Violations · FOUND ⚠ · 1 case · 2022 (a WPRDC record, sourced)');
+      await p.waitForSelector('[data-agent-card="verifier"][data-card-state="done"]', { timeout: 20000 });
       cues.B18.verified = at(c);
-      await sleep(300);
-      await mark(p, 'B18', 'verified_stamp', p.locator('[data-case-stamp="published"]').first(), c, 'VERIFIED: the verifier traced every quote, number and source before the case file was published');
-      const st = await p.locator('[data-case-stamp="published"]').first().boundingBox();
-      if (st) await glide(p, st.x + st.width + 36, st.y + st.height / 2, { steps: 26, rest: 0.6 });
-      await c.until(cues.B18.verified + 2.5);
-      // The chain: the steward asked the policy agent, which found the sentence and counted the change (its Q-run).
-      const pol = p.locator('.case-step[data-agent="policy"]').last();
-      await pol.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
-      await sleep(1500); // the smooth scroll settles
+      await sleep(250);
+      await mark(p, 'B18', 'verifier_card', p.locator('[data-agent-card="verifier"]').first(), c, 'Verifier ✓ done · 43 numbers traced: another agent checks every quote, number and source');
+      const vc = await p.locator('[data-agent-card="verifier"]').first().boundingBox();
+      if (vc) await glide(p, vc.x + vc.width * 0.5, vc.y + vc.height + 30, { steps: 26, rest: 0.6 });
+      await c.until(cues.B18.verified + 2.2);
+      const pol = p.locator('[data-agent-card="policy"]').first();
       cues.B18.policy = at(c);
-      await mark(p, 'B18', 'policy_step', pol.locator('.case-step-text'), c, "the policy agent's answer in the steward's run: Q4, RM-M interior side setback 10 → 4 ft opens 135 City lots for a two-unit house, this one among them");
+      await mark(p, 'B18', 'policy_card', pol, c, "Policy ✓ drafted · Q4: side setback 10 → 4 ft · 135 lots (the policy agent's what-if, asked by the steward)");
       const pb = await pol.boundingBox();
-      if (pb) await glide(p, pb.x + 20, pb.y - 16, { steps: 26, rest: 0.6 });
-      await c.until(cues.B18.policy + 3.5 + HOLD);
+      if (pb) await glide(p, pb.x + pb.width * 0.5, pb.y + pb.height + 30, { steps: 26, rest: 0.6 });
+      await c.until(cues.B18.policy + 3 + HOLD);
     },
   },
   {
     id: 'B19',
     name: 'watch-agent',
-    // The watch agent: a watched lot's answer changed (R2-H's rules signed); it explains the change with the math and
-    // drafts the next move, which waits at the send gate. The simulation below it is labelled, never a record.
+    // The watch agent at a glance: 503 Climax St went from not checked to too narrow (15 ft < 16 ft) when R2-H's rules
+    // were signed; its drafted letter waits at SEND; the simulation apart, dashed, never a record.
     q: 'view=case&pin=watch',
     run: async (p, c) => {
       cues.B19 = {};
-      const ev = p.locator('[data-event-pin="0014E00106000000"]').first(); // on the first screen, under the page's title
-      await mark(p, 'B19', 'change_503', ev.locator('[data-event-text]'), c, '503 Climax St: the verdict went from "not checked yet" to "too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house", because R2-H\'s rules were signed');
+      const row = p.locator('[data-change-row][data-event-pin="0014E00106000000"]').first();
+      await mark(p, 'B19', 'change_row', row.locator('.case-change-line'), c, '503 Climax St: not checked → too narrow · 15 ft < 16 ft · R2-H rules signed', { tight: true });
       await c.until(0.6);
-      await hoverSlow(p, ev.locator('[data-event-text]'), { fx: 0.2, fy: 0.3, rest: 0.8 });
-      await c.until(3.2);
-      const sum = ev.locator('[data-event-draft] summary');
-      await clickSlow(p, sum);
+      await hoverSlow(p, row.locator('.case-change-line'), { fx: 0.3, fy: 0.5, rest: 0.8 });
+      await c.until(3.0);
+      const pill = row.locator('[data-send-pill]');
+      await mark(p, 'B19', 'send_pill', pill, c, 'SEND · letter drafted · waiting: the inquiry to City Real Estate is not sent until a person decides');
+      await clickSlow(p, pill);
       cues.B19.letter_open = at(c);
+      await p.waitForSelector('[data-letter]', { timeout: 5000 });
       await sleep(400);
-      await mark(p, 'B19', 'send_gate', sum.locator('.case-gate-kind'), c, 'SEND · WAITING: the drafted inquiry to City Real Estate is not sent until a person decides', { tight: true });
-      await mark(p, 'B19', 'letter_503', ev.locator('[data-event-draft] pre'), c, 'the drafted inquiry to City Real Estate for 503 Climax St (written by the model, every number traced)');
-      await c.until(cues.B19.letter_open + 4.5);
+      await c.until(cues.B19.letter_open + 4);
       const sim = p.locator('[data-event="simulated"]').first();
-      await sim.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
-      await sleep(1500); // the smooth scroll settles (a frame mid-scroll blends two positions)
       cues.B19.simulation = at(c);
-      await mark(p, 'B19', 'simulation', sim, c, 'SIMULATION · NOT A RECORD: if lot 24 got a building permit, lot 25 could get at best 24 − 3 − 10 = 11 ft (pencil)');
+      await mark(p, 'B19', 'simulation', sim, c, 'SIMULATION · NOT A RECORD: if lot 24 is built, at best 11 ft · still short of 16 ft');
       const sb = await sim.boundingBox();
-      if (sb) await glide(p, sb.x - 30, sb.y + 20, { steps: 26, rest: 0.6 });
+      if (sb) await glide(p, sb.x + sb.width * 0.4, sb.y + sb.height + 24, { steps: 26, rest: 0.6 });
       await c.until(cues.B19.simulation + 3.5 + HOLD);
     },
   },
