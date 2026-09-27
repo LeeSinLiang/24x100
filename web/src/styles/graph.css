@@ -1,0 +1,631 @@
+/* The Graph view (spec §0.15 P1). Plat (light) and cyanotype (dark) come from the tokens alone:
+   no hex values here. Trust classes: t-ink, t-pencil, t-red, t-estimate, t-unknown (DESIGN_GUIDE §5). */
+
+.gr {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  background: var(--sheet);
+  color: var(--ink);
+}
+.gr-scroll {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.gr-svg {
+  display: block;
+  font-family: var(--f-ui);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Paper, frame, grid ── */
+.gr-bg {
+  fill: var(--sheet);
+}
+.gr-grid {
+  fill: url(#gr-grid);
+}
+.gr-grid-line {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 0.5;
+  opacity: 0.45;
+}
+.gr-frame {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+.gr-frame.is-inner {
+  stroke: var(--rule);
+  stroke-width: 0.5;
+}
+.gr-head {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: var(--ink-2);
+}
+.gr-head-sub {
+  font-family: var(--f-map);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  fill: var(--ink-2);
+}
+
+/* ── Edges ── */
+.gr-edge {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 0.9;
+  opacity: 0.75;
+  transition: opacity 120ms linear;
+}
+.gr-edge.t-pencil {
+  stroke: var(--graphite);
+}
+.gr-edge.t-estimate {
+  stroke: var(--est);
+}
+.gr-edge.t-unknown {
+  stroke: var(--graphite);
+}
+.gr-edge.k-needed-to-fit {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  opacity: 0.9;
+}
+.gr-edge.k-adjacent-to {
+  stroke-width: 0.9;
+}
+.gr-edge.k-constrained-by {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  opacity: 0.9;
+}
+.gr-edge.k-constrained-by.t-pencil {
+  stroke: var(--graphite);
+  stroke-dasharray: 5 3;
+}
+.gr-edge.k-cites {
+  stroke-dasharray: 1.5 2.5;
+  stroke-linecap: round;
+}
+.gr-edge.k-signed-by {
+  stroke-width: 0.8;
+  opacity: 0.6;
+}
+.gr-edge.k-assesses,
+.gr-edge.k-ownership,
+.gr-edge.k-geometry {
+  stroke-width: 0.8;
+  opacity: 0.55;
+}
+.gr-edge.k-ownership {
+  stroke-dasharray: 6 2 1.5 2;
+}
+.gr-edge.k-geometry {
+  stroke-dasharray: 4 3;
+}
+.gr-edge.k-estimates-cost {
+  stroke: var(--est);
+  stroke-width: 1.1;
+  stroke-dasharray: 2 3;
+  stroke-linecap: round;
+}
+.gr-edge.k-comparable-sale {
+  stroke: var(--ink);
+  stroke-width: 1.1;
+  stroke-dasharray: 6 3;
+}
+.gr-edge.k-has-condition {
+  stroke: var(--graphite);
+  stroke-dasharray: 3 3;
+}
+.gr-edge.k-inquire {
+  stroke-width: 1;
+}
+.gr-edge.is-on {
+  opacity: 1;
+  stroke-width: 1.8;
+}
+.gr-edge.is-faint {
+  opacity: 0.28;
+}
+.gr-edge.is-dim {
+  opacity: 0.1;
+}
+.gr-arrow {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 1.2;
+}
+.gr-arrow.t-pencil,
+.gr-arrow.t-unknown {
+  stroke: var(--graphite);
+}
+.gr-arrow.t-estimate {
+  stroke: var(--est);
+}
+
+.gr-pill rect {
+  fill: var(--sheet);
+  stroke: var(--rule-strong);
+  stroke-width: 0.6;
+}
+.gr-pill text {
+  font-family: var(--f-map);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  fill: var(--ink-2);
+  text-anchor: middle;
+}
+.gr-pill.is-dim {
+  opacity: 0.15;
+}
+
+/* ── Nodes ── */
+.gr-node {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 120ms linear;
+}
+.gr-node.is-dim {
+  opacity: 0.28;
+}
+.gr-hit {
+  fill: transparent;
+}
+.gr-halo {
+  fill: var(--gold-wash);
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+.gr-node:focus-visible .gr-halo,
+.gr-node:focus-visible .gr-center {
+  stroke: var(--red);
+  stroke-width: 2;
+}
+.gr-glyph rect,
+.gr-glyph path,
+.gr-glyph circle {
+  fill: var(--sheet);
+  stroke: var(--ink);
+  stroke-width: 1.2;
+}
+.gr-glyph .gr-fine {
+  fill: none;
+  stroke-width: 0.7;
+}
+.gr-glyph .gr-fill {
+  fill: var(--ink);
+  stroke: none;
+}
+.gr-glyph .gr-solid {
+  fill: var(--ink);
+}
+.gr-glyph .gr-coin {
+  fill: var(--gold);
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+.gr-glyph .gr-coin.is-ring {
+  fill: var(--sheet);
+}
+.gr-glyph-text {
+  font-family: var(--f-display);
+  font-size: 12.5px;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.gr-glyph-text.is-quote {
+  font-size: 15px;
+}
+.gr-glyph-ai {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+.gr-node.is-ai .gr-glyph circle {
+  stroke-dasharray: 2.2 1.6;
+}
+.gr-label {
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--ink);
+}
+.gr-label.is-small {
+  font-size: 11.5px;
+}
+.gr-sub {
+  font-family: var(--f-map);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  fill: var(--ink-2);
+}
+.gr-label,
+.gr-sub,
+.gr-center-label,
+.gr-center-sub,
+.gr-center-status,
+.gr-head,
+.gr-head-sub {
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.gr-node.is-selected .gr-label,
+.gr-node.is-hover .gr-label {
+  font-weight: 600;
+}
+.gr-node.is-flag .gr-glyph rect,
+.gr-node.is-flag .gr-glyph path {
+  stroke-width: 1.8;
+}
+
+/* Trust: pencil trembles (the app's boil filters, when present), dashed and italic; estimates violet;
+   not assessed dashed with muted words. Ink is still. */
+.gr-node.t-pencil .gr-glyph rect,
+.gr-node.t-pencil .gr-glyph path,
+.gr-node.t-pencil .gr-glyph circle {
+  stroke: var(--graphite);
+  stroke-dasharray: 2.5 2;
+}
+.gr-node.t-pencil .gr-glyph {
+  filter: url(#boil-t-0);
+}
+.gr-node.t-pencil .gr-glyph-text,
+.gr-node.t-pencil .gr-label {
+  fill: var(--graphite);
+  font-style: italic;
+}
+.gr-node.t-estimate .gr-glyph rect {
+  stroke: var(--est);
+  stroke-width: 1.5;
+}
+.gr-node.t-estimate .gr-label,
+.gr-node.t-estimate .gr-sub {
+  fill: var(--est);
+}
+.gr-node.t-unknown .gr-glyph path,
+.gr-node.t-unknown .gr-glyph rect {
+  stroke: var(--ink-2);
+  stroke-dasharray: 3 2;
+}
+.gr-node.t-unknown .gr-label {
+  fill: var(--ink-2);
+}
+.gr-node.t-red .gr-glyph rect,
+.gr-node.t-red .gr-glyph path {
+  stroke: var(--red);
+}
+.gr-node.t-red .gr-label {
+  fill: var(--red);
+}
+.is-still .gr-node.t-pencil .gr-glyph {
+  filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gr-node.t-pencil .gr-glyph {
+    filter: none;
+  }
+  .gr-edge,
+  .gr-node {
+    transition: none;
+  }
+}
+
+/* The centre: the lot, framed like an atlas plate number. */
+.gr-center {
+  fill: var(--sheet);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.gr-center.is-inner {
+  fill: none;
+  stroke-width: 0.6;
+}
+.gr-node.t-pencil .gr-center {
+  stroke: var(--graphite);
+  stroke-dasharray: 4 2.5;
+}
+.gr-node.t-unknown .gr-center {
+  stroke: var(--ink-2);
+  stroke-dasharray: 4 2.5;
+}
+.gr-node.t-red .gr-center {
+  stroke: var(--red);
+}
+.gr-node.is-selected .gr-center:not(.is-inner) {
+  fill: var(--gold-wash);
+  stroke-width: 2.2;
+}
+.gr-center-label {
+  font-family: var(--f-display);
+  font-size: 15.5px;
+  fill: var(--ink);
+}
+.gr-center-sub {
+  font-family: var(--f-map);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  fill: var(--ink-2);
+}
+.gr-center-status {
+  font-size: 11px;
+  fill: var(--ink);
+}
+
+/* Hover label */
+.gr-tip rect {
+  fill: var(--sheet);
+  stroke: var(--ink);
+  stroke-width: 0.8;
+}
+.gr-tip-label {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+.gr-tip-sub {
+  font-family: var(--f-map);
+  font-size: 11px;
+  fill: var(--ink-2);
+}
+
+/* ── Legend ── */
+.gr-legend {
+  flex: none;
+  display: grid;
+  gap: 1px;
+  padding: 3px 12px 4px;
+  border-top: 1px solid var(--rule);
+  font-family: var(--f-map);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 18px;
+  color: var(--ink-2);
+}
+.gr-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.gr-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.gr-legend-glyph {
+  flex: none;
+}
+.gr-legend-glyph.t-estimate .gr-glyph rect {
+  stroke: var(--est);
+  stroke-width: 1.5;
+}
+.gr-legend-glyph.t-unknown .gr-glyph path {
+  stroke: var(--ink-2);
+  stroke-dasharray: 3 2;
+}
+.gr-legend-glyph.t-ink .gr-glyph-text,
+.gr-legend-glyph .gr-glyph-text {
+  fill: var(--ink);
+}
+.gr-sw {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  border-top: 2px solid var(--ink);
+}
+.gr-sw.t-pencil {
+  border-top: 1.5px dashed var(--graphite);
+}
+.gr-sw.t-estimate {
+  border-top: 2px dotted var(--est);
+}
+.gr-sw.t-unknown {
+  border-top: 1.5px dashed var(--ink-2);
+}
+.gr-ai-chip {
+  display: inline-grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border: 1px dashed var(--ink);
+  border-radius: 50%;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── Inspector: GraphNodeDetail ── */
+.gnd {
+  display: grid;
+  gap: 8px;
+  font-size: var(--s-small);
+  line-height: 1.45;
+  color: var(--ink);
+}
+.gnd p {
+  margin: 0;
+}
+.gnd-kicker,
+.gnd-label {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.gnd-title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: var(--s-title);
+  line-height: 1.25;
+}
+.gnd.t-pencil .gnd-title {
+  color: var(--graphite);
+  font-style: italic;
+}
+.gnd.t-estimate .gnd-title {
+  color: var(--est);
+}
+.gnd-sub,
+.gnd-muted {
+  color: var(--ink-2);
+}
+.gnd-small {
+  font-size: 12px;
+}
+.gnd-status {
+  font-weight: 500;
+}
+.gnd-mark {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 2px;
+  vertical-align: -1px;
+}
+.gnd-mark.m-ink {
+  background: var(--ink);
+}
+.gnd-mark.m-pencil {
+  border: 1px dashed var(--graphite);
+}
+.gnd-mark.m-red {
+  border: 1.5px solid var(--red);
+}
+.gnd-mark.m-estimate {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--est);
+  transform: rotate(45deg);
+  margin: 0 2px;
+}
+.gnd-mark.m-unknown {
+  border: 1px dashed var(--ink-2);
+}
+.gnd-ai {
+  display: inline-block;
+  margin-top: 2px;
+  font-family: var(--f-map);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px dashed var(--ink-2);
+  padding: 0 5px;
+  color: var(--ink-2);
+}
+.gnd-quote-box {
+  margin: 0;
+}
+.gnd-quote {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--gold);
+  background: var(--gold-wash);
+  font-family: var(--f-display);
+  font-size: 14.5px;
+  line-height: 1.45;
+  max-height: 14em;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.gnd-quote.t-pencil {
+  border-left-style: dashed;
+  border-left-color: var(--graphite);
+}
+.gnd-cite {
+  margin-top: 3px;
+  font-family: var(--f-map);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+.gnd-signer {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 6px 0;
+  display: grid;
+  gap: 2px;
+}
+.gnd-source a {
+  overflow-wrap: anywhere;
+}
+.gnd-source code {
+  font-family: var(--f-map);
+  font-size: 12px;
+}
+.gnd-kv {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.gnd-kv th,
+.gnd-kv td {
+  text-align: left;
+  vertical-align: top;
+  padding: 4px 0;
+  border-top: 1px solid var(--rule);
+}
+.gnd-kv th {
+  width: 34%;
+  padding-right: 10px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.gnd-kv td {
+  overflow-wrap: anywhere;
+}
+.gnd-links ul {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+.gnd-edge {
+  font-family: var(--f-map);
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.gnd-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
+.gnd-link:hover {
+  background: var(--gold-wash);
+}
