@@ -371,6 +371,15 @@ export function CityMap(p: Props) {
       }
       g.restore();
     }
+    // For the film's pen (data-marks-box): the box, in the map's layout px, around the ringed lots on screen.
+    {
+      const ringed = [...(p.marks ?? []), ...(p.markStrong ?? [])].filter((i) => i >= 0 && i < world.xs.length && X(i) >= 0 && X(i) <= w && Y(i) >= 0 && Y(i) <= h);
+      if (ringed.length) {
+        const xs = ringed.map(X);
+        const ys = ringed.map(Y);
+        c.dataset.marksBox = [Math.min(...xs) - rr - 4, Math.min(...ys) - rr - 4, Math.max(...xs) + rr + 4, Math.max(...ys) + rr + 4].map((v) => Math.round(v)).join(',');
+      } else delete c.dataset.marksBox;
+    }
     // "Combine to fit" (C15): a ring around each City lot in a qualifying run; the selected run heavier.
     for (const [idx, lw, extra] of [
       [p.marks ?? [], 1.2, 2.6],

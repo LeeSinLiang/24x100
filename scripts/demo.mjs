@@ -88,7 +88,50 @@ async function mark(page, beat, id, locator, c, note, opts = {}) {
     cues[beat].missing.push(`${id}: not found on this screen${note ? ` (${note})` : ''}`);
     return null;
   }
-  return pushMark(page, beat, id, [b.x, b.y, b.width, b.height], c, note);
+  const box = await pushMark(page, beat, id, [b.x, b.y, b.width, b.height], c, note);
+  // Tag it, so the watcher (watchMarks) can say when it moves or goes: the mark's `until`.
+  const ok = await el.evaluate((e, [mid, tight]) => (e.setAttribute('data-demo-mark', mid), tight ? e.setAttribute('data-demo-tight', '1') : null, true), [id, !!opts.tight]).catch(() => false);
+  if (ok) cues[beat].marks[cues[beat].marks.length - 1].watch = true;
+  return box;
+}
+/** While a beat runs: every ~120 ms, re-measure each tagged mark; the first time it moves (more than 3 px) or is gone,
+ *  that clip second is its `until` (the film draws no mark after it). A mark that never moves has no `until`. */
+function watchMarks(page, beat, c) {
+  let on = true;
+  (async () => {
+    while (on) {
+      await sleep(120);
+      const list = (cues[beat]?.marks ?? []).filter((m) => m.watch && m.until == null);
+      if (!list.length) continue;
+      let rects;
+      try {
+        rects = await page.evaluate(() =>
+          Object.fromEntries(
+            [...document.querySelectorAll('[data-demo-mark]')].map((e) => {
+              let r;
+              if (e.getAttribute('data-demo-tight')) {
+                const g = document.createRange();
+                g.selectNodeContents(e);
+                r = g.getBoundingClientRect();
+              } else r = e.getBoundingClientRect();
+              return [e.getAttribute('data-demo-mark'), r.width > 0 && r.height > 0 ? [r.x, r.y, r.width, r.height] : null];
+            }),
+          ),
+        );
+      } catch {
+        continue; // the page is navigating
+      }
+      if (!on) break;
+      const t = at(c);
+      for (const m of list) {
+        const r = rects[m.id];
+        if (!r || r.some((v, k) => Math.abs(v - m.box[k]) > 3)) m.until = t;
+      }
+    }
+  })();
+  return () => {
+    on = false;
+  };
 }
 function pushMark(page, beat, id, b, c, note) {
   const box = b.map((v) => Math.round(v));
@@ -425,25 +468,38 @@ const V6 = [
     id: 'B13',
     name: 'assemblies',
     q: 'view=city&type=three&layer=assemble&canvas=table',
+    // The list holds still for the voice ("…111 groups of lots" ~0.6 s, "…up to 240 homes" ~6.3 s); then the Map tab:
+    // the citywide map with every group ringed is the payoff for "111 groups".
     run: async (p, c) => {
       await p.waitForSelector('tr[data-run]', { timeout: 8000 });
       cues.B13 = { list: 0 };
-      await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c, 'the heading; it scrolls away with the list', { tight: true });
-      await mark(p, 'B13', 'count_111_tile', p.locator('[data-tile="runs"] .ws-tile-value, [data-tile="runs"] .ev-num').first(), c, 'the right-panel tile "Lot groups that fit 111"; on screen until the group is chosen', { tight: true });
-      await mark(p, 'B13', 'homes_240', p.locator('[data-count="homes"]').first(), c, '"240 homes" (at most 80 groups share no lot); under the heading, so it scrolls away with the list at list_scroll', { tight: true });
-      // The list scrolls down to the Mahon group, then it is chosen and the map shows it with its inset plan.
-      const row = p.locator(`tr[data-run="${MAHON}"]`);
-      await c.until(1.2);
-      cues.B13.list_scroll = at(c);
-      await row.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
-      await c.until(3.2);
-      await clickSlow(p, row.locator('button').first());
-      cues.B13.mahon_selected = Math.round(c.now() * 100) / 100;
-      await c.until(4.6);
+      await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c, 'the list heading "111 lot groups"', { tight: true });
+      await mark(p, 'B13', 'count_111_tile', p.locator('[data-tile="runs"] .ws-tile-value, [data-tile="runs"] .ev-num').first(), c, 'the right-panel tile "Lot groups that fit 111"', { tight: true });
+      await mark(p, 'B13', 'homes_240', p.locator('[data-count="homes"]').first(), c, '"240 homes" (at most 80 groups share no lot)', { tight: true });
+      // The pointer rests on the tile while the voice says "111", then moves to the homes line.
+      await c.until(0.3);
+      await hoverSlow(p, p.locator('[data-tile="runs"]').first(), { fx: 0.75, fy: 0.5, rest: 0 });
+      await c.until(5.0);
+      await hoverSlow(p, p.locator('[data-count="homes"]').first(), { fx: 1.15, fy: 0.5, rest: 0 }); // resting by ~5.5 s
+      await c.until(6.65); // the glide and settle take ~1.1 s: the click lands at ~7.8 s
       await clickSlow(p, p.getByRole('button', { name: /^Map$/ }).first()).catch(async () => clickSlow(p, p.getByRole('link', { name: /^Map$/ }).first()));
-      await p.waitForSelector('.city-inset.is-wide', { timeout: 8000 });
-      cues.B13.map_inset = Math.round(c.now() * 100) / 100;
-      await c.until(8 + HOLD);
+      cues.B13.map_click = at(c);
+      await p.waitForFunction(() => !!document.querySelector('.city-plate canvas')?.getAttribute('data-marks-box'), null, { timeout: 8000 });
+      await sleep(250); // the map has drawn its rings
+      cues.B13.map_shown = at(c);
+      // map_rings: the box around every ringed group on screen, from the map's own data-marks-box (layout px).
+      const rings = await p.evaluate(() => {
+        const cv = document.querySelector('.city-plate canvas');
+        const b = cv?.getAttribute('data-marks-box')?.split(',').map(Number);
+        if (!cv || !b) return null;
+        const r = cv.getBoundingClientRect();
+        const k = r.width / cv.clientWidth; // record mode's page zoom
+        return [r.x + b[0] * k, r.y + b[1] * k, (b[2] - b[0]) * k, (b[3] - b[1]) * k];
+      });
+      if (rings) await pushMark(p, 'B13', 'map_rings', rings, c, 'every lot group ringed on the citywide map (combine to fit)');
+      else (cues.B13.missing ??= []).push('map_rings: the map drew no rings');
+      await glide(p, 1150, 760, { steps: 26, rest: 0 }); // the pointer leaves the map to the rings
+      await c.until(11);
     },
   },
   {
@@ -589,6 +645,7 @@ const V6 = [
       await c.until(5.6);
       await clickSlow(p, draft);
       cues.B10.letter = at(c);
+      for (const m of cues.B10.marks ?? []) if (m.until == null) m.until = cues.B10.letter; // the page loads the letter
       await p.waitForSelector('.iq-title', { timeout: 15000 });
       await p.waitForFunction(() => document.documentElement.dataset.ready === '1' || !!document.querySelector('.iq-title'), null, { timeout: 15000 });
       await sleep(400);
@@ -723,11 +780,14 @@ for (const beat of BEATS) {
   await sleep(250);
   const lead = (Date.now() - tStart) / 1000; // seconds of loading to trim from the clip's start
   const c = clock();
+  const stopWatch = watchMarks(page, beat.id, c);
   try {
     await beat.run(page, c);
   } catch (e) {
     errors.push(`beat failed: ${String(e).split('\n')[0]}`);
   }
+  stopWatch();
+  for (const m of cues[beat.id]?.marks ?? []) delete m.watch;
   const secs = c.now();
   if (process.env.SHOTS && !RECORD) await page.screenshot({ path: `${process.env.SHOTS}/${beat.id}-end.png` }).catch(() => {});
   if (errors.length) failed.push(`${beat.id}: ${errors.join(' | ').slice(0, 300)}`);
