@@ -38,7 +38,7 @@ const REOPEN = [
     id: 'a-trust-scan-reopen-side-interior',
     rule_id: 'rm-m.side_interior',
     question_id: null,
-    at: '2026-09-26T23:00:00Z',
+    at: new Date().toISOString(), // after every published signature, so the reopen wins
     reviewer: 'trust-scan',
     role: 'test',
     action: 'reopened',
