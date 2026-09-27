@@ -70,7 +70,7 @@ export function ruleEvents(sets: RuleSet[], audit: AuditEntry[]): TimelineEvent[
     }
   for (const [k, rules] of by) {
     const [at, reviewer, role, level] = k.split('|');
-    const districts = [...new Set(rules.map((r) => r.district))].join(', ');
+    const districts = [...new Set(rules.map((r) => (r.district === '*' ? 'citywide' : r.district)))].join(' and ');
     out.push({
       at,
       label: `${rules.length} ${districts.replace(/-/g, '‑')} rule${rules.length === 1 ? '' : 's'} ${level.replace(/_/g, '-')}`,
@@ -114,7 +114,7 @@ export function refreshEvent(): TimelineEvent[] {
     {
       at: m.run_at,
       label: `Refresh: ${(REFRESH?.changes ?? []).length} values changed`,
-      detail: `${sets.filter((d) => d.changed).length} of ${sets.length} datasets changed in content${m.failed?.length ? `; not re-pulled: ${m.failed.join(', ')}` : ''}`,
+      detail: `${sets.filter((d) => d.changed).length} of ${sets.length} datasets changed in content${m.failed?.length ? `; not re-pulled: ${m.failed.map((f) => f.replace(/^fetch /, '')).join(', ')}` : ''}`,
       kind: 'refresh',
     },
   ];
@@ -141,7 +141,7 @@ function ChangesPane({ pins }: { pins: string[] }) {
       <p>
         The last refresh ran {when(m.run_at)}. It re-pulled {pulled.length} of {sets.length} datasets; {changedSets.length} changed in content ({changedSets.map((d) => d.id).join(', ') || 'none'}). {changes.length} values changed
         {byField.size ? `: ${[...byField.entries()].map(([f, v]) => `${v.n} in ${words(f)} (${[...v.scopes].join(', ')} lots)`).join('; ')}` : ''}.{' '}
-        {m.failed?.length ? `Not re-pulled: ${m.failed.join(', ')}; their data stays as it was. ` : ''}A refresh never changes a rule or a review.
+        {m.failed?.length ? `Not re-pulled (the fetch failed): ${m.failed.map((f) => f.replace(/^fetch /, '')).join(', ')}; their data stays as it was. ` : ''}A refresh never changes a rule or a review.
       </p>
       <p className="small">{pins.length ? (mine.length ? `This selection: ${mine.length} change${mine.length === 1 ? '' : 's'}, shown in pencil until someone checks it.` : 'This selection: no change on the last refresh.') : null}</p>
       <details className="small">
@@ -186,7 +186,9 @@ export function Tray({ s, update, steps, stepsNote, events, pins, disclaimer }: 
   const [last, setLast] = useState<Exclude<TrayTab, 'closed'>>(tab === 'closed' ? 'next' : tab);
   const [step, setStep] = useState<number | null>(null);
   const cur = open ? (tab as Exclude<TrayTab, 'closed'>) : last;
-  const sorted = [...events].sort((a, b) => (a.at < b.at ? -1 : a.at > b.at ? 1 : 0));
+  // Times come with different offsets ("…Z", "…-04:00") and some are bare dates: compare instants.
+  const t = (x: string) => new Date(x.length <= 10 ? `${x}T00:00:00Z` : x).getTime() || 0;
+  const sorted = [...events].sort((a, b) => t(a.at) - t(b.at));
   return (
     <section className={`ws-tray ${open ? 'is-open' : 'is-closed'}`} aria-label="Tray: what to check next, evidence and changes">
       <div className="ws-tray-bar">

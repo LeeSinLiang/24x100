@@ -371,6 +371,15 @@
 .ws-runs td {
   vertical-align: top;
 }
+.ws-canvas-body.is-table .link {
+  text-align: left;
+}
+.ws-tabpanel .asm .asm-sentence {
+  display: none; /* the header says it, in plain words */
+}
+.ws-tabpanel .asm-list {
+  max-height: none;
+}
 
 /* ── Inspector ─────────────────────────────────────────────────────────── */
 .ws-inspector {
@@ -1126,6 +1135,7 @@
 .ws-ev-detail {
   color: var(--ink-2);
   font-size: 11px;
+  max-height: 2.7em;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;

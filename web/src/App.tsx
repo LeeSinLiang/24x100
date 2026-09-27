@@ -77,7 +77,9 @@ export function App() {
   const cityCrumbs: Crumb[] = [
     { label: 'Pittsburgh', href: '?view=city' },
     ...(s.view === 'city' && s.hood ? [{ label: s.hood, href: `?view=city&hood=${encodeURIComponent(s.hood)}` }] : []),
-    ...(s.view === 'city' && s.layer === 'assemble' ? [{ label: 'Combine to fit' }] : []),
+    ...(s.view === 'city' && s.layer === 'assemble' ? [{ label: 'Combine to fit', href: `?view=city&type=${s.type}&layer=assemble` }] : []),
+    ...(s.view === 'city' && s.pin && !s.run ? [{ label: 'City lot' }] : []),
+    ...(s.view === 'city' && s.layer === 'assemble' && s.run ? [{ label: 'Run' }] : []),
   ];
   const crumbs: Crumb[] =
     s.view === 'review'

@@ -92,7 +92,10 @@ Derived tokens (define once in `web/src/styles/tokens.css`, never hard-code hex 
   **fits as of right** `--ink` hollow; **rules not loaded** `--graphite` at 45%; **edges not
   computed** `--graphite` hollow dashed. The legend always prints the words, never color alone.
 
-Theme switching follows `prefers-color-scheme`, with `?theme=light|dark` overriding it. Both
+Atlas (light) is the default whatever the OS setting (spec §0.15). Cyanotype is a toggle in the top
+bar ("Dark"), remembered per browser in localStorage (every read and write guarded); `?theme=light|dark`
+in the link overrides both. `App.tsx` always sets `data-theme` on `<html>`, and `tokens.css` switches only on
+`[data-theme='dark']`, never on `prefers-color-scheme`. Both
 themes pass WCAG AA for body text (4.5:1) and for map labels (3:1 at their rendered size).
 
 ## 3. Type
@@ -317,6 +320,10 @@ no dev UI, all motion < 400 ms, and the app waits for `document.fonts.ready` bef
 The stage sets `data-ready="1"` on `<html>` when fonts, data and the first render are done;
 scripts wait for it.
 
+The lot, city and block screens above are now one workspace (§13). The table stays as the list of
+URLs; `view=city`, `view=lot` and `view=block` render the workspace, and review, inquiry, changes and
+about stay pages under the same top bar.
+
 ## 11. Accessibility
 
 - Beside every plate, an HTML table of lots (address, lot, width available, status) that selects
@@ -338,3 +345,129 @@ scripts wait for it.
 7. Does anything look templated: default shadows, rounded cards, gradient buttons, a generic
    dashboard grid? Replace it with the atlas vocabulary.
 8. Is the disclaimer present on lot views and inquiries?
+
+## 13. The workspace (spec §0.15)
+
+One screen, linked panels, the answer in five seconds and every detail one or two clicks deep. Built in
+`web/src/views/WorkspaceView.tsx` and `web/src/components/workspace/*`, styled in `web/src/styles/workspace.css`.
+
+```
+┌ top bar: cartouche · search · crumbs · Detached Two‑unit Rowhouses Three‑unit · Map Plan Graph Table · Dark Rules About Present ┐
+│ LEFT RAIL (224)        │ CANVAS                                  │ INSPECTOR (520)                          │
+│ Map/Table: layers with │ Map: the city, its layers, selection    │ title · status stamp (click: the verdict) │
+│ live counts, filters   │ Plan: the plate                         │ one plain sentence                        │
+│ Plan: the plate's key, │ Graph: slot for P1                      │ 4 tiles: width · build cost · newest sale │
+│ slope layer            │ Table: lots or runs, sortable           │          · left after building            │
+│ Graph: node-type slot  │                                         │ tabs Money · Rules · Site · Next · Sources│
+├────────────────────────┴─────────────────────────────────────────┴──────────────────────────────────────────┤
+│ TRAY: What to check next · Evidence timeline · Changes            disclaimer                        Hide  │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Fit.** At 1440×900 the page never scrolls, in either theme; the rail, the inspector's tab body, the
+table canvas and the tray scroll inside. Record mode draws the 1440×810 layout at 1920×1080. Under 1024 px
+the workspace stacks: canvas, inspector, tray, then the rail, and the page scrolls; no horizontal scroll at
+390 px. `scripts/words.mjs` checks all of this.
+
+**Selection comes from the URL**, never from component state: a lot with block detail (`view=lot&block&lot`,
+with `lots` and `type`), a City lot without detail (`view=city&pin=`), a C15 run (`view=city&layer=assemble&run=<pins>`),
+the Combine-to-fit list (`layer=assemble`), a block (`view=block&block=`), or nothing (the city). New, optional
+parameters (every older link still opens the same selection): `canvas=map|plan|graph|table` (default: map for
+the city, plan for a lot or block), `tab=money|rules|site|next|sources`, `tray=next|timeline|changes|closed`,
+`hide=<blocker ids>` (map layers off), `sale=1`, `ward=`, `zone=` (filters; `hood=` is the neighbourhood, as
+before), and `letter=<office>` on the inquiry page. Clicking a dot on a lot with block detail opens that lot
+(the canvas stays the map); any other dot selects the City lot.
+
+**Plain words.** The header, the sentence and the tile labels carry no jargon: "buildable width", "build cost
+per home", "newest new-build sale", "left after building", "too narrow", "not checked". RM‑M, *as of right*,
+setback, envelope, AMI, RCO and ink/pencil appear only in the tabs, with a dotted-underline glossary tooltip
+(`Gloss` in `workspace/plain.tsx`, text from §8). The status stamp keeps the engine's verdict words
+(`HEADLINE_WORDS`), so "Doesn't fit as of right" stays, with the glossary in its tooltip. Budgets: ≤ 80 words
+in the header and tiles, ≤ 250 on the first screen (a word has a letter; figures are counted apart).
+
+**Tiles.** Four boxed cells, Old Standard figures, trust styling unchanged: the width numeral is ink,
+pencil, red or short-red exactly as the old numeral was; build cost and left-after-building are practitioner
+estimates in `--est` violet with the ◇ mark and "a practitioner at the hackathon"; the newest sale is ink with
+its caveat in a tooltip. A can't-score lot shows "—" with the reason in every tile. The sale tile's value is a
+list with room reserved for a **second price line** (the parked two-price framing), and the Money tab's key
+values are rows keyed by `data-price`, so adding one is a row, not a relayout. The city, a City lot, a run and a
+block have their own tiles, all read from `summarize()`, the classifier or the assembly file.
+
+**Tabs** hold today's panels, unchanged in substance, at concept-v2-1 density: each panel's own header stays,
+tables at 12.5 px, and the Money tab leads with the scale and a key-values table (value and source per row), the
+full estimates table, context lines and your assumptions one click deeper. All panels are rendered and the
+inactive ones hidden, so the trust scan still reads the ledger whichever tab is open. The evidence drawer opens
+over the inspector, as before.
+
+**Tray.** *What to check next*: the engine's five steps (`inquiry.sections` → `next`), each with its cost tag
+taken from its own words (FREE, FREE OR CHEAP, LOW COST, PAID), its first phrase, the full text on click, and a
+link to every letter whose office it names (`?view=inquiry…&letter=<office>`). *Evidence timeline*: real events
+only: record pulls grouped by minute (block `meta.sources`, sales, HUD, the citywide file, the assembly finder's
+inputs), rule checks grouped by who, when and level, each review-log entry (never a page-link assumption), code
+text saved, and the last refresh. *Changes*: the last refresh in plain words, the raw diffs behind "Details". The
+disclaimer sits in the tray bar on every workspace screen.
+
+**Theme.** See §2: light by default, the toggle is remembered, the link overrides.
+
+**Graph (P1).** `<GraphSlot/>` says "The graph view is being added" in a dashed pencil box; the rail keeps a
+`data-slot="graph-filters"` section for node-type filters. Neither looks finished.
+
+### Nothing lost: old place → new place
+
+Clicks count from the workspace as it opens for that selection (0 = on the first screen).
+
+**Lot page** (`?view=lot…`)
+
+| Old place | New place | Clicks |
+|---|---|---|
+| Header: cartouche, crumbs, search and its "Lot detail covers …" line, Rules, Present | Top bar; the coverage line heads the search results (and is the input's description) | 0 (coverage: 1) |
+| Scenario rail "Try …", with "on lots 25–27" | Top bar building-type switch; the group is in each option's tooltip and in the title once chosen | 0 |
+| The plate | Plan canvas (the lot view's default) | 0 |
+| Plate legend | Left rail "Key" on the Plan canvas | 0 |
+| Slope layer (`slope=1`) | Left rail "Slope 25% or more" | 0 |
+| The engine's sentence (headline) | Rules tab, first line; the header carries a plain sentence | 1 |
+| Explanation under the plate | Rules tab | 1 |
+| Refresh note (changed on the last refresh) | Pencil note under the header sentence; the Changes tray tab | 0 |
+| What fits: numeral, "as of right · by deed", City-map value, the alternative | Width tile (numeral, your plan, the alternative); caption and formula in its tooltip and the Rules tab's width line | 0 (caption: 1) |
+| What blocks it: verdict headline, Money · Rules · Site chips, detail | Status stamp (headline); click it for the whole verdict block; chip glyphs on the tabs; chip words lead the Rules and Site tabs | 0 / 1 |
+| What to do next: the first check, or the unlock with Try it | Next tab, first block | 1 |
+| Money panel | Money tab (default): scale and key values; estimates, context lines, your assumptions and notes under "Both estimates, context and your assumptions" | 0 / 1 |
+| Rules wall: verdict line, ledger, approvals | Rules tab | 1 |
+| Rules wall: ways forward (unlock table, Try it) | Rules tab → "Ways forward" | 2 |
+| Site panel | Site tab | 1 |
+| What to check next + Draft the letter | Tray (the five steps, tags, letter links; click a step for its text) and the Next tab (list, Draft the letter, one link per letter) | 0 / 1 |
+| Lots on the street table | Table canvas | 1 |
+| Footer disclaimer | Tray bar (always visible) and the Sources tab | 0 |
+| Footer "Not assessed, never scored …" and "What 24×100 doesn't know" | Site tab, last lines | 1 |
+| Records, rules and quotes (only in the drawer before) | Sources tab, and the drawer as before | 1 |
+
+**City page** (`?view=city…`)
+
+| Old place | New place | Clicks |
+|---|---|---|
+| Type rail | Top bar building-type switch | 0 |
+| Zoom: "Pittsburgh", neighbourhood select, "N lots in …" | Left rail Filters: Neighborhood ("All of Pittsburgh" is the old button), "N lots shown"; for sale, ward and district are new | 0 |
+| The map | Map canvas (the city's default) | 0 |
+| Map caption (one dot per lot, colour = first blocker, source) | Left rail "About these dots" | 1 |
+| Sentence | Header (plain words); the district-named sentence in the Rules tab | 0 / 1 |
+| Coverage (pencil box) | Rules tab, first; the header stamp "Checked in 1 district" carries it as a tooltip | 1 |
+| What fits numeral | "Fit now" tile (and "for sale") | 0 |
+| What blocks it: width/area line, the pencil breakdown, counts table with glosses | Rules tab; live counts in the left rail's layers | 0 / 1 |
+| What to do next: featured lot, another district's rules, Combine to fit | Tray "What to check next" and the Next tab | 0 / 1 |
+| Combine to fit panel (`layer=assemble`) | Inspector "Runs" tab (the same panel), Table canvas (sortable runs) and the rail's "Combine to fit" layer | 0 |
+| Lot table | Table canvas | 1 |
+| Footer: lot count, source, classification note; disclaimer | Sources tab; tray bar | 1 / 0 |
+| Selected-lot card (LotCard) | City-lot inspector: header and tiles; Rules tab (first blocker, width formula with rule chips, lot area, City status); Next tab (open lot, routes, record link, check the district's rules); routes also in the tray | 0 / 1 |
+
+**Block page** (`?view=block…`)
+
+| Old place | New place | Clicks |
+|---|---|---|
+| Title; neighbourhood, ward, bounding streets, parcels, pull date | Inspector title; the rest in the Rules tab | 0 / 1 |
+| Sentence | Header (plain); the original in the Rules tab | 0 / 1 |
+| Type rail, plate, legend | Top bar, Plan canvas, rail key | 0 |
+| Lot tables (the street, the rest of the block) | Table canvas | 1 |
+| Why the lot count differs | Rules tab | 1 |
+| About this block | Next tab; top bar About | 1 |
+| Disclaimer | Tray bar | 0 |
+

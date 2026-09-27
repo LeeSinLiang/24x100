@@ -425,7 +425,7 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
                   </Ev>
                 </td>
                 <td>{r.non_city === 0 ? 'none: all City-owned' : `${r.non_city}: ${r.lots.filter((l) => !l.city).map((l) => l.owner_type_words).join('; ')}`}</td>
-                <td>{href ? <a href={href}>Combined lot</a> : <span className="muted">city card</span>}</td>
+                <td>{href ? <a href={href}>Combined lot</a> : <a href={`?view=city&type=${r.type}&pin=${r.candidates[0]}`}>City lot</a>}</td>
               </tr>
             );
           })}

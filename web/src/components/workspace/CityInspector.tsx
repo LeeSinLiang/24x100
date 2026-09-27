@@ -584,7 +584,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
       }
       tiles={
         <>
-          <Tile id="width" label="Buildable width" value={<Ev trust={run.trust} num className="ws-num">{run.width} ft</Ev>} sub={<span className="nowrap">{run.formula}</span>} />
+          <Tile id="width" label="Buildable width" value={<Ev trust={run.trust} num className="ws-num">{run.width} ft</Ev>} sub={run.formula} />
           <Tile id="cost" label="Build cost per home" value={<Dash why={why} />} sub="not assessed" title={why} className="is-na" />
           <Tile id="sale" label="Newest new-build sale" value={<Dash why={why} />} sub="not assessed" title={why} className="is-na" />
           <Tile id="left" label="Left after building" value={<Dash why={why} />} sub="not assessed" title={why} className="is-na" />
@@ -693,6 +693,11 @@ export function BlockInspector({ block, bm, s, onTab }: { block: BlockFile; bm: 
                 No lot on {street} can be scored yet: {refused[0]?.result.refusal?.code === 'missing_rule' ? `the ${zoneWord} rules aren’t signed` : 'records disagree or rules are missing'}.
               </span>
             )}
+          </p>
+          <p className="small muted">
+            {block.meta.neighborhood}
+            {block.meta.ward != null ? ` · Ward ${block.meta.ward}` : ''}
+            {block.meta.bounding_streets?.length ? ` · bounded by ${block.meta.bounding_streets.slice(0, -1).join(', ')} and ${block.meta.bounding_streets.slice(-1)[0]}` : ''} · {block.parcels.length} County parcels · pulled {dateFmt(block.meta.pulled)}
           </p>
           <Label as="h3">Why the lot count differs</Label>
           {block.meta.counts_note ? <p className="block-note small">{block.meta.counts_note}</p> : <p className="muted">No count note for this block.</p>}

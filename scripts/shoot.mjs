@@ -1,5 +1,8 @@
 // Screenshots of every storyboard state at 1440×900 and 390×844, in both themes.
 // Usage: node scripts/shoot.mjs [--base http://localhost:5173] [--only B01,B04] [--out out/shots] [--sizes desktop,phone] [--themes light,dark]
+//        node scripts/shoot.mjs --set p0   (the workspace review set, spec §0.15: five states at 1440×900 light and
+//                                           dark and 390×844 light, into docs/reviews/workspace-p0/)
+// The theme is chosen in the link (&theme=dark): light (paper) is the default whatever the OS says.
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
@@ -7,8 +10,9 @@ const arg = (k, d) => {
   const i = process.argv.indexOf(`--${k}`);
   return i > 0 ? process.argv[i + 1] : d;
 };
+const SET = arg('set', 'storyboard');
 const BASE = arg('base', 'http://localhost:5173/');
-const OUT = arg('out', 'out/shots');
+const OUT = arg('out', SET === 'p0' ? 'docs/reviews/workspace-p0' : 'out/shots');
 const ONLY = arg('only', '')?.split(',').filter(Boolean);
 const SIZES = arg('sizes', 'desktop,phone').split(',');
 const THEMES = arg('themes', 'light,dark').split(',');
@@ -29,31 +33,50 @@ export const STATES = [
   { id: 'B12', name: 'limits', q: 'view=about&block=10K&section=limits' },
 ];
 
+// The workspace review set (spec §0.15 P0): lot 25, lots 25–27, the city, a refusal and the held-out lot.
+export const P0 = [
+  { id: 'P01', name: 'lot25-two', q: 'view=lot&block=10K&lot=25&type=two' },
+  { id: 'P02', name: 'lots25-27-three', q: 'view=lot&block=10K&lot=25&type=three&lots=25,26,27' },
+  { id: 'P03', name: 'city', q: 'view=city&type=two' },
+  { id: 'P04', name: 'lot22-cant-score', q: 'view=lot&block=10K&lot=22&type=two' },
+  { id: 'P05', name: 'larimer-lot203', q: 'view=lot&block=0124P&lot=203&type=detached' },
+];
+
 const SIZE = { desktop: { width: 1440, height: 900 }, tablet: { width: 1024, height: 768 }, phone: { width: 390, height: 844 }, record: { width: 1920, height: 1080 }, projector: { width: 1280, height: 720 } };
+
+// The P0 set: desktop in both themes, the phone in light.
+const PLAN =
+  SET === 'p0'
+    ? P0.flatMap((st) => [
+        { st, size: 'desktop', theme: 'light' },
+        { st, size: 'desktop', theme: 'dark' },
+        { st, size: 'phone', theme: 'light' },
+      ])
+    : STATES.flatMap((st) => SIZES.flatMap((size) => THEMES.map((theme) => ({ st, size, theme }))));
 
 const browser = await chromium.launch({ channel: 'chrome' });
 mkdirSync(OUT, { recursive: true });
 let n = 0;
-for (const st of STATES) {
+let bad = 0;
+for (const { st, size, theme } of PLAN) {
   if (ONLY.length && !ONLY.includes(st.id)) continue;
-  for (const size of SIZES) {
-    for (const theme of THEMES) {
-      const ctx = await browser.newContext({ viewport: SIZE[size], colorScheme: theme, deviceScaleFactor: size === 'phone' ? 2 : 1, reducedMotion: 'reduce' });
-      const page = await ctx.newPage();
-      const errors = [];
-      page.on('pageerror', (e) => errors.push(String(e)));
-      page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
-      const url = `${BASE}?${st.q}${EXTRA ? `&${EXTRA}` : ''}${size === 'record' ? '&record=1' : size === 'projector' ? '&present=1' : ''}&still=1`;
-      await page.goto(url, { waitUntil: 'networkidle' });
-      await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 15000 }).catch(() => {});
-      await page.waitForTimeout(250);
-      const file = `${OUT}/${st.id}-${st.name}-${size}-${theme}.png`;
-      await page.screenshot({ path: file, fullPage: size === 'phone' || arg('full', '') === '1' });
-      if (errors.length) console.log(`! ${file}: ${errors.slice(0, 3).join(' | ')}`);
-      n++;
-      await ctx.close();
-    }
+  const ctx = await browser.newContext({ viewport: SIZE[size], colorScheme: theme, deviceScaleFactor: size === 'phone' ? 2 : 1, reducedMotion: 'reduce' });
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  const url = `${BASE}?${st.q}${EXTRA ? `&${EXTRA}` : ''}${size === 'record' ? '&record=1' : size === 'projector' ? '&present=1' : ''}&still=1${theme === 'dark' ? '&theme=dark' : ''}`;
+  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(250);
+  const file = `${OUT}/${st.id}-${st.name}-${size}-${theme}.png`;
+  await page.screenshot({ path: file, fullPage: size === 'phone' || arg('full', '') === '1' });
+  if (errors.length) {
+    bad++;
+    console.log(`! ${file}: ${errors.slice(0, 3).join(' | ')}`);
   }
+  n++;
+  await ctx.close();
 }
 await browser.close();
-console.log(`${n} screenshots → ${OUT}`);
+console.log(`${n} screenshots → ${OUT}${bad ? ` (${bad} with console errors)` : ''}`);
