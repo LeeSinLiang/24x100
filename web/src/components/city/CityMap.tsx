@@ -13,6 +13,8 @@ const MI_PER_DEG_LAT = 69.05;
 /** City limits (approximate bounding box), used only when no neighborhood outlines are loaded. */
 const PGH: [number, number, number, number] = [-80.0955, 40.3614, -79.8657, 40.5012];
 const ASPECT = (PGH[3] - PGH[1]) / ((PGH[2] - PGH[0]) * KX);
+/** Height over width of the city map (the workspace sizes its box to fit the canvas). */
+export const MAP_ASPECT = ASPECT;
 
 type XY = [number, number];
 const proj = (ll: readonly [number, number]): XY => [ll[0] * KX, -ll[1]];

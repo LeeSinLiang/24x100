@@ -1,19 +1,21 @@
 import { useEffect, useMemo } from 'react';
+import { TEMPLATES } from '@engine/templates';
+import type { TemplateId } from '@engine/types';
 import { Drawer } from './components/Drawer';
-import { Header } from './components/Header';
 import { DrawerCtx } from './components/ui';
+import { TopBar, type Crumb } from './components/workspace/TopBar';
 import { linkAssumptions, useAudit } from './lib/audit';
 import { useBoil } from './lib/craft';
 import { BLOCKS } from './lib/data';
 import { contextFor, lotKey, parcelByLot, useLotModel } from './lib/model';
-import { useUrlState } from './lib/url';
+import { defaultGroup, lotsLabel, scenarioPatch } from './lib/scenario';
+import { useTheme } from './lib/theme';
+import { useUrlState, WORKSPACE_VIEWS } from './lib/url';
 import { AboutView } from './views/AboutView';
-import { BlockView } from './views/BlockView';
 import { ChangesView } from './views/ChangesView';
-import { CityView } from './views/CityView';
 import { InquiryView } from './views/InquiryView';
-import { LotView } from './views/LotView';
 import { ReviewView } from './views/ReviewView';
+import { defaultCanvas, WorkspaceView } from './views/WorkspaceView';
 import type { ViewProps } from './views/types';
 
 export function App() {
@@ -23,14 +25,17 @@ export function App() {
   const audit = useMemo(() => [...entries, ...linkAssumptions(s.assume)], [entries, s.assume.join(',')]);
   const block = BLOCKS[s.block];
   const model = useLotModel(s.view === 'lot' || s.view === 'inquiry' ? block : undefined, s, audit);
+  const [theme, setTheme] = useTheme(s.theme);
+  const workspace = WORKSPACE_VIEWS.includes(s.view);
 
-  // Theme, presentation and record modes live on <html>.
+  // Theme, presentation and record modes live on <html>. Light (paper) unless the link or this
+  // browser's toggle says dark; the OS setting is not consulted (spec §0.15).
   useEffect(() => {
     const root = document.documentElement;
-    if (s.theme) root.dataset.theme = s.theme;
-    else delete root.dataset.theme;
+    root.dataset.theme = theme;
     root.dataset.present = s.present ? '1' : '0';
     root.dataset.record = s.record ? '1' : '0';
+    root.dataset.workspace = workspace ? '1' : '0';
     if (s.record) {
       const fit = () => {
         root.style.setProperty('zoom', String(Math.min(window.innerWidth / 1440, window.innerHeight / 810)));
@@ -40,7 +45,7 @@ export function App() {
       return () => window.removeEventListener('resize', fit);
     }
     root.style.removeProperty('zoom');
-  }, [s.theme, s.present, s.record]);
+  }, [theme, s.present, s.record, workspace]);
 
   // Ready signal for screenshots and recordings: fonts loaded and first render done.
   useEffect(() => {
@@ -60,46 +65,73 @@ export function App() {
   const boil = useBoil(!s.still);
   const open = (ref: string) => update({ drawer: ref });
   const sel = block && (s.view === 'lot' || s.view === 'inquiry') ? parcelByLot(block, s.lot) : undefined;
-  const crumbs = s.view === 'review'
-    ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
-    : s.view === 'changes'
-      ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
-      : [
+
+  // The lot group a multi-lot building type uses (the top bar's type switch on the lot view).
+  const group = useMemo(() => (s.view === 'lot' && block && model && sel ? defaultGroup(model, block, sel.pin) : null), [s.view, block, model?.ctx, sel?.pin]);
+  const onType = (t: TemplateId) => {
+    if (s.view === 'lot' && block && group) update({ ...scenarioPatch(t, block, group) }, { push: true });
+    else update({ type: t }, { push: true });
+  };
+  const typeTitle = (t: TemplateId) => (s.view === 'lot' && block && group && TEMPLATES[t].multi_lot ? `${TEMPLATES[t].name} on ${lotsLabel(block, group)}` : TEMPLATES[t].name);
+
+  const cityCrumbs: Crumb[] = [
     { label: 'Pittsburgh', href: '?view=city' },
-    ...(block && s.view !== 'city' ? [{ label: block.meta.neighborhood }, { label: block.meta.name.replace('Block ', 'Block '), href: `?view=lot&block=${block.meta.id}&lot=${s.lot}` }] : []),
-    ...(sel ? [{ label: sel.addr.replace(' (no number)', ` · lot ${lotKey(sel)}`) }] : []),
+    ...(s.view === 'city' && s.hood ? [{ label: s.hood, href: `?view=city&hood=${encodeURIComponent(s.hood)}` }] : []),
+    ...(s.view === 'city' && s.layer === 'assemble' ? [{ label: 'Combine to fit', href: `?view=city&type=${s.type}&layer=assemble` }] : []),
+    ...(s.view === 'city' && s.pin && !s.run ? [{ label: 'City lot' }] : []),
+    ...(s.view === 'city' && s.layer === 'assemble' && s.run ? [{ label: 'Run' }] : []),
   ];
-  const rsForDrawer = model?.ctx.rs ?? contextFor(block ?? Object.values(BLOCKS)[0], s.district ?? 'RM-M', audit, s.tol).rs;
+  const crumbs: Crumb[] =
+    s.view === 'review'
+      ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
+      : s.view === 'changes'
+        ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
+        : s.view === 'about'
+          ? [{ label: 'Pittsburgh', href: '?view=city' }, ...(block && s.block ? [{ label: block.meta.name.replace(/-/g, '‑'), href: `?view=block&block=${block.meta.id}` }] : []), { label: 'About' }]
+          : s.view === 'city'
+            ? cityCrumbs
+            : [
+                { label: 'Pittsburgh', href: '?view=city' },
+                ...(block ? [{ label: block.meta.neighborhood, href: `?view=city&hood=${encodeURIComponent(block.meta.neighborhood)}` }, { label: block.meta.name.replace(/-/g, '‑'), href: `?view=block&block=${block.meta.id}&type=${s.type}` }] : []),
+                ...(sel && s.view === 'inquiry' ? [{ label: `Lot ${lotKey(sel)}`, href: `?view=lot&block=${block!.meta.id}&lot=${lotKey(sel)}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}` }, { label: 'Letters' }] : []),
+              ];
+  const rsForDrawer = model?.ctx.rs ?? contextFor(block ?? Object.values(BLOCKS)[0], s.district ?? sel?.zone ?? 'RM-M', audit, s.tol).rs;
+  const rulesHref = `?view=review&district=${sel?.zone ?? s.district ?? 'RM-M'}`;
+  const aboutHref = block && s.view !== 'city' ? `?view=about&block=${block.meta.id}` : '?view=about';
+  const vp: ViewProps = { s, update, block, model, audit, auditApi };
 
   return (
     <DrawerCtx.Provider value={open}>
-      <div className={`app ${s.record ? 'is-record' : ''} ${s.still ? 'is-still' : ''}`}>
+      <div className={`app ${workspace ? 'is-ws' : 'is-page'} ${s.record ? 'is-record' : ''} ${s.still ? 'is-still' : ''}`}>
         <a className="skip" href="#main">
-          Skip to the lot
+          Skip to the {workspace ? 'workspace' : 'page'}
         </a>
-        <Header crumbs={crumbs} s={s} update={update} />
-        {s.view === 'lot' && block && model ? (
-          <LotView block={block} model={model} s={s} update={update} />
-        ) : s.view === 'lot' ? (
-          <main className="empty" id="main">
-            <p>That lot isn't in the loaded blocks. Lot detail covers {Object.values(BLOCKS).map((b) => b.meta.name).join(' and ')}.</p>
-          </main>
+        <TopBar
+          s={s}
+          update={update}
+          crumbs={crumbs}
+          theme={theme}
+          setTheme={setTheme}
+          workspace={workspace}
+          canvas={s.canvas ?? defaultCanvas(s.view)}
+          onType={onType}
+          typeTitle={typeTitle}
+          rulesHref={rulesHref}
+          aboutHref={aboutHref}
+        />
+        {workspace ? (
+          <WorkspaceView {...vp} />
         ) : (
           (() => {
-            const vp: ViewProps = { s, update, block, model, audit, auditApi };
             switch (s.view) {
-              case 'block':
-                return <BlockView {...vp} />;
               case 'review':
                 return <ReviewView {...vp} />;
               case 'inquiry':
                 return <InquiryView {...vp} />;
               case 'changes':
                 return <ChangesView {...vp} />;
-              case 'about':
-                return <AboutView {...vp} />;
               default:
-                return <CityView {...vp} />;
+                return <AboutView {...vp} />;
             }
           })()
         )}

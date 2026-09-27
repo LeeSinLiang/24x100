@@ -41,20 +41,29 @@ function clock() {
     },
   };
 }
-const smoothTo = (page, selector, offset = 60) =>
+// The workspace (spec §0.15) never scrolls the page: panels scroll inside. `reveal` scrolls the element's
+// own panel (the inspector's tab body) so it sits near the top; `openTab` opens an inspector tab.
+const reveal = (page, selector, smooth = true) =>
   page.evaluate(
-    ([sel, off]) => {
+    ([sel, sm]) => {
       const el = document.querySelector(sel);
       if (!el) return false;
-      const z = Number(getComputedStyle(document.documentElement).zoom) || 1;
-      const y = el.getBoundingClientRect().top + window.scrollY - off / z;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      el.scrollIntoView({ block: 'start', behavior: sm ? 'smooth' : 'auto' });
       return true;
     },
-    [selector, offset],
+    [selector, smooth],
   );
+const openTab = async (page, tab) => {
+  const t = page.locator(`[role="tab"][data-tab="${tab}"]`);
+  if ((await t.getAttribute('aria-selected')) !== 'true') await t.click();
+  await page.waitForSelector(`[data-tabpanel="${tab}"]:not([hidden])`, { timeout: 4000 });
+};
+const must = async (ok, what) => {
+  if (!(await ok)) throw new Error(`not found: ${what}`);
+};
 
 const cues = {};
+const failed = [];
 
 const BEATS = [
   { id: 'B01', name: 'surprise', q: 'view=lot&block=10K&lot=25&type=two', run: async (p, c) => c.until(9.5) },
@@ -72,7 +81,8 @@ const BEATS = [
       const cue = c.now();
       cues.B04 = { cue: Math.round(cue * 100) / 100, note: 'clip second the envelope has widened to 52 ft' };
       await c.until(cue + 4.4);
-      await smoothTo(p, '[data-panel="money"]', 24); // money panel open by cue + 5: vertical cost and the three signals
+      await openTab(p, 'money'); // the Money tab (the default) by cue + 5: vertical cost and the three signals
+      await must(reveal(p, '[data-panel="money"]'), '[data-panel="money"]');
       cues.B04.money_panel = Math.round((cue + 5) * 100) / 100;
       cues.B04.subsidy_visible = Math.round((cue + 5) * 100) / 100; // the stamp and "at least $X" sit in the same view
       await c.until(cue + 37);
@@ -131,7 +141,8 @@ const BEATS = [
     name: 'refusal',
     q: 'view=lot&block=10K&lot=22&type=two',
     run: async (p, c) => {
-      const box = await p.locator('.numeral-block .stamp-refuse').first().boundingBox();
+      const box = await p.locator('.ws-status .stamp-refuse').first().boundingBox();
+      if (!box) throw new Error('not found: the "can\'t score" stamp in the inspector header');
       if (box) cues.B09 = { mark: [Math.round(box.x + box.width / 2), Math.round(box.y + box.height / 2), Math.round(box.width / 2 + 18), Math.round(box.height / 2 + 14)], note: '[x, y, rx, ry] around "can\'t score" at 1920×1080, visible from the first frame' };
       await c.until(9.5);
     },
@@ -140,11 +151,15 @@ const BEATS = [
     id: 'B10',
     name: 'site-next-letter',
     q: 'view=lot&block=10K&lot=25&type=three&lots=25,26,27',
-    scrollFirst: '[data-panel="site"]',
+    first: async (p) => {
+      await openTab(p, 'site');
+      await must(reveal(p, '[data-panel="site"]', false), '[data-panel="site"]');
+    },
     run: async (p, c) => {
       cues.B10 = { site: 0 };
       await c.until(12.6);
-      await smoothTo(p, '[data-panel="next"] .next-steps', 120);
+      await openTab(p, 'next');
+      await must(reveal(p, '[data-panel="next"] .next-steps'), '[data-panel="next"] .next-steps');
       cues.B10.next_steps = 13;
       await c.until(19);
       await p.getByRole('link', { name: 'Draft the letter' }).click();
@@ -157,7 +172,7 @@ const BEATS = [
   { id: 'B12', name: 'limits', q: 'view=about&block=10K&section=limits', run: async (p, c) => c.until(7) },
 ];
 
-mkdirSync(OUT, { recursive: true });
+if (RECORD) mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome' });
 const ffmpeg = (() => {
   try {
@@ -171,29 +186,31 @@ const cuesPath = `${OUT}/cues.json`;
 const prior = existsSync(cuesPath) ? JSON.parse(readFileSync(cuesPath, 'utf8')) : {};
 for (const beat of BEATS) {
   if (ONLY.length && !ONLY.includes(beat.id)) continue;
-  const tmp = `${OUT}/.tmp-${beat.id}`;
+  const tmp = `${OUT}/.tmp-${beat.id}`; // used only with --record
   const ctx = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
     deviceScaleFactor: 1,
-    colorScheme: THEME === 'dark' ? 'dark' : 'light',
     ...(RECORD ? { recordVideo: { dir: tmp, size: { width: 1920, height: 1080 } } } : {}),
   });
   const page = await ctx.newPage();
   const tStart = Date.now();
-  await page.goto(`${BASE}?${beat.q}&record=1`, { waitUntil: 'networkidle' });
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  // Light (paper) is the default whatever the OS says; dark is chosen in the link (spec §0.15).
+  await page.goto(`${BASE}?${beat.q}&record=1${THEME === 'dark' ? '&theme=dark' : ''}`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 20000 });
-  if (beat.scrollFirst) {
-    await page.evaluate((sel) => {
-      const el = document.querySelector(sel);
-      const z = Number(getComputedStyle(document.documentElement).zoom) || 1;
-      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 24 / z });
-    }, beat.scrollFirst);
-  }
+  if (beat.first) await beat.first(page);
   await sleep(250);
   const lead = (Date.now() - tStart) / 1000; // seconds of loading to trim from the clip's start
   const c = clock();
-  await beat.run(page, c);
+  try {
+    await beat.run(page, c);
+  } catch (e) {
+    errors.push(`beat failed: ${String(e).split('\n')[0]}`);
+  }
   const secs = c.now();
+  if (errors.length) failed.push(`${beat.id}: ${errors.join(' | ').slice(0, 300)}`);
   const video = page.video();
   await ctx.close();
   if (RECORD && video) {
@@ -208,5 +225,13 @@ for (const beat of BEATS) {
   rmSync(tmp, { recursive: true, force: true });
 }
 await browser.close();
-writeFileSync(cuesPath, JSON.stringify({ ...prior, ...cues, _note: 'Seconds from the start of each trimmed clip in film/clips/. Written by scripts/demo.mjs.' }, null, 1) + '\n');
-console.log(`cues → ${cuesPath}: ${JSON.stringify(cues)}`);
+// Cue times belong to recorded clips only: a run without --record leaves cues.json alone.
+if (RECORD) {
+  writeFileSync(cuesPath, JSON.stringify({ ...prior, ...cues, _note: 'Seconds from the start of each trimmed clip in film/clips/. Written by scripts/demo.mjs.' }, null, 1) + '\n');
+  console.log(`cues → ${cuesPath}: ${JSON.stringify(cues)}`);
+} else console.log(`cues (not written; pass --record): ${JSON.stringify(cues)}`);
+if (failed.length) {
+  for (const f of failed) console.log(`✗ ${f}`);
+  process.exit(1);
+}
+console.log('every beat reached its end without errors');
