@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite --config web/vite.config.ts",
     "seed:rules": "tsx scripts/seed-answer-key.ts",
-    "build:data": "tsx scripts/build-city.ts && tsx scripts/build-api.ts",
+    "build:data": "tsx scripts/build-city.ts && tsx scripts/build-summary.ts && tsx scripts/build-api.ts",
     "build": "npm run build:data && vite build --config web/vite.config.ts",
     "preview": "vite preview --config web/vite.config.ts --port 4173",
     "rebuild": "uv run python -m pipeline all && npm run seed:rules && npm run build",

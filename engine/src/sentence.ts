@@ -7,7 +7,7 @@ import { getQuestion, pick } from './rules';
 import { TEMPLATES } from './templates';
 import type { BlockFile, LotResult, RuleSet, Trust } from './types';
 import type { UnlockOption } from './unlock';
-import { varianceWords } from './verdict';
+import { varianceWords, type VarianceContext } from './verdict';
 
 export interface Seg {
   t: string;
@@ -123,7 +123,7 @@ export function headline(r: LotResult, block: BlockFile, rs: RuleSet): Seg[] {
 }
 
 /** The explanation under the headline: geometry · proposal · regulation · procedure, in that order. */
-export function explanation(r: LotResult, block: BlockFile): Seg[] {
+export function explanation(r: LotResult, block: BlockFile, vctx: VarianceContext = {}): Seg[] {
   if (r.state === 'refused') return [{ t: r.refusal?.reason ?? '' }];
   const tpl = TEMPLATES[r.scenario.type];
   const W = r.width!;
@@ -154,7 +154,7 @@ export function explanation(r: LotResult, block: BlockFile): Seg[] {
       out.push(
         { t: 'Your ' },
         { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' },
-        { t: ` proposal needs the ${rel.text.replace(/^side setbacks /, 'side setbacks cut from ').replace(' → ', ' to ')}. ${varianceWords(rel.text.startsWith('side setbacks'))} ` },
+        { t: ` proposal needs the ${rel.text.replace(/^side setbacks /, 'side setbacks cut from ').replace(' → ', ' to ')}. ${varianceWords(rel.text.startsWith('side setbacks'), vctx, r.district)} ` },
       );
     } else if (width.status === 'pass') {
       out.push({ t: 'Your ' }, { t: `${fmtFt(P.width)} ft`, num: true, trust: 'red', ref: 'proposal:width' }, { t: c1 ? ' proposal fits either way. ' : ' proposal fits. ' });

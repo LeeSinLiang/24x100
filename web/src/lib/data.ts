@@ -92,3 +92,7 @@ export const REFRESH = Object.values(refreshFiles)[0] ?? null;
 export function refreshChangesFor(pins: string[]): RefreshChange[] {
   return (REFRESH?.changes ?? []).filter((c) => pins.includes(c.pin));
 }
+
+// City-owned lots too narrow while big enough, per building type (scripts/build-summary.ts; build time).
+const summaryFiles = import.meta.glob('../../../data/city/summary.json', { eager: true, import: 'default' }) as Record<string, { by_type?: Record<string, { width_not_area: number; districts: string[] }> }>;
+export const STUCK: Record<string, { width_not_area: number; districts: string[] } | undefined> = Object.values(summaryFiles)[0]?.by_type ?? {};

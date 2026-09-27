@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { BOTH_SIDES_Q, needsUseVariance } from '@engine/evaluate';
 import { APPROVAL_LABEL } from '@engine/templates';
-import { varianceWords } from '@engine/verdict';
+import { varianceWords, type VarianceContext } from '@engine/verdict';
 import type { BlockFile, Check, LotResult, RuleSet } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
 import { Chip, Ev, ftFmt, Label, Mark, type MarkKind } from './ui';
@@ -51,7 +51,7 @@ function sourceChips(c: Check, rs: RuleSet) {
   return chips;
 }
 
-export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotResult; rs: RuleSet; unlock: { options: UnlockOption[]; recommended: UnlockOption | null }; onTry: (o: UnlockOption) => void; block: BlockFile }) {
+export function RulesWall({ result, rs, unlock, onTry, block, vctx }: { result: LotResult; rs: RuleSet; unlock: { options: UnlockOption[]; recommended: UnlockOption | null }; onTry: (o: UnlockOption) => void; block: BlockFile; vctx?: VarianceContext }) {
   const [showAll, setShowAll] = useState(false);
   if (result.state !== 'ok') {
     return (
@@ -93,7 +93,7 @@ export function RulesWall({ result, rs, unlock, onTry, block }: { result: LotRes
     : wc.trust === 'red'
       ? `Fits only under your assumption; the City hasn't confirmed it.${owners}`
       : result.relief.length
-    ? `Doesn't fit as of right: ${result.relief.map((r) => r.text).join('; ')}. ${varianceWords(sideRelief)}${owners}`
+    ? `Doesn't fit as of right: ${result.relief.map((r) => r.text).join('; ')}. ${varianceWords(sideRelief, vctx, result.district)}${owners}`
     : result.checks.some((c) => c.status === 'fail')
       ? `Blocks it: see the failing lines.${owners}`
       : result.checks.find((c) => c.id === 'width')!.status === 'open'

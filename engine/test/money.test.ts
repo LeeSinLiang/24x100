@@ -100,8 +100,9 @@ describe('verdict (no score)', () => {
     const r = evaluate(ctx, scen(b, 'two', [25]));
     const v = verdictFor(r, null, 'not loaded', b);
     expect(v.headline).toBe('doesnt_fit');
-    expect(v.detail).toMatch(/plausible route/);
-    expect(v.detail).toMatch(/not approval/);
+    expect(v.detail).toMatch(/Needs a variance from the Zoning Board/);
+    expect(v.detail).toMatch(/not guaranteed/);
+    expect(v.detail).not.toMatch(/hardship/);
   });
 
   it('without money data, a lot that fits is "Worth a closer look, if …" with its conditions', () => {

@@ -1,6 +1,7 @@
 // The inspector for a lot with block detail (spec §0.15): header, four tiles, and the tabs Money ·
 // Rules · Site · Next · Sources. The tabs hold today's lot-page panels, unchanged in substance.
 import { explanation, headline, nextStep, placeName, type VerdictChip } from '@engine/index';
+import { varianceWords } from '@engine/verdict';
 import type { BlockFile, Parcel } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
 import { MoneyPanel, EstimateMark, NextSteps, SitePanel, VerdictBlock } from '../Panels';
@@ -289,7 +290,7 @@ export function LotInspector({
       </p>
     ) : (
       <p className="ws-way" data-way>
-        <span className="label">Way forward</span> none on our list fits without a variance; see Rules.
+        <span className="label">Way forward</span> {varianceWords(r.relief.some((x) => x.check === 'width' && x.text.startsWith('side setbacks')), model.vctx, r.district)}
       </p>
     );
   const changed = refreshChangesFor(r.pins);
@@ -331,9 +332,9 @@ export function LotInspector({
             </p>
           ) : null}
           <p className="explain">
-            <Segs segs={explanation(r, block)} />
+            <Segs segs={explanation(r, block, model.vctx)} />
           </p>
-          <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={onTry} block={block} />
+          <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={onTry} block={block} vctx={model.vctx} />
         </>
       ),
     },
