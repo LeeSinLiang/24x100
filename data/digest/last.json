@@ -1,0 +1,557 @@
+{
+ "at": "2026-09-27T19:06:17.933Z",
+ "label": "the published state now (git 44e5e85)",
+ "lots": {
+  "0010K00021000000": {
+   "pin": "0010K00021000000",
+   "addr": "2249 Mahon St",
+   "hood": "Middle Hill",
+   "zone": "RM-M",
+   "type": "two",
+   "link": "?view=lot&block=10K&lot=21&type=two",
+   "verdict": {
+    "blocker": "records",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 6,
+    "ai": 1,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2400,
+    "mapped": 2136,
+    "deed": "24 × 100 ft"
+   }
+  },
+  "0010K00023000000": {
+   "pin": "0010K00023000000",
+   "addr": "2245 Mahon St",
+   "hood": "Middle Hill",
+   "zone": "RM-M",
+   "type": "two",
+   "link": "?view=lot&block=10K&lot=23&type=two",
+   "verdict": {
+    "blocker": "width",
+    "width": 4,
+    "formula": "24 − 10 − 10 = 4",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 6,
+    "ai": 1,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Hold for Study",
+    "status_updated": "2016-11-17",
+    "assessed": 2400,
+    "mapped": 2300,
+    "deed": "24 × 100 ft"
+   }
+  },
+  "0010K00025000000": {
+   "pin": "0010K00025000000",
+   "addr": "2241 Mahon St",
+   "hood": "Middle Hill",
+   "zone": "RM-M",
+   "type": "two",
+   "link": "?view=lot&block=10K&lot=25&type=two",
+   "verdict": {
+    "blocker": "width",
+    "width": 4,
+    "formula": "24 − 10 − 10 = 4",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 6,
+    "ai": 1,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2400,
+    "mapped": 2292,
+    "deed": "24 × 100 ft"
+   }
+  },
+  "0010K00027000000": {
+   "pin": "0010K00027000000",
+   "addr": "2237 Mahon St",
+   "hood": "Middle Hill",
+   "zone": "RM-M",
+   "type": "two",
+   "link": "?view=lot&block=10K&lot=27&type=two",
+   "verdict": {
+    "blocker": "width",
+    "width": 4,
+    "formula": "24 − 10 − 10 = 4",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 6,
+    "ai": 1,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2400,
+    "mapped": 2414,
+    "deed": "24 × 100 ft"
+   }
+  },
+  "0010K00028000000": {
+   "pin": "0010K00028000000",
+   "addr": "2235 Mahon St",
+   "hood": "Middle Hill",
+   "zone": "RM-M",
+   "type": "two",
+   "link": "?view=lot&block=10K&lot=28&type=two",
+   "verdict": {
+    "blocker": "area",
+    "width": 4,
+    "formula": "24 − 10 − 10 = 4",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 6,
+    "ai": 1,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1488,
+    "mapped": 1504,
+    "deed": "24 × 62 ft"
+   }
+  },
+  "0124P00181000000": {
+   "pin": "0124P00181000000",
+   "addr": "6432 Winslow St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=181&type=two",
+   "verdict": {
+    "blocker": "rules",
+    "width": null,
+    "formula": null,
+    "trust": "pencil"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2276,
+    "mapped": 1729,
+    "deed": null
+   }
+  },
+  "0124P00182000000": {
+   "pin": "0124P00182000000",
+   "addr": "6430 Winslow St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=182&type=two",
+   "verdict": {
+    "blocker": "use",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1776,
+    "mapped": 1853,
+    "deed": "24 × 74 ft"
+   }
+  },
+  "0124P00184000000": {
+   "pin": "0124P00184000000",
+   "addr": "6426 Winslow St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=184&type=two",
+   "verdict": {
+    "blocker": "rules",
+    "width": null,
+    "formula": null,
+    "trust": "pencil"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1557,
+    "mapped": 1400,
+    "deed": null
+   }
+  },
+  "0124P00185000000": {
+   "pin": "0124P00185000000",
+   "addr": "520 Winfield St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=185&type=two",
+   "verdict": {
+    "blocker": "use",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1734,
+    "mapped": 1881,
+    "deed": "25.14 × 69.37 ft"
+   }
+  },
+  "0124P00186000000": {
+   "pin": "0124P00186000000",
+   "addr": "516 Winfield St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=186&type=two",
+   "verdict": {
+    "blocker": "records",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2318,
+    "mapped": 2594,
+    "deed": "25 × 92.7 ft"
+   }
+  },
+  "0124P00199000000": {
+   "pin": "0124P00199000000",
+   "addr": "243 Meadow St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=199&type=two",
+   "verdict": {
+    "blocker": "rules",
+    "width": null,
+    "formula": null,
+    "trust": "pencil"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Sale Pending",
+    "status_updated": "2018-03-15",
+    "assessed": 10000,
+    "mapped": 9959,
+    "deed": "100 × 100 ft"
+   }
+  },
+  "0124P00202000000": {
+   "pin": "0124P00202000000",
+   "addr": "509 Lowell St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=202&type=two",
+   "verdict": {
+    "blocker": "records",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1550,
+    "mapped": 2382,
+    "deed": "25 × 100 ft"
+   }
+  },
+  "0124P00203000000": {
+   "pin": "0124P00203000000",
+   "addr": "511 Lowell St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=203&type=two",
+   "verdict": {
+    "blocker": "use",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2400,
+    "mapped": 2390,
+    "deed": "24 × 100 ft"
+   }
+  },
+  "0124P00205000000": {
+   "pin": "0124P00205000000",
+   "addr": "515 Lowell St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=205&type=two",
+   "verdict": {
+    "blocker": "use",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Sale Pending",
+    "status_updated": "2019-05-06",
+    "assessed": 1800,
+    "mapped": 1790,
+    "deed": "24 × 75 ft"
+   }
+  },
+  "0124P00206000000": {
+   "pin": "0124P00206000000",
+   "addr": "517 Lowell St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=206&type=two",
+   "verdict": {
+    "blocker": "use",
+    "width": null,
+    "formula": null,
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1725,
+    "mapped": 1741,
+    "deed": "23.34 × 75 ft"
+   }
+  },
+  "0124P00207000000": {
+   "pin": "0124P00207000000",
+   "addr": "519 Lowell St",
+   "hood": "Larimer",
+   "zone": "R1D-H",
+   "type": "two",
+   "link": "?view=lot&block=0124P&lot=207&type=two",
+   "verdict": {
+    "blocker": "rules",
+    "width": null,
+    "formula": null,
+    "trust": "pencil"
+   },
+   "rules": {
+    "ink": 7,
+    "ai": 0,
+    "pencil": 1,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 1875,
+    "mapped": 1997,
+    "deed": "25.7 × 75 ft"
+   }
+  },
+  "0014E00106000000": {
+   "pin": "0014E00106000000",
+   "addr": "503 Climax St",
+   "hood": "Beltzhoover",
+   "zone": "R2-H",
+   "type": "two",
+   "link": "?view=city&type=two&pin=0014E00106000000",
+   "verdict": {
+    "blocker": "width",
+    "width": 15,
+    "formula": "25 − 5 − 5 = 15",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 8,
+    "ai": 0,
+    "pencil": 0,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2026-08-05",
+    "assessed": 1875,
+    "mapped": 1814,
+    "deed": "25 × 75 ft"
+   }
+  },
+  "0014E00108000000": {
+   "pin": "0014E00108000000",
+   "addr": "507 Climax St",
+   "hood": "Beltzhoover",
+   "zone": "R2-H",
+   "type": "two",
+   "link": "?view=city&type=two&pin=0014E00108000000",
+   "verdict": {
+    "blocker": "width",
+    "width": 15,
+    "formula": "25 − 5 − 5 = 15",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 8,
+    "ai": 0,
+    "pencil": 0,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2019-04-22",
+    "assessed": 1875,
+    "mapped": 1726,
+    "deed": "25 × 75 ft"
+   }
+  },
+  "0014E00037000000": {
+   "pin": "0014E00037000000",
+   "addr": "324 Curtin Ave",
+   "hood": "Beltzhoover",
+   "zone": "R2-H",
+   "type": "two",
+   "link": "?view=city&type=two&pin=0014E00037000000",
+   "verdict": {
+    "blocker": "width",
+    "width": 2,
+    "formula": "22 − 15 − 5 = 2",
+    "trust": "ink"
+   },
+   "rules": {
+    "ink": 8,
+    "ai": 0,
+    "pencil": 0,
+    "signers": [
+     "Sin (Student, team 24×100)"
+    ]
+   },
+   "records": {
+    "status": "Available for Sale",
+    "status_updated": "2016-11-17",
+    "assessed": 2310,
+    "mapped": 2158,
+    "deed": "22 × 105 ft"
+   }
+  }
+ }
+}
