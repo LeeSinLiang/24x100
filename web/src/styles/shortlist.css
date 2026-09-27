@@ -1,0 +1,176 @@
+/* Tonight's shortlist (views/ShortlistView.tsx): the funnel, the map with the lots lit, one row per lot. Paper and
+   ink, as the case file. Colors only through tokens. */
+
+.sl-view {
+  display: grid;
+  gap: 14px;
+  max-width: 1320px;
+}
+.sl-view code {
+  font-family: var(--f-map);
+  font-weight: 600;
+  padding: 0 4px;
+  border: 1px solid var(--rule);
+}
+.sl-head {
+  display: grid;
+  gap: 6px;
+}
+.sl-kicker {
+  margin: 0;
+}
+.sl-title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  line-height: 1.1;
+}
+.sl-count {
+  font-size: calc(var(--s-title) * 2.2);
+}
+.sl-sub {
+  font-size: calc(var(--s-title) * 1.1);
+  color: var(--ink-2);
+}
+.sl-split {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sl-chip {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 2px 10px;
+  white-space: nowrap;
+}
+.sl-chip.is-sale {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+.sl-chip.is-new {
+  border-style: dashed;
+}
+.sl-funnel {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.15);
+}
+.sl-funnel strong {
+  font-weight: 700;
+}
+.sl-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+  gap: 20px;
+  align-items: start;
+}
+.sl-map {
+  margin: 0;
+  border: 1.5px solid var(--ink);
+  background: var(--sheet);
+  padding: 6px;
+  min-height: 300px;
+  display: grid;
+  justify-items: center;
+}
+.sl-map figcaption {
+  justify-self: stretch;
+  margin-top: 4px;
+}
+.sl-list {
+  border-top: 3px double var(--ink);
+  max-height: 560px;
+  overflow: auto;
+}
+.sl-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sl-row {
+  padding: 7px 2px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.sl-row-head {
+  margin: 0 0 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-family: var(--f-display);
+  font-size: calc(var(--s-body) * 1.1);
+}
+.sl-row-head .sl-chip {
+  font-size: 11px;
+  padding: 0 8px;
+  margin-left: auto;
+}
+.sl-checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.sl-check {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--rule-strong);
+  padding: 1px 6px;
+  white-space: nowrap;
+}
+.sl-check-name {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+}
+.sl-check.is-found {
+  color: var(--red);
+  border-color: var(--red);
+}
+.sl-check.is-shown.is-found {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+.sl-check.is-couldnt {
+  color: var(--graphite);
+  border-style: dashed;
+}
+.sl-def {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 8px;
+  max-width: 1000px;
+}
+.sl-def > summary {
+  cursor: pointer;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .sl-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sl-list {
+    max-height: none;
+  }
+  .sl-count {
+    font-size: calc(var(--s-title) * 1.8);
+  }
+}

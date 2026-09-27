@@ -1,0 +1,850 @@
+{
+ "id": "0124M00368000000",
+ "goal": "a two-unit house",
+ "lot": {
+  "pin": "0124M00368000000",
+  "addr": "1225 Pointview St",
+  "lot": null,
+  "block": null,
+  "hood": "Lincoln-Lemington-Belmar",
+  "zone": "RM-M",
+  "link": "?view=city&type=two&pin=0124M00368000000"
+ },
+ "run_at": "2026-09-27T18:24:38Z",
+ "model": {
+  "id": "gemini-flash-lite-latest",
+  "key": "a team member's key, free tier",
+  "planned_by": "model",
+  "why": "ok"
+ },
+ "tokens": {
+  "in": 861,
+  "out": 488,
+  "calls": 3
+ },
+ "cost": {
+  "usd_paid_rate": 0.001478,
+  "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
+ },
+ "plan": [
+  {
+   "agent": "due-diligence",
+   "what": "Investigate site conditions and utility access for the lot.",
+   "why": "We must confirm physical readiness before building."
+  },
+  {
+   "agent": "watch",
+   "what": "Monitor community and neighborhood feedback on the proposed housing.",
+   "why": "We need local alignment for the project to proceed smoothly."
+  },
+  {
+   "agent": "verifier",
+   "what": "Review all gathered data to ensure compliance with the target goal.",
+   "why": "The final check must confirm everything is ready for the two-unit house."
+  }
+ ],
+ "steps": [
+  {
+   "agent": "steward",
+   "n": 1,
+   "action": "tool",
+   "tool": "engine:scripts/case-engine.ts lot",
+   "input": {
+    "pin": "0124M00368000000",
+    "type": "two"
+   },
+   "summary": "The engine read the lot (the citywide reading: no block detail, so no plan or money screen). 1225 Pointview St, Lincoln-Lemington-Belmar, zoned RM-M: fits as of right (27 ft buildable), 47 − 10 − 10 = 27 ft.",
+   "sources": [
+    {
+     "url": "data/city/lots.json",
+     "pulled_at": "2026-09-27T18:24:38Z",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b"
+    },
+    {
+     "url": "data/rules/reviews.json",
+     "pulled_at": "2026-09-27T18:24:38Z",
+     "sha256": "4459a17317ead9d9c3ab18cb173c6ec34d3f58d4c61c450d6d538fdd28af48b1"
+    }
+   ],
+   "ok": true,
+   "t": 0.01
+  },
+  {
+   "agent": "steward",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "goal": "two-unit house"
+   },
+   "summary": "Planned with gemini-3.5-flash-lite: due-diligence; watch; verifier.",
+   "sources": [],
+   "ok": true,
+   "t": 1.16,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 179,
+    "out": 104
+   },
+   "cost_usd_paid_rate": 0.000314
+  },
+  {
+   "agent": "due-diligence",
+   "n": 3,
+   "action": "plan",
+   "input": {
+    "checks": [
+     "permits",
+     "violations",
+     "condemned",
+     "liens",
+     "311",
+     "undermining",
+     "slope"
+    ],
+    "why": {
+     "permits": "Check for any active or recent building activity on the vacant lot.",
+     "violations": "Ensure there are no lingering code infractions like weeds or debris before purchase.",
+     "condemned": "Verify the land is clear of any structure condemnation history.",
+     "liens": "Confirm the parcel is free of tax claims that would transfer to the buyer.",
+     "311": "Review recent neighborhood service requests for illegal dumping or drainage issues.",
+     "undermining": "Determine if the parcel sits atop historical coal mines.",
+     "slope": "Assess topography for potential retaining wall needs given the two-unit goal."
+    },
+    "skipped": {},
+    "paid": [
+     "survey",
+     "geotech",
+     "phase1"
+    ],
+    "count": {
+     "picked": 7,
+     "free": 7,
+     "paid": 3
+    }
+   },
+   "summary": "The model picked the free checks to run and the paid studies to draft.",
+   "sources": [],
+   "ok": true,
+   "t": 2.39,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 321,
+    "out": 236
+   },
+   "cost_usd_paid_rate": 0.000686
+  },
+  {
+   "agent": "due-diligence",
+   "n": 4,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:permits",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220124M00368000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:40Z",
+     "sha256": "476300119dcf34dbcca8c6ba9d16104e69c44d9dc5b8f116e10fcf18bf74d296",
+     "via": "data/cases/raw/0124M00368000000/permits.json",
+     "dataset": "https://data.wprdc.org/dataset/pli-permits"
+    }
+   ],
+   "ok": true,
+   "t": 2.57
+  },
+  {
+   "agent": "due-diligence",
+   "n": 5,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:violations",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220124M00368000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:41Z",
+     "sha256": "7360a1342d921070e21e04041df59339b905e6312bd9df09be87ca5a346427ca",
+     "via": "data/cases/raw/0124M00368000000/violations.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+    }
+   ],
+   "ok": true,
+   "t": 3.08
+  },
+  {
+   "agent": "due-diligence",
+   "n": 6,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:condemned",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220124M00368000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:41Z",
+     "sha256": "d537ac7fccb37b663274123526762462c8e7038ec6758540bb13d11ce488bac9",
+     "via": "data/cases/raw/0124M00368000000/condemned.json",
+     "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+    }
+   ],
+   "ok": true,
+   "t": 3.19
+  },
+  {
+   "agent": "due-diligence",
+   "n": 7,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:liens",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220124M00368000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:41Z",
+     "sha256": "701a2dad0e65a29a20377ceac48e55e8c959c19262ab3470a65485b93ee78570",
+     "via": "data/cases/raw/0124M00368000000/liens.json",
+     "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+    }
+   ],
+   "ok": true,
+   "t": 3.87
+  },
+  {
+   "agent": "due-diligence",
+   "n": 8,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:311",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Found: 36 requests to 311 within about 80 m (Potholes, Street Light Concerns); the latest on 2026-08-21: City Tree Maintenance.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22POINTVIEW+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:24:43Z",
+     "sha256": "f0f23e55e2e9edf36df1f2eb692fe96fb1d1e2a523286ea23ee4a83b24dbe1c8",
+     "via": "data/cases/raw/0124M00368000000/311.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+    }
+   ],
+   "ok": true,
+   "t": 5.11
+  },
+  {
+   "agent": "due-diligence",
+   "n": 9,
+   "action": "tool",
+   "tool": "city.layer:undermining",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.11
+  },
+  {
+   "agent": "due-diligence",
+   "n": 10,
+   "action": "tool",
+   "tool": "city.layer:slope",
+   "input": {
+    "pin": "0124M00368000000"
+   },
+   "summary": "Found: 12% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.12
+  },
+  {
+   "agent": "due-diligence",
+   "n": 11,
+   "action": "draft",
+   "input": {
+    "study": "survey"
+   },
+   "summary": "Drafted a quote request for a boundary survey; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.12
+  },
+  {
+   "agent": "due-diligence",
+   "n": 12,
+   "action": "draft",
+   "input": {
+    "study": "geotech"
+   },
+   "summary": "Drafted a quote request for a geotechnical report; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.12
+  },
+  {
+   "agent": "due-diligence",
+   "n": 13,
+   "action": "draft",
+   "input": {
+    "study": "phase1"
+   },
+   "summary": "Drafted a quote request for a Phase I Environmental Site Assessment; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.12
+  },
+  {
+   "agent": "steward",
+   "n": 14,
+   "action": "draft",
+   "input": {
+    "letters": [
+     "real_estate"
+    ]
+   },
+   "summary": "Drafted the inquiry to City Real Estate from the engine's reading; not sent (send gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.12
+  },
+  {
+   "agent": "steward",
+   "n": 15,
+   "action": "draft",
+   "input": {},
+   "summary": "Wrote the case file's summary from the engine's reading and the findings.",
+   "sources": [],
+   "ok": true,
+   "t": 6.14,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 361,
+    "out": 148
+   },
+   "cost_usd_paid_rate": 0.000478
+  },
+  {
+   "agent": "verifier",
+   "n": 16,
+   "action": "verify",
+   "input": {},
+   "summary": "Verified: 7 quotes verbatim in the saved code, 33 numbers traced, 10 findings sourced, no name-like field.",
+   "sources": [],
+   "ok": true,
+   "t": 6.18
+  },
+  {
+   "agent": "steward",
+   "n": 17,
+   "action": "gate",
+   "input": {
+    "send": 1,
+    "spend": 3,
+    "sign": 1
+   },
+   "summary": "Waiting on a person: 1 letters to send, 3 paid studies to approve, 1 rules to sign.",
+   "sources": [],
+   "ok": true,
+   "t": 6.18
+  }
+ ],
+ "findings": [
+  {
+   "check": "permits",
+   "title": "PLI permits on this parcel: a recent permit means work, or a building, is coming",
+   "status": "nothing",
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220124M00368000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:40Z",
+    "sha256": "476300119dcf34dbcca8c6ba9d16104e69c44d9dc5b8f116e10fcf18bf74d296",
+    "via": "data/cases/raw/0124M00368000000/permits.json",
+    "dataset": "https://data.wprdc.org/dataset/pli-permits"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "violations",
+   "title": "code-enforcement case files on this parcel (weeds, debris, dangerous structures)",
+   "status": "nothing",
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220124M00368000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:41Z",
+    "sha256": "7360a1342d921070e21e04041df59339b905e6312bd9df09be87ca5a346427ca",
+    "via": "data/cases/raw/0124M00368000000/violations.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "condemned",
+   "title": "whether the parcel is on the City's condemned or dead-end list",
+   "status": "nothing",
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220124M00368000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:41Z",
+    "sha256": "d537ac7fccb37b663274123526762462c8e7038ec6758540bb13d11ce488bac9",
+    "via": "data/cases/raw/0124M00368000000/condemned.json",
+    "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "liens",
+   "title": "unsatisfied tax liens on this parcel (they follow the land)",
+   "status": "nothing",
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220124M00368000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:41Z",
+    "sha256": "701a2dad0e65a29a20377ceac48e55e8c959c19262ab3470a65485b93ee78570",
+    "via": "data/cases/raw/0124M00368000000/liens.json",
+    "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "311",
+   "title": "311 requests on the street near the lot (dumping, drainage, road work)",
+   "status": "found",
+   "summary": "Found: 36 requests to 311 within about 80 m (Potholes, Street Light Concerns); the latest on 2026-08-21: City Tree Maintenance.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22POINTVIEW+ST%22%7D&limit=200&sort=created_date_et+desc",
+    "pulled_at": "2026-09-27T18:24:43Z",
+    "sha256": "f0f23e55e2e9edf36df1f2eb692fe96fb1d1e2a523286ea23ee4a83b24dbe1c8",
+    "via": "data/cases/raw/0124M00368000000/311.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+   },
+   "records": [
+    {
+     "case_number": "26-00088714",
+     "status": "In Progress",
+     "subject": "City Tree Maintenance",
+     "created_date_et": "2026-08-21T08:10:28",
+     "street": "POINTVIEW ST",
+     "latitude": "40.4662",
+     "longitude": "-79.8997"
+    },
+    {
+     "case_number": "26-00088388",
+     "status": "In Progress",
+     "subject": "Storm Damage",
+     "created_date_et": "2026-08-20T10:40:07",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46624",
+     "longitude": "-79.89956"
+    },
+    {
+     "case_number": "26-00058656",
+     "status": "Open (Duplicate)",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2026-05-29T15:43:07",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46613",
+     "longitude": "-79.89979"
+    },
+    {
+     "case_number": "26-00049235",
+     "status": "Open",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2026-05-02T15:43:14",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46613",
+     "longitude": "-79.89979"
+    },
+    {
+     "case_number": "25-00047144",
+     "status": "Closed",
+     "subject": "Overgrowth",
+     "created_date_et": "2025-07-02T12:59:31",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46627",
+     "longitude": "-79.8996"
+    },
+    {
+     "case_number": "99-00814398",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2025-01-24T08:32:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46629",
+     "longitude": "-79.89988"
+    },
+    {
+     "case_number": "99-00055848",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2024-08-09T15:28:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46606",
+     "longitude": "-79.8992"
+    },
+    {
+     "case_number": "99-00054696",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2024-08-01T08:08:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46629",
+     "longitude": "-79.89885"
+    },
+    {
+     "case_number": "99-00144521",
+     "status": "Closed",
+     "subject": "Blocked City Steps",
+     "created_date_et": "2023-08-24T09:34:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46662",
+     "longitude": "-79.89872"
+    },
+    {
+     "case_number": "99-00289844",
+     "status": "Closed",
+     "subject": "Operating Without a License",
+     "created_date_et": "2021-02-18T16:08:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46629",
+     "longitude": "-79.89887"
+    },
+    {
+     "case_number": "99-00391242",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2020-12-18T11:48:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46636",
+     "longitude": "-79.89974"
+    },
+    {
+     "case_number": "99-00340245",
+     "status": "Closed",
+     "subject": "Blocked City Steps",
+     "created_date_et": "2020-07-23T13:38:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46662",
+     "longitude": "-79.89872"
+    },
+    {
+     "case_number": "99-00317498",
+     "status": "Closed",
+     "subject": "Dead tree (Public property)",
+     "created_date_et": "2020-06-04T09:26:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46622",
+     "longitude": "-79.89954"
+    },
+    {
+     "case_number": "99-00301616",
+     "status": "Closed",
+     "subject": "Storm Damage",
+     "created_date_et": "2020-04-09T15:10:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46565",
+     "longitude": "-79.90039"
+    },
+    {
+     "case_number": "99-00495515",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2019-12-19T08:18:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46581",
+     "longitude": "-79.89981"
+    },
+    {
+     "case_number": "99-00482633",
+     "status": "Closed",
+     "subject": "Fallen Tree - Street/Sidewalk",
+     "created_date_et": "2019-09-20T13:47:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46581",
+     "longitude": "-79.89981"
+    },
+    {
+     "case_number": "99-00457411",
+     "status": "Closed",
+     "subject": "Overgrowth",
+     "created_date_et": "2019-06-26T09:33:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46581",
+     "longitude": "-79.89981"
+    },
+    {
+     "case_number": "99-00451387",
+     "status": "Closed",
+     "subject": "City Tree Maintenance",
+     "created_date_et": "2019-06-06T12:33:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.4658",
+     "longitude": "-79.90009"
+    },
+    {
+     "case_number": "99-00450534",
+     "status": "Closed",
+     "subject": "Overgrowth",
+     "created_date_et": "2019-06-06T12:32:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46579",
+     "longitude": "-79.90008"
+    },
+    {
+     "case_number": "99-00423546",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2019-02-11T08:25:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46581",
+     "longitude": "-79.89981"
+    },
+    {
+     "case_number": "99-00585111",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2018-12-03T11:10:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46601",
+     "longitude": "-79.89926"
+    },
+    {
+     "case_number": "99-00586929",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2018-12-03T11:08:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46642",
+     "longitude": "-79.89927"
+    },
+    {
+     "case_number": "99-00636278",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2017-08-16T10:27:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46632",
+     "longitude": "-79.89953"
+    },
+    {
+     "case_number": "99-00636943",
+     "status": "Closed",
+     "subject": "City Tree Maintenance",
+     "created_date_et": "2017-08-15T14:54:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46627",
+     "longitude": "-79.89947"
+    },
+    {
+     "case_number": "99-00599645",
+     "status": "Closed",
+     "subject": "Potholes",
+     "created_date_et": "2017-03-07T10:13:00",
+     "street": "POINTVIEW ST",
+     "latitude": "40.46565",
+     "longitude": "-79.90038"
+    }
+   ],
+   "derived": {
+    "records": {
+     "value": 36,
+     "formula": "records the query returned"
+    },
+    "radius_m": {
+     "value": 80,
+     "formula": "the search box around the lot's centre: ±0.0008° latitude, ±0.001° longitude (about 80 m)"
+    },
+    "near": {
+     "value": 36,
+     "formula": "requests on the street within about 80 m of the lot's centre"
+    }
+   }
+  },
+  {
+   "check": "undermining",
+   "title": "the City's undermined-areas layer (old mines under the lot)",
+   "status": "nothing",
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "slope",
+   "title": "the City's 25%+ slope layer (grading and retaining walls cost)",
+   "status": "found",
+   "summary": "Found: 12% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {
+    "threshold_pct": {
+     "value": 25,
+     "formula": "the City layer's slope threshold (PGHWebSlope25)"
+    },
+    "percent": {
+     "value": 12,
+     "formula": "round(0.116 × 100), the share of the lot's area in the layer"
+    }
+   }
+  },
+  {
+   "check": "survey",
+   "title": "A boundary survey",
+   "status": "not_done",
+   "summary": "Paid: not done. A boundary survey costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "geotech",
+   "title": "A geotechnical report",
+   "status": "not_done",
+   "summary": "Paid: not done. A geotechnical report costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "phase1",
+   "title": "A Phase I Environmental Site Assessment",
+   "status": "not_done",
+   "summary": "Paid: not done. A Phase I Environmental Site Assessment costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  }
+ ],
+ "drafts": [
+  {
+   "kind": "request",
+   "to": "a licensed surveyor",
+   "subject": "Quote request: a boundary survey",
+   "text": "Request for a quote: a boundary survey for 1225 Pointview St (Lincoln-Lemington-Belmar), a vacant City-owned lot we are screening for a two-unit house. It would tell us where the lot lines and any encroachments really are (the parcel shapes come from GIS). Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "request",
+   "to": "a geotechnical engineer",
+   "subject": "Quote request: a geotechnical report",
+   "text": "Request for a quote: a geotechnical report for 1225 Pointview St (Lincoln-Lemington-Belmar), a vacant City-owned lot we are screening for a two-unit house. It would tell us what the soil, fill and slope will bear. Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "request",
+   "to": "an environmental consultant",
+   "subject": "Quote request: a Phase I Environmental Site Assessment",
+   "text": "Request for a quote: a Phase I Environmental Site Assessment for 1225 Pointview St (Lincoln-Lemington-Belmar), a vacant City-owned lot we are screening for a two-unit house. It would tell us what the land was used for, and whether anything was left in the ground. Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "letter",
+   "to": "City Real Estate, City of Pittsburgh",
+   "subject": "Inquiry: 1225 Pointview St (Lincoln-Lemington-Belmar)",
+   "text": "To City Real Estate, City of Pittsburgh:\n\nWe are screening 1225 Pointview St (Lincoln-Lemington-Belmar), a City-owned lot listed \"Available for Sale\" (last updated 2016-11-17), for a two-unit house. Under the RM-M rules it fits: 47 − 10 − 10 = 27 ft. Could you tell us the asking price, the disposition process and anything we should know about the lot? This is an inquiry, not an offer.\n",
+   "numbers_ok": true,
+   "by": "rule template",
+   "gate": "send"
+  }
+ ],
+ "gates": [
+  {
+   "kind": "spend",
+   "what": "A boundary survey: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "spend",
+   "what": "A geotechnical report: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "spend",
+   "what": "A Phase I Environmental Site Assessment: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Inquiry to City Real Estate about 1225 Pointview St",
+   "status": "waiting"
+  },
+  {
+   "kind": "sign",
+   "what": "rm-m.x.use_two (§911.02) is pencil: a person signs it before the case relies on it",
+   "status": "waiting"
+  }
+ ],
+ "verifier": {
+  "checked": {
+   "quotes": 7,
+   "numbers": 33,
+   "findings": 10,
+   "keys": 1
+  },
+  "failed": [],
+  "ok": true
+ },
+ "status": "published",
+ "summary": {
+  "text": "This Pittsburgh City-owned vacant lot is located at 1225 Pointview St in Lincoln-Lemington-Belmar and is zoned RM-M with a 27 ft buildable area calculated as 47 minus 10 minus 10 equals 27 ft. There were 36 requests to 311 found within about 80 m, with the latest on 2026-08-21 for City Tree Maintenance, while 12 percent of the lot is in the 25 percent plus slope layer. Drafted requests for a boundary survey, a geotechnical report, and a Phase I Environmental Site Assessment all wait for a person.",
+  "by": "gemini-3.5-flash-lite"
+ },
+ "rerun": "npm run steward -- 0124M00368000000 --goal two"
+}

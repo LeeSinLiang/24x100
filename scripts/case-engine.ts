@@ -34,7 +34,8 @@ import {
   type Scenario,
   type TemplateId,
 } from '../engine/src/index';
-import { diffStates, type WatchSnapshot } from '../engine/src/digest';
+import { diffStates, verdictWords, type WatchSnapshot } from '../engine/src/digest';
+import { pick } from '../engine/src/rules';
 import { snapshot } from './digest';
 
 const read = <T>(f: string): T => JSON.parse(readFileSync(f, 'utf8')) as T;
@@ -175,12 +176,91 @@ function watch(baseline?: string) {
   return { kind: 'watch', compared_with: before?.label ?? null, changes: diffStates(before, now, []) };
 }
 
+/** Every City-owned vacant lot, read by the citywide classifier (the map's own reading, signed rules only): the lots
+ *  where this building fits today, listed for sale ("fits") or City-owned and not listed ("ownership"). */
+function shortlistCandidates(type: TemplateId) {
+  const lots = read<{ lots: (import('../engine/src/city').CityLot & { block?: string; lot_no?: string })[] }>('data/city/lots.json').lots;
+  const rsBy = new Map<string, ReturnType<typeof buildRuleSet>>();
+  const rsFor = (z: string) => rsBy.get(z) ?? (rsBy.set(z, buildRuleSet(z, RULES, QUESTIONS, AUDIT)), rsBy.get(z)!);
+  const blockOf = new Map<string, { id: string; lot: string }>();
+  for (const b of BLOCKS) for (const p of b.parcels) blockOf.set(p.pin, { id: b.meta.id, lot: `${p.lot ?? p.pin}${p.lot_suffix ?? ''}` });
+  const counts: Record<string, number> = {};
+  const out = [];
+  for (const l of lots) {
+    const c = classifyCityLot(l, l.zone ? rsFor(l.zone) : null, type, DEFAULT_SETTINGS);
+    counts[c.blocker] = (counts[c.blocker] ?? 0) + 1;
+    if (c.blocker !== 'fits' && c.blocker !== 'ownership') continue;
+    const b = blockOf.get(l.pin);
+    out.push({
+      pin: l.pin,
+      address: l.addr.replace(/\s*\(no number\)$/, ''),
+      district: l.zone,
+      hood: l.hood,
+      ward: l.ward,
+      ll: l.ll,
+      for_sale: c.blocker === 'fits',
+      status: l.status,
+      verdict: { blocker: c.blocker, width: c.width, formula: c.formula, trust: c.trust, note: c.note },
+      slope25: l.slope25,
+      undermined: l.undermined ?? 0,
+      link: b ? `?view=lot&block=${b.id}&lot=${b.lot}&type=${type}` : `?view=city&type=${type}&pin=${l.pin}`,
+    });
+  }
+  return { kind: 'shortlist', type, type_name: TEMPLATES[type].name.toLowerCase(), lots_total: lots.length, counts, candidates: out, pins: lots.map((l) => l.pin) };
+}
+
+/** A City lot with no block detail, read by the citywide classifier (the map's reading): no plan, no money screen and no
+ *  per-office letters (those need the block's geometry and the ward's sales), but the verdict, the rules it rests on and
+ *  the lot's records, in the same shape as lotReading so the agents can work it. */
+function cityReading(pin: string, type: TemplateId) {
+  const file = read<{ meta: { pulled?: string; source?: string }; lots: import('../engine/src/city').CityLot[] }>('data/city/lots.json');
+  const l = file.lots.find((x) => x.pin === pin);
+  if (!l || !l.zone) return null;
+  const rs = buildRuleSet(l.zone, RULES, QUESTIONS, AUDIT);
+  const c = classifyCityLot(l, rs, type, DEFAULT_SETTINGS);
+  const fields = ['min_lot_area', 'front_setback', 'rear_setback', 'side_setback_interior', ...(l.flank.includes('exterior') ? ['side_setback_exterior'] : []), 'narrow_lot_side_table', 'contextual_side', `use_${type}`];
+  const rules = [...new Map(fields.map((f) => pick(rs, f as never)).filter((r): r is NonNullable<typeof r> => !!r).map((r) => [r.id, r])).values()].map((x) => ({
+    id: x.id, field: x.field, value: x.value, section: x.section, quote: x.quote, source_file: x.source_file, state: x.state, signed_by: x.verification.level !== 'unreviewed' ? x.verification.reviewer : null,
+  }));
+  const v = { blocker: c.blocker, width: c.width, formula: c.formula, trust: c.trust };
+  const words = verdictWords(v, type);
+  const fits = c.blocker === 'fits' || c.blocker === 'ownership';
+  return {
+    kind: 'lot',
+    source: 'citywide',
+    simulated: null,
+    contextual: null,
+    lot: {
+      pin, addr: l.addr.replace(/\s*\(no number\)$/, ''), lot: null, block: null, block_name: null, hood: l.hood, ward: l.ward, zone: l.zone,
+      city: { status: l.status, status_updated: l.status_updated }, owner_type: 'City of Pittsburgh', deed: l.deed, slope25: l.slope25, undermined: l.undermined ?? 0,
+      overlays: [], ll: l.ll, pulled: file.meta.pulled ?? null, neighbours: { left: null, right: null }, link: `?view=city&type=${type}&pin=${pin}`,
+    },
+    type,
+    type_name: TEMPLATES[type].name.toLowerCase(),
+    state: 'ok',
+    refusal: null,
+    width: c.width != null ? { deed: c.width, mapped: c.width, formula: c.formula } : null,
+    proposal_width: TEMPLATES[type].proposal.width,
+    headline: `${l.addr.replace(/\s*\(no number\)$/, '')}, ${l.hood}, zoned ${l.zone}: ${words}${c.formula ? `, ${c.formula} ft` : ''}.`,
+    verdict: { headline: fits ? 'fits' : c.blocker, words, detail: c.note },
+    blockers: fits ? [] : [{ id: c.blocker, label: c.blocker, status: 'fail', trust: c.trust, text: c.note, required: null, available: null, rule_ids: [] }],
+    first_blocker: fits ? null : { id: c.blocker, label: c.blocker, is_rule: false },
+    rules,
+    money: null,
+    way_forward: null,
+    route: [],
+    letters: [],
+    number_check: { ok: true, unknown: [], checked: 0 },
+  };
+}
+
 const [cmd, pin] = args;
 const type = (arg('type') ?? 'two') as TemplateId;
 let out: unknown;
-if (cmd === 'lot') out = lotReading(pin, type) ?? { kind: 'none', pin, why: 'not in a loaded block: no block detail for this lot' };
+if (cmd === 'lot') out = lotReading(pin, type) ?? cityReading(pin, type) ?? { kind: 'none', pin, why: 'not a City-owned vacant lot on the map' };
 else if (cmd === 'simulate') out = lotReading(pin, type, (arg('built') ?? '').split(',').filter(Boolean)) ?? { kind: 'none', pin };
 else if (cmd === 'watch') out = watch(arg('baseline'));
+else if (cmd === 'shortlist') out = shortlistCandidates(type);
 else {
   console.error('usage: case-engine.ts lot <pin> [--type two] | simulate <pin> --built <pin> | watch [--baseline <ref>]');
   process.exit(2);

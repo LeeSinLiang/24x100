@@ -16,6 +16,7 @@ import { pageZoom, stageFor } from './components/workspace/stage';
 import { UrlNotice } from './components/workspace/UrlNotice';
 import { AboutView } from './views/AboutView';
 import { BriefView } from './views/BriefView';
+import { ShortlistView } from './views/ShortlistView';
 import { CaseView, CASES } from './views/CaseView';
 import { ChangesView } from './views/ChangesView';
 import { InquiryView } from './views/InquiryView';
@@ -120,6 +121,8 @@ export function App() {
       ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
       : s.view === 'changes'
         ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
+        : s.view === 'shortlist'
+          ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Tonight’s shortlist' }]
         : s.view === 'case'
           ? [{ label: 'Pittsburgh', href: '?view=city' }, ...(CASES[s.pin ?? '']?.lot.link ? [{ label: CASES[s.pin!].lot.addr, href: CASES[s.pin!].lot.link! }] : []), { label: 'Case file' }]
         : s.view === 'about'
@@ -171,6 +174,8 @@ export function App() {
                 return <CaseView {...vp} />;
               case 'brief':
                 return <BriefView {...vp} />;
+              case 'shortlist':
+                return <ShortlistView {...vp} />;
               default:
                 return <AboutView {...vp} />;
             }

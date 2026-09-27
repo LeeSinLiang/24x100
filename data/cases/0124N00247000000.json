@@ -1,0 +1,806 @@
+{
+ "id": "0124N00247000000",
+ "goal": "a two-unit house",
+ "lot": {
+  "pin": "0124N00247000000",
+  "addr": "156 Meadow St",
+  "lot": null,
+  "block": null,
+  "hood": "Larimer",
+  "zone": "R2-H",
+  "link": "?view=city&type=two&pin=0124N00247000000"
+ },
+ "run_at": "2026-09-27T18:24:08Z",
+ "model": {
+  "id": "gemini-flash-lite-latest",
+  "key": "a team member's key, free tier",
+  "planned_by": "model",
+  "why": "ok"
+ },
+ "tokens": {
+  "in": 828,
+  "out": 475,
+  "calls": 3
+ },
+ "cost": {
+  "usd_paid_rate": 0.001437,
+  "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
+ },
+ "plan": [
+  {
+   "agent": "due-diligence",
+   "what": "Check site conditions and utilities for the proposed structure.",
+   "why": "Ensure the lot can physically support the construction."
+  },
+  {
+   "agent": "watch",
+   "what": "Monitor community feedback and neighborhood context.",
+   "why": "Ensure local alignment with the proposed development."
+  },
+  {
+   "agent": "verifier",
+   "what": "Confirm all requirements are met for the lot.",
+   "why": "Finalize the review process before proceeding."
+  }
+ ],
+ "steps": [
+  {
+   "agent": "steward",
+   "n": 1,
+   "action": "tool",
+   "tool": "engine:scripts/case-engine.ts lot",
+   "input": {
+    "pin": "0124N00247000000",
+    "type": "two"
+   },
+   "summary": "The engine read the lot (the citywide reading: no block detail, so no plan or money screen). 156 Meadow St, Larimer, zoned R2-H: fits as of right (17.1 ft buildable), 27.1 − 5 − 5 = 17.1 ft.",
+   "sources": [
+    {
+     "url": "data/city/lots.json",
+     "pulled_at": "2026-09-27T18:24:08Z",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b"
+    },
+    {
+     "url": "data/rules/reviews.json",
+     "pulled_at": "2026-09-27T18:24:08Z",
+     "sha256": "4459a17317ead9d9c3ab18cb173c6ec34d3f58d4c61c450d6d538fdd28af48b1"
+    }
+   ],
+   "ok": true,
+   "t": 0.01
+  },
+  {
+   "agent": "steward",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "goal": "two-unit house"
+   },
+   "summary": "Planned with gemini-3.5-flash-lite: due-diligence; watch; verifier.",
+   "sources": [],
+   "ok": true,
+   "t": 1.07,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 179,
+    "out": 102
+   },
+   "cost_usd_paid_rate": 0.000309
+  },
+  {
+   "agent": "due-diligence",
+   "n": 3,
+   "action": "plan",
+   "input": {
+    "checks": [
+     "permits",
+     "violations",
+     "condemned",
+     "liens",
+     "311",
+     "undermining",
+     "slope"
+    ],
+    "why": {
+     "permits": "Check for any recent building activity or existing structures.",
+     "violations": "Ensure there are no active code-enforcement cases like weeds or debris.",
+     "condemned": "Confirm the parcel is not on any condemned or dead-end list.",
+     "liens": "Identify any unsatisfied tax liens that follow the land.",
+     "311": "Review recent nearby service requests for dumping or drainage issues.",
+     "undermining": "Check if old mines are located underneath the lot.",
+     "slope": "Evaluate potential grading and retaining wall costs due to steep slopes."
+    },
+    "skipped": {},
+    "paid": [
+     "survey",
+     "geotech"
+    ],
+    "count": {
+     "picked": 7,
+     "free": 7,
+     "paid": 2
+    }
+   },
+   "summary": "The model picked the free checks to run and the paid studies to draft.",
+   "sources": [],
+   "ok": true,
+   "t": 2.32,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 315,
+    "out": 222
+   },
+   "cost_usd_paid_rate": 0.00065
+  },
+  {
+   "agent": "due-diligence",
+   "n": 4,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:permits",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220124N00247000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:11Z",
+     "sha256": "d136c5785a3bd4717dae0131e6f32942b21f645f88abdcac8bade2f6a0aa0b4b",
+     "via": "data/cases/raw/0124N00247000000/permits.json",
+     "dataset": "https://data.wprdc.org/dataset/pli-permits"
+    }
+   ],
+   "ok": true,
+   "t": 2.55
+  },
+  {
+   "agent": "due-diligence",
+   "n": 5,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:violations",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220124N00247000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:11Z",
+     "sha256": "878a5f38288dec89ada8dfa47ce89bf5d9d9e1c72ad2b914b38d4f536483b839",
+     "via": "data/cases/raw/0124N00247000000/violations.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+    }
+   ],
+   "ok": true,
+   "t": 2.97
+  },
+  {
+   "agent": "due-diligence",
+   "n": 6,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:condemned",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220124N00247000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:13Z",
+     "sha256": "03a93bdc970cdb3b9a8255ad7b7598b3763620637f65c3a8922e2c7b6b3441fd",
+     "via": "data/cases/raw/0124N00247000000/condemned.json",
+     "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+    }
+   ],
+   "ok": true,
+   "t": 4.42
+  },
+  {
+   "agent": "due-diligence",
+   "n": 7,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:liens",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220124N00247000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:14Z",
+     "sha256": "a985c65794551cae2912ec8af76e142f8b0bf77d494549e0948e7353129ec4bb",
+     "via": "data/cases/raw/0124N00247000000/liens.json",
+     "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+    }
+   ],
+   "ok": true,
+   "t": 5.4
+  },
+  {
+   "agent": "due-diligence",
+   "n": 8,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:311",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Found: 49 requests to 311 within about 80 m (City Owned Property Maintenance, Broken Sidewalk); the latest on 2026-06-15: Broken Sidewalk.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Larimer%22%2C+%22street%22%3A+%22MEADOW+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:24:14Z",
+     "sha256": "a176d96748982487db51c2be6aa43ea952227b03f03f0d899ee715cd20ce0c90",
+     "via": "data/cases/raw/0124N00247000000/311.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+    }
+   ],
+   "ok": true,
+   "t": 6.22
+  },
+  {
+   "agent": "due-diligence",
+   "n": 9,
+   "action": "tool",
+   "tool": "city.layer:undermining",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 6.23
+  },
+  {
+   "agent": "due-diligence",
+   "n": 10,
+   "action": "tool",
+   "tool": "city.layer:slope",
+   "input": {
+    "pin": "0124N00247000000"
+   },
+   "summary": "Checked: none of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 6.23
+  },
+  {
+   "agent": "due-diligence",
+   "n": 11,
+   "action": "draft",
+   "input": {
+    "study": "survey"
+   },
+   "summary": "Drafted a quote request for a boundary survey; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 6.23
+  },
+  {
+   "agent": "due-diligence",
+   "n": 12,
+   "action": "draft",
+   "input": {
+    "study": "geotech"
+   },
+   "summary": "Drafted a quote request for a geotechnical report; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 6.23
+  },
+  {
+   "agent": "steward",
+   "n": 13,
+   "action": "draft",
+   "input": {
+    "letters": [
+     "real_estate"
+    ]
+   },
+   "summary": "Drafted the inquiry to City Real Estate from the engine's reading; not sent (send gate).",
+   "sources": [],
+   "ok": true,
+   "t": 6.23
+  },
+  {
+   "agent": "steward",
+   "n": 14,
+   "action": "draft",
+   "input": {},
+   "summary": "Wrote the case file's summary from the engine's reading and the findings.",
+   "sources": [],
+   "ok": true,
+   "t": 7.65,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 334,
+    "out": 151
+   },
+   "cost_usd_paid_rate": 0.000478
+  },
+  {
+   "agent": "verifier",
+   "n": 15,
+   "action": "verify",
+   "input": {},
+   "summary": "Verified: 7 quotes verbatim in the saved code, 28 numbers traced, 9 findings sourced, no name-like field.",
+   "sources": [],
+   "ok": true,
+   "t": 7.7
+  },
+  {
+   "agent": "steward",
+   "n": 16,
+   "action": "gate",
+   "input": {
+    "send": 1,
+    "spend": 2,
+    "sign": 0
+   },
+   "summary": "Waiting on a person: 1 letters to send, 2 paid studies to approve, 0 rules to sign.",
+   "sources": [],
+   "ok": true,
+   "t": 7.7
+  }
+ ],
+ "findings": [
+  {
+   "check": "permits",
+   "title": "PLI permits on this parcel: a recent permit means work, or a building, is coming",
+   "status": "nothing",
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220124N00247000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:11Z",
+    "sha256": "d136c5785a3bd4717dae0131e6f32942b21f645f88abdcac8bade2f6a0aa0b4b",
+    "via": "data/cases/raw/0124N00247000000/permits.json",
+    "dataset": "https://data.wprdc.org/dataset/pli-permits"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "violations",
+   "title": "code-enforcement case files on this parcel (weeds, debris, dangerous structures)",
+   "status": "nothing",
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220124N00247000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:11Z",
+    "sha256": "878a5f38288dec89ada8dfa47ce89bf5d9d9e1c72ad2b914b38d4f536483b839",
+    "via": "data/cases/raw/0124N00247000000/violations.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "condemned",
+   "title": "whether the parcel is on the City's condemned or dead-end list",
+   "status": "nothing",
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220124N00247000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:13Z",
+    "sha256": "03a93bdc970cdb3b9a8255ad7b7598b3763620637f65c3a8922e2c7b6b3441fd",
+    "via": "data/cases/raw/0124N00247000000/condemned.json",
+    "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "liens",
+   "title": "unsatisfied tax liens on this parcel (they follow the land)",
+   "status": "nothing",
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220124N00247000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:14Z",
+    "sha256": "a985c65794551cae2912ec8af76e142f8b0bf77d494549e0948e7353129ec4bb",
+    "via": "data/cases/raw/0124N00247000000/liens.json",
+    "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "311",
+   "title": "311 requests on the street near the lot (dumping, drainage, road work)",
+   "status": "found",
+   "summary": "Found: 49 requests to 311 within about 80 m (City Owned Property Maintenance, Broken Sidewalk); the latest on 2026-06-15: Broken Sidewalk.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Larimer%22%2C+%22street%22%3A+%22MEADOW+ST%22%7D&limit=200&sort=created_date_et+desc",
+    "pulled_at": "2026-09-27T18:24:14Z",
+    "sha256": "a176d96748982487db51c2be6aa43ea952227b03f03f0d899ee715cd20ce0c90",
+    "via": "data/cases/raw/0124N00247000000/311.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+   },
+   "records": [
+    {
+     "case_number": "26-00064542",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2026-06-15T10:50:55",
+     "street": "MEADOW ST",
+     "latitude": "40.46336",
+     "longitude": "-79.9126"
+    },
+    {
+     "case_number": "26-00064541",
+     "status": "Closed (Duplicate)",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2026-06-15T10:50:20",
+     "street": "MEADOW ST",
+     "latitude": "40.46391",
+     "longitude": "-79.91325"
+    },
+    {
+     "case_number": "26-00064538",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2026-06-15T10:48:36",
+     "street": "MEADOW ST",
+     "latitude": "40.4637",
+     "longitude": "-79.91304"
+    },
+    {
+     "case_number": "26-00064536",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2026-06-15T10:48:02",
+     "street": "MEADOW ST",
+     "latitude": "40.46438",
+     "longitude": "-79.91375"
+    },
+    {
+     "case_number": "26-00035019",
+     "status": "Open",
+     "subject": "Sidewalk/Curb/ADA Ramp Maintenance",
+     "created_date_et": "2026-03-23T11:15:18",
+     "street": "MEADOW ST",
+     "latitude": "40.46391",
+     "longitude": "-79.91325"
+    },
+    {
+     "case_number": "25-00064592",
+     "status": "Closed",
+     "subject": "Dead Animal",
+     "created_date_et": "2025-08-18T16:49:34",
+     "street": "MEADOW ST",
+     "latitude": "40.46336",
+     "longitude": "-79.9126"
+    },
+    {
+     "case_number": "25-00042783",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2025-06-20T14:05:52",
+     "street": "MEADOW ST",
+     "latitude": "40.46372",
+     "longitude": "-79.91232"
+    },
+    {
+     "case_number": "25-00042782",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2025-06-20T14:05:13",
+     "street": "MEADOW ST",
+     "latitude": "40.46375",
+     "longitude": "-79.91237"
+    },
+    {
+     "case_number": "25-00042781",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2025-06-20T14:04:17",
+     "street": "MEADOW ST",
+     "latitude": "40.46379",
+     "longitude": "-79.91241"
+    },
+    {
+     "case_number": "25-00026950",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2025-05-06T15:01:55",
+     "street": "MEADOW ST",
+     "latitude": "40.4639",
+     "longitude": "-79.91254"
+    },
+    {
+     "case_number": "25-00019685",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2025-04-14T10:23:10",
+     "street": "MEADOW ST",
+     "latitude": "40.46385",
+     "longitude": "-79.91263"
+    },
+    {
+     "case_number": "99-00072424",
+     "status": "Closed",
+     "subject": "Road Work - Utility Cuts, Construction, Closures, and Obstructions",
+     "created_date_et": "2024-11-04T10:58:00",
+     "street": "MEADOW ST",
+     "latitude": "40.4638",
+     "longitude": "-79.91414"
+    },
+    {
+     "case_number": "99-00056850",
+     "status": "Closed",
+     "subject": "Street Repair - Brick, Block, or Concrete Slab",
+     "created_date_et": "2024-08-23T13:09:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46353",
+     "longitude": "-79.91289"
+    },
+    {
+     "case_number": "99-00055908",
+     "status": "Closed",
+     "subject": "Broken Sidewalk",
+     "created_date_et": "2024-08-23T13:07:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46361",
+     "longitude": "-79.9129"
+    },
+    {
+     "case_number": "99-00052547",
+     "status": "Closed",
+     "subject": "Drainage - Street",
+     "created_date_et": "2024-07-26T08:44:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46332",
+     "longitude": "-79.91233"
+    },
+    {
+     "case_number": "99-00036533",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2024-06-03T08:46:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "55-00009735",
+     "status": "Open",
+     "subject": "Police Concerns",
+     "created_date_et": "2024-06-03T08:02:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "99-00029147",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2024-05-03T15:48:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "99-00021970",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2024-04-03T10:17:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46385",
+     "longitude": "-79.91266"
+    },
+    {
+     "case_number": "99-00017061",
+     "status": "Closed",
+     "subject": "Refuse or Recycling Violations",
+     "created_date_et": "2024-03-04T20:13:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "99-00016969",
+     "status": "Closed",
+     "subject": "Refuse or Recycling Violations",
+     "created_date_et": "2024-03-04T20:07:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "99-00165440",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2023-11-27T11:12:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46385",
+     "longitude": "-79.91266"
+    },
+    {
+     "case_number": "99-00156011",
+     "status": "Closed",
+     "subject": "Traffic Calming",
+     "created_date_et": "2023-10-17T22:37:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "99-00154510",
+     "status": "Closed",
+     "subject": "Street Cleaning/Sweeping",
+     "created_date_et": "2023-10-10T12:16:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    },
+    {
+     "case_number": "55-00031811",
+     "status": "Open",
+     "subject": "Traffic and Speeding Enforcement",
+     "created_date_et": "2023-08-03T03:03:00",
+     "street": "MEADOW ST",
+     "latitude": "40.46427",
+     "longitude": "-79.91339"
+    }
+   ],
+   "derived": {
+    "records": {
+     "value": 49,
+     "formula": "records the query returned"
+    },
+    "radius_m": {
+     "value": 80,
+     "formula": "the search box around the lot's centre: ±0.0008° latitude, ±0.001° longitude (about 80 m)"
+    },
+    "near": {
+     "value": 49,
+     "formula": "requests on the street within about 80 m of the lot's centre"
+    }
+   }
+  },
+  {
+   "check": "undermining",
+   "title": "the City's undermined-areas layer (old mines under the lot)",
+   "status": "nothing",
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "slope",
+   "title": "the City's 25%+ slope layer (grading and retaining walls cost)",
+   "status": "nothing",
+   "summary": "Checked: none of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {
+    "threshold_pct": {
+     "value": 25,
+     "formula": "the City layer's slope threshold (PGHWebSlope25)"
+    }
+   }
+  },
+  {
+   "check": "survey",
+   "title": "A boundary survey",
+   "status": "not_done",
+   "summary": "Paid: not done. A boundary survey costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "geotech",
+   "title": "A geotechnical report",
+   "status": "not_done",
+   "summary": "Paid: not done. A geotechnical report costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  }
+ ],
+ "drafts": [
+  {
+   "kind": "request",
+   "to": "a licensed surveyor",
+   "subject": "Quote request: a boundary survey",
+   "text": "Request for a quote: a boundary survey for 156 Meadow St (Larimer), a vacant City-owned lot we are screening for a two-unit house. It would tell us where the lot lines and any encroachments really are (the parcel shapes come from GIS). Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "request",
+   "to": "a geotechnical engineer",
+   "subject": "Quote request: a geotechnical report",
+   "text": "Request for a quote: a geotechnical report for 156 Meadow St (Larimer), a vacant City-owned lot we are screening for a two-unit house. It would tell us what the soil, fill and slope will bear. Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "letter",
+   "to": "City Real Estate, City of Pittsburgh",
+   "subject": "Inquiry: 156 Meadow St (Larimer)",
+   "text": "To City Real Estate, City of Pittsburgh:\n\nWe are screening 156 Meadow St (Larimer), a City-owned lot listed \"Available for Sale\" (last updated 2016-11-17), for a two-unit house. Under the R2-H rules it fits: 27.1 − 5 − 5 = 17.1 ft. Could you tell us the asking price, the disposition process and anything we should know about the lot? This is an inquiry, not an offer.\n",
+   "numbers_ok": true,
+   "by": "rule template",
+   "gate": "send"
+  }
+ ],
+ "gates": [
+  {
+   "kind": "spend",
+   "what": "A boundary survey: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "spend",
+   "what": "A geotechnical report: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Inquiry to City Real Estate about 156 Meadow St",
+   "status": "waiting"
+  }
+ ],
+ "verifier": {
+  "checked": {
+   "quotes": 7,
+   "numbers": 28,
+   "findings": 9,
+   "keys": 1
+  },
+  "failed": [],
+  "ok": true
+ },
+ "status": "published",
+ "summary": {
+  "text": "This case file concerns a Pittsburgh City-owned vacant lot located at 156 Meadow St, Larimer, zoned R2-H with a 17.1 ft buildable area derived from 27.1 − 5 − 5 = 17.1 ft. Records show 49 requests to 311 within about 80 m, with the latest on 2026-06-15 regarding a broken sidewalk, while no PLI permits, code-enforcement cases, or tax liens exist. Furthermore, drafted requests for a boundary survey and a geotechnical report are currently unpaid and wait for a person.",
+  "by": "gemini-3.5-flash-lite"
+ },
+ "rerun": "npm run steward -- 0124N00247000000 --goal two"
+}

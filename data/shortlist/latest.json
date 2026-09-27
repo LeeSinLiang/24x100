@@ -1,0 +1,2894 @@
+{
+ "run_at": "2026-09-27T18:18:13Z",
+ "definition": {
+  "building": "two",
+  "text": "City-owned vacant lots in the districts a person has signed where a two-unit house fits today (the engine's reading, listed for sale or not), with nothing found against them: no open code-enforcement case (any status other than Closed or Clean & Lien), not on the condemned or dead-end list, no unsatisfied tax lien, and none of the lot in the City's undermined-areas layer. Slope is shown, not excluded: steepest last.",
+  "risk_checks": [
+   "violations (open)",
+   "condemned",
+   "liens (unsatisfied)",
+   "undermining"
+  ],
+  "shown": [
+   "permits",
+   "slope",
+   "311 (shortlisted lots only)"
+  ]
+ },
+ "counts": {
+  "swept": 11247,
+  "fits_today": 207,
+  "fits_today_for_sale": 132,
+  "shortlist": 42,
+  "shortlist_for_sale": 11,
+  "shortlist_not_listed": 31,
+  "excluded_from_fits": {
+   "undermining": 96,
+   "liens": 131,
+   "violations": 1,
+   "condemned": 1
+  },
+  "any_risk_finding": 6560,
+  "any_risk_finding_share": 0.583,
+  "by_check": {
+   "permits": 114,
+   "violations": 1787,
+   "condemned": 47,
+   "liens": 4999,
+   "undermining": 2525,
+   "slope": 8357
+  },
+  "open_violations": 58
+ },
+ "sweep": {
+  "wall_s": 85.8,
+  "requests": 102,
+  "model": null,
+  "planned_by": "rule, no model",
+  "cost_usd": 0,
+  "note": "public datasets over HTTPS; no model call"
+ },
+ "sources": {
+  "permits": {
+   "dataset": "PLI Permits (City of Pittsburgh)",
+   "page": "https://data.wprdc.org/dataset/pli-permits",
+   "resource": "f4d1177a-f597-4c32-8cbf-7885f56253f6",
+   "url": "https://data.wprdc.org/api/3/action/datastore_search",
+   "method": "POST",
+   "fields": [
+    "permit_id",
+    "permit_type",
+    "work_type",
+    "commercial_or_residential",
+    "total_project_value",
+    "issue_date",
+    "status",
+    "parcel_num"
+   ],
+   "requests": 23,
+   "rows": 228,
+   "pulled_at": "2026-09-27T18:16:53Z",
+   "sha256": "b5c6734cf2e4efb27a720b8ef6502c7a6dea86e0945c36d07963120d8b671158",
+   "requests_sha256": "77e142eeb5fd8a7cd4d5aa6844adda0fb9c482f186b1bbdd56d2462e40713456",
+   "by": "500 PINs a request"
+  },
+  "violations": {
+   "dataset": "PLI/DOMI/ES Violations (City of Pittsburgh)",
+   "page": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report",
+   "resource": "70c06278-92c5-4040-ab28-17671866f81c",
+   "url": "https://data.wprdc.org/api/3/action/datastore_search",
+   "method": "POST",
+   "fields": [
+    "casefile_number",
+    "status",
+    "case_file_type",
+    "investigation_date",
+    "investigation_outcome",
+    "violation_code_section",
+    "violation_code_section_title",
+    "parcel_id"
+   ],
+   "requests": 23,
+   "rows": 9146,
+   "pulled_at": "2026-09-27T18:17:05Z",
+   "sha256": "bab879e6fbed9a277193103b509679298c0f287cf6398af0ddd4d1b9ed7820bd",
+   "requests_sha256": "93e12f4201479ddc945b7e35ac493f0dfb8df968308216c060f9d77a9c8fdf6e",
+   "by": "500 PINs a request"
+  },
+  "liens": {
+   "dataset": "Allegheny County Tax Liens, current status",
+   "page": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied",
+   "resource": "65d0d259-3e58-49d3-bebb-80dc75f61245",
+   "url": "https://data.wprdc.org/api/3/action/datastore_search",
+   "method": "POST",
+   "fields": [
+    "pin",
+    "filing_date",
+    "tax_year",
+    "lien_description",
+    "amount",
+    "satisfied"
+   ],
+   "requests": 23,
+   "rows": 104562,
+   "pulled_at": "2026-09-27T18:17:40Z",
+   "sha256": "62af641be17896a6921194db66d23f07f7159d17d8211e97cb33e870b29a0002",
+   "requests_sha256": "4a3aff6d6a607ecde7b7bb2b0bca5da66bd58109606921b6a3e73eb25dd80dcd",
+   "by": "500 PINs a request"
+  },
+  "condemned": {
+   "dataset": "Condemned and Dead-End Properties (City of Pittsburgh)",
+   "page": "https://data.wprdc.org/dataset/condemned-properties",
+   "resource": "0a963f26-eb4b-4325-bbbc-3ddf6a871410",
+   "url": "https://data.wprdc.org/api/3/action/datastore_search",
+   "method": "POST",
+   "fields": [
+    "parcel_id",
+    "property_type",
+    "create_date",
+    "latest_inspection_result",
+    "inspection_status",
+    "record_number"
+   ],
+   "requests": 1,
+   "rows": 3569,
+   "pulled_at": "2026-09-27T18:17:41Z",
+   "sha256": "790fe9298c50ba991b7522576577643e62faf8def80b5d42de79b5819ed4bdc9",
+   "requests_sha256": "3e372a649a2dd951ff1319e9af4e5588d38c112b5a7d9a4a5e27045750dae5f3",
+   "by": "the whole list, joined here"
+  },
+  "311": {
+   "dataset": "Pittsburgh 311 requests",
+   "page": "https://data.wprdc.org/dataset/pittsburgh-311-data",
+   "for": "shortlisted lots only",
+   "pulls": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Larimer%22%2C+%22street%22%3A+%22MEADOW+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:42Z",
+     "sha256": "8453e6db8c7a330a92d3f30fba5583c3b3c5dabe4b08033f63b3798e07c26c8d",
+     "street": "MEADOW ST",
+     "hood": "Larimer"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22NIMICK+PL%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:43Z",
+     "sha256": "7ae05f6708fa93c9381666094426f582fbc98de6ff08f45760233c2070cb6e32",
+     "street": "NIMICK PL",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22POINTVIEW+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:44Z",
+     "sha256": "f0f23e55e2e9edf36df1f2eb692fe96fb1d1e2a523286ea23ee4a83b24dbe1c8",
+     "street": "POINTVIEW ST",
+     "hood": "Lincoln-Lemington-Belmar"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22WILKINSBURG+AV%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:45Z",
+     "sha256": "2959db31d232412f5dab2b2f05711ffcb1675e050c5d7479b722458b47b043bf",
+     "street": "WILKINSBURG AV",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22FRANKSTOWN+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:46Z",
+     "sha256": "8bbd75a29d1741f4991ebf1817ca7a9777f5fc29cd8b55932c43334ac63a0834",
+     "street": "FRANKSTOWN AVE",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22HAVERHILL+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:47Z",
+     "sha256": "6c1544381d5d03a07858d41de7e5d311322fcd4437e18c733f1208a5adc1a6cd",
+     "street": "HAVERHILL ST",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22FAHNESTOCK+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:48Z",
+     "sha256": "88ed77ed8fd41c41b14c6238093acaf808e55b508ca084f31bb27107db902821",
+     "street": "FAHNESTOCK AVE",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22KARL+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:49Z",
+     "sha256": "00119835f31aa22ec30a1803fef66ec7b10024c077e232c703f2f2775e165dc0",
+     "street": "KARL ST",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Lincoln-Lemington-Belmar%22%2C+%22street%22%3A+%22LINCOLN+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:50Z",
+     "sha256": "8d29079cc9b326cc61e8a96bc6820c6d801131298405849fbe217e98fe864dc9",
+     "street": "LINCOLN AVE",
+     "hood": "Lincoln-Lemington-Belmar"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22GERITT+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:51Z",
+     "sha256": "f659e97002f2ca901b39f499aed2e31132a41374d882cf74907323568e503a3f",
+     "street": "GERITT ST",
+     "hood": "Homewood West"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Brookline%22%2C+%22street%22%3A+%22ANSONIA+PL%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:52Z",
+     "sha256": "aec71b3f5078ce89c893ec94a0b3187e629dc342e337137082835c9ee923ed9a",
+     "street": "ANSONIA PL",
+     "hood": "Brookline"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+South%22%2C+%22street%22%3A+%22ROSEDALE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:53Z",
+     "sha256": "24071b0c71f7d22c0476f79402fba86c6f43ea551a6f0d31ee429ade4548f150",
+     "street": "ROSEDALE",
+     "hood": "Homewood South"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22ATWELL+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:54Z",
+     "sha256": "34a02a2fc9ad75f2c3c4888a4f8b34c74950fdf899ec63f197721f92a0b6395c",
+     "street": "ATWELL ST",
+     "hood": "Homewood West"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22LYRIC+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:55Z",
+     "sha256": "e38df010781ee691c2bee0526252923269d604b317a8ab1ccbd77a3045bde632",
+     "street": "LYRIC ST",
+     "hood": "Homewood West"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22UPLAND+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:56Z",
+     "sha256": "a8b7a98b7618a2bb028a7d10111d232ae5b0cad5377913cd133270a1d54db511",
+     "street": "UPLAND ST",
+     "hood": "Homewood West"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+South%22%2C+%22street%22%3A+%22BENNETT+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:57Z",
+     "sha256": "353090e03a22765eebd72842788d40873b477bc6a076a94bba6b9d764c46955c",
+     "street": "BENNETT ST",
+     "hood": "Homewood South"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22BAXTER+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:58Z",
+     "sha256": "5595d644d014d68f14fea8cbe842b2ff99ad57d1f762341dd13a0e74fc399f4a",
+     "street": "BAXTER ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22CALWAY+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:17:59Z",
+     "sha256": "eed8070a06a1b03eef45b7dd39c3bd6b37840d88041d6a5b98b94352a37331b2",
+     "street": "CALWAY ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22SNOWDEN+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:00Z",
+     "sha256": "275e75887df0d3cb399265b98cec320b865775c82d1dc2e0a1bd065e3d438582",
+     "street": "SNOWDEN ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22LA+PLACE+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:01Z",
+     "sha256": "8e39efa8d95ea385acd11f374f93ae228d3c5469cd10638c1d94c18faf512a27",
+     "street": "LA PLACE ST",
+     "hood": "Middle Hill"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+West%22%2C+%22street%22%3A+%22FRANKSTOWN+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:01Z",
+     "sha256": "e951e8e0b6707448acfe415f509085f18e930abf48ac4ea70fcd69bedd290ddb",
+     "street": "FRANKSTOWN AVE",
+     "hood": "Homewood West"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Crawford-Roberts%22%2C+%22street%22%3A+%22GRANVILLE+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:02Z",
+     "sha256": "aea2d3c7bed148836e979fce35c24281724e07e1070b2fa5b06407d978231827",
+     "street": "GRANVILLE ST",
+     "hood": "Crawford-Roberts"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22S+WHEELER+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:03Z",
+     "sha256": "7ef7e9a3e995d87b371c1cc7de4cb8b41fbcc841c25be8fc21fd21474c654293",
+     "street": "S WHEELER ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22HANSEL+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:04Z",
+     "sha256": "787cf6a4b863f435fc95f1fc307f540423f895b2f0e3048a6e1b59c8b15bfbaf",
+     "street": "HANSEL ST",
+     "hood": "East Hills"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Crawford-Roberts%22%2C+%22street%22%3A+%22VINE+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:05Z",
+     "sha256": "beb2b029dbf73425258f0df5440356be1c9780172dc334e5eea79dd150bdbcd7",
+     "street": "VINE ST",
+     "hood": "Crawford-Roberts"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22BLACKADORE+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:06Z",
+     "sha256": "d65a9cc39b52fe15b062ab7afbbcbb2ae53cd613ef2b404e36f8f07b1d6d95ec",
+     "street": "BLACKADORE AVE",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Windgap%22%2C+%22street%22%3A+%22BERRY+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:07Z",
+     "sha256": "a8b4c0cec4482bea9381d12605f6c4a475240466d74ecb33acf1410250da8844",
+     "street": "BERRY ST",
+     "hood": "Windgap"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22CENTRE+AV%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:09Z",
+     "sha256": "14d8834de2581a55f4c9e13ad52063004c57df2628189307b0c2940319334cde",
+     "street": "CENTRE AV",
+     "hood": "Middle Hill"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22LAWNDALE+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:10Z",
+     "sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2",
+     "street": "LAWNDALE ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22CALHOUN+AVE%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:11Z",
+     "sha256": "e10882f0156d380e2af35bd5e76adbab654abf67c3069fc92623c33324b76ec6",
+     "street": "CALHOUN AVE",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Homewood+North%22%2C+%22street%22%3A+%22MOHLER+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:12Z",
+     "sha256": "4d79d2ef5c4cc86e8501b39413de5d9af89fefeaed9127c554be61477bdced55",
+     "street": "MOHLER ST",
+     "hood": "Homewood North"
+    },
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Polish+Hill%22%2C+%22street%22%3A+%22DOWNING+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:18:13Z",
+     "sha256": "09470c1fc6b4fe334c1a68e94a73e47bd1d31f0dcc3a6c19d3066a5299dec9a7",
+     "street": "DOWNING ST",
+     "hood": "Polish Hill"
+    }
+   ]
+  }
+ },
+ "lots": [
+  {
+   "pin": "0124N00247000000",
+   "address": "156 Meadow St",
+   "district": "R2-H",
+   "hood": "Larimer",
+   "ward": 12,
+   "ll": [
+    -79.9132442,
+    40.4638256
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 17.1,
+    "formula": "27.1 − 5 − 5 = 17.1",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0124N00247000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 49,
+     "fact": "49 requests nearby",
+     "source_sha256": "8453e6db8c7a330a92d3f30fba5583c3b3c5dabe4b08033f63b3798e07c26c8d"
+    }
+   }
+  },
+  {
+   "pin": "0232A00260000000",
+   "address": "8306 Nimick Pl",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.879415,
+    40.4506468
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 59.5,
+    "formula": "94.5 − 10 − 25 = 59.5",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0232A00260000000",
+   "slope": 6,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 6,
+     "fact": "6% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 79,
+     "fact": "79 requests nearby",
+     "source_sha256": "7ae05f6708fa93c9381666094426f582fbc98de6ff08f45760233c2070cb6e32"
+    }
+   }
+  },
+  {
+   "pin": "0124M00368000000",
+   "address": "1225 Pointview St",
+   "district": "RM-M",
+   "hood": "Lincoln-Lemington-Belmar",
+   "ward": 12,
+   "ll": [
+    -79.899697,
+    40.4661952
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 27,
+    "formula": "47 − 10 − 10 = 27",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0124M00368000000",
+   "slope": 12,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 12,
+     "fact": "12% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 36,
+     "fact": "36 requests nearby",
+     "source_sha256": "f0f23e55e2e9edf36df1f2eb692fe96fb1d1e2a523286ea23ee4a83b24dbe1c8"
+    }
+   }
+  },
+  {
+   "pin": "0231K00296000000",
+   "address": "779 Wilkinsburg Av",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8755864,
+    40.457172
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 37.8,
+    "formula": "47.8 − 5 − 5 = 37.8",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0231K00296000000",
+   "slope": 40,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 40,
+     "fact": "40% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "2959db31d232412f5dab2b2f05711ffcb1675e050c5d7479b722458b47b043bf"
+    }
+   }
+  },
+  {
+   "pin": "0231F00284000000",
+   "address": "8451 Frankstown Ave",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8767395,
+    40.4579574
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 80,
+    "formula": "90 − 5 − 5 = 80",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00284000000",
+   "slope": 40,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 40,
+     "fact": "40% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 7,
+     "fact": "7 requests nearby",
+     "source_sha256": "8bbd75a29d1741f4991ebf1817ca7a9777f5fc29cd8b55932c43334ac63a0834"
+    }
+   }
+  },
+  {
+   "pin": "0231F00278000000",
+   "address": "8453 Frankstown Ave",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8765715,
+    40.4580593
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 20,
+    "formula": "30 − 5 − 5 = 20",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00278000000",
+   "slope": 55,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 55,
+     "fact": "55% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 8,
+     "fact": "8 requests nearby",
+     "source_sha256": "8bbd75a29d1741f4991ebf1817ca7a9777f5fc29cd8b55932c43334ac63a0834"
+    }
+   }
+  },
+  {
+   "pin": "0231F00276000000",
+   "address": "8455 Frankstown Ave",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8764405,
+    40.4581309
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 20,
+    "formula": "30 − 5 − 5 = 20",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00276000000",
+   "slope": 65,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 65,
+     "fact": "65% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 8,
+     "fact": "8 requests nearby",
+     "source_sha256": "8bbd75a29d1741f4991ebf1817ca7a9777f5fc29cd8b55932c43334ac63a0834"
+    }
+   }
+  },
+  {
+   "pin": "0175D00208000000",
+   "address": "620 Haverhill St",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8844623,
+    40.4525034
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 43.6,
+    "formula": "63.6 − 10 − 10 = 43.6",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0175D00208000000",
+   "slope": 72,
+   "checks": {
+    "permits": {
+     "status": "found",
+     "fact": "1 on record"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 72,
+     "fact": "72% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 70,
+     "fact": "70 requests nearby",
+     "source_sha256": "6c1544381d5d03a07858d41de7e5d311322fcd4437e18c733f1208a5adc1a6cd"
+    }
+   }
+  },
+  {
+   "pin": "0232A00350000000",
+   "address": "610 Fahnestock Ave",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8790303,
+    40.4523062
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 19.9,
+    "formula": "39.9 − 10 − 10 = 19.9",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0232A00350000000",
+   "slope": 86,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 86,
+     "fact": "86% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "88ed77ed8fd41c41b14c6238093acaf808e55b508ca084f31bb27107db902821"
+    }
+   }
+  },
+  {
+   "pin": "0232E00020000000",
+   "address": "526 Karl St",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.882701,
+    40.4499053
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 24.5,
+    "formula": "44.5 − 10 − 10 = 24.5",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0232E00020000000",
+   "slope": 99,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 99,
+     "fact": "99% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 79,
+     "fact": "79 requests nearby",
+     "source_sha256": "00119835f31aa22ec30a1803fef66ec7b10024c077e232c703f2f2775e165dc0"
+    }
+   }
+  },
+  {
+   "pin": "0173J00084000000",
+   "address": "1305 Lincoln Ave",
+   "district": "RM-M",
+   "hood": "Lincoln-Lemington-Belmar",
+   "ward": 12,
+   "ll": [
+    -79.8979356,
+    40.4665983
+   ],
+   "for_sale": true,
+   "status": "Available for Sale",
+   "verdict": {
+    "blocker": "fits",
+    "width": 71,
+    "formula": "91 − 10 − 10 = 71",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0173J00084000000",
+   "slope": 100,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 100,
+     "fact": "100% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 30,
+     "fact": "30 requests nearby",
+     "source_sha256": "8d29079cc9b326cc61e8a96bc6820c6d801131298405849fbe217e98fe864dc9"
+    }
+   }
+  },
+  {
+   "pin": "0125D00032000000",
+   "address": "1017 Geritt St",
+   "district": "R2-L",
+   "hood": "Homewood West",
+   "ward": 12,
+   "ll": [
+    -79.9018923,
+    40.4603436
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0125D00032000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "f659e97002f2ca901b39f499aed2e31132a41374d882cf74907323568e503a3f"
+    }
+   }
+  },
+  {
+   "pin": "0095A00151000000",
+   "address": "28 Ansonia Pl",
+   "district": "R2-L",
+   "hood": "Brookline",
+   "ward": 32,
+   "ll": [
+    -79.9980038,
+    40.3938361
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 40,
+    "formula": "50 − 5 − 5 = 40",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0095A00151000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 5,
+     "fact": "5 requests nearby",
+     "source_sha256": "aec71b3f5078ce89c893ec94a0b3187e629dc342e337137082835c9ee923ed9a"
+    }
+   }
+  },
+  {
+   "pin": "0175G00246000000",
+   "address": "440 Rosedale",
+   "district": "RM-M",
+   "hood": "Homewood South",
+   "ward": 13,
+   "ll": [
+    -79.8871968,
+    40.4488736
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 16,
+    "formula": "36 − 10 − 10 = 16",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0175G00246000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "24071b0c71f7d22c0476f79402fba86c6f43ea551a6f0d31ee429ade4548f150"
+    }
+   }
+  },
+  {
+   "pin": "0124R00232000000",
+   "address": "6717 Atwell St",
+   "district": "R2-L",
+   "hood": "Homewood West",
+   "ward": 12,
+   "ll": [
+    -79.9037178,
+    40.4630001
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0124R00232000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "found",
+     "open": 0,
+     "cases": 1,
+     "fact": "1 closed"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 56,
+     "fact": "56 requests nearby",
+     "source_sha256": "34a02a2fc9ad75f2c3c4888a4f8b34c74950fdf899ec63f197721f92a0b6395c"
+    }
+   }
+  },
+  {
+   "pin": "0124S00147000000",
+   "address": "6808 Lyric St",
+   "district": "R2-L",
+   "hood": "Homewood West",
+   "ward": 12,
+   "ll": [
+    -79.9032867,
+    40.4632416
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0124S00147000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "found",
+     "open": 0,
+     "cases": 1,
+     "fact": "1 closed"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 18,
+     "fact": "18 requests nearby",
+     "source_sha256": "e38df010781ee691c2bee0526252923269d604b317a8ab1ccbd77a3045bde632"
+    }
+   }
+  },
+  {
+   "pin": "0124S00311000000",
+   "address": "6933 Upland St",
+   "district": "R2-L",
+   "hood": "Homewood West",
+   "ward": 12,
+   "ll": [
+    -79.9005803,
+    40.4637181
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 21.3,
+    "formula": "31.3 − 5 − 5 = 21.3",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0124S00311000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 23,
+     "fact": "23 requests nearby",
+     "source_sha256": "a8b7a98b7618a2bb028a7d10111d232ae5b0cad5377913cd133270a1d54db511"
+    }
+   }
+  },
+  {
+   "pin": "0174L00100000000",
+   "address": "7611 Bennett St",
+   "district": "RM-M",
+   "hood": "Homewood South",
+   "ward": 13,
+   "ll": [
+    -79.8897311,
+    40.4551633
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 20,
+    "formula": "40 − 10 − 10 = 20",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174L00100000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 29,
+     "fact": "29 requests nearby",
+     "source_sha256": "353090e03a22765eebd72842788d40873b477bc6a076a94bba6b9d764c46955c"
+    }
+   }
+  },
+  {
+   "pin": "0174M00330000000",
+   "address": "7756 Baxter St",
+   "district": "RM-M",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8856885,
+    40.4558276
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 80.1,
+    "formula": "115.1 − 25 − 10 = 80.1",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0174M00330000000",
+   "slope": 0,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 29,
+     "fact": "29 requests nearby",
+     "source_sha256": "5595d644d014d68f14fea8cbe842b2ff99ad57d1f762341dd13a0e74fc399f4a"
+    }
+   }
+  },
+  {
+   "pin": "0174M00281000000",
+   "address": "7762 Calway St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8854521,
+    40.4565881
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 40,
+    "formula": "50 − 5 − 5 = 40",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174M00281000000",
+   "slope": 6,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 6,
+     "fact": "6% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 9,
+     "fact": "9 requests nearby",
+     "source_sha256": "eed8070a06a1b03eef45b7dd39c3bd6b37840d88041d6a5b98b94352a37331b2"
+    }
+   }
+  },
+  {
+   "pin": "0174H00314000000",
+   "address": "909 Snowden St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8859501,
+    40.4578109
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 48.2,
+    "formula": "58.2 − 5 − 5 = 48.2",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0174H00314000000",
+   "slope": 6,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 6,
+     "fact": "6% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "275e75887df0d3cb399265b98cec320b865775c82d1dc2e0a1bd065e3d438582"
+    }
+   }
+  },
+  {
+   "pin": "0010P00215000000",
+   "address": "La Place St",
+   "district": "RM-M",
+   "hood": "Middle Hill",
+   "ward": 5,
+   "ll": [
+    -79.9750665,
+    40.4446152
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 28,
+    "formula": "48 − 10 − 10 = 28",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0010P00215000000",
+   "slope": 7,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 7,
+     "fact": "7% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 4,
+     "fact": "4 requests nearby",
+     "source_sha256": "8e39efa8d95ea385acd11f374f93ae228d3c5469cd10638c1d94c18faf512a27"
+    }
+   }
+  },
+  {
+   "pin": "0125G00088000000",
+   "address": "6828 Frankstown Ave",
+   "district": "R2-L",
+   "hood": "Homewood West",
+   "ward": 12,
+   "ll": [
+    -79.9046257,
+    40.4578705
+   ],
+   "for_sale": false,
+   "status": "Permanent City Ownership",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 96.9,
+    "formula": "106.9 − 5 − 5 = 96.9",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0125G00088000000",
+   "slope": 8,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 8,
+     "fact": "8% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 53,
+     "fact": "53 requests nearby",
+     "source_sha256": "e951e8e0b6707448acfe415f509085f18e930abf48ac4ea70fcd69bedd290ddb"
+    }
+   }
+  },
+  {
+   "pin": "0009S00260000000",
+   "address": "43 Granville St",
+   "district": "RM-M",
+   "hood": "Crawford-Roberts",
+   "ward": 3,
+   "ll": [
+    -79.9829147,
+    40.4444194
+   ],
+   "for_sale": false,
+   "status": "Permanent City Ownership",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 165,
+    "formula": "200 − 10 − 25 = 165",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0009S00260000000",
+   "slope": 9,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 9,
+     "fact": "9% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 57,
+     "fact": "57 requests nearby",
+     "source_sha256": "aea2d3c7bed148836e979fce35c24281724e07e1070b2fa5b06407d978231827"
+    }
+   }
+  },
+  {
+   "pin": "0174M00175000000",
+   "address": "1028 S Wheeler St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8841085,
+    40.4573724
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174M00175000000",
+   "slope": 28,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 28,
+     "fact": "28% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "7ef7e9a3e995d87b371c1cc7de4cb8b41fbcc841c25be8fc21fd21474c654293"
+    }
+   }
+  },
+  {
+   "pin": "0231F00126000000",
+   "address": "263 Hansel St",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.878344,
+    40.4588449
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 20,
+    "formula": "30 − 5 − 5 = 20",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00126000000",
+   "slope": 28,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 28,
+     "fact": "28% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "787cf6a4b863f435fc95f1fc307f540423f895b2f0e3048a6e1b59c8b15bfbaf"
+    }
+   }
+  },
+  {
+   "pin": "0002D00368000000",
+   "address": "39 Vine St",
+   "district": "RM-M",
+   "hood": "Crawford-Roberts",
+   "ward": 3,
+   "ll": [
+    -79.9841456,
+    40.4406032
+   ],
+   "for_sale": false,
+   "status": "Permanent City Ownership",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 40.8,
+    "formula": "75.8 − 25 − 10 = 40.8",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0002D00368000000",
+   "slope": 28,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 28,
+     "fact": "28% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 27,
+     "fact": "27 requests nearby",
+     "source_sha256": "beb2b029dbf73425258f0df5440356be1c9780172dc334e5eea79dd150bdbcd7"
+    }
+   }
+  },
+  {
+   "pin": "0174H00127000000",
+   "address": "1066 Blackadore Ave",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8828287,
+    40.4581528
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174H00127000000",
+   "slope": 39,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 39,
+     "fact": "39% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 15,
+     "fact": "15 requests nearby",
+     "source_sha256": "d65a9cc39b52fe15b062ab7afbbcbb2ae53cd613ef2b404e36f8f07b1d6d95ec"
+    }
+   }
+  },
+  {
+   "pin": "0231F00123000000",
+   "address": "261 Hansel St",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8785088,
+    40.4588643
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 50,
+    "formula": "60 − 5 − 5 = 50",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00123000000",
+   "slope": 40,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 40,
+     "fact": "40% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "787cf6a4b863f435fc95f1fc307f540423f895b2f0e3048a6e1b59c8b15bfbaf"
+    }
+   }
+  },
+  {
+   "pin": "0231F00127000000",
+   "address": "265 Hansel St",
+   "district": "R2-L",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8782356,
+    40.4588324
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 20,
+    "formula": "30 − 5 − 5 = 20",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231F00127000000",
+   "slope": 49,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 49,
+     "fact": "49% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "787cf6a4b863f435fc95f1fc307f540423f895b2f0e3048a6e1b59c8b15bfbaf"
+    }
+   }
+  },
+  {
+   "pin": "0041E00317000000",
+   "address": "13 Berry St",
+   "district": "R2-L",
+   "hood": "Windgap",
+   "ward": 28,
+   "ll": [
+    -80.0640738,
+    40.4479635
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 48.8,
+    "formula": "108.8 − 30 − 30 = 48.8",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0041E00317000000",
+   "slope": 55,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 55,
+     "fact": "55% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 3,
+     "fact": "3 requests nearby",
+     "source_sha256": "a8b4c0cec4482bea9381d12605f6c4a475240466d74ecb33acf1410250da8844"
+    }
+   }
+  },
+  {
+   "pin": "0174M00182000000",
+   "address": "909 S Wheeler St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8847934,
+    40.4574368
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 22,
+    "formula": "32 − 5 − 5 = 22",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0174M00182000000",
+   "slope": 55,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 55,
+     "fact": "55% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "7ef7e9a3e995d87b371c1cc7de4cb8b41fbcc841c25be8fc21fd21474c654293"
+    }
+   }
+  },
+  {
+   "pin": "0010L00291000000",
+   "address": "2503 Centre Av",
+   "district": "RM-M",
+   "hood": "Middle Hill",
+   "ward": 5,
+   "ll": [
+    -79.9703155,
+    40.4459246
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 69.4,
+    "formula": "104.4 − 25 − 10 = 69.4",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0010L00291000000",
+   "slope": 65,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 65,
+     "fact": "65% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "14d8834de2581a55f4c9e13ad52063004c57df2628189307b0c2940319334cde"
+    }
+   }
+  },
+  {
+   "pin": "0231J00076000000",
+   "address": "1051 Lawndale St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8820689,
+    40.4572375
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231J00076000000",
+   "slope": 75,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 75,
+     "fact": "75% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 97,
+     "fact": "97 requests nearby",
+     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+    }
+   }
+  },
+  {
+   "pin": "0231J00078000000",
+   "address": "1048 Lawndale St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8820709,
+    40.4573491
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231J00078000000",
+   "slope": 78,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 78,
+     "fact": "78% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 96,
+     "fact": "96 requests nearby",
+     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+    }
+   }
+  },
+  {
+   "pin": "0231J00064000000",
+   "address": "1026 Lawndale St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.882057,
+    40.4565789
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0231J00064000000",
+   "slope": 79,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 79,
+     "fact": "79% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 55,
+     "fact": "55 requests nearby",
+     "source_sha256": "ae68c3cd4ad414057a4c03cbf283ea699286a0804d6a85f9745b65722e4e80b2"
+    }
+   }
+  },
+  {
+   "pin": "0174M00266000000",
+   "address": "7728 Calhoun Ave",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8867786,
+    40.4568879
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 16,
+    "formula": "26 − 5 − 5 = 16",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174M00266000000",
+   "slope": 80,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 80,
+     "fact": "80% steep"
+    },
+    "311": {
+     "status": "nothing",
+     "near": 0,
+     "fact": "none nearby",
+     "source_sha256": "e10882f0156d380e2af35bd5e76adbab654abf67c3069fc92623c33324b76ec6"
+    }
+   }
+  },
+  {
+   "pin": "0232A00188000000",
+   "address": "552 Haverhill St",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8807473,
+    40.4513522
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 40,
+    "formula": "60 − 10 − 10 = 40",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0232A00188000000",
+   "slope": 81,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "found",
+     "open": 0,
+     "cases": 1,
+     "fact": "1 closed"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 81,
+     "fact": "81% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 92,
+     "fact": "92 requests nearby",
+     "source_sha256": "6c1544381d5d03a07858d41de7e5d311322fcd4437e18c733f1208a5adc1a6cd"
+    }
+   }
+  },
+  {
+   "pin": "0232A00191000000",
+   "address": "556 Haverhill St",
+   "district": "RM-M",
+   "hood": "East Hills",
+   "ward": 13,
+   "ll": [
+    -79.8807946,
+    40.4515054
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 34,
+    "formula": "54 − 10 − 10 = 34",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0232A00191000000",
+   "slope": 89,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "found",
+     "open": 0,
+     "cases": 1,
+     "fact": "1 closed"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 89,
+     "fact": "89% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 89,
+     "fact": "89 requests nearby",
+     "source_sha256": "6c1544381d5d03a07858d41de7e5d311322fcd4437e18c733f1208a5adc1a6cd"
+    }
+   }
+  },
+  {
+   "pin": "0174H00312000000",
+   "address": "911 Mohler St",
+   "district": "R2-L",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8856174,
+    40.4578804
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 90.4,
+    "formula": "125.4 − 5 − 30 = 90.4",
+    "trust": "pencil",
+    "note": "no deed dimensions: mapped frontage (pencil)"
+   },
+   "link": "?view=city&type=two&pin=0174H00312000000",
+   "slope": 98,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 98,
+     "fact": "98% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 12,
+     "fact": "12 requests nearby",
+     "source_sha256": "4d79d2ef5c4cc86e8501b39413de5d9af89fefeaed9127c554be61477bdced55"
+    }
+   }
+  },
+  {
+   "pin": "0025H00125000000",
+   "address": "318 Downing St",
+   "district": "R2-H",
+   "hood": "Polish Hill",
+   "ward": 6,
+   "ll": [
+    -79.9673427,
+    40.4580089
+   ],
+   "for_sale": false,
+   "status": "Permanent City Ownership",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 30,
+    "formula": "40 − 5 − 5 = 30",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0025H00125000000",
+   "slope": 100,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 100,
+     "fact": "100% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 43,
+     "fact": "43 requests nearby",
+     "source_sha256": "09470c1fc6b4fe334c1a68e94a73e47bd1d31f0dcc3a6c19d3066a5299dec9a7"
+    }
+   }
+  },
+  {
+   "pin": "0174M00291000000",
+   "address": "949 Mohler St",
+   "district": "RM-M",
+   "hood": "Homewood North",
+   "ward": 13,
+   "ll": [
+    -79.8850233,
+    40.4562165
+   ],
+   "for_sale": false,
+   "status": "Hold for Study",
+   "verdict": {
+    "blocker": "ownership",
+    "width": 41.7,
+    "formula": "61.7 − 10 − 10 = 41.7",
+    "trust": "ink",
+    "note": "deed dimensions"
+   },
+   "link": "?view=city&type=two&pin=0174M00291000000",
+   "slope": 100,
+   "checks": {
+    "permits": {
+     "status": "nothing",
+     "fact": "none"
+    },
+    "violations": {
+     "status": "nothing",
+     "open": 0,
+     "cases": 0,
+     "fact": "no case"
+    },
+    "condemned": {
+     "status": "nothing",
+     "fact": "not listed"
+    },
+    "liens": {
+     "status": "nothing",
+     "open": 0,
+     "total": 0.0,
+     "fact": "none open"
+    },
+    "undermining": {
+     "status": "nothing",
+     "percent": 0,
+     "fact": "not undermined"
+    },
+    "slope": {
+     "status": "found",
+     "percent": 100,
+     "fact": "100% steep"
+    },
+    "311": {
+     "status": "found",
+     "near": 15,
+     "fact": "15 requests nearby",
+     "source_sha256": "4d79d2ef5c4cc86e8501b39413de5d9af89fefeaed9127c554be61477bdced55"
+    }
+   }
+  }
+ ]
+}

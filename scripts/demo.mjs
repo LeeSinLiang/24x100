@@ -802,6 +802,32 @@ const V6 = [
     },
   },
   {
+    id: 'B21',
+    name: 'shortlist',
+    // Tonight's shortlist (agents/shortlist.py): every City lot re-checked, and the ones left: the count, the map with
+    // them lit, one row's checks.
+    q: 'view=shortlist',
+    run: async (p, c) => {
+      cues.B21 = {};
+      await p.waitForSelector('[data-shortlist-count]', { timeout: 8000 });
+      cues.B21.count_shown = at(c);
+      await mark(p, 'B21', 'shortlist_count', p.locator('[data-shortlist-count]').first(), c, "Tonight's shortlist: 42 City lots (a two-unit house fits today, nothing found against them)", { tight: true });
+      await c.until(0.6);
+      await hoverSlow(p, p.locator('[data-shortlist-count]'), { fx: 0.5, fy: 0.9, rest: 0.8 });
+      await p.waitForSelector('[data-shortlist-map] canvas', { timeout: 15000 });
+      await c.until(2.6);
+      await mark(p, 'B21', 'shortlist_map', p.locator('[data-shortlist-map]').first(), c, 'the map: the shortlisted lots lit and ringed, the rest dimmed');
+      const m = await p.locator('[data-shortlist-map]').first().boundingBox();
+      if (m) await glide(p, m.x + m.width * 0.8, m.y + m.height * 0.3, { steps: 30, rest: 0.8 });
+      await c.until(5.0);
+      const row = p.locator('[data-shortlist-row]').first();
+      await mark(p, 'B21', 'shortlist_row', row, c, "one row: 156 Meadow St, Larimer, R2-H, for sale: cases ✓ condemned ✓ liens ✓ mines ✓ slope ✓, 311 requests nearby");
+      const r = await row.boundingBox();
+      if (r) await glide(p, r.x + r.width * 0.35, r.y + r.height * 0.75, { steps: 26, rest: 0.6 });
+      await c.until(8 + HOLD);
+    },
+  },
+  {
     id: 'B15',
     name: 'what-if',
     // The rule what-ifs (spec §0.16): S1's sentence struck through; a click lights its City lots on the map.

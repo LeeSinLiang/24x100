@@ -69,6 +69,7 @@ if (existsSync(work)) {
           assessed: l.assess?.lotarea ?? null,
           mapped: Math.round(l.mapped_area),
           slope25: l.slope25 ?? 0,
+          undermined: l.undermined ?? 0,
         },
         ring(l.poly),
         l.neighbors.map((n) => ({ pin: n.pin, ring: openRing(ring(n.poly)), built: n.built, addr: n.addr, lot: null })),
@@ -81,7 +82,7 @@ if (existsSync(work)) {
       out.push({
         pin: l.pin, addr: l.addr, hood: l.hood ?? 'Neighborhood not recorded', ward: l.ward, zone: l.zone, status: l.city.status, status_updated: l.city.status_updated, ll: l.ll,
         deed: l.deed, assessed: l.assess?.lotarea ?? null, mapped: Math.round(l.mapped_area), front_len: null, flank: [], edges_ok: false,
-        edge_note: `Edges not computed: ${String((e as Error).message).slice(0, 80)}`, slope25: l.slope25 ?? 0,
+        edge_note: `Edges not computed: ${String((e as Error).message).slice(0, 80)}`, slope25: l.slope25 ?? 0, undermined: l.undermined ?? 0,
       });
     }
   }

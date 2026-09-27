@@ -64,8 +64,10 @@ def read_engine(st: S) -> S:
     fb = r.get("first_blocker")
     w = r.get("width") or {}
     words = f"{r['headline']} First blocker: {fb['label'].lower()} ({w.get('formula')} ft, against a {r['proposal_width']} ft plan)." if fb else r["headline"]
-    c.step("steward", "tool", f"The engine read the lot. {words} Money: {r['verdict']['words']}.", tool="engine:scripts/case-engine.ts lot",
-           input={"pin": lot["pin"], "type": r["type"]}, sources=[_src_file(f"data/blocks/{lot['block']}.json"), _src_file("data/rules/reviews.json")])
+    money = f" Money: {r['verdict']['words']}." if r.get("money") else ""
+    src = f"data/blocks/{lot['block']}.json" if lot.get("block") else "data/city/lots.json"
+    c.step("steward", "tool", f"The engine read the lot{' (the citywide reading: no block detail, so no plan or money screen)' if r.get('source') == 'citywide' else ''}. {words}{money}",
+           tool="engine:scripts/case-engine.ts lot", input={"pin": lot["pin"], "type": r["type"]}, sources=[_src_file(src), _src_file("data/rules/reviews.json")])
     return st
 
 
@@ -195,7 +197,21 @@ def drafts(st: S) -> S:
     for L in r.get("letters", []):
         c.drafts.append({"kind": "letter", "to": L["to"], "subject": L["subject"], "text": L["markdown"], "numbers_ok": L["numbers_ok"], "by": "engine (engine/src/inquiry.ts)", "gate": "send"})
         c.gates.append({"kind": "send", "what": f"Letter to {L['tab']}: {L['about']}", "status": "waiting"})
-    c.step("steward", "draft", f"Drafted {len(r.get('letters', []))} letters from the engine's reading, one per office; none is sent (send gates).", input={"letters": [L["office"] for L in r.get("letters", [])], "count": len(r.get("letters", []))})
+    if r.get("letters"):
+        c.step("steward", "draft", f"Drafted {len(r.get('letters', []))} letters from the engine's reading, one per office; none is sent (send gates).", input={"letters": [L["office"] for L in r.get("letters", [])], "count": len(r.get("letters", []))})
+    elif (r["lot"].get("city") or {}).get("status"):
+        lot = r["lot"]
+        # No per-office letters without block detail: the next move is the inquiry to City Real Estate, from engine facts.
+        cty = lot["city"]
+        formula = (r.get("width") or {}).get("formula")
+        updated = f" (last updated {cty['status_updated']})" if cty.get("status_updated") else ""
+        fits = f": {formula} ft" if formula else ""
+        text = (f"To City Real Estate, City of Pittsburgh:\n\nWe are screening {lot['addr']} ({lot['hood']}), a City-owned lot listed "
+                f"\"{cty['status']}\"{updated}, for a {r['type_name']}. Under the {lot['zone']} rules it fits{fits}. Could you tell us the "
+                "asking price, the disposition process and anything we should know about the lot? This is an inquiry, not an offer.\n")
+        c.drafts.append({"kind": "letter", "to": "City Real Estate, City of Pittsburgh", "subject": f"Inquiry: {lot['addr']} ({lot['hood']})", "text": text, "numbers_ok": True, "by": "rule template", "gate": "send"})
+        c.gates.append({"kind": "send", "what": f"Inquiry to City Real Estate about {lot['addr']}", "status": "waiting"})
+        c.step("steward", "draft", "Drafted the inquiry to City Real Estate from the engine's reading; not sent (send gate).", input={"letters": ["real_estate"]})
     for rule in r.get("rules", []):
         if rule["state"] != "ink":
             c.gates.append({"kind": "sign", "what": f"{rule['id']} (§{rule['section']}) is pencil: a person signs it before the case relies on it", "status": "waiting"})

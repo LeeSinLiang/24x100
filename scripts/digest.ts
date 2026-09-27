@@ -128,7 +128,15 @@ function main() {
   const changes = diffStates(before, now, records);
   const appUrl = process.env.APP_URL || 'https://24x100.example/';
   const watched = Object.keys(now.lots).length;
-  const note = `${watched} City lots watched. Compared with ${before ? before.label : 'nothing (the first digest)'}.${appUrl.includes('example') ? ' Links point at a placeholder until the app is deployed (APP_URL).' : ''}`;
+  // Tonight's shortlist (agents/shortlist.py): the lots that joined it since the run before.
+  const hist = J<{ run_at: string; shortlist: string[]; counts: { shortlist: number; swept: number } }[]>(readAt('data/shortlist/history.json'), []);
+  const last = hist[hist.length - 1];
+  const prevRun = hist.length > 1 ? new Set(hist[hist.length - 2].shortlist) : null;
+  const newOnShortlist = last && prevRun ? last.shortlist.filter((p) => !prevRun.has(p)).length : 0;
+  const shortlistLine = last
+    ? ` Tonight's shortlist (${appUrl.replace(/\/?$/, '/')}?view=shortlist): ${last.counts.shortlist} City lots where a two-unit house fits with nothing found against them, all ${last.counts.swept.toLocaleString('en-US')} re-checked${prevRun ? `; ${newOnShortlist} new since the run before` : ''}.`
+    : '';
+  const note = `${watched} City lots watched. Compared with ${before ? before.label : 'nothing (the first digest)'}.${shortlistLine}${appUrl.includes('example') ? ' Links point at a placeholder until the app is deployed (APP_URL).' : ''}`;
   const msg = renderDigest(changes, { appUrl, watched, note, at });
   mkdirSync(OUT, { recursive: true });
   writeFileSync(`${OUT}/outbox.json`, JSON.stringify({ ...msg, meta: { at, changes: changes.length, watched, unwatchable, compared_with: before?.label ?? null } }, null, 1) + '\n');
@@ -142,8 +150,8 @@ function main() {
     console.log(channelsWords());
     return;
   }
-  if (!changes.length && !flag('always')) {
-    console.log('\nNo change on the watched lots: nothing to send.');
+  if (!changes.length && !newOnShortlist && !flag('always')) {
+    console.log('\nNo change on the watched lots and nothing new on the shortlist: nothing to send.');
     return;
   }
   // The Python sender reads the credentials from .env; they never pass through this process's output.

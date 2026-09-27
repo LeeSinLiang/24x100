@@ -53,7 +53,7 @@ def pick(model: Any, reading: dict[str, Any], case: Case) -> tuple[list[str], li
     system = ("You are the due-diligence agent of 24x100, a tool for Pittsburgh's City-owned vacant lots. Pick the free public "
               "checks to run on this lot before anyone spends money: they cost nothing, so leave one out only if it cannot apply, "
               "and say why. Pick which paid studies are worth drafting a request for. Use only the keys given. Never state a number.")
-    user = (f"Lot: {lot['addr']} (lot {lot['lot']}, block {lot['block']}, {lot['hood']}), zoned {lot['zone']}, vacant, "
+    user = (f"Lot: {lot['addr']} ({lot['hood']}), zoned {lot['zone']}, vacant, "
             f"City sale status: {(lot.get('city') or {}).get('status')}. Goal: a {reading['type_name']}.\n"
             f"Free checks: {FREE}\nPaid studies: { {k: v[0] for k, v in PAID.items()} }")
     try:
@@ -88,10 +88,10 @@ def check(key: str, reading: dict[str, Any], case: Case, http: Http) -> dict[str
     pin = lot["pin"]
     title = FREE[key]
     if key in ("undermining", "slope"):
-        f = Path(REPO / "data" / "blocks" / f"{lot['block']}.json")
-        body = f.read_bytes()
+        rel = f"data/blocks/{lot['block']}.json" if lot.get("block") else "data/city/lots.json"
+        body = Path(REPO / rel).read_bytes()
         src = {"url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/" + ("PGHWebUndermined" if key == "undermining" else "PGHWebSlope25") + "/FeatureServer/0",
-               "pulled_at": lot.get("pulled") or "", "sha256": hashlib.sha256(body).hexdigest(), "via": f"data/blocks/{lot['block']}.json"}
+               "pulled_at": lot.get("pulled") or "", "sha256": hashlib.sha256(body).hexdigest(), "via": rel}
         frac = float(lot.get("undermined" if key == "undermining" else "slope25") or 0)
         pct = round(frac * 100)
         layer = "undermined-areas layer (old mines)" if key == "undermining" else "25%+ slope layer (a derived threshold, not the steep-slope overlay)"
@@ -164,7 +164,8 @@ def check(key: str, reading: dict[str, Any], case: Case, http: Http) -> dict[str
 def paid_request(key: str, reading: dict[str, Any]) -> dict[str, Any]:
     what, who, why = PAID[key]
     lot = reading["lot"]
-    text = (f"Request for a quote: {what} for {lot['addr']} (lot {lot['lot']}, block {lot['block']}, {lot['hood']}), "
+    where = f"lot {lot['lot']}, block {lot['block']}, {lot['hood']}" if lot.get("block") else lot["hood"]
+    text = (f"Request for a quote: {what} for {lot['addr']} ({where}), "
             f"a vacant City-owned lot we are screening for a {reading['type_name']}. It would tell us {why}. "
             f"Please send a price and a turnaround time. We have not committed to the purchase.")
     return {"kind": "request", "to": who, "subject": f"Quote request: {what}", "text": text, "by": "rule template", "gate": "spend"}

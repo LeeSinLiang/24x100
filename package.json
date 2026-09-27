@@ -16,6 +16,7 @@
     "digest": "tsx scripts/digest.ts",
     "steward": "uv run python -m agents steward",
     "agents": "uv run python -m agents",
+    "shortlist": "uv run python -m agents.shortlist",
     "extract": "uv run python -m extract",
     "test": "vitest run && uv run pytest -q",
     "test:engine": "vitest run",

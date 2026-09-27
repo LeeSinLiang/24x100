@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TemplateId } from '@engine/types';
 
-export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case' | 'brief';
+export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case' | 'brief' | 'shortlist';
 
 /** The workspace's centre canvas (spec §0.15). Defaults: city → map; lot and block → plan. */
 export type Canvas = 'map' | 'plan' | 'graph' | 'table';
@@ -56,7 +56,7 @@ export interface UrlState {
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
-const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case', 'brief'];
+const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case', 'brief', 'shortlist'];
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
 const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
 export const WHATIFS = ['S1', 'S2', 'S3'] as const;

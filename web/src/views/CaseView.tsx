@@ -276,7 +276,7 @@ export function CaseView({ s, audit }: ViewProps) {
         <p className="label case-kicker">Case file · the agents’ run · {whenET(c.run_at)}</p>
         <h1 className="case-title">
           {c.lot.link ? <a href={c.lot.link}>{c.lot.addr}</a> : c.lot.addr}
-          {c.lot.lot ? <span className="case-sub"> · lot {c.lot.lot} · goal: {goal}</span> : null}
+          {c.lot.pin !== 'watchlist' ? <span className="case-sub">{c.lot.lot ? ` · lot ${c.lot.lot}` : c.lot.hood ? ` · ${c.lot.hood}` : ''} · goal: {goal}</span> : null}
         </h1>
         <p className="case-stamps">
           {model ? <VerdictStamp headline={model.verdict.headline} refusal={model.result.refusal?.code} /> : null}

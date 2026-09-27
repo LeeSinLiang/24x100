@@ -9,6 +9,7 @@ const CHIPS: { id: string; label: string; to: Partial<UrlState> & { view: UrlSta
   { id: 'mahon', label: '2241 Mahon St: why 4 ft', to: { view: 'lot', block: '10K', lot: '25', lots: [], type: 'two', tab: null, drawer: null, pin: null, run: null, layer: null, whatif: null } },
   { id: 'combine', label: 'Combine to fit', to: { view: 'city', type: 'three', layer: 'assemble', run: null, pin: null, tab: null, whatif: null } },
   { id: 'whatif', label: 'Rule what-ifs', to: { view: 'city', type: 'two', tab: 'whatif', whatif: 'S1', layer: null, run: null, pin: null } },
+  { id: 'shortlist', label: 'Shortlist', to: { view: 'shortlist', layer: null, run: null, pin: null, tab: null, whatif: null } },
 ];
 
 export function StartHere({ s, update }: { s: UrlState; update: Update }) {

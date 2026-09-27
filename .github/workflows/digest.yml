@@ -1,11 +1,13 @@
-# Nightly watchlist digest for 24×100: when a watched lot's records, rules or map verdict change on main (a merged
-# data refresh, published reviews), it posts to Slack and/or sends an email, then commits the state it sent
-# (data/digest/last.json) so each change pings once. OFF until a channel is set: with no SLACK_WEBHOOK_URL, no
-# RESEND_API_KEY and no SMTP_HOST secret it stops after the first step and sends nothing. Secrets (Settings → Secrets
-# and variables → Actions): SLACK_WEBHOOK_URL; RESEND_API_KEY, DIGEST_TO and optionally DIGEST_FROM for email through
-# Resend (its test sender delivers only to the account owner's address); SMTP_* only as a fallback. They are never
-# printed. It never sends anything to the City.
-name: watchlist-digest
+# Nightly for 24×100: refresh the public data, re-check every City lot (tonight's shortlist), then the watchlist digest.
+#   1. refresh    re-pull the public datasets and record what changed (data/refresh/latest.json, shown in pencil)
+#   2. shortlist  the due-diligence agent over all City-owned vacant lots (agents/shortlist.py): WPRDC in PIN batches
+#                 with field whitelists (never an owner's name), no model, about 100 requests; data/shortlist/
+#   3. commit     the refresh record and the shortlist, so the site shows tonight's run
+#   4. digest     Slack and/or email, ONLY when a channel's secret is set (SLACK_WEBHOOK_URL; RESEND_API_KEY and
+#                 DIGEST_TO, DIGEST_FROM optional; SMTP_* as a fallback); it reports watched lots that changed and the
+#                 lots new on the shortlist. Secrets are never printed. It never sends anything to the City.
+# A failed refresh doesn't stop the shortlist (the step shows as failed in the run). Not yet run on GitHub.
+name: nightly
 on:
   workflow_dispatch:
   schedule:
@@ -13,8 +15,9 @@ on:
 permissions:
   contents: write
 jobs:
-  digest:
+  nightly:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
@@ -26,7 +29,29 @@ jobs:
       DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
       APP_URL: ${{ vars.APP_URL }}
     steps:
-      - name: Off until a channel is set
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: npm
+      - uses: astral-sh/setup-uv@v5
+      - run: npm ci && uv sync
+      - name: Refresh the public data (record what changed)
+        continue-on-error: true
+        run: uv run python -m pipeline refresh
+      - name: Tonight's shortlist (every City lot re-checked; no model)
+        run: npm run shortlist
+      - name: Commit tonight's run
+        run: |
+          git config user.name "24x100 nightly"
+          git config user.email "nightly@users.noreply.github.com"
+          git add data/shortlist
+          if [ -f data/refresh/latest.json ]; then git add data/refresh/latest.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Nightly: tonight's shortlist and the data refresh"
+            git push
+          fi
+      - name: Is a digest channel set?
         id: gate
         run: |
           if [ -z "$SLACK_WEBHOOK_URL" ] && [ -z "$RESEND_API_KEY" ] && [ -z "$SMTP_HOST" ]; then
@@ -35,16 +60,6 @@ jobs:
           else
             echo "on=true" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/checkout@v4
-        if: steps.gate.outputs.on == 'true'
-      - uses: actions/setup-node@v4
-        if: steps.gate.outputs.on == 'true'
-        with:
-          node-version: 22
-      - uses: astral-sh/setup-uv@v5
-        if: steps.gate.outputs.on == 'true'
-      - if: steps.gate.outputs.on == 'true'
-        run: npm ci && uv sync
       - name: Build and send the digest (only if something changed)
         if: steps.gate.outputs.on == 'true'
         run: npx tsx scripts/digest.ts --send
@@ -52,8 +67,6 @@ jobs:
         if: steps.gate.outputs.on == 'true'
         run: |
           if [ -n "$(git status --porcelain data/digest/last.json)" ]; then
-            git config user.name "24x100 digest"
-            git config user.email "digest@users.noreply.github.com"
             git add data/digest/last.json
             git commit -m "Digest sent: record the state"
             git push

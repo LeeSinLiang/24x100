@@ -1,0 +1,815 @@
+{
+ "id": "0232A00260000000",
+ "goal": "a two-unit house",
+ "lot": {
+  "pin": "0232A00260000000",
+  "addr": "8306 Nimick Pl",
+  "lot": null,
+  "block": null,
+  "hood": "East Hills",
+  "zone": "RM-M",
+  "link": "?view=city&type=two&pin=0232A00260000000"
+ },
+ "run_at": "2026-09-27T18:24:17Z",
+ "model": {
+  "id": "gemini-flash-lite-latest",
+  "key": "a team member's key, free tier",
+  "planned_by": "model",
+  "why": "ok"
+ },
+ "tokens": {
+  "in": 856,
+  "out": 480,
+  "calls": 3
+ },
+ "cost": {
+  "usd_paid_rate": 0.001457,
+  "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
+ },
+ "plan": [
+  {
+   "agent": "due-diligence",
+   "what": "Investigate site conditions for the two-unit house proposal.",
+   "why": "We must confirm physical readiness before proceeding."
+  },
+  {
+   "agent": "watch",
+   "what": "Monitor neighborhood feedback regarding the new construction.",
+   "why": "Community awareness is vital for project success."
+  },
+  {
+   "agent": "verifier",
+   "what": "Review all gathered data to ensure compliance.",
+   "why": "The verifier must always run last to validate the process."
+  }
+ ],
+ "steps": [
+  {
+   "agent": "steward",
+   "n": 1,
+   "action": "tool",
+   "tool": "engine:scripts/case-engine.ts lot",
+   "input": {
+    "pin": "0232A00260000000",
+    "type": "two"
+   },
+   "summary": "The engine read the lot (the citywide reading: no block detail, so no plan or money screen). 8306 Nimick Pl, East Hills, zoned RM-M: fits as of right (59.5 ft buildable) (pencil), 94.5 − 10 − 25 = 59.5 ft.",
+   "sources": [
+    {
+     "url": "data/city/lots.json",
+     "pulled_at": "2026-09-27T18:24:17Z",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b"
+    },
+    {
+     "url": "data/rules/reviews.json",
+     "pulled_at": "2026-09-27T18:24:17Z",
+     "sha256": "4459a17317ead9d9c3ab18cb173c6ec34d3f58d4c61c450d6d538fdd28af48b1"
+    }
+   ],
+   "ok": true,
+   "t": 0.01
+  },
+  {
+   "agent": "steward",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "goal": "two-unit house"
+   },
+   "summary": "Planned with gemini-3.5-flash-lite: due-diligence; watch; verifier.",
+   "sources": [],
+   "ok": true,
+   "t": 1.07,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 188,
+    "out": 93
+   },
+   "cost_usd_paid_rate": 0.000289
+  },
+  {
+   "agent": "due-diligence",
+   "n": 3,
+   "action": "plan",
+   "input": {
+    "checks": [
+     "permits",
+     "violations",
+     "condemned",
+     "liens",
+     "311",
+     "undermining",
+     "slope"
+    ],
+    "why": {
+     "permits": "Check if any prior work exists on the vacant parcel.",
+     "violations": "Ensure no open code enforcement issues are attached to the land.",
+     "condemned": "Verify the lot is not on any hazardous structures or condemned lists.",
+     "liens": "Confirm clear title regarding unpaid municipal taxes.",
+     "311": "Assess neighborhood service requests for dumping or drainage issues nearby.",
+     "undermining": "Determine if historic coal mining activity affects the subsurface.",
+     "slope": "Evaluate topography for the feasibility of building a two-unit house."
+    },
+    "skipped": {},
+    "paid": [
+     "survey",
+     "geotech"
+    ],
+    "count": {
+     "picked": 7,
+     "free": 7,
+     "paid": 2
+    }
+   },
+   "summary": "The model picked the free checks to run and the paid studies to draft.",
+   "sources": [],
+   "ok": true,
+   "t": 2.28,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 316,
+    "out": 218
+   },
+   "cost_usd_paid_rate": 0.00064
+  },
+  {
+   "agent": "due-diligence",
+   "n": 4,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:permits",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220232A00260000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:19Z",
+     "sha256": "eec5441e3d59008c76eeed3a0c1f114b744e6650e56dcbbe4fd3e75ddc4c2b65",
+     "via": "data/cases/raw/0232A00260000000/permits.json",
+     "dataset": "https://data.wprdc.org/dataset/pli-permits"
+    }
+   ],
+   "ok": true,
+   "t": 2.61
+  },
+  {
+   "agent": "due-diligence",
+   "n": 5,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:violations",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220232A00260000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:20Z",
+     "sha256": "94336b00d5bb3cd465f01232ef64e7cce6a9ce63c4a09b59c79b9708e3952ec0",
+     "via": "data/cases/raw/0232A00260000000/violations.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+    }
+   ],
+   "ok": true,
+   "t": 3.03
+  },
+  {
+   "agent": "due-diligence",
+   "n": 6,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:condemned",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220232A00260000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:20Z",
+     "sha256": "3f040d68a2daddc19b91a34d7b2c5962b404dc2cbed12c066824831ee1077cf6",
+     "via": "data/cases/raw/0232A00260000000/condemned.json",
+     "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+    }
+   ],
+   "ok": true,
+   "t": 3.46
+  },
+  {
+   "agent": "due-diligence",
+   "n": 7,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:liens",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220232A00260000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T18:24:21Z",
+     "sha256": "5502aca952f73d790a22589a159763b059b23706632b3a23c3ea06abf59cda13",
+     "via": "data/cases/raw/0232A00260000000/liens.json",
+     "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+    }
+   ],
+   "ok": true,
+   "t": 4.19
+  },
+  {
+   "agent": "due-diligence",
+   "n": 8,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:311",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Found: 79 requests to 311 within about 80 m (Potholes, Request for Asphalt Windrow/Curb); the latest on 2025-08-25: Refuse or Recycling Violations.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22NIMICK+PL%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T18:24:22Z",
+     "sha256": "1e494e51a2724a2abe68b93af5b917dec6704e6ac45686f055c3a9aff14c624c",
+     "via": "data/cases/raw/0232A00260000000/311.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+    }
+   ],
+   "ok": true,
+   "t": 5.16
+  },
+  {
+   "agent": "due-diligence",
+   "n": 9,
+   "action": "tool",
+   "tool": "city.layer:undermining",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.17
+  },
+  {
+   "agent": "due-diligence",
+   "n": 10,
+   "action": "tool",
+   "tool": "city.layer:slope",
+   "input": {
+    "pin": "0232A00260000000"
+   },
+   "summary": "Found: 6% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+     "pulled_at": "2026-09-26",
+     "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+     "via": "data/city/lots.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.17
+  },
+  {
+   "agent": "due-diligence",
+   "n": 11,
+   "action": "draft",
+   "input": {
+    "study": "survey"
+   },
+   "summary": "Drafted a quote request for a boundary survey; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.17
+  },
+  {
+   "agent": "due-diligence",
+   "n": 12,
+   "action": "draft",
+   "input": {
+    "study": "geotech"
+   },
+   "summary": "Drafted a quote request for a geotechnical report; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.17
+  },
+  {
+   "agent": "steward",
+   "n": 13,
+   "action": "draft",
+   "input": {
+    "letters": [
+     "real_estate"
+    ]
+   },
+   "summary": "Drafted the inquiry to City Real Estate from the engine's reading; not sent (send gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.17
+  },
+  {
+   "agent": "steward",
+   "n": 14,
+   "action": "draft",
+   "input": {},
+   "summary": "Wrote the case file's summary from the engine's reading and the findings.",
+   "sources": [],
+   "ok": true,
+   "t": 6.35,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 352,
+    "out": 169
+   },
+   "cost_usd_paid_rate": 0.000528
+  },
+  {
+   "agent": "verifier",
+   "n": 15,
+   "action": "verify",
+   "input": {},
+   "summary": "Verified: 8 quotes verbatim in the saved code, 38 numbers traced, 9 findings sourced, no name-like field.",
+   "sources": [],
+   "ok": true,
+   "t": 6.4
+  },
+  {
+   "agent": "steward",
+   "n": 16,
+   "action": "gate",
+   "input": {
+    "send": 1,
+    "spend": 2,
+    "sign": 1
+   },
+   "summary": "Waiting on a person: 1 letters to send, 2 paid studies to approve, 1 rules to sign.",
+   "sources": [],
+   "ok": true,
+   "t": 6.4
+  }
+ ],
+ "findings": [
+  {
+   "check": "permits",
+   "title": "PLI permits on this parcel: a recent permit means work, or a building, is coming",
+   "status": "nothing",
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220232A00260000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:19Z",
+    "sha256": "eec5441e3d59008c76eeed3a0c1f114b744e6650e56dcbbe4fd3e75ddc4c2b65",
+    "via": "data/cases/raw/0232A00260000000/permits.json",
+    "dataset": "https://data.wprdc.org/dataset/pli-permits"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "violations",
+   "title": "code-enforcement case files on this parcel (weeds, debris, dangerous structures)",
+   "status": "nothing",
+   "summary": "Checked: no code-enforcement case file on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220232A00260000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:20Z",
+    "sha256": "94336b00d5bb3cd465f01232ef64e7cce6a9ce63c4a09b59c79b9708e3952ec0",
+    "via": "data/cases/raw/0232A00260000000/violations.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "condemned",
+   "title": "whether the parcel is on the City's condemned or dead-end list",
+   "status": "nothing",
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220232A00260000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:20Z",
+    "sha256": "3f040d68a2daddc19b91a34d7b2c5962b404dc2cbed12c066824831ee1077cf6",
+    "via": "data/cases/raw/0232A00260000000/condemned.json",
+    "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "liens",
+   "title": "unsatisfied tax liens on this parcel (they follow the land)",
+   "status": "nothing",
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220232A00260000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T18:24:21Z",
+    "sha256": "5502aca952f73d790a22589a159763b059b23706632b3a23c3ea06abf59cda13",
+    "via": "data/cases/raw/0232A00260000000/liens.json",
+    "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "311",
+   "title": "311 requests on the street near the lot (dumping, drainage, road work)",
+   "status": "found",
+   "summary": "Found: 79 requests to 311 within about 80 m (Potholes, Request for Asphalt Windrow/Curb); the latest on 2025-08-25: Refuse or Recycling Violations.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22East+Hills%22%2C+%22street%22%3A+%22NIMICK+PL%22%7D&limit=200&sort=created_date_et+desc",
+    "pulled_at": "2026-09-27T18:24:22Z",
+    "sha256": "1e494e51a2724a2abe68b93af5b917dec6704e6ac45686f055c3a9aff14c624c",
+    "via": "data/cases/raw/0232A00260000000/311.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+   },
+   "records": [
+    {
+     "case_number": "25-00066658",
+     "status": "Closed",
+     "subject": "Refuse or Recycling Violations",
+     "created_date_et": "2025-08-25T11:41:09",
+     "street": "NIMICK PL",
+     "latitude": "40.45082",
+     "longitude": "-79.88027"
+    },
+    {
+     "case_number": "99-00809066",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2025-01-15T10:31:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00059182",
+     "status": "Closed",
+     "subject": "Street Cleaning/Sweeping",
+     "created_date_et": "2024-09-06T14:30:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00036663",
+     "status": "Closed",
+     "subject": "Street Cleaning/Sweeping",
+     "created_date_et": "2024-05-28T16:29:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "55-00007431",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2024-05-28T16:28:00",
+     "street": "NIMICK PL",
+     "latitude": "40.4509",
+     "longitude": "-79.87971"
+    },
+    {
+     "case_number": "99-00033178",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2024-05-20T12:08:00",
+     "street": "NIMICK PL",
+     "latitude": "40.451",
+     "longitude": "-79.87852"
+    },
+    {
+     "case_number": "99-00011557",
+     "status": "Closed",
+     "subject": "Utility Cut - PWSA",
+     "created_date_et": "2024-02-19T15:57:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00007525",
+     "status": "Closed",
+     "subject": "Traffic and Speeding Enforcement",
+     "created_date_et": "2024-02-05T08:46:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45094",
+     "longitude": "-79.87888"
+    },
+    {
+     "case_number": "99-00125769",
+     "status": "Closed",
+     "subject": "Potholes",
+     "created_date_et": "2023-06-27T10:23:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00119266",
+     "status": "Closed",
+     "subject": "Traffic Calming",
+     "created_date_et": "2023-06-02T14:13:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45094",
+     "longitude": "-79.87888"
+    },
+    {
+     "case_number": "99-00187702",
+     "status": "Closed",
+     "subject": "Snow/Ice Removal",
+     "created_date_et": "2022-02-07T11:27:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00371650",
+     "status": "Closed",
+     "subject": "Blocked City Steps",
+     "created_date_et": "2021-08-20T14:39:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00345060",
+     "status": "Closed",
+     "subject": "Request for Asphalt Windrow/Curb",
+     "created_date_et": "2021-06-21T10:01:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45083",
+     "longitude": "-79.88028"
+    },
+    {
+     "case_number": "99-00341233",
+     "status": "Closed",
+     "subject": "Catch Basins, Grates, and Sewers",
+     "created_date_et": "2021-06-21T10:01:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45083",
+     "longitude": "-79.88028"
+    },
+    {
+     "case_number": "99-00336250",
+     "status": "Closed",
+     "subject": "Request for Asphalt Windrow/Curb",
+     "created_date_et": "2021-06-14T10:44:00",
+     "street": "NIMICK PL",
+     "latitude": "40.4505",
+     "longitude": "-79.88011"
+    },
+    {
+     "case_number": "99-00340867",
+     "status": "Closed",
+     "subject": "Request for Asphalt Windrow/Curb",
+     "created_date_et": "2021-06-14T10:44:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45083",
+     "longitude": "-79.88028"
+    },
+    {
+     "case_number": "99-00333350",
+     "status": "Closed",
+     "subject": "Signage Requests",
+     "created_date_et": "2021-06-03T13:32:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00315932",
+     "status": "Closed",
+     "subject": "Paving Request or Concern",
+     "created_date_et": "2021-04-26T13:53:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00866393",
+     "status": "Closed",
+     "subject": "Potholes",
+     "created_date_et": "2021-04-20T09:25:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45079",
+     "longitude": "-79.87971"
+    },
+    {
+     "case_number": "99-00313427",
+     "status": "Closed",
+     "subject": "Paving Request or Concern",
+     "created_date_et": "2021-04-19T11:08:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45069",
+     "longitude": "-79.88011"
+    },
+    {
+     "case_number": "99-00312385",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2021-04-15T13:29:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45066",
+     "longitude": "-79.88036"
+    },
+    {
+     "case_number": "99-00296539",
+     "status": "Closed",
+     "subject": "Paving Request or Concern",
+     "created_date_et": "2021-03-11T13:18:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45094",
+     "longitude": "-79.87888"
+    },
+    {
+     "case_number": "99-00388439",
+     "status": "Closed",
+     "subject": "Request for Asphalt Windrow/Curb",
+     "created_date_et": "2020-11-25T12:54:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45083",
+     "longitude": "-79.88024"
+    },
+    {
+     "case_number": "99-00385124",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2020-11-19T10:00:00",
+     "street": "NIMICK PL",
+     "latitude": "40.451",
+     "longitude": "-79.87852"
+    },
+    {
+     "case_number": "99-00355384",
+     "status": "Closed",
+     "subject": "Potholes",
+     "created_date_et": "2020-08-31T11:48:00",
+     "street": "NIMICK PL",
+     "latitude": "40.45094",
+     "longitude": "-79.87888"
+    }
+   ],
+   "derived": {
+    "records": {
+     "value": 79,
+     "formula": "records the query returned"
+    },
+    "radius_m": {
+     "value": 80,
+     "formula": "the search box around the lot's centre: ±0.0008° latitude, ±0.001° longitude (about 80 m)"
+    },
+    "near": {
+     "value": 79,
+     "formula": "requests on the street within about 80 m of the lot's centre"
+    }
+   }
+  },
+  {
+   "check": "undermining",
+   "title": "the City's undermined-areas layer (old mines under the lot)",
+   "status": "nothing",
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "slope",
+   "title": "the City's 25%+ slope layer (grading and retaining walls cost)",
+   "status": "found",
+   "summary": "Found: 6% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+    "pulled_at": "2026-09-26",
+    "sha256": "6a04ca4540118879961c3e40e1889d414d53e9ba3b4e41e60515997e7142887b",
+    "via": "data/city/lots.json"
+   },
+   "records": [],
+   "derived": {
+    "threshold_pct": {
+     "value": 25,
+     "formula": "the City layer's slope threshold (PGHWebSlope25)"
+    },
+    "percent": {
+     "value": 6,
+     "formula": "round(0.062 × 100), the share of the lot's area in the layer"
+    }
+   }
+  },
+  {
+   "check": "survey",
+   "title": "A boundary survey",
+   "status": "not_done",
+   "summary": "Paid: not done. A boundary survey costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "geotech",
+   "title": "A geotechnical report",
+   "status": "not_done",
+   "summary": "Paid: not done. A geotechnical report costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  }
+ ],
+ "drafts": [
+  {
+   "kind": "request",
+   "to": "a licensed surveyor",
+   "subject": "Quote request: a boundary survey",
+   "text": "Request for a quote: a boundary survey for 8306 Nimick Pl (East Hills), a vacant City-owned lot we are screening for a two-unit house. It would tell us where the lot lines and any encroachments really are (the parcel shapes come from GIS). Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "request",
+   "to": "a geotechnical engineer",
+   "subject": "Quote request: a geotechnical report",
+   "text": "Request for a quote: a geotechnical report for 8306 Nimick Pl (East Hills), a vacant City-owned lot we are screening for a two-unit house. It would tell us what the soil, fill and slope will bear. Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "letter",
+   "to": "City Real Estate, City of Pittsburgh",
+   "subject": "Inquiry: 8306 Nimick Pl (East Hills)",
+   "text": "To City Real Estate, City of Pittsburgh:\n\nWe are screening 8306 Nimick Pl (East Hills), a City-owned lot listed \"Available for Sale\" (last updated 2016-11-17), for a two-unit house. Under the RM-M rules it fits: 94.5 − 10 − 25 = 59.5 ft. Could you tell us the asking price, the disposition process and anything we should know about the lot? This is an inquiry, not an offer.\n",
+   "numbers_ok": true,
+   "by": "rule template",
+   "gate": "send"
+  }
+ ],
+ "gates": [
+  {
+   "kind": "spend",
+   "what": "A boundary survey: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "spend",
+   "what": "A geotechnical report: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Inquiry to City Real Estate about 8306 Nimick Pl",
+   "status": "waiting"
+  },
+  {
+   "kind": "sign",
+   "what": "rm-m.x.use_two (§911.02) is pencil: a person signs it before the case relies on it",
+   "status": "waiting"
+  }
+ ],
+ "verifier": {
+  "checked": {
+   "quotes": 8,
+   "numbers": 38,
+   "findings": 9,
+   "keys": 1
+  },
+  "failed": [],
+  "ok": true
+ },
+ "status": "published",
+ "summary": {
+  "text": "The Pittsburgh City-owned vacant lot at 8306 Nimick Pl, East Hills, is zoned RM-M and features 59.5 ft of buildable space calculated as 94.5 − 10 − 25 = 59.5 ft. Records show 79 requests to 311 within about 80 m, with the latest on 2025-08-25 concerning Refuse or Recycling Violations, while 6% of the lot is in the 25%+ slope layer and none is in the undermined-areas layer. A boundary survey and a geotechnical report are not done and cost money, so their drafted requests wait for a person.",
+  "by": "gemini-3.5-flash-lite"
+ },
+ "rerun": "npm run steward -- 0232A00260000000 --goal two"
+}

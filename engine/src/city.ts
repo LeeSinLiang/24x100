@@ -27,6 +27,7 @@ export interface CityLot {
   edges_ok: boolean;
   edge_note: string | null;
   slope25: number;
+  undermined?: number; // share of the lot in the City's undermined-areas layer (old mines), 0–1
 }
 
 /** The contextual side setback (§925.06.C) as the classifier sees it. `flank` records, per side that
@@ -100,6 +101,7 @@ export function cityLotOfParcel(b: BlockFile, p: Parcel): CityLot {
       assessed: p.assess?.lotarea ?? null,
       mapped: Math.round(p.mapped_area),
       slope25: p.slope25,
+      undermined: p.undermined,
     },
     p.poly[0],
     neighbors,

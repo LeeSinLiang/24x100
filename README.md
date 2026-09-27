@@ -51,6 +51,7 @@ model only plans, picks checks and drafts words, and a verifier checks all of it
 | **Due diligence** | The free public checks: PLI permits and violations, condemnations, tax liens, 311, the undermining and slope layers, each with its URL, pull time and sha256; paid studies drafted, never done | (in the steward's run) |
 | **Policy** | Asked by the steward when a rule is the first blocker: finds the sentence, writes the redline, counts the change citywide, drafts a memo | `uv run python -m agents.policy "What if …?" --building two` |
 | **Watch** | When a watched lot's answer changes: the before and after with the math, and the next move drafted; a simulation is labelled | `npm run agents -- watch --baseline d87dce4^` |
+| **Shortlist** | Every night, due diligence over all 11,247 City-owned vacant lots (about 100 requests, no model, $0), and the lots where a two-unit house fits today with nothing found against them: [Tonight's shortlist](https://24x100.example/?view=shortlist) | `npm run shortlist` |
 | **Verifier** | Blocks publication on a quote not word for word in the saved code, a number the engine or a source doesn't hold, a garbled word a model copied, a finding without a source, or a name-like field | (last in every run) |
 
 Three gates wait for a person: **send** (every letter and memo), **spend** (every paid study) and **sign** (every
@@ -139,6 +140,7 @@ npm run dev            # http://localhost:5173
 | `npm run rebuild` | Everything from raw public data: pull → join → reconcile → rules → engine → API → site |
 | `npm run refresh` | Re-pull every dataset and write the differences (shown in pencil in the app) |
 | `npm run digest -- --dry-run` | Preview the watchlist digest without sending it |
+| `npm run shortlist` | Tonight's shortlist: every City lot re-checked against the public records (`data/shortlist/`, `?view=shortlist`); nightly with the digest |
 | `npm run steward -- <pin> --goal two` | The agents' case file for a lot (`data/cases/<pin>.json`, `?view=case&pin=<pin>`); `--no-model` plans by rule |
 | `npm run agents -- watch --baseline <ref> [--simulate <pin>:<built pin>]` | The watch agent: what changed on the watchlist, explained, the next move drafted |
 | `uv run python -m extract run --district R1D-H` | Live rule extraction for a district (needs `GOOGLE_API_KEY` in `.env`) |
