@@ -593,10 +593,15 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     let text: string;
     if (status === 'pass') text = `${lots.length > 1 ? 'Each lot meets' : 'Meets'} the ${int(min)} sf minimum. ${parts.join(' ')}`;
     else if (status === 'needs_survey') text = `Needs a survey: the records fall on both sides of the ${int(min)} sf minimum. ${parts.join(' ')}`;
-    else {
+    else if (tpl.single_unit && R.lotOfRecord) {
+      // A single-unit house on an undersized lot may use the lot-of-record provisions instead of a variance; whether
+      // this lot qualifies (when it was recorded) isn't in our data, so the check is open, not a failure (judge round 2).
+      status = 'open';
+      text = `Under the ${int(min)} sf minimum, but a single-unit house may use a lot-of-record exception (§${R.lotOfRecord.section}, ${R.lotOfRecord.state === 'ink' ? 'checked' : 'pencil'}); whether this lot qualifies isn't checked. ${parts.join(' ')}`;
+      approvals.push({ kind: 'variance', trust: 'pencil', why: 'lot area, if no lot-of-record exception applies' });
+    } else {
       text = `Under the ${int(min)} sf minimum. ${parts.join(' ')}`;
       approvals.push({ kind: 'variance', trust: trust === 'ink' ? 'ink' : 'pencil', why: 'lot area' });
-      if (tpl.single_unit && R.lotOfRecord) text += ` A lot-of-record exception may apply instead (§${R.lotOfRecord.section}, ${R.lotOfRecord.state === 'ink' ? 'checked' : 'pencil'}).`;
     }
     if (status === 'needs_survey') approvals.push({ kind: 'variance', trust: 'pencil', why: 'lot area, if a survey finds it under the minimum' });
     checks.push({ id: 'area', label: 'Lot area', required: min, available: Math.round(primaryTotal), shortfall: status === 'fail' ? Math.max(0, min - primaryTotal) : 0, unit: 'sf', status, trust, text, rule_ids: [R.minArea.id], record_ids: ps.flatMap((p) => [recordId(p.pin, 'deed'), recordId(p.pin, 'lotarea'), recordId(p.pin, 'poly')]), approvals });
@@ -723,7 +728,9 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
         if (!forSale) questions.push({ id: `q.city_status.${p.pin}`, text: `${p.addr} is City-owned but listed as "${p.city.status}". Could it be offered for sale?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
       } else {
         approvals.push({ kind: 'other_owner', trust: 'ink', why: `${label}: not in the City's inventory` });
-        parts.push(`${label}: not in the City's inventory; County owner type ${titleCase(p.assess?.ownercat ?? 'unknown')}.`);
+        // The County lists City lots as "corporation" too; its property class tells a public body from a private owner.
+        const cls = p.assess?.class ?? null;
+        parts.push(`${label}: not in the City's inventory; County owner type ${titleCase(p.assess?.ownercat ?? 'unknown')}${cls ? ` (property class ${titleCase(cls)}${cls === 'GOVERNMENT' ? ': a public body' : ''})` : ''}.`);
       }
     }
     // Two or more lots as one building site: a lot consolidation (pencil: the process isn't in our saved code

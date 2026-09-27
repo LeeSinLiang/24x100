@@ -156,6 +156,9 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   const flip = corroborate != null && corroborate >= min !== area >= min;
   if (area < min || flip) all.push('area');
   if (flip) areaTrust = 'pencil';
+  // Same as the lot engine: a single-unit house may use a lot-of-record exception, so "too small" is pencil for it.
+  const lotOfRecord = TEMPLATES[type].single_unit && area < min && !!pick(rs, 'lot_of_record');
+  if (lotOfRecord) areaTrust = 'pencil';
   const widthFails = width < proposal.width;
   if (widthFails) all.push('width');
   if (depth != null && depth < proposal.depth) all.push('depth');
@@ -204,7 +207,13 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
     front: r1(front),
     setbacks: setbacks.map(r1),
     context,
-    note: flip ? 'records fall on both sides of the minimum lot size: needs a survey' : lot.deed ? 'deed dimensions' : 'no deed dimensions: mapped frontage (pencil)',
+    note: flip
+      ? 'records fall on both sides of the minimum lot size: needs a survey'
+      : lotOfRecord
+        ? 'under the minimum, but a single-unit house may use a lot-of-record exception (not checked for this lot)'
+        : lot.deed
+          ? 'deed dimensions'
+          : 'no deed dimensions: mapped frontage (pencil)',
     widthNote,
   };
 }
