@@ -1,0 +1,21 @@
+# The Vercel CLI (`npx vercel --prod`) uploads this folder and builds it on Vercel, as a GitHub import builds a
+# clean clone. Never upload keys, caches, local pipeline files or local builds.
+.env
+.env.*
+!.env.example
+node_modules
+.venv
+__pycache__
+.pytest_cache
+.vite
+.scratch
+.claude
+extract/.cache
+data/raw
+data/city/work
+web/dist
+web/dist-rec
+web/public/api
+film/clips
+out
+*.log
