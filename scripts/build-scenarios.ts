@@ -85,14 +85,44 @@ export function loadInputs() {
   return { lots, rules, questions, reviews };
 }
 
-type Inputs = ReturnType<typeof loadInputs>;
+export type Inputs = ReturnType<typeof loadInputs>;
+/** An override: a clause read differently (what) or one stored rule's value changed (value). */
+export type Override = Pick<Scenario, 'what' | 'value'>;
 
 /** Classify every lot for one type under one scenario (null: today). */
-export function classifyAll(inp: Inputs, type: TemplateId, sc: Scenario | null): CityClass[] {
+export function classifyAll(inp: Inputs, type: TemplateId, sc: Override | null): CityClass[] {
   const rules = sc?.value ? inp.rules.map((r) => (r.district === sc.value!.district && r.field === sc.value!.field ? { ...r, value: sc.value!.to } : r)) : inp.rules;
   const rsBy = new Map<string, ReturnType<typeof buildRuleSet>>();
   const rsFor = (z: string) => rsBy.get(z) ?? (rsBy.set(z, buildRuleSet(z, rules, inp.questions, inp.reviews as never)), rsBy.get(z)!);
   return inp.lots.map((l) => classifyCityLot(l, l.zone ? rsFor(l.zone) : null, type, DEFAULT_SETTINGS, undefined, sc?.what ?? {}));
+}
+
+/** One override's counts, per building type: the City-owned lots that don't fit the dimensional rules today and
+ *  would under it. build() and the policy agent (scripts/policy-count.ts) both count through here. */
+export function countScenario(inp: Inputs, base: Map<TemplateId, CityClass[]>, sc: Override) {
+  return Object.fromEntries(
+    TYPES.map((t) => {
+      const was = base.get(t)!;
+      const now = classifyAll(inp, t, sc);
+      const idx = inp.lots.map((_, i) => i).filter((i) => !fitsDim(was[i]) && fitsDim(now[i]));
+      const hoods = new Map<string, number>();
+      for (const i of idx) hoods.set(inp.lots[i].hood, (hoods.get(inp.lots[i].hood) ?? 0) + 1);
+      const districts = new Map<string, number>();
+      for (const i of idx) districts.set(inp.lots[i].zone ?? '—', (districts.get(inp.lots[i].zone ?? '—') ?? 0) + 1);
+      return [
+        t,
+        {
+          opens: idx.length,
+          for_sale: idx.filter((i) => inp.lots[i].status === 'Available for Sale').length,
+          pencil: idx.filter((i) => now[i].trust !== 'ink').length, // still pencil under the what-if (e.g. §925.06.C.1, mapped frontage)
+          was_width: idx.filter((i) => was[i].all.includes('width')).length,
+          by_hood: [...hoods.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5),
+          by_district: [...districts.entries()].sort((a, b) => b[1] - a[1]),
+          pins: idx.map((i) => inp.lots[i].pin).sort(),
+        },
+      ];
+    }),
+  );
 }
 
 export function build(inp: Inputs = loadInputs()) {
@@ -102,29 +132,7 @@ export function build(inp: Inputs = loadInputs()) {
     const text = norm(readFileSync(sc.source_file, 'utf8'));
     if (!text.includes(norm(sc.quote))) throw new Error(`${sc.id}: the quote is not verbatim in ${sc.source_file}`);
     if (!sc.quote.includes(sc.strike)) throw new Error(`${sc.id}: the struck words are not in the quote`);
-    const by_type = Object.fromEntries(
-      TYPES.map((t) => {
-        const was = base.get(t)!;
-        const now = classifyAll(inp, t, sc);
-        const idx = inp.lots.map((_, i) => i).filter((i) => !fitsDim(was[i]) && fitsDim(now[i]));
-        const hoods = new Map<string, number>();
-        for (const i of idx) hoods.set(inp.lots[i].hood, (hoods.get(inp.lots[i].hood) ?? 0) + 1);
-        const districts = new Map<string, number>();
-        for (const i of idx) districts.set(inp.lots[i].zone ?? '—', (districts.get(inp.lots[i].zone ?? '—') ?? 0) + 1);
-        return [
-          t,
-          {
-            opens: idx.length,
-            for_sale: idx.filter((i) => inp.lots[i].status === 'Available for Sale').length,
-            pencil: idx.filter((i) => now[i].trust !== 'ink').length, // still pencil under the what-if (e.g. §925.06.C.1, mapped frontage)
-            was_width: idx.filter((i) => was[i].all.includes('width')).length,
-            by_hood: [...hoods.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5),
-            by_district: [...districts.entries()].sort((a, b) => b[1] - a[1]),
-            pins: idx.map((i) => inp.lots[i].pin).sort(),
-          },
-        ];
-      }),
-    );
+    const by_type = countScenario(inp, base, sc);
     const { what, value, ...meta } = sc;
     return { ...meta, override: what ?? value, by_type };
   });
