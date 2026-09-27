@@ -66,8 +66,8 @@ Asking a City analyst to try it is the first pilot step.
 
 Reviews are signed in a browser; until they are published they show "signed in this browser · not published"
 and nobody else sees them. Publishing is the steward's job. It needs a GitHub account with write access to the
-repository, not git on a computer. The workflow below is written but **has not run yet** (the repository
-doesn't exist yet); test it with the first real upload.
+repository, not git on a computer. The workflow below is written but **has not run yet** on the repository
+(github.com/LeeSinLiang/24x100); test it with the first real upload.
 
 1. The reviewer opens the review screen, checks each rule against its highlighted quote, signs or strikes it
    with their real name and role, and clicks **Send to the steward**. They email or message the file

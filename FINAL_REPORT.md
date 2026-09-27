@@ -95,11 +95,11 @@ not people.
 - the review screen and the check-reviews script.
 
 **Partial:**
-- **No person has signed a rule in the app yet.** The 11 RM‑M rules are signed by an AI research pass, as the
-  spec allows, and labelled that way. The team's answer key was checked by a person.
+- **Rule signatures.** The 20 rules the Mahon and Larimer results use were checked by the agent and signed off by
+  Sin on that check (`docs/reviews/rule-check-for-sin.md`); the record says so. The other R1D‑H proposals stay pencil.
 - **Claude extraction** is built and unit-tested but has not been run, because there is no key.
 - **R1D‑H** was extracted with 3.6-flash, not 3.8.
-- **The publish-reviews workflow** is written but has not run, because the repository doesn't exist yet.
+- **The publish-reviews workflow** is written but has not run yet on the repository (github.com/LeeSinLiang/24x100).
 - **The watchlist** has no in-app editor; the digest reads `data/watchlist.json`.
 - **Present mode** is not adapted to the workspace.
 - **Money for C15 runs** is not computed: the tiles say "not assessed".

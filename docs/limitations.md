@@ -14,10 +14,11 @@ These are also stated in the app (lot view footer, and "What 24×100 doesn't kno
 - **Building footprints come from a 2023 layer.** A house built or demolished since then is not reflected.
 - **The slope layer is a derived threshold (25%+), not the steep-slope overlay.** A slope flag raises a
   grading question; it does not decide one.
-- **Rules.** The RM‑M dimensional rules were matched to the saved code text by an AI research pass and are
-  flagged for a teammate to re-check. None is City-confirmed. Rules proposed by the model stay pencil until a
-  named person signs them in the review screen. The use table, parking, grading and lot-of-record provisions
-  are pencil. The narrow-lot question ("does 'single-unit house' include attached houses?") is open; an
+- **Rules.** The 20 rules the Mahon Street and Larimer results use were checked by the agent (quotes verbatim,
+  values matching; `docs/reviews/rule-check-for-sin.md`) and signed off by Sin on that check; a person took
+  responsibility for the agent's check without re-reading each quote. None is City-confirmed. Other rules the
+  model proposed stay pencil until a named person signs them in the review screen, including the R1D‑H
+  lot-of-record, rowhouse and three-unit rows. The narrow-lot question ("does 'single-unit house' include attached houses?") is open; an
   assumption stays red, keeps the Rules chip open, and stays in the inquiry.
 - **There is no score.** Each lot gets a verdict in words and Money · Rules · Site chips.
 - **The money screen is a screening estimate.** Vertical construction cost ($200–$250 per sq ft, City
@@ -37,5 +38,6 @@ These are also stated in the app (lot view footer, and "What 24×100 doesn't kno
   2016‑11‑17; the inquiry asks whether it is current.
 - **Coverage.** Lot detail covers the blocks with block files (Block 10‑K, Middle Hill; the held-out Larimer
   block). The city map covers City-owned vacant lots, computed only in districts whose rules have been
-  checked; other districts are grey.
+  checked (RM‑M and R1D‑H today, 1,075 lots); other districts are grey. R1D‑H doesn't permit two- or three-unit
+  houses, so its lots read "not permitted here" for those types.
 - **No personal data is used.** Owner names and mailing addresses are never requested or stored (tested).
