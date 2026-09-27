@@ -28,6 +28,12 @@ interface Props {
 }
 
 const PAD = { top: 16, bottom: 40, side: 16 };
+/** Room above and below the lots in feet: PAD, or more when the plate is drawn small, so the street names,
+ *  the frontages, the scale bar and the north arrow (sized in screen pixels) keep clear of the lots and of
+ *  each other (at 1024 px the rear street's name sat on the lot lines). `k` is px per foot. */
+function padsAt(k: number): { top: number; bottom: number } {
+  return { top: Math.max(PAD.top, 24 / k), bottom: Math.max(PAD.bottom, 58 / k) };
+}
 
 function bbox(rings: Ring[]): [number, number, number, number] {
   let x0 = Infinity,
@@ -85,14 +91,19 @@ export function Plate(p: Props) {
   const [size, setSize] = useState({ w: 800, h: 300 });
   const boil = useBoil(!p.still);
 
-  // Frame: the main row plus pads, or the focus lots on a phone.
-  const frame = useMemo(() => {
+  // Frame: the main row plus pads, or the focus lots on a phone. The width is fixed in feet; the pads above
+  // and below follow the scale (padsAt), so the frame is settled once the plate's width is known.
+  const base = useMemo(() => {
     const focusParcels = p.focus?.length ? p.block.parcels.filter((x) => p.focus!.includes(x.pin)) : null;
     const rings = (focusParcels ?? p.frameLots).map((x) => openRing(x.poly[0]));
     const [x0, y0, x1, y1] = bbox(rings);
     const side = focusParcels ? 10 : PAD.side;
-    return { x: x0 - side, y: y0 - PAD.top, w: x1 - x0 + side * 2, h: y1 - y0 + PAD.top + PAD.bottom };
+    return { x: x0 - side, w: x1 - x0 + side * 2, y0, y1 };
   }, [p.block, p.frameLots, p.focus?.join(',')]);
+  const frameAt = (kk: number) => {
+    const pd = padsAt(kk);
+    return { x: base.x, w: base.w, y: base.y0 - pd.top, h: base.y1 - base.y0 + pd.top + pd.bottom };
+  };
 
   useLayoutEffect(() => {
     const el = wrap.current;
@@ -101,18 +112,25 @@ export function Plate(p: Props) {
     const host = p.maxHeight ? el.parentElement ?? el : el;
     const read = () => {
       const avail = host.clientWidth;
-      const w = p.maxHeight ? Math.min(avail, (p.maxHeight * frame.w) / frame.h) : avail;
       // A hidden pane reports 0 px: keep the last size rather than scale everything to Infinity.
-      if (!(w > 0) || !(frame.w > 0)) return;
-      setSize({ w, h: (w * frame.h) / frame.w });
+      if (!(avail > 0) || !(base.w > 0)) return;
+      let w = avail;
+      if (p.maxHeight) {
+        // Height-bound: the pads depend on the scale, so settle it in a few steps, then never overshoot.
+        for (let i = 0; i < 4; i++) w = Math.min(avail, (p.maxHeight * base.w) / frameAt(w / base.w).h);
+        const h = (w * frameAt(w / base.w).h) / base.w;
+        if (h > p.maxHeight) w *= p.maxHeight / h;
+      }
+      setSize({ w, h: (w * frameAt(w / base.w).h) / base.w });
     };
     const ro = new ResizeObserver(read);
     ro.observe(host);
     read();
     return () => ro.disconnect();
-  }, [frame.w, frame.h, p.maxHeight]);
+  }, [base.w, base.x, base.y0, base.y1, p.maxHeight]);
 
-  const k = frame.w > 0 && size.w > 0 ? size.w / frame.w : 1; // px per foot (guarded: never Infinity)
+  const k = base.w > 0 && size.w > 0 ? size.w / base.w : 1; // px per foot (guarded: never Infinity)
+  const frame = frameAt(k);
   const px = (n: number) => n / k; // px → feet (user units)
   const ms = p.still ? 0 : p.record ? 280 : 320;
 
@@ -166,7 +184,8 @@ export function Plate(p: Props) {
         const fx0 = frame.x;
         const fx1 = frame.x + frame.w;
         if (Math.max(a[0], b[0]) < fx0 || Math.min(a[0], b[0]) > fx1) continue;
-        if (Math.max(a[1], b[1]) < frame.y - 5 || Math.min(a[1], b[1]) > frame.y + frame.h + 5) continue;
+        // (Against the frame at its own pads in feet: a small plate's extra room shows no more streets.)
+        if (Math.max(a[1], b[1]) < base.y0 - PAD.top - 5 || Math.min(a[1], b[1]) > base.y1 + PAD.bottom + 5) continue;
         const lerp = (x: number): Pt => [x, a[1] + ((b[1] - a[1]) * (x - a[0])) / (b[0] - a[0] || 1e-9)];
         const ca: Pt = Math.abs(b[0] - a[0]) > 1 ? lerp(Math.max(fx0, Math.min(a[0], b[0]))) : a;
         const cb: Pt = Math.abs(b[0] - a[0]) > 1 ? lerp(Math.min(fx1, Math.max(a[0], b[0]))) : b;
@@ -181,7 +200,10 @@ export function Plate(p: Props) {
 
   const clipX = (x: number) => Math.max(frame.x + px(40), Math.min(frame.x + frame.w - px(40), x));
   const clipY = (y: number) => Math.max(frame.y + px(14), Math.min(frame.y + frame.h - px(10), y));
+  // A street name above the lots stays clear of the lot lines; one below stays clear of the frontages.
+  const streetY = (y: number) => clipY(y < base.y0 ? Math.min(y, base.y0 - px(10)) : y > base.y1 ? Math.max(y, base.y1 + px(27)) : y);
 
+  const sbFt = frame.w - px(22 + 60) >= 100 ? 100 : 50;
   const hatch = px(p.present ? 5.2 : 3.4);
   const fs = (n: number) => px(p.present && !p.record ? n * 1.2 : n);
   const selFront = frontSide(p.selected);
@@ -234,11 +256,11 @@ export function Plate(p: Props) {
                 key={s.name}
                 className="street-name"
                 x={clipX(m[0])}
-                y={clipY(m[1])}
+                y={horizontal ? streetY(m[1]) : clipY(m[1])}
                 fontSize={fs(horizontal ? 12 : 10)}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                transform={`rotate(${ang} ${clipX(m[0])} ${clipY(m[1])})`}
+                transform={`rotate(${ang} ${clipX(m[0])} ${horizontal ? streetY(m[1]) : clipY(m[1])})`}
               >
                 {s.name.toUpperCase()}
               </text>
@@ -334,20 +356,35 @@ export function Plate(p: Props) {
                     <tspan className="unit">′</tspan>
                   </text>
                 )}
-                {result.state !== 'ok' && (
-                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`cant ${result.refusal?.code === 'records_disagree' ? '' : 'is-grey'}`} fontSize={fs(8.5)} textAnchor="middle">
-                    {result.refusal?.code === 'records_disagree' ? 'CAN’T' : result.refusal?.code === 'missing_rule' ? 'NO' : 'NOT'}
-                    <tspan x={frontMid[0]} dy={fs(9)}>
-                      {result.refusal?.code === 'records_disagree' ? 'SCORE' : result.refusal?.code === 'missing_rule' ? 'RULES' : 'SCORED'}
-                    </tspan>
-                  </text>
-                )}
                 {parcel.deed && (
                   <text x={frontMid[0]} y={frontMid[1] + px(11)} className="frontage" fontSize={fs(10)} textAnchor="middle">
                     {parcel.deed.front}
                   </text>
                 )}
               </g>
+            );
+          })}
+
+          {/* Lots that can't be scored: one label per run of side-by-side lots with the same reason, so two
+              refused neighbours never print over each other (judge round 2: lots 21 and 22 at 1280 px). */}
+          {refusedRuns(p.row).map((g) => {
+            const words = CANT_WORDS[g.code];
+            const cx = (g.x0 + g.x1) / 2;
+            // One line when the run is wide enough for it (Barlow caps at .14em: about 0.64 em a character).
+            const oneLine = g.n > 1 && g.span >= px(fs(8.5) * k * 0.64 * (words[0].length + words[1].length + 1) + 8);
+            return (
+              <text key={`cant-${g.key}`} x={cx} y={g.y - px(22)} className={`cant ${g.code === 'records' ? '' : 'is-grey'}`} fontSize={fs(8.5)} textAnchor="middle" aria-hidden="true">
+                {oneLine ? (
+                  `${words[0]} ${words[1]}`
+                ) : (
+                  <>
+                    {words[0]}
+                    <tspan x={cx} dy={fs(9)}>
+                      {words[1]}
+                    </tspan>
+                  </>
+                )}
+              </text>
             );
           })}
 
@@ -377,14 +414,15 @@ export function Plate(p: Props) {
             N
           </text>
         </g>
+        {/* 100 ft, or 50 ft when the frame is too narrow for it (the phone's crop) and the north arrow. */}
         <g transform={`translate(${frame.x + px(22)} ${frame.y + frame.h - px(16)})`} className="scale-bar" aria-hidden="true">
           {[0, 1, 2, 3].map((i) => (
-            <rect key={i} x={i * 25} y={0} width={25} height={px(3.2)} className={i % 2 ? 'sb-empty' : 'sb-full'} />
+            <rect key={i} x={(i * sbFt) / 4} y={0} width={sbFt / 4} height={px(3.2)} className={i % 2 ? 'sb-empty' : 'sb-full'} />
           ))}
-          {[0, 50, 100].map((v) => (
+          {[0, sbFt / 2, sbFt].map((v) => (
             <text key={v} x={v} y={-px(3.5)} fontSize={fs(9)} textAnchor="middle" className="sb-num">
               {v}
-              {v === 100 ? ' ft' : ''}
+              {v === sbFt ? ' ft' : ''}
             </text>
           ))}
         </g>
@@ -394,6 +432,48 @@ export function Plate(p: Props) {
       </p>
     </div>
   );
+}
+
+type CantCode = 'records' | 'rules' | 'other';
+const CANT_WORDS: Record<CantCode, [string, string]> = { records: ['CAN’T', 'SCORE'], rules: ['NO', 'RULES'], other: ['NOT', 'SCORED'] };
+
+/** Runs of side-by-side refused lots with the same reason: x0 and x1 are the outer lots' front midpoints
+ *  (feet), y their mean front line, span the run's whole frontage. Lots are side by side when their front midpoints are no farther apart
+ *  than half their two frontages (plus 2 ft), so a lot left out of the row (another district) breaks a run. */
+function refusedRuns(row: PlateLot[]): { key: string; code: CantCode; x0: number; x1: number; y: number; n: number; span: number }[] {
+  const lots = row
+    .map(({ parcel, result }) => {
+      const f = frontSide(result);
+      const r = openRing(parcel.poly[0]);
+      const c = centroid(r);
+      const m: Pt = f ? [(f.a[0] + f.b[0]) / 2, (f.a[1] + f.b[1]) / 2] : [c[0], Math.max(...r.map((q) => q[1]))];
+      const xs = r.map((q) => q[0]);
+      const len = f ? Math.hypot(f.b[0] - f.a[0], f.b[1] - f.a[1]) : Math.max(...xs) - Math.min(...xs);
+      const code: CantCode | null = result.state === 'ok' ? null : result.refusal?.code === 'records_disagree' ? 'records' : result.refusal?.code === 'missing_rule' ? 'rules' : 'other';
+      return { pin: parcel.pin, m, len, code };
+    })
+    .sort((a, b) => a.m[0] - b.m[0]);
+  const out: { key: string; code: CantCode; x0: number; x1: number; y: number; n: number; span: number }[] = [];
+  let run: typeof lots = [];
+  const flush = () => {
+    if (run.length) {
+      const ys = run.map((l) => l.m[1]);
+      const [a, b] = [run[0], run[run.length - 1]];
+      out.push({ key: run.map((l) => l.pin).join(','), code: a.code!, x0: a.m[0], x1: b.m[0], y: ys.reduce((u, v) => u + v, 0) / ys.length, n: run.length, span: b.m[0] - a.m[0] + (a.len + b.len) / 2 });
+    }
+    run = [];
+  };
+  for (const l of lots) {
+    const prev = run[run.length - 1];
+    if (!l.code) {
+      flush();
+      continue;
+    }
+    if (prev && (prev.code !== l.code || l.m[0] - prev.m[0] > (prev.len + l.len) / 2 + 2)) flush();
+    run.push(l);
+  }
+  flush();
+  return out;
 }
 
 function describe(r: LotResult): string {

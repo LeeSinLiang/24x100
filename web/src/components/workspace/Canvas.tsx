@@ -16,6 +16,8 @@ import type { CityModel } from '../../lib/city';
 import { lotKey, mainRow, type LotModel } from '../../lib/model';
 import type { UrlState } from '../../lib/url';
 import { GraphSlot } from './GraphSlot';
+import { stageFor } from './stage';
+import { runAddrs, runLotsLabel } from './plain';
 
 /** The box a canvas can fill (content size of the element), kept current. */
 export function useBox<T extends HTMLElement>(): [React.RefObject<T | null>, { w: number; h: number }] {
@@ -38,7 +40,8 @@ export function useBox<T extends HTMLElement>(): [React.RefObject<T | null>, { w
   return [ref, box];
 }
 
-function useNarrow(px: number): boolean {
+/** Is the screen at most `px` wide? Never on a staged page (present or record): the stage is desktop. */
+function useNarrow(px: number, s: Pick<UrlState, 'present' | 'record'>): boolean {
   const q = `(max-width: ${px}px)`;
   const [v, setV] = useState(() => window.matchMedia(q).matches);
   useEffect(() => {
@@ -47,7 +50,7 @@ function useNarrow(px: number): boolean {
     m.addEventListener('change', on);
     return () => m.removeEventListener('change', on);
   }, [q]);
-  return v;
+  return v && !stageFor(s, true, window.innerWidth, window.innerHeight);
 }
 
 // ── Map ──────────────────────────────────────────────────────────────────────────────────────────
@@ -74,7 +77,7 @@ export function MapCanvas({
   onInsetOpen?: () => void;
   hood?: string | null; // the neighbourhood to zoom to when the URL names none (a lot's own)
 }) {
-  const stacked = useNarrow(1023);
+  const stacked = useNarrow(1023, s);
   const [ref, box] = useBox<HTMLDivElement>();
   const hide = useMemo(() => new Set(s.hide), [s.hide.join(',')]);
   const vis = useMemo(() => cm.inFilter.filter((i) => !hide.has(cm.classes[i].blocker)), [cm.inFilter, cm.classes, hide]);
@@ -194,7 +197,9 @@ export function MapInsetRun({ run }: { run: AssemblyRunRow }) {
         <strong>{run.lots.length} lots combined</strong>
         <span className="muted">{run.block ? 'double-click for the plan' : 'no block drawing yet'}</span>
       </p>
-      <p className="small">{run.lots.map((l) => l.addr ?? l.pin).join(' · ')}</p>
+      <p className="small">
+        {runLotsLabel(run.lots)} <span className="muted">· {runAddrs(run.lots)}</span>
+      </p>
       <p className="small">
         <Ev trust={run.trust} num>
           {run.width} ft
@@ -207,8 +212,8 @@ export function MapInsetRun({ run }: { run: AssemblyRunRow }) {
 
 // ── Plan ─────────────────────────────────────────────────────────────────────────────────────────
 export function PlanCanvas({ block, model, s, onSelectLot }: { block: BlockFile; model: LotModel; s: UrlState; onSelectLot: (p: Parcel) => void }) {
-  const stacked = useNarrow(1023);
-  const phone = useNarrow(767);
+  const stacked = useNarrow(1023, s);
+  const phone = useNarrow(767, s);
   const [ref, box] = useBox<HTMLDivElement>();
   const r = model.result;
   const sel = block.parcels.find((p) => p.pin === r.pins[0])!;
@@ -245,7 +250,7 @@ export function PlanCanvas({ block, model, s, onSelectLot }: { block: BlockFile;
 }
 
 export function BlockPlanCanvas({ block, bm, s, onOpen }: { block: BlockFile; bm: BlockModel; s: UrlState; onOpen: (p: Parcel) => void }) {
-  const stacked = useNarrow(1023);
+  const stacked = useNarrow(1023, s);
   const [ref, box] = useBox<HTMLDivElement>();
   const anySelected: LotResult = bm.plateRow[0]?.result ?? bm.results.get(block.parcels[0].pin)!;
   const tname = TEMPLATES[s.type].name.toLowerCase();
@@ -427,7 +432,7 @@ export function CityTable({ cm, s, selected, onSelect }: { cm: CityModel; s: Url
   const hide = useMemo(() => new Set(s.hide), [s.hide.join(',')]);
   const rows = useMemo(() => cm.inFilter.filter((i) => !hide.has(cm.classes[i].blocker)), [cm.inFilter, cm.classes, hide]);
   const tname = TEMPLATES[s.type].name.toLowerCase();
-  const stacked = useNarrow(767);
+  const stacked = useNarrow(767, s);
   if (cm.data.state !== 'ready') return <div className="ws-canvas-body" />;
   return (
     <div className="ws-canvas-body is-table">
@@ -468,7 +473,7 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
       <table className="lots-table ws-runs">
         <thead>
           <tr>
-            <th scope="col">Lots, side by side</th>
+            <th scope="col">Lots side by side (County numbers)</th>
             {th('width', 'Width')}
             {th('owners', 'Not City-owned')}
             <th scope="col">Open</th>
@@ -482,8 +487,9 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
               <tr key={key} className={s.run === key ? 'is-selected' : ''} data-run={key}>
                 <td>
                   <button className="link" onClick={() => onSelect(r)} aria-pressed={s.run === key}>
-                    {r.lots.map((l) => l.addr ?? l.pin).join(' · ')}
+                    {runLotsLabel(r.lots)}
                   </button>
+                  <span className="ws-run-addr small muted">{runAddrs(r.lots)}</span>
                 </td>
                 <td className="num">
                   <Ev trust={r.trust} num>

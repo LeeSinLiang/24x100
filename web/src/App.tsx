@@ -10,7 +10,10 @@ import { BLOCKS } from './lib/data';
 import { contextFor, lotKey, parcelByLot, useLotModel } from './lib/model';
 import { defaultGroup, lotsLabel, scenarioPatch } from './lib/scenario';
 import { useTheme } from './lib/theme';
-import { useUrlState, WORKSPACE_VIEWS } from './lib/url';
+import { hoodIgnored, useUrlState, WORKSPACE_VIEWS } from './lib/url';
+import { loadCityData } from './components/city/cityData';
+import { pageZoom, stageFor } from './components/workspace/stage';
+import { UrlNotice } from './components/workspace/UrlNotice';
 import { AboutView } from './views/AboutView';
 import { ChangesView } from './views/ChangesView';
 import { InquiryView } from './views/InquiryView';
@@ -19,7 +22,7 @@ import { defaultCanvas, WorkspaceView } from './views/WorkspaceView';
 import type { ViewProps } from './views/types';
 
 export function App() {
-  const [s, update] = useUrlState();
+  const [s, update, ignored] = useUrlState();
   const auditApi = useAudit();
   const { entries, add } = auditApi;
   const audit = useMemo(() => [...entries, ...linkAssumptions(s.assume)], [entries, s.assume.join(',')]);
@@ -36,16 +39,44 @@ export function App() {
     root.dataset.present = s.present ? '1' : '0';
     root.dataset.record = s.record ? '1' : '0';
     root.dataset.workspace = workspace ? '1' : '0';
-    if (s.record) {
-      const fit = () => {
-        root.style.setProperty('zoom', String(Math.min(window.innerWidth / 1440, window.innerHeight / 810)));
-      };
-      fit();
-      window.addEventListener('resize', fit);
-      return () => window.removeEventListener('resize', fit);
-    }
-    root.style.removeProperty('zoom');
+    // Record and present draw a fixed stage scaled to the screen (workspace/stage.ts); pages scroll.
+    const fit = () => {
+      const st = stageFor(s, workspace, window.innerWidth, window.innerHeight);
+      const z = st?.zoom ?? pageZoom(s, window.innerWidth, window.innerHeight);
+      root.dataset.stage = st ? '1' : '0';
+      if (st) {
+        root.style.setProperty('--stage-w', `${st.w}px`);
+        root.style.setProperty('--stage-h', `${st.h}px`);
+      } else {
+        root.style.removeProperty('--stage-w');
+        root.style.removeProperty('--stage-h');
+      }
+      if (z != null) root.style.setProperty('zoom', String(z));
+      else root.style.removeProperty('zoom');
+    };
+    fit();
+    if (!s.present && !s.record) return;
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
   }, [theme, s.present, s.record, workspace]);
+
+  // A neighbourhood the citywide file doesn't name is ignored and said so, not read as "0 runs".
+  useEffect(() => {
+    if (!workspace || !s.hood) return;
+    let alive = true;
+    const hood = s.hood;
+    loadCityData().then((d) => {
+      if (!alive || d.state !== 'ready') return;
+      const x = hoodIgnored(hood, [...d.hoods.map((h) => h.name), ...d.lots.map((l) => l.hood ?? '')]);
+      if (x) {
+        ignored.add(x);
+        update({ hood: null });
+      }
+    });
+    return () => {
+      alive = false;
+    };
+  }, [workspace, s.hood]);
 
   // Ready signal for screenshots and recordings: fonts loaded and first render done.
   useEffect(() => {
@@ -119,6 +150,7 @@ export function App() {
           rulesHref={rulesHref}
           aboutHref={aboutHref}
         />
+        <UrlNotice api={ignored} />
         {workspace ? (
           <WorkspaceView {...vp} />
         ) : (

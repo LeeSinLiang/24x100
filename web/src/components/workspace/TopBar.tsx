@@ -1,5 +1,7 @@
 // The top bar (spec §0.15): logo, the command search, breadcrumbs, the building-type switch, the view
-// switch Map · Plan · Graph · Table, the theme toggle, and links to Rules, About and Present.
+// switch Map · Plan · Graph · Table, the theme toggle, and links to Rules, About and Present. One row from
+// 1280 px up (the crumbs give way first); two rows on a laptop under 1280; on a phone the two switches
+// become two selects on one line (workspace.css).
 import type { KeyboardEvent } from 'react';
 import { TEMPLATES } from '@engine/templates';
 import type { TemplateId } from '@engine/types';
@@ -103,6 +105,30 @@ export function TopBar({
               {c.words}
             </button>
           ))}
+        </div>
+      )}
+      {workspace && (
+        <div className="ws-picks">
+          <label className="ws-pick">
+            <span className="ws-pick-name">Type</span>
+            <select value={s.type} onChange={(e) => onType(e.target.value as TemplateId)} aria-label="Building type">
+              {TYPE_ORDER.map((t) => (
+                <option key={t} value={t} title={typeTitle(t)}>
+                  {TEMPLATES[t].short}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="ws-pick">
+            <span className="ws-pick-name">View</span>
+            <select value={canvas} onChange={(e) => update({ canvas: e.target.value as Canvas }, { push: true })} aria-label="View">
+              {CANVAS_WORDS.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.words}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
       )}
       {!s.record && (

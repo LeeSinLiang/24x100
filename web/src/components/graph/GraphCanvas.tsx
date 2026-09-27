@@ -82,13 +82,16 @@ interface Face {
   label: string;
   sub: string;
   lines: string[]; // 'below' only
+  names?: number; // 'below' only: how many of `lines` are the name (the rest are its sub)
   cx: number; // 'below' only: the text's centre, kept inside the canvas
   width: number; // px of the widest line
   small: boolean; // the dataset face (one line, slightly smaller)
 }
 
-/** What a node shows on the canvas and where, from the fixed frame. */
-function faceOf(n: GraphNode, p: Pt, w: number): Face {
+/** What a node shows on the canvas and where, from the fixed frame. In a compact drawing (a narrow pane)
+ *  the least important words go first: a neighbour's owner line and a rule's citation (both stay in the
+ *  hover label, the aria label and the inspector); every node and its name stay. */
+function faceOf(n: GraphNode, p: Pt, w: number, compact = false): Face {
   const F = GRAPH_FRAME;
   const none: Face = { side: 'none', label: '', sub: '', lines: [], cx: 0, width: 0, small: false };
   const side = (s: Side, room: number, withSub: boolean, small = false): Face => {
@@ -98,17 +101,19 @@ function faceOf(n: GraphNode, p: Pt, w: number): Face {
   };
   switch (n.type) {
     case 'neighbor':
-      return side('left', p.x - 26, true);
+      return side('left', p.x - 26, !compact);
     case 'source':
       return side('left', p.x - 26, false, true);
     case 'rule':
-      return side('right', (F.quotes.x - F.rules.x) * w - 34, true);
+      return side('right', (F.quotes.x - F.rules.x) * w - 34, !compact);
     case 'quote':
       return none; // the mark alone: the quote is long; hover and the inspector show it word for word
     case 'person': {
-      const lines = [n.label, ...(n.sub ?? '').split(' · ').filter(Boolean)];
-      const width = Math.max(...lines.map((l, i) => est(l, i === 0 ? ADV.label : ADV.sub)));
-      return { side: 'below', label: n.label, sub: '', lines, cx: Math.min(p.x, w - 14 - width / 2), width, small: false };
+      // Compact: the name wraps (at most two lines of about 100 px) so the column clears the quote marks.
+      const lines = [...(compact ? wrap(n.label, 100, ADV.label, 2) : [n.label]), ...(n.sub ?? '').split(' · ').filter(Boolean)];
+      const nName = compact ? wrap(n.label, 100, ADV.label, 2).length : 1;
+      const width = Math.max(...lines.map((l, i) => est(l, i < nName ? ADV.label : ADV.sub)));
+      return { side: 'below', label: n.label, sub: '', lines, names: nName, cx: Math.min(p.x, w - 14 - width / 2), width, small: false };
     }
     case 'estimate':
     case 'sale':
@@ -256,6 +261,17 @@ const DEFAULT_LABELS: EdgeKind[] = ['needed to fit', 'adjacent to', 'constrained
 
 // ─── The canvas ────────────────────────────────────────────────────────────────────────────────
 
+/** The drawing is laid out at the pane's size, or at FIT_MIN when the pane is smaller and then scaled down
+ *  to the pane (never below FIT_FLOOR, so 11 px labels stay near 9 px). */
+const FIT_MIN = { w: 700, h: 460 };
+const FIT_FLOOR = 0.8;
+/** The narrowest layout the cluster frame holds without collisions; a pane that would need less (a phone)
+ *  keeps this layout at PHONE_SCALE and scrolls inside itself. */
+const LAYOUT_MIN_W = 600;
+const PHONE_SCALE = 0.85;
+/** Layouts narrower than the frame's design width drop the least important words (faceOf). */
+const COMPACT_BELOW = GRAPH_FRAME.min.w;
+
 export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSelect: (id: string | null) => void; hidden?: Set<NodeType> }): JSX.Element {
   const { graph, selected, onSelect, hidden } = p;
   const box = useRef<HTMLDivElement>(null);
@@ -275,9 +291,16 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
     return () => ro.disconnect();
   }, []);
 
-  // Below the frame's minimum the drawing keeps its size and the canvas scrolls (phones).
-  const W = Math.max(Math.floor(size.w), GRAPH_FRAME.min.w);
-  const H = Math.max(Math.floor(size.h), GRAPH_FRAME.min.h);
+  // The drawing fits its pane (judge round 2: at 1440 it was 860 px wide in a 664 px pane and the Offices
+  // column hid behind the inspector). It is laid out at the pane's size, or at FIT_MIN when the pane is
+  // smaller, and scaled down to the pane by the viewBox, never below FIT_FLOOR; a compact drawing drops
+  // the least important words (faceOf). A phone's pane keeps a legible scale and scrolls inside itself.
+  const fitK = Math.max(FIT_FLOOR, Math.min(1, size.w / FIT_MIN.w, size.h / FIT_MIN.h));
+  const phone = size.w / fitK < LAYOUT_MIN_W;
+  const scale = phone ? PHONE_SCALE : fitK;
+  const W = Math.floor(phone ? LAYOUT_MIN_W : size.w / scale);
+  const H = Math.floor(phone ? Math.max(FIT_MIN.h, size.h / scale) : size.h / scale);
+  const compact = W < COMPACT_BELOW;
   const pos = useMemo(() => layoutGraph(graph, W, H), [graph, W, H]);
   const byId = useMemo(() => new Map(graph.nodes.map((n) => [n.id, n])), [graph]);
 
@@ -285,7 +308,7 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
   const nodes = graph.nodes.filter((n) => !isHidden(n));
   const center = graph.nodes.find((n) => n.cluster === 'center');
   const edges = graph.edges.filter((e) => !isHidden(byId.get(e.from)) && !isHidden(byId.get(e.to)));
-  const faces = new Map(nodes.map((n) => [n.id, faceOf(n, pos.get(n.id)!, W)]));
+  const faces = new Map(nodes.map((n) => [n.id, faceOf(n, pos.get(n.id)!, W, compact)]));
 
   // The centre box: a fixed width; its name, line and status wrap rather than widen it.
   const cp = center ? pos.get(center.id)! : { x: W / 2, y: H / 2 };
@@ -493,9 +516,11 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
       <div className="gr-scroll" ref={box}>
         <svg
           className="gr-svg"
-          width={W}
-          height={H}
+          width={Math.floor(W * scale)}
+          height={Math.floor(H * scale)}
           viewBox={`0 0 ${W} ${H}`}
+          data-scale={Math.round(scale * 100) / 100}
+          data-compact={compact ? '1' : undefined}
           role="group"
           aria-label={`Graph of ${center?.label ?? 'the lot'}: ${nodes.length} nodes, ${edges.length} links`}
           onKeyDown={(e) => {
@@ -617,7 +642,7 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
                   <Glyph n={n} />
                   {f.side === 'below' &&
                     f.lines.map((l, i) => (
-                      <text key={i} className={i === 0 ? 'gr-label' : 'gr-sub'} x={f.cx - q.x} y={24 + i * 12} textAnchor="middle">
+                      <text key={i} className={i < (f.names ?? 1) ? 'gr-label' : 'gr-sub'} x={f.cx - q.x} y={24 + i * 12} textAnchor="middle">
                         {l}
                       </text>
                     ))}

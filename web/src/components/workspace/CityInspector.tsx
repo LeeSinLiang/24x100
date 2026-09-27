@@ -16,8 +16,9 @@ import { BLOCK_OF, LAYER_WORDS, type CityModel } from '../../lib/city';
 import { blockCounts, type BlockModel } from '../../lib/block';
 import type { InspectorTab, UrlState } from '../../lib/url';
 import { Dash, InspectorShell, Tile, type TabDef } from './Shell';
-import { aType, Gloss } from './plain';
+import { aType, Gloss, RUN_ADDR_NOTE, runAddrs, runCounts, runLotsLabel } from './plain';
 import { RecordList, RuleSources, type SourceRow } from './Sources';
+import { WatchToggle } from '../WatchToggle';
 
 const listAnd = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
@@ -466,6 +467,7 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
             {status} <span className="small muted">{lot.hood}</span>
           </>
         }
+        action={<WatchToggle pin={lot.pin} />}
         sentence={cityLotSentence(lot, c, s.type, minArea)}
         defaultTab="rules"
         tiles={
@@ -527,7 +529,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           </p>
           <p className="small">The City lot alone: {run.candidate_alone}.</p>
           <p className="small">Still to check: {run.still_to_check.join(', ')}.</p>
-          <p className="small muted">Rules loaded for RM‑M only; other districts not assessed. Owner type only, never names.</p>
+          <p className="small muted">Rules loaded for RM‑M only; other districts not assessed. Owner type only, never names. {RUN_ADDR_NOTE}</p>
         </>
       ),
     },
@@ -541,8 +543,8 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           <ul className="ws-list small">
             {run.lots.map((l) => (
               <li key={l.pin}>
-                {l.addr ?? l.pin}
-                {l.lot ? ` (lot ${l.lot})` : ''}: {l.owner_type_words}
+                {runLotsLabel([l])}
+                {l.addr ? ` (${l.addr})` : ''}: {l.owner_type_words}
               </li>
             ))}
           </ul>
@@ -570,7 +572,8 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           ← All runs
         </button>
       }
-      title={run.lots.map((l) => l.addr ?? l.pin).join(' · ')}
+      title={runLotsLabel(run.lots)}
+      note={<p className="ws-run-addr small muted">{runAddrs(run.lots)}</p>}
       defaultTab="rules"
       status={<span className="stamp stamp-ink ws-stamp">COMBINE TO FIT</span>}
       sentence={
@@ -604,6 +607,9 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
   const runs = asm && asm !== 'loading' ? asm.runs.filter((r) => r.type === s.type && (!s.hood || r.lots.some((l) => hoodByPin.get(l.pin) === s.hood))) : [];
   const allCity = runs.filter((r) => r.non_city === 0).length;
   const pencil = runs.filter((r) => r.trust !== 'ink').length;
+  // Runs overlap (judge round 2: "1311 · 1309 · 1305 Lincoln" and "1309 · 1305 Lincoln" are both runs),
+  // so the sentence says so and counts the City-owned lots they touch once each.
+  const { cityLots, shared } = runCounts(runs);
   const ready = asm && asm !== 'loading';
   const tabs: TabDef[] = [
     {
@@ -635,10 +641,11 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
     <InspectorShell
       title={`Combine to fit${s.hood ? ` · ${s.hood}` : ''}`}
       status={<span className="stamp stamp-ink ws-stamp">RUNS OF 2–3 LOTS</span>}
+      note={ready ? <p className="ws-run-addr small muted">{RUN_ADDR_NOTE}</p> : null}
       sentence={
         ready ? (
           <>
-            <Ev num>{n(runs.length)}</Ev> {runs.length === 1 ? 'run' : 'runs'} of 2–3 lots side by side fit {aType(s.type)} when combined, where the City lot alone doesn’t; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
+            <Ev num>{n(runs.length)}</Ev> possible {runs.length === 1 ? 'run' : 'runs'} of 2–3 side-by-side lots{shared ? ' (some share lots)' : ''}, touching <Ev num>{n(cityLots)}</Ev> City-owned {cityLots === 1 ? 'lot' : 'lots'}, {runs.length === 1 ? 'fits' : 'fit'} {aType(s.type)} when combined; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
           </>
         ) : (
           <span className="muted">Loading the lots that fit when combined…</span>

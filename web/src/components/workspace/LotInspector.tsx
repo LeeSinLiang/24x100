@@ -13,6 +13,7 @@ import { Dash, InspectorShell, Tile, type TabDef } from './Shell';
 import { Gloss, kFmt, LotSentence, VerdictStamp } from './plain';
 import { Segs } from './Segs';
 import { MoneySources, RecordList, RuleSources } from './Sources';
+import { WatchToggle } from '../WatchToggle';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 
@@ -387,6 +388,7 @@ export function LotInspector({
           <VerdictBlock v={v} />
         </>
       }
+      action={<WatchToggle pin={sel.pin} />}
       sentence={<LotSentence r={r} m={model.money} block={block} detail={v.detail} />}
       note={
         <>

@@ -63,8 +63,9 @@
   color-scheme: dark;
 }
 
-/* Presentation mode: bigger type, 16px floor, no rotated text, lighter hatching. */
-:root[data-present='1']:not([data-record='1']) {
+/* Presentation mode on a page that scrolls: bigger type, 16px floor, no rotated text, lighter hatching.
+   The staged workspace (present on a screen 768 px or wider) scales the whole stage instead (App.tsx). */
+:root[data-present='1']:not([data-record='1']):not([data-stage='1']) {
   --s-numeral: 124px;
   --s-display: 36px;
   --s-title: 24px;

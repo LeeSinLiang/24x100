@@ -1,5 +1,5 @@
 // All state lives in the URL, so every screenshot and demo beat is a reproducible link.
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TemplateId } from '@engine/types';
 
 export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about';
@@ -60,12 +60,23 @@ const oneOf = <T extends string>(v: string | null, list: readonly T[]): T | null
 /** The workspace views: city, lot and block render one screen (WorkspaceView). */
 export const WORKSPACE_VIEWS: View[] = ['city', 'lot', 'block'];
 
-export function parseUrl(search: string): UrlState {
+/** A link parameter that was set but couldn't be used, and why, in plain words. The workspace shows
+ *  these in a small, dismissible notice instead of silently falling back to the default. */
+export interface Ignored {
+  param: string;
+  value: string;
+  why: string;
+}
+
+/** The link's state. Pass `ignored` to collect the parameters that were set but not usable (an
+ *  unknown building type, view, canvas or tab; a tolerance that isn't a number from 1 to 50%). An
+ *  unknown neighbourhood is caught later, once the citywide file says which names exist (hoodIgnored). */
+export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
   const q = new URLSearchParams(search);
   const num = (k: string) => (q.get(k) != null && !Number.isNaN(Number(q.get(k))) ? Number(q.get(k)) : undefined);
   const view = (q.get('view') as View) ?? (q.get('lot') ? 'lot' : 'city');
   const type = (q.get('type') as TemplateId) ?? 'two';
-  return {
+  const state: UrlState = {
     view: VIEWS.includes(view) ? view : 'city',
     block: q.get('block') ?? '10K',
     lot: q.get('lot') ?? '25',
@@ -109,6 +120,27 @@ export function parseUrl(search: string): UrlState {
     node: q.get('node'),
     ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
   };
+  if (ignored) {
+    const bad = (param: string, why: string) => ignored.push({ param, value: q.get(param) ?? '', why });
+    const unknown = (param: string, list: readonly string[], why: string) => {
+      const v = q.get(param);
+      if (v != null && !list.includes(v)) bad(param, why);
+    };
+    unknown('view', VIEWS, 'not a page we have');
+    unknown('type', TYPES, 'not a building type we check');
+    unknown('canvas', CANVASES, 'not a view we have: map, plan, graph or table');
+    unknown('tab', TABS, `not a tab we have: ${TABS.join(', ')}`);
+    unknown('tray', TRAYS, `not a tray tab we have: ${TRAYS.join(', ')}`);
+    if (q.get('tol') != null && state.tol == null) bad('tol', 'not a tolerance we use: a number from 1 to 50 (percent)');
+  }
+  return state;
+}
+
+/** The notice entry for a `hood` the citywide file doesn't name, or null when it's known. */
+export function hoodIgnored(hood: string | null, known: Iterable<string>): Ignored | null {
+  if (!hood) return null;
+  for (const k of known) if (k === hood) return null;
+  return { param: 'hood', value: hood, why: `no neighbourhood named “${hood}”` };
 }
 
 export function toSearch(s: Partial<UrlState> & { view: View }): string {
@@ -155,13 +187,32 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')}`;
 }
 
-export function useUrlState(): [UrlState, (patch: Partial<UrlState>, opts?: { push?: boolean }) => void] {
-  const [state, setState] = useState(() => parseUrl(window.location.search));
+/** The link's parameters that were ignored, for the notice: `add` reports one found later (an unknown
+ *  neighbourhood), `dismiss` clears the notice. */
+export interface IgnoredApi {
+  items: Ignored[];
+  add: (x: Ignored) => void;
+  dismiss: () => void;
+}
+
+export function useUrlState(): [UrlState, (patch: Partial<UrlState>, opts?: { push?: boolean }) => void, IgnoredApi] {
+  const [first] = useState(() => {
+    const out: Ignored[] = [];
+    return { s: parseUrl(window.location.search, out), out };
+  });
+  const [state, setState] = useState(first.s);
+  const [ignored, setIgnored] = useState<Ignored[]>(first.out);
   useEffect(() => {
-    const on = () => setState(parseUrl(window.location.search));
+    const on = () => {
+      const out: Ignored[] = [];
+      setState(parseUrl(window.location.search, out));
+      setIgnored(out);
+    };
     window.addEventListener('popstate', on);
     return () => window.removeEventListener('popstate', on);
   }, []);
+  const add = useCallback((x: Ignored) => setIgnored((l) => (l.some((y) => y.param === x.param && y.value === x.value) ? l : [...l, x])), []);
+  const dismiss = useCallback(() => setIgnored([]), []);
   const update = useCallback((patch: Partial<UrlState>, opts?: { push?: boolean }) => {
     setState((prev) => {
       const next = { ...prev, ...patch };
@@ -173,5 +224,5 @@ export function useUrlState(): [UrlState, (patch: Partial<UrlState>, opts?: { pu
       return next;
     });
   }, []);
-  return [state, update];
+  return [state, update, useMemo(() => ({ items: ignored, add, dismiss }), [ignored, add, dismiss])];
 }

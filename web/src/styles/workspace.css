@@ -20,10 +20,6 @@
   flex-direction: column;
   overflow: hidden;
 }
-:root[data-record='1'] .app.is-ws {
-  width: 1440px;
-  height: 810px;
-}
 :root[data-workspace='1'] body {
   overflow: hidden;
 }
@@ -32,8 +28,8 @@
 .ws-top {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 8px 16px 7px;
+  gap: 10px;
+  padding: 8px 14px 7px;
   border-bottom: 3px double var(--ink);
   background: var(--paper);
   position: relative;
@@ -51,8 +47,8 @@
   font-size: 19px;
 }
 .ws-top .search {
-  flex: 0 1 240px;
-  min-width: 150px;
+  flex: 0 1 224px;
+  min-width: 212px; /* the whole placeholder, "Search a lot, street or block…" */
 }
 .ws-top .search input {
   padding: 6px 9px;
@@ -63,8 +59,9 @@
   color: var(--ink-2);
   border-bottom: 1px solid var(--rule);
 }
+/* The crumbs give way first (they shrink, with an ellipsis), never a control: the top bar fits in one row
+   from 1280 px up (judge round 2: at 1280 it was 1310 px wide and "Present" read "PRES"). */
 .ws-crumbs {
-  flex: 1 0 auto;
   min-width: 0;
 }
 .ws-crumbs ol {
@@ -82,7 +79,7 @@
   flex: 0 1 auto;
 }
 .ws-crumbs li:last-child {
-  flex: none;
+  flex: 0 0.2 auto;
 }
 .ws-types {
   display: flex;
@@ -90,7 +87,7 @@
 }
 .ws-types .rail-opt {
   font-size: 11.5px;
-  padding: 5px 9px;
+  padding: 5px 7px;
   min-height: 30px;
   letter-spacing: 0.08em;
 }
@@ -105,7 +102,7 @@
   font-size: 11.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 5px 10px;
+  padding: 5px 8px;
   min-height: 28px;
   border: 0;
   background: transparent;
@@ -129,7 +126,7 @@
   margin-left: auto;
 }
 .ws-tools .btn {
-  padding: 5px 8px;
+  padding: 5px 6px;
   font-size: 11.5px;
   min-height: 28px;
 }
@@ -144,6 +141,123 @@
 .ws-theme.is-on {
   border-color: var(--rule-strong);
 }
+/* Grid areas for the narrow top bars (they apply only where the bar is a grid; see the media queries). */
+.ws-top > .cartouche {
+  grid-area: logo;
+  justify-self: start;
+}
+.ws-top > .search {
+  grid-area: search;
+}
+.ws-top > .ws-tools {
+  grid-area: tools;
+}
+.ws-top > .ws-types {
+  grid-area: types;
+}
+.ws-top > .ws-views {
+  grid-area: views;
+}
+.ws-top > .ws-crumbs {
+  grid-area: crumbs;
+}
+.ws-top > .ws-picks {
+  grid-area: picks;
+}
+/* The crumbs take the room left over; when that is short, "Pittsburgh" goes first (the cartouche is the
+   same link), then the others shorten with an ellipsis. */
+.ws-top > .ws-crumbs {
+  flex: 1 1 0;
+  container-type: inline-size;
+}
+@container (max-width: 250px) {
+  .ws-crumbs li:first-child:not(:last-child) {
+    display: none;
+  }
+  .ws-crumbs li:nth-child(2)::before {
+    content: none;
+  }
+}
+/* Phones: the building type and the view as two selects on one line (the segmented switches hide). */
+.ws-picks {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.ws-pick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.ws-pick-name {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.ws-pick select {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  font: inherit;
+  font-size: 14px;
+  padding: 4px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--sheet);
+  color: var(--ink);
+}
+
+/* ── Ignored link parameters (UrlNotice): one small line, dismissible ─── */
+.ws-notice {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 8px 3px 14px;
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--sheet);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  position: relative;
+  z-index: 19;
+}
+.ws-notice p {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ws-notice-head {
+  font-family: var(--f-map);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.ws-notice-param {
+  font-family: var(--f-map);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.ws-notice-x {
+  flex: none;
+  min-width: 28px;
+  min-height: 28px;
+  border: 1px solid var(--rule-strong);
+  background: none;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.app.is-page .ws-notice {
+  margin: -10px 0 12px;
+}
 
 /* ── Workspace grid ────────────────────────────────────────────────────── */
 .ws {
@@ -155,6 +269,13 @@
   grid-template-areas:
     'rail canvas ins'
     'tray tray tray';
+}
+/* The graph needs width more than the rail does (its rail holds only the node-type filters). */
+.ws.ws-canvas-graph {
+  grid-template-columns: min(var(--ws-rail), 184px) minmax(0, 1fr) var(--ws-ins);
+}
+.ws-canvas-graph .ws-canvas-body.is-graph {
+  padding: 8px 10px;
 }
 
 /* ── Left rail ─────────────────────────────────────────────────────────── */
@@ -371,6 +492,12 @@
 .ws-runs td {
   vertical-align: top;
 }
+.ws-run-addr {
+  margin: 0;
+}
+.ws-runs .ws-run-addr {
+  display: block;
+}
 .ws-canvas-body.is-table .link {
   text-align: left;
 }
@@ -425,6 +552,17 @@
   align-items: center;
   gap: 6px 10px;
   min-height: 30px;
+}
+/* One small control at the end of the status row ("Watch this lot"), out of the way of the verdict. */
+.ws-status-action {
+  margin-left: auto;
+}
+.ws-status-action .btn {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  min-height: 24px;
+  border-color: var(--rule-strong);
 }
 .ws-stamp {
   font-family: var(--f-map);
@@ -1149,173 +1287,261 @@
   margin-top: 4px;
 }
 
-/* ── Presentation mode: a little larger, still one screen (panels scroll). ── */
-:root[data-present='1']:not([data-record='1']) {
-  --ws-ins: 520px;
-  --ws-rail: 236px;
+/* ── Stages: record (the 1440×810 layout at 1920×1080) and present (a projector: at least 1280×720, scaled
+   to the screen, so type grows on a big screen). App.tsx sets data-stage, --stage-w, --stage-h and the zoom
+   (workspace/stage.ts). Media queries see the screen, not the stage, so every narrow-screen rule below
+   skips a staged page. ── */
+:root[data-stage='1'] .app.is-ws {
+  width: var(--stage-w, 1440px);
+  height: var(--stage-h, 810px);
 }
 :root[data-record='1'] .ws-tools,
 :root[data-record='1'] .ws-top .search {
   display: none;
 }
+/* Present gives the plate the room: the rail and inspector at their narrow widths. */
+:root[data-present='1'][data-stage='1']:not([data-record='1']) {
+  --ws-rail: 196px;
+  --ws-ins: 440px;
+}
 
-/* ── Narrow screens: canvas, then inspector, then tray; the page scrolls. ─ */
+/* ── Narrow screens ─────────────────────────────────────────────────────── */
 @media (max-width: 1279px) {
-  :root {
+  :root:not([data-stage='1']) {
     --ws-rail: 196px;
     --ws-ins: 420px;
   }
-  .ws-top {
-    flex-wrap: wrap;
-  }
-  .ws-crumbs {
-    order: 10;
-    flex-basis: 100%;
+}
+/* 1024–1279: the top bar in two rows beside the cartouche (search and tools; types, views and crumbs). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  :root:not([data-stage='1']) .ws-top.is-ws {
+    display: grid;
+    grid-template-columns: auto auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'logo search search search tools'
+      'logo types views crumbs crumbs';
+    gap: 5px 10px;
+    padding: 6px 14px;
   }
 }
+/* Under 1024: canvas, then inspector, then tray; the page scrolls. */
 @media (max-width: 1023px) {
-  .app.is-ws {
+  :root:not([data-stage='1']) .app.is-ws {
     height: auto;
     overflow: visible;
   }
-  :root[data-workspace='1'] body {
+  :root:not([data-stage='1'])[data-workspace='1'] body {
     overflow: auto;
   }
-  .ws {
+  :root:not([data-stage='1']) .ws {
     display: flex;
     flex-direction: column;
   }
-  .ws-canvas {
+  :root:not([data-stage='1']) .ws-canvas {
     order: 1;
     border-bottom: 1px solid var(--ink);
   }
-  .ws-inspector {
+  :root:not([data-stage='1']) .ws-inspector {
     order: 2;
     border-left: 0;
   }
-  .ws-tray {
+  :root:not([data-stage='1']) .ws-tray {
     order: 3;
   }
-  .ws-rail {
+  :root:not([data-stage='1']) .ws-rail {
     order: 4;
     border-right: 0;
     border-top: 3px double var(--ink);
   }
-  .ws-canvas-body {
+  :root:not([data-stage='1']) .ws-canvas-body {
     padding: 10px 12px;
     display: block;
   }
-  .ws-canvas-body.is-table {
+  :root:not([data-stage='1']) .ws-canvas-body.is-table {
     max-height: 70vh;
   }
-  .ws-tabbody {
+  :root:not([data-stage='1']) .ws-tabbody {
     overflow: visible;
   }
-  .ws-tray-body {
+  :root:not([data-stage='1']) .ws-tray-body {
     height: auto;
     max-height: none;
   }
-  .ws-route {
+  :root:not([data-stage='1']) .ws-route {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .ws-top {
-    gap: 8px 10px;
+  /* The top bar: cartouche, search and tools; then types, views and crumbs. */
+  :root:not([data-stage='1']) .ws-top.is-ws {
+    flex-wrap: wrap;
+    gap: 6px 10px;
   }
-  .ws-top .search {
+  :root:not([data-stage='1']) .ws-top.is-ws::after {
+    content: '';
+    order: 4;
+    flex-basis: 100%;
+    height: 0;
+  }
+  :root:not([data-stage='1']) .ws-top .search {
+    order: 2;
+    flex: 1 1 200px;
+  }
+  :root:not([data-stage='1']) .ws-top .ws-tools {
+    order: 3;
+  }
+  :root:not([data-stage='1']) .ws-types {
     order: 5;
-    flex: 1 1 100%;
   }
-  .ws-types,
-  .ws-views {
+  :root:not([data-stage='1']) .ws-views {
     order: 6;
   }
+  :root:not([data-stage='1']) .ws-top .ws-crumbs {
+    order: 7;
+    flex: 1 1 160px;
+  }
 }
+/* Phones (390 target): a compact top bar (search; the building type and the view as two selects on one
+   line), then the inspector's header and tiles, so the verdict and the way forward are on the first
+   screen; then the canvas, the tabs, the tray and the rail. No sideways scroll; targets 44 px. */
 @media (max-width: 767px) {
-  .ws-top {
+  :root:not([data-stage='1']) .ws-top {
     padding: 8px 12px;
   }
-  .ws-tools {
+  :root:not([data-stage='1']) .ws-top.is-ws {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'logo tools'
+      'search search'
+      'picks picks'
+      'crumbs crumbs';
+    gap: 6px 8px;
+    padding: 6px 12px 5px;
+  }
+  :root:not([data-stage='1']) .ws-top.is-ws::after {
+    content: none;
+  }
+  :root:not([data-stage='1']) .ws-top.is-ws .cartouche {
+    padding: 3px 8px 2px;
+  }
+  :root:not([data-stage='1']) .ws-top.is-ws .cartouche-num {
+    font-size: 17px;
+  }
+  :root:not([data-stage='1']) .ws-top.is-ws .cartouche-sub {
+    font-size: 7.5px;
+    margin-top: 1px;
+  }
+  :root:not([data-stage='1']) .ws-top .ws-tools {
     margin-left: 0;
     flex-wrap: wrap;
   }
-  .ws-types {
-    flex-wrap: wrap;
-    width: 100%;
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-tools {
+    justify-self: end;
+    flex-wrap: nowrap;
   }
-  .ws-types .rail-opt {
-    flex: 1 1 45%;
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-tools .btn {
     min-height: 44px;
-    border-left: 1px solid var(--ink) !important;
-    margin: 0 -1px -1px 0;
+    padding: 4px 7px;
   }
-  .ws-views {
-    width: 100%;
-  }
-  .ws-view {
-    flex: 1;
+  :root:not([data-stage='1']) .ws-top.is-ws .search input {
     min-height: 44px;
   }
-  .ws-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin: 0 12px;
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-types,
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-views {
+    display: none;
   }
-  .ws-tile {
-    height: auto;
-    min-height: 78px;
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-picks {
+    display: grid;
   }
-  .ws-tile:nth-child(3) {
-    border-left: 0;
+  :root:not([data-stage='1']) .ws-top.is-ws .ws-crumbs ol {
+    font-size: 11px;
   }
-  .ws-tile:nth-child(n + 3) {
-    border-top: 1px solid var(--rule-strong);
+
+  /* The inspector's parts join the page's column: header and tiles first, the canvas after them. */
+  :root:not([data-stage='1']) .ws-inspector:has(> .ws-ins-head) {
+    display: contents;
   }
-  .ws-ins-head {
+  :root:not([data-stage='1']) .ws-ins-head {
+    order: 1;
     padding: 10px 12px 8px;
+    background: var(--sheet);
   }
-  .ws-tabs {
+  :root:not([data-stage='1']) .ws-way .link {
+    padding: 12px 0;
+    margin: -12px 0;
+  }
+  :root:not([data-stage='1']) .ws-tiles {
+    order: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0 12px 10px;
+  }
+  :root:not([data-stage='1']) .ws-canvas {
+    order: 3;
+    border-top: 1px solid var(--ink);
+  }
+  :root:not([data-stage='1']) .ws-inspector {
+    order: 3;
+  }
+  :root:not([data-stage='1']) .ws-tabs {
+    order: 4;
     margin: 10px 12px 0;
     overflow-x: auto;
   }
-  .ws-tab {
+  :root:not([data-stage='1']) .ws-tabbody {
+    order: 5;
+    padding: 8px 12px 16px;
+    background: var(--sheet);
+  }
+  :root:not([data-stage='1']) .ws-tray {
+    order: 6;
+  }
+  :root:not([data-stage='1']) .ws-rail {
+    order: 7;
+    padding: 10px 12px;
+  }
+  :root:not([data-stage='1']) .ws-tile {
+    height: auto;
+    min-height: 78px;
+  }
+  :root:not([data-stage='1']) .ws-tile:nth-child(3) {
+    border-left: 0;
+  }
+  :root:not([data-stage='1']) .ws-tile:nth-child(n + 3) {
+    border-top: 1px solid var(--rule-strong);
+  }
+  :root:not([data-stage='1']) .ws-tab {
     min-height: 44px;
     padding: 5px 8px;
   }
-  .ws-tabbody {
-    padding: 8px 12px 16px;
-  }
-  .ws-tray-bar {
+  :root:not([data-stage='1']) .ws-tray-bar {
     flex-wrap: wrap;
     padding: 4px 12px;
   }
-  .ws-tray-tabs {
+  :root:not([data-stage='1']) .ws-tray-tabs {
     flex-wrap: wrap;
   }
-  .ws-tray-tab {
+  :root:not([data-stage='1']) .ws-tray-tab {
     min-height: 40px;
   }
-  .ws-disclaimer {
+  :root:not([data-stage='1']) .ws-disclaimer {
     order: 5;
     flex-basis: 100%;
     text-align: left;
     padding-bottom: 4px;
   }
-  .ws-tray-body {
+  :root:not([data-stage='1']) .ws-tray-body {
     padding: 8px 12px;
   }
-  .ws-timeline {
+  :root:not([data-stage='1']) .ws-timeline {
     flex-direction: column;
   }
-  .ws-ev {
+  :root:not([data-stage='1']) .ws-ev {
     flex: none;
   }
-  .ws-rail {
-    padding: 10px 12px;
-  }
-  .ws-canvas-body.is-table .lots-table {
+  :root:not([data-stage='1']) .ws-canvas-body.is-table .lots-table {
     font-size: 12.5px;
   }
-  .ws-canvas-body.is-table {
+  :root:not([data-stage='1']) .ws-canvas-body.is-table {
     overflow-x: auto;
   }
 }
@@ -1332,6 +1558,7 @@
 .ws-way .link {
   font: inherit;
   padding: 0;
+  min-height: 0; /* an inline link: on a phone the 44 px target comes from the padding below, not the line */
   border: 0;
   background: none;
   color: var(--ink);

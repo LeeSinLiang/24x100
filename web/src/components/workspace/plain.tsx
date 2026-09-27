@@ -179,3 +179,36 @@ export function LotSentence({ r, m, block, detail }: { r: LotResult; m: MoneyRes
     </>
   );
 }
+
+// ── Combine to fit (C15): runs named by their County lot numbers ───────────────────────────────────
+// Judge round 2 read "625 Lawson St · 620 Lawson St" as opposite sides of the street; the lots do share
+// lot lines (the finder pairs them from the parcel map). The block and lot numbers say so; the
+// addresses stay as secondary text.
+
+/** "10‑K" from a County PIN ("0010K00212000000"): the block number and letter. */
+export function blockOfPin(pin: string): string {
+  const m = pin.match(/^(\d{4})([A-Z])/);
+  return m ? `${Number(m[1])}‑${m[2]}` : pin;
+}
+
+/** A run's lots by County number: "10‑K lots 25 · 26 · 27", or block by block when it spans two. */
+export function runLotsLabel(lots: { pin: string; lot: string | null }[]): string {
+  const lotOf = (l: { pin: string; lot: string | null }) => l.lot ?? String(Number(l.pin.slice(5, 10)));
+  const blocks = [...new Set(lots.map((l) => blockOfPin(l.pin)))];
+  if (blocks.length === 1) return `${blocks[0]} ${lots.length === 1 ? 'lot' : 'lots'} ${lots.map(lotOf).join(' · ')}`;
+  return lots.map((l) => `${blockOfPin(l.pin)} lot ${lotOf(l)}`).join(' · ');
+}
+
+/** A run's addresses, as the City and County list them (secondary text). */
+export function runAddrs(lots: { pin: string; addr: string | null }[]): string {
+  return lots.map((l) => l.addr ?? 'no address').join(' · ');
+}
+
+/** The honesty line for the addresses in a run; shown once on a screen that lists runs. */
+export const RUN_ADDR_NOTE = 'Addresses are the City’s and County’s; lots are paired from the parcel map, not by house number.';
+
+/** The City-owned lots the runs touch (each counted once), and whether any lot sits in more than one run. */
+export function runCounts(runs: { lots: { pin: string; city: boolean }[] }[]): { cityLots: number; shared: boolean } {
+  const all = runs.flatMap((r) => r.lots.map((l) => l.pin));
+  return { cityLots: new Set(runs.flatMap((r) => r.lots.filter((l) => l.city).map((l) => l.pin))).size, shared: new Set(all).size < all.length };
+}
