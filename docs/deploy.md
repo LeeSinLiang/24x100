@@ -35,6 +35,18 @@ domain from `VERCEL_PROJECT_PRODUCTION_URL` (a system variable Vercel sets); els
 `https://24x100.example/`) for the build. Without either the tags point at `./og.png`, which browsers resolve but
 unfurlers may not.
 
+## After the first green CI run on GitHub
+
+`.github/workflows/ci.yml` has run step by step on a fresh local clone (macOS, Node 26), not yet on GitHub's
+ubuntu-latest. Once the Actions tab shows it green, add the badge under the README's title:
+
+```markdown
+[![CI](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml)
+```
+
+If it's red, the likely suspect is the runner's Chrome (the no-score and trust-scan steps drive it through
+Playwright's `chrome` channel); the typecheck, vitest, pytest and build steps don't touch a browser.
+
 ## One command instead
 
 From the repository root, after `npx vercel login`:

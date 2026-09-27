@@ -1,6 +1,10 @@
-# CI: every check a fresh clone can run. No model calls, no City pulls, no secrets, nothing sent.
+# CI: the deterministic checks a fresh clone can run. No model calls, no City pulls, no secrets, nothing sent.
 # Tests that need the gitignored raw pulls (data/raw, data/city/work) skip and say why (-rs lists each skip).
-# Node 26 is the version these checks were verified on (a fresh clone, 27 Sep 2026).
+# Left out on purpose: the word budgets (scripts/words.mjs counts what fits on screen, so it depends on how the
+# runner's Chrome lays out the fonts) and the smoke test (scripts/smoke.mjs is for the live URL, run by hand after
+# a deploy). Both run locally before a commit.
+# Verified step by step on a fresh local clone with Node 26 (macOS, 27 Sep 2026); not yet run on GitHub's
+# ubuntu-latest, so its Chrome is the untested part.
 name: CI
 on:
   push:
@@ -38,21 +42,16 @@ jobs:
           test -z "$(git status --porcelain)"
       - name: Chrome for the page checks
         run: command -v google-chrome || npx playwright install --with-deps chrome
-      - name: Start the dev server (the trust scan imports the engine from it) and the built site
+      - name: Start the dev server (the trust scan imports the engine from it)
         run: |
           nohup npm run dev > /tmp/dev.log 2>&1 &
-          nohup npm run preview > /tmp/preview.log 2>&1 &
           for i in $(seq 90); do
-            curl -sf http://localhost:5173/ > /dev/null && curl -sf http://localhost:4173/ > /dev/null && exit 0
+            curl -sf http://localhost:5173/ > /dev/null && exit 0
             sleep 1
           done
-          cat /tmp/dev.log /tmp/preview.log
+          cat /tmp/dev.log
           exit 1
       - name: No score anywhere (spec §0.12 C1; the self-test plants one first)
         run: node scripts/no-score.mjs --self-test
       - name: Trust states on screen (nothing pencil, struck or unsigned drawn in ink)
         run: node scripts/trust-scan.mjs
-      - name: Word budgets, no page scroll, no console errors
-        run: node scripts/words.mjs
-      - name: Smoke test of the built site (the film's numbers, the quote flip, the letters)
-        run: npm run smoke -- http://localhost:4173/

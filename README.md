@@ -1,7 +1,5 @@
 # 24×100
 
-[![CI](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml)
-
 **What a Pittsburgh lot can hold, what's holding it back, and what would move it.**
 
 Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100 ft deep, repeated in
@@ -175,8 +173,8 @@ output for them.
 | Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 156 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone (the CI run) 145 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
-| CI on a fresh clone (`.github/workflows/ci.yml`) | Typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, no-score, trust scan, word budgets, and the smoke test: all pass on a fresh local clone of the committed tree (27 Sep). Not yet run on GitHub: the repository isn't public | `.github/workflows/ci.yml` |
-| Post-deploy smoke test | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the quote flip to $51k, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
+| CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, no-score and the trust scan. Every step passes on a fresh local clone of the committed tree (27 Sep, Node 26, macOS); not yet run on GitHub (the repository isn't public). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
+| Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the quote flip to $51k, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
