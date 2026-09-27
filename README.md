@@ -16,7 +16,29 @@ Development Feasibility & Pro Forma Navigator.
 > and takes the manual hassle off their hands: pulling the datasets, reading the code, noticing what changed,
 > drafting the letter. It never hides uncertainty. Whatever we don't know, it says so.
 
-![The signature frame: lots 25–27 combined on Mahon Street](docs/reviews/slice-r2-B04-record-dark.png)
+![Combining lots 25–27 on Mahon Street: the buildable width goes from 4 ft to 52 ft](docs/hero-combine.gif)
+
+## Judge's 3-minute tour
+
+Five links into the app, in the order the story goes. Until the live link is in (above), replace
+`https://24x100.example/` with `http://localhost:5173/` after `npm install && npm run dev`.
+
+1. **One lot: [2241 Mahon St, a two-unit house](https://24x100.example/?view=lot&block=10K&lot=25&type=two).**
+   It meets the minimum lot size exactly, and the side setbacks still leave 4 ft to build on. So does every lot
+   down the street.
+2. **Combine it, then money first: [lots 25–27, a three-unit house, Money tab](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money).**
+   52 ft to build on; building costs more than the newest new-build sale: "Only with subsidy", a screening
+   estimate that says whose.
+3. **Your builder's quote: [the same lots at $140 per sq ft](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money&quote=140).**
+   The verdict follows your number, in red (yours, not checked), beside the practitioner's estimate.
+4. **Which sentence to change: [Rule what-ifs, S1](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1).**
+   Strike one sentence of §925.06.C and 196 more City lots could hold a two-unit home. A what-if, not the law.
+5. **Combine to fit: [lot groups in RM‑M](https://24x100.example/?view=city&type=three&layer=assemble&canvas=table).**
+   111 groups of 2–3 side-by-side lots, with room for up to 240 homes.
+
+Also worth a click: **Graph** on any lot (every node a real record, down to who signed each rule), **Watch this
+lot** on the Next tab (what the Slack and email digest will send), and **Draft the letter** (one per office,
+every number traced to the engine). On a phone, the same links work.
 
 ## The story in one lot
 
@@ -170,7 +192,10 @@ advice. Parcel geometry comes from GIS, not surveys; lot areas are checked again
 shown, not settled. Water and sewer capacity, soils, fill, title and liens are not assessed. Footprints come
 from a 2023 layer. The slope layer is a derived threshold, not the steep-slope overlay. Community priorities
 are not scored; 24×100 points to the RCO. There is no score. The money screen is an estimate: one
-practitioner's construction cost and a gap that is a lower bound. Full list: `docs/limitations.md`.
+practitioner's construction cost and a gap that is a lower bound. Six districts are computed from rules a person
+signed; the others are grey, or, on the "AI-read" layer, shown in pencil as the model read them, never counted.
+Seven districts with City lots can't be read from the code text we saved. The watchlist digest sends only when a
+steward sets a Slack webhook or email in `.env`. Full list: `docs/limitations.md`.
 
 ## License
 
