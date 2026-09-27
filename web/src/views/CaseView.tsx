@@ -93,7 +93,7 @@ const host = (u: string) => {
   }
 };
 const modelWords = (c: CaseFile) =>
-  c.model.planned_by === 'model' ? `planned with ${c.steps.find((s) => s.model)?.model ?? c.model.id} (key: ${c.model.key})` : `planned by rule, no model (${c.model.why})`;
+  c.model.planned_by === 'model' ? `planned with ${c.steps.find((s) => s.model)?.model ?? c.model.id}` : `planned by rule, no model (${c.model.why})`;
 
 /** Which step turned a finding from "not run" to its result (the replay flips it then). */
 function stepOf(c: CaseFile, f: Finding): number {

@@ -44,7 +44,7 @@
     "cached_from": null
    }
   ],
-  "run_note": "Coverage run 3, 27 Sep 2026 afternoon, gemini-3.6-flash, key: track3 (Sin's other Google project, authorised by Sin in chat; its billing tier wasn't stated). The free-tier daily quotas of 24x100's own key were used earlier today. Pencil until a person checks it.",
+  "run_note": "Coverage run 3, 27 Sep 2026 afternoon, gemini-3.6-flash, a team member's Google key (authorised by Sin in chat; free tier, by its quota answers). The free-tier daily quotas of 24x100's own key were used earlier today. Pencil until a person checks it.",
   "incomplete": false,
   "failed_calls": [],
   "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: none."

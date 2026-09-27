@@ -25,7 +25,7 @@ def cost(model: str, tin: int, tout: int) -> float | None:
 @dataclass
 class Model:
     name: str
-    key: str  # which key: "track3" / "24x100" (never the key itself)
+    key: str  # a neutral label for the key (AGENTS_KEY_LABEL), never the key itself
     ex: Any
 
     def ask(self, schema: type[BaseModel], system: str, user: str) -> tuple[BaseModel | None, dict[str, Any]]:

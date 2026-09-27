@@ -46,7 +46,7 @@
     "error": "refused: gemini daily quota reached for gemini-3.6-flash (not retried): Error calling model 'gemini-3.6-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To mon"
    }
   ],
-  "run_note": "Coverage run 3, 27 Sep 2026 afternoon, gemini-3.6-flash, key: track3 (Sin's other Google project, authorised by Sin in chat; its billing tier wasn't stated). The free-tier daily quotas of 24x100's own key were used earlier today. Pencil until a person checks it.",
+  "run_note": "Coverage run 3, 27 Sep 2026 afternoon, gemini-3.6-flash, a team member's Google key (authorised by Sin in chat; free tier, by its quota answers). The free-tier daily quotas of 24x100's own key were used earlier today. Pencil until a person checks it.",
   "incomplete": true,
   "failed_calls": [
    "use"
