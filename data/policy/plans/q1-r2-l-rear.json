@@ -1,0 +1,4 @@
+{
+ "plan": {"decision": "change", "reason": "R2-L's minimum rear setback is a stored, signed rule (30 ft); the question changes its value.", "district": "R2-L", "field": "rear_setback", "new_value": 20, "name": "R2-L rear setback 30 → 20 ft"},
+ "redline": {"quote": "Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.", "strike": "30 ft.", "insert": "20 ft.", "change": "The Low-Density subdistricts' minimum rear setback, 30 ft, read as 20 ft for R2-L.", "caveats": ["Deeper lots may already fit; this counts only the lots where the rear setback is what fails."]}
+}

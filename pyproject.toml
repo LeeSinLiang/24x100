@@ -21,4 +21,4 @@ dev = ["pytest>=8"]
 package = false
 
 [tool.pytest.ini_options]
-testpaths = ["pipeline/tests", "extract/tests"]
+testpaths = ["pipeline/tests", "extract/tests", "agents/tests"]
