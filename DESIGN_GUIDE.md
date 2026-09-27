@@ -249,9 +249,11 @@ busy. Write the way a good planner talks across a table.
   learn (a practitioner's advice); which barrier blocks more often is unproven (H5)." The gap is "at least
   $X per home" and always carries "lower bound: excludes site work, soft costs, financing and land". The
   median is "not an appraisal". Never "$0 lot" or "$0 sitework": say "not in this number".
-- **Variance wording, everywhere:** "Doesn't fit as of right. A side-setback variance is a plausible route (a
-  practitioner at the hackathon called this a clear hardship case). It is not approval, and it adds time and
-  cost we can't estimate."
+- **Variance wording, everywhere** (team decision, 27 Sep): "Needs a variance from the Zoning Board. That's not
+  guaranteed, and every lot on this street has the same problem. The bigger fix is changing the rule: N City lots
+  are stuck the same way." The street clause appears only when true for that street ("every lot we could check"
+  when some couldn't be scored); N is the build-time count of City lots big enough but too narrow for the building
+  type (`data/city/summary.json`). No practitioner's view in app wording.
 - **Site is never clean.** "Not assessed, could change the decision", with the free signal and what resolves
   it (geotechnical investigation, Phase I ESA, PWSA inquiry). No dollar amounts.
 - **Drafts stay drafts.** "Draft inquiry · you send it". Never "send", never "submitted".
