@@ -4,7 +4,7 @@
 // takes its weight off the bottom end only. So an unknown widens the range downward, and a lot that is mostly unknown
 // says "can't score yet" rather than a hopeful number. The weights are our assumptions, shown with the result.
 import type { CityClass, CityLot } from './city';
-import type { Approval, ApprovalKind, LotResult, MoneyResult, Parcel, Settings } from './types';
+import type { Approval, ApprovalKind, CheckId, LotResult, MoneyResult, Parcel, Settings } from './types';
 
 export type EaseState = 'clear' | 'blocks' | 'unknown';
 export type EaseId = 'zoning' | 'approvals' | 'ownership' | 'site' | 'infrastructure' | 'money';
@@ -38,7 +38,8 @@ export const EASE_WEIGHTS = {
 // four or more of those five unknown and the lot can't be scored yet.
 const MAX_UNKNOWN_ASSESSABLE = 3;
 
-const LABEL: Record<EaseId, string> = {
+export const EASE_IDS: EaseId[] = ['zoning', 'approvals', 'ownership', 'site', 'infrastructure', 'money'];
+export const EASE_LABEL: Record<EaseId, string> = {
   zoning: 'Zoning fit',
   approvals: 'Approvals needed',
   ownership: 'Ownership and assembly',
@@ -49,6 +50,7 @@ const LABEL: Record<EaseId, string> = {
 const ZONING: ApprovalKind[] = ['variance', 'use_variance'];
 const OTHER: ApprovalKind[] = ['special_exception', 'administrator_exception', 'grading_review', 'parking_relief'];
 const OWNERSHIP: ApprovalKind[] = ['city_public_sale', 'other_owner', 'lot_consolidation'];
+const DIMENSIONS: CheckId[] = ['width', 'depth', 'area'];
 
 const sum = (as: Approval[]) => as.reduce((s, a) => s + a.weight, 0);
 // The lot card's short money (web kFmt): one decimal under $100k, so the parts read as the sentence does ($57.2k, $150k).
@@ -58,7 +60,7 @@ const k = (n: number) => {
 };
 
 function part(id: EaseId, state: EaseState, minus: [number, number], words: string, source: string): EasePart {
-  return { id, label: LABEL[id], state, minus, words, source };
+  return { id, label: EASE_LABEL[id], state, minus, words, source };
 }
 
 function fromApprovals(id: EaseId, kinds: ApprovalKind[], ink: Approval[], pencil: Approval[], clearWords: string, source: string, blocksIfInk = true): EasePart {
@@ -118,8 +120,20 @@ export function easeForLot(r: LotResult, m: MoneyResult | null, parcels: Parcel[
   const zoning = refused
     ? part('zoning', 'unknown', [0, settings.weights.variance], `can't tell: ${r.refusal?.reason ?? 'not scored'}`, 'settle the records or load the rules first')
     : fromApprovals('zoning', ZONING, ink, pencil, 'fits as of right on dimensions and use', `the zoning code (${r.district}), as signed`);
+  // A fit that rests on pencil (no deed dimensions, an open reading) or on your own assumption (red) isn't established:
+  // the zoning part is unknown, not clear, so an unchecked fit never reads as an easy lot.
+  const soft = refused || zoning.state !== 'clear' ? [] : r.checks.filter((c) => DIMENSIONS.includes(c.id) && c.status !== 'fail' && c.trust !== 'ink');
+  const zoningPart = soft.length
+    ? part(
+        'zoning',
+        'unknown',
+        [0, settings.weights.variance],
+        `fits on paper, not yet established (${soft.map((c) => `${c.label.toLowerCase()}: ${c.trust === 'red' ? 'your assumption' : 'pencil'}`).join('; ')})`,
+        `the zoning code (${r.district}); ${soft.some((c) => c.trust === 'red') ? 'the City confirms an assumption' : 'deed dimensions, a survey or the Zoning Administrator settle it'}`,
+      )
+    : zoning;
   const parts = [
-    zoning,
+    zoningPart,
     fromApprovals('approvals', OTHER, ink, pencil, 'no other approval found', 'the zoning code; the Zoning Administrator settles open readings'),
     fromApprovals('ownership', OWNERSHIP, ink, pencil, 'no purchase step', 'City-Owned Properties and County assessment (owner type only)', false),
     site(slope, mines, settings.slope_flag_threshold),
@@ -137,12 +151,30 @@ export function easeForCity(c: CityClass, l: CityLot, settings: Settings): Ease 
   const b = c.blocker;
   if (b === 'rules' || b === 'records' || b === 'edges')
     return total([part('zoning', 'unknown', [0, settings.weights.variance], c.note, 'the zoning code')], `can't be scored from the map: ${c.note}`);
+  // The citywide reading's trust (city.ts): pencil without deed dimensions, when a built neighbour's setback could change
+  // the width, when the records fall on both sides of the minimum, or on rules a model read. A pencil fit or a pencil
+  // shortfall is unknown, not clear and not a known variance.
+  const dimTrust = b === 'width' ? c.widthTrust : b === 'area' ? c.areaTrust : c.trust;
+  const mapped = !l.deed; // no deed dimensions: the mapped frontage and area, pencil
+  const why = (c.widthTrust !== 'ink' ? c.widthNote : null) ?? (c.areaTrust !== 'ink' ? c.note : null);
+  const settle = mapped ? 'deed dimensions or a survey settle it' : (why ?? 'rules a model read, not yet checked by a person');
+  const w = b === 'width' && c.formula ? `too narrow, ${c.formula} ft` : `the lot's ${b}`;
   const zoning =
     b === 'use'
       ? part('zoning', 'blocks', [settings.weights.use_variance, settings.weights.use_variance], c.note, `the use table (${l.zone})`)
       : b === 'width' || b === 'area' || b === 'depth'
-        ? part('zoning', 'blocks', [settings.weights.variance, settings.weights.variance], `a variance: ${b === 'width' && c.formula ? `too narrow, ${c.formula} ft` : `the lot's ${b}`}`, `the zoning code (${l.zone}), as signed`)
-        : part('zoning', 'clear', [0, 0], `fits as of right${c.formula ? `: ${c.formula} ft` : ''}`, `the zoning code (${l.zone}), as signed`);
+        ? dimTrust === 'ink'
+          ? part('zoning', 'blocks', [settings.weights.variance, settings.weights.variance], `a variance: ${w}`, `the zoning code (${l.zone}), as signed`)
+          : part('zoning', 'unknown', [0, settings.weights.variance], `may need a variance (pencil): ${w}; ${settle}`, `the zoning code (${l.zone}); ${mapped ? 'a deed or survey' : 'the Zoning Administrator'} settles it`)
+        : c.trust === 'ink'
+          ? part('zoning', 'clear', [0, 0], `fits as of right${c.formula ? `: ${c.formula} ft` : ''}`, `the zoning code (${l.zone}), as signed`)
+          : part(
+              'zoning',
+              'unknown',
+              [0, settings.weights.variance],
+              mapped ? `fits on the mapped lines (pencil)${c.formula ? `: ${c.formula} ft` : ''}; deed dimensions or a survey settle it` : `fits on paper (pencil)${c.formula ? `: ${c.formula} ft` : ''}; ${settle}`,
+              `the zoning code (${l.zone}); ${mapped ? 'a deed or survey' : 'the Zoning Administrator'} settles it`,
+            );
   const forSale = l.status === 'Available for Sale';
   const parts = [
     zoning,
@@ -150,7 +182,7 @@ export function easeForCity(c: CityClass, l: CityLot, settings: Settings): Ease 
     part('ownership', 'clear', [settings.weights.city_public_sale, settings.weights.city_public_sale], forSale ? 'City-owned, listed for sale (−5)' : 'City-owned, not listed: ask City Real Estate (−5)', 'City-Owned Properties'),
     site(l.slope25 ?? 0, l.undermined ?? 0, settings.slope_flag_threshold),
     INFRA,
-    money(null, 'no sale comparison for this ward yet'),
+    part('money', 'unknown', [0, EASE_WEIGHTS.money], 'money not modelled for map-only lots (no plan yet)', 'open a lot with block detail for its plan and money screen'),
   ];
   return total(parts, null);
 }

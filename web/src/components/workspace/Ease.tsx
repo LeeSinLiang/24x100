@@ -54,7 +54,7 @@ export function EasePartCell({ p }: { p: EasePart }) {
 
 const minusWords = (p: EasePart) => (p.minus[1] === 0 ? '0' : p.minus[0] === p.minus[1] ? `−${p.minus[0]}` : `${p.minus[0] ? `−${p.minus[0]}` : '0'} to −${p.minus[1]}`);
 
-export function EaseTable({ ease }: { ease: Ease }) {
+export function EaseTable({ ease, compare }: { ease: Ease; compare?: string }) {
   const w = DEFAULT_SETTINGS.weights;
   return (
     <section className="wall ease-wall" aria-labelledby="ease-h" data-panel="ease">
@@ -91,6 +91,13 @@ export function EaseTable({ ease }: { ease: Ease }) {
         special exception {w.special_exception}, grading review {w.grading_review}, parking relief {w.parking_relief}, another owner {w.other_owner}, City sale {w.city_public_sale}, consolidation{' '}
         {w.lot_consolidation}; steep ground {EASE_WEIGHTS.steep}, mapped mines {EASE_WEIGHTS.mines}, water and sewer {EASE_WEIGHTS.infrastructure}, a subsidy gap {EASE_WEIGHTS.money}.
       </p>
+      {compare ? (
+        <p>
+          <a className="btn" href={compare} data-compare-link>
+            Compare with other sites
+          </a>
+        </p>
+      ) : null}
     </section>
   );
 }

@@ -1,7 +1,7 @@
 // The city map and the lot view must agree: same deed arithmetic, same edge labels.
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { classifyCityLot, cityLotFromGeometry, cityRoutes, evaluate, openRing, summarize, DEFAULT_SETTINGS, type CityLot } from '../src';
+import { classifyCityLot, cityLotFromGeometry, cityRoutes, easeForCity, evaluate, openRing, summarize, DEFAULT_SETTINGS, type CityLot } from '../src';
 import { block10K, ctxFor, scen } from './load';
 
 const b = block10K();
@@ -185,6 +185,32 @@ describe('contextual side setback on a lot without block detail', () => {
     const c = classifyCityLot(narrow, rs, 'two', DEFAULT_SETTINGS);
     expect(c.context).toMatchObject({ neighbors: 'built', minimum: null, best: null, matters: true });
     expect(c.widthTrust).toBe('pencil');
+  });
+
+  it('Development Ease: a deed fit is clear; the same fit on mapped lines only is unknown, never "fits as of right"', () => {
+    const deed = lot(40, ['interior_vacant', 'interior_vacant']);
+    const mapped: CityLot = { ...deed, deed: null, front_len: 40, assessed: 4000, mapped: 4000 };
+    const cd = classifyCityLot(deed, ctx.rs, 'two', DEFAULT_SETTINGS);
+    const cm = classifyCityLot(mapped, ctx.rs, 'two', DEFAULT_SETTINGS);
+    expect([cd.blocker, cd.trust, cm.blocker, cm.trust]).toEqual(['fits', 'ink', 'fits', 'pencil']);
+    const ed = easeForCity(cd, deed, DEFAULT_SETTINGS);
+    const em = easeForCity(cm, mapped, DEFAULT_SETTINGS);
+    expect(ed.parts[0]).toMatchObject({ state: 'clear', minus: [0, 0], words: 'fits as of right: 40 − 10 − 10 = 20 ft' });
+    expect(em.parts[0]).toMatchObject({ state: 'unknown', minus: [0, DEFAULT_SETTINGS.weights.variance] });
+    expect(em.parts[0].words).toBe('fits on the mapped lines (pencil): 40 − 10 − 10 = 20 ft; deed dimensions or a survey settle it');
+    expect(em.hi).toBe(ed.hi);
+    expect(em.lo).toBe(Math.max(0, ed.lo - DEFAULT_SETTINGS.weights.variance));
+  });
+
+  it('Development Ease: a shortfall a contextual setback could close is unknown, not a known variance', () => {
+    const built = lot(30, ['interior_built', 'interior_built']); // 30 − 10 − 10 = 10, but 30 − 3 − 3 = 24 may fit
+    const vacant = lot(30, ['interior_vacant', 'interior_vacant']); // 30 − 10 − 10 = 10, and nothing can relax it
+    const eb = easeForCity(classifyCityLot(built, ctx.rs, 'two', DEFAULT_SETTINGS), built, DEFAULT_SETTINGS);
+    const ev = easeForCity(classifyCityLot(vacant, ctx.rs, 'two', DEFAULT_SETTINGS), vacant, DEFAULT_SETTINGS);
+    expect(ev.parts[0]).toMatchObject({ state: 'blocks', minus: [35, 35] });
+    expect(eb.parts[0]).toMatchObject({ state: 'unknown', minus: [0, 35] });
+    expect(eb.parts[0].words).toMatch(/^may need a variance \(pencil\): too narrow, 30 − 10 − 10 = 10 ft; a built neighbor may allow a contextual side setback/);
+    expect(eb.hi).toBe(ev.hi + 35);
   });
 
   it('a lot narrower than the house says a variance can’t make room', () => {

@@ -21,6 +21,13 @@ const THEME = arg('theme', process.env.THEME ?? 'light');
 const OUT = 'film/clips';
 const REVIEWER = process.env.REVIEWER_NAME && process.env.REVIEWER_ROLE ? { name: process.env.REVIEWER_NAME, role: process.env.REVIEWER_ROLE } : null;
 
+const SHORTLIST_TOP = (() => {
+  try {
+    return JSON.parse(readFileSync('data/shortlist/latest.json', 'utf8')).lots[0].pin;
+  } catch {
+    return '0124N00247000000';
+  }
+})();
 const heldOut = (() => {
   try {
     return JSON.parse(readFileSync('film/heldout.json', 'utf8')).link;
@@ -868,9 +875,10 @@ const V6 = [
   {
     id: 'B22',
     name: 'ease-compare',
-    // Development Ease side by side (?view=compare): lot 25 alone, lots 25–27 together, and the shortlist's first lot,
-    // the same six parts in every column; water and sewer is unknown in all three.
-    q: 'view=compare',
+    // Development Ease side by side (?view=compare): lot 25 alone at the practitioner's estimate, lots 25–27 together at
+    // your $140 quote (B16's), and the shortlist's first lot; the same six parts in every column, each column's cost
+    // basis under its name; water and sewer is unknown in all three.
+    q: `view=compare&cols=10K:25:two;10K:25,26,27:three:140;${SHORTLIST_TOP}:two`,
     run: async (p, c) => {
       cues.B22 = {};
       // The third column waits for the citywide file: the table is complete when all three ranges are drawn.
@@ -878,10 +886,12 @@ const V6 = [
       await sleep(150);
       cues.B22.cue = at(c);
       cues.B22.note = 'cue: clip second the table is fully shown (all three columns and their ranges)';
-      await mark(p, 'B22', 'ease_compare', p.locator('[data-ease-compare]').first(), c, 'the table: lot 25 · lots 25–27 · 156 Meadow St, verdict, Development Ease, six parts, subsidy per home');
+      await mark(p, 'B22', 'ease_compare', p.locator('[data-ease-compare]').first(), c, "the table: lot 25 (practitioner's estimate) · lots 25–27 (your $140 quote: $23.1k–$48.1k a home) · 156 Meadow St, verdict, Development Ease, six parts, subsidy per home");
       await mark(p, 'B22', 'ease_range', p.locator('[data-cmp-ease="0"] [data-ease]').first(), c, "our lot's range: Ease 0–40 / 100 (lot 25, two-unit)");
       await mark(p, 'B22', 'ease_unknown', p.locator('[data-cmp-row="infrastructure"]').first(), c, 'Water and sewer: ? not modelled, in all three columns (ask PWSA and ALCOSAN)');
       cues.B22.ranges = await p.$$eval('[data-cmp-ease] [data-ease]', (es) => es.map((e) => (e.dataset.ease === 'scored' ? `${e.dataset.easeLo}–${e.dataset.easeHi}` : 'cant')));
+      cues.B22.basis = await p.$$eval('[data-cmp-basis]', (es) => es.map((e) => e.textContent.replace(/\s+/g, ' ').trim()));
+      cues.B22.money = await p.$$eval('tbody tr:last-child td', (es) => es.map((e) => e.textContent.trim()));
       await c.until(Math.max(1.0, cues.B22.cue + 0.6));
       await hoverSlow(p, p.locator('[data-cmp-ease="0"] [data-ease]'), { fx: 0.75, fy: 1.4, rest: 0.8 });
       await hoverSlow(p, p.locator('[data-cmp-ease="2"] [data-ease]'), { fx: 0.75, fy: 1.4, rest: 0.8 });

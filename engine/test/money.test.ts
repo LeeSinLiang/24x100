@@ -201,4 +201,21 @@ describe('Development Ease (engine/src/ease.ts): a range, never a lone number; a
     const r = evaluate(ctx, scen(b, 'two', [22])); // the records disagree
     expect(easeForLot(r, null, parcels(r), DEFAULT_SETTINGS).scored).toBe(false);
   });
+  it('a fit resting on a pencil width is unknown, never clear: the top stays, the bottom drops by the variance weight', () => {
+    const r = evaluate(ctx, scen(b, 'two', [25]));
+    // Lot 25 with its variance gone and its width passing: once in ink (deed), once in pencil (mapped only).
+    const fit = (trust: 'ink' | 'pencil' | 'red') => ({
+      ...r,
+      approvals: { ink: r.approvals.ink.filter((a) => a.kind !== 'variance'), pencil: r.approvals.pencil.filter((a) => a.kind !== 'variance') },
+      checks: r.checks.map((c) => (c.id === 'width' ? { ...c, status: 'pass' as const, trust, approvals: [] } : c)),
+    });
+    const ink = easeForLot(fit('ink'), null, parcels(r), DEFAULT_SETTINGS);
+    const pencil = easeForLot(fit('pencil'), null, parcels(r), DEFAULT_SETTINGS);
+    expect(ink.parts[0]).toMatchObject({ id: 'zoning', state: 'clear', minus: [0, 0] });
+    expect(pencil.parts[0]).toMatchObject({ id: 'zoning', state: 'unknown', minus: [0, DEFAULT_SETTINGS.weights.variance] });
+    expect(pencil.parts[0].words).toMatch(/width: pencil/);
+    expect(pencil.hi).toBe(ink.hi);
+    expect(pencil.lo).toBe(Math.max(0, ink.lo - DEFAULT_SETTINGS.weights.variance));
+    expect(easeForLot(fit('red'), null, parcels(r), DEFAULT_SETTINGS).parts[0]).toMatchObject({ state: 'unknown', words: expect.stringMatching(/your assumption/) });
+  });
 });

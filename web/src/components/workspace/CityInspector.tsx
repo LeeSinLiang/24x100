@@ -24,6 +24,7 @@ import { watchState as watchStateOf } from '@engine/digest';
 import { DEFAULT_SETTINGS } from '@engine/templates';
 import { easeForCity } from '@engine/ease';
 import { EaseBar, EaseTable } from './Ease';
+import { compareHref } from '../../views/CompareView';
 
 const listAnd = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
@@ -471,7 +472,7 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
     );
   const ease = easeForCity(c, lot, DEFAULT_SETTINGS);
   const tabs: TabDef[] = [
-    { id: 'ease', label: 'Ease', panel: <EaseTable ease={ease} /> },
+    { id: 'ease', label: 'Ease', panel: <EaseTable ease={ease} compare={compareHref(`${lot.pin}:${s.type}`)} /> },
     { id: 'money', label: 'Money', panel: <NotAssessed>Money not assessed: it is {moneyWhy} ({Object.values(BLOCKS).map((b) => b.meta.name.replace(/-/g, '‑')).join(' and ')}). {link ? 'Open the lot to see it.' : ''}</NotAssessed> },
     {
       id: 'rules',

@@ -53,6 +53,7 @@ export interface UrlState {
   ghide: string[]; // Graph canvas: node types hidden from the rail's filters
   focus: string | null; // Graph canvas: show only the chain behind this node's decision (engine/src/graph.ts focusGraph)
   step: number | null; // the route's step shown in the Next tab (1-based); null: the first
+  cols: string[]; // compare: up to three sites, "10K:25,26,27:three:140" (block:lots:type[:quote]) or "<PIN>:two" (a City lot)
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
@@ -141,6 +142,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
       const v = num('step');
       return v != null && Number.isInteger(v) && v > 0 ? v : null;
     })(),
+    cols: (q.get('cols') ?? '').split(';').filter(Boolean).slice(0, 3),
   };
   if (ignored) {
     const bad = (param: string, why: string) => ignored.push({ param, value: q.get(param) ?? '', why });
@@ -200,6 +202,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
     if (s.step != null && s.step > 1) q.set('step', String(s.step));
   }
   if (s.view === 'inquiry' && s.letter) q.set('letter', s.letter);
+  if (s.view === 'compare' && s.cols && s.cols.length) q.set('cols', s.cols.join(';'));
   if (s.assume && s.assume.length) q.set('assume', s.assume.join(','));
   if (s.drawer) q.set('drawer', s.drawer);
   if (s.district) q.set('district', s.district);
@@ -214,7 +217,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if (s.ai) q.set('ai', '1');
   if (s.still) q.set('still', '1');
   if (s.theme) q.set('theme', s.theme);
-  return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')}`;
+  return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':').replace(/%3B/g, ';')}`;
 }
 
 /** The link's parameters that were ignored, for the notice: `add` reports one found later (an unknown

@@ -214,8 +214,8 @@ output for them.
   typed rules with verbatim quotes; code checks the quotes; a named person signs or strikes each rule.
 - **The agents** (`agents/`) use a model only to plan, pick checks and draft words (`gemini-3.5-flash-lite`,
   through `gemini-flash-lite-latest`, on the free tier of a team member's Google key). The engine computes every
-  number; the verifier holds every word a model wrote to what it was given, and blocked real runs where the model
-  garbled "24×100". Model-written words are shown in pencil: no person has read them. With no model the same run
+  number; the verifier checks every number a model wrote against the numbers it was given (that each is there, not
+  what it means) and every quote verbatim against its source, and blocked real runs where the model garbled "24×100". Model-written words are shown in pencil: no person has read them. With no model the same run
   goes by a fixed plan and says so. Due diligence requests only whitelisted fields, so no owner name, contractor,
   lien assignee or 311 case owner is ever fetched.
 - The RM‑M dimensional rules were first matched to the saved code text by an AI research pass. The agent then

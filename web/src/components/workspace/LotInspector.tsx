@@ -22,6 +22,7 @@ import { QuoteForm } from './QuoteForm';
 import { cityLotOfParcel } from '@engine/city';
 import { watchState as watchStateOf } from '@engine/digest';
 import { CASES } from '../../views/CaseView';
+import { compareHref, specForLot } from '../../views/CompareView';
 import { easeForLot } from '@engine/ease';
 import { EaseBar, EaseTable } from './Ease';
 
@@ -468,7 +469,7 @@ export function LotInspector({
     {
       id: 'ease',
       label: 'Ease',
-      panel: <EaseTable ease={ease} />,
+      panel: <EaseTable ease={ease} compare={compareHref(specForLot(block.meta.id, s.lots.length > 1 ? s.lots : [s.lot], s.type, s.quote))} />,
     },
     {
       id: 'rules',

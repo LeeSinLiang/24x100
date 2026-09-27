@@ -68,3 +68,77 @@
   text-transform: uppercase;
   padding: 3px 8px;
 }
+.cmp-table .cmp-fits.is-pencil {
+  color: var(--graphite);
+  border-color: var(--graphite);
+  border-style: dashed;
+}
+/* The cost basis under each site: red where it is your quote (yours, not checked), as on the lot's Money tab. */
+.cmp-basis {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--f-map);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.cmp-basis.is-quote {
+  color: var(--red);
+}
+/* Change a column's site: a quiet disclosure under the header, the search's own index. */
+.cmp-pick {
+  position: relative;
+  margin-top: 4px;
+  font-family: var(--f-ui);
+  font-size: 12px;
+}
+.cmp-pick summary {
+  cursor: pointer;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  list-style: none;
+}
+.cmp-pick summary::-webkit-details-marker {
+  display: none;
+}
+.cmp-pick input {
+  margin-top: 4px;
+  width: 100%;
+  max-width: 260px;
+  font: inherit;
+  padding: 5px 8px;
+  border: 1px solid var(--rule-strong);
+  background: var(--sheet);
+  color: var(--ink);
+}
+.cmp-hits {
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  width: min(320px, 90vw);
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 4px 0;
+  background: var(--sheet);
+  border: 1px solid var(--ink);
+}
+.cmp-hits button {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.cmp-hits button:hover,
+.cmp-hits button:focus-visible {
+  background: var(--paper);
+}
+.cmp-hits li.muted {
+  padding: 4px 10px;
+}
+.cmp-add {
+  width: 12%;
+}
