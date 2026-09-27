@@ -1,9 +1,25 @@
 # Resume here
 
-Updated Sun 27 Sep ~00:20. Resumed after the usage pause; items 1, 2 (engine, city/search) and 5 (C15) below are
-**done** (commits `f32967c`, `94eeeaa`, `f9c5e65`; decisions 42–46). Still open: sections 3 and 4 (publishing path,
-letter polish), the watchlist UI and readable street-name diffs (2.5–2.6), the phone plate label and scale bar
-(held for the §0.15 readability pass), and section 6 (film, judges; recording waits for the team's go-ahead).
+Updated Sun 27 Sep ~02:00.
+
+**Done:**
+- Judge-round-1 fixes: the engine, C15, search, the publishing path and the letters (decisions 36–46).
+- Spec §0.15 P0–P2: the workspace, the graph, and the map inset (decisions 47–51).
+- G5 round 2 (`docs/reviews/g5-round2.md`).
+- A draft `FINAL_REPORT.md`.
+
+**In progress:** judge panel round 2, four agents on the :4173 preview. Don't rebuild the preview until they
+report. Then fill in `docs/judge-panel.md` and the FINAL_REPORT table.
+
+**Waiting on the team:**
+- Their review of the site.
+- The go-ahead to record: every beat, B07 signed by Sin Liang Lee, and B13.
+- The two-price money framing and present mode (P3), both parked.
+
+**Still open:**
+- The watchlist UI and readable street-name diffs in Changes (section 2.5–2.6 below).
+- The G5 round-3 items (`docs/reviews/g5-round2.md`, "Open").
+
 The text below is the original plan, kept for reference.
 
 ## 1. Engine correctness (judge round 1; groundwork merged in `4065aeb`)
