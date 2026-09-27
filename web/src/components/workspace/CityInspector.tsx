@@ -527,7 +527,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           </p>
           <p className="small">The City lot alone: {run.candidate_alone}.</p>
           <p className="small">Still to check: {run.still_to_check.join(', ')}.</p>
-          <p className="small muted">Rules loaded for RM‑M only; other districts not assessed. Owner type only, never names.</p>
+          <p className="small muted">Rules checked for RM‑M and R1D‑H (R1D‑H doesn’t permit two- or three-unit houses); other districts not assessed. Owner type only, never names.</p>
         </>
       ),
     },

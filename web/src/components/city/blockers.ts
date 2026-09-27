@@ -21,16 +21,17 @@ export const STYLE: Record<Blocker, BlockerStyle> = {
   depth: { id: 'depth', words: BLOCKER_WORDS.depth, gloss: 'too shallow after front and rear setbacks', token: '--depth' },
   ownership: { id: 'ownership', words: BLOCKER_WORDS.ownership, gloss: 'fits, but the City is not selling it', token: '--gold' },
   fits: { id: 'fits', words: BLOCKER_WORDS.fits, gloss: 'no dimensional rule stops it, and it is for sale', token: '--ink', hollow: true },
+  use: { id: 'use', words: BLOCKER_WORDS.use, gloss: 'the use table doesn’t allow this building here', token: '--ink-2', hollow: true },
   records: { id: 'records', words: BLOCKER_WORDS.records, gloss: 'County and City areas differ: can’t score', token: '--ink', ring: '--red' },
   edges: { id: 'edges', words: BLOCKER_WORDS.edges, gloss: 'front and sides could not be told apart', token: '--graphite', hollow: true, dashed: true, grey: true },
   rules: { id: 'rules', words: BLOCKER_WORDS.rules, gloss: 'no signed rules for this district', token: '--graphite', alpha: 0.45, grey: true },
 };
 
 /** Legend and table order: the dimensional story first, then the honest greys. */
-export const LEGEND_ORDER: Blocker[] = ['width', 'area', 'depth', 'ownership', 'fits', 'records', 'edges', 'rules'];
+export const LEGEND_ORDER: Blocker[] = ['width', 'area', 'depth', 'ownership', 'fits', 'use', 'records', 'edges', 'rules'];
 
 /** Paint order on the canvas: greys underneath, the answer on top. */
-export const PAINT_ORDER: Blocker[] = ['rules', 'edges', 'ownership', 'depth', 'area', 'width', 'records', 'fits'];
+export const PAINT_ORDER: Blocker[] = ['rules', 'edges', 'use', 'ownership', 'depth', 'area', 'width', 'records', 'fits'];
 
 export const GREY: Blocker[] = ['rules', 'edges', 'records'];
 

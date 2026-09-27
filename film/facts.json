@@ -487,8 +487,8 @@
    "source": "data/city/lots.json (citywide work file pulled 2026-09-26T21:30:07Z)"
   },
   "city_lots_computed": {
-   "value": 563,
-   "display": "563",
+   "value": 1075,
+   "display": "1,075",
    "source": "lots in districts with checked rules, edges computed, records agreeing"
   },
   "city_width_not_area": {
@@ -503,23 +503,25 @@
   },
   "city_by_first_blocker": {
    "value": {
-    "rules": 10263,
-    "records": 374,
-    "edges": 47,
+    "rules": 9413,
+    "records": 678,
+    "edges": 81,
+    "use": 512,
     "area": 311,
     "width": 178,
     "depth": 21,
     "ownership": 24,
     "fits": 29
    },
-   "display": "{\"rules\":10263,\"records\":374,\"edges\":47,\"area\":311,\"width\":178,\"depth\":21,\"ownership\":24,\"fits\":29}",
+   "display": "{\"rules\":9413,\"records\":678,\"edges\":81,\"use\":512,\"area\":311,\"width\":178,\"depth\":21,\"ownership\":24,\"fits\":29}",
    "source": "two-unit house, first blocker per lot (engine classifier)"
   },
   "city_districts_computed": {
    "value": [
+    "R1D-H",
     "RM-M"
    ],
-   "display": "RM-M",
+   "display": "R1D-H, RM-M",
    "source": "districts whose rules are at least source-checked"
   },
   "city_width_not_area_ink": {
@@ -539,13 +541,13 @@
   },
   "setback_stuck_lots_two": {
    "value": 178,
-   "display": "178 City lots in RM-M",
-   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a two-unit house (engine classifier; districts computed: RM-M)"
+   "display": "178 City lots",
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a two-unit house (engine classifier; districts computed: R1D-H, RM-M)"
   },
   "setback_stuck_lots_three": {
    "value": 220,
-   "display": "220 City lots in RM-M",
-   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: RM-M)"
+   "display": "220 City lots",
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: R1D-H, RM-M)"
   },
   "assemblies_citywide": {
    "value": 111,
