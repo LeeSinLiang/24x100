@@ -1,5 +1,6 @@
 // The inspector for a lot with block detail (spec §0.15): header, four tiles, and the tabs Money ·
 // Rules · Site · Next · Sources. The tabs hold today's lot-page panels, unchanged in substance.
+import { useMemo } from 'react';
 import { explanation, getQuestion, headline, nextStep, placeName, type VerdictChip } from '@engine/index';
 import { varianceWords } from '@engine/verdict';
 import type { BlockFile, Parcel } from '@engine/types';
@@ -18,6 +19,8 @@ import { stepFromText, type Step } from './Tray';
 import { whatIfLine } from '../city/WhatIfs';
 import { WatchToggle } from '../WatchToggle';
 import { QuoteForm } from './QuoteForm';
+import { cityLotOfParcel } from '@engine/city';
+import { watchState as watchStateOf } from '@engine/digest';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 
@@ -298,6 +301,11 @@ function NextDetail({ model, block, s, steps, onStep }: { model: LotModel; block
   const r = model.result;
   const sel = parcelByLot(block, s.lot) ?? block.parcels.find((p) => p.pin === r.pins[0])!;
   const k = Math.min(Math.max(1, s.step ?? 1), Math.max(1, steps.length)) - 1; // 0-based, clamped
+  // What the watchlist digest reports for this lot (a City-owned vacant lot): the map's own reading, as the digest does.
+  const watchState = useMemo(
+    () => (sel.city && !sel.built ? watchStateOf(cityLotOfParcel(block, sel), model.ctx.rs, s.type, model.ctx.settings, `?view=lot&block=${block.meta.id}&lot=${lotKey(sel)}&type=${s.type}`) : null),
+    [block, sel, model.ctx, s.type],
+  );
   const st = steps[k];
   // The step's words after its cost tag ("Free: City Real Estate and the URA. What would …").
   const colon = st ? st.text.indexOf(': ') : -1;
@@ -308,9 +316,9 @@ function NextDetail({ model, block, s, steps, onStep }: { model: LotModel; block
         <h2 id="next-h" className="wall-title">
           What to check next{st ? <span className="wall-sub"> · step {k + 1} of {steps.length}</span> : null}
         </h2>
-        <p className="ws-watch">
-          <WatchToggle pin={sel.pin} />
-        </p>
+        <div className="ws-watch">
+          <WatchToggle pin={sel.pin} state={watchState} />
+        </div>
       </div>
       {st ? (
         <>

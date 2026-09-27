@@ -166,6 +166,24 @@ def cmd_refresh(args) -> int:
 def cmd_digest(args) -> int:
     from . import digest as D
 
+    if args.outbox:
+        # The digest scripts/digest.ts built (per watched lot: records, rules, map verdict, a link into the app).
+        outbox = json.loads(Path(args.outbox).read_text())
+        if not args.send:
+            print(outbox["text"])
+            print("(dry run: nothing sent)")
+            return 0
+        try:
+            sent = D.send_outbox(outbox)
+        except D.Refused as e:
+            print(str(e), file=sys.stderr)
+            return 2
+        except Exception as e:  # noqa: BLE001 - reported by type and status code only: never a URL or a credential
+            code = getattr(e, "smtp_code", None) or (str(e).split("HTTP ")[-1] if str(e).startswith("Slack webhook answered HTTP") else None)
+            print(f"digest send failed: {type(e).__name__}{f' ({code})' if code else ''}", file=sys.stderr)
+            return 3
+        print(f"digest sent via {', '.join(sent)}")
+        return 0
     try:
         text = D.build()
     except D.Refused as e:
@@ -221,6 +239,7 @@ def main(argv: list[str] | None = None) -> int:
     g = d.add_mutually_exclusive_group()
     g.add_argument("--dry-run", action="store_true", help="write data/refresh/digest-preview.md and print it (default)")
     g.add_argument("--send", action="store_true", help="post to Slack / send mail, only if keys are set in .env")
+    d.add_argument("--outbox", help="send the digest scripts/digest.ts built (data/digest/outbox.json)")
     d.set_defaults(fn=cmd_digest)
     a = sub.add_parser("all", help="blocks 10K and 0124P, money for wards 5 and 12, city")
     a.add_argument("--offline", action="store_true")

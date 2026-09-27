@@ -4,7 +4,7 @@
 // city map and the lot view agree. If the work file is missing, only block lots are written, and the
 // meta says so.
 import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
-import { cityLotFromGeometry, openRing, type CityLot } from '../engine/src/index';
+import { cityLotFromGeometry, cityLotOfParcel, openRing, type CityLot } from '../engine/src/index';
 import type { BlockFile, Ring, Street } from '../engine/src/types';
 
 interface WorkLot {
@@ -35,39 +35,11 @@ const blocks: BlockFile[] = readdirSync('data/blocks')
 const out: CityLot[] = [];
 const seen = new Set<string>();
 
-// Block lots first (City-owned vacant ones), from the block files.
+// Block lots first (City-owned vacant ones), from the block files (engine/src/city.ts cityLotOfParcel).
 for (const b of blocks) {
   for (const p of b.parcels) {
     if (!p.city || p.built) continue;
-    const neighbors = b.parcels.filter((q) => q.pin !== p.pin).map((q) => ({ pin: q.pin, ring: openRing(q.poly[0]), built: q.built, addr: q.addr, lot: q.lot }));
-    const lot = cityLotFromGeometry(
-      {
-        pin: p.pin,
-        addr: p.addr,
-        hood: b.meta.neighborhood,
-        ward: b.meta.ward ?? null,
-        zone: p.zone,
-        status: p.city.status,
-        status_updated: p.city.status_updated,
-        ll: [0, 0],
-        deed: p.deed ? { front: p.deed.front, depth: p.deed.depth } : null,
-        assessed: p.assess?.lotarea ?? null,
-        mapped: Math.round(p.mapped_area),
-        slope25: p.slope25,
-      },
-      p.poly[0],
-      neighbors,
-      b.streets,
-      p.addr_street ?? b.meta.main_street,
-    );
-    // Local feet → lon/lat for the map (inverse of the block frame).
-    const { lat, lon } = b.meta.origin;
-    const th = (-b.meta.rotation_deg * Math.PI) / 180;
-    const rp = p.rep_point ?? openRing(p.poly[0])[0];
-    const x = rp[0] * Math.cos(th) - rp[1] * Math.sin(th);
-    const y = rp[0] * Math.sin(th) + rp[1] * Math.cos(th);
-    const kx = Math.cos((lat * Math.PI) / 180) * 364000;
-    lot.ll = [Math.round((lon + x / kx) * 1e6) / 1e6, Math.round((lat - y / 364000) * 1e6) / 1e6];
+    const lot = cityLotOfParcel(b, p);
     (lot as CityLot & { block?: string; lot_no?: string }).block = b.meta.id;
     out.push(lot);
     seen.add(p.pin);

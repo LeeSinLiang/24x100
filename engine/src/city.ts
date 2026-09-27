@@ -1,10 +1,11 @@
 // Citywide first-blocker classification (spec §0.6). The same deed arithmetic as evaluate(), on a
 // compact per-lot input whose edge labels were computed by labelEdges() at build time.
 import { labelEdges, type Neighbor } from './edges';
+import { openRing } from './geom';
 import { BOTH_SIDES_Q } from './evaluate';
 import { getQuestion, pick, ruleTrust } from './rules';
 import { TEMPLATES } from './templates';
-import type { NarrowRow, Proposal, Ring, RuleSet, Settings, Street, TemplateId, Trust } from './types';
+import type { BlockFile, NarrowRow, Parcel, Proposal, Ring, RuleSet, Settings, Street, TemplateId, Trust } from './types';
 
 export type Blocker = 'records' | 'rules' | 'edges' | 'use' | 'area' | 'width' | 'depth' | 'ownership' | 'fits';
 export type FlankKind = 'interior_vacant' | 'interior_built' | 'exterior';
@@ -79,6 +80,41 @@ function narrowRow(v: unknown, width: number): NarrowRow | null {
   if (!Array.isArray(v) || width >= 60) return null;
   const w = Math.floor(width);
   return [...(v as NarrowRow[])].sort((a, b) => a.max_width - b.max_width).find((r) => r.max_width >= w) ?? null;
+}
+
+/** A block file's parcel as a citywide lot, exactly as scripts/build-city.ts writes it into data/city/lots.json
+ *  (the watch preview uses it too, so the app's preview and the digest judge a lot the same way). */
+export function cityLotOfParcel(b: BlockFile, p: Parcel): CityLot {
+  const neighbors = b.parcels.filter((q) => q.pin !== p.pin).map((q) => ({ pin: q.pin, ring: openRing(q.poly[0]), built: q.built, addr: q.addr, lot: q.lot }));
+  const lot = cityLotFromGeometry(
+    {
+      pin: p.pin,
+      addr: p.addr,
+      hood: b.meta.neighborhood,
+      ward: b.meta.ward ?? null,
+      zone: p.zone,
+      status: p.city?.status ?? 'not City-owned',
+      status_updated: p.city?.status_updated ?? null,
+      ll: [0, 0],
+      deed: p.deed ? { front: p.deed.front, depth: p.deed.depth } : null,
+      assessed: p.assess?.lotarea ?? null,
+      mapped: Math.round(p.mapped_area),
+      slope25: p.slope25,
+    },
+    p.poly[0],
+    neighbors,
+    b.streets,
+    p.addr_street ?? b.meta.main_street,
+  );
+  // Local feet → lon/lat for the map (inverse of the block frame).
+  const { lat, lon } = b.meta.origin;
+  const th = (-b.meta.rotation_deg * Math.PI) / 180;
+  const rp = p.rep_point ?? openRing(p.poly[0])[0];
+  const x = rp[0] * Math.cos(th) - rp[1] * Math.sin(th);
+  const y = rp[0] * Math.sin(th) + rp[1] * Math.cos(th);
+  const kx = Math.cos((lat * Math.PI) / 180) * 364000;
+  lot.ll = [Math.round((lon + x / kx) * 1e6) / 1e6, Math.round((lat - y / 364000) * 1e6) / 1e6];
+  return lot;
 }
 
 /** Build the compact input from real geometry (used by scripts/build-city.ts and the tests). */

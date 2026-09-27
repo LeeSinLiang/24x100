@@ -17,3 +17,6 @@ film/clips/
 .scratch/
 web/dist-rec/
 .claude/worktrees/
+data/digest/outbox.json
+data/digest/preview.md
+data/digest/preview.html

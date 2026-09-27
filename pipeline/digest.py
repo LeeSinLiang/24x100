@@ -139,6 +139,41 @@ def send(text: str, env: dict[str, str] | None = None, post: Callable[[str, dict
     return sent
 
 
+def send_outbox(outbox: dict, env: dict[str, str] | None = None, post: Callable[[str, dict], None] | None = None,
+                mail: Callable[[dict, str, str, str], None] | None = None) -> list[str]:
+    """Send the digest scripts/digest.ts built (data/digest/outbox.json): Slack Block Kit and an HTML + text email,
+    each only if its variables are set. Credentials are read from the environment and never printed."""
+    env = dict(os.environ if env is None else env)
+    ch = channels(env)
+    if not ch:
+        raise Refused("digest --send refused: set SLACK_WEBHOOK_URL, or SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS "
+                      "and DIGEST_TO in .env. Nothing was sent. Use --dry-run to preview.")
+    sent = []
+    if "slack" in ch:
+        (post or _post_slack)(env["SLACK_WEBHOOK_URL"], {"text": outbox["slack"]["text"], "blocks": outbox["slack"]["blocks"]})
+        sent.append("slack")
+    if "smtp" in ch:
+        (mail or _send_smtp_html)(env, outbox["subject"], outbox["text"], outbox["html"])
+        sent.append("email")
+    return sent
+
+
+def _send_smtp_html(env: dict, subject: str, text: str, html: str) -> None:
+    import smtplib
+    from email.message import EmailMessage
+
+    msg = EmailMessage()
+    msg["Subject"] = subject
+    msg["From"] = env.get("DIGEST_FROM") or env["SMTP_USER"]
+    msg["To"] = env["DIGEST_TO"]
+    msg.set_content(text)
+    msg.add_alternative(html, subtype="html")
+    with smtplib.SMTP(env["SMTP_HOST"], int(env["SMTP_PORT"]), timeout=30) as s:
+        s.starttls()
+        s.login(env["SMTP_USER"], env["SMTP_PASS"])
+        s.send_message(msg)
+
+
 def _post_slack(url: str, payload: dict) -> None:
     import requests
 

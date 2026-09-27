@@ -714,6 +714,32 @@ const V6 = [
     },
   },
   {
+    id: 'B17',
+    name: 'watch',
+    // "Watch this lot": the steward's digest pings (Slack and email) when a watched lot's records, rules or map verdict
+    // change; clicking it shows exactly what the digest reports for this lot now.
+    q: 'view=lot&block=10K&lot=25&type=two&tab=next',
+    run: async (p, c) => {
+      cues.B17 = {};
+      const btn = p.locator('[data-watch-button]').first();
+      await c.until(0.4);
+      await hoverSlow(p, btn, { rest: 0.5 });
+      await mark(p, 'B17', 'watch_button', btn, c, 'the "Watch this lot" button (it reads "Watching ✓" after the click)');
+      await clickSlow(p, btn);
+      cues.B17.watch_click = at(c);
+      await p.waitForSelector('[data-watch-preview]', { timeout: 5000 });
+      // The preview opens under the button; the Next tab scrolls it into view.
+      await p.locator('[data-watch-preview] .watch-card').first().evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      await sleep(700);
+      cues.B17.preview_shown = at(c);
+      await mark(p, 'B17', 'watch_preview', p.locator('[data-watch-preview] .watch-card').first(), c, 'the message the digest sends for this lot: map verdict, rules, sale status, a link back');
+      await mark(p, 'B17', 'watch_verdict', p.locator('[data-watch-preview] .watch-card li').first(), c, 'Map verdict (two-unit house): too narrow: 24 − 10 − 10 = 4 ft', { tight: true });
+      const card = await p.locator('[data-watch-preview] .watch-card').first().boundingBox();
+      if (card) await glide(p, card.x + card.width + 24, card.y + 30, { steps: 26, rest: 0.6 });
+      await c.until(Math.max(7, cues.B17.preview_shown + 4) + HOLD);
+    },
+  },
+  {
     id: 'B15',
     name: 'what-if',
     // The rule what-ifs (spec §0.16): S1's sentence struck through; a click lights its City lots on the map.

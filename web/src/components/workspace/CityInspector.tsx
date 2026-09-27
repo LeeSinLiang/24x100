@@ -20,6 +20,8 @@ import { aType, Gloss, RUN_ADDR_NOTE, runAddrs, runCounts, runLotsLabel } from '
 import { RecordList, RuleSources, type SourceRow } from './Sources';
 import { WatchToggle } from '../WatchToggle';
 import { WhatIfs } from '../city/WhatIfs';
+import { watchState as watchStateOf } from '@engine/digest';
+import { DEFAULT_SETTINGS } from '@engine/templates';
 
 const listAnd = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
@@ -466,9 +468,9 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
       label: 'Next',
       panel: (
         <>
-          <p className="ws-watch">
-            <WatchToggle pin={lot.pin} />
-          </p>
+          <div className="ws-watch">
+            <WatchToggle pin={lot.pin} state={watchStateOf(lot, rs, s.type, DEFAULT_SETTINGS, link ? `?view=lot&block=${link.block}&lot=${link.lot}&type=${s.type}` : `?view=city&type=${s.type}&pin=${lot.pin}`)} />
+          </div>
           <LotActions lot={lot} cls={c} type={s.type} rs={rs} link={link} openLot={openLot} />
           {runsFor.length > 0 && (
             <div className="ws-first">

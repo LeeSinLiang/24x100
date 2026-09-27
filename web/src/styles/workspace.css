@@ -922,6 +922,25 @@
 .ws-next-top .ws-watch {
   margin: 0;
 }
+/* The watch preview takes the row's full width, below the heading and the button. */
+.ws-next-top {
+  flex-wrap: wrap;
+}
+.ws-watch:has(.watch-preview),
+.ws-watch:has(.watch-preview) .watch {
+  flex-basis: 100%;
+  width: 100%;
+}
+.ws-watch:has(.watch-preview) .watch {
+  justify-content: flex-end;
+}
+.ws-watch .watch-preview {
+  max-width: none;
+  scroll-margin-top: 52px; /* clear of the sticky tab strip when it is scrolled into view */
+}
+.ws-watch .watch-card {
+  scroll-margin-top: 84px; /* the card and the label above it, clear of the tab strip */
+}
 .ws-next-nav {
   display: flex;
   gap: 6px;
@@ -1933,4 +1952,63 @@
 }
 .quote-form.is-on {
   border-style: solid;
+}
+
+/* ── Watch this lot: the preview of what the digest sends (Slack and email) ── */
+.watch {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  position: relative;
+}
+.watch-preview {
+  flex-basis: 100%;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1.5px dashed var(--graphite);
+  background: var(--paper);
+  max-width: 560px;
+  text-align: left;
+}
+.watch-preview-label {
+  margin: 0 0 6px;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.watch-card {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--ink);
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.watch-card-head {
+  margin: 0 0 2px;
+  font-weight: 700;
+  font-size: 12px;
+}
+.watch-card-lot {
+  margin: 0 0 4px;
+  font-family: var(--f-display);
+  font-size: 15px;
+}
+.watch-card ul {
+  margin: 0;
+  padding-left: 16px;
+}
+.watch-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.watch-card-open {
+  font-weight: 600;
+  font-size: 12px;
 }

@@ -55,6 +55,16 @@
     "0124P00207000000",
     "0124P00208000000"
    ]
+  },
+  {
+   "block": null,
+   "label": "Beltzhoover R2-H lots, two-unit house (watched to demonstrate the digest)",
+   "pins": [
+    "0014E00106000000",
+    "0014E00108000000",
+    "0014E00037000000"
+   ],
+   "type": "two"
   }
  ]
 }
