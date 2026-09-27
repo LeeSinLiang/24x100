@@ -63,6 +63,43 @@ const must = async (ok, what) => {
 };
 
 const cues = {};
+
+// Pointer marks for the film's red pen (film v6): one box per spoken phrase, in CSS px at 1920×1080, measured
+// with boundingBox() at the clip second from which the element is visible and stays put (no scrolling after t).
+async function mark(page, beat, id, locator, c, note) {
+  const el = typeof locator === 'string' ? page.locator(locator).first() : locator.first();
+  await el.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
+  const b = await el.boundingBox().catch(() => null);
+  cues[beat] ??= {};
+  cues[beat].marks ??= [];
+  if (!b) {
+    cues[beat].missing ??= [];
+    cues[beat].missing.push(`${id}: not found on this screen${note ? ` (${note})` : ''}`);
+    return null;
+  }
+  const box = [Math.round(b.x), Math.round(b.y), Math.round(b.width), Math.round(b.height)];
+  cues[beat].marks.push({ id, t: Math.round(c.now() * 100) / 100, box, ...(note ? { note } : {}) });
+  return box;
+}
+
+// A visible cursor (the recorder's video has none): a dot that follows the mouse and rings on each click.
+const CURSOR = `
+  addEventListener('DOMContentLoaded', () => {
+    const d = document.createElement('div');
+    d.id = 'demo-cursor';
+    d.style.cssText = 'position:fixed;z-index:2147483647;left:0;top:0;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:rgba(160,30,30,.85);box-shadow:0 0 0 3px rgba(255,255,255,.9);pointer-events:none;transition:transform .12s ease;opacity:0';
+    document.documentElement.appendChild(d);
+    addEventListener('mousemove', (e) => { d.style.opacity = '1'; d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; }, true);
+    addEventListener('mousedown', () => { d.style.transform = 'scale(1.6)'; }, true);
+    addEventListener('mouseup', () => { d.style.transform = 'scale(1)'; }, true);
+  });`;
+/** Move the (visible) mouse to an element smoothly, then click it. */
+async function clickSlow(page, locator) {
+  const el = typeof locator === 'string' ? page.locator(locator).first() : locator.first();
+  const b = await el.boundingBox();
+  if (b) await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 18 });
+  await el.click();
+}
 const failed = [];
 
 const BEATS = [
@@ -211,6 +248,7 @@ for (const beat of BEATS) {
     deviceScaleFactor: 1,
     ...(RECORD ? { recordVideo: { dir: tmp, size: { width: 1920, height: 1080 } } } : {}),
   });
+  await ctx.addInitScript(CURSOR);
   const page = await ctx.newPage();
   const tStart = Date.now();
   const errors = [];
