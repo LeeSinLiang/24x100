@@ -1,0 +1,150 @@
+{
+ "id": "Q3",
+ "question": "What if a two-unit house needed only 20 ft of lot width?",
+ "building": "two",
+ "asked_at": "2026-09-27T16:57:25+00:00",
+ "labels": [
+  "what-if, not the law",
+  "drafted by an AI agent; check before sending"
+ ],
+ "model": {
+  "provider": "gemini (LangChain)",
+  "name": "gemini-3.7-flash",
+  "probe": [
+   {
+    "model": "gemini-3.8-flash",
+    "ok": true
+   }
+  ],
+  "calls": [
+   {
+    "schema": "Plan",
+    "model": "gemini-3.7-flash",
+    "tokens_in": 3644,
+    "tokens_out": 320,
+    "latency_ms": 15576
+   }
+  ],
+  "fallbacks": [
+   {
+    "model": "gemini-3.8-flash",
+    "error": "gemini daily quota reached for gemini-3.8-flash (not retried): Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded you"
+   },
+   {
+    "model": "gemini-flash-latest",
+    "error": "gemini daily quota reached for gemini-flash-latest (not retried): Error calling model 'gemini-flash-latest' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceed"
+   }
+  ],
+  "planned_by": "model",
+  "prompt_sha": "9ba9d6504ffc",
+  "cost": {
+   "usd": null,
+   "per_call": [
+    {
+     "usd": null,
+     "note": "no published price recorded for gemini-3.7-flash in extract/eval.py"
+    }
+   ],
+   "note": "no published price for every model used"
+  }
+ },
+ "name": "Two-unit house min lot width 20 ft",
+ "status": "refused",
+ "reason": "The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
+ "steps": [
+  {
+   "agent": "policy",
+   "n": 1,
+   "action": "tool",
+   "tool": "catalogue",
+   "input": {
+    "districts": [
+     "R1D-H",
+     "RM-M",
+     "R2-L",
+     "R1D-L",
+     "R2-H",
+     "R1D-M"
+    ]
+   },
+   "summary": "Read the stored rules of the 6 districts a person has signed: 50 numeric rules a what-if can change.",
+   "sources": [
+    {
+     "file": "data/rules/base/pgh.json",
+     "sha256": "9e0afe1444fbc84506e1fc94808cbad39385875f4211a2fc2fdb0a7f209d7bd9"
+    },
+    {
+     "file": "data/rules/base/rm-m.json",
+     "sha256": "30129040c9decba832d0a361b7a3bb7ace756b66aaa3ecf93dfeefe01c54f29e"
+    },
+    {
+     "file": "data/rules/extracted/r1a-h.json",
+     "sha256": "6a6eba0d8902a6099144647b7603f7859282f589c0663df91e5154064aca4b98"
+    },
+    {
+     "file": "data/rules/extracted/r1a-m.json",
+     "sha256": "ea1c869730c5b69f708d2c20c01a58c1a9a5ae174f99a08c034efe10a3bc5dd8"
+    },
+    {
+     "file": "data/rules/extracted/r1a-vh.json",
+     "sha256": "16058b7c2aaeb32750c195f53097c300abad49b78b1d726c4ec2e354af9933ce"
+    },
+    {
+     "file": "data/rules/extracted/r1d-h.json",
+     "sha256": "854407201e046064081e64048e630eb27570294629b17da662928708dad079ca"
+    },
+    {
+     "file": "data/rules/extracted/r1d-l.json",
+     "sha256": "431abe5a8f0d0333e86b3c41ce2cfe02283b101d35fb380bd2afc96179386ffa"
+    },
+    {
+     "file": "data/rules/extracted/r1d-m.json",
+     "sha256": "83cc6a57999699129138fd5abd99171af1db302ee31f699f86a1b7fafaebe694"
+    },
+    {
+     "file": "data/rules/extracted/r2-h.json",
+     "sha256": "eb7a34f73d555b3ffa74900d1cf56a0e59090bd65966726163cee6f365f3bdc9"
+    },
+    {
+     "file": "data/rules/extracted/r2-l.json",
+     "sha256": "0b517ad395feeb6c900791415ab2a529eba1e3b1c8b42ba9e58063624abee01d"
+    },
+    {
+     "file": "data/rules/extracted/rm-m.json",
+     "sha256": "2727d67da418300f6d32f25151066df39971ce5defd2aec9c2e015b072e75eaf"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:57:25+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "question": "What if a two-unit house needed only 20 ft of lot width?",
+    "building": "two"
+   },
+   "summary": "The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
+   "sources": [],
+   "ok": false,
+   "t": "2026-09-27T16:58:02+00:00",
+   "decision": "refuse"
+  },
+  {
+   "agent": "policy",
+   "n": 3,
+   "action": "verify",
+   "input": null,
+   "summary": "Refused: The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
+   "sources": [],
+   "ok": false,
+   "t": "2026-09-27T16:58:02+00:00"
+  }
+ ],
+ "usage": {
+  "tokens_in": 3644,
+  "tokens_out": 320,
+  "calls": 1
+ }
+}

@@ -1,0 +1,413 @@
+{
+ "id": "Q1",
+ "question": "What if R2-L's rear setback were 20 ft instead of 30?",
+ "building": "two",
+ "asked_at": "2026-09-27T16:55:45+00:00",
+ "labels": [
+  "what-if, not the law",
+  "drafted by an AI agent; check before sending"
+ ],
+ "model": {
+  "provider": "gemini (LangChain)",
+  "name": "gemini-flash-lite-latest",
+  "probe": [
+   {
+    "model": "gemini-3.8-flash",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your"
+   },
+   {
+    "model": "gemini-flash-latest",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-flash-latest' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded y"
+   },
+   {
+    "model": "gemini-3.7-flash",
+    "ok": false,
+    "error": "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. P"
+   },
+   {
+    "model": "gemini-3.6-flash",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-3.6-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your"
+   },
+   {
+    "model": "gemini-flash-lite-latest",
+    "ok": true
+   }
+  ],
+  "calls": [
+   {
+    "schema": "Plan",
+    "model": "gemini-flash-lite-latest",
+    "tokens_in": 3648,
+    "tokens_out": 88,
+    "latency_ms": 1059
+   },
+   {
+    "schema": "Redline",
+    "model": "gemini-flash-lite-latest",
+    "tokens_in": 723,
+    "tokens_out": 140,
+    "latency_ms": 1195
+   }
+  ],
+  "fallbacks": [],
+  "planned_by": "model",
+  "prompt_sha": "9ba9d6504ffc",
+  "cost": {
+   "usd": null,
+   "per_call": [
+    {
+     "usd": null,
+     "note": "no published price recorded for gemini-flash-lite-latest in extract/eval.py"
+    },
+    {
+     "usd": null,
+     "note": "no published price recorded for gemini-flash-lite-latest in extract/eval.py"
+    }
+   ],
+   "note": "no published price for every model used"
+  }
+ },
+ "name": "R2-L rear setback 30 → 20 ft",
+ "status": "counted",
+ "section": "903.03.B.2",
+ "quote": "Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.",
+ "rule": "r2-l.x.rear_setback",
+ "source_file": "data/code/ch903.txt",
+ "change": "The minimum rear setback for R2-L is changed from 30 ft. to 20 ft.",
+ "strike": "30 ft.",
+ "insert": "20 ft.",
+ "override": {
+  "district": "R2-L",
+  "field": "rear_setback",
+  "to": 20
+ },
+ "by_type": {
+  "two": {
+   "opens": 29,
+   "for_sale": 15,
+   "pencil": 0,
+   "was_width": 0,
+   "by_hood": [
+    [
+     "Upper Hill",
+     7
+    ],
+    [
+     "Homewood North",
+     5
+    ],
+    [
+     "St. Clair",
+     5
+    ],
+    [
+     "Crafton Heights",
+     4
+    ],
+    [
+     "Arlington",
+     3
+    ]
+   ],
+   "by_district": [
+    [
+     "R2-L",
+     29
+    ]
+   ],
+   "pins": [
+    "0013N00237000000",
+    "0026J00281000000",
+    "0026J00339000000",
+    "0026K00308000000",
+    "0026N00034000000",
+    "0026P00085000000",
+    "0026P00103000000",
+    "0027B00007000000",
+    "0030N00115000000",
+    "0031A00060000000",
+    "0032F00202000000",
+    "0032F00207000000",
+    "0032F00209000000",
+    "0032F00214000000",
+    "0032F00216000000",
+    "0040B00103000000",
+    "0040B00105000000",
+    "0040C00250000000",
+    "0041D00050000000",
+    "0095A00144000000",
+    "0124S00300000000",
+    "0125D00110000000",
+    "0125G00115000000",
+    "0125G00117000000",
+    "0231E00154000000",
+    "0231J00001000000",
+    "0231J00117000000",
+    "0231J00165000000",
+    "0231P00114000000"
+   ]
+  },
+  "three": {
+   "opens": 0,
+   "for_sale": 0,
+   "pencil": 0,
+   "was_width": 0,
+   "by_hood": [],
+   "by_district": [],
+   "pins": []
+  }
+ },
+ "districts": [
+  "R1D-H",
+  "RM-M",
+  "R2-L",
+  "R1D-L",
+  "R2-H",
+  "R1D-M"
+ ],
+ "was": {
+  "value": 30.0,
+  "unit": "ft"
+ },
+ "caveats": [
+  "The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.",
+  "The reduction in rear setback does not account for changes to private outdoor amenity space or backyard privacy.",
+  "The count cannot determine whether shifted building footprints will preserve existing mature canopy trees in the rear yards."
+ ],
+ "memo_md": "# Draft for the Planning Commission: R2-L rear setback 30 → 20 ft\n\n> **What-if, not the law.** **Drafted by an AI agent; check before sending.**\n\n**Question.** What if R2-L's rear setback were 20 ft instead of 30?\n\n**The text that controls it.** §903.03.B.2 (data/code/ch903.txt, the saved Pittsburgh Code):\n\n> Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.\n\n**Redline.** Strike ~~30 ft.~~, insert **20 ft.** · The minimum rear setback for R2-L is changed from 30 ft. to 20 ft.\n\n**Count.** The app's citywide classifier (scripts/build-scenarios.ts, the code behind the rule what-ifs), with only this change, over the districts whose rules a person has signed (R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M):\n- **two-unit house:** 29 City-owned vacant lots that don't fit the dimensional rules today would (15 listed for sale; 0 still pencil). By district: R2-L 29. Most in: Upper Hill 7, Homewood North 5, St. Clair 5, Crafton Heights 4, Arlington 3.\n- **three-unit house:** no City-owned vacant lot changes.\n\n**Caveats.**\n- A what-if, not the law: changing the code takes City Council. The count is City-owned vacant lots only, dimensional rules only, sale status aside.\n- The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.\n- The reduction in rear setback does not account for changes to private outdoor amenity space or backyard privacy.\n- The count cannot determine whether shifted building footprints will preserve existing mature canopy trees in the rear yards.\n\n_Planned and drafted by gemini-flash-lite-latest · 24×100 policy agent · Q1. Check every quote against the code before sending._\n",
+ "steps": [
+  {
+   "agent": "policy",
+   "n": 1,
+   "action": "tool",
+   "tool": "catalogue",
+   "input": {
+    "districts": [
+     "R1D-H",
+     "RM-M",
+     "R2-L",
+     "R1D-L",
+     "R2-H",
+     "R1D-M"
+    ]
+   },
+   "summary": "Read the stored rules of the 6 districts a person has signed: 50 numeric rules a what-if can change.",
+   "sources": [
+    {
+     "file": "data/rules/base/pgh.json",
+     "sha256": "9e0afe1444fbc84506e1fc94808cbad39385875f4211a2fc2fdb0a7f209d7bd9"
+    },
+    {
+     "file": "data/rules/base/rm-m.json",
+     "sha256": "30129040c9decba832d0a361b7a3bb7ace756b66aaa3ecf93dfeefe01c54f29e"
+    },
+    {
+     "file": "data/rules/extracted/r1a-h.json",
+     "sha256": "6a6eba0d8902a6099144647b7603f7859282f589c0663df91e5154064aca4b98"
+    },
+    {
+     "file": "data/rules/extracted/r1a-m.json",
+     "sha256": "ea1c869730c5b69f708d2c20c01a58c1a9a5ae174f99a08c034efe10a3bc5dd8"
+    },
+    {
+     "file": "data/rules/extracted/r1a-vh.json",
+     "sha256": "16058b7c2aaeb32750c195f53097c300abad49b78b1d726c4ec2e354af9933ce"
+    },
+    {
+     "file": "data/rules/extracted/r1d-h.json",
+     "sha256": "854407201e046064081e64048e630eb27570294629b17da662928708dad079ca"
+    },
+    {
+     "file": "data/rules/extracted/r1d-l.json",
+     "sha256": "431abe5a8f0d0333e86b3c41ce2cfe02283b101d35fb380bd2afc96179386ffa"
+    },
+    {
+     "file": "data/rules/extracted/r1d-m.json",
+     "sha256": "83cc6a57999699129138fd5abd99171af1db302ee31f699f86a1b7fafaebe694"
+    },
+    {
+     "file": "data/rules/extracted/r2-h.json",
+     "sha256": "eb7a34f73d555b3ffa74900d1cf56a0e59090bd65966726163cee6f365f3bdc9"
+    },
+    {
+     "file": "data/rules/extracted/r2-l.json",
+     "sha256": "0b517ad395feeb6c900791415ab2a529eba1e3b1c8b42ba9e58063624abee01d"
+    },
+    {
+     "file": "data/rules/extracted/rm-m.json",
+     "sha256": "2727d67da418300f6d32f25151066df39971ce5defd2aec9c2e015b072e75eaf"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:45+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "question": "What if R2-L's rear setback were 20 ft instead of 30?",
+    "building": "two"
+   },
+   "summary": "Change R2-L's rear setback to 20 ft. The question matches the R2-L rear_setback rule directly.",
+   "sources": [],
+   "ok": true,
+   "t": "2026-09-27T16:55:46+00:00",
+   "decision": "change"
+  },
+  {
+   "agent": "policy",
+   "n": 3,
+   "action": "tool",
+   "tool": "find",
+   "input": {
+    "section": "903.03.B.2",
+    "rule_ids": [
+     "r2-l.x.rear_setback"
+    ]
+   },
+   "summary": "Found §903.03.B.2 in data/code/ch903.txt (1,559 characters), where the stored rule's quote sits.",
+   "sources": [
+    {
+     "file": "data/code/ch903.txt",
+     "sha256": "59e44e0b7db8de38a3c8467ac66e3b43b299db1eb9078ed00872977e5008dbea"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:46+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 4,
+   "action": "draft",
+   "input": {
+    "attempt": 1
+   },
+   "summary": "Redline: strike “30 ft.”, insert “20 ft.”.",
+   "sources": [
+    {
+     "file": "data/code/ch903.txt",
+     "sha256": "59e44e0b7db8de38a3c8467ac66e3b43b299db1eb9078ed00872977e5008dbea"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:47+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 5,
+   "action": "verify",
+   "tool": "quote_guard",
+   "input": {
+    "section": "903.03.B.2",
+    "quote": "Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft."
+   },
+   "summary": "Quote word for word in the section; strike inside it; the redline and the override agree.",
+   "sources": [
+    {
+     "file": "data/code/ch903.txt",
+     "sha256": "59e44e0b7db8de38a3c8467ac66e3b43b299db1eb9078ed00872977e5008dbea"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:47+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 6,
+   "action": "tool",
+   "tool": "count",
+   "input": {
+    "value": {
+     "district": "R2-L",
+     "field": "rear_setback",
+     "to": 20
+    }
+   },
+   "summary": "two-unit: 29 City-owned lots open (15 for sale, 0 pencil); three-unit: 0 City-owned lots open (0 for sale, 0 pencil)",
+   "sources": [
+    {
+     "file": "scripts/build-scenarios.ts",
+     "sha256": "b506b114e159803be988347c0d82c20db6621c3d3afc8a797ac602d507d7014c"
+    },
+    {
+     "file": "data/city/lots.json",
+     "sha256": "d319abd0bed6c3be42d8d098134bca98aaaa149a9446d8311587286d459a2fd1"
+    },
+    {
+     "file": "data/rules/extracted/r2-l.json",
+     "sha256": "0b517ad395feeb6c900791415ab2a529eba1e3b1c8b42ba9e58063624abee01d"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:48+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 7,
+   "action": "draft",
+   "input": null,
+   "summary": "Memo to the Planning Commission, 271 words.",
+   "sources": [
+    {
+     "file": "data/code/ch903.txt",
+     "sha256": "59e44e0b7db8de38a3c8467ac66e3b43b299db1eb9078ed00872977e5008dbea"
+    },
+    {
+     "file": "scripts/build-scenarios.ts",
+     "sha256": "b506b114e159803be988347c0d82c20db6621c3d3afc8a797ac602d507d7014c"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:48+00:00"
+  },
+  {
+   "agent": "policy",
+   "n": 8,
+   "action": "verify",
+   "tool": "recheck",
+   "input": null,
+   "summary": "All checks pass: code file unchanged since the find step; quote word for word in §903.03.B.2; count re-run gives the same numbers; memo carries both labels; every number in the memo traces to the code, the question or the count",
+   "sources": [
+    {
+     "file": "data/code/ch903.txt",
+     "sha256": "59e44e0b7db8de38a3c8467ac66e3b43b299db1eb9078ed00872977e5008dbea"
+    }
+   ],
+   "ok": true,
+   "t": "2026-09-27T16:55:48+00:00",
+   "checks": [
+    {
+     "check": "code file unchanged since the find step",
+     "ok": true
+    },
+    {
+     "check": "quote word for word in §903.03.B.2",
+     "ok": true
+    },
+    {
+     "check": "count re-run gives the same numbers",
+     "ok": true
+    },
+    {
+     "check": "memo carries both labels",
+     "ok": true
+    },
+    {
+     "check": "every number in the memo traces to the code, the question or the count",
+     "ok": true
+    }
+   ]
+  }
+ ],
+ "usage": {
+  "tokens_in": 4371,
+  "tokens_out": 228,
+  "calls": 2
+ },
+ "verified": true,
+ "memo": "data/policy/q1-r2-l-rear-setback-30-20-ft.md"
+}

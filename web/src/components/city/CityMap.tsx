@@ -457,7 +457,10 @@ export function CityMap(p: Props) {
       g.lineWidth = 2;
       g.stroke();
       g.restore();
-    }
+      // Where the lit lots are, as fractions of the map [x0, y0, x1, y1]: for the demo recorder's marks and for tests.
+      const xs = wi.map(X), ys = wi.map(Y);
+      g.canvas.dataset.whatifBox = [Math.min(...xs) / w, Math.min(...ys) / h, Math.max(...xs) / w, Math.max(...ys) / h].map((v) => v.toFixed(4)).join(',');
+    } else delete g.canvas.dataset.whatifBox;
   };
 
   // ── Motion: the live camera, applied to the canvas (redrawn) and the SVG layer (one transform) ──

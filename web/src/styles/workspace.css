@@ -1873,6 +1873,104 @@
   line-height: 1.45;
 }
 
+/* Asked by the policy agent (WhatIfs.tsx): the question in the planner's words, the agent's steps, the memo */
+.policy {
+  margin: 4px 0 14px;
+}
+.policy-question {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.stamp.policy-no {
+  display: inline-block;
+  margin-left: 6px;
+  color: var(--red);
+  border: 1.5px solid var(--red);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 1px 6px;
+  transform: rotate(-1.5deg);
+}
+.policy-open {
+  padding: 8px 12px 4px;
+  border: 1.5px dashed var(--graphite);
+  border-top: 0;
+}
+.policy-steps {
+  list-style: none;
+  margin: 6px 0 8px;
+  padding: 0 0 0 10px;
+  border-left: 2px solid var(--rule);
+  display: grid;
+  gap: 5px;
+}
+.policy-step {
+  display: grid;
+  grid-template-columns: 9.5em 1fr;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+.policy-step-act {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  padding-top: 1px;
+}
+.policy-step.is-no .policy-step-act {
+  color: var(--red);
+}
+.policy-memo {
+  margin: 6px 0;
+  border: 1px solid var(--rule);
+  background: var(--sheet);
+  padding: 6px 10px;
+}
+.policy-memo summary {
+  cursor: pointer;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.policy-memo-text {
+  font-size: 13px;
+  line-height: 1.45;
+}
+.policy-memo-text p {
+  margin: 6px 0;
+}
+.policy-memo-text .policy-memo-h {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 600;
+}
+.policy-memo-text .policy-memo-li {
+  padding-left: 12px;
+  text-indent: -12px;
+}
+.policy-memo-text .policy-memo-li::before {
+  content: '– ';
+}
+.policy-memo-text blockquote {
+  margin: 6px 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--graphite);
+  font-family: var(--f-display);
+}
+.policy-memo-text del {
+  color: var(--red);
+}
+.policy-who {
+  margin: 4px 0 6px;
+}
+
 /* ── Start here (judge panel, round 3): three ways into the story, above the city map ── */
 .ws-start {
   display: flex;
