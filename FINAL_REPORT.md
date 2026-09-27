@@ -58,7 +58,8 @@ Other checks, all passing at the time of writing:
 - `scripts/words.mjs`: the first-screen word budget, with no page scroll.
 - The pytest privacy test: no owner names or mailing fields in any output, and C15's owner-type fields are
   validated against a fixed list.
-- vitest 224, pytest 152, 0 skipped.
+- vitest 224, pytest 152, 0 skipped on the build machine. On a fresh clone, 8 pytest tests skip (each says
+  why: they need the gitignored raw pulls or the citywide work file); vitest runs in full.
 
 ## Judge panel (four fresh agents with personas; `docs/judge-panel.md`)
 

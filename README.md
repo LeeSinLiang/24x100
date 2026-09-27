@@ -7,6 +7,7 @@ every Mahon Street deed. Built for the AI for Housing Hackathon (AI Horizons 202
 Development Feasibility & Pro Forma Navigator.
 
 **Demo video:** _link to be added._
+**Live demo:** _link to be added._
 
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
 > affordable homes built: housing nonprofits and CDCs, small and mid-size developers, municipal planners and
@@ -143,7 +144,7 @@ output for them.
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
 | Engine tests (vitest) | 224 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Rule what-ifs | Today's 178 two-unit and 220 three-unit reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
-| Pipeline and extraction tests (pytest) | 152 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
+| Pipeline and extraction tests (pytest) | 152 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone 142 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`. Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
@@ -167,6 +168,12 @@ shown, not settled. Water and sewer capacity, soils, fill, title and liens are n
 from a 2023 layer. The slope layer is a derived threshold, not the steep-slope overlay. Community priorities
 are not scored; 24×100 points to the RCO. There is no score. The money screen is an estimate: one
 practitioner's construction cost and a gap that is a lower bound. Full list: `docs/limitations.md`.
+
+## License
+
+The code is MIT (`LICENSE`). The data in `data/` comes from the public sources listed above, each under its own
+terms. The zoning code text in `data/code/` is the City of Pittsburgh's, saved from ecode360 for extraction; the
+City interprets its own code.
 
 ## Built with
 
