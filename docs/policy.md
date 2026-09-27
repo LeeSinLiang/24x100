@@ -8,6 +8,7 @@ citywide count, and drafts a one-page memo to the Planning Commission. Its runs 
 ```
 uv run python -m agents.policy "What if R2-L's rear setback were 20 ft instead of 30?" --building two
 uv run python -m agents.policy "…" --plan data/policy/plans/q1-r2-l-rear.json   # a hand-written plan, no model
+uv run python -m agents.policy --recheck        # every committed run's quote and count against today's code and data
 ```
 
 Each run writes `data/policy/<id>-<slug>.json` (the `scenarios.json` entry format, plus `steps`, `usage`, `model`
