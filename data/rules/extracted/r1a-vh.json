@@ -3,18 +3,18 @@
   "provider": "gemini",
   "model": "gemini-3.5-flash",
   "prompt_sha": "88c7139f20cbf15f99682efed1e128cb60e2c6e386d3b8877b47dd9ccbaa9a47",
-  "run_at": "2026-09-27T15:50:03+00:00",
+  "run_at": "2026-09-27T16:34:34+00:00",
   "district": "R1A-VH",
   "sections": [
    "903.03.E (data/code/ch903.txt)",
    "911.02 (data/code/ch911.txt; trimmed: residential rows only; ordinance history dropped)",
    "911.04.A.69A (data/code/ch911.txt)"
   ],
-  "tokens_in": 3032,
-  "tokens_out": 7535,
-  "tokens_reasoning": 6440,
-  "latency_ms": 58598,
-  "wall_ms": 1204227,
+  "tokens_in": 4996,
+  "tokens_out": 12245,
+  "tokens_reasoning": 10630,
+  "latency_ms": 87504,
+  "wall_ms": null,
   "calls": [
    {
     "section": "dimensional: 903.03.E",
@@ -22,7 +22,7 @@
     "tokens_out": 7535,
     "tokens_reasoning": 6440,
     "latency_ms": 46020,
-    "wall_ms": 348290,
+    "wall_ms": null,
     "attempts": 5,
     "retries": [
      "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)",
@@ -31,34 +31,28 @@
      "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 160s)"
     ],
     "error": null,
-    "cached_from": null
+    "cached_from": "2026-09-27T15:55:51+00:00"
    },
    {
     "section": "use: 911.02, 911.04.A.69A",
-    "tokens_in": 0,
-    "tokens_out": 0,
-    "latency_ms": 12578,
-    "wall_ms": 855937,
-    "attempts": 8,
+    "tokens_in": 1964,
+    "tokens_out": 4710,
+    "tokens_reasoning": 4190,
+    "latency_ms": 41484,
+    "wall_ms": 103403,
+    "attempts": 3,
     "retries": [
      "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 40s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 80s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 160s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
-     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (gave up)"
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 40s)"
     ],
-    "error": "refused: gemini refused 8 times (last: GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}})"
+    "error": null,
+    "cached_from": null
    }
   ],
-  "run_note": "Coverage run 2, 27 Sep 2026 afternoon, free tier, gemini-3.5-flash: the gemini-3.6-flash and gemini-3.8-flash daily free-tier quotas were used overnight, gemini-3.7-flash returned 503 (high demand) at 11:37-11:44 ET, and gemini-flash-latest's free quota was refused (429) at 11:49 ET. The run stopped when gemini-3.5-flash's daily free quota was refused (429) at 12:11 ET. Pencil until a person checks it.",
-  "incomplete": true,
-  "failed_calls": [
-   "use"
-  ],
-  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: min_lot_area, use_detached, use_row, use_two, use_three. Calls refused by the provider (no rules from them): use."
+  "run_note": "Coverage runs 2 and 3, 27 Sep 2026 afternoon, gemini-3.5-flash. The dimensional call answered in run 2 (free tier, 24x100's key; reused from the cache); the use-table call, refused then, ran in run 3 on key: track3 (Sin's other Google project, authorised by Sin in chat; its billing tier wasn't stated). Pencil until a person checks it.",
+  "incomplete": false,
+  "failed_calls": [],
+  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: min_lot_area."
  },
  "rules": [
   {
@@ -264,6 +258,122 @@
    },
    "model": "gemini-3.5-flash",
    "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.use_detached",
+   "district": "R1A-VH",
+   "field": "use_detached",
+   "value": "P",
+   "unit": "use",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P | P",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "2c7fb5935f0c949272be1cbc94b0428c72bee554562d9fc541804db8028cde20"
+  },
+  {
+   "id": "r1a-vh.x.use_row",
+   "district": "R1A-VH",
+   "field": "use_row",
+   "value": "P",
+   "unit": "use",
+   "applies_to": [
+    "row"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S | P",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "2c7fb5935f0c949272be1cbc94b0428c72bee554562d9fc541804db8028cde20"
+  },
+  {
+   "id": "r1a-vh.x.use_two",
+   "district": "R1A-VH",
+   "field": "use_two",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "two"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) | | |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "2c7fb5935f0c949272be1cbc94b0428c72bee554562d9fc541804db8028cde20"
+  },
+  {
+   "id": "r1a-vh.x.use_three",
+   "district": "R1A-VH",
+   "field": "use_three",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "three"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. | | |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "2c7fb5935f0c949272be1cbc94b0428c72bee554562d9fc541804db8028cde20"
   }
  ],
  "rejected": [],
@@ -318,6 +428,34 @@
    "notes": [
     "question_for_city written by the guard (the model gave none)"
    ]
+  },
+  {
+   "id": "r1a-vh.x.use_detached",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.use_row",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.use_two",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.use_three",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
   }
  ],
  "raw": [
@@ -326,6 +464,13 @@
    "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f",
    "model": "gemini-3.5-flash",
    "text": "{\n  \"rules\": [\n    {\n      \"field\": \"front_setback\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Front Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the front setback be adjusted using Contextual Setbacks under Section 925.06?\"\n    },\n    {\n      \"field\": \"rear_setback\",\n      \"value_number\": 15,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 15 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the rear setback be adjusted using Contextual Setbacks under Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_exterior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Exterior Sideyard Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Are exterior sideyard setbacks subject to alternative contextual setbacks or Chapter 916?\"\n    },\n    {\n      \"field\": \"side_setback_interior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Interior Sideyard Setback | | R1D, R2 & R3 Subdistricts | 5 ft. | R1A Subdistrict | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Is the interior sideyard setback subject to Chapter 916 Residential Compatibility Standards?\"\n    },\n    {\n      \"field\": \"max_height_ft\",\n      \"value_number\": 40,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height be increased using Contextual Building Heights under Section 925.07?\"\n    },\n    {\n      \"field\": \"max_stories\",\n      \"value_number\": 3,\n      \"unit\": \"stories\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum stories be increased using Contextual Building Heights under Section 925.07?\"\n    },\n    {\n      \"field\": \"party_wall_side\",\n      \"value_number\": 0,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"row\",\n        \"row_end\"\n      ],\n      \"condition\": \"When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall\",\n      \"section\": \"903.03.E.2(d)\",\n      \"quote\": \"When a dwelling is \\\"attached\\\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
+   "parsing_error": null
+  },
+  {
+   "call": "use",
+   "prompt_sha": "2c7fb5935f0c949272be1cbc94b0428c72bee554562d9fc541804db8028cde20",
+   "model": "gemini-3.5-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"use_detached\",\n      \"value_use\": \"P\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"detached\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P | P\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_row\",\n      \"value_use\": \"P\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"row\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S | P\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_two\",\n      \"value_use\": \"N\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"two\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) | | |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_three\",\n      \"value_use\": \"N\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"three\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. | | |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
    "parsing_error": null
   }
  ]

@@ -190,7 +190,17 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   if (needed.some((r) => !r || typeof r.value !== 'number')) {
     // No dimensional rules (a district whose other chapters aren't saved, e.g. Hillside or Parks): the use
     // table alone can still decide, when a person has checked that it forbids this building here.
-    if (!useNo) return none('rules', useRule ? `Only ${lot.zone}'s use permissions are read (its dimensional rules are in chapters not saved)` : `Rules not loaded for ${lot.zone}`, 'pencil');
+    if (!useNo) {
+      // Some dimensions read and one missing (a model that didn't find it) is not the same as none saved (Hillside).
+      const names: [unknown, string][] = [[R.minArea, 'minimum lot area'], [R.front, 'front setback'], [R.rear, 'rear setback'], [R.sideInt, 'interior side setback'], ...(lot.flank.includes('exterior') ? [[R.sideExt, 'exterior side setback'] as [unknown, string]] : [])];
+      const missing = names.filter(([r]) => !r || typeof (r as { value?: unknown }).value !== 'number').map(([, n]) => n);
+      const some = missing.length < names.length;
+      return none(
+        'rules',
+        some ? `Only part of ${lot.zone}'s dimensional rules are read (no ${missing.join(', ')})` : useRule ? `Only ${lot.zone}'s use permissions are read (its dimensional rules are in chapters not saved)` : `Rules not loaded for ${lot.zone}`,
+        'pencil',
+      );
+    }
     if (ruleTrust(useRule!) !== 'ink' && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person (the use table's reading: not permitted, §${useRule!.section})`, 'pencil');
   } else if (!useRule && needed.some((r) => ruleTrust(r) !== 'ink'))
     // An AI reading with the dimensions but not the use table (its call refused, say): whether this building is

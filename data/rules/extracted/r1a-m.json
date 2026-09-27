@@ -3,18 +3,18 @@
   "provider": "gemini",
   "model": "gemini-3.5-flash",
   "prompt_sha": "e78a43a1c5539e49ee625d9620d4eca747d254d3536891f7eb038a493e21ca9c",
-  "run_at": "2026-09-27T16:11:19+00:00",
+  "run_at": "2026-09-27T16:36:18+00:00",
   "district": "R1A-M",
   "sections": [
    "903.03.C (data/code/ch903.txt)",
    "911.02 (data/code/ch911.txt; trimmed: residential rows only; ordinance history dropped)",
    "911.04.A.69A (data/code/ch911.txt)"
   ],
-  "tokens_in": 1313,
-  "tokens_out": 9024,
-  "tokens_reasoning": 7925,
-  "latency_ms": 39015,
-  "wall_ms": 39021,
+  "tokens_in": 3275,
+  "tokens_out": 14584,
+  "tokens_reasoning": 12961,
+  "latency_ms": 70726,
+  "wall_ms": null,
   "calls": [
    {
     "section": "dimensional: 903.03.C",
@@ -22,29 +22,31 @@
     "tokens_out": 9024,
     "tokens_reasoning": 7925,
     "latency_ms": 38865,
-    "wall_ms": 38868,
+    "wall_ms": null,
     "attempts": 1,
     "retries": [],
     "error": null,
-    "cached_from": null
+    "cached_from": "2026-09-27T16:11:58+00:00"
    },
    {
     "section": "use: 911.02, 911.04.A.69A",
-    "tokens_in": 0,
-    "tokens_out": 0,
-    "latency_ms": 150,
-    "wall_ms": 153,
-    "attempts": 1,
-    "retries": [],
-    "error": "refused: gemini daily quota reached for gemini-3.5-flash (not retried): Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To mon"
+    "tokens_in": 1962,
+    "tokens_out": 5560,
+    "tokens_reasoning": 5036,
+    "latency_ms": 31861,
+    "wall_ms": 52877,
+    "attempts": 2,
+    "retries": [
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)"
+    ],
+    "error": null,
+    "cached_from": null
    }
   ],
-  "run_note": "Coverage run 2, 27 Sep 2026 afternoon, free tier, gemini-3.5-flash: the gemini-3.6-flash and gemini-3.8-flash daily free-tier quotas were used overnight, gemini-3.7-flash returned 503 (high demand) at 11:37-11:44 ET, and gemini-flash-latest's free quota was refused (429) at 11:49 ET. The run stopped when gemini-3.5-flash's daily free quota was refused (429) at 12:11 ET. Pencil until a person checks it.",
-  "incomplete": true,
-  "failed_calls": [
-   "use"
-  ],
-  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: use_detached, use_row, use_two, use_three. Calls refused by the provider (no rules from them): use."
+  "run_note": "Coverage runs 2 and 3, 27 Sep 2026 afternoon, gemini-3.5-flash. The dimensional call answered in run 2 (free tier, 24x100's key; reused from the cache); the use-table call, refused then, ran in run 3 on key: track3 (Sin's other Google project, authorised by Sin in chat; its billing tier wasn't stated). Pencil until a person checks it.",
+  "incomplete": false,
+  "failed_calls": [],
+  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: none."
  },
  "rules": [
   {
@@ -281,6 +283,122 @@
    },
    "model": "gemini-3.5-flash",
    "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.use_detached",
+   "district": "R1A-M",
+   "field": "use_detached",
+   "value": "P",
+   "unit": "use",
+   "applies_to": [
+    "detached"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P | P",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "c3cd0875c74c6fc4f635f1ddd184aa39d0db5d1e8e380a1e66dff1a423e56b06"
+  },
+  {
+   "id": "r1a-m.x.use_row",
+   "district": "R1A-M",
+   "field": "use_row",
+   "value": "P",
+   "unit": "use",
+   "applies_to": [
+    "row"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S | P",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "c3cd0875c74c6fc4f635f1ddd184aa39d0db5d1e8e380a1e66dff1a423e56b06"
+  },
+  {
+   "id": "r1a-m.x.use_two",
+   "district": "R1A-M",
+   "field": "use_two",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "two"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) |   |   |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "c3cd0875c74c6fc4f635f1ddd184aa39d0db5d1e8e380a1e66dff1a423e56b06"
+  },
+  {
+   "id": "r1a-m.x.use_three",
+   "district": "R1A-M",
+   "field": "use_three",
+   "value": "N",
+   "unit": "use",
+   "applies_to": [
+    "three"
+   ],
+   "condition": null,
+   "section": "911.02",
+   "quote": "Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. |   |   |",
+   "source_file": "data/code/ch911.txt",
+   "source_url": "https://ecode360.com/45476515",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": true,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "c3cd0875c74c6fc4f635f1ddd184aa39d0db5d1e8e380a1e66dff1a423e56b06"
   }
  ],
  "rejected": [],
@@ -340,6 +458,34 @@
    "ambiguous": true,
    "question_source": "model",
    "notes": []
+  },
+  {
+   "id": "r1a-m.x.use_detached",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.use_row",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.use_two",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.use_three",
+   "call": "use",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
   }
  ],
  "raw": [
@@ -348,6 +494,13 @@
    "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61",
    "model": "gemini-3.5-flash",
    "text": "{\n  \"rules\": [\n    {\n      \"field\": \"min_lot_area\",\n      \"value_number\": 2400,\n      \"unit\": \"sf\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"Minimum Lot Size | 2,400 s.f.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"front_setback\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the front setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"rear_setback\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the rear setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_exterior\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the exterior side setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_interior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1A Subdistrict | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the interior side setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"party_wall_side\",\n      \"value_number\": 0,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"row\",\n        \"row_end\",\n        \"two\",\n        \"three\"\n      ],\n      \"section\": \"903.03.C.2(c)\",\n      \"quote\": \"When a dwelling is \\\"attached\\\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"max_height_ft\",\n      \"value_number\": 40,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height in feet be increased using Contextual Building Heights per Section 925.07?\"\n    },\n    {\n      \"field\": \"max_stories\",\n      \"value_number\": 3,\n      \"unit\": \"stories\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height in stories be increased using Contextual Building Heights per Section 925.07?\"\n    }\n  ]\n}",
+   "parsing_error": null
+  },
+  {
+   "call": "use",
+   "prompt_sha": "c3cd0875c74c6fc4f635f1ddd184aa39d0db5d1e8e380a1e66dff1a423e56b06",
+   "model": "gemini-3.5-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"use_detached\",\n      \"value_use\": \"P\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"detached\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Detached Residential means the use of a zoning lot for one detached housing unit. | P | P\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_row\",\n      \"value_use\": \"P\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"row\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Single-Unit Attached Residential means the use of a zoning lot for one dwelling unit that is attached to one or more dwelling units by a party wall or separate abutting wall and that is located on its own separate lot. | P/S | P\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_two\",\n      \"value_use\": \"N\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"two\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Two-Unit Residential means the use of a zoning lot for two dwelling units that are contained within a single building.) |   |   |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"use_three\",\n      \"value_use\": \"N\",\n      \"unit\": \"use\",\n      \"applies_to\": [\n        \"three\"\n      ],\n      \"condition\": null,\n      \"section\": \"911.02\",\n      \"quote\": \"Three-Unit Residential means the use of a zoning lot for three dwelling units that are contained within a single building. |   |   |\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
    "parsing_error": null
   }
  ]
