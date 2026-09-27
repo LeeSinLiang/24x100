@@ -718,7 +718,8 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
       if (p.city) {
         const forSale = p.city.status === 'Available for Sale';
         approvals.push({ kind: 'city_public_sale', trust: 'ink', why: `${label}: City-owned, ${p.city.status}` });
-        parts.push(`${label}: City-owned, ${p.city.status}${p.city.status_updated ? ` (status last updated ${p.city.status_updated})` : ''}.`);
+        const inv = (p.city as { inventory?: string }).inventory;
+        parts.push(`${label}: City-owned, ${p.city.status}${p.city.status_updated ? ` (status last updated ${p.city.status_updated})` : ''}${inv && inv !== 'Unknown' ? `; City inventory: ${inv}` : ''}.`);
         if (!forSale) questions.push({ id: `q.city_status.${p.pin}`, text: `${p.addr} is City-owned but listed as "${p.city.status}". Could it be offered for sale?`, ask: 'City Real Estate', section: null, trust: 'pencil' });
       } else {
         approvals.push({ kind: 'other_owner', trust: 'ink', why: `${label}: not in the City's inventory` });
@@ -730,7 +731,24 @@ export function evaluate(ctx: EvalContext, scenario: Scenario): LotResult {
     if (ps.length > 1 && scenario.type !== 'row') {
       approvals.push({ kind: 'lot_consolidation', trust: 'pencil', why: `combining ${listAndWords(ps.map((p) => (p.lot != null ? `lot ${p.lot}${p.lot_suffix ?? ''}` : p.addr)))} into one zoning lot` });
       parts.push("Combining them into one zoning lot needs a lot consolidation (the City's process; the section isn't in our saved code text).");
+      questions.push({
+        id: 'q.consolidation',
+        text: `Combining ${listAndWords(ps.map((p) => (p.lot != null ? `lot ${p.lot}${p.lot_suffix ?? ''}` : p.addr)))} into one zoning lot: what is the City's process for a lot consolidation, and does it need any approval beyond the zoning review?`,
+        ask: 'Zoning Administrator',
+        section: null,
+        trust: 'pencil',
+      });
     }
+    // The City's inventory marks some lots "URA Transfer" (judge round 2): ask who sells them.
+    const ura = ps.filter((p) => (p.city as { inventory?: string } | null | undefined)?.inventory === 'URA Transfer');
+    if (ura.length)
+      questions.push({
+        id: 'q.city_inventory_ura',
+        text: `The City's inventory lists ${listAndWords(ura.map((p) => p.addr))} as "URA Transfer". Does a purchase go through the City's Request to Purchase, or through the Urban Redevelopment Authority?`,
+        ask: 'City Real Estate',
+        section: null,
+        trust: 'pencil',
+      });
     const stale = ps.filter((p) => p.city?.status_updated && p.city.status_updated < '2024-01-01');
     if (stale.length)
       questions.push({ id: 'q.city_status_current', text: `The City's inventory last updated the sale status of ${listAndWords(stale.map((p) => p.addr))} on ${stale[0].city!.status_updated}. ${stale.length > 1 ? 'Are they' : 'Is it'} still current?`, ask: 'City Real Estate', section: null, trust: 'pencil' });

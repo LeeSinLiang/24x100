@@ -224,6 +224,11 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
           assumptions
         </Chip>
       </p>
+      {m.gap && (
+        <p className="small red" data-gap>
+          <strong>Subsidy each home would need, before land (a screening estimate):</strong> {money1(m.gap.lo)}–{money1(m.gap.hi)}. {m.gap.formula}. A builder’s price would replace it.
+        </p>
+      )}
       <p className="small muted">Money first is the cheapest check to make, per a practitioner, not a finding that money blocks more often (H5, unproven).</p>
       </details>
     </section>

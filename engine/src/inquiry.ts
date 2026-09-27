@@ -139,13 +139,14 @@ function allowedNumbers(r: LotResult, m: MoneyResult | null, rs: RuleSet, block:
   for (const x of [r, ...recorded.alts]) {
     for (const meas of [x.width, x.depth, ...x.units.map((u) => u.width)]) if (meas) [meas.deed, meas.mapped, ...meas.terms.map((t) => t.value)].forEach(add);
     for (const c of x.checks) [c.required, c.available, c.shortfall, c.alternative?.available, c.available != null && c.unit === 'share' ? c.available * 100 : null].forEach(add);
-    for (const y of x.relief) [y.from, y.to].forEach(add);
+    for (const y of x.relief) [y.from, y.to, ...numbersIn(y.text)].forEach(add); // the per-side values the engine wrote
+    for (const c of x.checks) if (c.alternative) numbersIn(c.alternative.formula).forEach(add);
   }
   const P = r.scenario.proposal;
   [P.width, P.depth, P.stories, P.height, P.units, P.home_sqft, r.units.length].forEach(add);
   for (const rule of rs.rules) if (typeof rule.value === 'number') add(rule.value);
   if (m) {
-    [m.homes, m.sqft, m.swing, m.site_work.lo, m.site_work.hi, m.with_assumptions.lo, m.with_assumptions.hi, m.comps.median, m.comps.q1, m.comps.q3, m.comps.count, m.affordable.price, m.affordable.income, m.affordable.household, m.new_build?.value].forEach(add);
+    [m.gap?.lo, m.gap?.hi, ...(m.gap ? numbersIn(m.gap.formula) : []), m.homes, m.sqft, m.swing, m.site_work.lo, m.site_work.hi, m.with_assumptions.lo, m.with_assumptions.hi, m.comps.median, m.comps.q1, m.comps.q3, m.comps.count, m.affordable.price, m.affordable.income, m.affordable.household, m.new_build?.value].forEach(add);
     for (const e of m.estimates) [...e.psf, ...e.vertical, ...e.left, -e.left[0], -e.left[1]].forEach(add);
     [m.with_assumptions.soft * 100, m.with_assumptions.financing * 100, m.site_work.lo / 1000, m.site_work.hi / 1000, Math.round(m.swing / 1000)].forEach(add);
     for (const sig of [...m.context, ...(m.new_build ? [m.new_build] : [])]) numbersIn(sig.label).forEach(add);
@@ -211,7 +212,10 @@ function codeFacts(r: LotResult, rs: RuleSet, ps: Parcel[]): Fact[] {
   const W = r.width!;
   const wCheck = r.checks.find((c) => c.id === 'width')!;
   if (W.trust === 'ink' && wCheck.trust !== 'pencil')
-    facts.push({ item: { text: `Buildable width as of right: ${W.formula} ft by the deed dimensions (${ft(W.mapped)} ft on the City map).`, trust: 'ink', cite: secs(W.rule_ids) }, ruleIds: W.rule_ids });
+    facts.push({
+      item: { text: W.none ? `Buildable width as of right: none (${W.formula}, by the deed dimensions).` : `Buildable width as of right: ${W.formula} ft by the deed dimensions (${ft(W.mapped)} ft on the City map).`, trust: 'ink', cite: secs(W.rule_ids) },
+      ruleIds: W.rule_ids,
+    });
   if (r.depth && r.depth.trust === 'ink') facts.push({ item: { text: `Buildable depth as of right: ${r.depth.formula} ft.`, trust: 'ink', cite: secs(r.depth.rule_ids) }, ruleIds: r.depth.rule_ids });
   for (const c of r.checks) {
     if (['width', 'depth'].includes(c.id)) continue;
@@ -226,7 +230,8 @@ function codeFacts(r: LotResult, rs: RuleSet, ps: Parcel[]): Fact[] {
   for (const x of r.relief) {
     const needs = x.approval === 'variance' ? 'A variance from the Zoning Board of Adjustment may be needed.' : `${APPROVAL_LABEL[x.approval]} may be needed.`;
     facts.push({
-      item: { text: `It doesn't fit as of right: what we propose would need ${x.text}. ${needs}`, trust: 'ink', cite: `§${x.section}` },
+      // The section is the rule the proposal falls short of (the setbacks), not the variance authority.
+      item: { text: `It doesn't fit as of right: what we propose would need ${x.text} (the rule is §${x.section}). ${needs}`, trust: 'ink' },
       ruleIds: rs.rules.filter((y) => y.section === x.section).map((y) => y.id),
     });
   }
@@ -619,6 +624,14 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
                 text: `Soft costs (${Math.round(m.with_assumptions.soft * 100)}%) and financing (${Math.round(m.with_assumptions.financing * 100)}%) are our assumptions and are left out of what's left; with them, construction at the practitioner's estimate comes to ${usd(m.with_assumptions.lo, 100)}–${usd(m.with_assumptions.hi, 100)} per home, still without site work or land.`,
                 trust: 'red',
               },
+              ...(m.gap
+                ? [
+                    {
+                      text: `So our screening estimate of the subsidy each home would need, before land, is ${usd(m.gap.lo, 100)}–${usd(m.gap.hi, 100)}: ${m.gap.formula}. It rests on the practitioner's cost estimate, typical site work and our assumptions above; a builder's price would replace it.`,
+                      trust: 'red' as const,
+                    },
+                  ]
+                : []),
             ],
           },
           {

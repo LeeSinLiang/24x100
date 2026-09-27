@@ -121,10 +121,18 @@ export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
     note: 'a ceiling for an affordable sale, not a value used for what’s left; uses your mortgage assumptions',
     evidence: 'red',
   };
+  const gap = newBuild
+    ? {
+        lo: Math.max(0, Math.round(wLo + swLo - V)),
+        hi: Math.max(0, Math.round(wHi + swHi - V)),
+        formula: `${usd(wLo, 100)}–${usd(wHi, 100)} building with soft costs and financing + ${usd(swLo, 1)}–${usd(swHi, 1)} site work ${MINUS} ${usd(V, 1)} sale = ${usd(Math.max(0, wLo + swLo - V), 100)}–${usd(Math.max(0, wHi + swHi - V), 100)} per home, before land`,
+      }
+    : null;
   return {
     homes,
     sqft,
     estimates,
+    gap,
     new_build: newBuild,
     context: [median, ceiling],
     site_work: { lo: swLo, hi: swHi, note: a.site_work_single_unit?.note ?? '', supplied_by: a.site_work_single_unit?.supplied_by ?? '' },

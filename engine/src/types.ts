@@ -491,6 +491,10 @@ export interface MoneyResult {
   money_verdict: 'only_with_subsidy' | 'worth_pricing_site' | 'depends_on_builder' | 'no_new_build';
   swing: number; // how much the estimate's own range moves what's left, per home
   with_assumptions: { lo: number; hi: number; soft: number; financing: number; formula: string }; // the practitioner estimate (A)
+  /** Secondary (spec §0.13 allows it if it names its estimate): the subsidy a home would need, before land.
+   *  building × (1 + soft + financing) + site work − the new-build sale; lo = best case, hi = worst. Red: it uses
+   *  our soft-cost and financing assumptions. null without a new-build sale. */
+  gap: { lo: number; hi: number; formula: string } | null;
   comps: { median: number; q1: number; q3: number; count: number; thin: boolean; ward: number | null };
   affordable: { price: number; income: number; household: number; formula: string };
   source_leads: string[];

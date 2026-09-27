@@ -26,6 +26,10 @@ describe('money screen (spec §0.13): what a new-build sale leaves after vertica
     expect(est('prod').vertical).toEqual([202500, 202500]);
     expect(est('prod').left).toEqual([37500, 37500]);
     expect(m.swing).toBe(337500 - 270000); // the $200–$250 range alone moves what's left by $67,500
+    // Secondary: the subsidy a home would need before land (judge round 2), with our 20% soft + 6% financing (red).
+    // 270,000 × 1.26 + 25,000 − 240,000 = 125,200; 337,500 × 1.26 + 50,000 − 240,000 = 235,250.
+    expect(m.gap).toMatchObject({ lo: 125200, hi: 235250 });
+    expect(m.gap!.formula).toMatch(/before land$/);
     expect(m.money_verdict).toBe('only_with_subsidy'); // even A's low end leaves less than $25,000
   });
 
