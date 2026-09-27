@@ -1,3 +1,4 @@
+import type React from 'react';
 // The left rail (spec §0.15). It follows the canvas: on the Map and the Table, the layers (with live
 // counts from summarize()) and the filters; on the Plan, the plate's key and its slope layer; on the
 // Graph, a slot for the graph's node-type filters (P1).
@@ -35,7 +36,9 @@ export function Rail({
   cm,
   runCount,
   planType,
+  graphFilters,
 }: {
+  graphFilters?: React.ReactNode; // the Graph canvas's node-type filters (GraphRailFilters)
   canvas: Canvas;
   s: UrlState;
   update: (p: Partial<UrlState>, o?: { push?: boolean }) => void;
@@ -47,10 +50,7 @@ export function Rail({
   if (canvas === 'graph')
     return (
       <nav className="ws-rail" aria-label="Graph filters">
-        <section className="ws-rail-sec" data-slot="graph-filters">
-          <Label as="h2">Node types</Label>
-          <p className="small muted">The graph view is being added; its node-type filters come with it.</p>
-        </section>
+        {graphFilters}
       </nav>
     );
   const ready = cm?.data.state === 'ready';

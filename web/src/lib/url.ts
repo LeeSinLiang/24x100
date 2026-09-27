@@ -45,6 +45,8 @@ export interface UrlState {
   ward: number | null; // filter
   zone: string | null; // filter: zoning district
   letter: Office | null; // inquiry page: the letter tab to open
+  node: string | null; // Graph canvas: the selected node (its id in engine/src/graph.ts)
+  ghide: string[]; // Graph canvas: node types hidden from the rail's filters
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
@@ -104,6 +106,8 @@ export function parseUrl(search: string): UrlState {
     })(),
     zone: q.get('zone'),
     letter: oneOf(q.get('letter'), OFFICES),
+    node: q.get('node'),
+    ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
   };
 }
 
@@ -134,6 +138,8 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
     if (s.sale) q.set('sale', '1');
     if (s.ward != null) q.set('ward', String(s.ward));
     if (s.zone) q.set('zone', s.zone);
+    if (s.canvas === 'graph' && s.node) q.set('node', s.node);
+    if (s.canvas === 'graph' && s.ghide && s.ghide.length) q.set('ghide', s.ghide.join(','));
   }
   if (s.view === 'inquiry' && s.letter) q.set('letter', s.letter);
   if (s.assume && s.assume.length) q.set('assume', s.assume.join(','));

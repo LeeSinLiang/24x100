@@ -10,7 +10,7 @@ import type { UnlockOption } from '@engine/unlock';
 import { useAssemblies, type AssemblyRunRow } from '../components/city/Assemblies';
 import { BlockPlanCanvas, BlockTables, CityTable, LotListTable, MapCanvas, NoPlan, PlanCanvas, RunsTable } from '../components/workspace/Canvas';
 import { AssembleInspector, BlockInspector, CityInspector, CityLotInspector, RunInspector } from '../components/workspace/CityInspector';
-import { GraphSlot } from '../components/workspace/GraphSlot';
+import { GraphCanvasBody, GraphInspector, GraphRailFilters, useLotGraph } from '../components/workspace/GraphView';
 import { inquiryHref, LotInspector } from '../components/workspace/LotInspector';
 import { aType } from '../components/workspace/plain';
 import { Rail } from '../components/workspace/Rail';
@@ -46,6 +46,9 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   const pinIdx = kind === 'citylot' && s.pin ? cm.idxOf.get(s.pin) ?? null : null;
   const filtered = !!(s.hood || s.sale || s.ward != null || s.zone);
 
+  // The graph (spec §0.15 P1) for a lot or combined group with block detail.
+  const graph = useLotGraph(canvas === 'graph' && kind === 'lot' ? model : null, block);
+
   // ── Selection handlers ───────────────────────────────────────────────────────────────────────
   const onTab = (t: InspectorTab) => update({ tab: t });
   const selectCityIndex = (i: number | null) => {
@@ -74,7 +77,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   const selectedPins = kind === 'lot' ? model!.result.pins : kind === 'citylot' && s.pin ? [s.pin] : [];
   const runPins = kind === 'run' && s.run ? s.run.split(',') : [];
   let canvasEl;
-  if (canvas === 'graph') canvasEl = <GraphSlot />;
+  if (canvas === 'graph') canvasEl = <GraphCanvasBody graph={graph} s={s} update={update} />;
   else if (canvas === 'map') canvasEl = <MapCanvas cm={cm} s={s} selectedPins={selectedPins} runPins={runPins} asmPins={asmPins} onSelect={selectCityIndex} onZoom={(h) => update({ hood: h }, { push: true })} />;
   else if (canvas === 'plan')
     canvasEl =
@@ -107,7 +110,8 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
 
   // ── Inspector ────────────────────────────────────────────────────────────────────────────────
   let inspector;
-  if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} />;
+  if (canvas === 'graph' && graph && s.node && graph.nodes.some((n) => n.id === s.node)) inspector = <GraphInspector graph={graph} s={s} update={update} />;
+  else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} />;
   else if (kind === 'block' && bm) inspector = <BlockInspector block={block!} bm={bm} s={s} onTab={onTab} />;
   else if (kind === 'citylot' && pinIdx != null)
     inspector = <CityLotInspector cm={cm} i={pinIdx} s={s} update={update} onTab={onTab} runsFor={asm && asm !== 'loading' ? asm.runs.filter((r) => r.type === s.type && r.pins.includes(s.pin!)) : []} />;
@@ -221,7 +225,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
 
   return (
     <main className={`ws ws-kind-${kind} ws-canvas-${canvas}`} id="main" data-canvas={canvas} data-selection={kind}>
-      <Rail canvas={canvas === 'table' && s.view !== 'city' ? 'plan' : canvas} s={s} update={update} cm={needCity ? cm : null} runCount={runsOfType?.length ?? null} planType={aType(s.type)} />
+      <Rail canvas={canvas === 'table' && s.view !== 'city' ? 'plan' : canvas} s={s} update={update} cm={needCity ? cm : null} runCount={runsOfType?.length ?? null} planType={aType(s.type)} graphFilters={<GraphRailFilters graph={graph} s={s} update={update} />} />
       <section className="ws-canvas" aria-label={`Canvas: ${canvas}`}>
         {canvasEl}
       </section>
