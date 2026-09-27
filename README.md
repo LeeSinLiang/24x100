@@ -6,6 +6,8 @@ Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100
 every Mahon Street deed. Built for the AI for Housing Hackathon (AI Horizons 2026, Pittsburgh), Track 1:
 Development Feasibility & Pro Forma Navigator.
 
+**Demo video:** _link to be added._
+
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
 > affordable homes built: housing nonprofits and CDCs, small and mid-size developers, municipal planners and
 > policy analysts. It gives them a bird's-eye view of the City's vacant lots, lets them zoom into a single lot,
@@ -110,31 +112,35 @@ output for them.
   prompts may be used to improve Google's products.
 - The model never computes a setback, adds a fact to the inquiry or decides an interpretation. It proposes
   typed rules with verbatim quotes; code checks the quotes; a named person signs or strikes each rule.
-- The RM‑M dimensional rules were matched to the saved code text by an AI research pass and are labeled that
-  way in the app ("AI-checked · needs a teammate"). None is City-confirmed.
+- The RM‑M dimensional rules were first matched to the saved code text by an AI research pass. The agent then
+  checked the 20 rules the Mahon Street and Larimer results use (every quote verbatim in its cited section, every
+  value matching its quote: [`docs/reviews/rule-check-for-sin.md`](docs/reviews/rule-check-for-sin.md)), and Sin
+  (team 24×100) signed off on that check. The app records exactly that: "Signed off on the agent's 20-rule check".
+  A person took responsibility for the agent's check; they did not re-read each quote. None is City-confirmed.
 
 ## Evaluation
 
 | What | Result | Where |
 |---|---|---|
-| Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, and no one has signed it here yet) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
-| Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards, all pencil until a person signs them (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
+| Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, then signed off by Sin on the agent's [20-rule check](docs/reviews/rule-check-for-sin.md)) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
+| Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 184 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Engine tests (vitest) | 203 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Pipeline and extraction tests (pytest) | 144 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
-| Citywide number | RM‑M, 984 City-owned vacant lots, 563 computable: a two-unit house is too narrow on 480 and under the minimum area on 311 | `docs/evidence/problem.md` |
+| Citywide number | Two districts computed (RM‑M and R1D‑H), 1,075 City-owned vacant lots checked. For a two-unit house, **178 are big enough but too narrow** (the side setbacks) and 311 are under the minimum area; R1D‑H doesn't permit two-unit houses (512 lots) | `docs/evidence/problem.md`, `film/facts.json` |
 
 ## Keeping it running
 
 Static site plus a static JSON API: free to host. Rule extraction costs $0.06–$0.16 per district at paid rates
 (measured). Reviews are signed in a browser and published by a steward through a GitHub upload and a checking
-workflow, no git needed (`docs/pilot.md`, steward runbook; the workflow hasn't run yet because the repository
-doesn't exist yet). Nobody has agreed to own it yet; `docs/pilot.md` lists the kinds of owners that fit.
+workflow, no git needed (`docs/pilot.md`, steward runbook). The repository is
+[github.com/LeeSinLiang/24x100](https://github.com/LeeSinLiang/24x100); the publish workflow is written but hasn't run
+there yet. Nobody has agreed to own the tool yet; `docs/pilot.md` lists the kinds of owners that fit.
 
 ## Limitations
 
