@@ -112,6 +112,59 @@
   position: absolute;
   inset: 0;
   display: block;
+  cursor: grab;
+  touch-action: none; /* drag and pinch move the map, not the page */
+}
+.city-dots.is-stacked {
+  touch-action: pan-y; /* a phone's page scrolls under one finger; zoom with the buttons */
+}
+.city-plate.is-still .city-dots {
+  cursor: default;
+}
+/* While the camera moves, the leader line would point at the wrong place: it waits for the move to end. */
+.city-plate.is-moving .inset-leader {
+  opacity: 0;
+}
+/* The camera's controls: + and −, and back out to the whole city (never in record or present mode). */
+.map-controls {
+  position: absolute;
+  right: 56px;
+  bottom: 14px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+}
+.map-controls.is-left {
+  right: auto;
+  left: 14px;
+  bottom: 42px;
+}
+.map-ctl {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+  font-family: var(--f-display);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.map-ctl.is-text {
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.map-ctl:hover:not(:disabled) {
+  background: var(--paper);
+}
+.map-ctl:disabled {
+  color: var(--graphite);
+  border-color: var(--rule-strong);
+  cursor: default;
 }
 .city-svg {
   position: absolute;
@@ -126,6 +179,7 @@
   stroke-opacity: 0.3;
   stroke-width: 0.6px;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke; /* the camera's transform never thickens the outlines mid-move */
 }
 .hood-line.is-focus {
   stroke-opacity: 1;
@@ -646,6 +700,62 @@
   border: 3px double var(--ink);
   padding: 6px 8px 8px;
   cursor: zoom-in;
+}
+.city-inset.is-wide.is-static {
+  cursor: default;
+}
+/* A City lot without block detail: its outline, neighbours, dimensions and envelope (plan detail: outline only). */
+.ol-svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  background: var(--sheet);
+}
+.ol-lot {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.8px;
+  vector-effect: non-scaling-stroke;
+}
+.ol-nb-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-opacity: 0.55;
+  stroke-width: 0.8px;
+  vector-effect: non-scaling-stroke;
+}
+.ol-nb-name {
+  font-family: var(--f-map);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  fill: var(--ink-2);
+}
+.ol-dim path {
+  fill: none;
+  stroke: var(--ink-2);
+  stroke-width: 0.8px;
+  vector-effect: non-scaling-stroke;
+}
+.ol-dim text {
+  font-family: var(--f-map);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-linejoin: round; /* the halo's width is set inline in screen pixels (the drawing is in feet) */
+}
+.ol-dim.is-pencil text {
+  fill: var(--graphite);
+  font-style: italic;
+}
+.ol-note {
+  margin: 4px 0 0;
+  line-height: 1.35;
+}
+.map-inset-plan .plate {
+  margin: 0 auto;
 }
 .map-inset-head {
   display: flex;

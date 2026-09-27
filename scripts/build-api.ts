@@ -145,9 +145,57 @@ for (const b of blocks) {
   writeFileSync(`${OUT}/blocks/${b.meta.id}.json`, JSON.stringify({ meta: b.meta, lots, disclaimer }, null, 1));
 }
 
-// City lots not in a block file: the classification per building type.
+// City lots not in a block file: the classification per building type, and (for the map's inset, team review
+// round 3) the lot's outline with its immediate neighbours and the streets near it, in local feet, from the
+// citywide work file (data/city/work/lots_work.json, gitignored: without it the files carry no outline).
 let city: { meta: Record<string, unknown>; lots: CityLot[] } = { meta: {}, lots: [] };
 if (existsSync('data/city/lots.json')) city = read('data/city/lots.json');
+type WorkPoly = [number, number][] | [number, number][][];
+interface WorkLot {
+  pin: string;
+  addr_street: string | null;
+  origin?: [number, number];
+  poly: WorkPoly;
+  neighbors: { pin: string; lot?: number | null; addr: string; built: boolean; poly: WorkPoly }[];
+  streets: { name: string; line: [number, number][] }[];
+}
+const WORK = 'data/city/work/lots_work.json';
+const work = new Map<string, WorkLot>(existsSync(WORK) ? read<{ lots: WorkLot[] }>(WORK).lots.map((l) => [l.pin, l]) : []);
+const r1 = (v: number) => Math.round(v * 10) / 10;
+const outerRing = (p: WorkPoly): [number, number][] => (Array.isArray(p[0]?.[0]) ? (p as [number, number][][])[0] : (p as [number, number][]));
+const pts = (ring: [number, number][]) => ring.map(([x, y]) => [r1(x), r1(y)] as [number, number]);
+/** The outline the browser needs to label the lot's edges and draw its envelope (engine/src/outline.ts): the
+ *  lot, its neighbours (within 3 ft, the pipeline's rule), and the street centrelines, each street cut to the
+ *  segments that come within 200 ft of the lot (the edge labeller looks 80 ft out). */
+function outlineOf(l: WorkLot) {
+  const ring = pts(outerRing(l.poly));
+  const xs = ring.map((q) => q[0]);
+  const ys = ring.map((q) => q[1]);
+  const box = [Math.min(...xs) - 200, Math.min(...ys) - 200, Math.max(...xs) + 200, Math.max(...ys) + 200];
+  const near = (a: [number, number], b: [number, number]) => Math.max(a[0], b[0]) >= box[0] && Math.min(a[0], b[0]) <= box[2] && Math.max(a[1], b[1]) >= box[1] && Math.min(a[1], b[1]) <= box[3];
+  const streets = l.streets.flatMap((s) => {
+    const out: [number, number][][] = [];
+    let cur: [number, number][] = [];
+    for (let i = 0; i + 1 < s.line.length; i++) {
+      if (near(s.line[i], s.line[i + 1])) {
+        if (!cur.length) cur.push(s.line[i]);
+        cur.push(s.line[i + 1]);
+      } else if (cur.length) (out.push(cur), (cur = []));
+    }
+    if (cur.length) out.push(cur);
+    return out.map((line) => ({ name: s.name, line: pts(line) }));
+  });
+  return {
+    frame: 'feet east (x) and north (y) of origin [lon, lat]',
+    origin: l.origin ?? null,
+    addr_street: l.addr_street,
+    ring,
+    neighbors: l.neighbors.map((n) => ({ pin: n.pin, lot: n.lot ?? null, addr: n.addr, built: n.built, ring: pts(outerRing(n.poly)) })),
+    streets,
+  };
+}
+let outlineBytes = 0;
+let outlines = 0;
 const summaries: Record<string, unknown> = {};
 for (const t of TYPES) {
   const cls = city.lots.map((l) => classifyCityLot(l, l.zone ? rsFor(l.zone) : null, t, DEFAULT_SETTINGS));
@@ -159,7 +207,12 @@ for (const t of TYPES) {
         const c = tt === 'two' ? cls[i] : classifyCityLot(l, l.zone ? rsFor(l.zone) : null, tt, DEFAULT_SETTINGS);
         return [tt, { first_blocker: c.blocker, first_blocker_words: BLOCKER_WORDS[c.blocker], all: c.all, width: c.width, depth: c.depth, area: c.area, formula: c.formula, trust: c.trust, note: c.note }];
       }));
-      writeFileSync(`${OUT}/lots/${l.pin}.json`, JSON.stringify({ pin: l.pin, address: l.addr, neighborhood: l.hood, zone: l.zone, city_status: l.status, status_updated: l.status_updated, deed: l.deed, assessed_sf: l.assessed, mapped_sf: l.mapped, edges: { computed: l.edges_ok, note: l.edge_note, flank: l.flank }, classification_by_type: byType, disclaimer }, null, 1));
+      const body = JSON.stringify({ pin: l.pin, address: l.addr, neighborhood: l.hood, zone: l.zone, city_status: l.status, status_updated: l.status_updated, deed: l.deed, assessed_sf: l.assessed, mapped_sf: l.mapped, edges: { computed: l.edges_ok, note: l.edge_note, flank: l.flank }, classification_by_type: byType, disclaimer }, null, 1);
+      // The outline goes last and compact (coordinates one per line would triple the file).
+      const wl = work.get(l.pin);
+      const outline = wl ? JSON.stringify(outlineOf(wl)) : null;
+      if (outline) (outlineBytes += outline.length + 14), outlines++;
+      writeFileSync(`${OUT}/lots/${l.pin}.json`, outline ? body.replace(/\n}$/, `,\n "outline": ${outline}\n}`) : body);
       lotFiles++;
     });
   }
@@ -182,3 +235,4 @@ writeFileSync(
   ),
 );
 console.log(`api: ${lotFiles} lot files, ${blocks.length} blocks, city summary for ${city.lots.length} lots → ${OUT}`);
+console.log(`api: ${outlines} City lot files carry an outline (${(outlineBytes / 1e6).toFixed(1)} MB of outlines)${work.size ? '' : '; the citywide work file is missing, so none do'}`);

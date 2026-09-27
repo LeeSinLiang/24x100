@@ -1,11 +1,11 @@
 // The centre canvas (spec §0.15): Map (the city, its layers and the selection), Plan (the plat drawing),
 // Graph (P1's slot) and Table (sortable lots or runs). Each fits its box; the page never scrolls.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { placeName } from '@engine/index';
 import { TEMPLATES } from '@engine/templates';
 import type { BlockFile, LotResult, Parcel } from '@engine/types';
 import type { AssemblyFile, AssemblyRunRow } from '../city/Assemblies';
-import { CityMap, MAP_ASPECT } from '../city/CityMap';
+import { CityMap, InsetRoom, MAP_ASPECT } from '../city/CityMap';
 import { LotTable } from '../city/LotTable';
 import { lotsWord, n, zoneName } from '../city/blockers';
 import { Plate } from '../Plate';
@@ -106,6 +106,8 @@ export function MapCanvas({
             classes={classesV}
             hoods={cm.hoods}
             focus={s.hood ?? hood ?? null}
+            focusIsFilter={!!s.hood}
+            stacked={stacked}
             selected={sel}
             onSelect={(j) => onSelect(j == null ? null : vis[j])}
             onZoom={onZoom}
@@ -161,6 +163,7 @@ function planFocus(block: BlockFile, r: LotResult): string[] {
 
 /** The map's inset plan (spec §0.15 P2): the selected lot or group, cropped, with its width. */
 export function MapInsetPlan({ block, model, s }: { block: BlockFile; model: LotModel; s: UrlState }) {
+  const room = useContext(InsetRoom);
   const r = model.result;
   const sel = block.parcels.find((p) => p.pin === r.pins[0])!;
   const frameLots = mainRow(block).filter((p) => p.zone === sel.zone);
@@ -184,6 +187,7 @@ export function MapInsetPlan({ block, model, s }: { block: BlockFile; model: Lot
         still
         slope={false}
         focus={focus}
+        maxHeight={room?.maxH}
         label={`Inset plan of ${block.meta.name}: the selected lots and one lot either side.`}
       />
     </div>

@@ -110,7 +110,8 @@ export function App() {
     ...(s.view === 'city' && s.hood ? [{ label: s.hood, href: `?view=city&hood=${encodeURIComponent(s.hood)}` }] : []),
     ...(s.view === 'city' && s.layer === 'assemble' ? [{ label: 'Combine to fit', href: `?view=city&type=${s.type}&layer=assemble` }] : []),
     ...(s.view === 'city' && s.pin && !s.run ? [{ label: 'City lot' }] : []),
-    ...(s.view === 'city' && s.layer === 'assemble' && s.run ? [{ label: 'Run' }] : []),
+    // "Lot group", as the workspace names them (the inspector's title gives its County block and lots).
+    ...(s.view === 'city' && s.layer === 'assemble' && s.run ? [{ label: 'Lot group' }] : []),
   ];
   const crumbs: Crumb[] =
     s.view === 'review'

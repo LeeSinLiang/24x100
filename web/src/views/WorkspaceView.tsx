@@ -13,6 +13,7 @@ import type { UrlState } from '../lib/url';
 import { AssembleInspector, BlockInspector, CityInspector, CityLotInspector, RunInspector } from '../components/workspace/CityInspector';
 import { GraphCanvasBody, GraphInspector, GraphRailFilters, useLotGraph } from '../components/workspace/GraphView';
 import { inquiryHref, LotInspector, lotSteps } from '../components/workspace/LotInspector';
+import { MapInsetOutline } from '../components/workspace/OutlineInset';
 import { aType } from '../components/workspace/plain';
 import { Rail } from '../components/workspace/Rail';
 import { pullEvents, refreshEvent, ruleEvents, Tray, type Step, type TimelineEvent } from '../components/workspace/Tray';
@@ -83,8 +84,15 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   if (canvas === 'graph') canvasEl = <GraphCanvasBody graph={graph} s={s} update={update} />;
   else if (canvas === 'map') {
     // P2: the selection's plan (or a run's card) in an inset joined to its dot; double-click opens the Plan view.
+    // A City lot without block detail gets its outline (team review, round 3: an inset for every lot).
     const inset =
-      kind === 'lot' && block && model ? <MapInsetPlan block={block} model={model} s={s} /> : kind === 'run' && run ? <MapInsetRun run={run} /> : null;
+      kind === 'lot' && block && model ? (
+        <MapInsetPlan block={block} model={model} s={s} />
+      ) : kind === 'run' && run ? (
+        <MapInsetRun run={run} />
+      ) : kind === 'citylot' && pinIdx != null ? (
+        <MapInsetOutline lot={cm.lots[pinIdx]} cls={cm.classes[pinIdx]} rs={cm.lots[pinIdx].zone ? cm.ruleSets.get(cm.lots[pinIdx].zone!) ?? null : null} type={s.type} />
+      ) : null;
     const onInsetOpen =
       kind === 'lot'
         ? () => update({ canvas: 'plan' }, { push: true })
