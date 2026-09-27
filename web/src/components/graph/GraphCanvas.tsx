@@ -309,7 +309,9 @@ export function GraphCanvas(p: {
     const el = box.current;
     if (!el) return;
     const measure = () => {
-      const r = el.getBoundingClientRect();
+      // Layout px (clientWidth), not getBoundingClientRect: under record mode's CSS zoom the latter is already
+      // zoomed, and the SVG would be zoomed twice (it ran off the right edge of the 1920 px film frame).
+      const r = { width: el.clientWidth, height: el.clientHeight };
       if (r.width > 0 && r.height > 0) setSize((s) => (Math.abs(s.w - r.width) < 1 && Math.abs(s.h - r.height) < 1 ? s : { w: r.width, h: r.height }));
     };
     measure();

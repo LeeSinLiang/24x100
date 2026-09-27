@@ -45,6 +45,7 @@ export interface UrlState {
   ward: number | null; // filter
   zone: string | null; // filter: zoning district
   letter: Office | null; // inquiry page: the letter tab to open
+  anim: boolean; // film: keep the map's zoom animation in record mode (record mode is otherwise still)
   node: string | null; // Graph canvas: the selected node (its id in engine/src/graph.ts)
   ghide: string[]; // Graph canvas: node types hidden from the rail's filters
   focus: string | null; // Graph canvas: show only the chain behind this node's decision (engine/src/graph.ts focusGraph)
@@ -119,6 +120,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     })(),
     zone: q.get('zone'),
     letter: oneOf(q.get('letter'), OFFICES),
+    anim: q.get('anim') === '1',
     node: q.get('node'),
     ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
     focus: q.get('focus'),
@@ -191,6 +193,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if (s.slope) q.set('slope', '1');
   if (s.tol != null) q.set('tol', String(s.tol));
   if (s.record) q.set('record', '1');
+  if (s.anim) q.set('anim', '1');
   else if (s.present) q.set('present', '1');
   if (s.still) q.set('still', '1');
   if (s.theme) q.set('theme', s.theme);
