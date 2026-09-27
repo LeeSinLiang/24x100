@@ -112,6 +112,17 @@ newly signed rules, and the watchlist digest in dry-run preview ("not sent").
 the City interprets its own code, no personal data.
 **Viewer notices:** it ends on honesty.
 
+### B13 · Combine to fit (C15, spec §0.14) · placement set by the film session
+**Link:** `?view=city&type=three&layer=assemble&hood=Middle+Hill&canvas=table`, then select the run
+`0010K00025000000,0010K00026000000,0010K00027000000` and switch to Map.
+**On screen:** the list of runs of 2–3 lots in Middle Hill that fit a three-unit house as of right when combined
+(31 runs, 5 all City-owned; citywide 111 and 42). Mahon 25–27 at the top: 52 ft (72 − 10 − 10), 1 lot not
+City-owned (a corporation). On the map, the run's dots ringed and its plan in an inset joined by a leader line.
+The two honesty lines: a lot consolidation and the owners' agreement; RM‑M only.
+**Viewer notices:** the one lot they found by hand is one of 111 the app finds across the city.
+**Action:** `scripts/demo.mjs` beat B13: list from 0 s, Mahon selected at ~3 s, the map with its inset at ~6 s,
+held to 12 s.
+
 ---
 
 ## Timing check

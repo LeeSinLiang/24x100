@@ -32,12 +32,21 @@ for (const q of [
   'view=lot&block=0124P&lot=203&type=detached',
   'view=inquiry&block=10K&lot=25&type=three&lots=25,26,27',
   'view=city&type=two',
+  'view=city&type=three&layer=assemble',
+  'view=lot&block=10K&lot=25&type=three&lots=25,26,27&canvas=graph',
+  'view=lot&block=10K&lot=25&type=row&lots=25,26,27&drawer=question:q.single_unit_includes_attached',
+  'view=review&district=RM-M',
+  'view=review&district=R1D-H',
   'view=about&block=10K&section=limits',
 ]) {
   await page.goto(`${BASE}?${q}&still=1`, { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 15000 });
+  await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, { timeout: 15000 }).catch(() => {});
   await page.waitForTimeout(300);
-  check(q, await page.locator('body').innerText());
+  // Open the Assume form where there is one: its wording is checked too.
+  const assume = page.getByRole('button', { name: 'Assume yes' });
+  if (await assume.count()) await assume.first().click().catch(() => {});
+  // textContent, not innerText: hidden tab panels and collapsed details count too.
+  check(q, await page.evaluate(() => document.body.textContent ?? ''));
 }
 await browser.close();
 if (problems.length) {

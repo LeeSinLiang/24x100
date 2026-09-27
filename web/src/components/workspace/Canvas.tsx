@@ -59,6 +59,9 @@ export function MapCanvas({
   asmPins,
   onSelect,
   onZoom,
+  inset,
+  onInsetOpen,
+  hood,
 }: {
   cm: CityModel;
   s: UrlState;
@@ -67,6 +70,9 @@ export function MapCanvas({
   asmPins: string[];
   onSelect: (i: number | null) => void; // index into cm.lots
   onZoom: (hood: string | null) => void;
+  inset?: ReactNode; // the selection's plan (or run card), linked to its dot by a leader line (P2)
+  onInsetOpen?: () => void;
+  hood?: string | null; // the neighbourhood to zoom to when the URL names none (a lot's own)
 }) {
   const stacked = useNarrow(1023);
   const [ref, box] = useBox<HTMLDivElement>();
@@ -76,7 +82,7 @@ export function MapCanvas({
   const classesV = useMemo(() => vis.map((i) => cm.classes[i]), [vis, cm.classes]);
   const at = useMemo(() => new Map(vis.map((i, j) => [cm.lots[i].pin, j])), [vis, cm.lots]);
   const idx = (pins: string[]) => pins.map((p) => at.get(p)).filter((j): j is number => j != null);
-  const sel = idx(selectedPins)[0] ?? null;
+  const sel = idx(selectedPins)[0] ?? (inset ? idx(runPins)[0] : undefined) ?? null;
   const marks = useMemo(() => idx(asmPins), [asmPins.join(','), at]);
   const strong = useMemo(() => idx([...runPins, ...(selectedPins.length > 1 ? selectedPins : [])]), [runPins.join(','), selectedPins.join(','), at]);
   const w = stacked ? box.w : Math.max(0, Math.min(box.w, box.h / MAP_ASPECT));
@@ -96,13 +102,15 @@ export function MapCanvas({
             water={cm.data.water}
             classes={classesV}
             hoods={cm.hoods}
-            focus={s.hood}
+            focus={s.hood ?? hood ?? null}
             selected={sel}
             onSelect={(j) => onSelect(j == null ? null : vis[j])}
             onZoom={onZoom}
             present={s.present}
             record={s.record}
-            inset={null}
+            inset={inset && sel != null ? inset : null}
+            insetWide={!!inset}
+            onInsetOpen={onInsetOpen}
             marks={marks}
             markStrong={strong}
             label={`Map of ${s.hood ?? 'Pittsburgh'}: ${n(lotsV.length)} City-owned vacant ${lotsWord(lotsV.length)} as dots, colored by what first blocks a ${tname}. The Table view lists the same lots.`}
@@ -135,6 +143,64 @@ function MapPlaceholder({ state, message }: { state: 'loading' | 'absent' | 'err
           <p className="small">{message}</p>
         </div>
       )}
+    </div>
+  );
+}
+
+/** The lots a cropped plan shows: the selection and one lot either side, on its frontage. */
+function planFocus(block: BlockFile, r: LotResult): string[] {
+  const sel = block.parcels.find((p) => p.pin === r.pins[0])!;
+  const order = mainRow(block).filter((p) => p.zone === sel.zone).map((p) => p.pin);
+  const ix = r.pins.map((pin) => order.indexOf(pin)).filter((i) => i >= 0);
+  if (!ix.length) return r.pins;
+  return order.slice(Math.max(0, Math.min(...ix) - 1), Math.min(order.length - 1, Math.max(...ix) + 1) + 1);
+}
+
+/** The map's inset plan (spec §0.15 P2): the selected lot or group, cropped, with its width. */
+export function MapInsetPlan({ block, model, s }: { block: BlockFile; model: LotModel; s: UrlState }) {
+  const r = model.result;
+  const sel = block.parcels.find((p) => p.pin === r.pins[0])!;
+  const frameLots = mainRow(block).filter((p) => p.zone === sel.zone);
+  const focus = useMemo(() => planFocus(block, r), [block, r.pins.join(',')]);
+  const w = r.width ? r.width.deed ?? r.width.mapped : null;
+  return (
+    <div className="map-inset-plan">
+      <p className="map-inset-head">
+        <strong>{block.meta.name}</strong>
+        <span className="muted">{r.state === 'ok' && w != null ? `${ftFmt(w)} ft of width · double-click for the plan` : 'double-click for the plan'}</span>
+      </p>
+      <Plate
+        block={block}
+        frameLots={frameLots}
+        row={model.row.filter((x) => x.parcel.zone === sel.zone)}
+        selected={r}
+        onSelect={() => {}}
+        present={s.present}
+        record={s.record}
+        still
+        slope={false}
+        focus={focus}
+        label={`Inset plan of ${block.meta.name}: the selected lots and one lot either side.`}
+      />
+    </div>
+  );
+}
+
+/** The map's inset for a run without lot detail: its lots, owners and width. */
+export function MapInsetRun({ run }: { run: AssemblyRunRow }) {
+  return (
+    <div className="map-inset-plan">
+      <p className="map-inset-head">
+        <strong>{run.lots.length} lots combined</strong>
+        <span className="muted">{run.block ? 'double-click for the plan' : 'no block drawing yet'}</span>
+      </p>
+      <p className="small">{run.lots.map((l) => l.addr ?? l.pin).join(' · ')}</p>
+      <p className="small">
+        <Ev trust={run.trust} num>
+          {run.width} ft
+        </Ev>{' '}
+        ({run.formula}) · {run.non_city === 0 ? 'all City-owned' : `${run.non_city} not City-owned`}
+      </p>
     </div>
   );
 }

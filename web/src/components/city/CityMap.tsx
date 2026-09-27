@@ -133,6 +133,8 @@ interface Props {
   record: boolean;
   label: string;
   inset?: ReactNode; // the selected lot's card, set in the corner away from its dot
+  insetWide?: boolean; // a plan inset (spec §0.15 P2): wider, joined to its dot by a leader line
+  onInsetOpen?: () => void; // double-clicking the inset (opens the Plan view)
   marks?: number[]; // "Combine to fit" layer: City lots in a qualifying run, ringed (indexes into lots)
   markStrong?: number[]; // the selected run's lots, ringed heavier
 }
@@ -299,9 +301,27 @@ export function CityMap(p: Props) {
     }
   }, [p.classes, pos, w, h, r, themeKey, p.focus, water, view, p.marks, p.markStrong]);
 
+  // The inset's real height, so the leader line lands on the card, not below it.
+  const insetEl = useRef<HTMLDivElement>(null);
+  const [insetH, setInsetH] = useState(0);
+  useLayoutEffect(() => {
+    const el = insetEl.current;
+    if (!el) return;
+    const read = () => setInsetH(el.offsetHeight);
+    const ro = new ResizeObserver(read);
+    ro.observe(el);
+    read();
+    return () => ro.disconnect();
+  }, [!!p.inset]);
   const sel = p.selected != null && p.selected < p.lots.length ? ([pos.xs[p.selected], pos.ys[p.selected]] as XY) : null;
   const insetLeft = !!sel && sel[0] > w / 2;
-  const insetW = p.present ? Math.min(400, w * 0.52) : Math.min(304, w * 0.46);
+  // A wide (plan) inset takes the side with more room and never covers its own dot: it stops 36 px short.
+  const room = sel ? (insetLeft ? sel[0] - 36 - 14 : w - 14 - (sel[0] + 36)) : w;
+  const insetW = p.insetWide
+    ? Math.max(Math.min(240, w * 0.4), Math.min(p.present ? 520 : 440, w * 0.56, room))
+    : p.present
+      ? Math.min(400, w * 0.52)
+      : Math.min(304, w * 0.46);
   const insetBox: [number, number, number, number] | null = p.inset ? (insetLeft ? [14, 42, 14 + insetW, h - 42] : [w - 14 - insetW, 42, w - 14, h - 42]) : null;
 
   // River names in italic, at the widest-looking interior point we can find cheaply: the midpoint
@@ -472,6 +492,16 @@ export function CityMap(p: Props) {
               </text>
             ))}
           </g>
+          {sel && insetBox && p.insetWide && (
+            // The leader line (spec §0.15 P2): from the selected lot to the edge of its inset plan.
+            <line
+              className="inset-leader"
+              x1={sel[0]}
+              y1={sel[1]}
+              x2={insetLeft ? insetBox[2] : insetBox[0]}
+              y2={Math.max(insetBox[1] + 16, Math.min(Math.min(insetBox[3], insetBox[1] + (insetH || insetBox[3] - insetBox[1])) - 16, sel[1]))}
+            />
+          )}
           {sel && selStyle && (
             <g className="sel-mark" transform={`translate(${sel[0]} ${sel[1]})`}>
               <circle r={2.5} className={`sel-dot bk-${selStyle.id}`} />
@@ -504,7 +534,17 @@ export function CityMap(p: Props) {
           </g>
         </svg>
       </div>
-      {p.inset && <div className={`city-inset ${insetLeft ? 'is-left' : 'is-right'}`}>{p.inset}</div>}
+      {p.inset && (
+        <div
+          ref={insetEl}
+          className={`city-inset ${insetLeft ? 'is-left' : 'is-right'}${p.insetWide ? ' is-wide' : ''}`}
+          style={p.insetWide ? { width: insetW } : undefined}
+          onDoubleClick={p.onInsetOpen}
+          title={p.onInsetOpen ? 'Double-click to open the plan' : undefined}
+        >
+          {p.inset}
+        </div>
+      )}
       <div className="city-hover" ref={hover} hidden aria-hidden="true" />
       <span className="city-probe" ref={probe} aria-hidden="true" />
     </div>

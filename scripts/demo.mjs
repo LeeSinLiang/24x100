@@ -168,6 +168,25 @@ const BEATS = [
       await c.until(25);
     },
   },
+  {
+    // B13 (spec §0.14, C15): the citywide "Combine to fit" list, then Mahon 25–27 on the map with its inset plan.
+    id: 'B13',
+    name: 'assemblies',
+    q: 'view=city&type=three&layer=assemble&hood=Middle+Hill&canvas=table',
+    run: async (p, c) => {
+      const MAHON = '0010K00025000000,0010K00026000000,0010K00027000000';
+      await p.waitForSelector(`tr[data-run="${MAHON}"]`, { timeout: 8000 });
+      cues.B13 = { list: 0, note: 'the Combine to fit list (Middle Hill) is on screen from the first frame' };
+      await c.until(3);
+      await p.locator(`tr[data-run="${MAHON}"] button`).first().click();
+      cues.B13.mahon_selected = Math.round(c.now() * 100) / 100;
+      await c.until(6);
+      await p.getByRole('button', { name: /^Map$/ }).first().click().catch(async () => p.getByRole('link', { name: /^Map$/ }).first().click());
+      await p.waitForSelector('.city-inset.is-wide', { timeout: 8000 });
+      cues.B13.map_inset = Math.round(c.now() * 100) / 100;
+      await c.until(12);
+    },
+  },
   { id: 'B11', name: 'what-changed', q: 'view=changes', run: async (p, c) => c.until(9.5) },
   { id: 'B12', name: 'limits', q: 'view=about&block=10K&section=limits', run: async (p, c) => c.until(7) },
 ];

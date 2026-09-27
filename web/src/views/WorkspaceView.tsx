@@ -8,7 +8,8 @@ import { TEMPLATES } from '@engine/templates';
 import type { Parcel } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
 import { useAssemblies, type AssemblyRunRow } from '../components/city/Assemblies';
-import { BlockPlanCanvas, BlockTables, CityTable, LotListTable, MapCanvas, NoPlan, PlanCanvas, RunsTable } from '../components/workspace/Canvas';
+import { BlockPlanCanvas, BlockTables, CityTable, LotListTable, MapCanvas, MapInsetPlan, MapInsetRun, NoPlan, PlanCanvas, RunsTable } from '../components/workspace/Canvas';
+import type { UrlState } from '../lib/url';
 import { AssembleInspector, BlockInspector, CityInspector, CityLotInspector, RunInspector } from '../components/workspace/CityInspector';
 import { GraphCanvasBody, GraphInspector, GraphRailFilters, useLotGraph } from '../components/workspace/GraphView';
 import { inquiryHref, LotInspector } from '../components/workspace/LotInspector';
@@ -78,7 +79,18 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   const runPins = kind === 'run' && s.run ? s.run.split(',') : [];
   let canvasEl;
   if (canvas === 'graph') canvasEl = <GraphCanvasBody graph={graph} s={s} update={update} />;
-  else if (canvas === 'map') canvasEl = <MapCanvas cm={cm} s={s} selectedPins={selectedPins} runPins={runPins} asmPins={asmPins} onSelect={selectCityIndex} onZoom={(h) => update({ hood: h }, { push: true })} />;
+  else if (canvas === 'map') {
+    // P2: the selection's plan (or a run's card) in an inset joined to its dot; double-click opens the Plan view.
+    const inset =
+      kind === 'lot' && block && model ? <MapInsetPlan block={block} model={model} s={s} /> : kind === 'run' && run ? <MapInsetRun run={run} /> : null;
+    const onInsetOpen =
+      kind === 'lot'
+        ? () => update({ canvas: 'plan' }, { push: true })
+        : kind === 'run' && run?.block && run.lots_param && run.lot_key
+          ? () => update({ view: 'lot', block: run.block!, lot: run.lot_key!, lots: run.lots_param!.split(','), type: run.type as UrlState['type'], canvas: 'plan', layer: null, run: null }, { push: true })
+          : undefined;
+    canvasEl = <MapCanvas cm={cm} s={s} selectedPins={selectedPins} runPins={runPins} asmPins={asmPins} onSelect={selectCityIndex} onZoom={(h) => update({ hood: h }, { push: true })} inset={inset} onInsetOpen={onInsetOpen} hood={kind === 'lot' && block ? block.meta.neighborhood : null} />;
+  }
   else if (canvas === 'plan')
     canvasEl =
       kind === 'lot' ? (
