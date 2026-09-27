@@ -10,7 +10,7 @@
 // Not exported from ./index: this file's EdgeKind (the graph's edge vocabulary) would collide with the
 // lot-side EdgeKind in ./types. Import it as '@engine/graph'.
 import { usd } from './format';
-import { AI_ROLE, isAiReviewer } from './rules';
+import { isAiReviewer } from './rules';
 import { TEMPLATES } from './templates';
 import type { AuditEntry, BlockFile, Check, CheckStatus, EffectiveRule, LotResult, MoneyResult, Parcel, RuleSet } from './types';
 import type { Inquiry } from './inquiry';
