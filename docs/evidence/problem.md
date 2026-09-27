@@ -52,6 +52,10 @@ Other building types on the same 563 lots:
 | Rowhouse on its own lot (16 ft) | 480 | 311 | 178 | 30 |
 | Three-unit house (30 ft) | 530 | 311 | 220 | 9 |
 
+These are RM‑M's lots. Across the six districts whose rules are signed (27 Sep: RM‑M, R1D‑H, R2‑L, R1D‑L, R2‑H,
+R1D‑M; 2,318 lots computed), 428 City lots are big enough for a two-unit house but too narrow (`film/facts.json`,
+`setback_stuck_lots_two`).
+
 **Reading it.** H1 said that after the 2025 reform, width and ownership, not area, block most small infill
 lots. On RM‑M's computable City-owned lots, width does block more lots than area for every multi-unit type
 (480 vs 311 for a two-unit house). But area still blocks more than half of them, so "not area" is too strong.

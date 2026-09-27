@@ -487,97 +487,101 @@
    "source": "data/city/lots.json (citywide work file pulled 2026-09-26T21:30:07Z)"
   },
   "city_lots_computed": {
-   "value": 1075,
-   "display": "1,075",
+   "value": 2318,
+   "display": "2,318",
    "source": "lots in districts with checked rules, edges computed, records agreeing"
   },
   "city_width_not_area": {
-   "value": 178,
-   "display": "178",
+   "value": 428,
+   "display": "428",
    "source": "two-unit house: lots big enough by area but too narrow (engine classifier)"
   },
   "city_area_any": {
-   "value": 311,
-   "display": "311",
+   "value": 641,
+   "display": "641",
    "source": "two-unit house: lots under the minimum area (engine classifier)"
   },
   "city_by_first_blocker": {
    "value": {
-    "rules": 9413,
-    "records": 678,
-    "edges": 81,
-    "use": 512,
-    "area": 311,
-    "width": 178,
-    "depth": 21,
-    "ownership": 24,
-    "fits": 29
+    "rules": 7101,
+    "records": 1533,
+    "edges": 295,
+    "use": 962,
+    "area": 641,
+    "width": 428,
+    "depth": 80,
+    "ownership": 75,
+    "fits": 132
    },
-   "display": "{\"rules\":9413,\"records\":678,\"edges\":81,\"use\":512,\"area\":311,\"width\":178,\"depth\":21,\"ownership\":24,\"fits\":29}",
+   "display": "{\"rules\":7101,\"records\":1533,\"edges\":295,\"use\":962,\"area\":641,\"width\":428,\"depth\":80,\"ownership\":75,\"fits\":132}",
    "source": "two-unit house, first blocker per lot (engine classifier)"
   },
   "city_districts_computed": {
    "value": [
     "R1D-H",
-    "RM-M"
+    "RM-M",
+    "R2-L",
+    "R1D-L",
+    "R2-H",
+    "R1D-M"
    ],
-   "display": "R1D-H, RM-M",
+   "display": "R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M",
    "source": "districts whose rules are at least source-checked"
   },
   "city_width_not_area_ink": {
-   "value": 115,
-   "display": "115",
+   "value": 239,
+   "display": "239",
    "source": "two-unit house: too narrow by deed, next to vacant lots or too narrow even at the contextual minimum (ink)"
   },
   "city_width_not_area_context": {
-   "value": 42,
-   "display": "42",
+   "value": 150,
+   "display": "150",
    "source": "two-unit house: too narrow unless a built neighbour's actual setback allows a contextual setback (pencil)"
   },
   "city_width_not_area_mapped": {
-   "value": 21,
-   "display": "21",
+   "value": 39,
+   "display": "39",
    "source": "two-unit house: too narrow on frontage measured from the City map, no deed dimensions (pencil)"
   },
   "setback_stuck_lots_two": {
-   "value": 178,
-   "display": "178 City lots",
-   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a two-unit house (engine classifier; districts computed: R1D-H, RM-M)"
+   "value": 428,
+   "display": "428 City lots",
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a two-unit house (engine classifier; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M)"
   },
   "setback_stuck_lots_three": {
    "value": 220,
    "display": "220 City lots",
-   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: R1D-H, RM-M)"
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M)"
   },
   "scenario_s1_two": {
-   "value": 69,
-   "display": "69 more City lots could hold a two-unit home if one sentence were struck (what-if, not the law)",
-   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 50 of them listed for sale, 13 still pencil; districts computed: R1D-H, RM-M"
+   "value": 196,
+   "display": "196 more City lots could hold a two-unit home if one sentence were struck (what-if, not the law)",
+   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 150 of them listed for sale, 30 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "scenario_s1_three": {
    "value": 15,
    "display": "15 more City lots could hold a three-unit home if one sentence were struck (what-if, not the law)",
-   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 10 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M"
+   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 10 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "scenario_s2_two": {
-   "value": 146,
-   "display": "146 more City lots could hold a two-unit home (what-if, not the law)",
-   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 95 of them listed for sale, 139 still pencil; districts computed: R1D-H, RM-M"
+   "value": 325,
+   "display": "325 more City lots could hold a two-unit home (what-if, not the law)",
+   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 242 of them listed for sale, 312 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "scenario_s2_three": {
    "value": 29,
    "display": "29 more City lots could hold a three-unit home (what-if, not the law)",
-   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 20 of them listed for sale, 11 still pencil; districts computed: R1D-H, RM-M"
+   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 20 of them listed for sale, 11 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "scenario_s3_two": {
    "value": 36,
    "display": "36 more City lots could hold a two-unit home (what-if, not the law)",
-   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 24 of them listed for sale, 9 still pencil; districts computed: R1D-H, RM-M"
+   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 24 of them listed for sale, 9 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "scenario_s3_three": {
    "value": 20,
    "display": "20 more City lots could hold a three-unit home (what-if, not the law)",
-   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 13 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M"
+   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 13 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M"
   },
   "assemblies_disjoint_three": {
    "value": 80,

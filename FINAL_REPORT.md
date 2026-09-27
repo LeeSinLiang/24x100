@@ -23,13 +23,13 @@ what a person on the team still has to do. Decisions and their reasons are in `d
 - **The C15 assembly finder** (spec §0.14). Runs of 2–3 lots on one block face that fit as of right when
   combined. It shows owner type only.
 - **Rule what-ifs** (spec §0.16). The same classifier, one clause read differently:
-  - S1, strike §925.06.C's vacant-neighbour sentence: opens 69 City lots for a two-unit house;
-  - S2, the narrow-lot table for two- and three-unit houses: 146, mostly pencil (§925.06.C.1);
+  - S1, strike §925.06.C's vacant-neighbour sentence: opens 196 City lots for a two-unit house;
+  - S2, the narrow-lot table for two- and three-unit houses: 325, mostly pencil (§925.06.C.1);
   - S3, RM side setback 10 → 5 ft: 36.
   The page shows each sentence struck through and lights the lots in pencil. "What-if: not the law."
-- **Four more districts proposed, in pencil** (R2‑L, R1D‑L, R2‑H, R1D‑M): 48 rules, 0 rejected. Every value was
+- **Four more districts** (R2‑L, R1D‑L, R2‑H, R1D‑M): 48 rules, 0 rejected. Every value was
   read again by position from the code's tables, with 0 disagreeing (`docs/reviews/rule-check-coverage.md`).
-  They colour no lot until a person signs; the map counts them as "rules proposed, awaiting a person's check".
+  Sin signed off on that check on 27 Sep (48 entries in `data/rules/reviews.json`), so six districts are computed.
 - **Your builder's quote** (judge round 3's builder ask): one number on the Money tab decides the verdict in red,
   beside the practitioner's estimate; without it, output is byte-identical.
 - **A deploy that a clean clone reproduces** (`vercel.json`, `docs/deploy.md`). Tested: the output is
@@ -118,9 +118,8 @@ See `docs/judge-panel.md`.
 - **Claude extraction** is built and unit-tested but has not been run, because there is no key.
 - **R1D‑H** and the four coverage districts were extracted with 3.6-flash, not 3.8: 3.8 was over quota on
   26 Sep and overloaded (503) on 27 Sep.
-- **Coverage.** The four new districts are pencil until a person signs them.
-  - If they are signed, the checked-district share of City lots in housing districts goes from 36% (1,834 of 5,129)
-    to 81% (4,146), and S1 opens 196 two-unit lots instead of 69. That's a projection, not written anywhere.
+- **Coverage.** Six districts are computed: 4,146 of the 5,129 City lots in housing districts (81%) are in
+  districts whose rules a person signed.
   - Hillside (H) and Parks (P) were not extracted: the free tier's daily limit, then 503s.
   - The use table, read by position, says two- and three-unit houses aren't permitted in either district, while a
     detached house is permitted by right in P and needs an Administrator Exception in H.
@@ -144,9 +143,9 @@ See `docs/judge-panel.md`.
 | 2241 Mahon St meets 2,400 sf exactly; a two-unit house gets 4 ft (24 − 10 − 10) | Computed | Deed LEGAL1 24×100 and RM‑M rules. The quotes are verified in the saved code text, and the values match the team's person-checked notes. |
 | Lots 25–27: 52 ft for a three-unit house | Computed | Engine, cross-checked by C15's classifier (a test). |
 | A detached house on lot 25: 18 ft, or 11 ft | Computed; open question | §925.06.C.1 is quoted and verified. The 11 ft is our reading of "no" (decision 44). |
-| Citywide two-unit: 178 lots too narrow (115 for certain, 42 depend on a neighbour, 21 mapped only); 311 too small | Computed | Classifier over `data/city/lots.json`. |
+| Citywide two-unit, six districts: 428 lots too narrow (239 for certain, 150 depend on a neighbour, 39 mapped only); 641 too small | Computed | Classifier over `data/city/lots.json`. |
 | C15: 111 three-unit runs (128 City lots), 42 all City-owned | Computed | `data/city/assemblies.json`. Every Block 10‑K run is checked against the lot engine. |
-| Strike §925.06.C's vacant-neighbour sentence and 69 more City lots fit a two-unit house (S2 146, S3 36) | Computed; a what-if, not the law | `data/city/scenarios.json` from the same classifier with one override. Tests: today reproduced (178 / 220), lot 25 at 18 ft, no override opens nothing, mutation check. |
+| Strike §925.06.C's vacant-neighbour sentence and 196 more City lots fit a two-unit house (S2 325, S3 36) | Computed; a what-if, not the law | `data/city/scenarios.json` from the same classifier with one override. Tests: the published summary reproduced (428 / 220), lot 25 at 18 ft, no override opens nothing, mutation check. |
 | $200–$250/sf vertical cost; $25,000–$50,000 site work; the $150/sf production-builder line | **Unverified** practitioner estimates | Hackathon Slack. Neither practitioner is named. Shown violet and attributed. |
 | Newest new build $240,000 (2125 Rose St, 2025) | Record, unverified as a price | WPRDC sales: one sale that may be price-restricted. |
 | Extraction 11/11, cost $0.06–$0.16 per district | Computed / measured | `extract/eval.py` and the provider's token logs. |
@@ -157,15 +156,13 @@ See `docs/judge-panel.md`.
 
 1. **Review and approve the site** (preview: `npm run build && npm run preview` → http://localhost:4173/).
    Deploy with `docs/deploy.md` (Vercel: import the repository, or `npx vercel --prod`).
-2. **Sign off on the coverage check**, if you agree with it: `docs/reviews/rule-check-coverage.md` (48 rules, four
-   districts). Sign in the app (`?view=review&district=R2-L`, …) or have the signatures published as for the
-   20-rule check. Then regenerate the facts, and tell the film: S1's 69 becomes 196.
+2. **Done (27 Sep):** Sin signed off on the coverage check (48 rules, four districts).
 3. **Confirm B07's rule, or pick another.** The film's B07 signs `r1d-h.x.side_setback_exterior` (15 ft,
    §903.03.D.2) as Sin, in the recording browser only. It isn't one of the 20 rules Sin signed off on. Check its
    quote on `?view=review&district=R1D-H`; if it matches, the draft clip stands. The recorder is
    `REVIEWER_NAME="Sin" REVIEWER_ROLE="Student, team 24×100" node scripts/demo.mjs --record --base <recording build>`.
    Regenerate the facts after any change (`npx tsx scripts/facts.ts`).
-4. **Tell the film about any count that changes.** The narration uses `film/facts.json` (178, 69, 111 …); a new
+4. **Tell the film about any count that changes.** The narration uses `film/facts.json` (428, 196, 111 …); a new
    signature or data refresh can change them.
 5. **Re-run R1D‑H with the default model** when the free-tier quota allows:
    `uv run python -m extract run --district R1D-H`, then `uv run python -m extract eval`.

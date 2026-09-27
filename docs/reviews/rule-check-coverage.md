@@ -1,5 +1,10 @@
 # Rule check: the coverage districts (agent's check, for a person to sign off on)
 
+**Signed off by Sin (Student, team 24×100) on 27 Sep 2026**, in this session: 48 `source_checked` entries, one
+per rule below, published in `data/rules/reviews.json` with the note "Signed off on the agent's rule check of the
+four coverage districts (docs/reviews/rule-check-coverage.md)". Sin approved the check; they did not re-read each
+quote.
+
 Written by `uv run python -m extract rulecheck`. For each rule a model proposed, code checked, with no model:
 the quote is word for word inside its cited section of the saved code text, and the value agrees with the
 table read by position (the §903.03 site development table's row and use-subdistrict sub-row, or the

@@ -53,8 +53,8 @@ things in; which barrier blocks more often is unproven.
   beside them on the same block face, and what kind of owner holds each missing piece (owner type, never names).
 - **Rule what-ifs: which sentence of the code blocks the most City land?** The citywide classifier runs again with
   one clause read differently. Strike the last sentence of §925.06.C ("If lots on either side of the subject lot
-  are vacant, the setback that is required by the zoning district shall apply.") and **69 more City-owned lots
-  could hold a two-unit house**. Extending the narrow-lot table to two- and three-unit houses opens 146, mostly
+  are vacant, the setback that is required by the zoning district shall apply.") and **196 more City-owned lots
+  could hold a two-unit house**. Extending the narrow-lot table to two- and three-unit houses opens 325, mostly
   pencil because an open question (§925.06.C.1) still decides them. RM's 10 ft side setback at 5 ft opens 36.
   - The page quotes each sentence, struck through, counts the lots and lights them on the map in pencil.
   - A what-if, not the law: a rule change needs City Council.
@@ -62,7 +62,8 @@ things in; which barrier blocks more often is unproven.
   proposes typed rules from the saved code text, each tied to a verbatim quote. Code then re-reads each value
   from the code's tables by position, with no model. The rules stay pencil until a named person signs them.
   Ambiguous clauses become questions for the City; an assumed answer is red, never ink. Four more districts
-  (R2‑L, R1D‑L, R2‑H, R1D‑M) are proposed and waiting for a person's check; the map says so rather than guess.
+  (R2‑L, R1D‑L, R2‑H, R1D‑M) were proposed by the model, checked by the agent, and signed off by Sin on that check:
+  six districts are computed.
 - **Your builder's quote.** Type the $/sq ft a builder quoted on the Money tab (or `&quote=140` in the link). The
   verdict, what's left and the gap follow it, in red (yours, not checked), beside the practitioner's estimate;
   the URA letter says "Our builder quoted $140 per sq ft (not verified)".
@@ -131,7 +132,8 @@ output for them.
 - The RM‑M dimensional rules were first matched to the saved code text by an AI research pass. The agent then
   checked the 20 rules the Mahon Street and Larimer results use (every quote verbatim in its cited section, every
   value matching its quote: [`docs/reviews/rule-check-for-sin.md`](docs/reviews/rule-check-for-sin.md)), and Sin
-  (team 24×100) signed off on that check. The app records exactly that: "Signed off on the agent's 20-rule check".
+  (team 24×100) signed off on that check. On 27 Sep Sin signed off the same way on the agent's check of 48
+  more rules in four districts ([`docs/reviews/rule-check-coverage.md`](docs/reviews/rule-check-coverage.md)). The app records exactly that: "Signed off on the agent's 20-rule check".
   A person took responsibility for the agent's check; they did not re-read each quote. None is City-confirmed.
 
 ## Evaluation
@@ -139,18 +141,18 @@ output for them.
 | What | Result | Where |
 |---|---|---|
 | Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, then signed off by Sin on the agent's [20-rule check](docs/reviews/rule-check-for-sin.md)) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
-| Four more districts (27 Sep): R2‑L, R1D‑L, R2‑H, R1D‑M | 48 rules proposed, 0 rejected; every value read again by position from the §903.03 and §911.02 tables with no model, 0 disagree. Pencil, so they colour no lot until a person signs (`gemini-3.6-flash`: 3.8 was overloaded; the free tier's daily limit stopped the run before H and P) | [`docs/reviews/rule-check-coverage.md`](docs/reviews/rule-check-coverage.md) |
+| Four more districts (27 Sep): R2‑L, R1D‑L, R2‑H, R1D‑M | 48 rules proposed, 0 rejected; every value read again by position from the §903.03 and §911.02 tables with no model, 0 disagree. Signed off by Sin on the agent's check (27 Sep), so they are computed (`gemini-3.6-flash`: 3.8 was overloaded; the free tier's daily limit stopped the run before H and P) | [`docs/reviews/rule-check-coverage.md`](docs/reviews/rule-check-coverage.md) |
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
 | Engine tests (vitest) | 224 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
-| Rule what-ifs | Today's 178 two-unit and 220 three-unit reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
+| Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 152 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone 142 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`. Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
-| Citywide number | Two districts computed (RM‑M and R1D‑H), 1,075 City-owned vacant lots checked. For a two-unit house, **178 are big enough but too narrow** (the side setbacks) and 311 are under the minimum area; R1D‑H doesn't permit two-unit houses (512 lots) | `docs/evidence/problem.md`, `film/facts.json` |
+| Citywide number | Six districts computed (RM‑M, R1D‑H, R2‑L, R1D‑L, R2‑H, R1D‑M), 2,318 City-owned vacant lots checked. For a two-unit house, **428 are big enough but too narrow** (the side setbacks; 239 for certain, 150 depend on a built neighbour, 39 measured from the map) and 641 are under the minimum area; the R1D districts don't permit two-unit houses (962 lots) | `docs/evidence/problem.md`, `film/facts.json` |
 
 ## Keeping it running
 

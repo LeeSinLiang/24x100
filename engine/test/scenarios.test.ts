@@ -1,5 +1,6 @@
 // Rule what-ifs (spec §0.16): the same classifier, one override at a time. Today reproduces the summary; lot 25
 // opens under S1 and S2; and a scenario without its override opens nothing (the numbers come from the override).
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { build, classifyAll, fitsDim, loadInputs, SCENARIOS } from '../../scripts/build-scenarios';
 
@@ -12,9 +13,11 @@ describe('rule what-ifs', () => {
   const sc = (id: string) => f.scenarios.find((s) => s.id === id)!;
   const opens = (id: string, t: 'two' | 'three') => (sc(id).by_type as Record<string, { opens: number; pins: string[] }>)[t];
 
-  it('with no override, the classifier reproduces today: 178 two-unit and 220 three-unit lots big enough but too narrow', () => {
-    expect(f.meta.today.two.width_not_area).toBe(178);
-    expect(f.meta.today.three.width_not_area).toBe(220);
+  it('with no override, the classifier reproduces the published summary (today 428 two-unit and 220 three-unit, six signed districts)', () => {
+    const sum = JSON.parse(readFileSync('data/city/summary.json', 'utf8')).by_type;
+    expect(f.meta.today.two.width_not_area).toBe(sum.two.width_not_area);
+    expect(f.meta.today.three.width_not_area).toBe(sum.three.width_not_area);
+    expect([f.meta.today.two.width_not_area, f.meta.today.three.width_not_area]).toEqual([428, 220]);
   });
 
   it('lot 25 (2241 Mahon St) opens for a two-unit house under S1 and S2, at 18 ft each (24 − 3 − 3), and not under S3 (24 − 5 − 5 = 14)', () => {

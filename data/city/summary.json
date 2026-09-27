@@ -2,33 +2,45 @@
  "note": "City-owned lots big enough but too narrow for each building type (engine classifier). Written by scripts/build-summary.ts.",
  "by_type": {
   "detached": {
-   "width_not_area": 174,
-   "ink": 10,
+   "width_not_area": 263,
+   "ink": 44,
    "context": 0,
-   "mapped": 164,
+   "mapped": 219,
    "districts": [
     "R1D-H",
-    "RM-M"
+    "RM-M",
+    "R2-L",
+    "R1D-L",
+    "R2-H",
+    "R1D-M"
    ]
   },
   "two": {
-   "width_not_area": 178,
-   "ink": 115,
-   "context": 42,
-   "mapped": 21,
+   "width_not_area": 428,
+   "ink": 239,
+   "context": 150,
+   "mapped": 39,
    "districts": [
     "R1D-H",
-    "RM-M"
+    "RM-M",
+    "R2-L",
+    "R1D-L",
+    "R2-H",
+    "R1D-M"
    ]
   },
   "row": {
-   "width_not_area": 493,
-   "ink": 318,
-   "context": 143,
-   "mapped": 32,
+   "width_not_area": 843,
+   "ink": 499,
+   "context": 289,
+   "mapped": 55,
    "districts": [
     "R1D-H",
-    "RM-M"
+    "RM-M",
+    "R2-L",
+    "R1D-L",
+    "R2-H",
+    "R1D-M"
    ]
   },
   "three": {
@@ -38,7 +50,11 @@
    "mapped": 27,
    "districts": [
     "R1D-H",
-    "RM-M"
+    "RM-M",
+    "R2-L",
+    "R1D-L",
+    "R2-H",
+    "R1D-M"
    ]
   }
  }

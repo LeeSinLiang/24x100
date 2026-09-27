@@ -38,6 +38,7 @@ These are also stated in the app (lot view footer, and "What 24×100 doesn't kno
   2016‑11‑17; the inquiry asks whether it is current.
 - **Coverage.** Lot detail covers the blocks with block files (Block 10‑K, Middle Hill; the held-out Larimer
   block). The city map covers City-owned vacant lots, computed only in districts whose rules have been
-  checked (RM‑M and R1D‑H today, 1,075 lots); other districts are grey. R1D‑H doesn't permit two- or three-unit
-  houses, so its lots read "not permitted here" for those types.
+  checked (RM‑M, R1D‑H, R2‑L, R1D‑L, R2‑H and R1D‑M today, 2,318 lots); other districts are grey. The R1D
+  districts don't permit two- or three-unit houses and R2 doesn't permit three-unit houses, so those lots read
+  "not permitted here" for those types.
 - **No personal data is used.** Owner names and mailing addresses are never requested or stored (tested).
