@@ -89,7 +89,7 @@ export function AssemblyPanel(props: {
         Combine to fit · {props.typeName.toLowerCase()}
         {props.focus ? ` · ${props.focus}` : ''}
       </h2>
-      <p className="sentence asm-sentence" data-count="lot-groups">
+      <p className="sentence asm-sentence">
         <Ev num>{n(runs.length)}</Ev> {runs.length === 1 ? 'lot group' : 'lot groups'} of 2–3 lots fit a {props.typeName.toLowerCase()} as of right when combined, where the City lot alone doesn’t;{' '}
         <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
       </p>

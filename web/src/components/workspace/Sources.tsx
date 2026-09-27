@@ -163,6 +163,18 @@ export function RuleSources({ rs }: { rs: RuleSet }) {
               {on && (
                 <div id={`ws-rq-${r.id}`} className="ws-rule-body">
                   <blockquote className={`ws-quote ${r.state === 'ink' ? '' : 'is-pencil'}`}>“{r.quote}”</blockquote>
+                  {/* Who proposed it and who checked it, as the rule record says (the model for an extracted rule). */}
+                  <p className="small muted" data-rule-origin={r.origin}>
+                    {r.origin === 'extracted' && r.model ? (
+                      <span data-rule-model={r.model}>
+                        Proposed by {r.model}
+                        {r.prompt_sha ? ` (prompt ${String(r.prompt_sha).slice(0, 8)})` : ''}
+                      </span>
+                    ) : (
+                      'From the team’s research notes (the answer key)'
+                    )}
+                    {r.verification.reviewer && r.verification.level !== 'unreviewed' ? ` · checked by ${r.verification.reviewer}${r.verification.role ? ` (${r.verification.role})` : ''}` : ' · not checked by a person yet'}
+                  </p>
                   {r.source_url ? (
                     <p className="small muted">
                       <a href={r.source_url} target="_blank" rel="noreferrer">

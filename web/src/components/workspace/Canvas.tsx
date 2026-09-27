@@ -473,7 +473,8 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
   return (
     <div className="ws-canvas-body is-table">
       <h2 className="label">
-        Combine to fit · {TEMPLATES[s.type].name.toLowerCase()} · {n(runs.length)} lot groups{s.hood ? ` · ${s.hood}` : ''}
+        Combine to fit · {TEMPLATES[s.type].name.toLowerCase()} · <span data-count="lot-groups">{n(runs.length)} lot groups</span>
+        {s.hood ? ` · ${s.hood}` : ' · citywide'}
       </h2>
       <table className="lots-table ws-runs">
         <thead>
