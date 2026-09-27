@@ -786,6 +786,59 @@ const V6 = [
       await c.until(7 + HOLD);
     },
   },
+  {
+    id: 'B20',
+    name: 'policy-agent',
+    // The policy agent (agents/policy): a planner's question in plain words, the agent's steps, the redline it wrote
+    // (word for word from §903.03.B.2), the count from the same classifier as S1–S3, and those lots lit on the map.
+    q: 'view=city&type=two&tab=whatif',
+    run: async (p, c) => {
+      cues.B20 = {};
+      const run = p.locator('[data-policy-run="Q1"]');
+      await c.until(0.4);
+      await p.locator('[data-policy]').evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' })); // past S1–S3
+      await sleep(900);
+      cues.B20.section = at(c);
+      await mark(p, 'B20', 'policy_question', run.locator('[data-policy-question]'), c, "the planner's question, in quotes: \"What if R2-L's rear setback were 20 ft instead of 30?\"", { tight: true });
+      await hoverSlow(p, run.locator('[data-policy-question]'), { fx: 0.35, fy: 0.5, rest: 1.0 });
+      await c.until(3.4);
+      await clickSlow(p, run.locator('button.whatif-pick'));
+      cues.B20.click = at(c);
+      await p.waitForFunction(() => new URLSearchParams(location.search).get('whatif') === 'Q1', null, { timeout: 5000 });
+      await sleep(350); // the map redraws: Q1's lots keep their dot and get a pencil ring
+      cues.B20.lit = at(c);
+      // The agent's steps: the panel scrolls to the timeline and the pointer reads down it.
+      await c.until(4.8);
+      await run.locator('[data-policy-steps]').evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(900);
+      cues.B20.steps = at(c);
+      const steps = run.locator('.policy-step');
+      for (const k of [1, 2, 3, 4, 5, 7]) await hoverSlow(p, steps.nth(k), { fx: 0.62, fy: 0.5, rest: 0.45 }); // plan, find, draft, guard, count, recheck
+      // Back up to the redline and the count.
+      await run.locator('[data-policy-redline]').evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(900);
+      cues.B20.redline = at(c);
+      await markUnion(p, 'B20', 'policy_redline', '[data-policy-run="Q1"] [data-policy-redline] del, [data-policy-run="Q1"] [data-policy-redline] ins', c, 'the struck "30 ft." and the inserted "20 ft." (§903.03.B.2)');
+      await mark(p, 'B20', 'policy_count', run.locator('[data-policy-count] [data-whatif-count]'), c, 'the "29" in "Opens 29 City-owned lots for a two-unit house"', { tight: true });
+      await hoverSlow(p, run.locator('[data-policy-redline] del'), { fx: 0.5, fy: 0.5, rest: 0.8 });
+      await hoverSlow(p, run.locator('[data-policy-count] [data-whatif-count]'), { fx: 0.5, fy: 0.5, rest: 0.8 });
+      cues.B20.count = at(c);
+      // policy_map: the box around the lit lots, from where the map drew them (CityMap's data-whatif-box, fractions of
+      // the map; Q1's lots are "too shallow", not red, so B15's colour test doesn't find them), padded for the rings.
+      const lit = await p.evaluate(() => {
+        const cv = document.querySelector('.city-plate canvas');
+        const b = cv instanceof HTMLCanvasElement ? cv.dataset.whatifBox?.split(',').map(Number) : null;
+        if (!b) return null;
+        const r = cv.getBoundingClientRect();
+        return [r.x + b[0] * r.width - 10, r.y + b[1] * r.height - 10, (b[2] - b[0]) * r.width + 20, (b[3] - b[1]) * r.height + 20];
+      });
+      if (lit) await pushMark(p, 'B20', 'policy_map', lit, c, "the box around Q1's 29 lit lots (R2-L: Upper Hill, Homewood North, St. Clair, Crafton Heights, Arlington)");
+      else (cues.B20.missing ??= []).push('policy_map: no lit lots found on the canvas');
+      cues.B20.map = at(c);
+      await glide(p, 700, 420, { steps: 30, rest: 0.6 });
+      await c.until(Math.max(at(c), 15) + HOLD);
+    },
+  },
 ];
 const BEATS = flag('legacy') ? LEGACY : V6;
 
