@@ -61,6 +61,9 @@ things in; which barrier blocks more often is unproven.
   from the code's tables by position, with no model. The rules stay pencil until a named person signs them.
   Ambiguous clauses become questions for the City; an assumed answer is red, never ink. Four more districts
   (R2‑L, R1D‑L, R2‑H, R1D‑M) are proposed and waiting for a person's check; the map says so rather than guess.
+- **Your builder's quote.** Type the $/sq ft a builder quoted on the Money tab (or `&quote=140` in the link). The
+  verdict, what's left and the gap follow it, in red (yours, not checked), beside the practitioner's estimate;
+  the URA letter says "Our builder quoted $140 per sq ft (not verified)".
 - **The letters.** One short draft per office (City Real Estate, the Zoning Administrator, the URA, the RCO, and
   the County when records disagree), each with only what that office needs, built from engine facts. Every
   number is checked against the engine before you can copy it. Nothing is ever sent for you.
@@ -138,7 +141,7 @@ output for them.
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 219 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Engine tests (vitest) | 224 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Rule what-ifs | Today's 178 two-unit and 220 three-unit reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 152 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
