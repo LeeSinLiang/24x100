@@ -51,12 +51,16 @@ PLAN_SYS = """You are the policy agent of 24×100, a tool for Pittsburgh's City-
 what-if question about the zoning code. You may only answer it as ONE stored rule's value changed: pick the rule from
 the catalogue (district and field exactly as written there) and the new value in its unit. If the question needs
 anything else (a rule the catalogue doesn't have, a new rule, a use permission, several rules at once, a condition,
-or wording that isn't a number), decide 'refuse' and say why in one or two sentences. Never invent a rule."""
+or wording that isn't a number), decide 'refuse' and say why in one or two sentences, naming what in the catalogue
+governs that instead, if anything. Never invent a rule. Always give a short name for the question."""
 
 DRAFT_SYS = """Write the redline for a zoning what-if. Copy the controlling sentence or table cells WORD FOR WORD from the
 section text (keep the ' | ' cell separators; do not fix spelling, do not paraphrase). 'strike' is the exact part of
 that quote that changes and must include the current value; 'insert' is its replacement with the new value, in the
 same style (e.g. '30 ft.' → '20 ft.'). Caveats: what the count can't tell the Planning Commission, without numbers."""
+
+
+PROMPT_SHA = __import__("hashlib").sha256((PLAN_SYS + DRAFT_SYS).encode()).hexdigest()[:12]
 
 
 def now() -> str:
@@ -95,8 +99,9 @@ def run(question: str, building: str, *, model: Callable[[type[BaseModel], list[
         raise ValueError(f"building must be one of {T.TYPES}")
     log = Log(clock)
     usage = {"tokens_in": 0, "tokens_out": 0, "calls": 0}
-    base = {"id": qid, "question": question, "building": building, "asked_at": clock(), "labels": list(LABELS),
-            "model": {**(model_info or {}), "planned_by": "hand" if hand else "model", **({"note": HAND} if hand else {})}}
+    mi = model_info if model_info is not None else {}                 # shared with the model client, which names the model that answered
+    mi.update(planned_by="hand" if hand else "model", prompt_sha=PROMPT_SHA, **({"note": HAND} if hand else {}))
+    base = {"id": qid, "question": question, "building": building, "asked_at": clock(), "labels": list(LABELS), "model": mi}
 
     def ask(schema, messages, what):
         if hand is not None:
