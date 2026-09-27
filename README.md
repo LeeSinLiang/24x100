@@ -49,9 +49,18 @@ things in; which barrier blocks more often is unproven.
   to write to. Every node is a real record.
 - **Combine to fit.** Across the city, which City-owned lots fit as of right when combined with the vacant lots
   beside them on the same block face, and what kind of owner holds each missing piece (owner type, never names).
+- **Rule what-ifs: which sentence of the code blocks the most City land?** The citywide classifier runs again with
+  one clause read differently. Strike the last sentence of §925.06.C ("If lots on either side of the subject lot
+  are vacant, the setback that is required by the zoning district shall apply.") and **69 more City-owned lots
+  could hold a two-unit house**. Extending the narrow-lot table to two- and three-unit houses opens 146, mostly
+  pencil because an open question (§925.06.C.1) still decides them. RM's 10 ft side setback at 5 ft opens 36.
+  - The page quotes each sentence, struck through, counts the lots and lights them on the map in pencil.
+  - A what-if, not the law: a rule change needs City Council.
 - **AI reads the code; people decide.** A model (Gemini by default, Claude optional, through LangChain)
-  proposes typed rules from the saved code text, each tied to a verbatim quote. They stay pencil until a named
-  person signs them. Ambiguous clauses become questions for the City; an assumed answer is red, never ink.
+  proposes typed rules from the saved code text, each tied to a verbatim quote. Code then re-reads each value
+  from the code's tables by position, with no model. The rules stay pencil until a named person signs them.
+  Ambiguous clauses become questions for the City; an assumed answer is red, never ink. Four more districts
+  (R2‑L, R1D‑L, R2‑H, R1D‑M) are proposed and waiting for a person's check; the map says so rather than guess.
 - **The letters.** One short draft per office (City Real Estate, the Zoning Administrator, the URA, the RCO, and
   the County when records disagree), each with only what that office needs, built from engine facts. Every
   number is checked against the engine before you can copy it. Nothing is ever sent for you.
@@ -76,6 +85,8 @@ npm run dev            # http://localhost:5173
 | `uv run python -m extract run --district R1D-H` | Live rule extraction for a district (needs `GOOGLE_API_KEY` in `.env`) |
 | `npm run shoot` | Screenshots of every storyboard state (1440 and 390 px, light and dark) |
 | `npm run demo -- --record` | One 1920×1080 clip per storyboard beat in `film/clips/` |
+| `npx tsx scripts/build-scenarios.ts` | The rule what-ifs (`data/city/scenarios.json`); also part of `npm run build` |
+| `uv run python -m extract rulecheck --district R2-L` | The agent's check of a district's proposed rules, for a person to sign off on |
 
 Deep links reproduce every state: `?view=lot&block=10K&lot=25&type=two`,
 `?view=lot&block=10K&lot=25&type=three&lots=25,26,27` (add `&canvas=map`, `graph` or `table`),
@@ -123,11 +134,13 @@ output for them.
 | What | Result | Where |
 |---|---|---|
 | Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, then signed off by Sin on the agent's [20-rule check](docs/reviews/rule-check-for-sin.md)) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
+| Four more districts (27 Sep): R2‑L, R1D‑L, R2‑H, R1D‑M | 48 rules proposed, 0 rejected; every value read again by position from the §903.03 and §911.02 tables with no model, 0 disagree. Pencil, so they colour no lot until a person signs (`gemini-3.6-flash`: 3.8 was overloaded; the free tier's daily limit stopped the run before H and P) | [`docs/reviews/rule-check-coverage.md`](docs/reviews/rule-check-coverage.md) |
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 203 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
-| Pipeline and extraction tests (pytest) | 144 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards | `pipeline/tests/`, `extract/tests/` |
+| Engine tests (vitest) | 218 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Rule what-ifs | Today's 178 two-unit and 220 three-unit reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
+| Pipeline and extraction tests (pytest) | 152 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
@@ -136,7 +149,8 @@ output for them.
 
 ## Keeping it running
 
-Static site plus a static JSON API: free to host. Rule extraction costs $0.06–$0.16 per district at paid rates
+Static site plus a static JSON API: free to host (Vercel steps in `docs/deploy.md`; a clean clone builds the
+same site). Rule extraction costs $0.06–$0.16 per district at paid rates
 (measured). Reviews are signed in a browser and published by a steward through a GitHub upload and a checking
 workflow, no git needed (`docs/pilot.md`, steward runbook). The repository is
 [github.com/LeeSinLiang/24x100](https://github.com/LeeSinLiang/24x100); the publish workflow is written but hasn't run
