@@ -49,11 +49,18 @@ def columns(text: str | None = None) -> list[str]:
     return out
 
 
-def column_for(district: str) -> str:
-    """'RM-M' → 'RM' (a residential district's use column is its Use Subdistrict); 'H' → 'H'."""
+def column_for(district: str, text: str | None = None) -> str:
+    """The district's column of the §911.02 Use Table: 'RM-M' → 'RM' (a residential district's Use Subdistrict);
+    'H', 'RIV-MU', 'UC-MU' → themselves; 'GT-A' → 'GT' (a lettered part of a base district shares its column)."""
     d = district.strip().upper()
     m = re.match(r"^(R1D|R1A|R2|R3|RM)-[A-Z]+$", d)
-    return m.group(1) if m else d
+    if m:
+        return m.group(1)
+    cols = columns(text)
+    if d in cols:
+        return d
+    head = d.split("-")[0]
+    return head if head in cols else d
 
 
 def cell(field: str, district: str, text: str | None = None) -> str | None:
@@ -61,7 +68,7 @@ def cell(field: str, district: str, text: str | None = None) -> str | None:
     row or column can't be found."""
     t = text or _table()
     cols = columns(t)
-    col = column_for(district)
+    col = column_for(district, t)
     if field not in ROW_LABEL or col not in cols:
         return None
     k = t.find(ROW_LABEL[field])

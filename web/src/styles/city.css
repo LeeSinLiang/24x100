@@ -335,6 +335,11 @@
 .bk-rules {
   background: var(--graphite-soft);
 }
+/* The AI's reading, awaiting a person: a dashed ring in pencil (the map draws each in its blocker's colour). */
+.bk-ai {
+  border: 1.4px dashed var(--red);
+  background: transparent;
+}
 
 /* Counts by first blocker: the legend and the answer in one table. */
 .city-counts {

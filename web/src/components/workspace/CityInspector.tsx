@@ -75,7 +75,14 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
     : k
       ? `Computed for ${listAnd(computedNames)} only; ${n(grey)} ${lotsWord(grey)} in other districts ${grey === 1 ? 'is' : 'are'} grey: rules not loaded.`
       : `Computed for no district yet; ${n(grey)} ${lotsWord(grey)} ${grey === 1 ? 'is' : 'are'} grey: rules not loaded.`;
-  const pencilNote = cm.cover.pencilZones.length ? `${listAnd(cm.cover.pencilZones.map(zoneName))} rules are proposed and wait for a teammate’s signature.` : '';
+  // The grey, in two kinds: districts the AI has read (pencil, awaiting a person: the map's own layer) and districts
+  // with no rule read at all (their rules aren't in the saved code text, or not extracted yet).
+  const pz = new Set(cm.lots.filter((_, i) => cm.pencilClasses[i]).map((l) => l.zone)).size;
+  const unreadLots = cm.unread.reduce((a, [, v]) => a + v, 0);
+  const pencilNote = [
+    cm.pencilSum.total ? `${n(cm.pencilSum.total)} of them are in ${pz} ${pz === 1 ? 'district' : 'districts'} the AI has read, awaiting a person (the “AI-read” layer, in pencil).` : '',
+    cm.unread.length ? `${n(unreadLots)} are in ${cm.unread.length} ${cm.unread.length === 1 ? 'district' : 'districts'} with no rule read (${listAnd(cm.unread.map(([z]) => zoneName(z)))}).` : '',
+  ].filter(Boolean).join(' ');
   const edgeRec = [
     sum.byBlocker.records ? `${n(sum.byBlocker.records)} can’t be scored (records disagree)` : '',
     sum.byBlocker.edges ? `${n(sum.byBlocker.edges)} ${sum.byBlocker.edges === 1 ? 'has' : 'have'} edges not computed` : '',
@@ -222,6 +229,28 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          )}
+          {ready && cm.pencilSum.total > 0 && (
+            // The AI's reading, awaiting a person: its own table, never added to the counts above.
+            <table className="city-counts is-pencil" data-pencil-counts>
+              <caption className="label ws-caption">Read by AI, awaiting a person · not counted above</caption>
+              <thead className="visually-hidden">
+                <tr>
+                  <th scope="col">First blocker, as the AI's reading says</th>
+                  <th scope="col">Lots</th>
+                </tr>
+              </thead>
+              <tbody>
+                {LEGEND_ORDER.filter((b) => b !== 'rules' && cm.pencilSum.byBlocker[b] > 0).map((b) => (
+                  <tr key={b}>
+                    <th scope="row">
+                      <span className="bk bk-ai" aria-hidden="true" /> {STYLE[b].words}
+                    </th>
+                    <td className="num pencil-text">{n(cm.pencilSum.byBlocker[b])}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}

@@ -151,6 +151,9 @@ export interface WhatIf {
   /** The §925.06.C narrow-lot side-yard table, today "for any single-unit house", read as applying to these
    *  building types too. */
   narrowTableFor?: TemplateId[];
+  /** Read the rules no person has checked yet (pencil), as the model proposed them: what the AI's reading would say.
+   *  Every result is then pencil. Never mixed into the signed counts (the map's own layer, off by default). */
+  readPencil?: boolean;
 }
 
 export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: TemplateId, settings: Settings, proposal: Proposal = TEMPLATES[type].proposal, what: WhatIf = {}): CityClass {
@@ -187,9 +190,9 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   if (needed.some((r) => !r || typeof r.value !== 'number')) {
     // No dimensional rules (a district whose other chapters aren't saved, e.g. Hillside or Parks): the use
     // table alone can still decide, when a person has checked that it forbids this building here.
-    if (!useNo) return none('rules', `Rules not loaded for ${lot.zone}`, 'pencil');
-    if (ruleTrust(useRule!) !== 'ink') return none('rules', `${lot.zone} rules are still pencil: not checked by a person (the use table's reading: not permitted, §${useRule!.section})`, 'pencil');
-  } else if (needed.some((r) => ruleTrust(r) !== 'ink')) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
+    if (!useNo) return none('rules', useRule ? `Only ${lot.zone}'s use permissions are read (its dimensional rules are in chapters not saved)` : `Rules not loaded for ${lot.zone}`, 'pencil');
+    if (ruleTrust(useRule!) !== 'ink' && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person (the use table's reading: not permitted, §${useRule!.section})`, 'pencil');
+  } else if (needed.some((r) => ruleTrust(r) !== 'ink') && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
   if (lot.assessed != null && lot.assessed > 0 && Math.abs(lot.mapped / lot.assessed - 1) > settings.recon_tolerance) {
     return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
   }
@@ -197,7 +200,7 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
   // The use table first: where this building type isn't permitted, it is the blocker, not the setbacks (a
   // district whose rules are signed can still forbid a two-unit house; R1D‑H does).
   if (useNo)
-    return { ...none('use', `${TEMPLATES[type].name}: not permitted in ${lot.zone} (§${useRule!.section})`, ruleTrust(useRule!) === 'ink' ? 'ink' : 'pencil') };
+    return { ...none('use', `${TEMPLATES[type].name}: not permitted in ${lot.zone} (§${useRule!.section})`, ruleTrust(useRule!) === 'ink' && !what.readPencil ? 'ink' : 'pencil') };
 
   const front = lot.deed?.front ?? lot.front_len ?? 0;
   const single = TEMPLATES[type].single_unit || !!what.narrowTableFor?.includes(type);
@@ -257,15 +260,16 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
       : lot.deed
         ? null
         : 'no deed dimensions: mapped frontage (pencil)';
+  const pencilRead = !!what.readPencil && [R.minArea, R.front, R.rear, R.sideInt, R.sideExt].some((r) => r && ruleTrust(r) !== 'ink');
   return {
     blocker: all[0],
     all,
     width: Math.max(0, r1(width)),
     depth: depth != null ? Math.max(0, depth) : null,
     area: Math.round(area),
-    trust: widthTrust === 'pencil' || areaTrust === 'pencil' ? 'pencil' : 'ink',
-    widthTrust,
-    areaTrust,
+    trust: pencilRead || widthTrust === 'pencil' || areaTrust === 'pencil' ? 'pencil' : 'ink',
+    widthTrust: pencilRead ? 'pencil' : widthTrust,
+    areaTrust: pencilRead ? 'pencil' : areaTrust,
     formula: formulaOf(front, setbacks, width),
     front: r1(front),
     setbacks: setbacks.map(r1),

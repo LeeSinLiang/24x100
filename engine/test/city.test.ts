@@ -69,7 +69,12 @@ describe('city classifier agrees with the lot engine', () => {
     const ink = classifyCityLot(l, rsH('ink'), 'two', DEFAULT_SETTINGS);
     expect(ink).toMatchObject({ blocker: 'use', trust: 'ink' });
     // Permitted (or needing an approval) with no dimensional rules: nothing to compute, grey.
-    expect(classifyCityLot(l, rsH('ink', 'S'), 'two', DEFAULT_SETTINGS)).toMatchObject({ blocker: 'rules', note: 'Rules not loaded for H' });
+    expect(classifyCityLot(l, rsH('ink', 'S'), 'two', DEFAULT_SETTINGS)).toMatchObject({ blocker: 'rules', note: "Only H's use permissions are read (its dimensional rules are in chapters not saved)" });
+    // The AI's reading (readPencil): the pencil "not permitted" shows as such, in pencil, never as ink.
+    expect(classifyCityLot(l, rsH('pencil'), 'two', DEFAULT_SETTINGS, undefined, { readPencil: true })).toMatchObject({ blocker: 'use', trust: 'pencil' });
+    // Signed rules read the same with or without readPencil: the option never touches ink.
+    const lot25 = lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!;
+    expect(classifyCityLot(lot25, ctx.rs, 'two', DEFAULT_SETTINGS, undefined, { readPencil: true })).toEqual(classifyCityLot(lot25, ctx.rs, 'two', DEFAULT_SETTINGS));
     // A district with signed dimensional rules is unchanged: RM‑M permits a two-unit house.
     expect(classifyCityLot(lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!, ctx.rs, 'two', DEFAULT_SETTINGS).blocker).toBe('width');
   });

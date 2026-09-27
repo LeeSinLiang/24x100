@@ -70,14 +70,15 @@ def _lettered_parts(section: str, text: str) -> list[tuple[str, str]]:
 def resolve_district(name: str) -> District:
     name = name.strip().upper()
     m = re.match(r"^([A-Z0-9]+)-([A-Z]+)$", name)
-    if not m:
-        # A base district with its own column in the §911.02 Use Table (H, P, EMI, …): its use permissions
-        # can be read, nothing else (its dimensional rules are in chapters not saved). Use-only.
-        from .usetable import columns
+    if not m or m.group(1) not in ("R1D", "R1A", "R2", "R3", "RM"):
+        # A base district with a column in the §911.02 Use Table (H, P, LNC, RIV-MU, GT-A → GT, …): its use
+        # permissions can be read, nothing else (its dimensional rules are in chapters not saved). Use-only.
+        from .usetable import column_for, columns
 
-        if name in columns() and not re.match(r"^(R1D|R1A|R2|R3|RM)$", name):
-            return District(name=name, use=name, use_name=f"the {name} column", use_section="911.02", density="", density_name="", density_section="")
-        raise ValueError(f"expected a residential district like RM-M or R1D-H, or a §911.02 use-table column like H, got {name!r}")
+        col = column_for(name)
+        if col in columns():
+            return District(name=name, use=col, use_name=f"the {col} column", use_section="911.02", density="", density_name="", density_section="")
+        raise ValueError(f"{name!r} is neither a residential district (RM-M, R1D-H, …) nor a column of the §911.02 use table: its rules aren't in the saved code text")
     use, dens = m.group(1), m.group(2)
     t = read_code(C903)
 

@@ -106,11 +106,15 @@ export function Rail({
           <Check id="rules" swatch="rules" on={!hide.has('rules')} onChange={() => setHide(['rules'], hide.has('rules'))} count={count(sum?.byBlocker.rules)}>
             <span title={STYLE.rules.gloss}>Not checked</span>
           </Check>
-          {ready && sum && sum.rulesProposed > 0 && (
-            // The grey explained: some of these districts have rules the model proposed, waiting for a person.
-            <p className="ws-layer-note" data-count="rules-proposed">
-              {n(sum.rulesProposed)}: proposed rules await a check
-            </p>
+          {ready && cm && cm.pencilSum.total > 0 && (
+            // The grey explained, as its own layer (off by default): what the AI's reading of the unchecked rules says,
+            // drawn in pencil and never counted with the signed districts.
+            <label className="ws-layer is-ai" data-layer="ai" title="Districts whose rules the model has read but no person has checked yet. Drawn in pencil; not counted in the numbers above.">
+              <input type="checkbox" checked={s.ai} onChange={() => update({ ai: !s.ai })} />
+              <span className="bk bk-ai" aria-hidden="true" />
+              <span className="ws-layer-name">AI-read, awaiting a person</span>
+              <span className="ws-layer-n">{n(cm.pencilSum.total)}</span>
+            </label>
           )}
           <label className="ws-layer is-asm" data-layer="assemble">
             <input type="checkbox" checked={s.layer === 'assemble'} onChange={() => update({ view: 'city', layer: s.layer === 'assemble' ? null : 'assemble', run: null, pin: null }, { push: true })} />

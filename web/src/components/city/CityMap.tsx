@@ -154,6 +154,7 @@ interface Props {
   marks?: number[]; // "Combine to fit" layer: City lots in a qualifying run, ringed (indexes into lots)
   markStrong?: number[]; // the selected run's lots, ringed heavier
   whatIf?: number[]; // a rule what-if's lots (spec §0.16): the rest of the map dims, these keep their dot and get a pencil ring
+  pencil?: (CityClass | null)[]; // the AI's reading of unchecked districts (per lot): drawn as dashed rings in pencil
 }
 
 const PAD = 26;
@@ -330,10 +331,19 @@ export function CityMap(p: Props) {
       g.restore();
     }
     const groups = new Map<Blocker, number[]>();
+    const pencilGroups = new Map<Blocker, number[]>();
     p.classes.forEach((c2, i) => {
       const x = X(i);
       const y = Y(i);
       if (x < -8 || y < -8 || x > w + 8 || y > h + 8) return;
+      const pc = p.pencil?.[i];
+      if (pc) {
+        // The AI's reading replaces the grey dot: a dashed ring in the blocker's colour (pencil, not a result).
+        const pa = pencilGroups.get(pc.blocker) ?? [];
+        pa.push(i);
+        pencilGroups.set(pc.blocker, pa);
+        return;
+      }
       const arr = groups.get(c2.blocker) ?? [];
       arr.push(i);
       groups.set(c2.blocker, arr);
@@ -369,6 +379,20 @@ export function CityMap(p: Props) {
         g.lineWidth = 1;
         g.stroke();
       }
+      g.restore();
+    }
+    for (const [b, idx] of pencilGroups) {
+      g.save();
+      g.beginPath();
+      for (const i of idx) {
+        g.moveTo(X(i) + rr, Y(i));
+        g.arc(X(i), Y(i), rr, 0, Math.PI * 2);
+      }
+      g.setLineDash([1.6, 1.3]);
+      g.strokeStyle = color(STYLE[b].token);
+      g.globalAlpha = 0.9;
+      g.lineWidth = 1.3;
+      g.stroke();
       g.restore();
     }
     // For the film's pen (data-marks-box): the box, in the map's layout px, around the ringed lots on screen.

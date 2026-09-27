@@ -51,6 +51,11 @@ export interface CityModel {
   reviewTarget: [string, { lots: number; computed: number; grey: number; pencil: boolean }] | null;
   wards: number[];
   zones: string[];
+  /** The AI's reading of districts whose rules no person has checked: its own layer, never in `sum` (null elsewhere). */
+  pencilClasses: (CityClass | null)[];
+  pencilSum: CitySummary;
+  /** Districts with City lots and no rule read at all, with their lot counts. */
+  unread: [string, number][];
 }
 
 export function useCityModel(on: boolean, type: TemplateId, audit: AuditEntry[], tol: number | null, f: CityFilters): CityModel {
@@ -126,10 +131,23 @@ export function useCityModel(on: boolean, type: TemplateId, audit: AuditEntry[],
     return grey.find(([z]) => reviewable.has(z)) ?? grey.find(([z]) => z === 'R1D-H') ?? grey[0] ?? null;
   }, [cover]);
 
+  // The AI's reading (its own layer, never in the counts above): lots grey only because their district's rules are
+  // proposed but unchecked, classified with those pencil rules. Every result is pencil.
+  const pencilClasses = useMemo(
+    () => classes.map((c, i) => (c.blocker === 'rules' && /still pencil/.test(c.note) && lots[i].zone ? classifyCityLot(lots[i], ruleSets.get(lots[i].zone!) ?? null, type, settings, undefined, { readPencil: true }) : null)),
+    [classes, lots, ruleSets, type, settings],
+  );
+  const pencilSum = useMemo(() => {
+    const idx = inFilter.filter((i) => pencilClasses[i]);
+    return summarize(idx.map((i) => lots[i]), idx.map((i) => pencilClasses[i]!), type);
+  }, [inFilter, pencilClasses, lots, type]);
+  // Districts with lots and no rule read at all (their rules aren't in the saved code text, or not extracted yet).
+  const unread = useMemo(() => cover.greyZones.filter(([z]) => z !== '—' && !(ruleSets.get(z)?.rules.some((r) => r.district === z))).map(([z, v]) => [z, v.lots] as [string, number]), [cover, ruleSets]);
+
   const wards = useMemo(() => [...new Set(lots.map((l) => l.ward).filter((w): w is number => w != null))].sort((a, b) => a - b), [lots]);
   const zones = useMemo(() => [...new Set(lots.map((l) => l.zone).filter((z): z is string => !!z))].sort(), [lots]);
 
-  return { data, lots, classes, ruleSets, hoods, idxOf, inFilter, sum, sumAll, cover, fitTrust, featured, reviewTarget, wards, zones };
+  return { data, lots, classes, ruleSets, hoods, idxOf, inFilter, sum, sumAll, cover, fitTrust, featured, reviewTarget, wards, zones, pencilClasses, pencilSum, unread };
 }
 
 /** The map's layers (spec §0.15 left rail): one per first blocker, in the order the story reads. The

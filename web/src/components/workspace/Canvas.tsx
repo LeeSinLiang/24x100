@@ -84,6 +84,7 @@ export function MapCanvas({
   const vis = useMemo(() => cm.inFilter.filter((i) => !hide.has(cm.classes[i].blocker)), [cm.inFilter, cm.classes, hide]);
   const lotsV = useMemo(() => vis.map((i) => cm.lots[i]), [vis, cm.lots]);
   const classesV = useMemo(() => vis.map((i) => cm.classes[i]), [vis, cm.classes]);
+  const pencilV = useMemo(() => vis.map((i) => cm.pencilClasses[i]), [vis, cm.pencilClasses]);
   const at = useMemo(() => new Map(vis.map((i, j) => [cm.lots[i].pin, j])), [vis, cm.lots]);
   const idx = (pins: string[]) => pins.map((p) => at.get(p)).filter((j): j is number => j != null);
   const sel = idx(selectedPins)[0] ?? (inset ? idx(runPins)[0] : undefined) ?? null;
@@ -122,6 +123,7 @@ export function MapCanvas({
             onInsetOpen={onInsetOpen}
             marks={marks}
             whatIf={whatIf}
+            pencil={s.ai ? pencilV : undefined}
             markStrong={strong}
             label={`Map of ${s.hood ?? 'Pittsburgh'}: ${n(lotsV.length)} City-owned vacant ${lotsWord(lotsV.length)} as dots, colored by what first blocks a ${tname}. The Table view lists the same lots.`}
           />
