@@ -62,6 +62,24 @@ def allowed_numbers(engine: Iterable[dict[str, Any]], findings: list[dict[str, A
     return ok
 
 
+_TOKEN = re.compile(r"\S*\d\S*")
+
+
+def _tokens(text: str) -> set[str]:
+    return {t.strip(".,;:()[]\"'“”‘’!?") for t in _TOKEN.findall(text)}
+
+
+def _walk_strings(x: Any, out: set[str]) -> None:
+    if isinstance(x, str):
+        out |= _tokens(x)
+    elif isinstance(x, dict):
+        for v in x.values():
+            _walk_strings(v, out)
+    elif isinstance(x, list):
+        for v in x:
+            _walk_strings(v, out)
+
+
 def _names(x: Any, path: str = "") -> list[str]:
     bad = []
     if isinstance(x, dict):
@@ -75,7 +93,7 @@ def _names(x: Any, path: str = "") -> list[str]:
     return bad
 
 
-def verify(case: dict[str, Any], engine: list[dict[str, Any]]) -> dict[str, Any]:
+def verify(case: dict[str, Any], engine: list[dict[str, Any]], model_texts: list[tuple[str, str]] | None = None) -> dict[str, Any]:
     failed: list[str] = []
     checked = {"quotes": 0, "numbers": 0, "findings": 0, "keys": 0}
     # Quotes: every rule the engine's reading rests on, verbatim in its saved chapter.
@@ -113,6 +131,19 @@ def verify(case: dict[str, Any], engine: list[dict[str, Any]]) -> dict[str, Any]
             checked["numbers"] += 1
             if not held(n, own):
                 failed.append(f"step {s['n']}: {n:g} doesn't trace to the engine or a source")
+    # Words a model wrote: every word with a digit in it ("24×100", "25 − 5 − 5 = 15", "2026-08-05") is copied verbatim from
+    # what the engine or a source said. A model that garbles one ("24'times100") is caught even when no number is new.
+    if model_texts:
+        seen: set[str] = {"24×100", "24x100"}  # the product's own name
+        for e in engine:
+            _walk_strings(e, seen)
+        for f in case.get("findings", []):
+            _walk_strings([f.get("summary"), f.get("records")], seen)
+        for where, t in model_texts:
+            for tok in _tokens(t):
+                checked["numbers"] += 1
+                if tok and tok not in seen and not re.fullmatch(r"[\d,]+(\.\d+)?", tok):
+                    failed.append(f"{where}: \"{tok}\" isn't copied from the engine or a source")
     # Engine letters carry their own number check (engine/src/inquiry.ts): they must have passed it.
     for d in case.get("drafts", []):
         if d.get("kind") == "letter" and not d.get("numbers_ok", False):

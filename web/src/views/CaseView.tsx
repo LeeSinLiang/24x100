@@ -111,15 +111,22 @@ export function CaseView({ s }: ViewProps) {
     if (!run || !c) return;
     setShown(0);
     let k = 0;
-    const tick = window.setInterval(() => {
-      k += 1;
-      setShown(k);
-      if (k >= c.steps.length) {
-        window.clearInterval(tick);
-        setRun(false);
-      }
-    }, 420);
-    return () => window.clearInterval(tick);
+    let tick = 0;
+    // A beat's first second is trimmed as loading: the replay starts after it.
+    const start = window.setTimeout(() => {
+      tick = window.setInterval(() => {
+        k += 1;
+        setShown(k);
+        if (k >= c.steps.length) {
+          window.clearInterval(tick);
+          setRun(false);
+        }
+      }, 420);
+    }, 900);
+    return () => {
+      window.clearTimeout(start);
+      window.clearInterval(tick);
+    };
   }, [run, c]);
   const byStep = useMemo(() => (c ? c.findings.map((f) => stepOf(c, f)) : []), [c]);
   if (!c) {
@@ -153,9 +160,15 @@ export function CaseView({ s }: ViewProps) {
         </h1>
         <p className="case-goal">
           Goal: {c.goal}.{' '}
-          <span className={`stamp case-stamp ${c.status === 'published' ? 'is-ok' : 'is-blocked'}`} data-case-stamp>
-            {c.status === 'published' ? 'Verified' : 'Blocked by the verifier'}
-          </span>
+          {done ? (
+            <span className={`stamp case-stamp ${c.status === 'published' ? 'is-ok' : 'is-blocked'}`} data-case-stamp={c.status}>
+              {c.status === 'published' ? 'Verified' : 'Blocked by the verifier'}
+            </span>
+          ) : (
+            <span className="stamp stamp-pencil case-stamp" data-case-stamp="running">
+              Agents working · step {Math.min(shown, c.steps.length)} of {c.steps.length}
+            </span>
+          )}
         </p>
         <p className="small muted case-meta">
           Run {whenET(c.run_at)} · {modelWords(c)} · {c.tokens.calls} model calls, {c.tokens.in.toLocaleString('en-US')} tokens in and {c.tokens.out.toLocaleString('en-US')} out, $
@@ -250,14 +263,27 @@ export function CaseView({ s }: ViewProps) {
                 <span id="case-ev-h">What changed · {c.events.length}</span>
               </Label>
               <ul className="case-events">
-                {c.events.map((e, i) => (
-                  <li key={i} className={`case-event is-${e.kind}`} data-event={e.kind}>
-                    {e.kind === 'simulated' ? <span className="stamp stamp-pencil case-sim">Simulation · not a record</span> : null}
-                    <p className={e.kind === 'simulated' ? 'pencil-text' : ''}>
-                      <a href={e.link}>{e.addr}</a>: {e.explanation.replace(/^SIMULATION, not a record: /, '')}
-                    </p>
-                  </li>
-                ))}
+                {c.events.map((e, i) => {
+                  const d = e.draft != null ? c.drafts[e.draft] : null;
+                  const byModel = !!d?.by && !d.by.startsWith('engine') && d.by !== 'rule template';
+                  return (
+                    <li key={i} className={`case-event is-${e.kind}`} data-event={e.kind} data-event-pin={e.pin}>
+                      {e.kind === 'simulated' ? <span className="stamp stamp-pencil case-sim">Simulation · not a record</span> : null}
+                      <p className={e.kind === 'simulated' || e.draft != null ? 'pencil-text' : ''} data-event-text>
+                        <a href={e.link}>{e.addr}</a>: {e.explanation.replace(/^SIMULATION, not a record: /, '')}
+                      </p>
+                      {d ? (
+                        <details className="case-draft case-event-draft" data-event-draft>
+                          <summary>
+                            <span className="case-gate-kind">send · waiting</span> Next move drafted: {d.subject}
+                          </summary>
+                          <pre className={`case-draft-text ${byModel ? 'pencil-text' : ''}`}>{d.text}</pre>
+                          <p className="small muted">{byModel ? `Written by ${d.by}; every number traced by the verifier. ` : ''}Not sent: a person reads it and decides.</p>
+                        </details>
+                      ) : null}
+                    </li>
+                  );
+                })}
               </ul>
             </section>
           ) : null}
@@ -278,9 +304,9 @@ export function CaseView({ s }: ViewProps) {
 
           <section className="case-section" aria-labelledby="case-drafts-h">
             <Label as="h2">
-              <span id="case-drafts-h">Drafts · {c.drafts.length}</span>
+              <span id="case-drafts-h">Drafts · {c.drafts.length}{c.events?.some((e) => e.draft != null) ? ' (the next moves are with their changes)' : ''}</span>
             </Label>
-            {c.drafts.map((d, i) => (
+            {c.drafts.map((d, i) => (c.events?.some((e) => e.draft === i) ? null : (
               <details key={i} className="case-draft" data-draft={d.kind}>
                 <summary>
                   {d.subject ?? d.kind}
@@ -291,7 +317,7 @@ export function CaseView({ s }: ViewProps) {
                 </summary>
                 <pre className={`case-draft-text ${d.by && !d.by.startsWith('engine') && d.by !== 'rule template' ? 'pencil-text' : ''}`}>{d.text}</pre>
               </details>
-            ))}
+            )))}
           </section>
 
           <section className={`case-section case-verifier ${c.verifier.ok ? 'is-ok' : 'is-blocked'}`} aria-labelledby="case-ver-h" data-verifier={c.verifier.ok ? 'ok' : 'blocked'}>

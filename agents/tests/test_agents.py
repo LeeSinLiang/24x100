@@ -217,3 +217,13 @@ def test_watch_explains_the_real_change_and_labels_the_simulation():
     assert "25 − 5 − 5 = 15 ft" in next(e for e in real if e["addr"] == "503 Climax St")["explanation"]
     assert sim and sim[0]["explanation"].startswith("SIMULATION, not a record") and sim[0]["after"] == {"formula": "24 − 3 − 10 = 11", "best": 11, "trust": "pencil"}
     assert all(g["kind"] == "send" and g["status"] == "waiting" for g in doc["gates"]) and len(doc["gates"]) == 3
+
+
+def test_a_garbled_word_in_model_text_blocks_even_with_no_new_number(tmp_path, monkeypatch):
+    # gemini-3.5-flash-lite once wrote "team 24'times100" and "24$$$$$$" for "24×100": no number is new, a word is wrong.
+    monkeypatch.setattr(dd, "CASES", tmp_path)
+    ok_m, _ = connect("gemini-flash-lite-latest", fake=FakeChat(_answers("A two-unit house still gets 24 − 10 − 10 = 4 ft on a 2,400 sf lot.")))
+    assert steward.run(LOT25["lot"]["pin"], "two", model=ok_m, http=http_lot25(), reading=LOT25, write=False)["status"] == "published"
+    bad_m, _ = connect("gemini-flash-lite-latest", fake=FakeChat(_answers("A two-unit house still gets 24 − 10 − 10 = 4 ft, says team 24'times100.")))
+    doc = steward.run(LOT25["lot"]["pin"], "two", model=bad_m, http=http_lot25(), reading=LOT25, write=False)
+    assert doc["status"] == "blocked" and any("24'times100" in f for f in doc["verifier"]["failed"])

@@ -65,8 +65,11 @@ def run(baseline: str | None = None, *, model: Any = None, model_why: str = "", 
         if model is not None:
             try:
                 it = _items(ch)
+                # The signers by name only: "Sin (Student, team 24×100)" → "Sin" (a small model garbles the ×, and the verifier then blocks it).
+                signers = ", ".join(x.split(" (")[0] for x in ch["now"]["rules"].get("signers", []))
                 facts = {"lot": ch["addr"], "verdict before": (it.get("verdict") or {}).get("before"), "verdict now": (it.get("verdict") or {}).get("after"),
-                         "rules before": (it.get("rules") or {}).get("before"), "rules now": (it.get("rules") or {}).get("after"), "which rules": (it.get("rules") or {}).get("what")}
+                         "rules before": (it.get("rules") or {}).get("before"), "rules now": ((it.get("rules") or {}).get("after") or "").split("; signed by")[0],
+                         "signed by": signers, "which rules": (it.get("rules") or {}).get("what")}
                 p, call = model.ask(Explain, "In one sentence, say what changed for this Pittsburgh lot and why: the map verdict went from its old reading "
                                     "to its new one because the rules changed as given (who signed them). Copy the math exactly; use only the words and "
                                     "numbers given.", json.dumps(facts))
@@ -83,7 +86,7 @@ def run(baseline: str | None = None, *, model: Any = None, model_why: str = "", 
                          "what changed": sentence}
                 p, call2 = model.ask(Letter, "Draft a short inquiry letter to City Real Estate, City of Pittsburgh, about buying this City-owned vacant lot "
                                      "for a small home. Use only these facts, with their labels' meaning; no parcel ids, no other numbers; ask about the "
-                                     "price and process, and say it is an inquiry, not an offer. Sign it 'The 24x100 user' with no name.", json.dumps(facts))
+                                     "price and process, and say it is an inquiry, not an offer. Sign it 'A 24×100 user' with no name.", json.dumps(facts))
                 if p:
                     d = {**d, "subject": p.subject, "text": p.text, "by": call2["model"]}
                 c.step("watch", "draft", f"Drafted the next move for {ch['addr']}: an inquiry to City Real Estate (send gate).", input={"pin": ch["pin"]}, call=call2)
@@ -109,7 +112,9 @@ def run(baseline: str | None = None, *, model: Any = None, model_why: str = "", 
                        "before": {"formula": base["width"]["formula"]}, "after": {"formula": ctx["formula"], "best": ctx["best"], "trust": "pencil"}})
     c.extra["events"] = events
     c.extra["rerun"] = "npm run agents -- watch" + (f" --baseline {baseline}" if baseline else "") + "".join(f" --simulate {p}:{','.join(b)}" for p, b in (simulate or []))
-    res = verifier.verify(c.to_json(), engine_inputs)
+    mt = [(f"explanation {e['addr']}", e["explanation"]) for e in events if e["kind"] == "real" and model is not None]
+    mt += [(f"draft {i + 1}", d["text"] + " " + d["subject"]) for i, d in enumerate(c.drafts) if d.get("by") not in (None, "rule template") and not str(d.get("by")).startswith("engine")]
+    res = verifier.verify(c.to_json(), engine_inputs, model_texts=mt)
     c.verifier = res
     k = res["checked"]
     c.step("verifier", "verify", f"Verified: {k['numbers']} numbers traced to the engine, no name-like field." if res["ok"] else f"Blocked: {'; '.join(res['failed'][:3])}.", ok=res["ok"])

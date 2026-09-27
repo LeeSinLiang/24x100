@@ -740,6 +740,64 @@ const V6 = [
     },
   },
   {
+    id: 'B18',
+    name: 'case-file',
+    // The agents' case file for lot 25 (agents/, npm run steward): the committed run replays step by step; each
+    // due-diligence check flips from "FREE · NOT RUN" to what it found, with its source; the verifier's stamp closes it.
+    q: 'view=case&pin=0010K00025000000&anim=1',
+    run: async (p, c) => {
+      cues.B18 = {};
+      await p.waitForSelector('[data-case-stamp="running"]', { timeout: 8000 });
+      await mark(p, 'B18', 'case_title', p.locator('.case-title').first(), c, 'CASE FILE · 2241 Mahon St, lot 25, Middle Hill; goal: a two-unit house', { tight: true });
+      await mark(p, 'B18', 'findings_free', p.locator('[data-case-findings]').first(), c, 'the due-diligence checks, every one "FREE · NOT RUN" before the agents reach it; until the first one flips');
+      const list = await p.locator('[data-case-findings]').first().boundingBox();
+      if (list) await glide(p, list.x - 30, list.y + 60, { steps: 26, rest: 0.4 });
+      await p.waitForSelector('[data-finding="violations"][data-finding-status="found"]', { timeout: 15000 });
+      cues.B18.violations_found = at(c);
+      await sleep(250);
+      await mark(p, 'B18', 'violations_found', p.locator('[data-finding="violations"]').first(), c, 'FOUND: 1 code-enforcement case file since 2022 (Weeds/Debris), "Clean & Lien", with its WPRDC source');
+      await p.waitForSelector('[data-finding="slope"][data-finding-status="found"]', { timeout: 15000 });
+      cues.B18.slope_found = at(c);
+      await p.waitForSelector('[data-case-stamp="published"]', { timeout: 20000 });
+      cues.B18.verified = at(c);
+      await sleep(300);
+      await mark(p, 'B18', 'verified_stamp', p.locator('[data-case-stamp="published"]').first(), c, 'VERIFIED: the verifier traced every quote, number and source before the case file was published');
+      const st = await p.locator('[data-case-stamp="published"]').first().boundingBox();
+      if (st) await glide(p, st.x + st.width + 36, st.y + st.height / 2, { steps: 26, rest: 0.6 });
+      await c.until(cues.B18.verified + 2.5 + HOLD);
+    },
+  },
+  {
+    id: 'B19',
+    name: 'watch-agent',
+    // The watch agent: a watched lot's answer changed (R2-H's rules signed); it explains the change with the math and
+    // drafts the next move, which waits at the send gate. The simulation below it is labelled, never a record.
+    q: 'view=case&pin=watch',
+    run: async (p, c) => {
+      cues.B19 = {};
+      const ev = p.locator('[data-event-pin="0014E00106000000"]').first(); // on the first screen, under the page's title
+      await mark(p, 'B19', 'change_503', ev.locator('[data-event-text]'), c, '503 Climax St: the verdict went from "not checked yet" to "too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house", because R2-H\'s rules were signed');
+      await c.until(0.6);
+      await hoverSlow(p, ev.locator('[data-event-text]'), { fx: 0.2, fy: 0.3, rest: 0.8 });
+      await c.until(3.2);
+      const sum = ev.locator('[data-event-draft] summary');
+      await clickSlow(p, sum);
+      cues.B19.letter_open = at(c);
+      await sleep(400);
+      await mark(p, 'B19', 'send_gate', sum.locator('.case-gate-kind'), c, 'SEND · WAITING: the drafted inquiry to City Real Estate is not sent until a person decides', { tight: true });
+      await mark(p, 'B19', 'letter_503', ev.locator('[data-event-draft] pre'), c, 'the drafted inquiry to City Real Estate for 503 Climax St (written by the model, every number traced)');
+      await c.until(cues.B19.letter_open + 4.5);
+      const sim = p.locator('[data-event="simulated"]').first();
+      await sim.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(1500); // the smooth scroll settles (a frame mid-scroll blends two positions)
+      cues.B19.simulation = at(c);
+      await mark(p, 'B19', 'simulation', sim, c, 'SIMULATION · NOT A RECORD: if lot 24 got a building permit, lot 25 could get at best 24 − 3 − 10 = 11 ft (pencil)');
+      const sb = await sim.boundingBox();
+      if (sb) await glide(p, sb.x - 30, sb.y + 20, { steps: 26, rest: 0.6 });
+      await c.until(cues.B19.simulation + 3.5 + HOLD);
+    },
+  },
+  {
     id: 'B15',
     name: 'what-if',
     // The rule what-ifs (spec §0.16): S1's sentence struck through; a click lights its City lots on the map.

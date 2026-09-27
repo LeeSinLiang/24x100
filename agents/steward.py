@@ -164,7 +164,9 @@ def verify(st: S) -> S:
     doc = c.to_json()
     doc["plan"] = c.plan
     extra = {"summary": c.extra.get("summary", {}).get("text", "")}
-    res = verifier.verify({**doc, "drafts": doc["drafts"] + [{"kind": "summary", "text": extra["summary"]}]}, [r])
+    by = c.extra.get("summary", {}).get("by")
+    res = verifier.verify({**doc, "drafts": doc["drafts"] + [{"kind": "summary", "text": extra["summary"]}]}, [r],
+                          model_texts=[("summary", extra["summary"])] if by and by != "rule template" else [])
     c.verifier = res
     k = res["checked"]
     c.step("verifier", "verify", (f"Verified: {k['quotes']} quotes verbatim in the saved code, {k['numbers']} numbers traced, {k['findings']} findings sourced, no name-like field."

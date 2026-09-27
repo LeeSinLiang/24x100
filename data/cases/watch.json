@@ -5,7 +5,7 @@
   "pin": "watchlist",
   "addr": "Watched City lots"
  },
- "run_at": "2026-09-27T16:48:46Z",
+ "run_at": "2026-09-27T16:59:46Z",
  "model": {
   "id": "gemini-flash-lite-latest",
   "key": "track3",
@@ -13,12 +13,12 @@
   "why": "ok"
  },
  "tokens": {
-  "in": 1520,
-  "out": 788,
+  "in": 1422,
+  "out": 698,
   "calls": 6
  },
  "cost": {
-  "usd_paid_rate": 0.002426,
+  "usd_paid_rate": 0.002173,
   "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
  },
  "plan": [],
@@ -44,16 +44,16 @@
    "input": {
     "pin": "0014E00037000000"
    },
-   "summary": "For 324 Curtin Ave, the verdict changed from \"not checked yet: its rules are proposed by the model, awaiting a person\" to \"too narrow: 22 − 15 − 5 = 2 ft, for a 16 ft two-unit house\" because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24×100).",
+   "summary": "For lot 324 Curtin Ave, the verdict changed from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 22 − 15 − 5 = 2 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "sources": [],
    "ok": true,
-   "t": 1.59,
+   "t": 1.02,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 195,
-    "out": 129
+    "in": 182,
+    "out": 100
    },
-   "cost_usd_paid_rate": 0.000381
+   "cost_usd_paid_rate": 0.000305
   },
   {
    "agent": "watch",
@@ -65,13 +65,13 @@
    "summary": "Drafted the next move for 324 Curtin Ave: an inquiry to City Real Estate (send gate).",
    "sources": [],
    "ok": true,
-   "t": 3.27,
+   "t": 1.93,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 315,
-    "out": 135
+    "in": 292,
+    "out": 124
    },
-   "cost_usd_paid_rate": 0.000432
+   "cost_usd_paid_rate": 0.000398
   },
   {
    "agent": "watch",
@@ -80,16 +80,16 @@
    "input": {
     "pin": "0014E00106000000"
    },
-   "summary": "For lot 503 Climax St, the verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24×100).",
+   "summary": "For lot 503 Climax St, the verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "sources": [],
    "ok": true,
-   "t": 4.05,
+   "t": 3.18,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 195,
-    "out": 130
+    "in": 182,
+    "out": 110
    },
-   "cost_usd_paid_rate": 0.000383
+   "cost_usd_paid_rate": 0.00033
   },
   {
    "agent": "watch",
@@ -101,13 +101,13 @@
    "summary": "Drafted the next move for 503 Climax St: an inquiry to City Real Estate (send gate).",
    "sources": [],
    "ok": true,
-   "t": 5.18,
+   "t": 4.02,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 312,
-    "out": 126
+    "in": 292,
+    "out": 133
    },
-   "cost_usd_paid_rate": 0.000409
+   "cost_usd_paid_rate": 0.00042
   },
   {
    "agent": "watch",
@@ -116,16 +116,16 @@
    "input": {
     "pin": "0014E00108000000"
    },
-   "summary": "For 507 Climax St, the map verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24'times100).",
+   "summary": "For 507 Climax St, the map verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "sources": [],
    "ok": true,
-   "t": 6.35,
+   "t": 14.91,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 195,
-    "out": 127
+    "in": 182,
+    "out": 106
    },
-   "cost_usd_paid_rate": 0.000376
+   "cost_usd_paid_rate": 0.00032
   },
   {
    "agent": "watch",
@@ -137,13 +137,13 @@
    "summary": "Drafted the next move for 507 Climax St: an inquiry to City Real Estate (send gate).",
    "sources": [],
    "ok": true,
-   "t": 7.31,
+   "t": 75.53,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
-    "in": 308,
-    "out": 141
+    "in": 292,
+    "out": 125
    },
-   "cost_usd_paid_rate": 0.000445
+   "cost_usd_paid_rate": 0.0004
   },
   {
    "agent": "watch",
@@ -160,17 +160,17 @@
    "summary": "SIMULATION, not a record: if lot 24 got a building permit, 2241 Mahon St (lot 25)'s side facing it could take the contextual setback (§925.06.C, not below 3 ft): at best 24 − 3 − 10 = 11 ft, against a 16 ft two-unit house. Today it is 24 − 10 − 10 = 4 ft. Pencil: it depends on the new building's actual setback.",
    "sources": [],
    "ok": true,
-   "t": 8.08
+   "t": 76.29
   },
   {
    "agent": "verifier",
    "n": 9,
    "action": "verify",
    "input": {},
-   "summary": "Verified: 40 numbers traced to the engine, no name-like field.",
+   "summary": "Verified: 71 numbers traced to the engine, no name-like field.",
    "sources": [],
    "ok": true,
-   "t": 8.13
+   "t": 76.33
   },
   {
    "agent": "watch",
@@ -182,7 +182,7 @@
    "summary": "Waiting on a person: 3 letters to send. Nothing is sent without a person.",
    "sources": [],
    "ok": true,
-   "t": 8.13
+   "t": 76.33
   }
  ],
  "findings": [],
@@ -190,8 +190,8 @@
   {
    "kind": "letter",
    "to": "City Real Estate, City of Pittsburgh",
-   "subject": "Inquiry to Buy City-Owned Vacant Lot at 324 Curtin Ave",
-   "text": "Dear City Real Estate, City of Pittsburgh, This is an inquiry, not an offer, regarding the City-owned vacant lot at 324 Curtin Ave in Beltzhoover. The zoning district is R2-H and the City sale status is Available for Sale as of 2016-11-17. We are interested in buying this lot for a small home. Could you please provide information on the price and the process for acquisition? Sincerely, The 24x100 user",
+   "subject": "Inquiry about 324 Curtin Ave",
+   "text": "Dear City Real Estate, City of Pittsburgh, This is an inquiry, not an offer, regarding the City-owned vacant lot at 324 Curtin Ave in the Beltzhoover neighbourhood. The zoning district is R2-H and the City sale status is Available for Sale as of 2016-11-17. Could you please provide information about the price and the process for potentially buying this lot for a small home? Sincerely, A 24×100 user",
    "numbers_ok": true,
    "by": "gemini-3.5-flash-lite",
    "gate": "send"
@@ -199,8 +199,8 @@
   {
    "kind": "letter",
    "to": "City Real Estate, City of Pittsburgh",
-   "subject": "Inquiry about 503 Climax St",
-   "text": "Dear City Real Estate, I am writing to make an inquiry about buying the City-owned vacant lot at 503 Climax St in Beltzhoover. This lot is zoned R2-H and its City sale status is Available for Sale, as of 2026-08-05. Please note that this is strictly an inquiry, not an offer. Could you please provide information regarding the price and the process for purchasing this property? Sincerely, The 24x100 user",
+   "subject": "Inquiry about 503 Climax St vacant lot",
+   "text": "Dear City Real Estate, I am writing to inquire about the City-owned vacant lot at 503 Climax St in the Beltzhoover neighbourhood, which has a zoning district of R2-H and a City sale status of Available for Sale as of 2026-08-05. Please note that this is an inquiry, not an offer. I am interested in buying this lot for a small home and would like to know the price and the process. Sincerely, A 24×100 user",
    "numbers_ok": true,
    "by": "gemini-3.5-flash-lite",
    "gate": "send"
@@ -208,8 +208,8 @@
   {
    "kind": "letter",
    "to": "City Real Estate, City of Pittsburgh",
-   "subject": "Inquiry to Buy City-Owned Vacant Lot at 507 Climax St, Beltzhoover",
-   "text": "Dear City Real Estate, City of Pittsburgh, This is an inquiry, not an offer, about buying the City-owned vacant lot at 507 Climax St in Beltzhoover for a small home. The City sale status is Available for Sale as of 2019-04-22, and the zoning district is R2-H. Please let us know the price and the process for purchasing this property. Sincerely, The 24x100 user",
+   "subject": "Inquiry about 507 Climax St",
+   "text": "Dear City Real Estate, City of Pittsburgh, This is an inquiry, not an offer. I am writing to ask about the price and process for buying the City-owned vacant lot at 507 Climax St in the Beltzhoover neighbourhood, which is zoned R2-H and listed as Available for Sale since 2019-04-22. I am interested in this lot for a small home. Sincerely, A 24×100 user",
    "numbers_ok": true,
    "by": "gemini-3.5-flash-lite",
    "gate": "send"
@@ -235,7 +235,7 @@
  "verifier": {
   "checked": {
    "quotes": 20,
-   "numbers": 40,
+   "numbers": 71,
    "findings": 0,
    "keys": 1
   },
@@ -266,7 +266,7 @@
      "source": "the review log (data/rules/reviews.json), since git d87dce4^"
     }
    ],
-   "explanation": "For 324 Curtin Ave, the verdict changed from \"not checked yet: its rules are proposed by the model, awaiting a person\" to \"too narrow: 22 − 15 − 5 = 2 ft, for a 16 ft two-unit house\" because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24×100).",
+   "explanation": "For lot 324 Curtin Ave, the verdict changed from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 22 − 15 − 5 = 2 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "draft": 0
   },
   {
@@ -291,7 +291,7 @@
      "source": "the review log (data/rules/reviews.json), since git d87dce4^"
     }
    ],
-   "explanation": "For lot 503 Climax St, the verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24×100).",
+   "explanation": "For lot 503 Climax St, the verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "draft": 1
   },
   {
@@ -316,7 +316,7 @@
      "source": "the review log (data/rules/reviews.json), since git d87dce4^"
     }
    ],
-   "explanation": "For 507 Climax St, the map verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person; signed by Sin (Student, team 24'times100).",
+   "explanation": "For 507 Climax St, the map verdict went from not checked yet: its rules are proposed by the model, awaiting a person to too narrow: 25 − 5 − 5 = 15 ft, for a 16 ft two-unit house because the rules changed from 2 signed by a person, 6 in pencil (proposed by the model, not checked) to 8 signed by a person.",
    "draft": 2
   },
   {
