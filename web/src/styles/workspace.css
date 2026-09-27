@@ -2012,3 +2012,25 @@
   font-weight: 600;
   font-size: 12px;
 }
+
+/* Phones, on the pages outside the workspace (letters, rules, changes, about): the same stacked top bar, so the
+   crumbs and the tools wrap instead of widening the page past the screen. */
+@media (max-width: 767px) {
+  :root:not([data-stage='1']) .ws-top:not(.is-ws) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'logo tools'
+      'search search'
+      'crumbs crumbs';
+    gap: 6px 8px;
+  }
+  :root:not([data-stage='1']) .ws-top:not(.is-ws) .ws-tools {
+    justify-self: end;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  :root:not([data-stage='1']) .ws-top:not(.is-ws) .ws-crumbs {
+    min-width: 0;
+  }
+}
