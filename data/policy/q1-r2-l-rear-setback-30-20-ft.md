@@ -8,7 +8,7 @@
 
 > Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.
 
-**Redline.** Strike ~~30 ft.~~, insert **20 ft.** · The minimum rear setback for R2-L subdistricts is reduced from 30 ft. to 20 ft.
+**Redline.** Strike ~~30 ft.~~, insert **20 ft.** · The minimum rear setback for R2-L is changed from 30 ft. to 20 ft.
 
 **Count.** The app's citywide classifier (scripts/build-scenarios.ts, the code behind the rule what-ifs), with only this change, over the districts whose rules a person has signed (R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M):
 - **two-unit house:** 29 City-owned vacant lots that don't fit the dimensional rules today would (15 listed for sale; 0 still pencil). By district: R2-L 29. Most in: Upper Hill 7, Homewood North 5, St. Clair 5, Crafton Heights 4, Arlington 3.
@@ -17,8 +17,7 @@
 **Caveats.**
 - A what-if, not the law: changing the code takes City Council. The count is City-owned vacant lots only, dimensional rules only, sale status aside.
 - The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.
-- A smaller rear yard may affect privacy and overlook conditions for adjacent properties.
-- Reducing the setback changes the amount of permeable surface available for stormwater absorption.
-- Closer rear setbacks can alter the perceived scale and openness of interior blocks.
+- The reduction in rear setback does not account for changes to private outdoor amenity space or backyard privacy.
+- The count cannot determine whether shifted building footprints will preserve existing mature canopy trees in the rear yards.
 
-_Planned and drafted by gemini-3.6-flash, gemini-flash-lite-latest · 24×100 policy agent · Q1. Check every quote against the code before sending._
+_Planned and drafted by gemini-flash-lite-latest · 24×100 policy agent · Q1. Check every quote against the code before sending._

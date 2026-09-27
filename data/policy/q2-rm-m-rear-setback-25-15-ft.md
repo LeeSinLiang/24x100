@@ -16,8 +16,7 @@
 
 **Caveats.**
 - A what-if, not the law: changing the code takes City Council. The count is City-owned vacant lots only, dimensional rules only, sale status aside.
-- A reduced rear yard might compromise mature canopy trees and existing green space.
-- Neighbors could experience increased privacy impacts from buildings located closer to their rear property lines.
-- Stormwater runoff patterns may shift due to increased potential lot coverage in the rear yard area.
+- A reduced rear setback cannot guarantee that existing mature trees or canopy cover in backyards will be preserved during construction.
+- The quantitative change in setback depth does not reveal whether the resulting rear yards will still provide adequate privacy from adjacent properties.
 
-_Planned and drafted by gemini-flash-lite-latest · 24×100 policy agent · Q2. Check every quote against the code before sending._
+_Planned and drafted by gemini-3.6-flash, gemini-flash-lite-latest · 24×100 policy agent · Q2. Check every quote against the code before sending._

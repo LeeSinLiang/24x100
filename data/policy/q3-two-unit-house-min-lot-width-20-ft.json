@@ -2,7 +2,7 @@
  "id": "Q3",
  "question": "What if a two-unit house needed only 20 ft of lot width?",
  "building": "two",
- "asked_at": "2026-09-27T16:48:07+00:00",
+ "asked_at": "2026-09-27T16:57:25+00:00",
  "labels": [
   "what-if, not the law",
   "drafted by an AI agent; check before sending"
@@ -13,21 +13,6 @@
   "probe": [
    {
     "model": "gemini-3.8-flash",
-    "ok": false,
-    "error": "GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your"
-   },
-   {
-    "model": "gemini-flash-latest",
-    "ok": false,
-    "error": "GoogleRateLimitError: Error calling model 'gemini-flash-latest' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded y"
-   },
-   {
-    "model": "gemini-3.7-flash",
-    "ok": false,
-    "error": "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. P"
-   },
-   {
-    "model": "gemini-3.6-flash",
     "ok": true
    }
   ],
@@ -36,15 +21,11 @@
     "schema": "Plan",
     "model": "gemini-3.7-flash",
     "tokens_in": 3644,
-    "tokens_out": 298,
-    "latency_ms": 25418
+    "tokens_out": 320,
+    "latency_ms": 15576
    }
   ],
   "fallbacks": [
-   {
-    "model": "gemini-3.6-flash",
-    "error": "gemini daily quota reached for gemini-3.6-flash (not retried): Error calling model 'gemini-3.6-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded you"
-   },
    {
     "model": "gemini-3.8-flash",
     "error": "gemini daily quota reached for gemini-3.8-flash (not retried): Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded you"
@@ -67,7 +48,7 @@
    "note": "no published price for every model used"
   }
  },
- "name": "Two-unit house lot width 20 ft",
+ "name": "Two-unit house min lot width 20 ft",
  "status": "refused",
  "reason": "The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
  "steps": [
@@ -134,7 +115,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:48:08+00:00"
+   "t": "2026-09-27T16:57:25+00:00"
   },
   {
    "agent": "policy",
@@ -147,7 +128,7 @@
    "summary": "The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
    "sources": [],
    "ok": false,
-   "t": "2026-09-27T16:48:57+00:00",
+   "t": "2026-09-27T16:58:02+00:00",
    "decision": "refuse"
   },
   {
@@ -158,12 +139,12 @@
    "summary": "Refused: The catalogue does not contain a minimum lot width rule for two-unit houses or any zoning district.",
    "sources": [],
    "ok": false,
-   "t": "2026-09-27T16:48:57+00:00"
+   "t": "2026-09-27T16:58:02+00:00"
   }
  ],
  "usage": {
   "tokens_in": 3644,
-  "tokens_out": 298,
+  "tokens_out": 320,
   "calls": 1
  }
 }

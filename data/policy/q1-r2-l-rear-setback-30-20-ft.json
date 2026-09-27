@@ -2,67 +2,65 @@
  "id": "Q1",
  "question": "What if R2-L's rear setback were 20 ft instead of 30?",
  "building": "two",
- "asked_at": "2026-09-27T16:43:06+00:00",
+ "asked_at": "2026-09-27T16:55:45+00:00",
  "labels": [
   "what-if, not the law",
   "drafted by an AI agent; check before sending"
  ],
  "model": {
   "provider": "gemini (LangChain)",
-  "name": "gemini-3.6-flash, gemini-flash-lite-latest",
+  "name": "gemini-flash-lite-latest",
   "probe": [
    {
     "model": "gemini-3.8-flash",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your"
+   },
+   {
+    "model": "gemini-flash-latest",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-flash-latest' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded y"
+   },
+   {
+    "model": "gemini-3.7-flash",
+    "ok": false,
+    "error": "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. P"
+   },
+   {
+    "model": "gemini-3.6-flash",
+    "ok": false,
+    "error": "GoogleRateLimitError: Error calling model 'gemini-3.6-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your"
+   },
+   {
+    "model": "gemini-flash-lite-latest",
     "ok": true
    }
   ],
   "calls": [
    {
     "schema": "Plan",
-    "model": "gemini-3.6-flash",
+    "model": "gemini-flash-lite-latest",
     "tokens_in": 3648,
-    "tokens_out": 358,
-    "latency_ms": 14148
+    "tokens_out": 88,
+    "latency_ms": 1059
    },
    {
     "schema": "Redline",
     "model": "gemini-flash-lite-latest",
     "tokens_in": 723,
-    "tokens_out": 151,
-    "latency_ms": 1246
+    "tokens_out": 140,
+    "latency_ms": 1195
    }
   ],
-  "fallbacks": [
-   {
-    "model": "gemini-3.8-flash",
-    "error": "gemini daily quota reached for gemini-3.8-flash (not retried): Error calling model 'gemini-3.8-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded you"
-   },
-   {
-    "model": "gemini-flash-latest",
-    "error": "gemini daily quota reached for gemini-flash-latest (not retried): Error calling model 'gemini-flash-latest' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceed"
-   },
-   {
-    "model": "gemini-3.7-flash",
-    "error": "gemini refused 2 times (last: GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try "
-   },
-   {
-    "model": "gemini-3.6-flash",
-    "error": "gemini refused 2 times (last: GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try "
-   }
-  ],
+  "fallbacks": [],
   "planned_by": "model",
   "prompt_sha": "9ba9d6504ffc",
   "cost": {
    "usd": null,
    "per_call": [
     {
-     "usd": 0.004079,
-     "per_m": [
-      0.75,
-      3.75
-     ],
-     "note": "paid-tier (Standard) price equivalent; the free tier charges nothing",
-     "url": "https://ai.google.dev/gemini-api/docs/pricing"
+     "usd": null,
+     "note": "no published price recorded for gemini-flash-lite-latest in extract/eval.py"
     },
     {
      "usd": null,
@@ -78,7 +76,7 @@
  "quote": "Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.",
  "rule": "r2-l.x.rear_setback",
  "source_file": "data/code/ch903.txt",
- "change": "The minimum rear setback for R2-L subdistricts is reduced from 30 ft. to 20 ft.",
+ "change": "The minimum rear setback for R2-L is changed from 30 ft. to 20 ft.",
  "strike": "30 ft.",
  "insert": "20 ft.",
  "override": {
@@ -176,11 +174,10 @@
  },
  "caveats": [
   "The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.",
-  "A smaller rear yard may affect privacy and overlook conditions for adjacent properties.",
-  "Reducing the setback changes the amount of permeable surface available for stormwater absorption.",
-  "Closer rear setbacks can alter the perceived scale and openness of interior blocks."
+  "The reduction in rear setback does not account for changes to private outdoor amenity space or backyard privacy.",
+  "The count cannot determine whether shifted building footprints will preserve existing mature canopy trees in the rear yards."
  ],
- "memo_md": "# Draft for the Planning Commission: R2-L rear setback 30 → 20 ft\n\n> **What-if, not the law.** **Drafted by an AI agent; check before sending.**\n\n**Question.** What if R2-L's rear setback were 20 ft instead of 30?\n\n**The text that controls it.** §903.03.B.2 (data/code/ch903.txt, the saved Pittsburgh Code):\n\n> Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.\n\n**Redline.** Strike ~~30 ft.~~, insert **20 ft.** · The minimum rear setback for R2-L subdistricts is reduced from 30 ft. to 20 ft.\n\n**Count.** The app's citywide classifier (scripts/build-scenarios.ts, the code behind the rule what-ifs), with only this change, over the districts whose rules a person has signed (R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M):\n- **two-unit house:** 29 City-owned vacant lots that don't fit the dimensional rules today would (15 listed for sale; 0 still pencil). By district: R2-L 29. Most in: Upper Hill 7, Homewood North 5, St. Clair 5, Crafton Heights 4, Arlington 3.\n- **three-unit house:** no City-owned vacant lot changes.\n\n**Caveats.**\n- A what-if, not the law: changing the code takes City Council. The count is City-owned vacant lots only, dimensional rules only, sale status aside.\n- The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.\n- A smaller rear yard may affect privacy and overlook conditions for adjacent properties.\n- Reducing the setback changes the amount of permeable surface available for stormwater absorption.\n- Closer rear setbacks can alter the perceived scale and openness of interior blocks.\n\n_Planned and drafted by gemini-3.6-flash, gemini-flash-lite-latest · 24×100 policy agent · Q1. Check every quote against the code before sending._\n",
+ "memo_md": "# Draft for the Planning Commission: R2-L rear setback 30 → 20 ft\n\n> **What-if, not the law.** **Drafted by an AI agent; check before sending.**\n\n**Question.** What if R2-L's rear setback were 20 ft instead of 30?\n\n**The text that controls it.** §903.03.B.2 (data/code/ch903.txt, the saved Pittsburgh Code):\n\n> Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 30 ft.\n\n**Redline.** Strike ~~30 ft.~~, insert **20 ft.** · The minimum rear setback for R2-L is changed from 30 ft. to 20 ft.\n\n**Count.** The app's citywide classifier (scripts/build-scenarios.ts, the code behind the rule what-ifs), with only this change, over the districts whose rules a person has signed (R1D-H, RM-M, R2-L, R1D-L, R2-H, R1D-M):\n- **two-unit house:** 29 City-owned vacant lots that don't fit the dimensional rules today would (15 listed for sale; 0 still pencil). By district: R2-L 29. Most in: Upper Hill 7, Homewood North 5, St. Clair 5, Crafton Heights 4, Arlington 3.\n- **three-unit house:** no City-owned vacant lot changes.\n\n**Caveats.**\n- A what-if, not the law: changing the code takes City Council. The count is City-owned vacant lots only, dimensional rules only, sale status aside.\n- The same cell also sets R1D-L, where two- and three-unit houses aren't permitted, so it adds none to these counts.\n- The reduction in rear setback does not account for changes to private outdoor amenity space or backyard privacy.\n- The count cannot determine whether shifted building footprints will preserve existing mature canopy trees in the rear yards.\n\n_Planned and drafted by gemini-flash-lite-latest · 24×100 policy agent · Q1. Check every quote against the code before sending._\n",
  "steps": [
   {
    "agent": "policy",
@@ -245,7 +242,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:43:06+00:00"
+   "t": "2026-09-27T16:55:45+00:00"
   },
   {
    "agent": "policy",
@@ -255,10 +252,10 @@
     "question": "What if R2-L's rear setback were 20 ft instead of 30?",
     "building": "two"
    },
-   "summary": "Change R2-L rear_setback to 20: This question asks to modify a single stored rule value: changing the rear setback for district R2-L from 30 ft to 20 ft.",
+   "summary": "Change R2-L's rear setback to 20 ft. The question matches the R2-L rear_setback rule directly.",
    "sources": [],
    "ok": true,
-   "t": "2026-09-27T16:45:33+00:00",
+   "t": "2026-09-27T16:55:46+00:00",
    "decision": "change"
   },
   {
@@ -280,7 +277,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:45:33+00:00"
+   "t": "2026-09-27T16:55:46+00:00"
   },
   {
    "agent": "policy",
@@ -297,7 +294,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:46:03+00:00"
+   "t": "2026-09-27T16:55:47+00:00"
   },
   {
    "agent": "policy",
@@ -316,7 +313,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:46:03+00:00"
+   "t": "2026-09-27T16:55:47+00:00"
   },
   {
    "agent": "policy",
@@ -346,14 +343,14 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:46:03+00:00"
+   "t": "2026-09-27T16:55:48+00:00"
   },
   {
    "agent": "policy",
    "n": 7,
    "action": "draft",
    "input": null,
-   "summary": "Memo to the Planning Commission, 277 words.",
+   "summary": "Memo to the Planning Commission, 271 words.",
    "sources": [
     {
      "file": "data/code/ch903.txt",
@@ -365,7 +362,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:46:03+00:00"
+   "t": "2026-09-27T16:55:48+00:00"
   },
   {
    "agent": "policy",
@@ -381,7 +378,7 @@
     }
    ],
    "ok": true,
-   "t": "2026-09-27T16:46:03+00:00",
+   "t": "2026-09-27T16:55:48+00:00",
    "checks": [
     {
      "check": "code file unchanged since the find step",
@@ -408,7 +405,7 @@
  ],
  "usage": {
   "tokens_in": 4371,
-  "tokens_out": 509,
+  "tokens_out": 228,
   "calls": 2
  },
  "verified": true,

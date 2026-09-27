@@ -123,7 +123,9 @@ def run(question: str, building: str, *, model: Callable[[type[BaseModel], list[
     if plan is None:
         return refuse("the model gave no usable plan")
     base["name"] = plan.name or question[:80]
-    log.add("plan", plan.reason if plan.decision == "refuse" else f"Change {plan.district} {plan.field} to {fmt(plan.new_value or 0)}: {plan.reason}",
+    words = (plan.field or "").replace("_", " ").replace("min lot area", "minimum lot area").replace("setback interior", "interior side setback").replace("setback exterior", "exterior side setback")
+    unit = next((e.unit for e in cat if e.field == plan.field), "")
+    log.add("plan", plan.reason if plan.decision == "refuse" else f"Change {plan.district}'s {words} to {fmt(plan.new_value or 0)} {unit}. {plan.reason}",
             input={"question": question, "building": building}, ok=plan.decision == "change", decision=plan.decision)
     if plan.decision == "refuse":
         return refuse(plan.reason)
