@@ -1,6 +1,6 @@
 # Extraction evaluation
 
-Generated 2026-09-26T21:22:19+00:00 by `uv run python -m extract eval` from the files in `data/rules/extracted/`. Every number below is computed from those files; none is typed by hand. The run itself is `uv run python -m extract run --district <D>`.
+Generated 2026-09-27T01:58:50+00:00 by `uv run python -m extract eval` from the files in `data/rules/extracted/`. Every number below is computed from those files; none is typed by hand. The run itself is `uv run python -m extract run --district <D>`.
 
 The City of Pittsburgh interprets its zoning code. This is decision support, not legal, financial or zoning advice. Every extracted rule is **pencil** (unreviewed) until a named person source-checks it in the app.
 
@@ -16,7 +16,7 @@ The City of Pittsburgh interprets its zoning code. This is decision support, not
 
 ## RM-M against the answer key
 
-Answer key: `data/rules/base/rm-m.json` and `pgh.json` (hand-checked against the saved ecode360 text, 26 Sep 2026). Agreement is on the value; for the contextual setbacks it also requires the vacant-neighbor clause (quoted, or stated in the condition); for the narrow-lot table every row must match.
+Answer key: `data/rules/base/rm-m.json` and `pgh.json`: the values in the team's research notes (`zoning-rules-rm.md`, marked "checked by a person against the code text"; the person isn't named there), matched to the saved ecode360 text by an AI research pass on 26 Sep 2026 and recorded in this app as source-checked by "Claude (research pass), AI agent". No one has signed them in this app yet, so this compares the model with a person-checked key that an AI transcribed. Agreement is on the value; for the contextual setbacks it also requires the vacant-neighbor clause (quoted, or stated in the condition); for the narrow-lot table every row must match.
 
 | Field | Answer key | Extracted | § key → § extracted | Agree | Note | Applies to (key → extracted) |
 |---|---|---|---|---|---|---|
@@ -32,7 +32,7 @@ Answer key: `data/rules/base/rm-m.json` and `pgh.json` (hand-checked against the
 | contextual_rear | null | null | 925.06.I → 925.06.I | yes | value matches; vacant-neighbor clause quoted and stated in condition | detached, two, row, three, row_end → * |
 | narrow_lot_side_table | table, 23 rows; 37 ft and below: 3 / 15 ft | table, 23 rows; 37 ft and below: 3 / 15 ft | 925.06.C → 925.06.C | yes | all 23 rows match | detached → detached |
 
-The headline score is on values. `applies_to` (which building types a rule covers) is shown for information; `*` counts as all five types.
+Agreement is counted on values. `applies_to` (which building types a rule covers) is shown for information; `*` counts as all five types.
 
 Section paths: 7 of 11 extracted rules cite a different path than the key (903.03.C → 903.03.C.2). The guard found each quote inside the path the model cited; agreement is not scored on the path.
 
@@ -43,7 +43,7 @@ The RM-M run also proposed 10 † rules (use table, parking, grading, lot of rec
 - R1D-H (`gemini-3.6-flash`): **asked the City, but still listed row, row_end in applies_to.** applies_to `['detached', 'row', 'row_end']`, ambiguous = True, question written by the model: "Does 'single-unit house' in this subsection apply only to single-unit detached dwellings or also to single-unit attached (rowhouse) dwellings?"
 - RM-M (`gemini-3.8-flash`): **flagged as intended (detached only, question asked).** applies_to `['detached']`, ambiguous = True, question written by the model: "Does 'any single-unit house' apply only to single-unit detached houses, or does it also apply to single-unit attached rowhouses?"
 
-A pencil proposal cannot widen the table's reach in the app: the engine picks an ink rule over a pencil one for the same field (`pick()` in engine/src/rules.ts), and the hand-checked `pgh.narrow_lot_side` rule (detached only) is ink. The open question stays in `data/rules/questions.json`.
+A pencil proposal cannot widen the table's reach in the app: the engine picks an ink rule over a pencil one for the same field (`pick()` in engine/src/rules.ts), and the answer-key `pgh.narrow_lot_side` rule (detached only) is ink. The open question stays in `data/rules/questions.json`.
 
 The system prompt has one general rule about building types ("when the wording leaves doubt about whether a building type is covered, list only the types it clearly covers, set ambiguous = true and ask the City"). It does not name this clause or the answer.
 
@@ -144,7 +144,7 @@ So one district cost between $0.06 and $0.16 in these runs at today's paid price
 - The † fields (use table, parking, grading, lots of record) have no answer key; nobody has scored them.
 - The guard checks that each quote is verbatim and inside the cited section and that each value is in range; it cannot tell whether the model read the right table row. A person does that in the app.
 - R1D-H was extracted with `gemini-3.6-flash`, not the model scored above; its proposals carry that model's name. Re-run with `uv run python -m extract run --district R1D-H` when the default model's free-tier quota allows, then `uv run python -m extract eval`.
-- Report date: 2026-09-26.
+- Report date: 2026-09-27.
 
 ## Commands
 

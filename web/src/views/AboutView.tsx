@@ -295,7 +295,7 @@ export function AboutView({ s, block, audit }: ViewProps) {
               <span className="ev ev-ink">4 ft</span>
             </dt>
             <dd>
-              <strong>Ink</strong>: a sourced fact. A rule a named person matched to the quoted code, or a record with its pull date.
+              <strong>Ink</strong>: a sourced fact. A rule matched to the quoted code text and signed by a named person, or, for the 11 pre-seeded RM‑M rules, by the AI research pass (marked “AI-checked · needs a teammate”); or a record with its pull date.
             </dd>
           </div>
           <div>

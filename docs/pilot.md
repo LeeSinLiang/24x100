@@ -54,13 +54,44 @@ measured.
    read the highlighted quote beside it and either **sign** it (name, role, a one-line note) or **strike** it
    (with a reason). Ambiguous clauses arrive as questions for the City; leave them open or record a City answer
    with its reference. Signing is the only step that turns pencil into ink.
-3. **Publish (about 1 minute).** Export the review log from the review screen, commit it as
-   `data/rules/reviews.json`, and run `npm run build`. That district's lots stop being grey on the city map, and
-   the static API carries the new rule states.
+3. **Publish (about 2 minutes, no git needed).** On the review screen, **Send to the steward** downloads the
+   reviews signed in that browser. The steward checks the file and publishes it (see the runbook below). That
+   district's lots stop being grey on the city map, and the static API carries the new rule states.
 
 Step 1's time is measured from the extraction logs (see Cost). Step 2's is an estimate (about 45 seconds to
 read one highlighted quote and sign it, times about twenty rules); nobody outside the team has timed it yet.
 Asking a City analyst to try it is the first pilot step.
+
+## Steward runbook (publishing reviews)
+
+Reviews are signed in a browser; until they are published they show "signed in this browser · not published"
+and nobody else sees them. Publishing is the steward's job. It needs a GitHub account with write access to the
+repository, not git on a computer. The workflow below is written but **has not run yet** (the repository
+doesn't exist yet); test it with the first real upload.
+
+1. The reviewer opens the review screen, checks each rule against its highlighted quote, signs or strikes it
+   with their real name and role, and clicks **Send to the steward**. They email or message the file
+   (`reviews-YYYY-MM-DD-HHMM.json`) to the steward.
+2. The steward opens the repository on github.com, goes to `data/rules/uploads/`, and uses **Add file → Upload
+   files** to add it, committing to `main`.
+3. The **Publish reviews** workflow (`.github/workflows/publish-reviews.yml`) runs `npm run check-reviews --
+   --write`: every entry is checked with the app's own rules (a named reviewer and role, a rule that exists, the
+   quote still found in the saved code text, a real reference and date for a City confirmation).
+4. It stops, and publishes nothing, if an entry is invalid, if it would rewrite an entry already published, or
+   if a name looks like a placeholder or a test, a role says "AI agent", or the entry is an assumption. The
+   run's summary lists each problem.
+5. If it stopped only on a flag the steward has looked at and accepts, they run the workflow again from the
+   Actions tab with `--allow-flagged` (or locally: `npm run check-reviews -- --allow-flagged --write`); the
+   override is recorded on the entry.
+6. Otherwise it merges the entries into `data/rules/reviews.json` (entries are never rewritten), removes the
+   upload, runs the tests, rebuilds the site and deploys it.
+7. The steward opens the site and checks that the signed rules now read ink, with the reviewer's name in each
+   rule's drawer.
+8. To undo a decision, a reviewer records a new one (reopen or strike); the log keeps both.
+
+Time: our estimate is 10–20 minutes a week while districts are being added, and near zero after; nobody has
+timed it. Without a machine: `npm run check-reviews -- path/to/file.json` checks a file and changes nothing
+(add `--write` to publish locally).
 
 ## What a pilot would measure
 

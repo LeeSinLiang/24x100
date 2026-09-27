@@ -19,7 +19,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "shoot": "node scripts/shoot.mjs",
     "demo": "node scripts/demo.mjs",
-    "firstrun": "node scripts/firstrun.mjs"
+    "firstrun": "node scripts/firstrun.mjs",
+    "check-reviews": "tsx scripts/check-reviews.ts",
+    "build:assemblies": "tsx scripts/build-assemblies.ts"
   },
   "dependencies": {
     "polygon-clipping": "^0.15.7",

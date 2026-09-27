@@ -111,17 +111,24 @@ output for them.
 
 | What | Result | Where |
 |---|---|---|
-| Rule extraction, RM‑M, against the answer key (values checked by a person against the saved code text) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
+| Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, and no one has signed it here yet) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards, all pencil until a person signs them (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 122 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
-| Pipeline and extraction tests (pytest) | 133 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards | `pipeline/tests/`, `extract/tests/` |
+| Engine tests (vitest) | 184 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Pipeline and extraction tests (pytest) | 144 pass, 0 skipped: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | No score anywhere (spec §0.12) | None in the UI, the letter, `film/facts.json` or the film notes; a planted score is caught | `scripts/no-score.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone; a scripted path, not a study with people | `docs/evidence/first-run.json` |
 | Citywide number | RM‑M, 984 City-owned vacant lots, 563 computable: a two-unit house is too narrow on 480 and under the minimum area on 311 | `docs/evidence/problem.md` |
+
+## Keeping it running
+
+Static site plus a static JSON API: free to host. Rule extraction costs $0.06–$0.16 per district at paid rates
+(measured). Reviews are signed in a browser and published by a steward through a GitHub upload and a checking
+workflow, no git needed (`docs/pilot.md`, steward runbook; the workflow hasn't run yet because the repository
+doesn't exist yet). Nobody has agreed to own it yet; `docs/pilot.md` lists the kinds of owners that fit.
 
 ## Limitations
 

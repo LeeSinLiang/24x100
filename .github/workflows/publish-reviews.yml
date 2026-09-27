@@ -1,0 +1,51 @@
+# Publish reviews (docs/pilot.md, the steward's runbook).
+# A steward uploads a file exported from the review screen ("Send to the steward") into data/rules/uploads/
+# with GitHub's web "Add file → Upload files" (no git needed). This job checks it with the app's own rules
+# (scripts/check-reviews.ts), merges it into data/rules/reviews.json, and rebuilds the site. It fails, and
+# publishes nothing, on an invalid entry, a rewritten published entry, or a placeholder/test/AI "review".
+# NOT RUN YET: the GitHub repository doesn't exist yet. Test it on the first upload after the team creates it.
+name: Publish reviews
+on:
+  push:
+    branches: [main]
+    paths: ['data/rules/uploads/*.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: publish-reviews
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - name: Check and merge the uploaded review logs
+        run: npm run check-reviews -- --write
+      - name: Tests
+        run: npx vitest run
+      - name: Commit the merged log and clear the uploads
+        run: |
+          git config user.name "24x100 review publisher"
+          git config user.email "actions@users.noreply.github.com"
+          git rm -q --ignore-unmatch data/rules/uploads/*.json
+          git add data/rules/reviews.json
+          git commit -m "Publish reviews from data/rules/uploads" || echo "nothing to commit"
+          git push
+      # Not `npm run build`: build-city.ts needs the gitignored citywide work file; data/city/*.json is committed.
+      - name: Build the static API and the site
+        run: npx tsx scripts/build-api.ts && npx vite build --config web/vite.config.ts
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+      - uses: actions/deploy-pages@v4

@@ -1,4 +1,4 @@
-"""Evaluate extraction against the hand-checked answer key and write docs/eval.md + eval.json.
+"""Evaluate extraction against the answer key (team research notes, checked by a person) and write docs/eval.md + eval.json.
 
     uv run python -m extract eval
 
@@ -400,12 +400,12 @@ def render(res: dict) -> str:
     L.append(f"- Ambiguous clause in pencil: narrow-lot table `applies_to` = `{nf.get('applies_to')}`; {'the model itself flagged it' if nf.get('flagged_by_model') else 'the model did NOT flag it itself'} (see below).")
     if not g["pass"]:
         L.append("")
-        L.append("Fallback (spec §13): keep the hand-checked rules; show extraction on R1D-H as proposals only.")
+        L.append("Fallback (spec §13): keep the answer-key rules; show extraction on R1D-H as proposals only.")
     L.append("")
 
     L.append("## RM-M against the answer key")
     L.append("")
-    L.append("Answer key: `data/rules/base/rm-m.json` and `pgh.json` (hand-checked against the saved ecode360 text, 26 Sep 2026). Agreement is on the value; for the contextual setbacks it also requires the vacant-neighbor clause (quoted, or stated in the condition); for the narrow-lot table every row must match.")
+    L.append("Answer key: `data/rules/base/rm-m.json` and `pgh.json`: the values in the team's research notes (`zoning-rules-rm.md`, marked \"checked by a person against the code text\"; the person isn't named there), matched to the saved ecode360 text by an AI research pass on 26 Sep 2026 and recorded in this app as source-checked by \"Claude (research pass), AI agent\". No one has signed them in this app yet, so this compares the model with a person-checked key that an AI transcribed. Agreement is on the value; for the contextual setbacks it also requires the vacant-neighbor clause (quoted, or stated in the condition); for the narrow-lot table every row must match.")
     L.append("")
     L.append("| Field | Answer key | Extracted | § key → § extracted | Agree | Note | Applies to (key → extracted) |")
     L.append("|---|---|---|---|---|---|---|")
@@ -416,7 +416,7 @@ def render(res: dict) -> str:
             f"| {r['field']} | {_fmt_val(r['expected'], unit)} | {_fmt_val(r['extracted'], unit) if r['extracted_section'] else '—'} | {r['expected_section']} → {r['extracted_section'] or '—'} | {'yes' if r['agree'] else '**no**'} | {r['why']} | {at} |"
         )
     L.append("")
-    L.append("The headline score is on values. `applies_to` (which building types a rule covers) is shown for information; `*` counts as all five types.")
+    L.append("Agreement is counted on values. `applies_to` (which building types a rule covers) is shown for information; `*` counts as all five types.")
     L.append("")
     diff_path = [r for r in ag["rows"] if r["extracted_section"] and r["extracted_section"] != r["expected_section"]]
     if diff_path:
@@ -447,7 +447,7 @@ def render(res: dict) -> str:
             + (f": \"{f['question_for_city']}\"" if f["question_for_city"] else "")
         )
     L.append("")
-    L.append("A pencil proposal cannot widen the table's reach in the app: the engine picks an ink rule over a pencil one for the same field (`pick()` in engine/src/rules.ts), and the hand-checked `pgh.narrow_lot_side` rule (detached only) is ink. The open question stays in `data/rules/questions.json`.")
+    L.append("A pencil proposal cannot widen the table's reach in the app: the engine picks an ink rule over a pencil one for the same field (`pick()` in engine/src/rules.ts), and the answer-key `pgh.narrow_lot_side` rule (detached only) is ink. The open question stays in `data/rules/questions.json`.")
     L.append("")
     L.append("The system prompt has one general rule about building types (\"when the wording leaves doubt about whether a building type is covered, list only the types it clearly covers, set ambiguous = true and ask the City\"). It does not name this clause or the answer.")
     L.append("")
