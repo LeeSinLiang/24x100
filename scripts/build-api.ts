@@ -161,6 +161,11 @@ interface WorkLot {
 }
 const WORK = 'data/city/work/lots_work.json';
 const work = new Map<string, WorkLot>(existsSync(WORK) ? read<{ lots: WorkLot[] }>(WORK).lots.map((l) => [l.pin, l]) : []);
+// The outlines are also kept, compact, in a committed file, so a clean clone (a Vercel build) serves the same lot
+// files as the machine that has the pipeline's work file: written from the work file when it is here, read otherwise.
+const OUTLINES = 'data/city/outlines.json';
+const savedOutlines: Record<string, string> = !work.size && existsSync(OUTLINES) ? Object.fromEntries(Object.entries(read<{ outlines: Record<string, unknown> }>(OUTLINES).outlines).map(([k, v]) => [k, JSON.stringify(v)])) : {};
+const newOutlines: Record<string, unknown> = {};
 const r1 = (v: number) => Math.round(v * 10) / 10;
 const outerRing = (p: WorkPoly): [number, number][] => (Array.isArray(p[0]?.[0]) ? (p as [number, number][][])[0] : (p as [number, number][]));
 const pts = (ring: [number, number][]) => ring.map(([x, y]) => [r1(x), r1(y)] as [number, number]);
@@ -210,7 +215,8 @@ for (const t of TYPES) {
       const body = JSON.stringify({ pin: l.pin, address: l.addr, neighborhood: l.hood, zone: l.zone, city_status: l.status, status_updated: l.status_updated, deed: l.deed, assessed_sf: l.assessed, mapped_sf: l.mapped, edges: { computed: l.edges_ok, note: l.edge_note, flank: l.flank }, classification_by_type: byType, disclaimer }, null, 1);
       // The outline goes last and compact (coordinates one per line would triple the file).
       const wl = work.get(l.pin);
-      const outline = wl ? JSON.stringify(outlineOf(wl)) : null;
+      const outline = wl ? JSON.stringify(outlineOf(wl)) : savedOutlines[l.pin] ?? null;
+      if (wl && outline) newOutlines[l.pin] = JSON.parse(outline);
       if (outline) (outlineBytes += outline.length + 14), outlines++;
       writeFileSync(`${OUT}/lots/${l.pin}.json`, outline ? body.replace(/\n}$/, `,\n "outline": ${outline}\n}`) : body);
       lotFiles++;
@@ -235,4 +241,5 @@ writeFileSync(
   ),
 );
 console.log(`api: ${lotFiles} lot files, ${blocks.length} blocks, city summary for ${city.lots.length} lots → ${OUT}`);
-console.log(`api: ${outlines} City lot files carry an outline (${(outlineBytes / 1e6).toFixed(1)} MB of outlines)${work.size ? '' : '; the citywide work file is missing, so none do'}`);
+if (work.size) writeFileSync(OUTLINES, JSON.stringify({ note: 'Each City lot outline served in api/lots/<pin>.json (scripts/build-api.ts, from the pipeline work file). Committed so a clean clone builds the same site.', outlines: newOutlines }) + '\n');
+console.log(`api: ${outlines} City lot files carry an outline (${(outlineBytes / 1e6).toFixed(1)} MB of outlines)${work.size ? ` → ${OUTLINES}` : Object.keys(savedOutlines).length ? `, from ${OUTLINES} (the work file is not here)` : '; the work file and data/city/outlines.json are both missing, so none do'}`);

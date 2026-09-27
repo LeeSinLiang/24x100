@@ -125,5 +125,11 @@ const meta = {
   errors: skipped,
   note: 'City-owned vacant parcels. Edge labels by engine/src/edges.ts; classification happens in the browser from the current rule reviews.',
 };
-writeFileSync('data/city/lots.json', JSON.stringify({ meta, lots: out }) + '\n');
-console.log(`data/city/lots.json: ${out.length} lots (${meta.edges_not_computed} without edges) from ${source}`);
+// A clean clone (a Vercel build) has no work file: never replace the committed citywide file with the block lots
+// alone. Only a fresh pull (the work file here) rewrites it.
+if (!existsSync(work) && existsSync('data/city/lots.json')) {
+  console.log(`data/city/lots.json kept as committed: ${work} is not here (it comes from \`uv run python -m pipeline all\`)`);
+} else {
+  writeFileSync('data/city/lots.json', JSON.stringify({ meta, lots: out }) + '\n');
+  console.log(`data/city/lots.json: ${out.length} lots (${meta.edges_not_computed} without edges) from ${source}`);
+}
