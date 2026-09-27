@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TemplateId } from '@engine/types';
 
-export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case';
+export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case' | 'brief';
 
 /** The workspace's centre canvas (spec §0.15). Defaults: city → map; lot and block → plan. */
 export type Canvas = 'map' | 'plan' | 'graph' | 'table';
@@ -56,7 +56,7 @@ export interface UrlState {
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
-const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case'];
+const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case', 'brief'];
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
 const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
 export const WHATIFS = ['S1', 'S2', 'S3'] as const;
@@ -174,7 +174,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if (s.view !== 'city' && s.view !== 'changes') {
     if (s.block) q.set('block', s.block);
   }
-  if (s.view === 'lot' || s.view === 'inquiry') {
+  if (s.view === 'lot' || s.view === 'inquiry' || s.view === 'brief') {
     if (s.lot) q.set('lot', s.lot);
     if (s.type) q.set('type', s.type);
     if (s.lots && s.lots.length > 1) q.set('lots', s.lots.join(','));

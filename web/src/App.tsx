@@ -15,6 +15,7 @@ import { loadCityData } from './components/city/cityData';
 import { pageZoom, stageFor } from './components/workspace/stage';
 import { UrlNotice } from './components/workspace/UrlNotice';
 import { AboutView } from './views/AboutView';
+import { BriefView } from './views/BriefView';
 import { CaseView, CASES } from './views/CaseView';
 import { ChangesView } from './views/ChangesView';
 import { InquiryView } from './views/InquiryView';
@@ -28,7 +29,7 @@ export function App() {
   const { entries, add } = auditApi;
   const audit = useMemo(() => [...entries, ...linkAssumptions(s.assume)], [entries, s.assume.join(',')]);
   const block = BLOCKS[s.block];
-  const model = useLotModel(s.view === 'lot' || s.view === 'inquiry' ? block : undefined, s, audit);
+  const model = useLotModel(s.view === 'lot' || s.view === 'inquiry' || s.view === 'brief' ? block : undefined, s, audit);
   const [theme, setTheme] = useTheme(s.theme);
   const workspace = WORKSPACE_VIEWS.includes(s.view);
 
@@ -96,7 +97,7 @@ export function App() {
 
   const boil = useBoil(!s.still);
   const open = (ref: string) => update({ drawer: ref });
-  const sel = block && (s.view === 'lot' || s.view === 'inquiry') ? parcelByLot(block, s.lot) : undefined;
+  const sel = block && (s.view === 'lot' || s.view === 'inquiry' || s.view === 'brief') ? parcelByLot(block, s.lot) : undefined;
 
   // The lot group a multi-lot building type uses (the top bar's type switch on the lot view).
   const group = useMemo(() => (s.view === 'lot' && block && model && sel ? defaultGroup(model, block, sel.pin) : null), [s.view, block, model?.ctx, sel?.pin]);
@@ -128,7 +129,7 @@ export function App() {
             : [
                 { label: 'Pittsburgh', href: '?view=city' },
                 ...(block ? [{ label: block.meta.neighborhood, href: `?view=city&hood=${encodeURIComponent(block.meta.neighborhood)}` }, { label: block.meta.name.replace(/-/g, '‑'), href: `?view=block&block=${block.meta.id}&type=${s.type}` }] : []),
-                ...(sel && s.view === 'inquiry' ? [{ label: `Lot ${lotKey(sel)}`, href: `?view=lot&block=${block!.meta.id}&lot=${lotKey(sel)}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}` }, { label: 'Letters' }] : []),
+                ...(sel && (s.view === 'inquiry' || s.view === 'brief') ? [{ label: `Lot ${lotKey(sel)}`, href: `?view=lot&block=${block!.meta.id}&lot=${lotKey(sel)}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}` }, { label: s.view === 'brief' ? 'Brief' : 'Letters' }] : []),
               ];
   const rsForDrawer = model?.ctx.rs ?? contextFor(block ?? Object.values(BLOCKS)[0], s.district ?? sel?.zone ?? 'RM-M', audit, s.tol).rs;
   const rulesHref = `?view=review&district=${sel?.zone ?? s.district ?? 'RM-M'}`;
@@ -168,6 +169,8 @@ export function App() {
                 return <ChangesView {...vp} />;
               case 'case':
                 return <CaseView {...vp} />;
+              case 'brief':
+                return <BriefView {...vp} />;
               default:
                 return <AboutView {...vp} />;
             }

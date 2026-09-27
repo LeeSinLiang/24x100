@@ -10,7 +10,7 @@ import { RulesWall } from '../Walls';
 import { Ev, ftFmt, Label, DISCLAIMER } from '../ui';
 import { COMPS_BY_WARD, REFRESH, refreshChangesFor } from '../../lib/data';
 import { lotKey, parcelByLot, type LotModel } from '../../lib/model';
-import type { InspectorTab, UrlState } from '../../lib/url';
+import { toSearch, type InspectorTab, type UrlState } from '../../lib/url';
 import { Dash, InspectorShell, Tile, type TabDef } from './Shell';
 import { Gloss, kFmt, LotSentence, VerdictStamp } from './plain';
 import { Segs } from './Segs';
@@ -48,7 +48,7 @@ export function inquiryHref(block: BlockFile, s: UrlState, lot: string, office?:
   return `?view=inquiry&block=${block.meta.id}&lot=${lot}&type=${s.type}${s.lots.length > 1 ? `&lots=${s.lots.join(',')}` : ''}${s.assume.length ? `&assume=${s.assume.join(',')}` : ''}${office ? `&letter=${office}` : ''}${stage}`;
 }
 
-function LotTiles({ model }: { model: LotModel }) {
+export function LotTiles({ model }: { model: LotModel }) {
   const r = model.result;
   const m = model.money;
   if (r.state !== 'ok') {
@@ -369,6 +369,11 @@ function NextDetail({ model, block, s, steps, onStep }: { model: LotModel; block
           Draft the letter
         </a>{' '}
         <span className="small muted">A draft: you decide whether and where to send it.</span>
+      </p>
+      <p className="ws-brief">
+        <a className="btn" href={toSearch({ ...s, view: 'brief', drawer: null, tab: null })}>
+          Print a one-page brief
+        </a>
       </p>
       {CASES[sel.pin] ? (
         <p className="ws-agents" data-agents-link>

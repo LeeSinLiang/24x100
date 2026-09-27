@@ -1,0 +1,193 @@
+/* The one-page lot brief (views/BriefView.tsx): a sheet on screen, one page on paper. Colors only through tokens. */
+
+.brief {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding-bottom: 32px;
+}
+.brief-tools {
+  width: min(816px, 100%);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+}
+.brief-sheet {
+  width: min(816px, 100%); /* 8.5 in at 96 dpi */
+  box-sizing: border-box;
+  padding: 36px 44px 28px;
+  background: var(--sheet);
+  border: 1px solid var(--rule-strong);
+  display: grid;
+  gap: 12px;
+}
+.brief-mark {
+  margin: 0;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: var(--s-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.brief-logo {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--ink);
+}
+.brief-title {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  margin: 4px 0 2px;
+}
+.brief-sub {
+  margin: 0;
+  color: var(--ink-2);
+}
+.brief-verdict {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.brief-sentence {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 17px;
+  line-height: 1.4;
+}
+.brief-way {
+  margin: 0;
+}
+:root .brief .brief-tiles.ws-tiles {
+  margin: 0;
+  order: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.brief-plan {
+  margin: 0;
+  border: 1px solid var(--rule);
+  padding: 4px;
+}
+.brief-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.brief-cols h2 {
+  margin: 0 0 4px;
+}
+.brief-why {
+  margin: 0 0 6px;
+}
+.brief-rules {
+  margin: 0 0 6px;
+  font-size: var(--s-small);
+}
+.brief-findings,
+.brief-steps {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: var(--s-small);
+  display: grid;
+  gap: 2px;
+}
+.brief-steps .step-tag {
+  margin-right: 4px;
+}
+.brief-link {
+  font-family: var(--f-map);
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+.brief-foot {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 6px;
+  color: var(--ink-2);
+}
+.brief-foot p {
+  margin: 0 0 4px;
+}
+
+@media (max-width: 700px) {
+  :root .brief .brief-tiles.ws-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .brief-sheet {
+    padding: 18px 16px;
+  }
+  .brief-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media print {
+  @page {
+    size: letter;
+    margin: 12mm 12mm;
+  }
+  body:has(.brief) {
+    background: none;
+  }
+  body:has(.brief) .app-head,
+  body:has(.brief) .ws-top,
+  body:has(.brief) .ws-notice,
+  body:has(.brief) .grain-layer,
+  body:has(.brief) .drawer,
+  body:has(.brief) .skip,
+  .brief-tools {
+    display: none !important;
+  }
+  body:has(.brief) .app {
+    padding: 0;
+    max-width: none;
+  }
+  .brief {
+    padding: 0;
+  }
+  .brief-sheet {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    background: none;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .brief-title {
+    font-size: 24px;
+  }
+  .brief-sentence {
+    font-size: 14px;
+  }
+  .brief * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .brief-cols,
+  .brief-plan {
+    break-inside: avoid;
+  }
+  .brief-foot {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+  .brief-foot p {
+    margin: 0 0 2px;
+  }
+  .brief-verdict {
+    gap: 3px;
+  }
+  .brief-cols {
+    font-size: 11px;
+  }
+  .brief-rules,
+  .brief-findings,
+  .brief-steps {
+    font-size: 11px;
+  }
+}
