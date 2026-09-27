@@ -106,7 +106,7 @@ export function Rail({
         <details className="ws-about-dots small">
           <summary>About these dots</summary>
           <p>
-            One dot per City-owned vacant lot, at its representative point. Color is the first thing that blocks {planType}; grey means we did not compute it. Combine to fit counts runs of 2–3 lots, not lots.
+            One dot per City-owned vacant lot, at its representative point. Color is the first thing that blocks {planType}; grey means we did not compute it. Combine to fit counts lot groups of 2–3 lots, not lots.
             {ready && cm!.data.state === 'ready' ? ` The map holds ${n(cm!.lots.length)} ${lotsWord(cm!.lots.length)}${cm!.data.meta.source ? `, from ${cm!.data.meta.source}` : ''}.` : ''}
           </p>
         </details>

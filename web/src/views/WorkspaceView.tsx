@@ -207,7 +207,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
     events = [...cityEvents(), ...refreshEvent()];
     pins = run.pins;
   } else if (kind === 'assemble') {
-    stepsNote = <p className="ws-tray-note">Pick a run in the list, or a ringed dot on the map: each run lists what is still to check.</p>;
+    stepsNote = <p className="ws-tray-note">Pick a lot group in the list, or a ringed dot on the map: each lists what is still to check.</p>;
     events = [...cityEvents(), ...refreshEvent()];
   } else {
     const f = cm.featured;
@@ -228,7 +228,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
       links: [],
       action: (
         <button type="button" className="ws-step-link link" onClick={() => update({ layer: 'assemble', run: null, pin: null }, { push: true })}>
-          Show the runs{runsOfType ? ` (${runsOfType.length})` : ''}
+          Show the lot groups{runsOfType ? ` (${runsOfType.length})` : ''}
         </button>
       ),
     });

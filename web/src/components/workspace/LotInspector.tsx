@@ -359,6 +359,9 @@ export function LotInspector({
       label: 'Next',
       panel: (
         <>
+          <p className="ws-watch">
+            <WatchToggle pin={sel.pin} />
+          </p>
           <NextAnswer model={model} block={block} s={s} onTry={onTry} />
           <NextSteps inquiry={r.state === 'ok' ? model.inquiry : null} href={inquiryHref(block, s, s.lot)} />
           <Letters model={model} block={block} s={s} />
@@ -389,7 +392,6 @@ export function LotInspector({
           <VerdictBlock v={v} />
         </>
       }
-      action={<WatchToggle pin={sel.pin} />}
       sentence={<LotSentence r={r} m={model.money} block={block} detail={v.detail} />}
       note={
         <>

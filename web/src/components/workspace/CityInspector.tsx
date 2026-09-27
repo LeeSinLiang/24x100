@@ -262,7 +262,7 @@ export function CityNext({ cm, s, update, openLot, runCount }: { cm: CityModel; 
           >
             Combine to fit
           </a>
-          <span className="small muted"> · which City lots fit when combined with the lots beside them{runCount != null ? ` (${n(runCount)} runs)` : ''}</span>
+          <span className="small muted"> · which City lots fit when combined with the lots beside them{runCount != null ? ` (${n(runCount)} lot groups)` : ''}</span>
         </li>
       </ul>
     </div>
@@ -418,6 +418,9 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
       label: 'Next',
       panel: (
         <>
+          <p className="ws-watch">
+            <WatchToggle pin={lot.pin} />
+          </p>
           <LotActions lot={lot} cls={c} type={s.type} rs={rs} link={link} openLot={openLot} />
           {runsFor.length > 0 && (
             <div className="ws-first">
@@ -426,8 +429,9 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
                 {runsFor.map((r) => (
                   <li key={r.pins.join(',')}>
                     <button type="button" className="link" onClick={() => update({ layer: 'assemble', run: r.pins.join(','), pin: null }, { push: true })}>
-                      {r.lots.map((l) => l.addr ?? l.pin).join(' · ')}
+                      {runLotsLabel(r.lots)}
                     </button>{' '}
+                    <span className="muted">({runAddrs(r.lots)})</span>{' '}
                     <Ev trust={r.trust} num>
                       {r.width} ft
                     </Ev>
@@ -467,7 +471,6 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
             {status} <span className="small muted">{lot.hood}</span>
           </>
         }
-        action={<WatchToggle pin={lot.pin} />}
         sentence={cityLotSentence(lot, c, s.type, minArea)}
         defaultTab="rules"
         tiles={
@@ -506,7 +509,7 @@ export function CityLotInspector({ cm, i, s, update, onTab, runsFor }: { cm: Cit
 // ── A C15 run ─────────────────────────────────────────────────────────────────────────────────────
 export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRunRow; meta: AssemblyFile['meta'] | null; s: UrlState; update: (p: Partial<UrlState>, o?: { push?: boolean }) => void; onTab: (t: InspectorTab) => void }) {
   const href = run.block && run.lots_param ? `?view=lot&block=${run.block}&lot=${run.lot_key}&type=${run.type}&lots=${run.lots_param}` : null;
-  const why = href ? 'open the combined lot' : 'not checked for runs';
+  const why = href ? 'open the combined lot' : 'not checked for lot groups';
   const open = href ? (
     <a className="btn btn-ink btn-small" href={href}>
       Open the combined lot
@@ -514,7 +517,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
   ) : null;
   const type = run.type as TemplateId;
   const tabs: TabDef[] = [
-    { id: 'money', label: 'Money', panel: <NotAssessed>Money not assessed for a run{href ? '; the combined lot has it.' : '.'} {open}</NotAssessed> },
+    { id: 'money', label: 'Money', panel: <NotAssessed>Money not assessed for a lot group{href ? '; the combined lot has it.' : '.'} {open}</NotAssessed> },
     {
       id: 'rules',
       label: 'Rules',
@@ -569,7 +572,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
     <InspectorShell
       before={
         <button type="button" className="ws-back" onClick={() => update({ run: null }, { push: true })}>
-          ← All runs
+          ← All lot groups
         </button>
       }
       title={runLotsLabel(run.lots)}
@@ -614,7 +617,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
   const tabs: TabDef[] = [
     {
       id: 'next',
-      label: 'Runs',
+      label: 'Lot groups',
       panel: (
         <AssemblyPanel
           data={asm}
@@ -640,12 +643,12 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
   return (
     <InspectorShell
       title={`Combine to fit${s.hood ? ` · ${s.hood}` : ''}`}
-      status={<span className="stamp stamp-ink ws-stamp">RUNS OF 2–3 LOTS</span>}
+      status={<span className="stamp stamp-ink ws-stamp">GROUPS OF 2–3 LOTS</span>}
       note={ready ? <p className="ws-run-addr small muted">{RUN_ADDR_NOTE}</p> : null}
       sentence={
         ready ? (
           <>
-            <Ev num>{n(runs.length)}</Ev> possible {runs.length === 1 ? 'run' : 'runs'} of 2–3 side-by-side lots{shared ? ' (some share lots)' : ''}, touching <Ev num>{n(cityLots)}</Ev> City-owned {cityLots === 1 ? 'lot' : 'lots'}, {runs.length === 1 ? 'fits' : 'fit'} {aType(s.type)} when combined; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
+            <Ev num>{n(runs.length)}</Ev> possible {runs.length === 1 ? 'lot group' : 'lot groups'} of 2–3 side-by-side lots{shared ? ' (some share lots)' : ''}, touching <Ev num>{n(cityLots)}</Ev> City-owned {cityLots === 1 ? 'lot' : 'lots'}, {runs.length === 1 ? 'fits' : 'fit'} {aType(s.type)} when combined; <Ev num>{n(allCity)}</Ev> {allCity === 1 ? 'is' : 'are'} all City-owned.
           </>
         ) : (
           <span className="muted">Loading the lots that fit when combined…</span>
@@ -653,10 +656,10 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
       }
       tiles={
         <>
-          <Tile id="runs" label="Runs that fit" value={ready ? <Ev num>{n(runs.length)}</Ev> : <Dash why="loading" />} sub={`for ${aType(s.type)}`} />
+          <Tile id="runs" label="Lot groups that fit" value={ready ? <Ev num>{n(runs.length)}</Ev> : <Dash why="loading" />} sub={`for ${aType(s.type)}`} />
           <Tile id="allcity" label="All City-owned" value={ready ? <Ev num>{n(allCity)}</Ev> : <Dash why="loading" />} sub="no other owner" />
           <Tile id="checked" label="City lots checked" value={ready ? <Ev num>{n((asm as AssemblyFile).meta.candidates)}</Ev> : <Dash why="loading" />} sub="in the checked district" />
-          <Tile id="pencil" label="Open questions" value={ready ? <Ev trust="pencil" num>{n(pencil)}</Ev> : <Dash why="loading" />} sub="runs in pencil" />
+          <Tile id="pencil" label="Open questions" value={ready ? <Ev trust="pencil" num>{n(pencil)}</Ev> : <Dash why="loading" />} sub="lot groups in pencil" />
         </>
       }
       tabs={tabs}

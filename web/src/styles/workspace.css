@@ -553,16 +553,9 @@
   gap: 6px 10px;
   min-height: 30px;
 }
-/* One small control at the end of the status row ("Watch this lot"), out of the way of the verdict. */
-.ws-status-action {
-  margin-left: auto;
-}
-.ws-status-action .btn {
-  font-size: 10.5px;
-  letter-spacing: 0.1em;
-  padding: 2px 7px;
-  min-height: 24px;
-  border-color: var(--rule-strong);
+/* "Watch this lot" leads the Next tab (the header is at its word budget). */
+.ws-watch {
+  margin: 0 0 8px;
 }
 .ws-stamp {
   font-family: var(--f-map);
@@ -713,6 +706,10 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+/* The sale's caveat ("one sale · unverified") is never cut: that tile's line may run to three lines. */
+.ws-tile[data-tile='sale'] .ws-tile-sub {
+  -webkit-line-clamp: 3;
 }
 .ws-tile .est-mark {
   width: 7px;
