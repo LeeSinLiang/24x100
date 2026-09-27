@@ -10,7 +10,7 @@
   "zone": "RM-M",
   "link": "?view=lot&block=10K&lot=25&type=two"
  },
- "run_at": "2026-09-27T16:47:42Z",
+ "run_at": "2026-09-27T17:10:08Z",
  "model": {
   "id": "gemini-flash-lite-latest",
   "key": "track3",
@@ -19,33 +19,33 @@
  },
  "tokens": {
   "in": 1004,
-  "out": 463,
+  "out": 500,
   "calls": 3
  },
  "cost": {
-  "usd_paid_rate": 0.001458,
+  "usd_paid_rate": 0.001551,
   "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
  },
  "plan": [
   {
    "agent": "policy",
-   "what": "Review the zoning rules regarding lot width and setbacks for the proposed two-unit house.",
-   "why": "The first blocker is a rule concerning the lot width requirement."
+   "what": "examine zoning rules for width requirements",
+   "why": "the first blocker is a rule regarding lot width"
   },
   {
    "agent": "due-diligence",
-   "what": "Investigate undermining maps, environmental records, and builder pricing.",
-   "why": "To assess site viability and construction costs early in the process."
+   "what": "check maps and environmental records for undermining",
+   "why": "to ensure the site is physically stable before proceeding"
   },
   {
    "agent": "watch",
-   "what": "Monitor City Real Estate and URA communications regarding the lot acquisition.",
-   "why": "To track the status and potential pricing from the City."
+   "what": "monitor city real estate and permit valuations",
+   "why": "to track costs and process requirements for the build"
   },
   {
    "agent": "verifier",
-   "what": "Confirm all preliminary reviews and constraints are addressed before proceeding.",
-   "why": "The verifier always runs last to ensure readiness."
+   "what": "confirm all preliminary assessments and rules are satisfied",
+   "why": "it always runs last to validate the workflow"
   }
  ],
  "steps": [
@@ -62,17 +62,17 @@
    "sources": [
     {
      "url": "data/blocks/10K.json",
-     "pulled_at": "2026-09-27T16:47:42Z",
+     "pulled_at": "2026-09-27T17:10:08Z",
      "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670"
     },
     {
      "url": "data/rules/reviews.json",
-     "pulled_at": "2026-09-27T16:47:42Z",
+     "pulled_at": "2026-09-27T17:10:08Z",
      "sha256": "4459a17317ead9d9c3ab18cb173c6ec34d3f58d4c61c450d6d538fdd28af48b1"
     }
    ],
    "ok": true,
-   "t": 0.0
+   "t": 0.01
   },
   {
    "agent": "steward",
@@ -84,13 +84,13 @@
    "summary": "Planned with gemini-3.5-flash-lite: policy; due-diligence; watch; verifier.",
    "sources": [],
    "ok": true,
-   "t": 1.56,
+   "t": 1.25,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
     "in": 313,
-    "out": 145
+    "out": 191
    },
-   "cost_usd_paid_rate": 0.000456
+   "cost_usd_paid_rate": 0.000571
   },
   {
    "agent": "due-diligence",
@@ -107,13 +107,12 @@
      "slope"
     ],
     "why": {
-     "permits": "check if any active or recent building work exists",
-     "violations": "verify if open code citations or debris issues affect the title",
-     "condemned": "confirm the lot is not flagged as a dead-end or condemned structure",
-     "liens": "ensure no back taxes or municipal liens transfer with the city sale",
-     "311": "assess neighborhood service requests regarding dumping or drainage",
-     "undermining": "check historical coal mining maps beneath the Middle Hill neighborhood",
-     "slope": "evaluate topography for potential grading and retaining wall requirements"
+     "permits": "Check if any prior development was approved or started",
+     "violations": "Uncover existing code liens or debris issues before purchase",
+     "condemned": "Ensure the lot or past structures are not flagged as condemned",
+     "liens": "Identify municipal or tax claims that survive city sales",
+     "311": "Spot chronic neighborhood dumping or drainage complaints nearby",
+     "slope": "Hillside location requires checking for steep slope construction costs"
     },
     "skipped": {},
     "paid": [
@@ -129,13 +128,13 @@
    "summary": "The model picked the free checks to run and the paid studies to draft.",
    "sources": [],
    "ok": true,
-   "t": 2.89,
+   "t": 4.75,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
     "in": 327,
-    "out": 220
+    "out": 211
    },
-   "cost_usd_paid_rate": 0.000648
+   "cost_usd_paid_rate": 0.000626
   },
   {
    "agent": "due-diligence",
@@ -149,14 +148,14 @@
    "sources": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220010K00025000000%22%7D&limit=200",
-     "pulled_at": "2026-09-27T16:47:45Z",
+     "pulled_at": "2026-09-27T17:10:13Z",
      "sha256": "dd7de2cbf386df3d0b2562268f94f64abe42101ce7cf41f98da0d9c21a317f00",
      "via": "data/cases/raw/0010K00025000000/permits.json",
      "dataset": "https://data.wprdc.org/dataset/pli-permits"
     }
    ],
    "ok": true,
-   "t": 3.14
+   "t": 4.94
   },
   {
    "agent": "due-diligence",
@@ -170,14 +169,14 @@
    "sources": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
-     "pulled_at": "2026-09-27T16:47:46Z",
+     "pulled_at": "2026-09-27T17:10:13Z",
      "sha256": "b350c716801138470488ab6c1261658a0adb4cf2770ac6a8668557c9b667d86c",
      "via": "data/cases/raw/0010K00025000000/violations.json",
      "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
     }
    ],
    "ok": true,
-   "t": 3.56
+   "t": 5.37
   },
   {
    "agent": "due-diligence",
@@ -191,14 +190,14 @@
    "sources": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
-     "pulled_at": "2026-09-27T16:47:46Z",
+     "pulled_at": "2026-09-27T17:10:13Z",
      "sha256": "2dbc7c7e33c04baa70af1703580e43cde611a086e7e0c119ecd2c1a49fd74a0d",
      "via": "data/cases/raw/0010K00025000000/condemned.json",
      "dataset": "https://data.wprdc.org/dataset/condemned-properties"
     }
    ],
    "ok": true,
-   "t": 3.67
+   "t": 5.48
   },
   {
    "agent": "due-diligence",
@@ -212,14 +211,14 @@
    "sources": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220010K00025000000%22%7D&limit=200",
-     "pulled_at": "2026-09-27T16:47:47Z",
+     "pulled_at": "2026-09-27T17:10:14Z",
      "sha256": "c7ca323ff640eaf1d8b2ea2226b0d253e14f62283ddf33cce43dd16f10e8aa7b",
      "via": "data/cases/raw/0010K00025000000/liens.json",
      "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
     }
    ],
    "ok": true,
-   "t": 4.38
+   "t": 6.16
   },
   {
    "agent": "due-diligence",
@@ -233,14 +232,14 @@
    "sources": [
     {
      "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22MAHON+ST%22%7D&limit=200&sort=created_date_et+desc",
-     "pulled_at": "2026-09-27T16:47:47Z",
+     "pulled_at": "2026-09-27T17:10:15Z",
      "sha256": "3c58c5c7d61bf34ef01ffdc8047bf48df24742f983273919f7bc65c1af9fc8c0",
      "via": "data/cases/raw/0010K00025000000/311.json",
      "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
     }
    ],
    "ok": true,
-   "t": 5.09
+   "t": 6.89
   },
   {
    "agent": "due-diligence",
@@ -260,7 +259,7 @@
     }
    ],
    "ok": true,
-   "t": 5.09
+   "t": 6.89
   },
   {
    "agent": "due-diligence",
@@ -280,7 +279,7 @@
     }
    ],
    "ok": true,
-   "t": 5.09
+   "t": 6.89
   },
   {
    "agent": "due-diligence",
@@ -292,7 +291,7 @@
    "summary": "Drafted a quote request for a boundary survey; not sent (spend gate).",
    "sources": [],
    "ok": true,
-   "t": 5.09
+   "t": 6.89
   },
   {
    "agent": "due-diligence",
@@ -304,7 +303,7 @@
    "summary": "Drafted a quote request for a geotechnical report; not sent (spend gate).",
    "sources": [],
    "ok": true,
-   "t": 5.09
+   "t": 6.89
   },
   {
    "agent": "policy",
@@ -318,12 +317,12 @@
    "sources": [
     {
      "url": "data/city/scenarios.json",
-     "pulled_at": "2026-09-27T16:47:47Z",
+     "pulled_at": "2026-09-27T17:10:15Z",
      "sha256": "f71e1c6e1bc4e68a56d91bcb5163311b6690858dbff467ed1efd82e6ebfe011c"
     }
    ],
    "ok": true,
-   "t": 5.1
+   "t": 6.89
   },
   {
    "agent": "policy",
@@ -337,27 +336,58 @@
    "sources": [
     {
      "url": "data/city/scenarios.json",
-     "pulled_at": "2026-09-27T16:47:47Z",
+     "pulled_at": "2026-09-27T17:10:15Z",
      "sha256": "f71e1c6e1bc4e68a56d91bcb5163311b6690858dbff467ed1efd82e6ebfe011c"
     }
    ],
    "ok": true,
-   "t": 5.1
+   "t": 6.89
   },
   {
    "agent": "policy",
    "n": 15,
    "action": "tool",
    "tool": "agents.policy",
-   "input": {},
-   "summary": "The policy agent isn't in this checkout yet (branch feat/policy-agent); the computed what-ifs stand in.",
+   "input": {
+    "question": "What if RM-M's interior side setback were 4 ft instead of 10?",
+    "derived": {
+     "value": 4,
+     "formula": "(24 − 16) / 2 = 4: the interior side setback that lets a 16 ft plan fit on this lot"
+    }
+   },
+   "summary": "Asked the policy agent: \"What if RM-M's interior side setback were 4 ft instead of 10?\"",
    "sources": [],
    "ok": true,
-   "t": 5.1
+   "t": 6.89
+  },
+  {
+   "agent": "policy",
+   "n": 16,
+   "action": "tool",
+   "tool": "policy:data/policy",
+   "input": {
+    "what_if": "Q4",
+    "opens": 135,
+    "override": {
+     "district": "RM-M",
+     "field": "side_setback_interior",
+     "to": 4
+    }
+   },
+   "summary": "The policy agent's Q4: RM-M interior side setback 10 → 4 ft (The minimum interior sideyard setback for the RM Subdistrict under Moderate Density site development standards would decrease from 10 ft. to 4 ft.) would open 135 City-owned lots for a two-unit house, this one among them. A what-if, not the law; its memo waits for a person.",
+   "sources": [
+    {
+     "url": "data/policy/q4-rm-m-interior-side-setback-10-4-ft.json",
+     "pulled_at": "2026-09-27T17:12:25Z",
+     "sha256": "bc9813a9ac26a18f6fd81d5e3196eac4dce1aefc4abf19b490d077976a6c8d1c"
+    }
+   ],
+   "ok": true,
+   "t": 136.89
   },
   {
    "agent": "steward",
-   "n": 16,
+   "n": 17,
    "action": "draft",
    "input": {
     "letters": [
@@ -371,17 +401,17 @@
    "summary": "Drafted 4 letters from the engine's reading, one per office; none is sent (send gates).",
    "sources": [],
    "ok": true,
-   "t": 5.1
+   "t": 136.89
   },
   {
    "agent": "steward",
-   "n": 17,
+   "n": 18,
    "action": "draft",
    "input": {},
    "summary": "Wrote the case file's summary from the engine's reading and the findings.",
    "sources": [],
    "ok": true,
-   "t": 6.02,
+   "t": 137.97,
    "model": "gemini-3.5-flash-lite",
    "tokens": {
     "in": 364,
@@ -391,27 +421,27 @@
   },
   {
    "agent": "verifier",
-   "n": 18,
+   "n": 19,
    "action": "verify",
    "input": {},
-   "summary": "Verified: 10 quotes verbatim in the saved code, 27 numbers traced, 9 findings sourced, no name-like field.",
+   "summary": "Verified: 10 quotes verbatim in the saved code, 43 numbers traced, 9 findings sourced, no name-like field.",
    "sources": [],
    "ok": true,
-   "t": 6.07
+   "t": 138.0
   },
   {
    "agent": "steward",
-   "n": 19,
+   "n": 20,
    "action": "gate",
    "input": {
-    "send": 4,
+    "send": 5,
     "spend": 2,
     "sign": 3
    },
-   "summary": "Waiting on a person: 4 letters to send, 2 paid studies to approve, 3 rules to sign.",
+   "summary": "Waiting on a person: 5 letters to send, 2 paid studies to approve, 3 rules to sign.",
    "sources": [],
    "ok": true,
-   "t": 6.07
+   "t": 138.0
   }
  ],
  "findings": [
@@ -422,7 +452,7 @@
    "summary": "Checked: no PLI permit on record for this parcel.",
    "source": {
     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220010K00025000000%22%7D&limit=200",
-    "pulled_at": "2026-09-27T16:47:45Z",
+    "pulled_at": "2026-09-27T17:10:13Z",
     "sha256": "dd7de2cbf386df3d0b2562268f94f64abe42101ce7cf41f98da0d9c21a317f00",
     "via": "data/cases/raw/0010K00025000000/permits.json",
     "dataset": "https://data.wprdc.org/dataset/pli-permits"
@@ -442,7 +472,7 @@
    "summary": "Found: 1 code-enforcement case file since 2022 (Weeds/Debris); the latest, investigated 2022-11-08, is \"Clean & Lien\" (DPW to Correct Issue).",
    "source": {
     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
-    "pulled_at": "2026-09-27T16:47:46Z",
+    "pulled_at": "2026-09-27T17:10:13Z",
     "sha256": "b350c716801138470488ab6c1261658a0adb4cf2770ac6a8668557c9b667d86c",
     "via": "data/cases/raw/0010K00025000000/violations.json",
     "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
@@ -491,7 +521,7 @@
    "summary": "Checked: not on the City's condemned or dead-end list.",
    "source": {
     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
-    "pulled_at": "2026-09-27T16:47:46Z",
+    "pulled_at": "2026-09-27T17:10:13Z",
     "sha256": "2dbc7c7e33c04baa70af1703580e43cde611a086e7e0c119ecd2c1a49fd74a0d",
     "via": "data/cases/raw/0010K00025000000/condemned.json",
     "dataset": "https://data.wprdc.org/dataset/condemned-properties"
@@ -511,7 +541,7 @@
    "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
    "source": {
     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220010K00025000000%22%7D&limit=200",
-    "pulled_at": "2026-09-27T16:47:47Z",
+    "pulled_at": "2026-09-27T17:10:14Z",
     "sha256": "c7ca323ff640eaf1d8b2ea2226b0d253e14f62283ddf33cce43dd16f10e8aa7b",
     "via": "data/cases/raw/0010K00025000000/liens.json",
     "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
@@ -531,7 +561,7 @@
    "summary": "Found: 12 requests to 311 within about 80 m (URA Property Maintenance, City Owned Property Maintenance); the latest on 2026-03-14: Road Work - Utility Cuts, Construction, Closures, and Obstructions.",
    "source": {
     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22MAHON+ST%22%7D&limit=200&sort=created_date_et+desc",
-    "pulled_at": "2026-09-27T16:47:47Z",
+    "pulled_at": "2026-09-27T17:10:15Z",
     "sha256": "3c58c5c7d61bf34ef01ffdc8047bf48df24742f983273919f7bc65c1af9fc8c0",
     "via": "data/cases/raw/0010K00025000000/311.json",
     "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
@@ -784,6 +814,11 @@
   },
   {
    "kind": "send",
+   "what": "The policy agent's memo on Q4 (RM-M interior side setback 10 → 4 ft) to the Planning Commission",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
    "what": "Letter to City Real Estate: sale status, price, process and timeline",
    "status": "waiting"
   },
@@ -821,7 +856,7 @@
  "verifier": {
   "checked": {
    "quotes": 10,
-   "numbers": 27,
+   "numbers": 43,
    "findings": 9,
    "keys": 1
   },
@@ -837,6 +872,10 @@
   {
    "label": "What-if S2: Narrow-lot side yards for two- and three-unit houses",
    "href": "?view=city&type=two&tab=whatif&whatif=S2"
+  },
+  {
+   "label": "Policy agent Q4: RM-M interior side setback 10 → 4 ft",
+   "href": "?view=city&type=two&tab=whatif&whatif=Q4"
   }
  ],
  "summary": {

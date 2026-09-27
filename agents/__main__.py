@@ -62,9 +62,9 @@ def main(argv: list[str] | None = None) -> int:
 
     m, why, key = _model(args)
     if args.cmd == "steward":
-        from .steward import run
+        from .steward import ask_policy, run
 
-        doc = run(args.pin, args.goal, model=m, model_why=why, key=key)
+        doc = run(args.pin, args.goal, model=m, model_why=why, key=key, policy=ask_policy)
     else:
         from .watch import run as watch
 

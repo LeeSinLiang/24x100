@@ -7,8 +7,8 @@ and the verifier holds every word the agents wrote to it before the case file is
 from __future__ import annotations
 
 import hashlib
-import importlib.util
 import json
+import re
 import subprocess
 import sys
 from typing import Any, TypedDict
@@ -45,6 +45,12 @@ class S(TypedDict, total=False):
     reading: dict[str, Any]
     model: Any
     http: Http
+    ask_policy: Any  # (question, building) -> exit code; only the CLI passes it (a test never asks)
+
+
+def ask_policy(question: str, building: str) -> int:
+    """Run the policy agent (agents/policy) on one question; it writes data/policy/<id>-<slug>.json."""
+    return subprocess.run([sys.executable, "-m", "agents.policy", question, "--building", building], cwd=REPO, capture_output=True, text=True, timeout=900).returncode
 
 
 def _src_file(rel: str) -> dict[str, str]:
@@ -118,16 +124,70 @@ def policy(st: S) -> S:
     if not hits:
         c.step("policy", "tool", "None of the computed what-ifs opens this lot.", tool="scenarios:data/city/scenarios.json", sources=[_src_file("data/city/scenarios.json")])
     c.extra.setdefault("links", []).extend({"label": f"What-if {s['id']}: {s['name']}", "href": f"?view=city&type={r['type']}&tab=whatif&whatif={s['id']}"} for s in hits)
-    # The policy agent (agents/policy.py, built in its own session): called when it's in this checkout.
-    if importlib.util.find_spec("agents.policy") is None:
-        c.step("policy", "tool", "The policy agent isn't in this checkout yet (branch feat/policy-agent); the computed what-ifs stand in.", tool="agents.policy")
-        return st
+    # The policy agent (agents/policy, `python -m agents.policy`): asked once per question, from engine facts only. A
+    # committed run that opens this lot, or that already holds this question, is linked instead of asked again.
+    runs = {f: json.loads(f.read_text()) for f in sorted((REPO / "data" / "policy").glob("q*.json"))}
+    q, derived = question_for(r)
+    hits = [(f, d) for f, d in runs.items() if lot["pin"] in (((d.get("by_type") or {}).get(r["type"]) or {}).get("pins") or []) or d.get("question") == q]
+    ask = st.get("ask_policy")
+    if not hits and st.get("model") is not None and ask is not None:
+        c.step("policy", "tool", f"Asked the policy agent: \"{q}\"", tool="agents.policy", input={"question": q, **derived})
+        rc = ask(q, r["type"])
+        runs = {f: json.loads(f.read_text()) for f in sorted((REPO / "data" / "policy").glob("q*.json"))}
+        hits = [(f, d) for f, d in runs.items() if d.get("question") == q]
+        if not hits:
+            c.step("policy", "tool", f"The policy agent didn't answer (exit {rc}).", tool="agents.policy", ok=False)
+    for f, d in hits:
+        rel = str(f.relative_to(REPO))
+        if d.get("status") == "counted":
+            bt = (d.get("by_type") or {}).get(r["type"]) or {}
+            opens_here = lot["pin"] in (bt.get("pins") or [])
+            c.step("policy", "tool", f"The policy agent's {d['id']}: {d['name']} ({d.get('change', '')}) would open {bt.get('opens', 0)} City-owned lots for a "
+                   f"{r['type_name']}, {'this one among them' if opens_here else 'not this one'}. A what-if, not the law; its memo waits for a person.",
+                   tool="policy:data/policy", input={"what_if": d["id"], "opens": bt.get("opens", 0), "override": d.get("override")}, sources=[_src_file(rel)])
+            c.extra.setdefault("links", []).append({"label": f"Policy agent {d['id']}: {d['name']}", "href": f"?view=city&type={r['type']}&tab=whatif&whatif={d['id']}"})
+            c.gates.append({"kind": "send", "what": f"The policy agent's memo on {d['id']} ({d['name']}) to the Planning Commission", "status": "waiting"})
+        else:
+            c.step("policy", "tool", f"The policy agent's {d['id']} refused: {d.get('reason', 'no single signed rule carries this change')}", tool="policy:data/policy",
+                   input={"what_if": d["id"]}, sources=[_src_file(rel)])
+    if not hits and (st.get("model") is None or ask is None):
+        why = "Planned by rule, no model: the policy agent needs one." if st.get("model") is None else "Not asked in this run."
+        c.step("policy", "tool", why + " To ask it: python -m agents.policy \"" + q + "\" --building " + r["type"] + ".", tool="agents.policy", input={"question": q})
+    return st
     q = f"Which sentence of the Pittsburgh zoning code keeps {lot['addr']} too narrow for a {r['type_name']}, and what would changing it open?"
     out = subprocess.run([sys.executable, "-m", "agents.policy", q, "--building", r["type"]], cwd=REPO, capture_output=True, text=True, timeout=900)
     ok = out.returncode == 0
     c.step("policy", "tool", "The policy agent answered: see its redline and count." if ok else f"The policy agent failed (exit {out.returncode}).",
            tool="agents.policy", input={"question": q}, ok=ok)
     return st
+
+
+FIELD_WORDS = {"side_setback_interior": "interior side setback", "side_setback_exterior": "exterior side setback", "front_setback": "front setback", "rear_setback": "rear setback"}
+
+
+def question_for(r: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """The policy agent's question, from engine facts only. When a setback rule makes the lot too narrow, the value that
+    would let the planned width fit is arithmetic on the engine's own formula ("24 − 10 − 10 = 4", a 16 ft plan →
+    (24 − 16) / 2 = 4 ft); the formula is recorded with the question."""
+    lot, fb = r["lot"], r.get("first_blocker") or {}
+    w = r.get("width") or {}
+    rules = {x["id"]: x for x in r.get("rules", [])}
+    blocker = next((b for b in r.get("blockers", []) if b["id"] == fb.get("id")), None)
+    rule = next((rules[i] for i in (blocker or {}).get("rule_ids", []) if i in rules and rules[i]["field"] in FIELD_WORDS and isinstance(rules[i]["value"], (int, float))), None)
+    terms = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", (w.get("formula") or "").split("=")[0])]
+    if fb.get("id") == "width" and rule and len(terms) >= 2:
+        front, setbacks, v = terms[0], terms[1:], float(rule["value"])
+        k = sum(1 for x in setbacks if x == v)
+        others = sum(setbacks) - k * v
+        target = (front - others - r["proposal_width"]) / k if k else -1
+        if target >= 0 and target < v:
+            t = int(target) if target == int(target) else round(target, 1)
+            formula = f"({front:g} − {others:g} − {r['proposal_width']}) / {k} = {t:g}" if others else f"({front:g} − {r['proposal_width']}) / {k} = {t:g}"
+            return (f"What if {lot['zone']}'s {FIELD_WORDS[rule['field']]} were {t:g} ft instead of {v:g}?",
+                    {"derived": {"value": t, "formula": formula + f": the {FIELD_WORDS[rule['field']]} that lets a {r['proposal_width']} ft plan fit on this lot"}})
+    deed = (lot.get("deed") or {}).get("front")
+    return (f"What change to one signed rule would let a {r['proposal_width']} ft {r['type_name']} fit on {lot['addr']} "
+            f"(lot {lot['lot']}, a {deed} ft wide lot in {lot['zone']})?", {})
 
 
 def drafts(st: S) -> S:
@@ -197,14 +257,14 @@ def graph():
 
 
 def run(pin: str, goal: str = "two", *, model: Any = None, model_why: str = "", key: str | None = None, http: Http = http_get,
-        reading: dict[str, Any] | None = None, write: bool = True) -> dict[str, Any]:
+        reading: dict[str, Any] | None = None, write: bool = True, policy: Any = None) -> dict[str, Any]:
     r = reading or engine.lot(pin, goal)
     if r.get("kind") != "lot":
         raise SystemExit(f"{pin}: {r.get('why', 'no block detail')}")
     lot = r["lot"]
     c = Case(id=pin, goal=f"a {r['type_name']}", lot={k: lot[k] for k in ("pin", "addr", "lot", "block", "hood", "zone", "link")}, run_at=now_utc(),
              model={"id": model.name if model else None, "key": key if model else None, "planned_by": "model" if model else "rule", "why": model_why if not model else "ok"})
-    graph().invoke({"case": c, "reading": r, "model": model, "http": http})
+    graph().invoke({"case": c, "reading": r, "model": model, "http": http, "ask_policy": policy})
     c.extra["rerun"] = f"npm run steward -- {pin} --goal {goal}"
     if write:
         c.write()
