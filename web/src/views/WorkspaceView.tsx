@@ -2,7 +2,8 @@
 // one or two clicks deep. Left rail (layers and filters, or the plan's key), centre canvas (Map · Plan ·
 // Graph · Table), right inspector (header, four tiles, tabs) and a bottom tray. The selection comes
 // from the URL: a lot with block detail, a City lot, a C15 run, a block, or nothing (the city).
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { focusGraph } from '@engine/graph';
 import { cityRoutes } from '@engine/city';
 import { TEMPLATES } from '@engine/templates';
 import type { Parcel } from '@engine/types';
@@ -48,8 +49,12 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   const pinIdx = kind === 'citylot' && s.pin ? cm.idxOf.get(s.pin) ?? null : null;
   const filtered = !!(s.hood || s.sale || s.ward != null || s.zone);
 
-  // The graph (spec §0.15 P1) for a lot or combined group with block detail.
+  // The graph (spec §0.15 P1) for a lot or combined group with block detail, and its focus mode (team review,
+  // round 3): &focus=<node id> keeps only the chain behind that node's decision (engine/src/graph.ts focusGraph).
   const graph = useLotGraph(canvas === 'graph' && kind === 'lot' ? model : null, block);
+  const gfocus = useMemo(() => (graph && model && s.focus ? focusGraph(graph, model.result, s.focus) : null), [graph, model, s.focus]);
+  // On the Graph canvas the inspector folds away until a node is selected, so the drawing has the width.
+  const [graphDetails, setGraphDetails] = useState(false);
 
   // ── Selection handlers ───────────────────────────────────────────────────────────────────────
   const onTab = (t: InspectorTab) => update({ tab: t });
@@ -81,7 +86,22 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   const selectedPins = kind === 'lot' ? model!.result.pins : kind === 'citylot' && s.pin ? [s.pin] : [];
   const runPins = kind === 'run' && s.run ? s.run.split(',') : [];
   let canvasEl;
-  if (canvas === 'graph') canvasEl = <GraphCanvasBody graph={graph} s={s} update={update} />;
+  if (canvas === 'graph')
+    canvasEl = (
+      <GraphCanvasBody
+        graph={graph}
+        focus={gfocus}
+        s={s}
+        update={update}
+        controls={
+          graphDetails && !s.node ? (
+            <button type="button" className="gr-ctl is-text" data-graph-control="fold-details" onClick={() => setGraphDetails(false)} title="Fold the lot's details away: the graph takes the width">
+              Hide lot details
+            </button>
+          ) : null
+        }
+      />
+    );
   else if (canvas === 'map') {
     // P2: the selection's plan (or a run's card) in an inset joined to its dot; double-click opens the Plan view.
     // A City lot without block detail gets its outline (team review, round 3: an inset for every lot).
@@ -132,7 +152,16 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
 
   // ── Inspector ────────────────────────────────────────────────────────────────────────────────
   let inspector;
+  const graphFolded = canvas === 'graph' && kind === 'lot' && !!graph && !(s.node && graph.nodes.some((n) => n.id === s.node)) && !graphDetails;
   if (canvas === 'graph' && graph && s.node && graph.nodes.some((n) => n.id === s.node)) inspector = <GraphInspector graph={graph} s={s} update={update} />;
+  else if (graphFolded)
+    inspector = (
+      <aside className="ws-inspector is-folded" aria-label="Inspector (folded)">
+        <button type="button" className="ws-unfold" onClick={() => setGraphDetails(true)} title="Show the lot's details beside the graph" data-graph-control="lot-details">
+          <span aria-hidden="true">‹</span> Lot details
+        </button>
+      </aside>
+    );
   else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} onStep={onStep} />;
   else if (kind === 'block' && bm) inspector = <BlockInspector block={block!} bm={bm} s={s} onTab={onTab} />;
   else if (kind === 'citylot' && pinIdx != null)
@@ -246,7 +275,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   }
 
   return (
-    <main className={`ws ws-kind-${kind} ws-canvas-${canvas}`} id="main" data-canvas={canvas} data-selection={kind}>
+    <main className={`ws ws-kind-${kind} ws-canvas-${canvas}${graphFolded ? ' ws-ins-folded' : ''}`} id="main" data-canvas={canvas} data-selection={kind}>
       <Rail canvas={canvas === 'table' && s.view !== 'city' ? 'plan' : canvas} s={s} update={update} cm={needCity ? cm : null} runCount={runsOfType?.length ?? null} planType={aType(s.type)} graphFilters={<GraphRailFilters graph={graph} s={s} update={update} />} />
       <section className="ws-canvas" aria-label={`Canvas: ${canvas}`}>
         {canvasEl}

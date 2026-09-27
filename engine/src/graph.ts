@@ -67,7 +67,7 @@ export interface GraphNode {
   /** A rule check that fails or is open, or a lot the engine says is needed to fit. */
   flag?: boolean;
   /** A rule's signature, as recorded: in the review log (`review`), or the rule file's own verification. */
-  signed?: { by: string; role: string; at: string | null; ai: boolean; review: boolean; action: string };
+  signed?: { by: string; role: string; at: string | null; ai: boolean; review: boolean; action: string; note?: string | null };
 }
 
 export interface GraphEdge {
@@ -358,7 +358,7 @@ export function buildGraph(input: GraphInput): LotGraph {
       source: { kind: 'rule', ref: rule.id, url: rule.source_url, pulled: rule.retrieved },
       ai: (rule.ai_checked && !!sig && isAiReviewer(sig.reviewer, sig.role)) || undefined,
       flag: constrains || undefined,
-      signed: sig ? { by: sig.reviewer, role: sig.role, at: sig.at, ai: isAiReviewer(sig.reviewer, sig.role), review: !!sig.entry, action: sig.action } : undefined,
+      signed: sig ? { by: sig.reviewer, role: sig.role, at: sig.at, ai: isAiReviewer(sig.reviewer, sig.role), review: !!sig.entry, action: sig.action, note: sig.note } : undefined,
       detail: [
         { k: 'Rule', v: ruleFieldWords(rule.field) },
         { k: 'Value', v: ruleValueWords(rule) },
@@ -591,6 +591,151 @@ export function buildGraph(input: GraphInput): LotGraph {
   }
 
   return { nodes, edges };
+}
+
+// ─── Focus: the chain behind one decision ────────────────────────────────────────────────────────
+//
+// Team review, round 3: the film's technical beat shows one decision's chain, parcel → rule → exact quote →
+// who reviewed it → the result, and nothing else. focusGraph is a filter over the real graph: it never adds a
+// node or an edge; it keeps the ones the decision rests on. The decision is the engine's checks the focused
+// node bears on (a rule's or a quote's: the checks citing that rule; a dataset's or a neighbour's: the checks
+// whose records came from it; a signer's: the checks of the rules they signed; the lot's: the checks that fail
+// or are open). The result is those checks, as the engine wrote them.
+
+/** Information checks the engine tells as part of another decision: the contextual side setback is the width's
+ *  note (explanation() in engine/src/sentence.ts tells them together; the rules wall shows it only as the width
+ *  row's context), so a width chain includes the contextual rule and the neighbours it looked at, and the other
+ *  way round. Named here by the engine's check ids, which are constants of evaluate(). */
+const TOLD_WITH: Record<string, string[]> = { width: ['contextual'], contextual: ['width'] };
+
+export interface FocusResult {
+  id: string; // the engine's check id
+  label: string;
+  status: CheckStatus;
+  trust: Check['trust'];
+  text: string; // the check's own sentence
+  available: number | null;
+  required: number | null;
+  unit: string;
+}
+
+export interface GraphFocus {
+  /** The focused node. */
+  id: string;
+  /** The decision: the engine's check ids the chain explains. */
+  checks: string[];
+  /** The kept nodes and edges: a subset of the graph, never an addition. */
+  graph: LotGraph;
+  /** The decision's outcome, from the engine's checks (the lot node carries it on the canvas). */
+  result: FocusResult[];
+}
+
+/** The chain behind the focused node's decision, or null when the node isn't in the graph. */
+export function focusGraph(g: LotGraph, r: LotResult, id: string): GraphFocus | null {
+  const node = g.nodes.find((n) => n.id === id);
+  if (!node) return null;
+  const center = g.nodes.find((n) => n.cluster === 'center');
+  const ruleOf = (nid: string) => (nid.startsWith('rule:') ? nid.slice(5) : nid.startsWith('quote:') ? nid.slice(6) : null);
+  const recordsOf = (c: Check) => c.record_ids.map((x) => x.match(/^record:([^:]+):(.+)$/)).filter((m): m is RegExpMatchArray => !!m);
+
+  // 1. The decision: which checks the node bears on.
+  let ids: string[] = [];
+  if (node.type === 'rule' || node.type === 'quote') {
+    const rid = ruleOf(node.id)!;
+    ids = r.checks.filter((c) => c.rule_ids.includes(rid)).map((c) => c.id);
+  } else if (node.type === 'person') {
+    const signed = g.edges.filter((e) => e.kind === 'signed by' && e.to === node.id).map((e) => ruleOf(e.from)!);
+    ids = r.checks.filter((c) => c.rule_ids.some((x) => signed.includes(x))).map((c) => c.id);
+  } else if (node.type === 'source') {
+    const ds = node.id.slice('source:'.length);
+    ids = r.checks.filter((c) => recordsOf(c).some((m) => (FIELD_SOURCES[m[2]] ?? []).some((f) => f.id === ds))).map((c) => c.id);
+  } else if (node.type === 'neighbor') {
+    const pin = node.id.slice('parcel:'.length);
+    ids = r.checks.filter((c) => recordsOf(c).some((m) => m[1] === pin)).map((c) => c.id);
+  } else if (node.type === 'lot') ids = r.checks.filter((c) => CONSTRAINS.includes(c.status)).map((c) => c.id);
+  for (const c of [...ids]) for (const x of TOLD_WITH[c] ?? []) if (!ids.includes(x) && r.checks.some((k) => k.id === x)) ids.push(x);
+  const checks = r.checks.filter((c) => ids.includes(c.id));
+
+  // 2. The chain: the lot, the decision's rules with their quotes and signers, the datasets and neighbours its
+  //    records came from, and the focused node itself (an estimate, a site row or an office keeps its links).
+  const keep = new Set<string>([node.id, ...(center ? [center.id] : [])]);
+  const has = (x: string) => g.nodes.some((n) => n.id === x);
+  for (const c of checks) {
+    for (const rid of c.rule_ids) {
+      if (!has(`rule:${rid}`)) continue;
+      keep.add(`rule:${rid}`);
+      for (const e of g.edges) if (e.from === `rule:${rid}` && (e.kind === 'cites' || e.kind === 'signed by')) keep.add(e.to);
+    }
+    for (const m of recordsOf(c)) {
+      if (has(`parcel:${m[1]}`)) keep.add(`parcel:${m[1]}`);
+      for (const f of FIELD_SOURCES[m[2]] ?? []) if (has(`source:${f.id}`)) keep.add(`source:${f.id}`);
+    }
+  }
+  // The zoning map says which district's rules apply: part of any chain through a rule.
+  if (checks.some((c) => c.rule_ids.length) && has('source:zoning')) keep.add('source:zoning');
+  if (!checks.length) for (const e of g.edges) if (e.from === node.id || e.to === node.id) keep.add(e.from === node.id ? e.to : e.from);
+  const nodes = g.nodes.filter((n) => keep.has(n.id));
+  const edges = g.edges.filter((e) => keep.has(e.from) && keep.has(e.to));
+  return {
+    id: node.id,
+    checks: checks.map((c) => c.id),
+    graph: { nodes, edges },
+    result: checks.map((c) => ({ id: c.id, label: c.label, status: c.status, trust: c.trust, text: c.text, available: c.available, required: c.required, unit: c.unit })),
+  };
+}
+
+/** Where a focused chain's columns sit on a canvas `w` px wide: records on the left, then the lot (with its
+ *  result), the rules with their exact quotes, and who reviewed them. Wide (the inspector folded away): one
+ *  column per step. Narrow (a node's details open beside it): the signers go under the rules, so a quote keeps
+ *  room for its words instead of every label shrinking. The canvas reads the same frame for its headings. */
+export function focusFrame(w: number): { narrow: boolean; records: number; center: number; box: number; rules: number; persons: number | null; textRoom: number } {
+  const narrow = w < 960;
+  const records = narrow ? Math.max(0.24 * w, 168) : 0.2 * w;
+  const box = narrow ? 210 : 250; // the lot's box, px
+  const center = narrow ? records + 30 + box / 2 : 0.37 * w;
+  const rules = narrow ? center + box / 2 + 44 : 0.5 * w;
+  const persons = narrow ? null : 0.9 * w;
+  return { narrow, records, center, box, rules, persons, textRoom: (persons ?? w) - rules - (narrow ? 36 : 96) };
+}
+
+/** A fixed layout for a focused chain: one column per step, each list centred on the lot's row, a rule's quote
+ *  just under it (the quote's words run beside it), each signer level with the rules they signed (narrow: under
+ *  the last rule). */
+export function layoutFocus(g: LotGraph, w: number, h: number): Map<string, { x: number; y: number }> {
+  const F = focusFrame(w);
+  const pos = new Map<string, { x: number; y: number }>();
+  const put = (id: string, x: number, y: number) => pos.set(id, { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 });
+  const of = (t: NodeType) => g.nodes.filter((n) => n.type === t);
+  const mid = 0.5 * h;
+  for (const n of g.nodes.filter((x) => x.cluster === 'center')) put(n.id, F.center, mid);
+  const records = [...of('source'), ...of('neighbor')];
+  const rstep = Math.min(62, (0.7 * h) / Math.max(1, records.length - 1));
+  records.forEach((n, i) => put(n.id, F.records, mid + (i - (records.length - 1) / 2) * rstep));
+  // A rule and its quote take one band: the rule's line, then the quote's words (up to four lines).
+  const rules = of('rule');
+  const persons = of('person');
+  const spare = F.narrow ? 70 * persons.length : 0;
+  const band = Math.min(F.narrow ? 124 : 160, (0.7 * h - spare) / Math.max(1, rules.length));
+  const top = mid - (band * rules.length + spare) / 2 + 12;
+  rules.forEach((n, i) => {
+    const y = top + band * i;
+    put(n.id, F.rules, y);
+    const q = g.edges.find((e) => e.kind === 'cites' && e.from === n.id);
+    if (q) put(q.to, F.rules, y + 34);
+  });
+  const taken: number[] = [];
+  persons.forEach((p, i) => {
+    if (F.persons == null) return put(p.id, F.rules + 40 + i * 150, top + band * rules.length + 10);
+    const ys = g.edges.filter((e) => e.kind === 'signed by' && e.to === p.id).map((e) => pos.get(e.from)?.y ?? 0);
+    let y = ys.length ? (Math.min(...ys) + Math.max(...ys)) / 2 : top;
+    while (taken.some((t) => Math.abs(t - y) < 56)) y += 56;
+    taken.push(y);
+    put(p.id, F.persons, y);
+  });
+  // Anything else kept (an estimate, a site row, an office): under the lot, in a row.
+  const rest = g.nodes.filter((n) => !pos.has(n.id));
+  rest.forEach((n, i) => put(n.id, spread(rest.length, 0.3 * w, 0.62 * w, i), 0.88 * h));
+  return pos;
 }
 
 // ─── Layout: fixed clusters ────────────────────────────────────────────────────────────────────
