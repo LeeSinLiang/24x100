@@ -52,13 +52,13 @@ Other checks, all passing at the time of writing:
 
 | Criterion | Round 1 (/20) | Round 2 (/20) |
 |---|---:|---:|
-| Problem value | 16 | _pending_ |
-| Usability | 16 | _pending_ |
-| Technical execution | 15 | _pending_ |
-| Data & AI integrity | 14 | _pending_ |
-| Actionability | 13 | _pending_ |
-| Continuation | 12 | _pending_ |
-| **Total** | **86/120** | _pending_ |
+| Problem value | 16 | 16 |
+| Usability | 16 | 13 |
+| Technical execution | 15 | 15 |
+| Data & AI integrity | 14 | 15 |
+| Actionability | 13 | 14 |
+| Continuation | 12 | 12 |
+| **Total** | **86/120** | **85/120** |
 
 Round 1's two weakest were Continuation and Actionability. What changed in response:
 - One letter per office, with City Real Estate correctly routed and no money or "hardship" sent to the Zoning
@@ -71,7 +71,12 @@ Round 1's two weakest were Continuation and Actionability. What changed in respo
 - Honest answer-key labels.
 - Search covers every City lot.
 
-These are AI agents role-playing judges, not people.
+Round 2 judged the workspace build. Usability fell by three: the unlock sat behind tabs, the phone verdict was
+below the plan, and present mode didn't scale. Actionability and integrity each rose by one. After round 2, the
+way forward moved to the first screen, and the per-home subsidy gap, the letter fixes, the AI-signature warning
+and the layout fixes landed. See the "Round 2" section of `docs/judge-panel.md` for what changed and what didn't
+(the variance wording and the AI-checked ink are the team's decisions). These are AI agents role-playing judges,
+not people.
 
 ## Real, partial, cut
 
