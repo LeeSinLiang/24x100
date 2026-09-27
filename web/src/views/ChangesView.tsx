@@ -59,11 +59,24 @@ function val(v: unknown): string {
   if (v == null || v === '') return '—';
   if (typeof v === 'number') return v.toLocaleString('en-US');
   if (typeof v === 'string') return /^\d{4}-\d{2}-\d{2}$/.test(v) ? dateFmt(v) : v;
+  if (Array.isArray(v)) return v.length ? v.join(', ') : 'none';
   return JSON.stringify(v);
 }
 
+/** A list that changed, in words: "added Children's Way" rather than two arrays. */
+function listDiff(before: unknown, after: unknown): string | null {
+  if (!Array.isArray(before) || !Array.isArray(after)) return null;
+  const b = new Set(before.map(String));
+  const a = new Set(after.map(String));
+  const added = [...a].filter((x) => !b.has(x));
+  const removed = [...b].filter((x) => !a.has(x));
+  const parts = [added.length ? `added ${added.join(', ')}` : '', removed.length ? `removed ${removed.join(', ')}` : ''].filter(Boolean);
+  return parts.length ? parts.join('; ') : 'reordered';
+}
+
+const FIELD_WORDS: Record<string, string> = { 'streets.names': 'street names nearby (OpenStreetMap)', city: 'City-owned lot' };
 function words(s: string): string {
-  return s.replace(/[_.]/g, ' ').replace(/\s+/g, ' ').trim();
+  return FIELD_WORDS[s] ?? s.replace(/[_.]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 function blockLot(c: Change): { href: string; label: string } | null {
@@ -192,6 +205,8 @@ function Differences({ f, idPrefix }: { f: RefreshFile; idPrefix: string }) {
                           <>{val(c.after)} (new)</>
                         ) : c.after == null || c.after === '' ? (
                           <>{val(c.before)} (gone)</>
+                        ) : listDiff(c.before, c.after) ? (
+                          <span title={`${val(c.before)} → ${val(c.after)}`}>{listDiff(c.before, c.after)}</span>
                         ) : (
                           <>
                             {val(c.before)} <span aria-label="became">→</span> {val(c.after)}
