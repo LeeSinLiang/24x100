@@ -31,23 +31,28 @@ things in; which barrier blocks more often is unproven.
 
 ## What it does
 
-- **City → block → lot.** The first screen maps every City-owned vacant lot, colored by what blocks it for
-  the building you choose. Districts whose rules haven't been checked stay grey: "rules not loaded". Never a
-  guess.
-- **What fits · What blocks it · What to do next** for any lot on a loaded block, with a plate drawn from the
-  City's parcel polygons: every lot's buildable envelope, edge labels, ownership coins. No score: a verdict in
-  words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right", "Worth a closer look, if …") with
-  three chips, Money · Rules · Site.
-- **Four panels, in the order a developer checks them.** Money (a practitioner's vertical-construction
-  estimate against the newest new-build sale: what's left for site work, soft costs and land), Rules (a ledger: required ·
-  available · short · source, and the specific relief), Site (soil, environmental, water and sewer: not assessed,
-  with the free signal and what resolves each), and What to check next, cheapest first.
+- **One screen.** A workspace: search, the building type and **Map · Plan · Graph · Table** across the top;
+  layers and filters on the left; the canvas in the middle; an inspector on the right that follows what you
+  pick (a status, one plain sentence, four numbers, then Money · Rules · Site · Next · Sources); and a tray at
+  the bottom with what to check next, an evidence timeline and what changed. Light (paper) by default, dark
+  (cyanotype) on a toggle.
+- **City → block → lot.** The Map shows every City-owned vacant lot, colored by what blocks it for the building
+  you choose. Districts whose rules haven't been checked stay grey: "rules not loaded". Never a guess. Pick a lot
+  and its plan appears in an inset joined to its dot.
+- **The Plan** is drawn from the City's parcel polygons: every lot's buildable envelope, edge labels, ownership
+  coins. No score: a verdict in words ("Can't tell yet", "Only with subsidy", "Doesn't fit as of right",
+  "Worth a closer look, if …") with three chips, Money · Rules · Site, checked in that order.
+- **The Graph** links the lot to the rules that constrain it (each with its verbatim quote and who signed it),
+  the datasets behind it (with pull times), the cost estimates and the sale, the site checks and the offices
+  to write to. Every node is a real record.
+- **Combine to fit.** Across the city, which City-owned lots fit as of right when combined with the vacant lots
+  beside them on the same block face, and what kind of owner holds each missing piece (owner type, never names).
 - **AI reads the code; people decide.** A model (Gemini by default, Claude optional, through LangChain)
   proposes typed rules from the saved code text, each tied to a verbatim quote. They stay pencil until a named
   person signs them. Ambiguous clauses become questions for the City; an assumed answer is red, never ink.
-- **The letter.** A one-page inquiry to City Real Estate, the Zoning Administrator, the RCO and the URA, built
-  only from engine facts. Every number is checked against the engine before you can copy it. It is a draft;
-  nothing is ever sent for you.
+- **The letters.** One short draft per office (City Real Estate, the Zoning Administrator, the URA, the RCO, and
+  the County when records disagree), each with only what that office needs, built from engine facts. Every
+  number is checked against the engine before you can copy it. Nothing is ever sent for you.
 - **It keeps watching.** `npm run refresh` re-pulls every dataset and shows what changed in pencil. A static
   JSON API serves every lot. An optional watchlist digest (Slack or email) is off by default and previews as a
   dry run.
@@ -71,9 +76,10 @@ npm run dev            # http://localhost:5173
 | `npm run demo -- --record` | One 1920×1080 clip per storyboard beat in `film/clips/` |
 
 Deep links reproduce every state: `?view=lot&block=10K&lot=25&type=two`,
-`?view=lot&block=10K&lot=25&type=three&lots=25,26,27`, `?view=review&district=R1D-H`,
-`?view=inquiry&block=10K&lot=25&type=three&lots=25,26,27`. Add `&present=1` for a projector or `&record=1` for
-a fixed 1920×1080 recording stage. `STORYBOARD.md` lists all twelve beats.
+`?view=lot&block=10K&lot=25&type=three&lots=25,26,27` (add `&canvas=map`, `graph` or `table`),
+`?view=city&type=three&layer=assemble`, `?view=review&district=R1D-H`,
+`?view=inquiry&block=10K&lot=25&type=three&lots=25,26,27`. Add `&theme=dark`, `&present=1` for a projector or
+`&record=1` for a fixed 1920×1080 recording stage. `STORYBOARD.md` lists the beats.
 
 ## Data sources
 
