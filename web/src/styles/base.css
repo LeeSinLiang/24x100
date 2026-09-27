@@ -1637,6 +1637,13 @@ button.numeral {
   background: repeating-linear-gradient(120deg, var(--est) 0 1px, transparent 1px 4px);
   border: 1px solid var(--est);
 }
+.bar-row.is-quote .bar-vertical {
+  background: var(--red);
+  border-color: var(--red);
+}
+.bar-row.is-quote .bar-val-on {
+  color: var(--red);
+}
 .bar-sig {
   position: absolute;
   top: 1px;
@@ -1729,6 +1736,12 @@ button.numeral {
   box-shadow: inset 0 0 0 2px var(--sheet), inset 0 0 0 3px var(--est);
   transform: rotate(-3deg);
   margin: 2px 0 6px 12px;
+}
+/* The user's own builder's quote decided it: red (theirs, not checked), never the estimate's violet. */
+.stamp-subsidy.is-quote {
+  color: var(--red);
+  border-color: var(--red);
+  box-shadow: inset 0 0 0 2px var(--sheet), inset 0 0 0 3px var(--red);
 }
 .stamp-subsidy small {
   font-size: 9.5px;

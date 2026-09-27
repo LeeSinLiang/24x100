@@ -241,3 +241,22 @@ describe('inquiry', () => {
     });
   });
 });
+
+describe("letters with the user's builder's quote", () => {
+  it('the URA letter states "our builder quoted $140 per sq ft (not verified)" in red, and every number still traces', () => {
+    const r = evaluate(ctx, scen(b, 'three', [25, 26, 27]));
+    const m = moneyFor(r, { comps, hud, assumptions }, 140);
+    const inq = buildInquiry(r, b, ctx.rs, m, '2026-09-27', DEFAULT_SETTINGS);
+    expect(inq.check.unknown).toEqual([]);
+    const ura = letter(inq, 'ura');
+    const items = ura.sections.flatMap((x) => x.items);
+    const q = items.find((i) => i.text.startsWith('Our builder quoted $140 per sq ft (not verified)'))!;
+    expect(q.trust).toBe('red');
+    expect(q.text).toContain('$189,000 per home, which leaves $51,000');
+    expect(items.some((i) => /at our builder's quote \(not verified\) comes to/.test(i.text))).toBe(true);
+    // The practitioner's estimate is still in the letter, beside the quote.
+    expect(items.some((i) => i.trust === 'estimate' && /\$200–\$250 per sq ft/.test(i.text))).toBe(true);
+    // Never in the Zoning Administrator's letter: no money there.
+    expect(letter(inq, 'zoning').sections.flatMap((x) => x.items).some((i) => /quoted/.test(i.text))).toBe(false);
+  });
+});

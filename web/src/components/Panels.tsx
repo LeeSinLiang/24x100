@@ -65,7 +65,9 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
   const V = m.new_build.value;
   const A = m.estimates.find((e) => e.default) ?? m.estimates[0];
   const stamp = MONEY_STAMP[m.money_verdict];
-  const max = Math.max(V, ...m.estimates.map((e) => e.vertical[1])) * 1.06;
+  // The user's builder's quote (red) sits above the practitioner's estimates, never instead of them.
+  const rows = m.quote ? [m.quote, ...m.estimates] : m.estimates;
+  const max = Math.max(V, ...rows.map((e) => e.vertical[1])) * 1.06;
   const x = (v: number) => `${(Math.max(0, v) / max) * 100}%`;
   return (
     <section className="wall money-wall" aria-labelledby="money-h" data-panel="money">
@@ -74,9 +76,9 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
           Money <span className="wall-sub">checked first · screening estimate</span>
         </h2>
         {stamp && (
-          <span className="stamp stamp-subsidy" data-stamp={m.money_verdict}>
+          <span className={`stamp stamp-subsidy${m.quote ? ' is-quote' : ''}`} data-stamp={m.money_verdict}>
             {stamp[0]}
-            <small>{stamp[1]}</small>
+            <small>{m.quote ? 'your builder’s quote' : stamp[1]}</small>
           </span>
         )}
       </header>
@@ -85,10 +87,12 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
           their sources. Prices are rows keyed by id, so a second price line can be added without a relayout. */}
       <div className="money-top">
         <div className="bars" role="img" aria-label={`Building cost per home at each estimate against a new-build sale of ${money(V)}.`}>
-        {m.estimates.map((e) => (
-          <div className="bar-row" key={e.id}>
-            <span className="bar-label est">
-              {e.id === 'prod' ? (
+        {rows.map((e) => (
+          <div className={`bar-row${e.id === 'quote' ? ' is-quote' : ''}`} key={e.id} data-bar={e.id}>
+            <span className={`bar-label ${e.id === 'quote' ? 'red-text' : 'est'}`}>
+              {e.id === 'quote' ? (
+                `Your builder’s quote, $${e.psf[0]}/sf`
+              ) : e.id === 'prod' ? (
                 <>
                   Hypothetical production builder <span className="bar-spec">speculative</span>
                 </>

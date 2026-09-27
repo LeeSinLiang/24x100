@@ -94,7 +94,7 @@ export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: Au
     const comps = block.meta.ward != null ? COMPS_BY_WARD[block.meta.ward] : undefined;
     const wards = Object.keys(COMPS_BY_WARD).join(', ');
     const moneyGap = !HUD || !ASSUMPTIONS.length ? 'money data not loaded' : !comps ? `comparable sales are loaded for Ward ${wards || '—'} only; this lot is in Ward ${block.meta.ward ?? 'unknown'}` : null;
-    const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, { comps, hud: HUD!, assumptions: ASSUMPTIONS }) : null;
+    const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, { comps, hud: HUD!, assumptions: ASSUMPTIONS }, s.quote) : null;
     // The variance line's context (team decision, 27 Sep): how many lots on this street fail the same way, and
     // how many City lots citywide are too narrow while big enough (build-time summary).
     const sameZone = row.filter((x) => x.parcel.zone === sel.zone);
@@ -108,7 +108,7 @@ export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: Au
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
     const inquiry = buildInquiry(result, block, ctx.rs, money, today, ctx.settings, vctx);
     return { ctx, scenario, result, row, unlock, money, moneyGap, verdict, site, inquiry, vctx };
-  }, [block, s.lot, s.lots.join(','), s.type, s.w, s.d, s.st, s.h, s.tol, audit]);
+  }, [block, s.lot, s.lots.join(','), s.type, s.w, s.d, s.st, s.h, s.tol, s.quote, audit]);
 }
 
 export const TYPE_ORDER: TemplateId[] = ['detached', 'two', 'row', 'three'];

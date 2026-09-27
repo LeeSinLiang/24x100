@@ -148,7 +148,7 @@ function allowedNumbers(r: LotResult, m: MoneyResult | null, rs: RuleSet, block:
   for (const rule of rs.rules) if (typeof rule.value === 'number') add(rule.value);
   if (m) {
     [m.gap?.lo, m.gap?.hi, ...(m.gap ? numbersIn(m.gap.formula) : []), m.homes, m.sqft, m.swing, m.site_work.lo, m.site_work.hi, m.with_assumptions.lo, m.with_assumptions.hi, m.comps.median, m.comps.q1, m.comps.q3, m.comps.count, m.affordable.price, m.affordable.income, m.affordable.household, m.new_build?.value].forEach(add);
-    for (const e of m.estimates) [...e.psf, ...e.vertical, ...e.left, -e.left[0], -e.left[1]].forEach(add);
+    for (const e of [...m.estimates, ...(m.quote ? [m.quote] : [])]) [...e.psf, ...e.vertical, ...e.left, -e.left[0], -e.left[1]].forEach(add);
     [m.with_assumptions.soft * 100, m.with_assumptions.financing * 100, m.site_work.lo / 1000, m.site_work.hi / 1000, Math.round(m.swing / 1000)].forEach(add);
     for (const sig of [...m.context, ...(m.new_build ? [m.new_build] : [])]) numbersIn(sig.label).forEach(add);
   }
@@ -594,6 +594,13 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
     const u = (n: number) => usd(n, 100);
     if (m.new_build) {
       moneyItems.push({ text: `What a new home here sells for: ${m.new_build.label}, ${usd(m.new_build.value)} (${m.new_build.note}).`, trust: 'ink' });
+      if (m.quote) {
+        const q = m.quote;
+        moneyItems.push({
+          text: `Our builder quoted $${q.psf[0]} per sq ft (not verified): × ${m.sqft.toLocaleString('en-US')} sq ft = ${u(q.vertical[0])} per home, ${q.left[0] < 0 ? 'more than that sale: nothing is left for site work, soft costs and land' : `which leaves ${u(q.left[0])} for site work, soft costs and land`}.`,
+          trust: 'red',
+        });
+      }
       for (const e of m.estimates) {
         const left = e.left[0] < 0 ? null : e.left[1] < 0 ? `at most ${u(e.left[0])}` : e.left[0] === e.left[1] ? u(e.left[0]) : `${u(e.left[1])}–${u(e.left[0])}`;
         const who = e.supplied_by.replace(/, unconfirmed$/, '');
@@ -623,13 +630,13 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
             heading: 'Our assumptions',
             items: [
               {
-                text: `Soft costs (${Math.round(m.with_assumptions.soft * 100)}%) and financing (${Math.round(m.with_assumptions.financing * 100)}%) are our assumptions and are left out of what's left; with them, construction at the practitioner's estimate comes to ${usd(m.with_assumptions.lo, 100)}–${usd(m.with_assumptions.hi, 100)} per home, still without site work or land.`,
+                text: `Soft costs (${Math.round(m.with_assumptions.soft * 100)}%) and financing (${Math.round(m.with_assumptions.financing * 100)}%) are our assumptions and are left out of what's left; with them, construction ${m.quote ? `at our builder's quote (not verified) comes to ${usd(m.with_assumptions.lo, 100)}` : `at the practitioner's estimate comes to ${usd(m.with_assumptions.lo, 100)}–${usd(m.with_assumptions.hi, 100)}`} per home, still without site work or land.`,
                 trust: 'red',
               },
               ...(m.gap
                 ? [
                     {
-                      text: `So our screening estimate of the subsidy each home would need, before land, is ${usd(m.gap.lo, 100)}–${usd(m.gap.hi, 100)}: ${m.gap.formula}. It rests on the practitioner's cost estimate, typical site work and our assumptions above; a builder's price would replace it.`,
+                      text: `So our screening estimate of the subsidy each home would need, before land, is ${usd(m.gap.lo, 100)}–${usd(m.gap.hi, 100)}: ${m.gap.formula}. ${m.quote ? "It rests on our builder's quote (not verified), typical site work and our assumptions above." : "It rests on the practitioner's cost estimate, typical site work and our assumptions above; a builder's price would replace it."}`,
                       trust: 'red' as const,
                     },
                   ]

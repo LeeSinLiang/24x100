@@ -217,3 +217,31 @@ export function runsFor(
   }
   return out;
 }
+
+/** The most lot groups that share no lot (the groups that overlap are alternatives): exact, by trying every subset of
+ *  each cluster of overlapping groups. Refuses (null) rather than guess if a cluster is too big to try exhaustively. */
+export function maxDisjoint(runs: { pins: string[] }[]): number | null {
+  const n = runs.length;
+  const adj = runs.map((a, i) => new Set(runs.map((b, j) => (i !== j && b.pins.some((p) => a.pins.includes(p)) ? j : -1)).filter((j) => j >= 0)));
+  const seen = new Set<number>();
+  let total = 0;
+  for (let i = 0; i < n; i++) {
+    if (seen.has(i)) continue;
+    const comp: number[] = [];
+    const stack = [i];
+    seen.add(i);
+    while (stack.length) {
+      const x = stack.pop()!;
+      comp.push(x);
+      for (const y of adj[x]) if (!seen.has(y)) (seen.add(y), stack.push(y));
+    }
+    if (comp.length > 20) return null;
+    let best = 0;
+    for (let mask = 1; mask < 1 << comp.length; mask++) {
+      const pick = comp.filter((_, k) => mask & (1 << k));
+      if (pick.length > best && pick.every((a, x) => pick.every((b, y) => x === y || !adj[a].has(b)))) best = pick.length;
+    }
+    total += best;
+  }
+  return total;
+}

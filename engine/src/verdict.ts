@@ -61,18 +61,21 @@ export function varianceWords(sideSetbacks: boolean, ctx: VarianceContext = {}, 
 
 export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string | null, block: BlockFile, vctx: VarianceContext = {}): Verdict {
   const chips: VerdictChip[] = [];
-  // Money: what a new-build sale leaves after vertical construction, at the practitioner estimate (A).
-  const A = m?.estimates.find((e) => e.default);
+  // Money: what a new-build sale leaves after vertical construction, at the practitioner estimate (A), or at the
+  // user's own builder's quote when they gave one (red: theirs, not checked).
+  const A = m?.quote ?? m?.estimates.find((e) => e.default);
+  const by = m?.quote ? 'your builder’s quote, not checked' : "practitioner's estimate";
   if (m && A && m.money_verdict !== 'no_new_build') {
+    const leftRange = A.left[0] === A.left[1] ? usd(A.left[0], 100) : `${usd(A.left[1], 100)}–${usd(A.left[0], 100)}`;
     const words =
       m.money_verdict === 'only_with_subsidy'
         ? A.left[0] < 0
-          ? "nothing left: building alone costs more than the best new-build sale (practitioner's estimate)"
-          : `at most ${usd(A.left[0], 100)} left per home for site work, soft costs and land (practitioner's estimate), under the $${Math.round(m.site_work.lo / 1000)}k typical site work`
+          ? `nothing left: building alone costs more than the best new-build sale (${by})`
+          : `at most ${usd(A.left[0], 100)} left per home for site work, soft costs and land (${by}), under the $${Math.round(m.site_work.lo / 1000)}k typical site work`
         : m.money_verdict === 'worth_pricing_site'
-          ? `${usd(A.left[1], 100)}–${usd(A.left[0], 100)} left per home for site work, soft costs and land (practitioner's estimate)`
-          : `left per home depends on the builder: ${usd(A.left[0], 100)} at best, ${A.left[1] < 0 ? 'nothing' : usd(A.left[1], 100)} at worst (practitioner's estimate)`;
-    chips.push({ id: 'money', state: m.money_verdict === 'only_with_subsidy' ? 'blocks' : m.money_verdict === 'worth_pricing_site' ? 'clear' : 'open', words, evidence: 'estimate' });
+          ? `${leftRange} left per home for site work, soft costs and land (${by})`
+          : `left per home depends on the builder: ${usd(A.left[0], 100)} at best, ${A.left[1] < 0 ? 'nothing' : usd(A.left[1], 100)} at worst (${by})`;
+    chips.push({ id: 'money', state: m.money_verdict === 'only_with_subsidy' ? 'blocks' : m.money_verdict === 'worth_pricing_site' ? 'clear' : 'open', words, evidence: m.quote ? 'red' : 'estimate' });
   } else chips.push({ id: 'money', state: 'unknown', words: `not assessed: ${m && m.money_verdict === 'no_new_build' ? 'no recent new-build sale in this ward' : moneyGap ?? (r.state !== 'ok' ? 'the lot is not scored' : 'no money data')}`, evidence: 'unknown' });
 
   // Rules.
@@ -116,7 +119,9 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
           : (r.refusal?.reason ?? 'This scenario could not be scored.');
   } else if (m && m.money_verdict === 'only_with_subsidy') {
     headline = 'only_with_subsidy';
-    detail = `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : `at most ${usd(A!.left[0], 100)}`} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`;
+    detail = m.quote
+      ? `At your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked), building one home costs ${usd(A!.vertical[0], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : usd(A!.left[0], 100)} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`
+      : `At a practitioner's estimate (${usd(A!.psf[0], 1)}–${usd(A!.psf[1], 1)}/sq ft), building one home costs ${usd(A!.vertical[0], 100)}–${usd(A!.vertical[1], 100)}; the newest new build sold for ${usd(m.new_build!.value)}. That leaves ${A!.left[0] < 0 ? 'nothing' : `at most ${usd(A!.left[0], 100)}`} for site work, soft costs and land, before site work that typically runs ${usd(m.site_work.lo)}–${usd(m.site_work.hi)}.`;
   } else if (dimFail || useNo) {
     headline = 'doesnt_fit';
     const useLine = useNo ? `${useInk ? 'The use table says' : 'An unreviewed reading of the use table says'} this building type isn't permitted here; a use variance from the Zoning Board of Adjustment is a possible route, not approval.` : '';
@@ -126,7 +131,9 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
     detail = `At the practitioner's estimate what's left per home runs from ${usd(A!.left[0], 100)} to ${A!.left[1] < 0 ? 'nothing' : usd(A!.left[1], 100)}: a builder's price decides it.`;
   } else if (m && m.money_verdict === 'worth_pricing_site') {
     headline = 'worth_pricing_site';
-    detail = `At the practitioner's estimate, ${usd(A!.left[1], 100)}–${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`;
+    detail = m.quote
+      ? `At your builder's quote (${usd(A!.psf[0], 1)}/sq ft, yours, not checked), ${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`
+      : `At the practitioner's estimate, ${usd(A!.left[1], 100)}–${usd(A!.left[0], 100)} is left per home, which covers typical site work (${usd(m.site_work.lo)}–${usd(m.site_work.hi)}, not a cap). Price the site next.`;
   } else {
     headline = 'worth_a_look';
     if (!m || m.money_verdict === 'no_new_build') conditions.push(`the money works (${moneyGap ?? 'no recent new-build sale to compare'})`);

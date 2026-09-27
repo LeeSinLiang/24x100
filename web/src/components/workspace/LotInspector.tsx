@@ -17,6 +17,7 @@ import { MoneySources, RecordList, RuleSources } from './Sources';
 import { stepFromText, type Step } from './Tray';
 import { whatIfLine } from '../city/WhatIfs';
 import { WatchToggle } from '../WatchToggle';
+import { QuoteForm } from './QuoteForm';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 
@@ -72,7 +73,10 @@ function LotTiles({ model }: { model: LotModel }) {
   const lo = pending ? Math.min(v, alt!.available) : v;
   const hi = pending ? Math.max(v, alt!.available) : v;
   const ask = pending ? getQuestion(model.ctx.rs, alt!.question_id)?.question.ask ?? 'the City' : null;
-  const A = m?.estimates.find((e) => e.default) ?? m?.estimates[0];
+  // The deciding estimate: the user's builder's quote when given (red, theirs), else the practitioner's.
+  const Q = m?.quote ?? null;
+  const A = Q ?? m?.estimates.find((e) => e.default) ?? m?.estimates[0];
+  const tt = Q ? 'red' : 'estimate';
   const moneyWhy = m ? 'no recent new-build sale in this ward' : model.moneyGap ?? 'no money data';
   return (
     <>
@@ -126,11 +130,11 @@ function LotTiles({ model }: { model: LotModel }) {
           id="cost"
           label={`Build cost · ${m!.sqft.toLocaleString('en-US')} sf home`}
           title={`${A.label}: ${A.psf[0] === A.psf[1] ? `$${A.psf[0]}` : `$${A.psf[0]}–$${A.psf[1]}`}/sq ft × ${m!.sqft.toLocaleString('en-US')} sq ft. ${A.note} Source: ${A.supplied_by}.`}
-          className="is-est"
+          className={Q ? 'is-quote' : 'is-est'}
           value={
-            <span data-trust="estimate">
-              <EstimateMark />
-              <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
+            <span data-trust={tt}>
+              {Q ? null : <EstimateMark />}
+              <Ev trust={tt} {...(Q ? {} : { refId: `money:estimate:${A.id}` })} num>
                 {A.vertical[0] === A.vertical[1] ? (
                   kFmt(A.vertical[0])
                 ) : (
@@ -143,7 +147,7 @@ function LotTiles({ model }: { model: LotModel }) {
               </Ev>
             </span>
           }
-          sub={<span className="est">{A.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')}</span>}
+          sub={Q ? <span className="red-text">your builder’s quote, ${Q.psf[0]}/sf</span> : <span className="est">{A.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')}</span>}
         />
       ) : (
         <Tile id="cost" label="Build cost per home" value={<Dash why={moneyWhy} />} sub="not assessed" title={moneyWhy} className="is-na" />
@@ -174,11 +178,11 @@ function LotTiles({ model }: { model: LotModel }) {
         <Tile
           id="left"
           label="Left after building"
-          className="is-est"
-          title={`${A.formula}. Before site work, soft costs and land; a practitioner's estimate.`}
+          className={Q ? 'is-quote' : 'is-est'}
+          title={`${A.formula}. Before site work, soft costs and land; ${Q ? 'your builder’s quote, not checked' : "a practitioner's estimate"}.`}
           value={
-            <span data-trust="estimate">
-              <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
+            <span data-trust={tt}>
+              <Ev trust={tt} {...(Q ? {} : { refId: `money:estimate:${A.id}` })} num>
                 {A.left[0] === A.left[1] ? (
                   kFmt(A.left[0])
                 ) : (
@@ -189,7 +193,7 @@ function LotTiles({ model }: { model: LotModel }) {
               </Ev>
             </span>
           }
-          sub={<span className="est">{A.left[0] < 0 ? 'nothing left, per home' : 'per home'}</span>}
+          sub={<span className={Q ? 'red-text' : 'est'}>{A.left[0] < 0 ? 'nothing left, per home' : 'per home'}{Q ? ', at your quote' : ''}</span>}
         />
       ) : (
         <Tile id="left" label="Left after building" value={<Dash why={moneyWhy} />} sub="not assessed" title={moneyWhy} className="is-na" />
@@ -367,6 +371,7 @@ export function LotInspector({
   onTab,
   onTry,
   onStep,
+  update,
 }: {
   model: LotModel;
   block: BlockFile;
@@ -374,6 +379,7 @@ export function LotInspector({
   onTab: (t: InspectorTab) => void;
   onTry: (o: UnlockOption) => void;
   onStep: (i: number) => void; // choose a step of the route (0-based): the Next tab shows its detail
+  update?: (p: Partial<UrlState>, o?: { push?: boolean }) => void; // the builder's quote
 }) {
   const r = model.result;
   const v = model.verdict;
@@ -427,6 +433,7 @@ export function LotInspector({
       glyph: glyphOf(chip('money')),
       panel: (
         <>
+          {model.money?.new_build && update ? <QuoteForm s={s} update={update} /> : null}
           <MoneyPanel result={r} m={model.money} gap={model.moneyGap} />
         </>
       ),
@@ -510,7 +517,7 @@ export function LotInspector({
   return (
     <InspectorShell
       title={title}
-      status={<VerdictStamp headline={v.headline} refusal={r.refusal?.code} />}
+      status={<VerdictStamp headline={v.headline} refusal={r.refusal?.code} quote={!!model.money?.quote} />}
       statusDetail={
         <>
           <Label as="h3">What blocks it</Label>

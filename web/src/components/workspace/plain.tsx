@@ -47,7 +47,7 @@ const n = (v: number) => v.toLocaleString('en-US');
 // ── The status chip: the engine's verdict words, as a stamp ──────────────────────────────────────
 const MONEY_HEADLINES: Headline[] = ['only_with_subsidy', 'depends_on_builder', 'worth_pricing_site'];
 
-export function VerdictStamp({ headline, refusal }: { headline: Headline; refusal?: string | null }) {
+export function VerdictStamp({ headline, refusal, quote }: { headline: Headline; refusal?: string | null; quote?: boolean }) {
   if (headline === 'cant_tell') {
     const grey = refusal === 'missing_rule';
     return (
@@ -59,10 +59,12 @@ export function VerdictStamp({ headline, refusal }: { headline: Headline; refusa
   const words = HEADLINE_WORDS[headline];
   const m = words.match(/^(.*?)\s*\((screening estimate)\)$/);
   const est = MONEY_HEADLINES.includes(headline);
+  // With the user's own builder's quote, the money verdict is theirs: red, and it says so.
+  const mine = est && quote;
   return (
-    <span className={`stamp ws-stamp ${est ? 'stamp-subsidy' : 'stamp-ink'}`} data-verdict={headline} title={/as of right/.test(words) ? `${words}. ${GLOSSARY.asofright}` : words}>
+    <span className={`stamp ws-stamp ${mine ? 'stamp-subsidy is-quote' : est ? 'stamp-subsidy' : 'stamp-ink'}`} data-verdict={headline} data-quote={mine ? '1' : undefined} title={/as of right/.test(words) ? `${words}. ${GLOSSARY.asofright}` : words}>
       {(m ? m[1] : words).toUpperCase()}
-      {m && <small>{m[2]}</small>}
+      {m && <small>{mine ? 'your builder’s quote' : m[2]}</small>}
     </span>
   );
 }
@@ -77,27 +79,30 @@ function lotsPhrase(r: LotResult, block: BlockFile): string {
 function moneyClause(m: MoneyResult | null): ReactNode {
   if (!m) return <>money isn’t checked for this lot</>;
   if (m.money_verdict === 'no_new_build' || !m.new_build) return <>there is no recent new-build sale in this ward to compare</>;
-  const A = m.estimates.find((e) => e.default) ?? m.estimates[0];
+  // The deciding estimate: the user's builder's quote when given (red, theirs), else the practitioner's.
+  const A = m.quote ?? m.estimates.find((e) => e.default) ?? m.estimates[0];
+  const ev = m.quote ? ({ trust: 'red' } as const) : ({ trust: 'estimate', refId: `money:estimate:${A.id}` } as const);
+  const at = m.quote ? ' at your builder’s quote' : '';
   if (m.money_verdict === 'only_with_subsidy')
     return A.left[0] < 0 ? (
-      <>building costs more than the newest sale</>
+      <>building costs more than the newest sale{at}</>
     ) : (
       <>
         at most{' '}
-        <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
+        <Ev {...ev} num>
           {usd(A.left[0], 100)}
         </Ev>{' '}
-        is left per home, under typical site work
+        is left per home{at}, under typical site work
       </>
     );
   if (m.money_verdict === 'depends_on_builder') return <>whether any money is left depends on the builder’s price</>;
   return (
     <>
       building leaves{' '}
-      <Ev trust="estimate" refId={`money:estimate:${A.id}`} num>
-        {usd(A.left[1], 100)}–{usd(A.left[0], 100)}
+      <Ev {...ev} num>
+        {A.left[0] === A.left[1] ? usd(A.left[0], 100) : `${usd(A.left[1], 100)}–${usd(A.left[0], 100)}`}
       </Ev>{' '}
-      per home for the site: worth pricing it
+      per home for the site{at}: worth pricing it
     </>
   );
 }

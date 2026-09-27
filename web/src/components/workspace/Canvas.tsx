@@ -1,5 +1,6 @@
 // The centre canvas (spec §0.15): Map (the city, its layers and the selection), Plan (the plat drawing),
 // Graph (P1's slot) and Table (sortable lots or runs). Each fits its box; the page never scrolls.
+import { maxDisjoint } from '@engine/assembly';
 import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { placeName } from '@engine/index';
 import { TEMPLATES } from '@engine/templates';
@@ -454,6 +455,8 @@ export function CityTable({ cm, s, selected, onSelect }: { cm: CityModel; s: Url
 }
 
 /** C15 runs as a sortable table (the "Combine to fit" list, in rows). */
+const lowerA = (name: string) => `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name.toLowerCase()}`;
+
 export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null | 'loading'; cm: CityModel; s: UrlState; onSelect: (r: AssemblyRunRow) => void }) {
   const [sort, setSort] = useState<'owners' | 'width'>('owners');
   const hoodByPin = useMemo(() => new Map(cm.lots.map((l) => [l.pin, l.hood ?? null])), [cm.lots]);
@@ -462,6 +465,8 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
     const rs = asm.runs.filter((r) => r.type === s.type && (!s.hood || r.lots.some((l) => hoodByPin.get(l.pin) === s.hood)));
     return [...rs].sort((a, b) => (sort === 'owners' ? a.non_city - b.non_city || b.width - a.width : b.width - a.width || a.non_city - b.non_city));
   }, [asm, s.type, s.hood, hoodByPin, sort]);
+  // The most groups that share no lot (exact; engine/src/assembly.ts): the homes the list could hold at once.
+  const disjoint = useMemo(() => maxDisjoint(runs), [runs]);
   if (asm === 'loading') return <div className="ws-canvas-body small muted">Loading the lots that fit when combined…</div>;
   if (!asm) return <div className="ws-canvas-body small muted">The assembly file hasn’t been built (scripts/build-assemblies.ts).</div>;
   const th = (k: 'owners' | 'width', label: string) => (
@@ -483,6 +488,16 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
       {/* Judge panel, round 3: overlapping groups read as separate sites. They are alternatives. */}
       <p className="small muted ws-runs-note" data-count="lot-groups-city-lots">
         Groups that share a lot are alternatives, not separate sites: together they touch {n(new Set(runs.flatMap((r) => r.candidates)).size)} City-owned lots that don’t fit alone.
+        {disjoint != null && runs.length > 0 ? (
+          <>
+            {' '}
+            At most {n(disjoint)} share no lot: room for up to{' '}
+            <strong className="ws-runs-homes" data-count="homes">
+              {n(disjoint * TEMPLATES[s.type].proposal.units)} homes
+            </strong>{' '}
+            ({lowerA(TEMPLATES[s.type].name)} each).
+          </>
+        ) : null}
       </p>
       <table className="lots-table ws-runs">
         <thead>

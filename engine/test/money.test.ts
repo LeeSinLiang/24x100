@@ -72,6 +72,44 @@ describe('money screen (spec §0.13): what a new-build sale leaves after vertica
   });
 });
 
+describe("the user's builder's quote: red, decides the verdict, never replaces the estimates", () => {
+  const three = evaluate(ctx, scen(b, 'three', [25, 26, 27]));
+  const inp = { comps, hud, assumptions };
+  const today = moneyFor(three, inp);
+
+  it('no quote: exactly today (the same object, field for field), and the estimate verdict is the verdict', () => {
+    expect(moneyFor(three, inp, null)).toEqual(today);
+    expect(today.quote).toBeNull();
+    expect(today.money_verdict_estimate).toBe(today.money_verdict);
+  });
+
+  it('$150/sf on lots 25–27: 240,000 − 1,350 × 150 = $37,500 left, which covers $25,000 site work: worth pricing the site', () => {
+    const m = moneyFor(three, inp, 150);
+    expect(m.quote).toMatchObject({ id: 'quote', psf: [150, 150], vertical: [202500, 202500], left: [37500, 37500], supplied_by: 'you (not checked)' });
+    expect(m.money_verdict).toBe('worth_pricing_site');
+    expect(m.money_verdict_estimate).toBe('only_with_subsidy'); // the practitioner's estimate still says so
+    expect(m.estimates).toEqual(today.estimates); // never replaced
+    // The gap from the quote: 202,500 × 1.26 + 25,000 − 240,000 = 40,150; + 50,000 = 65,150.
+    expect(m.gap).toMatchObject({ lo: 40150, hi: 65150 });
+    const v = verdictFor(three, m, null, b);
+    expect(v.headline).toBe('worth_pricing_site');
+    expect(v.chips.find((c) => c.id === 'money')).toMatchObject({ state: 'clear', evidence: 'red' });
+    expect(v.detail).toMatch(/your builder's quote \(\$150\/sq ft, yours, not checked\)/);
+  });
+
+  it('$140/sf: $51,000 left; $200/sf: 240,000 − 270,000, nothing left, only with subsidy', () => {
+    expect(moneyFor(three, inp, 140).quote!.left).toEqual([51000, 51000]);
+    const m = moneyFor(three, inp, 200);
+    expect(m.quote!.left).toEqual([-30000, -30000]);
+    expect(m.money_verdict).toBe('only_with_subsidy');
+    expect(verdictFor(three, m, null, b).chips.find((c) => c.id === 'money')!.words).toMatch(/^nothing left: .*\(your builder’s quote, not checked\)$/);
+  });
+
+  it('a quote outside $20–$2,000/sf is a typo, not a quote: ignored', () => {
+    for (const q of [0, 5, 5000, Number.NaN, -150]) expect(moneyFor(three, inp, q)).toEqual(today);
+  });
+});
+
 describe('verdict (no score)', () => {
   const inputs = { comps, hud, assumptions };
   it('money is checked first: lot 25 two-unit reads "Only with subsidy" with Rules blocking as a chip', () => {

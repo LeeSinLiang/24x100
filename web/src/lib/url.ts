@@ -47,6 +47,7 @@ export interface UrlState {
   letter: Office | null; // inquiry page: the letter tab to open
   anim: boolean; // film: keep the map's zoom animation in record mode (record mode is otherwise still)
   whatif: WhatIfId | null; // city: the rule what-if whose lots the map shows (spec §0.16)
+  quote: number | null; // lot: the user's builder's quote, $ per sq ft (red: theirs, not checked)
   node: string | null; // Graph canvas: the selected node (its id in engine/src/graph.ts)
   ghide: string[]; // Graph canvas: node types hidden from the rail's filters
   focus: string | null; // Graph canvas: show only the chain behind this node's decision (engine/src/graph.ts focusGraph)
@@ -125,6 +126,10 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     letter: oneOf(q.get('letter'), OFFICES),
     anim: q.get('anim') === '1',
     whatif: oneOf(q.get('whatif'), WHATIFS),
+    quote: (() => {
+      const v = Number(q.get('quote'));
+      return q.get('quote') != null && Number.isFinite(v) && v >= 20 && v <= 2000 ? v : null;
+    })(),
     node: q.get('node'),
     ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
     focus: q.get('focus'),
@@ -146,6 +151,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     unknown('tray', TRAYS, `not a tray tab we have: ${TRAYS.join(', ')}`);
     if (q.get('tol') != null && state.tol == null) bad('tol', 'not a tolerance we use: a number from 1 to 50 (percent)');
     if (q.get('step') != null && state.step == null) bad('step', 'not a step of the route: a whole number from 1');
+    if (q.get('quote') != null && state.quote == null) bad('quote', 'not a builder’s quote we use: dollars per sq ft, from 20 to 2,000');
   }
   return state;
 }
@@ -200,6 +206,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   else if (s.present) q.set('present', '1');
   if (s.anim) q.set('anim', '1');
   if (s.whatif) q.set('whatif', s.whatif);
+  if (s.quote != null) q.set('quote', String(s.quote));
   if (s.still) q.set('still', '1');
   if (s.theme) q.set('theme', s.theme);
   return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')}`;

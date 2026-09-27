@@ -465,7 +465,7 @@ export interface ValueSignal {
 }
 
 export interface CostEstimate {
-  id: 'A' | 'B' | 'prod';
+  id: 'A' | 'B' | 'prod' | 'quote'; // quote: the user's own builder's quote (red, not checked)
   label: string; // "Vertical construction"
   psf: [number, number];
   vertical: [number, number]; // per home
@@ -489,6 +489,11 @@ export interface MoneyResult {
   context: ValueSignal[]; // the median (context only) and what an 80% AMI buyer could pay (a ceiling)
   site_work: { lo: number; hi: number; note: string; supplied_by: string };
   money_verdict: 'only_with_subsidy' | 'worth_pricing_site' | 'depends_on_builder' | 'no_new_build';
+  /** The user's builder's quote, when they gave one (red: theirs, not checked). It decides money_verdict, the gap
+   *  and "left after building"; the practitioner estimates stay beside it, unchanged. */
+  quote: CostEstimate | null;
+  /** The verdict at the practitioner's estimate, whatever the quote says (equals money_verdict without a quote). */
+  money_verdict_estimate: 'only_with_subsidy' | 'worth_pricing_site' | 'depends_on_builder' | 'no_new_build';
   swing: number; // how much the estimate's own range moves what's left, per home
   with_assumptions: { lo: number; hi: number; soft: number; financing: number; formula: string }; // the practitioner estimate (A)
   /** Secondary (spec §0.13 allows it if it names its estimate): the subsidy a home would need, before land.

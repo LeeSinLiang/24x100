@@ -163,7 +163,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
         </button>
       </aside>
     );
-  else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} onStep={onStep} />;
+  else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} onStep={onStep} update={update} />;
   else if (kind === 'block' && bm) inspector = <BlockInspector block={block!} bm={bm} s={s} onTab={onTab} />;
   else if (kind === 'citylot' && pinIdx != null)
     inspector = <CityLotInspector cm={cm} i={pinIdx} s={s} update={update} onTab={onTab} runsFor={asm && asm !== 'loading' ? asm.runs.filter((r) => r.type === s.type && r.pins.includes(s.pin!)) : []} />;

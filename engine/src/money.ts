@@ -64,7 +64,13 @@ export function leftWords(left: [number, number]): string {
   return `${usd(left[1], 100)}–${usd(left[0], 100)}`;
 }
 
-export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
+/** A builder's quote the app accepts, in $ per sq ft: anything outside is a typo, not a quote. */
+export const QUOTE_RANGE: [number, number] = [20, 2000];
+export const validQuote = (q: number | null | undefined): q is number => typeof q === 'number' && Number.isFinite(q) && q >= QUOTE_RANGE[0] && q <= QUOTE_RANGE[1];
+
+/** The money screen for a scenario. `quote` ($/sq ft) is the user's own builder's quote: when given, it decides the
+ *  verdict, the gap and "left after building" (red, theirs); the practitioner estimates are computed as always. */
+export function moneyFor(result: LotResult, m: MoneyInputs, quote: number | null = null): MoneyResult {
   const a = assumptionMap(m.assumptions);
   const homes = result.scenario.type === 'row' ? Math.max(1, result.units.length) : result.scenario.proposal.units;
   const sqft = result.scenario.proposal.home_sqft;
@@ -101,12 +107,32 @@ export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
   const estimates = [est('A', 'cost_estimate_A', true, false), ...(a.cost_estimate_B ? [est('B', 'cost_estimate_B', false, false)] : []), est('prod', 'cost_estimate_prod', false, true)];
   const A = estimates[0];
   const [swLo, swHi] = range(a, 'site_work_single_unit');
-  // C11 verdict on the default estimate: even its low end must leave the low site-work figure.
-  const money_verdict: MoneyResult['money_verdict'] = !newBuild ? 'no_new_build' : A.left[0] < swLo ? 'only_with_subsidy' : A.left[1] >= swLo ? 'worth_pricing_site' : 'depends_on_builder';
+  // C11 verdict on an estimate: even its low end must leave the low site-work figure.
+  const verdictOf = (e: CostEstimate): MoneyResult['money_verdict'] => (!newBuild ? 'no_new_build' : e.left[0] < swLo ? 'only_with_subsidy' : e.left[1] >= swLo ? 'worth_pricing_site' : 'depends_on_builder');
+  // The user's builder's quote: one figure, so it settles "depends on the builder" one way or the other.
+  const q: CostEstimate | null = validQuote(quote)
+    ? (() => {
+        const v = quote * sqft;
+        return {
+          id: 'quote',
+          label: 'Your builder’s quote',
+          psf: [quote, quote],
+          vertical: [v, v],
+          left: [V - v, V - v],
+          note: 'yours, not checked',
+          supplied_by: 'you (not checked)',
+          default: false,
+          speculative: false,
+          formula: `${usd(quote, 1)}/sf × ${int(sqft)} sf = ${usd(v, 1)} per home; ${usd(V, 1)} ${MINUS} that = ${usd(V - v, 1)} left`,
+        } satisfies CostEstimate;
+      })()
+    : null;
+  const D = q ?? A; // the estimate that decides
+  const money_verdict = verdictOf(D);
   const soft = val(a, 'soft_cost_pct');
   const fin = val(a, 'financing_pct');
-  const wLo = A.vertical[0] * (1 + soft + fin);
-  const wHi = A.vertical[1] * (1 + soft + fin);
+  const wLo = D.vertical[0] * (1 + soft + fin);
+  const wHi = D.vertical[1] * (1 + soft + fin);
   const median: ValueSignal = {
     id: 'median',
     value: m.comps.median,
@@ -125,7 +151,7 @@ export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
     ? {
         lo: Math.max(0, Math.round(wLo + swLo - V)),
         hi: Math.max(0, Math.round(wHi + swHi - V)),
-        formula: `${usd(wLo, 100)}–${usd(wHi, 100)} building with soft costs and financing + ${usd(swLo, 1)}–${usd(swHi, 1)} site work ${MINUS} ${usd(V, 1)} sale = ${usd(Math.max(0, wLo + swLo - V), 100)}–${usd(Math.max(0, wHi + swHi - V), 100)} per home, before land`,
+        formula: `${wLo === wHi ? usd(wLo, 100) : `${usd(wLo, 100)}–${usd(wHi, 100)}`} building with soft costs and financing${q ? ' (your builder’s quote)' : ''} + ${usd(swLo, 1)}–${usd(swHi, 1)} site work ${MINUS} ${usd(V, 1)} sale = ${usd(Math.max(0, wLo + swLo - V), 100)}–${usd(Math.max(0, wHi + swHi - V), 100)} per home, before land`,
       }
     : null;
   return {
@@ -137,13 +163,15 @@ export function moneyFor(result: LotResult, m: MoneyInputs): MoneyResult {
     context: [median, ceiling],
     site_work: { lo: swLo, hi: swHi, note: a.site_work_single_unit?.note ?? '', supplied_by: a.site_work_single_unit?.supplied_by ?? '' },
     money_verdict,
+    quote: q,
+    money_verdict_estimate: verdictOf(A),
     swing: A.vertical[1] - A.vertical[0], // how much the estimate's own range moves what's left, per home
     with_assumptions: {
       lo: wLo,
       hi: wHi,
       soft,
       financing: fin,
-      formula: `${usd(A.vertical[0], 1)}–${usd(A.vertical[1], 1)} × (1 + ${Math.round(soft * 100)}% soft + ${Math.round(fin * 100)}% financing) = ${usd(wLo, 1)}–${usd(wHi, 1)} per home, still without site work or land`,
+      formula: `${D.vertical[0] === D.vertical[1] ? usd(D.vertical[0], 1) : `${usd(D.vertical[0], 1)}–${usd(D.vertical[1], 1)}`} × (1 + ${Math.round(soft * 100)}% soft + ${Math.round(fin * 100)}% financing) = ${wLo === wHi ? usd(wLo, 1) : `${usd(wLo, 1)}–${usd(wHi, 1)}`} per home, still without site work or land${q ? ' (your builder’s quote)' : ''}`,
     },
     comps: { median: m.comps.median, q1: m.comps.q1, q3: m.comps.q3, count: m.comps.counts.valid_1_2_unit, thin: m.comps.counts.valid_1_2_unit < val(a, 'thin_market_threshold'), ward: m.comps.meta.ward ?? null },
     affordable: { price: aff.price, income, household, formula: aff.formula },

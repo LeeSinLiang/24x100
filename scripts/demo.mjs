@@ -430,9 +430,11 @@ const V6 = [
       cues.B13 = { list: 0 };
       await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c, 'the heading; it scrolls away with the list', { tight: true });
       await mark(p, 'B13', 'count_111_tile', p.locator('[data-tile="runs"] .ws-tile-value, [data-tile="runs"] .ev-num').first(), c, 'the right-panel tile "Lot groups that fit 111"; on screen until the group is chosen', { tight: true });
+      await mark(p, 'B13', 'homes_240', p.locator('[data-count="homes"]').first(), c, '"240 homes" (at most 80 groups share no lot); under the heading, so it scrolls away with the list at list_scroll', { tight: true });
       // The list scrolls down to the Mahon group, then it is chosen and the map shows it with its inset plan.
       const row = p.locator(`tr[data-run="${MAHON}"]`);
       await c.until(1.2);
+      cues.B13.list_scroll = at(c);
       await row.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
       await c.until(3.2);
       await clickSlow(p, row.locator('button').first());
@@ -604,6 +606,34 @@ const V6 = [
       const tb2 = await p.locator('#iq-check p').first().boundingBox();
       if (tb2) await glide(p, tb2.x + tb2.width + 26, tb2.y + tb2.height / 2, { steps: 28, rest: 0.6 });
       await c.until(Math.max(13, cues.B10.letter_shown + 5) + HOLD);
+    },
+  },
+  {
+    id: 'B16',
+    name: 'builders-quote',
+    // The builder's quote closes the money beat: "take this to a builder", then type in what the builder quoted.
+    q: 'view=lot&block=10K&lot=25&type=three&lots=25,26,27',
+    run: async (p, c) => {
+      cues.B16 = {};
+      const field = p.locator('#quote-in');
+      await mark(p, 'B16', 'quote_field', p.locator('[data-quote-form]'), c, "the builder's quote field on the Money tab (red: yours, not checked)");
+      await c.until(0.6);
+      await clickSlow(p, field);
+      await field.pressSequentially('140', { delay: 220 }); // typed visibly
+      cues.B16.typed = at(c);
+      await sleep(350);
+      await p.keyboard.press('Enter');
+      await p.waitForSelector('.ws-status .stamp[data-quote="1"]', { timeout: 5000 });
+      await sleep(300);
+      cues.B16.updated = at(c);
+      await mark(p, 'B16', 'new_verdict', p.locator('.ws-status .stamp').first(), c, 'the stamp after the quote: WORTH PRICING THE SITE, "your builder’s quote" (red)');
+      await mark(p, 'B16', 'left_value', p.locator('[data-tile="left"] .ws-tile-value').first(), c, 'LEFT AFTER BUILDING $51k at the quote (240,000 − 1,350 × 140)', { tight: true });
+      cues.B16.verdict_words = (await p.locator('.ws-status .stamp').first().innerText()).replace(/\s+/g, ' ').trim();
+      cues.B16.left_words = (await p.locator('[data-tile="left"] .ws-tile-value').first().innerText()).replace(/\s+/g, ' ').trim();
+      // The pointer goes up to the stamp and rests.
+      const st = await p.locator('.ws-status .stamp').first().boundingBox();
+      if (st) await glide(p, st.x + st.width + 30, st.y + st.height / 2, { steps: 28, rest: 0.6 });
+      await c.until(Math.max(7, cues.B16.updated + 3) + HOLD);
     },
   },
   {
