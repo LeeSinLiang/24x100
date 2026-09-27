@@ -159,7 +159,7 @@ export function AuditLog({
           {keptHere ? ` ${keptHere === 1 ? 'One assumption stays' : `${keptHere} assumptions stay`} in this browser: assumptions are explorations and are not sent.` : ''}
         </p>
         <p className="small muted">
-          Steward’s runbook: <code>docs/pilot.md</code>. Not set up yet: the project has no GitHub repository, and no one has agreed to be the steward.
+          Steward’s runbook: <code>docs/pilot.md</code>. The repository is github.com/LeeSinLiang/24x100; its publish workflow hasn’t run there yet, and no one has agreed to be the steward.
         </p>
         {!record && precheck.length > 0 && (
           <div className="warn">
