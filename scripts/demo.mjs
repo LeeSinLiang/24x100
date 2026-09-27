@@ -66,10 +66,21 @@ const cues = {};
 
 // Pointer marks for the film's red pen (film v6): one box per spoken phrase, in CSS px at 1920×1080, measured
 // with boundingBox() at the clip second from which the element is visible and stays put (no scrolling after t).
-async function mark(page, beat, id, locator, c, note) {
+async function mark(page, beat, id, locator, c, note, opts = {}) {
   const el = typeof locator === 'string' ? page.locator(locator).first() : locator.first();
   await el.waitFor({ state: 'visible', timeout: 8000 }).catch(() => {});
-  const b = await el.boundingBox().catch(() => null);
+  // tight: the box of the text itself (a Range over the element's contents), not the element's full width; the
+  // film's camera pushes in on it. Same coordinate space as boundingBox() (checked under record-mode zoom).
+  const b = opts.tight
+    ? await el
+        .evaluate((e) => {
+          const g = document.createRange();
+          g.selectNodeContents(e);
+          const t = g.getBoundingClientRect();
+          return t.width && t.height ? { x: t.x, y: t.y, width: t.width, height: t.height } : null;
+        })
+        .catch(() => null)
+    : await el.boundingBox().catch(() => null);
   cues[beat] ??= {};
   cues[beat].marks ??= [];
   if (!b) {
@@ -325,7 +336,8 @@ const V6 = [
     run: async (p, c) => {
       await p.waitForSelector('tr[data-run]', { timeout: 8000 });
       cues.B13 = { list: 0 };
-      await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c);
+      await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c, 'the heading; it scrolls away with the list', { tight: true });
+      await mark(p, 'B13', 'count_111_tile', p.locator('[data-tile="runs"] .ws-tile-value, [data-tile="runs"] .ev-num').first(), c, 'the right-panel tile "Lot groups that fit 111"; on screen until the group is chosen', { tight: true });
       // The list scrolls down to the Mahon group, then it is chosen and the map shows it with its inset plan.
       const row = p.locator(`tr[data-run="${MAHON}"]`);
       await c.until(1.2);
