@@ -21,6 +21,7 @@ import { WatchToggle } from '../WatchToggle';
 import { QuoteForm } from './QuoteForm';
 import { cityLotOfParcel } from '@engine/city';
 import { watchState as watchStateOf } from '@engine/digest';
+import { CASES } from '../../views/CaseView';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
 
@@ -369,6 +370,14 @@ function NextDetail({ model, block, s, steps, onStep }: { model: LotModel; block
         </a>{' '}
         <span className="small muted">A draft: you decide whether and where to send it.</span>
       </p>
+      {CASES[sel.pin] ? (
+        <p className="ws-agents" data-agents-link>
+          <a className="btn" href={`?view=case&pin=${sel.pin}`}>
+            Run the agents
+          </a>{' '}
+          <span className="small muted">The committed run: due diligence, drafts and a verifier; re-run with <code>npm run steward -- {sel.pin}</code>.</span>
+        </p>
+      ) : null}
     </section>
   );
 }

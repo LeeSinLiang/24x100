@@ -15,6 +15,7 @@ import { loadCityData } from './components/city/cityData';
 import { pageZoom, stageFor } from './components/workspace/stage';
 import { UrlNotice } from './components/workspace/UrlNotice';
 import { AboutView } from './views/AboutView';
+import { CaseView, CASES } from './views/CaseView';
 import { ChangesView } from './views/ChangesView';
 import { InquiryView } from './views/InquiryView';
 import { ReviewView } from './views/ReviewView';
@@ -118,6 +119,8 @@ export function App() {
       ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'Rules' }, { label: s.district ?? 'RM-M' }]
       : s.view === 'changes'
         ? [{ label: 'Pittsburgh', href: '?view=city' }, { label: 'What changed' }]
+        : s.view === 'case'
+          ? [{ label: 'Pittsburgh', href: '?view=city' }, ...(CASES[s.pin ?? '']?.lot.link ? [{ label: CASES[s.pin!].lot.addr, href: CASES[s.pin!].lot.link! }] : []), { label: 'Case file' }]
         : s.view === 'about'
           ? [{ label: 'Pittsburgh', href: '?view=city' }, ...(block && s.block ? [{ label: block.meta.name.replace(/-/g, '‑'), href: `?view=block&block=${block.meta.id}` }] : []), { label: 'About' }]
           : s.view === 'city'
@@ -163,6 +166,8 @@ export function App() {
                 return <InquiryView {...vp} />;
               case 'changes':
                 return <ChangesView {...vp} />;
+              case 'case':
+                return <CaseView {...vp} />;
               default:
                 return <AboutView {...vp} />;
             }

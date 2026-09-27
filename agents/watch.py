@@ -108,6 +108,7 @@ def run(baseline: str | None = None, *, model: Any = None, model_why: str = "", 
         events.append({"kind": "simulated", "pin": pin, "addr": sim["lot"]["addr"], "link": sim["lot"]["link"], "built": built, "explanation": s,
                        "before": {"formula": base["width"]["formula"]}, "after": {"formula": ctx["formula"], "best": ctx["best"], "trust": "pencil"}})
     c.extra["events"] = events
+    c.extra["rerun"] = "npm run agents -- watch" + (f" --baseline {baseline}" if baseline else "") + "".join(f" --simulate {p}:{','.join(b)}" for p, b in (simulate or []))
     res = verifier.verify(c.to_json(), engine_inputs)
     c.verifier = res
     k = res["checked"]

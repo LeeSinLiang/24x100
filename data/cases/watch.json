@@ -337,5 +337,6 @@
     "trust": "pencil"
    }
   }
- ]
+ ],
+ "rerun": "npm run agents -- watch --baseline d87dce4^ --simulate 0010K00025000000:0010K00024000000"
 }

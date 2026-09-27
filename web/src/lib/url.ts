@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TemplateId } from '@engine/types';
 
-export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about';
+export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' | 'about' | 'case';
 
 /** The workspace's centre canvas (spec §0.15). Defaults: city → map; lot and block → plan. */
 export type Canvas = 'map' | 'plan' | 'graph' | 'table';
@@ -56,7 +56,7 @@ export interface UrlState {
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
-const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about'];
+const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about', 'case'];
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
 const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
 export const WHATIFS = ['S1', 'S2', 'S3'] as const;
@@ -179,7 +179,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
     for (const k of ['w', 'd', 'st', 'h'] as const) if (s[k] != null) q.set(k, String(s[k]));
   }
   if ((s.view === 'city' || s.view === 'block') && s.type) q.set('type', s.type);
-  if (s.view === 'city' && s.pin) q.set('pin', s.pin);
+  if ((s.view === 'city' || s.view === 'case') && s.pin) q.set('pin', s.pin);
   if (s.view === 'city' && s.layer) q.set('layer', s.layer);
   if (s.view === 'city' && s.layer && s.run) q.set('run', s.run);
   if (ws) {

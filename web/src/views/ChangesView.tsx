@@ -346,6 +346,9 @@ function Digest() {
           Preview it with <code>uv run python -m pipeline digest --dry-run</code>.
         </p>
         <p>Sending needs a Slack webhook or an email key (Resend, or SMTP) that you supply, and it is off by default. Inquiries are never sent automatically: they are drafts, and you send them.</p>
+        <p>
+          <a href="?view=case&pin=watch">The watch agent’s last run</a>: each change explained with its math, and the next move drafted, waiting for a person.
+        </p>
       </footer>
     </section>
     </>
