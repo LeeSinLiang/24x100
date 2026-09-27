@@ -7,6 +7,7 @@ every Mahon Street deed. Built for the AI for Housing Hackathon (AI Horizons 202
 Development Feasibility & Pro Forma Navigator.
 
 **Demo video:** _link to be added._
+
 **Live demo:** _link to be added._
 
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
