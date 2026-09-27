@@ -180,11 +180,35 @@ const TABS: { id: Exclude<TrayTab, 'closed'>; words: string }[] = [
   { id: 'changes', words: 'Changes' },
 ];
 
-export function Tray({ s, update, steps, stepsNote, events, pins, disclaimer }: { s: UrlState; update: (p: Partial<UrlState>, o?: { push?: boolean }) => void; steps: Step[]; stepsNote?: ReactNode; events: TimelineEvent[]; pins: string[]; disclaimer: boolean }) {
+/** `onStep`: the tray is the route and the inspector's Next tab holds each step's detail (a lot with block
+ *  detail, team review round 3): a click selects the step there (`selected`, 0-based) instead of opening its
+ *  words here. Without it, a click opens the step's words under the route, as before. */
+export function Tray({
+  s,
+  update,
+  steps,
+  stepsNote,
+  events,
+  pins,
+  disclaimer,
+  onStep,
+  selected,
+}: {
+  s: UrlState;
+  update: (p: Partial<UrlState>, o?: { push?: boolean }) => void;
+  steps: Step[];
+  stepsNote?: ReactNode;
+  events: TimelineEvent[];
+  pins: string[];
+  disclaimer: boolean;
+  onStep?: (i: number) => void;
+  selected?: number | null;
+}) {
   const tab = s.tray ?? 'next';
   const open = tab !== 'closed';
   const [last, setLast] = useState<Exclude<TrayTab, 'closed'>>(tab === 'closed' ? 'next' : tab);
-  const [step, setStep] = useState<number | null>(null);
+  const [inline, setStep] = useState<number | null>(null);
+  const step = onStep ? selected ?? null : inline;
   const cur = open ? (tab as Exclude<TrayTab, 'closed'>) : last;
   // Times come with different offsets ("…Z", "…-04:00") and some are bare dates: compare instants.
   const t = (x: string) => new Date(x.length <= 10 ? `${x}T00:00:00Z` : x).getTime() || 0;
@@ -225,13 +249,26 @@ export function Tray({ s, update, steps, stepsNote, events, pins, disclaimer }: 
                 <ol className="ws-route">
                   {steps.map((st, i) => (
                     <li key={i} className={`ws-step ${step === i ? 'is-open' : ''}`} data-step={i + 1}>
-                      <button type="button" className="ws-step-pick" aria-expanded={step === i} onClick={() => setStep(step === i ? null : i)} title={st.text}>
-                        <span className="ws-step-n" aria-hidden="true">
-                          {i + 1}
+                      {onStep ? (
+                        <button type="button" className="ws-step-pick" aria-pressed={step === i} onClick={() => onStep(i)} title={`${st.text} (its detail opens in the Next tab)`}>
+                          <span className="ws-step-n" aria-hidden="true">
+                            {i + 1}
+                          </span>
+                          <span className="ws-step-head">{st.head}</span>
+                        </button>
+                      ) : (
+                        <button type="button" className="ws-step-pick" aria-expanded={step === i} onClick={() => setStep(step === i ? null : i)} title={st.text}>
+                          <span className="ws-step-n" aria-hidden="true">
+                            {i + 1}
+                          </span>
+                          <span className="ws-step-head">{st.head}</span>
+                        </button>
+                      )}
+                      {st.tag && (
+                        <span className={`ws-step-tag tag-${st.tag.split(' ')[0].toLowerCase()}`} data-step-tag={st.tag.toLowerCase()}>
+                          {st.tag}
                         </span>
-                        <span className="ws-step-head">{st.head}</span>
-                      </button>
-                      {st.tag && <span className={`ws-step-tag tag-${st.tag.split(' ')[0].toLowerCase()}`}>{st.tag}</span>}
+                      )}
                       {st.links.length > 0 && (
                         <span className="ws-step-links">
                           {st.letters ? 'Letter: ' : null}
@@ -250,7 +287,7 @@ export function Tray({ s, update, steps, stepsNote, events, pins, disclaimer }: 
                   ))}
                 </ol>
               )}
-              {step != null && steps[step] && (
+              {!onStep && step != null && steps[step] && (
                 <p className={`ws-step-text small ${steps[step].trust === 'pencil' ? 'pencil-text' : ''}`} data-trust={steps[step].trust ?? 'pencil'}>
                   <strong>{step + 1}.</strong> {steps[step].text}
                 </p>

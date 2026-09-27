@@ -9,7 +9,10 @@ import { LAYERS, type CityModel } from '../../lib/city';
 import type { Canvas, UrlState } from '../../lib/url';
 import { Gloss } from './plain';
 
-const CHECKED: Blocker[] = ['width', 'area', 'depth', 'ownership', 'fits', 'records', 'edges'];
+const CHECKED: Blocker[] = ['width', 'area', 'depth', 'ownership', 'fits', 'use', 'records', 'edges'];
+/** The rail's layers: the shared list, with "not permitted here" after "fits" (lots whose district's use table
+ *  forbids the building; they were in "In checked districts" but in no layer below it, so the group didn't add up). */
+const RAIL_LAYERS: { id: Blocker; words: string }[] = LAYERS.flatMap((l) => (l.id === 'fits' ? [l, { id: 'use' as Blocker, words: 'Not permitted here' }] : [l]));
 
 function Check({ on, mixed, onChange, children, count, swatch, id }: { on: boolean; mixed?: boolean; onChange: () => void; children: React.ReactNode; count: string; swatch?: string; id: string }) {
   return (
@@ -65,7 +68,7 @@ export function Rail({
     update({ hide: [...next].sort() });
   };
   const count = (v: number | undefined) => (ready && v != null ? n(v) : '…');
-  const allIds = LAYERS.map((l) => l.id);
+  const allIds = RAIL_LAYERS.map((l) => l.id);
   const allOn = allIds.every((id) => !hide.has(id));
   const anyOn = allIds.some((id) => !hide.has(id));
   const chkOn = CHECKED.every((id) => !hide.has(id));
@@ -73,11 +76,16 @@ export function Rail({
   const checkedCount = sum ? sum.total - sum.byBlocker.rules : undefined;
   const filtersOn = !!(s.hood || s.sale || s.ward != null || s.zone);
   const hoods = cm ? [...cm.hoods.values()].filter((h) => h.lots > 0).sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')) : [];
+  // Every count here is for the lots the filters show: say so (team review, round 3).
+  const scope = s.hood && !(s.sale || s.ward != null || s.zone) ? `in ${s.hood}` : filtersOn ? 'filtered' : 'citywide';
+  const could = sum ? sum.total - sum.byBlocker.rules - sum.byBlocker.records - sum.byBlocker.edges : 0;
   return (
     <nav className="ws-rail" aria-label="Layers and filters">
       <section className="ws-rail-sec" aria-labelledby="ws-layers-h">
         <Label as="h2">
-          <span id="ws-layers-h">Layers</span>
+          <span id="ws-layers-h">
+            Layers <span className="ws-rail-scope" data-scope={scope}>· {scope}</span>
+          </span>
         </Label>
         <div className="ws-layers" role="group" aria-labelledby="ws-layers-h">
           <Check id="all" on={allOn} mixed={anyOn && !allOn} onChange={() => setHide(allIds, !allOn)} count={count(sum?.total)}>
@@ -85,9 +93,11 @@ export function Rail({
           </Check>
           <div className="ws-layer-group">
             <Check id="checked" on={chkOn} mixed={chkAny && !chkOn} onChange={() => setHide(CHECKED, !chkOn)} count={count(checkedCount)}>
-              In checked districts
+              <span title={ready && sum ? `Lots in districts whose rules a person has signed. ${n(could)} of them could be checked (the inspector's "Lots checked"); ${n(sum.byBlocker.records)} have records that disagree and ${n(sum.byBlocker.edges)} edges not computed.` : undefined}>
+                In checked districts
+              </span>
             </Check>
-            {LAYERS.filter((l) => l.id !== 'rules').map((l) => (
+            {RAIL_LAYERS.filter((l) => l.id !== 'rules').map((l) => (
               <Check key={l.id} id={l.id} swatch={l.id} on={!hide.has(l.id)} onChange={() => setHide([l.id], hide.has(l.id))} count={count(sum?.byBlocker[l.id])}>
                 <span title={STYLE[l.id].gloss}>{l.words}</span>
               </Check>

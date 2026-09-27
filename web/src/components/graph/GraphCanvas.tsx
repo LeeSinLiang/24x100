@@ -2,8 +2,12 @@
 // the plat (light) and cyanotype (dark) looks from the CSS tokens. The layout is the engine's fixed
 // cluster layout (engine/src/graph.ts); this file only draws it. Clicking a node selects it; hovering
 // shows its full label and lights its links; `hidden` hides node types (the left rail's filters).
-import { useLayoutEffect, useMemo, useRef, useState, type JSX, type KeyboardEvent, type MouseEvent } from 'react';
-import { GRAPH_FRAME, layoutGraph, type Cluster, type EdgeKind, type GraphEdge, type GraphNode, type LotGraph, type NodeType } from '@engine/graph';
+//
+// Team review, round 3: a Fit control and a visible pan affordance (drag the paper to pan, wheel to zoom),
+// and a focus mode: `focus` (engine/src/graph.ts focusGraph) keeps only the chain behind one decision,
+// laid out left to right (records → the lot and its result → the rule → its exact quote → who reviewed it).
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type JSX, type KeyboardEvent, type MouseEvent, type PointerEvent as RPointerEvent, type ReactNode } from 'react';
+import { focusFrame, GRAPH_FRAME, layoutFocus, layoutGraph, type Cluster, type EdgeKind, type GraphEdge, type GraphFocus, type GraphNode, type LotGraph, type NodeType } from '@engine/graph';
 import '../../styles/graph.css';
 
 type Pt = { x: number; y: number };
@@ -37,7 +41,7 @@ const LEGEND_WORDS: Record<NodeType, string> = {
 
 // Average advance per character, in px, for the faces and sizes used here. Labels are cut to fit their
 // column; the full text is in the hover label and the inspector.
-const ADV = { label: 6.4, source: 6.1, sub: 4.75, center: 7.7, centerSub: 5.3, status: 5.9, pill: 4.9 };
+const ADV = { label: 6.4, source: 6.1, sub: 4.75, center: 7.7, centerSub: 5.3, status: 5.9, pill: 4.9, quote: 5.9 };
 function fit(s: string | undefined, px: number, adv: number): string {
   if (!s) return '';
   const max = Math.max(3, Math.floor(px / adv));
@@ -81,17 +85,19 @@ interface Face {
   side: Side;
   label: string;
   sub: string;
-  lines: string[]; // 'below' only
+  lines: string[]; // 'below', and a focused quote's words ('right')
   names?: number; // 'below' only: how many of `lines` are the name (the rest are its sub)
   cx: number; // 'below' only: the text's centre, kept inside the canvas
   width: number; // px of the widest line
   small: boolean; // the dataset face (one line, slightly smaller)
+  quote?: boolean; // a focused quote: its words, word for word, beside the mark
 }
 
 /** What a node shows on the canvas and where, from the fixed frame. In a compact drawing (a narrow pane)
  *  the least important words go first: a neighbour's owner line and a rule's citation (both stay in the
- *  hover label, the aria label and the inspector); every node and its name stay. */
-function faceOf(n: GraphNode, p: Pt, w: number, compact = false): Face {
+ *  hover label, the aria label and the inspector); every node and its name stay. In focus mode a rule shows
+ *  its citation, a quote shows its words (up to four lines) and a signer shows the note they signed with. */
+function faceOf(n: GraphNode, p: Pt, w: number, compact = false, focus: { extra?: string[] } | null = null): Face {
   const F = GRAPH_FRAME;
   const none: Face = { side: 'none', label: '', sub: '', lines: [], cx: 0, width: 0, small: false };
   const side = (s: Side, room: number, withSub: boolean, small = false): Face => {
@@ -99,29 +105,34 @@ function faceOf(n: GraphNode, p: Pt, w: number, compact = false): Face {
     const sub = withSub ? fit(n.sub, room, ADV.sub) : '';
     return { side: s, label, sub, lines: [], cx: 0, width: Math.max(est(label, small ? ADV.source : ADV.label), est(sub, ADV.sub)), small };
   };
+  const focusRoom = focusFrame(w).textRoom;
   switch (n.type) {
     case 'neighbor':
-      return side('left', p.x - 26, !compact);
+      return side('left', p.x - 26, !compact || !!focus);
     case 'source':
       return side('left', p.x - 26, false, true);
     case 'rule':
-      return side('right', (F.quotes.x - F.rules.x) * w - 34, !compact);
-    case 'quote':
-      return none; // the mark alone: the quote is long; hover and the inspector show it word for word
+      return focus ? side('right', focusRoom, true) : side('right', (F.quotes.x - F.rules.x) * w - 34, !compact);
+    case 'quote': {
+      if (!focus) return none; // the mark alone: the quote is long; hover and the inspector show it word for word
+      const lines = wrap(`“${(n.quote ?? '').replace(/\s+/g, ' ').trim()}”`, focusRoom, ADV.quote, 4);
+      return { side: 'right', label: '', sub: '', lines, cx: 0, width: Math.max(...lines.map((l) => est(l, ADV.quote))), small: false, quote: true };
+    }
     case 'person': {
       // Compact: the name wraps (at most two lines of about 100 px) so the column clears the quote marks.
-      const lines = [...(compact ? wrap(n.label, 100, ADV.label, 2) : [n.label]), ...(n.sub ?? '').split(' · ').filter(Boolean)];
-      const nName = compact ? wrap(n.label, 100, ADV.label, 2).length : 1;
-      const width = Math.max(...lines.map((l, i) => est(l, i < nName ? ADV.label : ADV.sub)));
-      return { side: 'below', label: n.label, sub: '', lines, names: nName, cx: Math.min(p.x, w - 14 - width / 2), width, small: false };
+      const names = compact && !focus ? wrap(n.label, 100, ADV.label, 2) : [n.label];
+      const extra = focus?.extra ?? [];
+      const lines = [...names, ...(n.sub ?? '').split(' · ').filter(Boolean), ...extra];
+      const width = Math.max(...lines.map((l, i) => est(l, i < names.length ? ADV.label : ADV.sub)));
+      return { side: 'below', label: n.label, sub: '', lines, names: names.length, cx: Math.min(p.x, w - 14 - width / 2), width, small: false };
     }
     case 'estimate':
     case 'sale':
-      return side('left', p.x - 13 - (F.sources.x * w + 24), true);
+      return focus ? side('right', 200, true) : side('left', p.x - 13 - (F.sources.x * w + 24), true);
     case 'site':
-      return side('right', w - p.x - 26, true);
+      return side('right', focus ? 200 : w - p.x - 26, true);
     case 'office':
-      return side('right', w - p.x - 26, false);
+      return side('right', focus ? 200 : w - p.x - 26, false);
     default:
       return side('right', 160, true);
   }
@@ -271,10 +282,26 @@ const LAYOUT_MIN_W = 600;
 const PHONE_SCALE = 0.85;
 /** Layouts narrower than the frame's design width drop the least important words (faceOf). */
 const COMPACT_BELOW = GRAPH_FRAME.min.w;
+/** The reader's zoom: a little out, and in to four times. */
+const VP_MIN = 0.6;
+const VP_MAX = 4;
 
-export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSelect: (id: string | null) => void; hidden?: Set<NodeType> }): JSX.Element {
-  const { graph, selected, onSelect, hidden } = p;
+const RESULT_GLYPH: Record<string, string> = { fail: '✕', pass: '✓', open: '?', needs_survey: '?', not_assessed: '—', info: '·' };
+const num = (v: number) => (Math.round(v * 10) / 10).toLocaleString('en-US');
+
+export function GraphCanvas(p: {
+  graph: LotGraph;
+  selected: string | null;
+  onSelect: (id: string | null) => void;
+  hidden?: Set<NodeType>;
+  focus?: GraphFocus | null; // the chain behind one decision (focus mode)
+  onFocus?: (id: string | null) => void; // focus the chain behind a node, or show the whole graph again
+  controls?: ReactNode; // more buttons for the toolbar (the workspace's "Lot details" fold)
+}): JSX.Element {
+  const { selected, onSelect, hidden, focus } = p;
+  const graph = focus ? focus.graph : p.graph;
   const box = useRef<HTMLDivElement>(null);
+  const svg = useRef<SVGSVGElement>(null);
   const [size, setSize] = useState({ w: 900, h: 516 });
   const [hover, setHover] = useState<string | null>(null);
 
@@ -300,29 +327,99 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
   const scale = phone ? PHONE_SCALE : fitK;
   const W = Math.floor(phone ? LAYOUT_MIN_W : size.w / scale);
   const H = Math.floor(phone ? Math.max(FIT_MIN.h, size.h / scale) : size.h / scale);
-  const compact = W < COMPACT_BELOW;
-  const pos = useMemo(() => layoutGraph(graph, W, H), [graph, W, H]);
+  const compact = W < COMPACT_BELOW && !focus;
+  const pos = useMemo(() => (focus ? layoutFocus(graph, W, H) : layoutGraph(graph, W, H)), [graph, W, H, !!focus]);
   const byId = useMemo(() => new Map(graph.nodes.map((n) => [n.id, n])), [graph]);
 
-  const isHidden = (n: GraphNode | undefined) => !n || (n.cluster !== 'center' && !!hidden?.has(n.type));
+  // ── The reader's view: drag the paper to pan, wheel to zoom about the pointer, Fit to start again ──
+  const [vp, setVp] = useState({ k: 1, x: 0, y: 0 });
+  const vpKey = focus?.id ?? 'all'; // a new chain starts fitted; a resize keeps the reader's view
+  useEffect(() => setVp({ k: 1, x: 0, y: 0 }), [vpKey]);
+  const toUser = (cx: number, cy: number): Pt => {
+    const m = svg.current?.getScreenCTM();
+    if (!m) return { x: 0, y: 0 };
+    const pt = new DOMPoint(cx, cy).matrixTransform(m.inverse());
+    return { x: pt.x, y: pt.y };
+  };
+  const zoomAbout = (f: number, at: Pt) =>
+    setVp((v) => {
+      const k = Math.min(VP_MAX, Math.max(VP_MIN, v.k * f));
+      const g = k / v.k;
+      return { k, x: at.x - (at.x - v.x) * g, y: at.y - (at.y - v.y) * g };
+    });
+  useEffect(() => {
+    const el = svg.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? H : 1;
+      zoomAbout(Math.exp(-e.deltaY * unit * (e.ctrlKey ? 0.01 : 0.0015)), toUser(e.clientX, e.clientY));
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  });
+  const drag = useRef<{ id: number; x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
+  const [panning, setPanning] = useState(false);
+  const onBgDown = (e: RPointerEvent<SVGRectElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const u = toUser(e.clientX, e.clientY);
+    drag.current = { id: e.pointerId, x: u.x, y: u.y, vx: vp.x, vy: vp.y, moved: false };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onBgMove = (e: RPointerEvent<SVGRectElement>) => {
+    const d = drag.current;
+    if (!d || d.id !== e.pointerId) return;
+    const u = toUser(e.clientX, e.clientY);
+    const dx = u.x - d.x;
+    const dy = u.y - d.y;
+    if (!d.moved && Math.hypot(dx, dy) < 3) return;
+    if (!d.moved) setPanning(true);
+    d.moved = true;
+    setVp((v) => ({ ...v, x: d.vx + dx, y: d.vy + dy }));
+  };
+  const onBgUp = (e: RPointerEvent<SVGRectElement>) => {
+    const d = drag.current;
+    if (!d || d.id !== e.pointerId) return;
+    drag.current = null;
+    setPanning(false);
+    if (!d.moved) onSelect(null); // a click on the paper clears the selection; a drag never does
+  };
+  const fitted = vp.k === 1 && vp.x === 0 && vp.y === 0;
+
+  const isHidden = (n: GraphNode | undefined) => !n || (n.cluster !== 'center' && !focus && !!hidden?.has(n.type));
   const nodes = graph.nodes.filter((n) => !isHidden(n));
   const center = graph.nodes.find((n) => n.cluster === 'center');
   const edges = graph.edges.filter((e) => !isHidden(byId.get(e.from)) && !isHidden(byId.get(e.to)));
-  const faces = new Map(nodes.map((n) => [n.id, faceOf(n, pos.get(n.id)!, W, compact)]));
+  // A focused signer shows the date and the note they signed with (from the rule's recorded signature).
+  const signedExtra = (n: GraphNode): string[] => {
+    const rule = graph.edges.filter((e) => e.kind === 'signed by' && e.to === n.id).map((e) => byId.get(e.from)).find((r) => r?.signed);
+    const sg = rule?.signed;
+    if (!sg) return [];
+    return [...(sg.at ? [`signed ${sg.at.slice(0, 10)}`] : []), ...(sg.note ? wrap(`“${sg.note.replace(/\s*\(docs\/[^)]*\)\s*$/, '')}”`, 150, ADV.sub, 3) : [])];
+  };
+  const faces = new Map(nodes.map((n) => [n.id, faceOf(n, pos.get(n.id)!, W, compact, focus ? { extra: n.type === 'person' ? signedExtra(n) : [] } : null)]));
 
-  // The centre box: a fixed width; its name, line and status wrap rather than widen it.
+  // The centre box: a fixed width; its name, line and status wrap rather than widen it. In focus mode it is
+  // wider and carries the decision's result, as the engine wrote its checks.
   const cp = center ? pos.get(center.id)! : { x: W / 2, y: H / 2 };
-  const bw = GRAPH_FRAME.center.w + 16;
+  const bw = focus ? focusFrame(W).box : GRAPH_FRAME.center.w + 16;
   const cLabel = wrap(center?.label, bw - 18, ADV.center, 2);
   const cSub = wrap(center?.sub, bw - 18, ADV.centerSub, 2);
-  const status = wrap(center?.status, bw - 18, ADV.status, 3);
-  const bh = 16 + cLabel.length * 18 + cSub.length * 14 + status.length * 13 + 4;
+  const status = focus ? [] : wrap(center?.status, bw - 18, ADV.status, 3);
+  const results = (focus?.result ?? []).map((r) => {
+    const head = `${RESULT_GLYPH[r.status] ?? ''} ${r.label}`.trim();
+    const line = r.available != null && r.required != null ? `${head}: ${num(r.available)} ${r.unit} for your ${num(r.required)} ${r.unit} plan` : `${head}: ${r.text}`;
+    return { r, lines: wrap(line, bw - 18, ADV.status, r.available != null ? 2 : 5) };
+  });
+  const resH = results.length ? 26 + results.reduce((a, x) => a + x.lines.length * 13 + 3, 0) : 0;
+  const bh = 16 + cLabel.length * 18 + cSub.length * 14 + status.length * 13 + resH + 4;
   const bx = { l: cp.x - bw / 2, r: cp.x + bw / 2, t: cp.y - bh / 2, b: cp.y + bh / 2 };
 
   // Edges that meet the centre box fan out along the side they arrive on, in the order of their far ends:
   // neighbors come in over the top, datasets on the left, money from below, everything else on the right.
+  // In focus mode every record (dataset or neighbour) comes in on the left.
   type BoxSide = 'l' | 'r' | 'b' | 't';
-  const boxSide = (c: Cluster): BoxSide => (c === 'neighbors' ? 't' : c === 'sources' ? 'l' : c === 'money' ? 'b' : 'r');
+  const boxSide = (c: Cluster): BoxSide => (focus ? (c === 'neighbors' || c === 'sources' ? 'l' : c === 'rules' ? 'r' : 'b') : c === 'neighbors' ? 't' : c === 'sources' ? 'l' : c === 'money' ? 'b' : 'r');
   const onSide = new Map<string, { i: number; n: number }>();
   for (const side of ['l', 'r', 'b', 't'] as const) {
     const list = edges
@@ -381,19 +478,36 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
         span = Math.abs(g.x - anchor.x);
       }
     } else if (e.kind === 'cites') {
-      const p0 = { x: rightOf(a), y: pa.y };
-      const p3 = { x: pb.x - 9, y: pb.y };
-      c = cubic(p0, { x: (p0.x + p3.x) / 2, y: p0.y }, { x: (p0.x + p3.x) / 2, y: p3.y }, p3);
-      span = p3.x - p0.x;
+      if (focus) {
+        // The quote sits under its rule: a short drop from the rule's mark to the quote's.
+        const p0 = { x: pa.x, y: pa.y + 9 };
+        const p3 = { x: pb.x, y: pb.y - 9 };
+        c = cubic(p0, p0, p3, p3);
+        span = 0;
+      } else {
+        const p0 = { x: rightOf(a), y: pa.y };
+        const p3 = { x: pb.x - 9, y: pb.y };
+        c = cubic(p0, { x: (p0.x + p3.x) / 2, y: p0.y }, { x: (p0.x + p3.x) / 2, y: p3.y }, p3);
+        span = p3.x - p0.x;
+      }
     } else if (e.kind === 'signed by') {
-      // Drawn on from the rule's quote mark, so the line runs along the row and never under words.
+      // Drawn on from the rule's quote mark (focus: from the end of the rule's words), so the line runs
+      // along the row and never under words.
       const qe = edges.find((x) => x.kind === 'cites' && x.from === a.id);
       const q = qe ? byId.get(qe.to) : undefined;
-      const p0 = { x: q ? pos.get(q.id)!.x + 8 : rightOf(a), y: pa.y };
-      const p3 = { x: pb.x - 10, y: pb.y };
-      const dx = Math.max(14, (p3.x - p0.x) * 0.55);
-      c = cubic(p0, { x: p0.x + dx, y: p0.y }, { x: p3.x - dx, y: p3.y }, p3);
-      span = p3.x - p0.x;
+      if (focus && focusFrame(W).narrow) {
+        // Narrow focus: the signer sits under the rules; the line leaves the rule's mark to the left and drops.
+        const p0 = { x: pa.x - 9, y: pa.y };
+        const p3 = { x: pb.x - 10, y: pb.y };
+        c = cubic(p0, { x: p0.x - 26, y: p0.y }, { x: p3.x - 40, y: p3.y }, p3);
+        span = 40;
+      } else {
+        const p0 = { x: focus ? rightOf(a) : q ? pos.get(q.id)!.x + 8 : rightOf(a), y: pa.y };
+        const p3 = { x: pb.x - 10, y: pb.y };
+        const dx = Math.max(14, (p3.x - p0.x) * 0.55);
+        c = cubic(p0, { x: p0.x + dx, y: p0.y }, { x: p3.x - dx, y: p3.y }, p3);
+        span = p3.x - p0.x;
+      }
     } else if (a.cluster === 'sources' && b.cluster === 'neighbors') {
       // A dataset read for a neighbor: out to the right of the left-hand column and back.
       const p0 = { x: pa.x + 10, y: pa.y };
@@ -406,33 +520,49 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
     geoms.push({ e, d: c.d, at: c.at, trust, span });
   }
 
-  // Headings above each cluster.
+  // Headings above each cluster (focus mode: one per step of the chain).
   const heads: { key: string; x: number; y: number; anchor: 'start' | 'end' | 'middle'; text: string; cls: string }[] = [];
   const firstOf = (c: Cluster, t?: NodeType) => nodes.find((n) => n.cluster === c && (!t || n.type === t));
   const count = (c: Cluster, t?: NodeType) => nodes.filter((n) => n.cluster === c && (!t || n.type === t)).length;
   const head = (key: string, x: number, y: number, anchor: 'start' | 'end' | 'middle', text: string, cls = 'gr-head') => heads.push({ key, x: Math.round(x), y: Math.round(y), anchor, text, cls });
-  const nb = firstOf('neighbors');
-  if (nb) head('neighbors', pos.get(nb.id)!.x + 9, pos.get(nb.id)!.y - 22, 'end', `Neighbors · ${count('neighbors')}`);
-  const src = firstOf('sources');
-  if (src) {
-    const q = pos.get(src.id)!;
-    const days = new Set(nodes.filter((n) => n.type === 'source').map((n) => (n.source.pulled ?? '').slice(0, 10)));
-    head('sources', q.x + 9, q.y - 30, 'end', `Sources · ${count('sources')}`);
-    if (days.size === 1 && [...days][0]) head('sources-day', q.x + 9, q.y - 17, 'end', `pulled ${[...days][0]}`, 'gr-head-sub');
+  if (focus) {
+    const recs = nodes.filter((n) => n.type === 'source' || n.type === 'neighbor');
+    const top = Math.min(...nodes.filter((n) => n.cluster !== 'center').map((n) => pos.get(n.id)!.y), bx.t) - 30;
+    const hy = Math.max(26, top);
+    const FF = focusFrame(W);
+    if (recs.length) head('f-records', FF.records + 9, hy, 'end', `Records · ${recs.length}`);
+    head('f-lot', cp.x, Math.min(hy, bx.t - 12), 'middle', 'The lot and its result');
+    if (nodes.some((n) => n.type === 'rule')) head('f-rules', FF.rules - 9, hy, 'start', FF.narrow ? 'The rule, its exact quote, its reviewer' : 'The rule and its exact quote');
+    if (FF.persons != null) {
+      if (nodes.some((n) => n.type === 'person') || nodes.some((n) => n.type === 'rule')) head('f-signed', FF.persons, hy, 'middle', 'Reviewed by');
+      // A rule nobody signed says so in the reviewer's column (an absence, not a node).
+      for (const r of nodes.filter((n) => n.type === 'rule' && !edges.some((e) => e.kind === 'signed by' && e.from === n.id)))
+        head(`f-unsigned-${r.id}`, FF.persons, pos.get(r.id)!.y + 4, 'middle', 'not reviewed yet: pencil', 'gr-head-sub is-pencil');
+    }
+  } else {
+    const nb = firstOf('neighbors');
+    if (nb) head('neighbors', pos.get(nb.id)!.x + 9, pos.get(nb.id)!.y - 22, 'end', `Neighbors · ${count('neighbors')}`);
+    const src = firstOf('sources');
+    if (src) {
+      const q = pos.get(src.id)!;
+      const days = new Set(nodes.filter((n) => n.type === 'source').map((n) => (n.source.pulled ?? '').slice(0, 10)));
+      head('sources', q.x + 9, q.y - 30, 'end', `Sources · ${count('sources')}`);
+      if (days.size === 1 && [...days][0]) head('sources-day', q.x + 9, q.y - 17, 'end', `pulled ${[...days][0]}`, 'gr-head-sub');
+    }
+    const r0 = firstOf('rules', 'rule');
+    const q0 = firstOf('rules', 'quote');
+    const p0 = firstOf('rules', 'person');
+    const ry = r0 ? pos.get(r0.id)!.y - 22 : q0 ? pos.get(q0.id)!.y - 22 : 20;
+    if (r0) head('rules', pos.get(r0.id)!.x - 9, ry, 'start', `Rules · ${count('rules', 'rule')}`);
+    if (q0) head('quotes', pos.get(q0.id)!.x, ry, 'middle', 'Quote');
+    if (p0) head('signers', faces.get(p0.id)!.cx, ry, 'middle', 'Signed by');
+    const m0 = firstOf('money');
+    if (m0) head('money', pos.get(m0.id)!.x + 9, pos.get(m0.id)!.y - 21, 'end', 'Money');
+    const s0 = firstOf('site');
+    if (s0) head('site', pos.get(s0.id)!.x - 9, pos.get(s0.id)!.y - 21, 'start', 'Site · not assessed');
+    const n0 = firstOf('next');
+    if (n0) head('next', pos.get(n0.id)!.x - 9, pos.get(n0.id)!.y - 18, 'start', 'Next · draft letters');
   }
-  const r0 = firstOf('rules', 'rule');
-  const q0 = firstOf('rules', 'quote');
-  const p0 = firstOf('rules', 'person');
-  const ry = r0 ? pos.get(r0.id)!.y - 22 : q0 ? pos.get(q0.id)!.y - 22 : 20;
-  if (r0) head('rules', pos.get(r0.id)!.x - 9, ry, 'start', `Rules · ${count('rules', 'rule')}`);
-  if (q0) head('quotes', pos.get(q0.id)!.x, ry, 'middle', 'Quote');
-  if (p0) head('signers', faces.get(p0.id)!.cx, ry, 'middle', 'Signed by');
-  const m0 = firstOf('money');
-  if (m0) head('money', pos.get(m0.id)!.x + 9, pos.get(m0.id)!.y - 21, 'end', 'Money');
-  const s0 = firstOf('site');
-  if (s0) head('site', pos.get(s0.id)!.x - 9, pos.get(s0.id)!.y - 21, 'start', 'Site · not assessed');
-  const n0 = firstOf('next');
-  if (n0) head('next', pos.get(n0.id)!.x - 9, pos.get(n0.id)!.y - 18, 'start', 'Next · draft letters');
 
   // What an edge label must not cover: the centre box, every mark and its words, and the headings.
   type Box = { l: number; t: number; r: number; b: number };
@@ -442,7 +572,7 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
     const q = pos.get(n.id)!;
     const f = faces.get(n.id)!;
     avoid.push({ l: q.x - 11, t: q.y - 11, r: q.x + 11, b: q.y + 11 });
-    const bottom = q.y + (f.sub ? 13 : 7);
+    const bottom = q.y + (f.quote ? f.lines.length * 12 : f.sub ? 13 : 7);
     if (f.side === 'left') avoid.push({ l: q.x - 13 - f.width, t: q.y - 11, r: q.x - 10, b: bottom });
     else if (f.side === 'right') avoid.push({ l: q.x + 10, t: q.y - 11, r: q.x + 13 + f.width, b: bottom });
     else if (f.side === 'below') avoid.push({ l: f.cx - f.width / 2, t: q.y + 12, r: f.cx + f.width / 2, b: q.y + 16 + f.lines.length * 12 });
@@ -486,16 +616,19 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
   };
 
   // Edge labels: one per kind among the links of the node in focus; then, unless the pointer is on a
-  // node, one per bundle of the same kind across the graph.
-  const focus = hover ?? selected;
+  // node, one per bundle of the same kind across the graph. (A focused chain labels every edge but the
+  // short drop from a rule to its quote.)
+  const lit = hover ?? selected;
   // The lot touches nearly every edge: in focus it lights them all, but its labels stay one per bundle.
-  const focusEdges = focus && byId.get(focus)?.cluster !== 'center' ? geoms.filter((g) => g.e.from === focus || g.e.to === focus) : [];
-  const focusKinds = [...new Set(focusEdges.map((g) => g.e.kind))];
-  for (const k of focusKinds) place(focusEdges.filter((g) => g.e.kind === k));
-  if (!hover || byId.get(hover)?.cluster === 'center') for (const k of DEFAULT_LABELS) if (!focusKinds.includes(k)) {
-    const list = geoms.filter((g) => g.e.kind === k);
-    if (list.length) place(list);
-  }
+  const litEdges = lit && byId.get(lit)?.cluster !== 'center' ? geoms.filter((g) => g.e.from === lit || g.e.to === lit) : [];
+  const litKinds = [...new Set(litEdges.map((g) => g.e.kind))];
+  for (const k of litKinds) place(litEdges.filter((g) => g.e.kind === k));
+  if (!hover || byId.get(hover)?.cluster === 'center')
+    for (const k of DEFAULT_LABELS)
+      if (!litKinds.includes(k)) {
+        const list = geoms.filter((g) => g.e.kind === k && !(focus && k === 'cites'));
+        if (list.length) place(list);
+      }
   const near = new Set<string>();
   if (hover) {
     near.add(hover);
@@ -510,19 +643,21 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
   };
 
   const hovered = hover ? byId.get(hover) : undefined;
+  const selNode = selected ? byId.get(selected) : undefined;
 
   return (
-    <div className="gr">
+    <div className={`gr${focus ? ' is-focus' : ''}`} data-graph-mode={focus ? 'focus' : 'all'}>
       <div className="gr-scroll" ref={box}>
         <svg
-          className="gr-svg"
+          ref={svg}
+          className={`gr-svg${panning ? ' is-panning' : ''}`}
           width={Math.floor(W * scale)}
           height={Math.floor(H * scale)}
           viewBox={`0 0 ${W} ${H}`}
           data-scale={Math.round(scale * 100) / 100}
           data-compact={compact ? '1' : undefined}
           role="group"
-          aria-label={`Graph of ${center?.label ?? 'the lot'}: ${nodes.length} nodes, ${edges.length} links`}
+          aria-label={`${focus ? 'The chain behind one decision' : 'Graph'} of ${center?.label ?? 'the lot'}: ${nodes.length} nodes, ${edges.length} links. Drag the paper to pan; scroll to zoom.`}
           onKeyDown={(e) => {
             if (e.key === 'Escape') onSelect(null);
           }}
@@ -537,136 +672,199 @@ export function GraphCanvas(p: { graph: LotGraph; selected: string | null; onSel
               </marker>
             ))}
           </defs>
-          <rect className="gr-bg" width={W} height={H} onClick={() => onSelect(null)} />
-          <rect className="gr-grid" width={W} height={H} pointerEvents="none" />
+          <rect className="gr-bg" width={W} height={H} onPointerDown={onBgDown} onPointerMove={onBgMove} onPointerUp={onBgUp} onPointerCancel={onBgUp} data-graph="paper" />
+          <g className="gr-view" transform={fitted ? undefined : `translate(${vp.x.toFixed(1)} ${vp.y.toFixed(1)}) scale(${vp.k.toFixed(4)})`} pointerEvents="none">
+            <rect className="gr-grid" x={-W} y={-H} width={W * 3} height={H * 3} />
+          </g>
           <rect className="gr-frame" x={4.5} y={4.5} width={W - 9} height={H - 9} pointerEvents="none" />
           <rect className="gr-frame is-inner" x={8.5} y={8.5} width={W - 17} height={H - 17} pointerEvents="none" />
-          <g className="gr-heads" aria-hidden="true">
-            {heads.map((hd) => (
-              <text key={hd.key} className={hd.cls} x={hd.x} y={hd.y} textAnchor={hd.anchor}>
-                {hd.text}
-              </text>
-            ))}
-          </g>
+          <g className="gr-view" transform={fitted ? undefined : `translate(${vp.x.toFixed(1)} ${vp.y.toFixed(1)}) scale(${vp.k.toFixed(4)})`}>
+            <g className="gr-heads" aria-hidden="true">
+              {heads.map((hd) => (
+                <text key={hd.key} className={hd.cls} x={hd.x} y={hd.y} textAnchor={hd.anchor}>
+                  {hd.text}
+                </text>
+              ))}
+            </g>
 
-          <g className="gr-edges" aria-hidden="true">
-            {geoms.map((g) => {
-              const on = focus ? g.e.from === focus || g.e.to === focus : false;
-              const faint = byId.get(g.e.from)!.cluster === 'sources' && byId.get(g.e.to)!.cluster === 'neighbors';
-              return (
-                <path
-                  key={`${g.e.from}→${g.e.to}`}
-                  d={g.d}
-                  className={`gr-edge k-${slug(g.e.kind)} t-${g.trust}${on ? ' is-on' : ''}${hover && !on ? ' is-dim' : ''}${faint && !on ? ' is-faint' : ''}`}
-                  markerEnd={`url(#gr-arrow-${g.trust})`}
-                />
-              );
-            })}
-          </g>
-          <g className="gr-edge-labels" aria-hidden="true">
-            {geoms
-              .filter((g) => labelAt.has(g.e))
-              .map((g) => {
-                const wd = est(g.e.kind, ADV.pill) + 10;
-                const m = labelAt.get(g.e)!;
-                const dim = hover && !(g.e.from === hover || g.e.to === hover);
+            <g className="gr-edges" aria-hidden="true">
+              {geoms.map((g) => {
+                const on = lit ? g.e.from === lit || g.e.to === lit : false;
+                const faint = byId.get(g.e.from)!.cluster === 'sources' && byId.get(g.e.to)!.cluster === 'neighbors';
                 return (
-                  <g key={`l-${g.e.from}→${g.e.to}`} transform={`translate(${Math.round(m.x)} ${Math.round(m.y)})`} className={`gr-pill k-${slug(g.e.kind)}${dim ? ' is-dim' : ''}`}>
-                    <rect x={-wd / 2} y={-7.5} width={wd} height={15} rx={2} />
-                    <text y={3.6}>{g.e.kind}</text>
+                  <path
+                    key={`${g.e.from}→${g.e.to}`}
+                    d={g.d}
+                    className={`gr-edge k-${slug(g.e.kind)} t-${g.trust}${on ? ' is-on' : ''}${hover && !on ? ' is-dim' : ''}${faint && !on ? ' is-faint' : ''}`}
+                    markerEnd={`url(#gr-arrow-${g.trust})`}
+                    data-edge-kind={g.e.kind}
+                    data-from={g.e.from}
+                    data-to={g.e.to}
+                  />
+                );
+              })}
+            </g>
+            <g className="gr-edge-labels" aria-hidden="true">
+              {geoms
+                .filter((g) => labelAt.has(g.e))
+                .map((g) => {
+                  const wd = est(g.e.kind, ADV.pill) + 10;
+                  const m = labelAt.get(g.e)!;
+                  const dim = hover && !(g.e.from === hover || g.e.to === hover);
+                  return (
+                    <g key={`l-${g.e.from}→${g.e.to}`} transform={`translate(${Math.round(m.x)} ${Math.round(m.y)})`} className={`gr-pill k-${slug(g.e.kind)}${dim ? ' is-dim' : ''}`} data-edge-label={g.e.kind} data-from={g.e.from} data-to={g.e.to}>
+                      <rect x={-wd / 2} y={-7.5} width={wd} height={15} rx={2} />
+                      <text y={3.6}>{g.e.kind}</text>
+                    </g>
+                  );
+                })}
+            </g>
+
+            <g className="gr-nodes">
+              {nodes.map((n) => {
+                const q = pos.get(n.id)!;
+                const isSel = n.id === selected;
+                const dim = hover ? !near.has(n.id) : false;
+                const cls = `gr-node ty-${n.type} t-${n.trust}${isSel ? ' is-selected' : ''}${n.id === hover ? ' is-hover' : ''}${dim ? ' is-dim' : ''}${n.flag ? ' is-flag' : ''}${n.ai ? ' is-ai' : ''}${focus?.id === n.id ? ' is-focused' : ''}`;
+                const aria = `${NODE_TYPE_WORDS[n.type]}: ${n.type === 'quote' ? fit(n.quote ?? n.label, 160, 1) : n.label}${n.sub ? `. ${n.sub}` : ''}${n.status ? `. ${n.status}` : ''}`;
+                const common = {
+                  className: cls,
+                  role: 'button',
+                  tabIndex: 0,
+                  'aria-label': aria,
+                  'aria-pressed': isSel,
+                  'data-node': n.id,
+                  'data-node-type': n.type,
+                  onClick: (e: MouseEvent) => {
+                    e.stopPropagation();
+                    onSelect(n.id);
+                  },
+                  onDoubleClick: (e: MouseEvent) => {
+                    e.stopPropagation();
+                    if (p.onFocus && n.cluster !== 'center') p.onFocus(n.id);
+                  },
+                  onKeyDown: (e: KeyboardEvent) => onKey(e, n.id),
+                  onMouseEnter: () => setHover(n.id),
+                  onMouseLeave: () => setHover((h) => (h === n.id ? null : h)),
+                  onFocus: () => setHover(n.id),
+                  onBlur: () => setHover((h) => (h === n.id ? null : h)),
+                };
+                if (n.cluster === 'center') {
+                  const y0 = -bh / 2 + 24;
+                  const yRes = y0 + cLabel.length * 18 + cSub.length * 14 - 3;
+                  return (
+                    <g key={n.id} {...common} transform={`translate(${q.x} ${q.y})`}>
+                      <rect className="gr-center" x={-bw / 2} y={-bh / 2} width={bw} height={bh} />
+                      <rect className="gr-center is-inner" x={-bw / 2 + 3.5} y={-bh / 2 + 3.5} width={bw - 7} height={bh - 7} />
+                      {cLabel.map((l, i) => (
+                        <text key={`l${i}`} className="gr-center-label" y={y0 + i * 18} textAnchor="middle">
+                          {l}
+                        </text>
+                      ))}
+                      {cSub.map((l, i) => (
+                        <text key={`s${i}`} className="gr-center-sub" y={y0 + cLabel.length * 18 + i * 14 - 3} textAnchor="middle">
+                          {l}
+                        </text>
+                      ))}
+                      {status.map((l, i) => (
+                        <text key={`t${i}`} className="gr-center-status" y={y0 + cLabel.length * 18 + cSub.length * 14 + i * 13 + 1} textAnchor="middle">
+                          {l}
+                        </text>
+                      ))}
+                      {results.length > 0 && (
+                        <g className="gr-result" data-focus-result>
+                          <line x1={-bw / 2 + 12} x2={bw / 2 - 12} y1={yRes + 2} y2={yRes + 2} className="gr-result-rule" />
+                          <text className="gr-result-head" y={yRes + 15} textAnchor="middle">
+                            RESULT
+                          </text>
+                          {results.map(({ r, lines }, k) => {
+                            const y = yRes + 29 + results.slice(0, k).reduce((a, x) => a + x.lines.length * 13 + 3, 0);
+                            return (
+                              <g key={r.id} className={`gr-result-row t-${r.trust} s-${r.status}`} data-result={r.id}>
+                                {lines.map((l, i) => (
+                                  <text key={i} className={`gr-result-line${r.available != null ? ' is-main' : ''}`} y={y + i * 13} textAnchor="middle">
+                                    {l}
+                                  </text>
+                                ))}
+                              </g>
+                            );
+                          })}
+                        </g>
+                      )}
+                    </g>
+                  );
+                }
+                const f = faces.get(n.id)!;
+                const lx = f.side === 'left' ? -13 : 13;
+                const anchor = f.side === 'left' ? 'end' : 'start';
+                const hitW = f.quote ? f.width + 32 : f.width + 32;
+                const hitH = f.quote ? 12 + f.lines.length * 12 : 24;
+                return (
+                  <g key={n.id} {...common} transform={`translate(${q.x} ${q.y})`}>
+                    {f.side === 'below' ? (
+                      <rect className="gr-hit" x={f.cx - q.x - f.width / 2 - 4} y={-12} width={f.width + 8} height={24 + f.lines.length * 12} />
+                    ) : f.side === 'none' ? (
+                      <rect className="gr-hit" x={-11} y={-11} width={22} height={22} />
+                    ) : (
+                      <rect className="gr-hit" x={f.side === 'left' ? -f.width - 20 : -12} y={-12} width={hitW} height={hitH} />
+                    )}
+                    {(isSel || n.id === hover) && <circle className="gr-halo" r={13} />}
+                    <Glyph n={n} />
+                    {f.side === 'below' &&
+                      f.lines.map((l, i) => (
+                        <text key={i} className={i < (f.names ?? 1) ? 'gr-label' : `gr-sub${focus && n.type === 'person' && l.startsWith('“') ? ' is-note' : ''}`} x={f.cx - q.x} y={24 + i * 12} textAnchor="middle">
+                          {l}
+                        </text>
+                      ))}
+                    {f.quote &&
+                      f.lines.map((l, i) => (
+                        <text key={i} className={`gr-quote-line t-${n.trust}`} x={13} y={4 + i * 12}>
+                          {l}
+                        </text>
+                      ))}
+                    {!f.quote && (f.side === 'left' || f.side === 'right') && (
+                      <>
+                        <text className={`gr-label${f.small ? ' is-small' : ''}`} x={lx} y={f.sub ? -1.5 : 4} textAnchor={anchor}>
+                          {f.label}
+                        </text>
+                        {f.sub && (
+                          <text className="gr-sub" x={lx} y={9.5} textAnchor={anchor}>
+                            {f.sub}
+                          </text>
+                        )}
+                      </>
+                    )}
                   </g>
                 );
               })}
-          </g>
+            </g>
 
-          <g className="gr-nodes">
-            {nodes.map((n) => {
-              const q = pos.get(n.id)!;
-              const isSel = n.id === selected;
-              const dim = hover ? !near.has(n.id) : false;
-              const cls = `gr-node ty-${n.type} t-${n.trust}${isSel ? ' is-selected' : ''}${n.id === hover ? ' is-hover' : ''}${dim ? ' is-dim' : ''}${n.flag ? ' is-flag' : ''}${n.ai ? ' is-ai' : ''}`;
-              const aria = `${NODE_TYPE_WORDS[n.type]}: ${n.type === 'quote' ? fit(n.quote ?? n.label, 160, 1) : n.label}${n.sub ? `. ${n.sub}` : ''}${n.status ? `. ${n.status}` : ''}`;
-              const common = {
-                className: cls,
-                role: 'button',
-                tabIndex: 0,
-                'aria-label': aria,
-                'aria-pressed': isSel,
-                'data-node': n.id,
-                onClick: (e: MouseEvent) => {
-                  e.stopPropagation();
-                  onSelect(n.id);
-                },
-                onKeyDown: (e: KeyboardEvent) => onKey(e, n.id),
-                onMouseEnter: () => setHover(n.id),
-                onMouseLeave: () => setHover((h) => (h === n.id ? null : h)),
-                onFocus: () => setHover(n.id),
-                onBlur: () => setHover((h) => (h === n.id ? null : h)),
-              };
-              if (n.cluster === 'center') {
-                return (
-                  <g key={n.id} {...common} transform={`translate(${q.x} ${q.y})`}>
-                    <rect className="gr-center" x={-bw / 2} y={-bh / 2} width={bw} height={bh} />
-                    <rect className="gr-center is-inner" x={-bw / 2 + 3.5} y={-bh / 2 + 3.5} width={bw - 7} height={bh - 7} />
-                    {cLabel.map((l, i) => (
-                      <text key={`l${i}`} className="gr-center-label" y={-bh / 2 + 24 + i * 18} textAnchor="middle">
-                        {l}
-                      </text>
-                    ))}
-                    {cSub.map((l, i) => (
-                      <text key={`s${i}`} className="gr-center-sub" y={-bh / 2 + 24 + cLabel.length * 18 + i * 14 - 3} textAnchor="middle">
-                        {l}
-                      </text>
-                    ))}
-                    {status.map((l, i) => (
-                      <text key={`t${i}`} className="gr-center-status" y={-bh / 2 + 24 + cLabel.length * 18 + cSub.length * 14 + i * 13 + 1} textAnchor="middle">
-                        {l}
-                      </text>
-                    ))}
-                  </g>
-                );
-              }
-              const f = faces.get(n.id)!;
-              const lx = f.side === 'left' ? -13 : 13;
-              const anchor = f.side === 'left' ? 'end' : 'start';
-              return (
-                <g key={n.id} {...common} transform={`translate(${q.x} ${q.y})`}>
-                  {f.side === 'below' ? (
-                    <rect className="gr-hit" x={f.cx - q.x - f.width / 2 - 4} y={-12} width={f.width + 8} height={24 + f.lines.length * 12} />
-                  ) : f.side === 'none' ? (
-                    <rect className="gr-hit" x={-11} y={-11} width={22} height={22} />
-                  ) : (
-                    <rect className="gr-hit" x={f.side === 'left' ? -f.width - 20 : -12} y={-12} width={f.width + 32} height={24} />
-                  )}
-                  {(isSel || n.id === hover) && <circle className="gr-halo" r={13} />}
-                  <Glyph n={n} />
-                  {f.side === 'below' &&
-                    f.lines.map((l, i) => (
-                      <text key={i} className={i < (f.names ?? 1) ? 'gr-label' : 'gr-sub'} x={f.cx - q.x} y={24 + i * 12} textAnchor="middle">
-                        {l}
-                      </text>
-                    ))}
-                  {(f.side === 'left' || f.side === 'right') && (
-                    <>
-                      <text className={`gr-label${f.small ? ' is-small' : ''}`} x={lx} y={f.sub ? -1.5 : 4} textAnchor={anchor}>
-                        {f.label}
-                      </text>
-                      {f.sub && (
-                        <text className="gr-sub" x={lx} y={9.5} textAnchor={anchor}>
-                          {f.sub}
-                        </text>
-                      )}
-                    </>
-                  )}
-                </g>
-              );
-            })}
+            {hovered && <HoverLabel n={hovered} q={pos.get(hovered.id)!} w={W} h={H} bh={bh} />}
           </g>
-
-          {hovered && <HoverLabel n={hovered} q={pos.get(hovered.id)!} w={W} h={H} bh={bh} />}
         </svg>
+        <div className="gr-controls" role="toolbar" aria-label="Graph view">
+          {p.controls}
+          {focus ? (
+            <button type="button" className="gr-ctl is-text" data-graph-control="show-all" onClick={() => p.onFocus?.(null)} title="Show the whole graph again">
+              Show all
+            </button>
+          ) : selNode && selNode.cluster !== 'center' && p.onFocus ? (
+            <button type="button" className="gr-ctl is-text" data-graph-control="focus" onClick={() => p.onFocus!(selNode.id)} title="Show only the chain behind this node's decision (or double-click a node)">
+              Focus on this chain
+            </button>
+          ) : null}
+          <button type="button" className="gr-ctl is-text" data-graph-control="fit" disabled={fitted} onClick={() => setVp({ k: 1, x: 0, y: 0 })} title="Fit the whole drawing to the pane">
+            Fit
+          </button>
+          <button type="button" className="gr-ctl" data-graph-control="zoom-in" aria-label="Zoom in" onClick={() => zoomAbout(1.4, { x: W / 2, y: H / 2 })}>
+            +
+          </button>
+          <button type="button" className="gr-ctl" data-graph-control="zoom-out" aria-label="Zoom out" onClick={() => zoomAbout(1 / 1.4, { x: W / 2, y: H / 2 })}>
+            −
+          </button>
+        </div>
       </div>
-      <Legend graph={graph} hidden={hidden} />
+      <Legend graph={graph} hidden={focus ? undefined : hidden} hint={`Drag the paper to pan · scroll to zoom${focus ? '' : ' · double-click a node to focus its chain'}`} />
     </div>
   );
 }
@@ -696,7 +894,7 @@ function HoverLabel({ n, q, w, h, bh }: { n: GraphNode; q: Pt; w: number; h: num
   );
 }
 
-function Legend({ graph, hidden }: { graph: LotGraph; hidden?: Set<NodeType> }) {
+function Legend({ graph, hidden, hint }: { graph: LotGraph; hidden?: Set<NodeType>; hint?: string }) {
   const types = [...new Set(graph.nodes.map((n) => n.type))].filter((t) => t === 'lot' || !hidden?.has(t));
   const people = graph.nodes.filter((n) => n.type === 'person');
   const ai = people.some((n) => n.ai);
@@ -740,6 +938,7 @@ function Legend({ graph, hidden }: { graph: LotGraph; hidden?: Set<NodeType> }) 
             <span className="gr-ai-chip">AI</span> An AI check, not a person
           </li>
         )}
+        {hint && <li className="gr-hint">{hint}</li>}
       </ul>
     </div>
   );

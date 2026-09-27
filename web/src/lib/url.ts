@@ -47,6 +47,8 @@ export interface UrlState {
   letter: Office | null; // inquiry page: the letter tab to open
   node: string | null; // Graph canvas: the selected node (its id in engine/src/graph.ts)
   ghide: string[]; // Graph canvas: node types hidden from the rail's filters
+  focus: string | null; // Graph canvas: show only the chain behind this node's decision (engine/src/graph.ts focusGraph)
+  step: number | null; // the route's step shown in the Next tab (1-based); null: the first
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
@@ -119,6 +121,11 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     letter: oneOf(q.get('letter'), OFFICES),
     node: q.get('node'),
     ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
+    focus: q.get('focus'),
+    step: (() => {
+      const v = num('step');
+      return v != null && Number.isInteger(v) && v > 0 ? v : null;
+    })(),
   };
   if (ignored) {
     const bad = (param: string, why: string) => ignored.push({ param, value: q.get(param) ?? '', why });
@@ -132,6 +139,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     unknown('tab', TABS, `not a tab we have: ${TABS.join(', ')}`);
     unknown('tray', TRAYS, `not a tray tab we have: ${TRAYS.join(', ')}`);
     if (q.get('tol') != null && state.tol == null) bad('tol', 'not a tolerance we use: a number from 1 to 50 (percent)');
+    if (q.get('step') != null && state.step == null) bad('step', 'not a step of the route: a whole number from 1');
   }
   return state;
 }
@@ -171,7 +179,9 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
     if (s.ward != null) q.set('ward', String(s.ward));
     if (s.zone) q.set('zone', s.zone);
     if (s.canvas === 'graph' && s.node) q.set('node', s.node);
+    if (s.canvas === 'graph' && s.focus) q.set('focus', s.focus);
     if (s.canvas === 'graph' && s.ghide && s.ghide.length) q.set('ghide', s.ghide.join(','));
+    if (s.step != null && s.step > 1) q.set('step', String(s.step));
   }
   if (s.view === 'inquiry' && s.letter) q.set('letter', s.letter);
   if (s.assume && s.assume.length) q.set('assume', s.assume.join(','));

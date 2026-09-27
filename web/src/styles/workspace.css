@@ -507,6 +507,9 @@
 .ws-tabpanel .asm-list {
   max-height: none;
 }
+.ws-tabpanel .asm p {
+  margin: 0;
+}
 
 /* ── Inspector ─────────────────────────────────────────────────────────── */
 .ws-inspector {
@@ -640,6 +643,20 @@
   border: 1px dashed var(--graphite);
   padding: 3px 6px;
 }
+/* Where the counts come from: citywide, one neighbourhood, or the lots the filters show. */
+.ws-scope {
+  margin: 0;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.ws-rail-scope {
+  font-weight: 500;
+  color: var(--ink-2);
+}
 
 /* Tiles: four boxed cells, the numbers in Old Standard. */
 .ws-tiles {
@@ -710,6 +727,17 @@
 /* The sale's caveat ("one sale · unverified") is never cut: that tile's line may run to three lines. */
 .ws-tile[data-tile='sale'] .ws-tile-sub {
   -webkit-line-clamp: 3;
+}
+/* An open question's width: the range and whose reading it waits for, then your plan on its own line. */
+.ws-tile[data-tile='width'] .ws-tile-sub {
+  -webkit-line-clamp: 4;
+}
+.ws-tile-line {
+  display: block;
+}
+.ws-tile-value .numeral.is-range {
+  font-size: 26px;
+  white-space: nowrap;
 }
 .ws-tile .est-mark {
   width: 7px;
@@ -877,6 +905,64 @@
   font-size: 12.5px;
   gap: 5px;
 }
+/* The Next tab: one step of the route in detail (the tray lists the route). */
+.ws-next-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.ws-next-top .ws-watch {
+  margin: 0;
+}
+.ws-next-nav {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 8px;
+}
+.ws-next-dot {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-display);
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+}
+.ws-next-dot.is-on {
+  background: var(--ink);
+  color: var(--sheet);
+}
+.ws-tabpanel .ws-next-step {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+}
+.ws-next-step li {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+.ws-next-body {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.ws-next-head {
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.25;
+}
+.ws-next-letters {
+  margin: 2px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
 .ws-tabpanel .site-rows {
   gap: 6px;
 }
@@ -987,6 +1073,67 @@
 }
 .ws-src-sha {
   color: var(--ink-2);
+}
+/* Records grouped by publisher: one heading (with the shared pull time), then one short line per record. */
+.ws-src-groups {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+}
+.ws-src-group {
+  border-top: 1px solid var(--ink);
+  padding-top: 4px;
+}
+.ws-src-group-head {
+  margin: 0 0 2px;
+}
+.ws-src-group-head strong {
+  font-weight: 600;
+}
+.ws-src-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.ws-src-rows li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 10px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.ws-src-rows .ws-src-note {
+  flex-basis: 100%;
+  order: 3;
+}
+.ws-src-meta {
+  color: var(--ink-2);
+  text-align: right;
+}
+.ws-src-meta a {
+  word-break: break-all;
+}
+/* Rules: one line each; the verbatim quote opens under its line, one at a time. */
+.ws-rule-toggle {
+  font: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.ws-rule-name {
+  font-weight: 600;
+}
+.ws-rule-caret {
+  margin-left: 4px;
+  color: var(--ink-2);
+}
+.ws-rules li.is-open .ws-rule-body {
+  padding: 2px 0 2px;
 }
 .ws-src-inputs,
 .ws-rules {
@@ -1567,4 +1714,32 @@
    section for assistive tech through aria-labelledby). */
 .ws-tabpanel .money-wall > .wall-head {
   display: none;
+}
+
+/* The Graph canvas folds the inspector away until a node is selected (team review, round 3). */
+.ws.ws-canvas-graph.ws-ins-folded {
+  grid-template-columns: min(var(--ws-rail), 184px) minmax(0, 1fr) 40px;
+}
+.ws-inspector.is-folded {
+  align-items: center;
+  padding-top: 10px;
+}
+.ws-unfold {
+  writing-mode: vertical-rl;
+  font-family: var(--f-map);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 4px;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+  cursor: pointer;
+}
+.gnd-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
