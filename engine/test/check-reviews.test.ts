@@ -90,7 +90,11 @@ describe('check-reviews', () => {
     expect(r2.lines.join('\n')).toMatch(/already published with different content/);
   });
 
-  it('never touches the committed review log', () => {
-    expect(existsSync('data/rules/reviews.json')).toBe(false);
+  it('never touches the committed review log (the tests write only to a temporary copy)', () => {
+    const before = existsSync('data/rules/reviews.json') ? readFileSync('data/rules/reviews.json', 'utf8') : null;
+    const root = sandbox();
+    checkReviews({ root, files: [upload(root, 'z.json', [entry({ id: 'z' })])], reviews: 'data/rules/reviews.json', write: true, allowFlagged: false, now: NOW });
+    const after = existsSync('data/rules/reviews.json') ? readFileSync('data/rules/reviews.json', 'utf8') : null;
+    expect(after).toBe(before);
   });
 });

@@ -164,6 +164,15 @@ if (existsSync('data/city/lots.json')) {
   put('city_width_not_area_mapped', s.widthNotAreaMapped, s.widthNotAreaMapped.toLocaleString('en-US'), 'two-unit house: too narrow on frontage measured from the City map, no deed dimensions (pencil)');
 }
 
+// The variance line's "N City lots are stuck the same way" (team decision, 27 Sep): big enough, too narrow.
+if (existsSync('data/city/summary.json')) {
+  const sum = read<{ by_type: Record<string, { width_not_area: number; districts: string[] }> }>('data/city/summary.json');
+  for (const t of ['two', 'three'] as const) {
+    const x = sum.by_type[t];
+    if (x) put(`setback_stuck_lots_${t}`, x.width_not_area, `${x.width_not_area.toLocaleString('en-US')} City lots${x.districts.length === 1 ? ` in ${x.districts[0]}` : ''}`, `data/city/summary.json: City-owned lots big enough but too narrow for a ${t === 'two' ? 'two-unit' : 'three-unit'} house (engine classifier; districts computed: ${x.districts.join(', ')})`);
+  }
+}
+
 // Assembly finder (C15, spec §0.14).
 if (existsSync('data/city/assemblies.json')) {
   for (const [k, v] of Object.entries(assemblyFacts(read<AssemblyFile>('data/city/assemblies.json')))) put(k, v.value, v.display, v.source);

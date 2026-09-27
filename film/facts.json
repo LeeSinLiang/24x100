@@ -537,6 +537,16 @@
    "display": "21",
    "source": "two-unit house: too narrow on frontage measured from the City map, no deed dimensions (pencil)"
   },
+  "setback_stuck_lots_two": {
+   "value": 178,
+   "display": "178 City lots in RM-M",
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a two-unit house (engine classifier; districts computed: RM-M)"
+  },
+  "setback_stuck_lots_three": {
+   "value": 220,
+   "display": "220 City lots in RM-M",
+   "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: RM-M)"
+  },
   "assemblies_citywide": {
    "value": 111,
    "display": "111 runs of 2–3 lots (128 City lots) fit a three-unit house as of right when combined",

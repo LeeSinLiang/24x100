@@ -20,7 +20,8 @@ import {
   type EvalContext,
 } from '@engine/index';
 import type { AuditEntry, BlockFile, LotResult, MoneyResult, Parcel, Scenario, TemplateId } from '@engine/types';
-import { ASSUMPTIONS, COMPS_BY_WARD, HUD, QUESTIONS, RULES } from './data';
+import { ASSUMPTIONS, COMPS_BY_WARD, HUD, QUESTIONS, RULES, STUCK } from './data';
+import type { VarianceContext } from '@engine/verdict';
 import type { UrlState } from './url';
 
 export function lotKey(p: Parcel): string {
@@ -72,6 +73,7 @@ export interface LotModel {
   verdict: Verdict;
   site: SiteRow[];
   inquiry: Inquiry;
+  vctx: VarianceContext;
 }
 
 export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: AuditEntry[]): LotModel | null {
@@ -93,11 +95,19 @@ export function useLotModel(block: BlockFile | undefined, s: UrlState, audit: Au
     const wards = Object.keys(COMPS_BY_WARD).join(', ');
     const moneyGap = !HUD || !ASSUMPTIONS.length ? 'money data not loaded' : !comps ? `comparable sales are loaded for Ward ${wards || '—'} only; this lot is in Ward ${block.meta.ward ?? 'unknown'}` : null;
     const money = !moneyGap && comps && result.state === 'ok' ? moneyFor(result, { comps, hud: HUD!, assumptions: ASSUMPTIONS }) : null;
-    const verdict = verdictFor(result, money, moneyGap, block);
+    // The variance line's context (team decision, 27 Sep): how many lots on this street fail the same way, and
+    // how many City lots citywide are too narrow while big enough (build-time summary).
+    const sameZone = row.filter((x) => x.parcel.zone === sel.zone);
+    const scored = sameZone.filter((x) => x.result.state === 'ok');
+    const vctx: VarianceContext = {
+      street: { same: scored.filter((x) => x.result.relief.some((y) => y.check === 'width' && y.text.startsWith('side setbacks'))).length, of: scored.length, unscored: sameZone.length - scored.length },
+      stuck: STUCK[s.type] ? { n: STUCK[s.type]!.width_not_area, districts: STUCK[s.type]!.districts } : undefined,
+    };
+    const verdict = verdictFor(result, money, moneyGap, block, vctx);
     const site = siteUnknowns(result, block);
     const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
-    const inquiry = buildInquiry(result, block, ctx.rs, money, today);
-    return { ctx, scenario, result, row, unlock, money, moneyGap, verdict, site, inquiry };
+    const inquiry = buildInquiry(result, block, ctx.rs, money, today, ctx.settings, vctx);
+    return { ctx, scenario, result, row, unlock, money, moneyGap, verdict, site, inquiry, vctx };
   }, [block, s.lot, s.lots.join(','), s.type, s.w, s.d, s.st, s.h, s.tol, audit]);
 }
 

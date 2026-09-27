@@ -12,8 +12,8 @@ export const HEADLINE_WORDS: Record<Headline, string> = {
   cant_tell: "Can't tell yet",
   only_with_subsidy: 'Only with subsidy (screening estimate)',
   doesnt_fit: "Doesn't fit as of right",
-  depends_on_builder: "Depends on the builder's price",
-  worth_pricing_site: 'Worth pricing the site',
+  depends_on_builder: "Depends on the builder's price (screening estimate)",
+  worth_pricing_site: 'Worth pricing the site (screening estimate)',
   worth_a_look: 'Worth a closer look, if …',
 };
 
@@ -35,14 +35,31 @@ export interface Verdict {
   order_key: number; // internal sort key only; never displayed
 }
 
-/** C6: variance wording, everywhere. */
-export function varianceWords(sideSetbacks: boolean): string {
-  return sideSetbacks
-    ? 'A side-setback variance is a plausible route (a practitioner at the hackathon called this a clear hardship case). It is not approval, and it adds time and cost we can’t estimate.'
-    : 'A variance is a possible route. It is not approval, and it adds time and cost we can’t estimate.';
+/** What the variance line can honestly add: how many lots on this street fail the same way (from the block's own
+ *  results), and how many City-owned lots citywide are too narrow while big enough (build-time summary), with the
+ *  districts that count covers. */
+export interface VarianceContext {
+  street?: { same: number; of: number; unscored?: number }; // lots on the row failing width the same way, of those scored
+  stuck?: { n: number; districts: string[] };
 }
 
-export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string | null, block: BlockFile): Verdict {
+/** Variance wording, everywhere (team decision, 27 Sep, replacing spec §0.12 C6's "clear hardship case" line). */
+export function varianceWords(sideSetbacks: boolean, ctx: VarianceContext = {}, district: string | null = null): string {
+  if (!sideSetbacks) return 'A variance from the Zoning Board is a possible route. That’s not guaranteed, and it adds time and cost we can’t estimate.';
+  const st = ctx.street;
+  const street =
+    st && st.of > 1 && st.same >= 2
+      ? st.same === st.of
+        ? `, and every lot ${st.unscored ? 'we could check ' : ''}on this street has the same problem`
+        : `, and ${st.same} of the ${st.of} lots we could check on this street have the same problem`
+      : '';
+  const k = ctx.stuck;
+  const inDistrict = k && k.n > 0 && (!district || k.districts.includes(district));
+  const fix = inDistrict ? ` The bigger fix is changing the rule: ${k!.n.toLocaleString('en-US')} City lots${k!.districts.length === 1 ? ` in ${k!.districts[0]}` : ''} are stuck the same way.` : ' The bigger fix is changing the rule.';
+  return `Needs a variance from the Zoning Board. That’s not guaranteed${street}.${fix}`;
+}
+
+export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string | null, block: BlockFile, vctx: VarianceContext = {}): Verdict {
   const chips: VerdictChip[] = [];
   // Money: what a new-build sale leaves after vertical construction, at the practitioner estimate (A).
   const A = m?.estimates.find((e) => e.default);
@@ -103,7 +120,7 @@ export function verdictFor(r: LotResult, m: MoneyResult | null, moneyGap: string
   } else if (dimFail || useNo) {
     headline = 'doesnt_fit';
     const useLine = useNo ? `${useInk ? 'The use table says' : 'An unreviewed reading of the use table says'} this building type isn't permitted here; a use variance from the Zoning Board of Adjustment is a possible route, not approval.` : '';
-    detail = dimFail ? `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief)}${useLine ? ` ${useLine}` : ''}` : useLine;
+    detail = dimFail ? `${r.relief.map((x) => x.text).join('; ')}. ${varianceWords(sideRelief, vctx, r.district)}${useLine ? ` ${useLine}` : ''}` : useLine;
   } else if (m && m.money_verdict === 'depends_on_builder') {
     headline = 'depends_on_builder';
     detail = `At the practitioner's estimate what's left per home runs from ${usd(A!.left[0], 100)} to ${A!.left[1] < 0 ? 'nothing' : usd(A!.left[1], 100)}: a builder's price decides it.`;
@@ -154,7 +171,7 @@ export function siteUnknowns(r: LotResult, block: BlockFile): SiteRow[] {
       id: 'environmental',
       label: 'Environmental',
       deal_killer: true,
-      signals: [y1927 ? `Past use: the 1927 zoning map put this block in ${y1927}${/commercial|industr/i.test(y1927) ? ', a commercial district' : ''}.` : 'Past use: not in our data.', 'We hold no contamination records for the lot.'],
+      signals: [y1927 ? `Historic zoning: the 1927 zoning map put this block in ${y1927}${/commercial|industr/i.test(y1927) ? ', a commercial district' : ''} (a zoning map, not a record of past land use).` : 'Historic zoning: not in our data.', 'We hold no contamination records for the lot.'],
       resolves: 'free state and federal environmental records first, then a Phase I Environmental Site Assessment',
       cost: 'free to look first; then ask a professional',
     },

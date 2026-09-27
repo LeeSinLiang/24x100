@@ -140,18 +140,17 @@ not people.
    (`npx tsx scripts/facts.ts`).
 4. **Re-run R1D‑H with the default model** when the free-tier quota allows:
    `uv run python -m extract run --district R1D-H`, then `uv run python -m extract eval`.
-5. **Remove the dev fixture from history before publishing.** It is a synthetic citywide file labelled "DEV
-   FIXTURE (not real)", added in `728b386` and removed in `75f529e`. This rewrites history, so do it only before
-   the first push:
+5. **The dev fixture in history.** A synthetic citywide file labelled "DEV FIXTURE (not real)" was added in
+   `728b386` and removed in `75f529e`. It is already on GitHub (`LeeSinLiang/24x100`), because those commits were
+   pushed. Removing it now needs a history rewrite and a force push, and that is the team's call. If wanted:
    ```bash
    git filter-branch --index-filter 'git rm -r --cached --ignore-unmatch web/src/components/city/__dev__' -- --all
+   git push --force-with-lease origin main
    ```
-6. **Publish.** No remote exists yet.
-   ```bash
-   gh repo create <owner>/24x100 --public --source . --remote origin
-   git push -u origin master
-   ```
-   Then enable GitHub Pages (Actions) if you want the publish-reviews workflow. The nightly refresh workflow is
-   `workflow_dispatch` only until someone turns it on.
+6. **Push the rest.** The repository exists: `git@github.com:LeeSinLiang/24x100.git` (branch `main`). Commits after
+   `efb4829` are local until someone runs `git push origin main`. One of them (`a7c960e`) added a batch of 20
+   "Sin" signatures; the next (`52c431c`) quarantined them pending Sin's confirmation (decision 58). To use the
+   publish-reviews workflow, enable GitHub Pages (Actions). The nightly refresh workflow runs only when someone
+   starts it (`workflow_dispatch`) until it is turned on.
 7. **Check the `.env`.** The `.env` holds API keys and is gitignored. Confirm with `git status` before the first
    push that it isn't listed.

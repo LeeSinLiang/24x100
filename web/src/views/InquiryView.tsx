@@ -80,7 +80,7 @@ type Status = null | { kind: 'copied' | 'copy-failed' | 'downloaded'; what: stri
 export function InquiryView({ s, block, model }: ViewProps) {
   usePrintLight();
   const date = useMemo(todayIso, []);
-  const inq = useMemo(() => (block && model ? buildInquiry(model.result, block, model.ctx.rs, model.money, date, model.ctx.settings) : null), [block, model, date]);
+  const inq = useMemo(() => (block && model ? buildInquiry(model.result, block, model.ctx.rs, model.money, date, model.ctx.settings, model.vctx) : null), [block, model, date]);
   // ?letter=<office> opens that office's letter (the workspace's route links to it).
   const [office, setOffice] = useState<OfficeId | null>(s.letter);
   const [status, setStatus] = useState<Status>(null);

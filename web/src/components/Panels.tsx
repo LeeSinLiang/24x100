@@ -25,6 +25,12 @@ export function VerdictBlock({ v }: { v: Verdict }) {
   );
 }
 
+/** "$270k", "$337.5k", "$202.5k": the chart's own labels (exact to $100). */
+function kShort(n: number): string {
+  const k = Math.round(n / 100) / 10;
+  return `$${Number.isInteger(k) ? k : k.toFixed(1)}k`;
+}
+
 export function EstimateMark() {
   return <span className="est-mark" role="img" aria-label="practitioner estimate" />;
 }
@@ -81,9 +87,23 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
         <div className="bars" role="img" aria-label={`Building cost per home at each estimate against a new-build sale of ${money(V)}.`}>
         {m.estimates.map((e) => (
           <div className="bar-row" key={e.id}>
-            <span className="bar-label est">{e.id === 'prod' ? 'Production builder' : e.id === 'A' ? `$${e.psf[0]}–$${e.psf[1]}/sf` : `Estimate ${e.id}`}</span>
+            <span className="bar-label est">
+              {e.id === 'prod' ? (
+                <>
+                  Hypothetical production builder <span className="bar-spec">speculative</span>
+                </>
+              ) : e.id === 'A' ? (
+                `Building, $${e.psf[0]}–$${e.psf[1]}/sf`
+              ) : (
+                `Estimate ${e.id}`
+              )}
+            </span>
             <div className="bar-track">
               <div className="bar bar-vertical" style={{ left: x(e.vertical[0]), width: e.vertical[0] === e.vertical[1] ? '3px' : `calc(${x(e.vertical[1])} - ${x(e.vertical[0])})` }} />
+              {/* The value on the chart itself (Codex review): the range per home, or the one figure. */}
+              <span className="bar-val-on" style={{ right: `calc(100% - ${x(e.vertical[1])})` }}>
+                {e.vertical[0] === e.vertical[1] ? kShort(e.vertical[0]) : `${kShort(e.vertical[0])}–${kShort(e.vertical[1])}`}
+              </span>
               <div className="bar-sig sig-newbuild" style={{ left: x(V) }} title="the new-build sale" />
             </div>
           </div>
@@ -94,6 +114,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
           </div>
         </div>
       </div>
+      <p className="small bar-extra">Per home. Site work, land, soft costs and financing are extra.</p>
 
         <table className="money-keys">
           <caption className="visually-hidden">Key values and their sources, per home</caption>
@@ -122,7 +143,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
                   <EstimateMark /> Building
                 </th>
                 <td className="num est">{A.vertical[0] === A.vertical[1] ? money1(A.vertical[0]) : `${money1(A.vertical[0])}–${money1(A.vertical[1])}`}</td>
-                <td className="money-src est">{A.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')}</td>
+                <td className="money-src est" title={A.supplied_by}>practitioner estimate</td>
               </tr>
             )}
             <tr className="est-row">
@@ -134,7 +155,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
                   {money(m.site_work.lo)}–{money(m.site_work.hi)}
                 </Ev>
               </td>
-              <td className="money-src est">{m.site_work.supplied_by.replace(/ \(.*$/, '').replace(/, unconfirmed$/, '')} · not a cap</td>
+              <td className="money-src est" title={m.site_work.supplied_by}>practitioner estimate · not a cap</td>
             </tr>
             {A && (
               <tr className="est-row is-left">

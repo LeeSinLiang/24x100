@@ -1565,3 +1565,9 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* In the workspace the Money tab's own heading repeats the tab name and the stamp: hide it (still names the
+   section for assistive tech through aria-labelledby). */
+.ws-tabpanel .money-wall > .wall-head {
+  display: none;
+}

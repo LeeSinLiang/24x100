@@ -10,6 +10,7 @@
 import { evaluate } from './evaluate';
 import { listAnd } from './format';
 import { APPROVAL_LABEL, DEFAULT_SETTINGS, TEMPLATES } from './templates';
+import { varianceWords, type VarianceContext } from './verdict';
 import type { BlockFile, CityReference, EffectiveRule, LotResult, MoneyResult, Parcel, QuestionState, RuleSet, Settings, Trust } from './types';
 import { siteUnknowns } from './verdict';
 
@@ -204,7 +205,7 @@ const FOR_SALE = 'Available for Sale'; // the City inventory's status for a lot 
 type Fact = { item: InquiryItem; ruleIds: string[] };
 
 /** What the code and the records say about fitting the proposal: ink only, each with the rules it used. */
-function codeFacts(r: LotResult, rs: RuleSet, ps: Parcel[]): Fact[] {
+function codeFacts(r: LotResult, rs: RuleSet, ps: Parcel[], vctx: VarianceContext = {}): Fact[] {
   if (r.state !== 'ok') return [];
   const facts: Fact[] = [];
   const inkRule = (ids: string[]) => ids.map((id) => rs.rules.find((x) => x.id === id)).filter((x): x is EffectiveRule => !!x);
@@ -228,7 +229,7 @@ function codeFacts(r: LotResult, rs: RuleSet, ps: Parcel[]): Fact[] {
     facts.push({ item: { text, trust: 'ink', cite: cite && !text.includes(cite) ? cite : undefined }, ruleIds: c.rule_ids });
   }
   for (const x of r.relief) {
-    const needs = x.approval === 'variance' ? 'A variance from the Zoning Board of Adjustment may be needed.' : `${APPROVAL_LABEL[x.approval]} may be needed.`;
+    const needs = x.approval === 'variance' ? varianceWords(x.check === 'width' && x.text.startsWith('side setbacks'), vctx, r.district) : `${APPROVAL_LABEL[x.approval]} may be needed.`;
     facts.push({
       // The section is the rule the proposal falls short of (the setbacks), not the variance authority.
       item: { text: `It doesn't fit as of right: what we propose would need ${x.text} (the rule is §${x.section}). ${needs}`, trust: 'ink' },
@@ -369,7 +370,7 @@ function letterFrom(
   return { office, ...head, sections, date, from: FROM_PLACEHOLDER, disclaimer: DISCLAIMER, check, markdown, text };
 }
 
-export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: MoneyResult | null, date: string, settings: Settings = DEFAULT_SETTINGS): Inquiry {
+export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: MoneyResult | null, date: string, settings: Settings = DEFAULT_SETTINGS, vctx: VarianceContext = {}): Inquiry {
   const tpl = TEMPLATES[r.scenario.type];
   const ps = r.pins.map((p) => block.parcels.find((x) => x.pin === p)!).sort((a, b) => (a.lot ?? 0) - (b.lot ?? 0));
   const P = r.scenario.proposal;
@@ -387,9 +388,10 @@ export function buildInquiry(r: LotResult, block: BlockFile, rs: RuleSet, m: Mon
   const disagree = r.refusal?.code === 'records_disagree';
 
   // ── Facts and questions, before they are split into letters ─────────────────────────────────
-  const facts = codeFacts(r, rs, ps);
+  const facts = codeFacts(r, rs, ps, vctx);
   const confirmed = recordedConfirmations(r, block, rs, settings, ps, facts);
   const allowed = allowedNumbers(r, m, rs, block, confirmed);
+  [vctx.stuck?.n, vctx.street?.same, vctx.street?.of].forEach((v) => v != null && allowed.add(v)); // counts the variance line cites
   const zaFacts: InquiryItem[] = facts.map((f) => (confirmed.rests.has(f.item.text) ? { ...f.item, text: `${f.item.text} This rests on a City confirmation recorded in this app, quoted with the questions below; we ask you to confirm it.` } : f.item));
 
   const routed: Record<OfficeId, InquiryItem[]> = { assessment: [], real_estate: [], zoning: [], ura: [], rco: [] };

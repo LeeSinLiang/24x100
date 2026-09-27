@@ -187,10 +187,11 @@ describe('inquiry', () => {
       expect(rco.markdown).not.toMatch(/\$|§|setback|practitioner/);
     });
 
-    it('a variance is only "may be needed" from the Zoning Board of Adjustment, with a question; never "hardship"', () => {
+    it('the variance line is the team\'s: needs a variance, not guaranteed, the rule is the bigger fix; never "hardship"', () => {
       const r2 = evaluate(ctx, scen(b, 'two', [25]));
       const za = letter(buildInquiry(r2, b, ctx.rs, money(r2), '2026-09-26'), 'zoning');
-      expect(section(za, 'facts')).toMatch(/A variance from the Zoning Board of Adjustment may be needed/);
+      expect(section(za, 'facts')).toMatch(/Needs a variance from the Zoning Board\. That’s not guaranteed/);
+      expect(section(za, 'facts')).toMatch(/The bigger fix is changing the rule/);
       expect(section(za, 'questions')).toMatch(/what would you need to see/);
       expect(za.markdown).not.toMatch(/hardship|practitioner/i);
     });
