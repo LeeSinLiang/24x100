@@ -99,7 +99,8 @@ function pushMark(page, beat, id, b, c, note) {
       .evaluate((bx) => {
         const d = document.createElement('div');
         d.className = 'demo-shot-box';
-        d.style.cssText = `position:fixed;z-index:2147483646;pointer-events:none;outline:3px solid #0a0;left:${bx[0]}px;top:${bx[1]}px;width:${bx[2]}px;height:${bx[3]}px`;
+        const k = parseFloat(document.documentElement.style.zoom || getComputedStyle(document.documentElement).zoom) || 1; // record mode zooms the root
+        d.style.cssText = `position:fixed;z-index:2147483646;pointer-events:none;outline:3px solid #0a0;left:${bx[0] / k}px;top:${bx[1] / k}px;width:${bx[2] / k}px;height:${bx[3] / k}px`;
         document.documentElement.appendChild(d);
       }, box)
       .then(() => page.screenshot({ path: `${process.env.SHOTS}/${beat}-${id}.png` }))
@@ -597,6 +598,53 @@ const V6 = [
       if (!(await p.evaluate(() => new URLSearchParams(location.search).get('record') === '1'))) (cues.B10.missing ??= []).push('the letter opened without record=1');
       await mark(p, 'B10', 'letter', p.locator('.iq-title').first(), c, "the draft letter's heading", { tight: true });
       await c.until(13 + HOLD);
+    },
+  },
+  {
+    id: 'B15',
+    name: 'what-if',
+    // The rule what-ifs (spec §0.16): S1's sentence struck through; a click lights its City lots on the map.
+    q: 'view=city&type=two&tab=whatif',
+    run: async (p, c) => {
+      cues.B15 = {};
+      const row = p.locator('[data-whatif="S1"]');
+      await mark(p, 'B15', 's1_sentence', row.locator('[data-whatif-sentence]'), c, 'the §925.06.C sentence, struck through in red; on screen the whole clip', { tight: true });
+      await mark(p, 'B15', 's1_count', row.locator('[data-whatif-count]'), c, 'the "69" in "Opens 69 City-owned lots for a two-unit house"; on screen the whole clip', { tight: true });
+      await c.until(0.5);
+      await hoverSlow(p, row.locator('[data-whatif-sentence]'), { fx: 0.28, fy: 0.3, rest: 0.6 });
+      await c.until(1.7);
+      await clickSlow(p, row.locator('button.whatif-pick'));
+      cues.B15.s1_click = at(c);
+      await p.waitForFunction(() => new URLSearchParams(location.search).get('whatif') === 'S1', null, { timeout: 5000 });
+      await sleep(350); // the map redraws: the rest dims, the what-if lots keep their dot and get a pencil ring
+      cues.B15.s1_lit = at(c);
+      // s1_map: the box around the lit lots, read from the canvas (after the wash, only they stay saturated red).
+      const lit = await p.evaluate(() => {
+        const cv = document.querySelector('.city-plate canvas');
+        if (!(cv instanceof HTMLCanvasElement)) return null;
+        const g = cv.getContext('2d');
+        const d = g.getImageData(0, 0, cv.width, cv.height).data;
+        let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
+        for (let y = 0; y < cv.height; y++)
+          for (let x = 0; x < cv.width; x++) {
+            const k = (y * cv.width + x) * 4;
+            if (d[k] > 140 && d[k] - d[k + 1] > 90 && d[k] - d[k + 2] > 80 && d[k + 3] > 200) {
+              if (x < x0) x0 = x;
+              if (y < y0) y0 = y;
+              if (x > x1) x1 = x;
+              if (y > y1) y1 = y;
+            }
+          }
+        if (x1 < 0) return null;
+        const r = cv.getBoundingClientRect();
+        const sx = r.width / cv.width, sy = r.height / cv.height;
+        return [r.x + x0 * sx - 6, r.y + y0 * sy - 6, (x1 - x0) * sx + 12, (y1 - y0) * sy + 12];
+      });
+      if (lit) await pushMark(p, 'B15', 's1_map', lit, c, 'the box around the lit lots (Homewood, Lincoln-Lemington-Belmar, the Hill); the rest of the map is dimmed');
+      else (cues.B15.missing ??= []).push('s1_map: no lit lots found on the canvas');
+      // The pointer goes to the map, to the Hill's lit cluster, and rests.
+      await glide(p, 790, 410, { steps: 30, rest: 0.6 });
+      await c.until(7 + HOLD);
     },
   },
 ];

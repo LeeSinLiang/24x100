@@ -19,6 +19,7 @@ import { Dash, InspectorShell, Tile, type TabDef } from './Shell';
 import { aType, Gloss, RUN_ADDR_NOTE, runAddrs, runCounts, runLotsLabel } from './plain';
 import { RecordList, RuleSources, type SourceRow } from './Sources';
 import { WatchToggle } from '../WatchToggle';
+import { WhatIfs } from '../city/WhatIfs';
 
 const listAnd = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
 
@@ -223,6 +224,11 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
       id: 'sources',
       label: 'Sources',
       panel: <CitySources cm={cm} />,
+    },
+    {
+      id: 'whatif',
+      label: 'What-ifs',
+      panel: <WhatIfs s={s} update={update} />,
     },
   ];
   return (

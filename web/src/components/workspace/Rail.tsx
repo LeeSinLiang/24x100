@@ -106,6 +106,12 @@ export function Rail({
           <Check id="rules" swatch="rules" on={!hide.has('rules')} onChange={() => setHide(['rules'], hide.has('rules'))} count={count(sum?.byBlocker.rules)}>
             <span title={STYLE.rules.gloss}>Not checked</span>
           </Check>
+          {ready && sum && sum.rulesProposed > 0 && (
+            // The grey explained: some of these districts have rules the model proposed, waiting for a person.
+            <p className="ws-layer-note" data-count="rules-proposed">
+              {n(sum.rulesProposed)} of them: rules proposed, awaiting a person’s check
+            </p>
+          )}
           <label className="ws-layer is-asm" data-layer="assemble">
             <input type="checkbox" checked={s.layer === 'assemble'} onChange={() => update({ view: 'city', layer: s.layer === 'assemble' ? null : 'assemble', run: null, pin: null }, { push: true })} />
             <span className="ws-asm-ring" aria-hidden="true" />

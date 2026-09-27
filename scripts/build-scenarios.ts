@@ -20,6 +20,9 @@ export interface Scenario {
   rule: string; // the stored rule that carries it
   source_file: string;
   change: string; // what the what-if does, in words
+  /** How the page marks up the quote: the words struck (a substring of the quote) and what replaces them, if anything. */
+  strike: string;
+  insert: string | null;
   what?: WhatIf;
   /** A value change on stored rules: [district, field, new value]. */
   value?: { district: string; field: string; to: number };
@@ -34,6 +37,8 @@ export const SCENARIOS: Scenario[] = [
     rule: 'pgh.contextual_side',
     source_file: 'data/code/ch925.txt',
     change: 'Struck: a side facing a vacant lot may take the contextual minimum (3 ft), as a side facing a built lot may.',
+    strike: 'If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.',
+    insert: null,
     what: { vacantSidesContextual: true },
   },
   {
@@ -44,6 +49,8 @@ export const SCENARIOS: Scenario[] = [
     rule: 'pgh.narrow_lot_side',
     source_file: 'data/code/ch925.txt',
     change: 'Read as "for any single-, two- or three-unit house": the narrow-lot table (3 ft interior sides at 37 ft and below) applies to them too.',
+    strike: 'single-unit house',
+    insert: 'single-, two- or three-unit house',
     what: { narrowTableFor: ['two', 'three'] },
   },
   {
@@ -54,6 +61,8 @@ export const SCENARIOS: Scenario[] = [
     rule: 'rm-m.side_interior',
     source_file: 'data/code/ch903.txt',
     change: 'The RM Subdistrict’s minimum interior side setback, 10 ft, read as 5 ft. A plain dimension change, for comparison.',
+    strike: '10 ft.',
+    insert: '5 ft.',
     value: { district: 'RM-M', field: 'side_setback_interior', to: 5 },
   },
 ];
@@ -92,6 +101,7 @@ export function build(inp: Inputs = loadInputs()) {
   const out = SCENARIOS.map((sc) => {
     const text = norm(readFileSync(sc.source_file, 'utf8'));
     if (!text.includes(norm(sc.quote))) throw new Error(`${sc.id}: the quote is not verbatim in ${sc.source_file}`);
+    if (!sc.quote.includes(sc.strike)) throw new Error(`${sc.id}: the struck words are not in the quote`);
     const by_type = Object.fromEntries(
       TYPES.map((t) => {
         const was = base.get(t)!;

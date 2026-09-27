@@ -7,7 +7,7 @@ export type View = 'city' | 'block' | 'lot' | 'review' | 'inquiry' | 'changes' |
 /** The workspace's centre canvas (spec §0.15). Defaults: city → map; lot and block → plan. */
 export type Canvas = 'map' | 'plan' | 'graph' | 'table';
 /** The inspector's tabs, in the order a developer checks them (spec §0.12). */
-export type InspectorTab = 'money' | 'rules' | 'site' | 'next' | 'sources';
+export type InspectorTab = 'money' | 'rules' | 'site' | 'next' | 'sources' | 'whatif';
 /** The bottom tray's tabs; 'closed' collapses it. */
 export type TrayTab = 'next' | 'timeline' | 'changes' | 'closed';
 export type Office = 'assessment' | 'real_estate' | 'zoning' | 'ura' | 'rco';
@@ -46,6 +46,7 @@ export interface UrlState {
   zone: string | null; // filter: zoning district
   letter: Office | null; // inquiry page: the letter tab to open
   anim: boolean; // film: keep the map's zoom animation in record mode (record mode is otherwise still)
+  whatif: WhatIfId | null; // city: the rule what-if whose lots the map shows (spec §0.16)
   node: string | null; // Graph canvas: the selected node (its id in engine/src/graph.ts)
   ghide: string[]; // Graph canvas: node types hidden from the rail's filters
   focus: string | null; // Graph canvas: show only the chain behind this node's decision (engine/src/graph.ts focusGraph)
@@ -55,7 +56,9 @@ export interface UrlState {
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
 const VIEWS: View[] = ['city', 'block', 'lot', 'review', 'inquiry', 'changes', 'about'];
 const CANVASES: Canvas[] = ['map', 'plan', 'graph', 'table'];
-const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources'];
+const TABS: InspectorTab[] = ['money', 'rules', 'site', 'next', 'sources', 'whatif'];
+export const WHATIFS = ['S1', 'S2', 'S3'] as const;
+export type WhatIfId = (typeof WHATIFS)[number];
 const TRAYS: TrayTab[] = ['next', 'timeline', 'changes', 'closed'];
 const OFFICES: Office[] = ['assessment', 'real_estate', 'zoning', 'ura', 'rco'];
 const oneOf = <T extends string>(v: string | null, list: readonly T[]): T | null => (v != null && (list as readonly string[]).includes(v) ? (v as T) : null);
@@ -121,6 +124,7 @@ export function parseUrl(search: string, ignored?: Ignored[]): UrlState {
     zone: q.get('zone'),
     letter: oneOf(q.get('letter'), OFFICES),
     anim: q.get('anim') === '1',
+    whatif: oneOf(q.get('whatif'), WHATIFS),
     node: q.get('node'),
     ghide: (q.get('ghide') ?? '').split(',').filter(Boolean),
     focus: q.get('focus'),
@@ -195,6 +199,7 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if (s.record) q.set('record', '1');
   else if (s.present) q.set('present', '1');
   if (s.anim) q.set('anim', '1');
+  if (s.whatif) q.set('whatif', s.whatif);
   if (s.still) q.set('still', '1');
   if (s.theme) q.set('theme', s.theme);
   return `?${q.toString().replace(/%2C/g, ',').replace(/%3A/g, ':')}`;

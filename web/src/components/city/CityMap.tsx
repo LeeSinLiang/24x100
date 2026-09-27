@@ -153,6 +153,7 @@ interface Props {
   onInsetOpen?: () => void; // double-clicking the inset (opens the Plan view)
   marks?: number[]; // "Combine to fit" layer: City lots in a qualifying run, ringed (indexes into lots)
   markStrong?: number[]; // the selected run's lots, ringed heavier
+  whatIf?: number[]; // a rule what-if's lots (spec §0.16): the rest of the map dims, these keep their dot and get a pencil ring
 }
 
 const PAD = 26;
@@ -385,6 +386,42 @@ export function CityMap(p: Props) {
       }
       g.strokeStyle = color('--ink');
       g.lineWidth = lw;
+      g.stroke();
+      g.restore();
+    }
+    // A rule what-if (spec §0.16): hypothetical, so never coloured as "fits". The rest of the map dims under a
+    // paper wash; these lots keep today's dot and get a dashed pencil ring.
+    const wi = (p.whatIf ?? []).filter((i) => i >= 0 && i < world.xs.length);
+    if (wi.length) {
+      g.save();
+      g.fillStyle = color('--paper');
+      g.globalAlpha = 0.7;
+      g.fillRect(0, 0, w, h);
+      g.restore();
+      for (const i of wi) {
+        const st = STYLE[p.classes[i].blocker];
+        g.save();
+        g.beginPath();
+        g.arc(X(i), Y(i), rr, 0, Math.PI * 2);
+        if (st.hollow) {
+          g.strokeStyle = color(st.token);
+          g.lineWidth = 1.2;
+          g.stroke();
+        } else {
+          g.fillStyle = color(st.token);
+          g.fill();
+        }
+        g.restore();
+      }
+      g.save();
+      g.beginPath();
+      for (const i of wi) {
+        g.moveTo(X(i) + rr + 3.8, Y(i));
+        g.arc(X(i), Y(i), rr + 3.8, 0, Math.PI * 2);
+      }
+      g.setLineDash([2.6, 1.8]);
+      g.strokeStyle = color('--graphite');
+      g.lineWidth = 2;
       g.stroke();
       g.restore();
     }

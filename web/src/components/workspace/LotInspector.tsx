@@ -15,6 +15,7 @@ import { Gloss, kFmt, LotSentence, VerdictStamp } from './plain';
 import { Segs } from './Segs';
 import { MoneySources, RecordList, RuleSources } from './Sources';
 import { stepFromText, type Step } from './Tray';
+import { whatIfLine } from '../city/WhatIfs';
 import { WatchToggle } from '../WatchToggle';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
@@ -417,6 +418,8 @@ export function LotInspector({
   const ctxAt = ctxCheck ? expl.findIndex((sg) => sg.t === ctxCheck.text) : -1;
   const whyTail = ctxAt >= 0 ? expl.slice(ctxAt) : [];
 
+  // A single lot that a rule what-if (spec §0.16) would open: one line in the Rules tab, never a verdict.
+  const wi = r.pins.length === 1 ? whatIfLine(r.pins[0], r.scenario.type) : null;
   const tabs: TabDef[] = [
     {
       id: 'money',
@@ -440,6 +443,11 @@ export function LotInspector({
           <p className="ws-engine-sentence" data-rules-conclusion>
             <Segs segs={headline(r, block, model.ctx.rs)} />
           </p>
+          {wi && (
+            <p className="small whatif-lot" data-whatif-lot={wi.ids.join(',')}>
+              <span className="stamp stamp-pencil whatif-stamp">What-if</span> {wi.words}
+            </p>
+          )}
           <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={onTry} block={block} vctx={model.vctx} />
           {r.state === 'ok' && w ? (
             <p className="small ws-width-line">

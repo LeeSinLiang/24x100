@@ -23,6 +23,9 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--calls", default=None, help="comma-separated calls to run (default: all), e.g. dimensional,use")
     r.add_argument("--resume", action="store_true", help="re-use the model's saved response for any identical prompt (extract/.cache) instead of calling again")
     sub.add_parser("eval", help="compare the RM-M extraction with the answer key; write docs/eval.md")
+    rc = sub.add_parser("rulecheck", help="the agent's check of extracted districts, for a person to sign off on (no network)")
+    rc.add_argument("--district", required=True, action="append")
+    rc.add_argument("--out", default=None, help="write the Markdown here (default: print it)")
     sub.add_parser("check", help="re-verify every quote in data/rules (base + extracted) with the Python locator")
     a = ap.parse_args(argv)
 
@@ -45,6 +48,19 @@ def main(argv: list[str] | None = None) -> int:
             print(f"STOP: {e}. Nothing was written for this district.", file=sys.stderr)
             return 3
         return 4 if partial else 0
+    if a.cmd == "rulecheck":
+        from pathlib import Path
+
+        from .rulecheck import run as rulecheck
+
+        rows, md = rulecheck(a.district)
+        if a.out:
+            Path(a.out).write_text(md, encoding="utf-8")
+        else:
+            print(md)
+        bad = [r for r in rows if not r["quote_ok"] or r["agree"] is False]
+        print(f"{len(rows)} rules checked; {len(bad)} disagree; {sum(1 for r in rows if r['agree'] is None)} read by eye", file=sys.stderr)
+        return 1 if bad else 0
     if a.cmd == "eval":
         from .eval import main as eval_main
 

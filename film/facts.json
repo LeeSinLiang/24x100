@@ -549,6 +549,36 @@
    "display": "220 City lots",
    "source": "data/city/summary.json: City-owned lots big enough but too narrow for a three-unit house (engine classifier; districts computed: R1D-H, RM-M)"
   },
+  "scenario_s1_two": {
+   "value": 69,
+   "display": "69 more City lots could hold a two-unit home if one sentence were struck (what-if, not the law)",
+   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 50 of them listed for sale, 13 still pencil; districts computed: R1D-H, RM-M"
+  },
+  "scenario_s1_three": {
+   "value": 15,
+   "display": "15 more City lots could hold a three-unit home if one sentence were struck (what-if, not the law)",
+   "source": "data/city/scenarios.json: S1 Vacant neighbours; §925.06.C \"If lots on either side of the subject lot are vacant, the setback that is required by the zoning district shall apply.\" struck; 10 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M"
+  },
+  "scenario_s2_two": {
+   "value": 146,
+   "display": "146 more City lots could hold a two-unit home (what-if, not the law)",
+   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 95 of them listed for sale, 139 still pencil; districts computed: R1D-H, RM-M"
+  },
+  "scenario_s2_three": {
+   "value": 29,
+   "display": "29 more City lots could hold a three-unit home (what-if, not the law)",
+   "source": "data/city/scenarios.json: S2 Narrow-lot side yards for two- and three-unit houses; §925.06.C \"for any single-unit house on a recorded zoning lot that is less than sixty (60) feet in width, the side yards may be reduced according to the following:\" with \"single-unit house\" read as \"single-, two- or three-unit house\"; 20 of them listed for sale, 11 still pencil; districts computed: R1D-H, RM-M"
+  },
+  "scenario_s3_two": {
+   "value": 36,
+   "display": "36 more City lots could hold a two-unit home (what-if, not the law)",
+   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 24 of them listed for sale, 9 still pencil; districts computed: R1D-H, RM-M"
+  },
+  "scenario_s3_three": {
+   "value": 20,
+   "display": "20 more City lots could hold a three-unit home (what-if, not the law)",
+   "source": "data/city/scenarios.json: S3 RM interior side setback 10 → 5 ft; §903.03.C \"RM Subdistrict | 10 ft.\" with \"10 ft.\" read as \"5 ft.\"; 13 of them listed for sale, 4 still pencil; districts computed: R1D-H, RM-M"
+  },
   "assemblies_citywide": {
    "value": 111,
    "display": "111 lot groups of 2–3 side-by-side lots (some share lots), touching 128 City-owned lots that don't fit alone, fit a three-unit house as of right when combined",

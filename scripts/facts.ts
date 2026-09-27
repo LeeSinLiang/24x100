@@ -173,6 +173,23 @@ if (existsSync('data/city/summary.json')) {
   }
 }
 
+// Rule what-ifs (spec §0.16): City lots one clause change would open. Not the law; each fact carries its quote.
+if (existsSync('data/city/scenarios.json')) {
+  const f = read<{ meta: { districts: string[] }; scenarios: { id: string; name: string; section: string; quote: string; strike: string; insert: string | null; by_type: Record<string, { opens: number; for_sale: number; pencil: number } | undefined> }[] }>('data/city/scenarios.json');
+  for (const sc of f.scenarios)
+    for (const t of ['two', 'three'] as const) {
+      const x = sc.by_type[t];
+      if (!x) continue;
+      const house = t === 'two' ? 'two-unit' : 'three-unit';
+      put(
+        `scenario_${sc.id.toLowerCase()}_${t}`,
+        x.opens,
+        `${x.opens.toLocaleString('en-US')} more City lots could hold a ${house} home${sc.id === 'S1' ? ' if one sentence were struck' : ''} (what-if, not the law)`,
+        `data/city/scenarios.json: ${sc.id} ${sc.name}; §${sc.section} "${sc.quote}"${sc.insert ? ` with "${sc.strike}" read as "${sc.insert}"` : ' struck'}; ${x.for_sale} of them listed for sale, ${x.pencil} still pencil; districts computed: ${f.meta.districts.join(', ')}`,
+      );
+    }
+}
+
 // Assembly finder (C15, spec §0.14).
 if (existsSync('data/city/assemblies.json')) {
   for (const [k, v] of Object.entries(assemblyFacts(read<AssemblyFile>('data/city/assemblies.json')))) put(k, v.value, v.display, v.source);

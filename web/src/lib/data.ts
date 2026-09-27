@@ -96,3 +96,28 @@ export function refreshChangesFor(pins: string[]): RefreshChange[] {
 // City-owned lots too narrow while big enough, per building type (scripts/build-summary.ts; build time).
 const summaryFiles = import.meta.glob('../../../data/city/summary.json', { eager: true, import: 'default' }) as Record<string, { by_type?: Record<string, { width_not_area: number; districts: string[] }> }>;
 export const STUCK: Record<string, { width_not_area: number; districts: string[] } | undefined> = Object.values(summaryFiles)[0]?.by_type ?? {};
+
+// Rule what-ifs (spec §0.16; scripts/build-scenarios.ts, build time): City lots each clause change would open.
+export interface WhatIfType {
+  opens: number;
+  for_sale: number;
+  pencil: number;
+  was_width: number;
+  by_hood: [string, number][];
+  by_district: [string, number][];
+  pins: string[];
+}
+export interface WhatIfScenario {
+  id: 'S1' | 'S2' | 'S3';
+  name: string;
+  section: string;
+  quote: string;
+  rule: string;
+  source_file: string;
+  change: string;
+  strike: string;
+  insert: string | null;
+  by_type: Partial<Record<string, WhatIfType>>;
+}
+const scenarioFiles = import.meta.glob('../../../data/city/scenarios.json', { eager: true, import: 'default' }) as Record<string, { meta?: { note: string; districts: string[] }; scenarios?: WhatIfScenario[] }>;
+export const WHATIF = Object.values(scenarioFiles)[0] ?? { scenarios: [] };

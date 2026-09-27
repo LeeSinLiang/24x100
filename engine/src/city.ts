@@ -261,6 +261,8 @@ export interface CitySummary {
   widthNotAreaContext: number;
   /** No deed dimensions: frontage measured from the City map: pencil. */
   widthNotAreaMapped: number;
+  /** Grey lots whose district has rules the model proposed that no person has checked yet (part of byBlocker.rules). */
+  rulesProposed: number;
   districts: { zone: string; lots: number; computed: boolean }[];
 }
 
@@ -288,10 +290,12 @@ export function summarize(lots: CityLot[], classes: CityClass[], type: TemplateI
     dz.set(z, cur);
   });
   const computed = classes.filter((c) => !['rules', 'records', 'edges'].includes(c.blocker)).length;
+  const rulesProposed = classes.filter((c) => c.blocker === 'rules' && /still pencil/.test(c.note)).length;
   return {
     type,
     total: lots.length,
     computed,
+    rulesProposed,
     byBlocker,
     widthAny,
     areaAny,
