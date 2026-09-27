@@ -102,7 +102,7 @@ async function clickSlow(page, locator) {
 }
 const failed = [];
 
-const BEATS = [
+const LEGACY = [
   { id: 'B01', name: 'surprise', q: 'view=lot&block=10K&lot=25&type=two', run: async (p, c) => c.until(9.5) },
   { id: 'B02', name: 'not-one-lot', q: 'view=city&type=two', run: async (p, c) => c.until(11) },
   { id: 'B03', name: 'why', q: 'view=lot&block=10K&lot=25&type=two&drawer=rule:pgh.contextual_side', run: async (p, c) => c.until(16) },
@@ -227,6 +227,121 @@ const BEATS = [
   { id: 'B11', name: 'what-changed', q: 'view=changes', run: async (p, c) => c.until(9.5) },
   { id: 'B12', name: 'limits', q: 'view=about&block=10K&section=limits', run: async (p, c) => c.until(7) },
 ];
+
+
+// Film v6 (27 Sep): every clip moves, one thing to look at per phrase, pointer marks for the film's red pen,
+// 2 s of hold at the end. Beats whose screens are still being built (B02 map zoom, B01 focus ring, B14 graph
+// focus, B08 Rules tab, B10 Next tab) are recorded after that work lands.
+const HOLD = 2;
+const MAHON = '0010K00025000000,0010K00026000000,0010K00027000000';
+const V6 = [
+  {
+    id: 'B07',
+    name: 'ai-reads-the-code',
+    q: 'view=review&district=R1D-H',
+    run: async (p, c) => {
+      const RULE = 'r1d-h.x.side_setback_exterior';
+      const card = p.locator(`article[data-rule-id="${RULE}"]`);
+      await c.until(0.6);
+      await card.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' })); // the page scrolls to the rule
+      await c.until(1.8);
+      await clickSlow(p, card.locator('button.rv-locate')); // the quote lights up in the saved code text
+      await c.until(2.8);
+      await mark(p, 'B07', 'quote', p.locator('mark.is-active'), c);
+      // A "question for the City" on screen now: this rule's own if it has one, else the nearest visible one.
+      const qs = p.locator('text=/question for the City/i');
+      let qi = -1;
+      for (let i = 0; i < (await qs.count()); i++) {
+        const bb = await qs.nth(i).boundingBox();
+        if (bb && bb.y > 60 && bb.y + bb.height < 1060) { qi = i; break; }
+      }
+      if (qi >= 0) await mark(p, 'B07', 'city_question', qs.nth(qi), c, 'a question for the City on another rule on this screen (this rule has none)');
+      else (cues.B07 ??= {}, (cues.B07.missing ??= []).push('city_question: none visible on this screen'));
+      if (REVIEWER) {
+        await c.until(3.2);
+        await clickSlow(p, card.getByRole('button', { name: 'Sign as source-checked' }));
+        const form = card.locator('.review-form');
+        await form.getByLabel('Name').pressSequentially(REVIEWER.name, { delay: 110 }); // typed visibly
+        await form.getByLabel('Role').pressSequentially(REVIEWER.role, { delay: 55 });
+        await form.getByRole('textbox', { name: /Note/ }).pressSequentially('Quote matches the saved code text', { delay: 30 });
+        await c.until(9.6);
+        await clickSlow(p, form.getByRole('button', { name: 'Sign as source-checked' }));
+        await p.waitForFunction((id) => document.querySelector(`article[data-rule-id="${id}"]`)?.getAttribute('data-trust') === 'ink', RULE, { timeout: 4000 });
+        cues.B07 = { ...(cues.B07 ?? {}), cue: Math.round(c.now() * 100) / 100, rule: `${RULE} (exterior side setback 15 ft, §903.03.D.2)`, note: `signed on camera as ${REVIEWER.name} (${REVIEWER.role}) in the recording browser only; not published` };
+        await sleep(300);
+        await mark(p, 'B07', 'sign', card.locator('[data-trust="ink"], .rv-state, .ev-ink').first(), c, 'the ink state after signing');
+      } else cues.B07 = { ...(cues.B07 ?? {}), cue: null, note: 'Nobody signed on camera (REVIEWER_NAME/REVIEWER_ROLE not set).' };
+      await c.until(13 + HOLD);
+    },
+  },
+  {
+    id: 'B04',
+    name: 'combine',
+    q: 'view=lot&block=10K&lot=25&type=two',
+    run: async (p, c) => {
+      await c.until(1.2);
+      await clickSlow(p, p.getByRole('radio', { name: /Three.unit/ }));
+      await p.waitForFunction(() => document.querySelector('.group-width, .env-width.big') !== null, null, { timeout: 5000 });
+      await sleep(400); // the envelope reflow finishes
+      cues.B04 = { cue: Math.round(c.now() * 100) / 100, note: 'clip second the envelope has widened to 52 ft' };
+      await mark(p, 'B04', 'width_52', p.locator('.env-width.big'), c);
+      await c.until(Math.max(5, cues.B04.cue + 2) + HOLD);
+    },
+  },
+  {
+    id: 'B04b',
+    name: 'money',
+    q: `view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=rules`,
+    run: async (p, c) => {
+      await c.until(0.4);
+      await clickSlow(p, p.getByRole('tab', { name: /Money/ }));
+      await sleep(250);
+      cues.B04b = { money_tab: Math.round(c.now() * 100) / 100 };
+      await mark(p, 'B04b', 'stamp', p.locator('.ws-status .stamp'), c);
+      const s = await p.locator('.ws-status .stamp').boundingBox();
+      if (s) await p.mouse.move(s.x + s.width / 2, s.y + s.height / 2, { steps: 20 }); // the eye goes to the stamp
+      await c.until(3 + HOLD);
+    },
+  },
+  {
+    id: 'B09',
+    name: 'refusal',
+    q: 'view=lot&block=10K&lot=22&type=two',
+    run: async (p, c) => {
+      await c.until(0.5);
+      const st = p.locator('.ws-status .stamp');
+      const b = await st.boundingBox();
+      if (b) await p.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 20 });
+      cues.B09 = {};
+      const box = await mark(p, 'B09', 'cant_score', st, c);
+      if (box) cues.B09.mark = [box[0] + Math.round(box[2] / 2), box[1] + Math.round(box[3] / 2), Math.round(box[2] / 2) + 18, Math.round(box[3] / 2) + 14];
+      await c.until(4 + HOLD);
+    },
+  },
+  {
+    id: 'B13',
+    name: 'assemblies',
+    q: 'view=city&type=three&layer=assemble&canvas=table',
+    run: async (p, c) => {
+      await p.waitForSelector('tr[data-run]', { timeout: 8000 });
+      cues.B13 = { list: 0 };
+      await mark(p, 'B13', 'count_111', p.locator('.ws-canvas-body.is-table h2').first(), c);
+      // The list scrolls down to the Mahon group, then it is chosen and the map shows it with its inset plan.
+      const row = p.locator(`tr[data-run="${MAHON}"]`);
+      await c.until(1.2);
+      await row.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await c.until(3.2);
+      await clickSlow(p, row.locator('button').first());
+      cues.B13.mahon_selected = Math.round(c.now() * 100) / 100;
+      await c.until(4.6);
+      await clickSlow(p, p.getByRole('button', { name: /^Map$/ }).first()).catch(async () => clickSlow(p, p.getByRole('link', { name: /^Map$/ }).first()));
+      await p.waitForSelector('.city-inset.is-wide', { timeout: 8000 });
+      cues.B13.map_inset = Math.round(c.now() * 100) / 100;
+      await c.until(8 + HOLD);
+    },
+  },
+];
+const BEATS = flag('legacy') ? LEGACY : V6;
 
 if (RECORD) mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome' });
