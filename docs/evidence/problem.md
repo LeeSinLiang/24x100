@@ -13,7 +13,7 @@ updated 17 Nov 2016).
 - A two-unit house gets **4 ft** of width as of right: 24 − 10 − 10 = 4 (3.4 ft on the City's map). Both
   neighbors (lots 24 and 26) are vacant, so the contextual side setback can't apply (§925.06.C).
 - A 16 ft two-unit proposal needs the side setbacks cut from 10 to 4 ft on each side: a variance.
-- Detached house alone: 24 − 3 − 3 = **18 ft** (narrow-lot side yards, §925.06.C): fits.
+- Detached house alone: 24 − 3 − 3 = **18 ft** with the narrow-lot side yards (§925.06.C), which fits a 16 ft house, but §925.06.C.1 allows 3 ft on both sides only if the neighbours are set back 3 ft or less; with both neighbours vacant that is an open question for the Zoning Administrator. On our reading of "no" (one side at the district setback), 24 − 3 − 10 = **11 ft**, which doesn't fit.
 - Three-unit house on lots 25–27: 72 − 10 − 10 = **52 ft**: fits, but lot 26 is not City-owned
   (County owner type: corporation).
 - Rowhouses on lots 25–27: end units **14 ft**, or 21 ft if "single-unit house" in §925.06.C covers attached

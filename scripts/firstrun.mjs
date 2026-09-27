@@ -33,22 +33,24 @@ for (const viewport of [
   mark('typed "2241 Mahon" into the search');
   await search.press('Enter');
   mark('pressed Enter');
-  const blocks = page.locator('.answer', { hasText: 'What blocks it' });
-  const next = page.locator('.answer', { hasText: 'What to do next' });
-  await blocks.waitFor({ timeout: 10000 });
-  await page.waitForFunction(() => /side setbacks/.test(document.querySelector('.answer:nth-child(2)')?.textContent ?? ''), null, { timeout: 10000 });
-  mark('"What blocks it" names the side setbacks');
-  const answer = {
-    sentence: (await page.locator('.sentence').innerText()).trim(),
-    what_fits: (await page.locator('.answer', { hasText: 'What fits' }).innerText()).replace(/\s+/g, ' ').trim(),
-    what_blocks_it: (await blocks.innerText()).replace(/\s+/g, ' ').trim(),
-    what_to_do_next: (await next.innerText()).replace(/\s+/g, ' ').trim(),
-  };
-  const blocksOk = /side setbacks 10 → 4 ft on each side/.test(answer.what_blocks_it);
-  const nextOk = /lots? \d+/.test(answer.what_to_do_next) && /ft/.test(answer.what_to_do_next);
+  // The workspace (spec §0.15): the inspector's first screen has the status, the plain sentence, the way forward
+  // and four numbers; the reason (the side setbacks) is on the Rules tab, one more click.
+  await page.waitForSelector('.ws-inspector [data-way], .ws-inspector .ws-way', { timeout: 10000 });
+  mark('first screen: status, sentence, way forward, four numbers');
+  const insp = page.locator('.ws-inspector').first();
+  const first = (await insp.innerText()).replace(/\s+/g, ' ').trim();
+  const way = (await page.locator('.ws-way').first().innerText()).replace(/\s+/g, ' ').trim();
+  await page.getByRole('tab', { name: /Rules/ }).first().click();
+  await page.waitForFunction(() => /side setbacks?/i.test(document.querySelector('.ws-inspector')?.textContent ?? ''), null, { timeout: 10000 });
+  mark('clicked the Rules tab: the side setbacks and the relief');
+  const rules = (await insp.innerText()).replace(/\s+/g, ' ').trim();
+  const answer = { first_screen: first.slice(0, 700), way_forward: way, rules_tab: rules.slice(0, 700) };
+  const blocksOk = /4 ft/.test(first) && /side setbacks 10 → 4 ft on each side/.test(rules);
+  const nextOk = /lots? \d+/.test(way) && /ft/.test(way);
   runs.push({
     viewport: viewport.name,
-    user_actions: 3, // click the search, type, press Enter
+    user_actions_to_blocker_and_unlock: 3, // click the search, type, press Enter: both on the first screen
+    user_actions_to_the_reason: 4, // plus the Rules tab, for the 10 ft setbacks and the relief
     total_ms: steps[steps.length - 1].ms,
     under_60s: steps[steps.length - 1].ms < 60000,
     answers_found: { blocks: blocksOk, unlock: nextOk },
@@ -67,5 +69,5 @@ const result = {
 };
 mkdirSync(OUT.split('/').slice(0, -1).join('/'), { recursive: true });
 writeFileSync(OUT, JSON.stringify(result, null, 2) + '\n');
-for (const r of runs) console.log(`${r.viewport}: ${r.user_actions} actions, ${(r.total_ms / 1000).toFixed(1)} s; blocks found: ${r.answers_found.blocks}; unlock found: ${r.answers_found.unlock}`);
+for (const r of runs) console.log(`${r.viewport}: ${r.user_actions_to_blocker_and_unlock} actions (reason: ${r.user_actions_to_the_reason}), ${(r.total_ms / 1000).toFixed(1)} s; blocks found: ${r.answers_found.blocks}; unlock found: ${r.answers_found.unlock}`);
 console.log(`→ ${OUT}`);

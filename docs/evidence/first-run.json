@@ -1,13 +1,14 @@
 {
-  "run_at": "2026-09-26T22:07:39.778Z",
+  "run_at": "2026-09-27T03:23:34.975Z",
   "question": "What blocks 2241 Mahon St, and what would unlock it?",
   "method": "Playwright, fresh browser context, app root with no parameters; the path a first-time user can see: the search box in the header.",
   "caveat": "This times the interface path with a script. It is not a study with people; the judge panel and the team supply the human check.",
   "runs": [
     {
       "viewport": "desktop",
-      "user_actions": 3,
-      "total_ms": 5264,
+      "user_actions_to_blocker_and_unlock": 3,
+      "user_actions_to_the_reason": 4,
+      "total_ms": 1005,
       "under_60s": true,
       "answers_found": {
         "blocks": true,
@@ -16,32 +17,36 @@
       "steps": [
         {
           "what": "app ready (first screen, no parameters)",
-          "ms": 987
+          "ms": 430
         },
         {
           "what": "typed \"2241 Mahon\" into the search",
-          "ms": 4369
+          "ms": 473
         },
         {
           "what": "pressed Enter",
-          "ms": 5206
+          "ms": 604
         },
         {
-          "what": "\"What blocks it\" names the side setbacks",
-          "ms": 5264
+          "what": "first screen: status, sentence, way forward, four numbers",
+          "ms": 769
+        },
+        {
+          "what": "clicked the Rules tab: the side setbacks and the relief",
+          "ms": 1005
         }
       ],
       "answer": {
-        "sentence": "Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft.",
-        "what_fits": "WHAT FITS 4ft wide, as of right · by deed · 3.4 ft on the City map",
-        "what_blocks_it": "WHAT BLOCKS IT Only with subsidy (screening estimate) ✕ MONEY vertical cost alone exceeds the highest value signal by at least $83,000 per home ✕ RULES doesn't fit as of right: side setbacks 10 → 4 ft on each side — SITE not assessed: soil, environmental, water and sewer Vertical construction alone ($351,000–$405,000 per home) exceeds the highest value signal ($268,000) by at least $83,000 per home, before site work, land, soft costs and financing.",
-        "what_to_do_next": "WHAT TO DO NEXT Two-unit house on lots 24–25: 28 ft, but it needs a lot that isn’t City-owned. TRY IT Fewest approvals overall: detached house on lot 25 alone (18 ft)."
+        "first_screen": "2241 Mahon St · lot 25 ONLY WITH SUBSIDY screening estimate The rules leave only 4 ft to build on, against your 16 ft plan; at most $24,000 is left per home, under typical site work. WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned. BUILDABLE WIDTH 4ft your plan 16 ft BUILD COST PER HOME $216k–$270k a practitioner at the hackathon NEWEST NEW-BUILD SALE $240k 2125 Rose St (2025) LEFT AFTER BUILDING $24k to −$30k per home ✕ MONEY ✕ RULES — SITE NEXT SOURCES MONEY CHECKED FIRST · SCREENING ESTIMATE $200–$250/sf Production builder NEW-BUILD SALE $240,000 Key values and their sources, per home PER HOME VALUE SOURCE Newest new-build sale $240,000 2125 Rose St (2025, 1,",
+        "way_forward": "WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned.",
+        "rules_tab": "2241 Mahon St · lot 25 ONLY WITH SUBSIDY screening estimate The rules leave only 4 ft to build on, against your 16 ft plan; at most $24,000 is left per home, under typical site work. WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned. BUILDABLE WIDTH 4ft your plan 16 ft BUILD COST PER HOME $216k–$270k a practitioner at the hackathon NEWEST NEW-BUILD SALE $240k 2125 Rose St (2025) LEFT AFTER BUILDING $24k to −$30k per home ✕ MONEY ✕ RULES — SITE NEXT SOURCES ✕ doesn't fit as of right: side setbacks 10 → 4 ft on each side Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft. As of right: 4 ft by deed (24 − 10 −"
       }
     },
     {
       "viewport": "phone",
-      "user_actions": 3,
-      "total_ms": 7147,
+      "user_actions_to_blocker_and_unlock": 3,
+      "user_actions_to_the_reason": 4,
+      "total_ms": 1437,
       "under_60s": true,
       "answers_found": {
         "blocks": true,
@@ -50,26 +55,29 @@
       "steps": [
         {
           "what": "app ready (first screen, no parameters)",
-          "ms": 1213
+          "ms": 395
         },
         {
           "what": "typed \"2241 Mahon\" into the search",
-          "ms": 5282
+          "ms": 851
         },
         {
           "what": "pressed Enter",
-          "ms": 6923
+          "ms": 968
         },
         {
-          "what": "\"What blocks it\" names the side setbacks",
-          "ms": 7147
+          "what": "first screen: status, sentence, way forward, four numbers",
+          "ms": 1231
+        },
+        {
+          "what": "clicked the Rules tab: the side setbacks and the relief",
+          "ms": 1437
         }
       ],
       "answer": {
-        "sentence": "Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft.",
-        "what_fits": "WHAT FITS 4ft wide, as of right · by deed · 3.4 ft on the City map",
-        "what_blocks_it": "WHAT BLOCKS IT Only with subsidy (screening estimate) ✕ MONEY vertical cost alone exceeds the highest value signal by at least $83,000 per home ✕ RULES doesn't fit as of right: side setbacks 10 → 4 ft on each side — SITE not assessed: soil, environmental, water and sewer Vertical construction alone ($351,000–$405,000 per home) exceeds the highest value signal ($268,000) by at least $83,000 per home, before site work, land, soft costs and financing.",
-        "what_to_do_next": "WHAT TO DO NEXT Two-unit house on lots 24–25: 28 ft, but it needs a lot that isn’t City-owned. TRY IT Fewest approvals overall: detached house on lot 25 alone (18 ft)."
+        "first_screen": "2241 Mahon St · lot 25 ONLY WITH SUBSIDY screening estimate The rules leave only 4 ft to build on, against your 16 ft plan; at most $24,000 is left per home, under typical site work. WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned. BUILDABLE WIDTH 4ft your plan 16 ft BUILD COST PER HOME $216k–$270k a practitioner at the hackathon NEWEST NEW-BUILD SALE $240k 2125 Rose St (2025) LEFT AFTER BUILDING $24k to −$30k per home ✕ MONEY ✕ RULES — SITE NEXT SOURCES MONEY CHECKED FIRST · SCREENING ESTIMATE $200–$250/sf Production builder NEW-BUILD SALE $240,000 Key values and their sources, per home PER HOME VALUE SOURCE Newest new-build sale $240,000 2125 Rose St (2025, 1,",
+        "way_forward": "WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned.",
+        "rules_tab": "2241 Mahon St · lot 25 ONLY WITH SUBSIDY screening estimate The rules leave only 4 ft to build on, against your 16 ft plan; at most $24,000 is left per home, under typical site work. WAY FORWARD Two-unit house on lots 24–25: 28 ft; needs lot 24, not City-owned. BUILDABLE WIDTH 4ft your plan 16 ft BUILD COST PER HOME $216k–$270k a practitioner at the hackathon NEWEST NEW-BUILD SALE $240k 2125 Rose St (2025) LEFT AFTER BUILDING $24k to −$30k per home ✕ MONEY ✕ RULES — SITE NEXT SOURCES ✕ doesn't fit as of right: side setbacks 10 → 4 ft on each side Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft. As of right: 4 ft by deed (24 − 10 −"
       }
     }
   ]
