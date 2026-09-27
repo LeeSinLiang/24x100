@@ -2,7 +2,7 @@
 // Street", "1926 Arlington Ave" and "7406 Race St" all returned "No match").
 import { readFileSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { addressTokens, buildSearchIndex, normalizeAddress, pinPrefix, searchLots, searchEntry } from '../src/search';
+import { addressTokens, buildSearchIndex, normalizeAddress, pinPrefix, searchLots, searchEntry, stripPlace } from '../src/search';
 import type { BlockFile, CityLot } from '../src';
 
 const blocks: BlockFile[] = readdirSync('data/blocks')
@@ -40,6 +40,29 @@ describe('search over every lot the app knows', () => {
   it('finds 2241 Mahon St however it is typed, and opens its lot detail', () => {
     for (const q of ['2241 Mahon Street', '2241 mahon street', '2241 Mahon St.', '2241 mahon', '2241 Mahon Stre'])
       expect(top(q)).toMatchObject({ pin: '0010K00025000000', detail: true, lot: '25' });
+  });
+
+  it('finds a pasted full mailing address (judge round 2: “2241 Mahon St, Pittsburgh, PA 15219” gave “No match”)', () => {
+    for (const q of [
+      '2241 Mahon St, Pittsburgh, PA 15219',
+      '2241 Mahon Street, Pittsburgh, Pennsylvania 15219-1234',
+      '2241 Mahon St Pittsburgh PA',
+      '2241 mahon st, pgh, pa, usa',
+      '2241 Mahon, Pittsburgh',
+      '2241 Mahon St, Pitts',
+    ])
+      expect(top(q), q).toMatchObject({ pin: '0010K00025000000', detail: true, lot: '25' });
+    expect(searchLots(index, '2241 Mahon St, Pittsburgh, PA 15219')[0].exact).toBe(true);
+    expect(top('7406 Race St, Pittsburgh, PA 15208')).toMatchObject({ pin: '0174L00001000000' });
+  });
+
+  it('keeps place words that are the street, and a lone ZIP or number', () => {
+    expect(stripPlace(addressTokens('Pennsylvania Ave'))).toEqual(['pennsylvania', 'ave']);
+    expect(stripPlace(addressTokens('Pennsylvania'))).toEqual(['pennsylvania']);
+    expect(stripPlace(addressTokens('15219'))).toEqual(['15219']);
+    expect(stripPlace(addressTokens('2241 Pennsylvania'))).toEqual(['2241', 'pennsylvania']);
+    expect(stripPlace(addressTokens('16231 Saint Patrick St'))).toEqual(['16231', 'st', 'patrick', 'st']);
+    expect(searchLots(index, 'Nowhere Boulevard, Pittsburgh, PA 15219')).toEqual([]);
   });
 
   it('finds lots from the home page table that have no block detail, as city cards', () => {

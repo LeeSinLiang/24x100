@@ -54,6 +54,30 @@ export function normalizeAddress(s: string): string {
   return addressTokens(s.replace(/\(no number\)/i, '')).join(' ');
 }
 
+/** Words a pasted mailing address carries after the street: the city, the state and the ZIP code. */
+const PLACE = new Set(['pittsburgh', 'pgh', 'pa', 'pennsylvania', 'usa']);
+const PLACE_WORDS = ['pittsburgh', 'pennsylvania'];
+
+/** Query tokens without a trailing ", Pittsburgh, PA 15219" (city, state, ZIP or ZIP+4, in any mix), so a
+ *  pasted full address matches the lot's own address. Only trailing words go, and only while a street
+ *  name is left before them: "Pennsylvania Ave" and a lone "15219" stay as typed. A last word still
+ *  being typed ("…St, Pitts") goes when it follows a street type or a place word. */
+export function stripPlace(tokens: string[]): string[] {
+  const out = [...tokens];
+  const streetType = new Set(Object.values(CANON));
+  const left = (n: number) => out.slice(0, n).some((t) => /[a-z]/.test(t));
+  for (;;) {
+    const n = out.length;
+    const t = out[n - 1];
+    if (n < 2 || !left(n - 1)) break;
+    const zip4 = /^\d{4}$/.test(t) && /^\d{5}$/.test(out[n - 2] ?? '');
+    const partial = t.length >= 3 && PLACE_WORDS.some((w) => w.startsWith(t)) && (streetType.has(out[n - 2]) || PLACE.has(out[n - 2]) || /^\d{5}$/.test(out[n - 2]));
+    if (PLACE.has(t) || /^\d{5}$/.test(t) || zip4 || partial) out.pop();
+    else break;
+  }
+  return out;
+}
+
 /** A parcel ID typed any way ("0010K00025000000", "0010-K-00025-0000-00", "10-K-25", "10K 25A") as a
  *  PIN prefix, or null when the query isn't shaped like one. */
 export function pinPrefix(q: string): string | null {
@@ -143,7 +167,7 @@ export function searchLots(entries: SearchEntry[], query: string, limit = 7): Se
   const q = query.trim();
   if (q.replace(/[^0-9a-z]/gi, '').length < 2) return [];
   const pin = pinPrefix(q);
-  const qt = addressTokens(q);
+  const qt = stripPlace(addressTokens(q));
   const qn = qt.join(' ');
   const scored: { e: SearchEntry; s: number; exact: boolean }[] = [];
   for (const e of entries) {
