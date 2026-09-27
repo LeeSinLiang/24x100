@@ -118,7 +118,7 @@ export function MoneyPanel({ result, m, gap }: { result: LotResult; m: MoneyResu
           </div>
         </div>
       </div>
-      <p className="small bar-extra">Per {m.sqft.toLocaleString('en-US')} sf home; site work, land, soft costs and financing extra.</p>
+      <p className="small bar-extra" title={`Per ${m.sqft.toLocaleString('en-US')} sq ft home`}>Per home; site work, land, soft costs and financing extra.</p>
 
         <table className="money-keys">
           <caption className="visually-hidden">Key values and their sources, per home</caption>

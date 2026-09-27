@@ -109,7 +109,7 @@ export function Rail({
           {ready && sum && sum.rulesProposed > 0 && (
             // The grey explained: some of these districts have rules the model proposed, waiting for a person.
             <p className="ws-layer-note" data-count="rules-proposed">
-              {n(sum.rulesProposed)} have rules proposed, awaiting a check
+              {n(sum.rulesProposed)}: proposed rules await a check
             </p>
           )}
           <label className="ws-layer is-asm" data-layer="assemble">

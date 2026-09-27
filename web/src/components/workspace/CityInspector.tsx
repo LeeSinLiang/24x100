@@ -34,10 +34,11 @@ export function scopeWords(s: UrlState, filtered: boolean): string {
 }
 
 /** The scope of the counts on screen, said once above the tiles (team review, round 3). */
-export function ScopeLine({ words }: { words: string }) {
+export function ScopeLine({ words, within }: { words: string; within?: string }) {
   return (
     <p className="ws-scope" data-scope={words === 'citywide' ? 'citywide' : words.startsWith('in ') ? 'neighbourhood' : 'filtered'}>
-      Counts {words}
+      Counts {words === 'citywide' && within ? '' : words}
+      {within ? `${words === 'citywide' ? '' : ' '}· ${within}` : ''}
     </p>
   );
 }
@@ -242,7 +243,7 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
         ) : null
       }
       sentence={sentence}
-      note={ready ? <ScopeLine words={scopeWords(s, filtered) === 'shown by the filters' ? `for the ${n(sum.total)} ${lotsWord(sum.total)} the filters show` : scopeWords(s, filtered)} /> : null}
+      note={ready ? <ScopeLine words={scopeWords(s, filtered) === 'shown by the filters' ? `for the ${n(sum.total)} ${lotsWord(sum.total)} the filters show` : scopeWords(s, filtered)} within={`${k} signed ${k === 1 ? 'district' : 'districts'}`} /> : null}
       tiles={tiles}
       tabs={tabs}
       active={s.tab}
@@ -697,7 +698,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
         <>
           <Tile id="runs" label="Lot groups that fit" value={ready ? <Ev num>{n(runs.length)}</Ev> : <Dash why="loading" />} sub={`for ${aType(s.type)}`} />
           <Tile id="allcity" label="All City-owned" value={ready ? <Ev num>{n(allCity)}</Ev> : <Dash why="loading" />} sub="no other owner" />
-          <Tile id="checked" label="City lots checked" value={ready ? <Ev num>{n((asm as AssemblyFile).meta.candidates)}</Ev> : <Dash why="loading" />} sub={s.hood ? 'citywide, in the checked district' : 'in the checked district'} />
+          <Tile id="checked" label="City lots checked" value={ready ? <Ev num>{n((asm as AssemblyFile).meta.candidates)}</Ev> : <Dash why="loading" />} sub={ready ? `${s.hood ? 'citywide, ' : ''}in ${zoneName((asm as AssemblyFile).meta.district)}, the district it checks` : ''} />
           <Tile id="pencil" label="Open questions" value={ready ? <Ev trust="pencil" num>{n(pencil)}</Ev> : <Dash why="loading" />} sub="lot groups in pencil" />
         </>
       }

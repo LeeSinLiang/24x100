@@ -193,7 +193,7 @@ function LotTiles({ model }: { model: LotModel }) {
               </Ev>
             </span>
           }
-          sub={<span className={Q ? 'red-text' : 'est'}>{A.left[0] < 0 ? 'nothing left, per home' : 'per home'}{Q ? ', at your quote' : ''}</span>}
+          sub={<span className={Q ? 'red-text' : 'est'}>{A.left[0] < 0 ? 'nothing left, ' : ''}per {m!.sqft.toLocaleString('en-US')} sf home{Q ? ', at your quote' : ''}</span>}
         />
       ) : (
         <Tile id="left" label="Left after building" value={<Dash why={moneyWhy} />} sub="not assessed" title={moneyWhy} className="is-na" />

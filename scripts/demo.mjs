@@ -635,6 +635,10 @@ const V6 = [
       const tag = p.locator('[data-tabpanel="next"] .step-tag').first();
       await mark(p, 'B10', 'free_tags', tag, c, 'FREE on step 1 in the Next tab; visible until the tab scrolls to the letter link (letter_scroll)', { tight: true });
       await markUnion(p, 'B10', 'free_tags_tray', '.ws-tray-body .ws-step-tag', c, 'the five cost tags along the tray (FREE · FREE OR CHEAP · FREE · LOW COST · PAID); visible until the click');
+      // "Free calls come first, paid studies last": the tray's step 3 (free) and step 5 (paid).
+      await mark(p, 'B10', 'tray_free_mines', p.locator('li.ws-step[data-step="3"]').first(), c, 'tray step 3: The undermining maps and environmental records · FREE');
+      await mark(p, 'B10', 'tray_paid_esa', p.locator('li.ws-step[data-step="5"]').first(), c, 'tray step 5: A Phase I Environmental Site Assessment · PAID');
+      cues.B10.tray_words = await p.evaluate(() => [3, 5].map((k) => document.querySelector(`li.ws-step[data-step="${k}"]`)?.innerText.replace(/\s+/g, ' ').trim()));
       await c.until(0.8);
       const tb = await tag.boundingBox();
       if (tb) await glide(p, tb.x + tb.width / 2, tb.y + tb.height / 2, { rest: 0.6 });
