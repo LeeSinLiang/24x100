@@ -186,7 +186,11 @@ describe('graph: every node maps to something real', () => {
       expect(JSON.stringify(g)).not.toMatch(/825,000|Sin Liang Lee|minimum 10 ft side setback is required|0024-K-|People 118|Site work \(soft costs\)/i);
       // No score, and no owner names: owner type only.
       expect(JSON.stringify(g)).not.toMatch(/\bscore/i);
-      for (const n of g.nodes.filter((x) => x.type === 'neighbor')) expect(n.sub).toMatch(/^(City-owned · .+|.+ \(County owner type\)) · (built|vacant)$/);
+      for (const n of g.nodes.filter((x) => x.type === 'neighbor')) {
+        const p = inp.block.parcels.find((x) => `parcel:${x.pin}` === n.id)!;
+        expect(n.label).toBe(`Lot ${p.lot}${p.lot_suffix ?? ''} · ${p.city ? 'City-owned' : p.assess!.ownercat!.charAt(0) + p.assess!.ownercat!.slice(1).toLowerCase()}`);
+        expect(n.sub).toBe(`${p.city ? p.city.status : 'County owner type'} · ${p.built ? 'built' : 'vacant'}`);
+      }
     }
   });
 });
@@ -320,8 +324,9 @@ describe('graph: lots 25–27 three-unit on Block 10‑K (hand-checked)', () => 
   it('what the nodes say: owner type and status, the AI research pass, pencil rules, attributed estimates', () => {
     const n = (id: string) => g3.nodes.find((x) => x.id === id)!;
     expect(n('lot:0010K00027000000+0010K00026000000+0010K00025000000')).toMatchObject({ label: 'Lots 25, 26 and 27', sub: 'combined · Three-unit house · RM-M', status: 'Use, Parking and Slope open', trust: 'ink' });
-    expect(n('parcel:0010K00025000000').sub).toBe('City-owned · Available for Sale · vacant');
-    expect(n('parcel:0010K00026000000').sub).toBe('Corporation (County owner type) · vacant');
+    expect(n('parcel:0010K00025000000')).toMatchObject({ label: 'Lot 25 · City-owned', sub: 'Available for Sale · vacant', city: 'for_sale' });
+    expect(n('parcel:0010K00026000000')).toMatchObject({ label: 'Lot 26 · Corporation', sub: 'County owner type · vacant' });
+    expect(n('parcel:0010K00026000000').city).toBeUndefined();
     // The pre-seeded rules are signed exactly as recorded, and marked as an AI check.
     expect(n('person:Claude (research pass)|AI agent')).toMatchObject({ label: 'Claude (research pass)', sub: 'AI agent · an AI check, not a person', ai: true, source: { kind: 'rule' } });
     expect(n('rule:rm-m.side_interior')).toMatchObject({ trust: 'ink', ai: true, signed: { by: 'Claude (research pass)', role: 'AI agent', ai: true, review: false } });

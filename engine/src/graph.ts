@@ -304,13 +304,13 @@ export function buildGraph(input: GraphInput): LotGraph {
     .sort(byLot);
   for (const p of outside) neighborPins.push({ p, role: combineExtra.has(p.pin) ? 'combine' : 'adjacent' });
   for (const { p, role } of neighborPins) {
-    const own = p.city ? `City-owned · ${p.city.status}` : `${ownerType(p)} (County owner type)`;
+    // Owner TYPE only, never a name: the City's inventory status, or the County's owner category.
     add({
       id: `parcel:${p.pin}`,
       type: 'neighbor',
       cluster: 'neighbors',
-      label: lotName(p),
-      sub: `${own} · ${p.built ? 'built' : 'vacant'}`,
+      label: `${lotName(p)} · ${p.city ? 'City-owned' : ownerType(p)}`,
+      sub: `${p.city ? p.city.status : 'County owner type'} · ${p.built ? 'built' : 'vacant'}`,
       trust: 'ink',
       source: { kind: 'record', ref: p.pin, url: parcelsSrc?.url, pulled: parcelsSrc?.pulled ?? block.meta.pulled },
       city: p.city ? (p.city.status === 'Available for Sale' ? 'for_sale' : 'held') : undefined,
@@ -598,16 +598,16 @@ export function buildGraph(input: GraphInput): LotGraph {
 /** Where each cluster sits, as fractions of the canvas. The canvas reads the same table to place
  *  labels (left of the glyph for the left-hand clusters, right of it elsewhere) and headings. */
 export const GRAPH_FRAME = {
-  min: { w: 880, h: 540 },
-  center: { x: 0.36, y: 0.5, w: 170, h: 64 },
-  neighbors: { x: 0.2, y0: 0.1, y1: 0.4 },
-  sources: { x: 0.2, y0: 0.6, y1: 0.97 },
-  rules: { x: 0.52, y0: 0.085, y1: 0.47 },
-  quotes: { x: 0.705 },
-  persons: { x: 0.93 },
-  next: { x: 0.8, y0: 0.56, y1: 0.7 },
-  site: { x: 0.575, y0: 0.72, y1: 0.97 },
-  money: { x0: 0.41, y0: 0.66, x1: 0.265, y1: 0.95 },
+  min: { w: 860, h: 500 },
+  center: { x: 0.37, y: 0.47, w: 180 }, // w: the box is w + 16 px wide; its height follows its words
+  neighbors: { x: 0.185, y0: 0.085, y1: 0.36 },
+  sources: { x: 0.185, y0: 0.62, y1: 0.965 },
+  rules: { x: 0.555, y0: 0.075, y1: 0.465 },
+  quotes: { x: 0.81 },
+  persons: { x: 0.92 },
+  next: { x: 0.8, y0: 0.575, y1: 0.69 },
+  site: { x: 0.605, y0: 0.72, y1: 0.965 },
+  money: { x0: 0.405, y0: 0.64, x1: 0.505, y1: 0.93 },
 } as const;
 
 function spread(n: number, a: number, b: number, i: number): number {
@@ -633,7 +633,7 @@ export function layoutGraph(g: LotGraph, w: number, h: number): Map<string, { x:
   col(of('neighbors'), F.neighbors.x, F.neighbors.y0, F.neighbors.y1, 44);
   col(of('sources'), F.sources.x, F.sources.y0, F.sources.y1, 36);
   col(of('site'), F.site.x, F.site.y0, F.site.y1, 40);
-  col(of('next'), F.next.x, F.next.y0, F.next.y1, 30);
+  col(of('next'), F.next.x, F.next.y0, F.next.y1, 26);
 
   // Rules: one row per rule, its quote beside it; each signer at the middle of the rules it signed.
   const rules = of('rules', 'rule');
@@ -656,8 +656,8 @@ export function layoutGraph(g: LotGraph, w: number, h: number): Map<string, { x:
     put(p.id, F.persons.x * w, y);
   });
 
-  // Money: a staircase down and to the left, so every edge from the lot reaches its node without
-  // crossing the others' labels.
+  // Money: a staircase down and to the right, labels to the left of each mark, so every edge from the
+  // lot reaches its node past the ones above it without crossing their labels.
   const money = [...of('money', 'estimate'), ...of('money', 'sale')];
   money.forEach((n, i) => put(n.id, spread(money.length, F.money.x0 * w, F.money.x1 * w, i), spread(money.length, F.money.y0 * h, F.money.y1 * h, i)));
 
