@@ -192,7 +192,12 @@ export function classifyCityLot(lot: CityLot, rs: RuleSet | null, type: Template
     // table alone can still decide, when a person has checked that it forbids this building here.
     if (!useNo) return none('rules', useRule ? `Only ${lot.zone}'s use permissions are read (its dimensional rules are in chapters not saved)` : `Rules not loaded for ${lot.zone}`, 'pencil');
     if (ruleTrust(useRule!) !== 'ink' && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person (the use table's reading: not permitted, §${useRule!.section})`, 'pencil');
-  } else if (needed.some((r) => ruleTrust(r) !== 'ink') && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
+  } else if (!useRule && needed.some((r) => ruleTrust(r) !== 'ink'))
+    // An AI reading with the dimensions but not the use table (its call refused, say): whether this building is
+    // permitted here is unknown, so nothing is decided, not even in the AI-read layer. (Every signed district has
+    // its use table read; this never reaches a signed count.)
+    return none('rules', `Only ${lot.zone}'s dimensional rules are read (its use permissions, §911.02, aren't yet)`, 'pencil');
+  else if (needed.some((r) => ruleTrust(r) !== 'ink') && !what.readPencil) return none('rules', `${lot.zone} rules are still pencil: not checked by a person`, 'pencil');
   if (lot.assessed != null && lot.assessed > 0 && Math.abs(lot.mapped / lot.assessed - 1) > settings.recon_tolerance) {
     return none('records', `County ${Math.round(lot.assessed)} sf vs City map ${Math.round(lot.mapped)} sf (${(lot.mapped / lot.assessed).toFixed(2)}×)`);
   }

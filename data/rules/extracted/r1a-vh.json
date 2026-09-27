@@ -1,0 +1,332 @@
+{
+ "meta": {
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "prompt_sha": "88c7139f20cbf15f99682efed1e128cb60e2c6e386d3b8877b47dd9ccbaa9a47",
+  "run_at": "2026-09-27T15:50:03+00:00",
+  "district": "R1A-VH",
+  "sections": [
+   "903.03.E (data/code/ch903.txt)",
+   "911.02 (data/code/ch911.txt; trimmed: residential rows only; ordinance history dropped)",
+   "911.04.A.69A (data/code/ch911.txt)"
+  ],
+  "tokens_in": 3032,
+  "tokens_out": 7535,
+  "tokens_reasoning": 6440,
+  "latency_ms": 58598,
+  "wall_ms": 1204227,
+  "calls": [
+   {
+    "section": "dimensional: 903.03.E",
+    "tokens_in": 3032,
+    "tokens_out": 7535,
+    "tokens_reasoning": 6440,
+    "latency_ms": 46020,
+    "wall_ms": 348290,
+    "attempts": 5,
+    "retries": [
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 40s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 80s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 160s)"
+    ],
+    "error": null,
+    "cached_from": null
+   },
+   {
+    "section": "use: 911.02, 911.04.A.69A",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "latency_ms": 12578,
+    "wall_ms": 855937,
+    "attempts": 8,
+    "retries": [
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 20s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 40s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 80s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 160s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (waited 180s)",
+     "GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}} (gave up)"
+    ],
+    "error": "refused: gemini refused 8 times (last: GoogleAPIError: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}})"
+   }
+  ],
+  "run_note": "Coverage run 2, 27 Sep 2026 afternoon, free tier, gemini-3.5-flash: the gemini-3.6-flash and gemini-3.8-flash daily free-tier quotas were used overnight, gemini-3.7-flash returned 503 (high demand) at 11:37-11:44 ET, and gemini-flash-latest's free quota was refused (429) at 11:49 ET. The run stopped when gemini-3.5-flash's daily free quota was refused (429) at 12:11 ET. Pencil until a person checks it.",
+  "incomplete": true,
+  "failed_calls": [
+   "use"
+  ],
+  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: min_lot_area, use_detached, use_row, use_two, use_three. Calls refused by the provider (no rules from them): use."
+ },
+ "rules": [
+  {
+   "id": "r1a-vh.x.front_setback",
+   "district": "R1A-VH",
+   "field": "front_setback",
+   "value": 5,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Minimum Front Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the front setback be adjusted using Contextual Setbacks under Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.rear_setback",
+   "district": "R1A-VH",
+   "field": "rear_setback",
+   "value": 15,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 15 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the rear setback be adjusted using Contextual Setbacks under Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.side_setback_exterior",
+   "district": "R1A-VH",
+   "field": "side_setback_exterior",
+   "value": 5,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Minimum Exterior Sideyard Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Are exterior sideyard setbacks subject to alternative contextual setbacks or Chapter 916?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.side_setback_interior",
+   "district": "R1A-VH",
+   "field": "side_setback_interior",
+   "value": 5,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Minimum Interior Sideyard Setback | | R1D, R2 & R3 Subdistricts | 5 ft. | R1A Subdistrict | 5 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Is the interior sideyard setback subject to Chapter 916 Residential Compatibility Standards?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.max_height_ft",
+   "district": "R1A-VH",
+   "field": "max_height_ft",
+   "value": 40,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the maximum height be increased using Contextual Building Heights under Section 925.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.max_stories",
+   "district": "R1A-VH",
+   "field": "max_stories",
+   "value": 3,
+   "unit": "stories",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.E.2",
+   "quote": "| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the maximum stories be increased using Contextual Building Heights under Section 925.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  },
+  {
+   "id": "r1a-vh.x.party_wall_side",
+   "district": "R1A-VH",
+   "field": "party_wall_side",
+   "value": 0,
+   "unit": "ft",
+   "applies_to": [
+    "row",
+    "row_end"
+   ],
+   "condition": "When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall",
+   "section": "903.03.E.2(d)",
+   "quote": "When a dwelling is \"attached\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "How does the City apply §903.03.E.2(d) to party wall side here? (it is conditional: When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall)",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f"
+  }
+ ],
+ "rejected": [],
+ "checks": [
+  {
+   "id": "r1a-vh.x.front_setback",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.rear_setback",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.side_setback_exterior",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.side_setback_interior",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.max_height_ft",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.max_stories",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-vh.x.party_wall_side",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": "guard",
+   "notes": [
+    "question_for_city written by the guard (the model gave none)"
+   ]
+  }
+ ],
+ "raw": [
+  {
+   "call": "dimensional",
+   "prompt_sha": "6af0d8a00561f740d689f071e9cb7a8126470c8a770919dd17637fa523e9042f",
+   "model": "gemini-3.5-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"front_setback\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Front Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the front setback be adjusted using Contextual Setbacks under Section 925.06?\"\n    },\n    {\n      \"field\": \"rear_setback\",\n      \"value_number\": 15,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Rear Setback | | R1D, R1A, R2 & R3 Subdistricts | 15 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the rear setback be adjusted using Contextual Setbacks under Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_exterior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Exterior Sideyard Setback | | R1D, R1A, R2 & R3 Subdistricts | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Are exterior sideyard setbacks subject to alternative contextual setbacks or Chapter 916?\"\n    },\n    {\n      \"field\": \"side_setback_interior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Minimum Interior Sideyard Setback | | R1D, R2 & R3 Subdistricts | 5 ft. | R1A Subdistrict | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Is the interior sideyard setback subject to Chapter 916 Residential Compatibility Standards?\"\n    },\n    {\n      \"field\": \"max_height_ft\",\n      \"value_number\": 40,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height be increased using Contextual Building Heights under Section 925.07?\"\n    },\n    {\n      \"field\": \"max_stories\",\n      \"value_number\": 3,\n      \"unit\": \"stories\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"condition\": null,\n      \"section\": \"903.03.E.2\",\n      \"quote\": \"| Maximum Height | | R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum stories be increased using Contextual Building Heights under Section 925.07?\"\n    },\n    {\n      \"field\": \"party_wall_side\",\n      \"value_number\": 0,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"row\",\n        \"row_end\"\n      ],\n      \"condition\": \"When a dwelling is attached to one or more separate dwelling units on separate lots by a party wall or separate abutting wall\",\n      \"section\": \"903.03.E.2(d)\",\n      \"quote\": \"When a dwelling is \\\"attached\\\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    }\n  ]\n}",
+   "parsing_error": null
+  }
+ ]
+}

@@ -81,6 +81,9 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
   const unreadLots = cm.unread.reduce((a, [, v]) => a + v, 0);
   const pencilNote = [
     cm.pencilSum.total ? `${n(cm.pencilSum.total)} of them are in ${pz} ${pz === 1 ? 'district' : 'districts'} the AI has read, awaiting a person (the “AI-read” layer, in pencil).` : '',
+    cm.partial.length
+      ? `${n(cm.partial.reduce((a, [, v]) => a + v, 0))} are in ${cm.partial.length === 1 ? 'a district' : `${cm.partial.length} districts`} the AI has read only in part (${listAnd(cm.partial.map(([z]) => zoneName(z)))}: a call was refused).`
+      : '',
     cm.unread.length ? `${n(unreadLots)} are in ${cm.unread.length} ${cm.unread.length === 1 ? 'district' : 'districts'} with no rule read (${listAnd(cm.unread.map(([z]) => zoneName(z)))}).` : '',
   ].filter(Boolean).join(' ');
   const edgeRec = [

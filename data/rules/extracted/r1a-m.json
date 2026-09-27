@@ -1,0 +1,354 @@
+{
+ "meta": {
+  "provider": "gemini",
+  "model": "gemini-3.5-flash",
+  "prompt_sha": "e78a43a1c5539e49ee625d9620d4eca747d254d3536891f7eb038a493e21ca9c",
+  "run_at": "2026-09-27T16:11:19+00:00",
+  "district": "R1A-M",
+  "sections": [
+   "903.03.C (data/code/ch903.txt)",
+   "911.02 (data/code/ch911.txt; trimmed: residential rows only; ordinance history dropped)",
+   "911.04.A.69A (data/code/ch911.txt)"
+  ],
+  "tokens_in": 1313,
+  "tokens_out": 9024,
+  "tokens_reasoning": 7925,
+  "latency_ms": 39015,
+  "wall_ms": 39021,
+  "calls": [
+   {
+    "section": "dimensional: 903.03.C",
+    "tokens_in": 1313,
+    "tokens_out": 9024,
+    "tokens_reasoning": 7925,
+    "latency_ms": 38865,
+    "wall_ms": 38868,
+    "attempts": 1,
+    "retries": [],
+    "error": null,
+    "cached_from": null
+   },
+   {
+    "section": "use: 911.02, 911.04.A.69A",
+    "tokens_in": 0,
+    "tokens_out": 0,
+    "latency_ms": 150,
+    "wall_ms": 153,
+    "attempts": 1,
+    "retries": [],
+    "error": "refused: gemini daily quota reached for gemini-3.5-flash (not retried): Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To mon"
+   }
+  ],
+  "run_note": "Coverage run 2, 27 Sep 2026 afternoon, free tier, gemini-3.5-flash: the gemini-3.6-flash and gemini-3.8-flash daily free-tier quotas were used overnight, gemini-3.7-flash returned 503 (high demand) at 11:37-11:44 ET, and gemini-flash-latest's free quota was refused (429) at 11:49 ET. The run stopped when gemini-3.5-flash's daily free quota was refused (429) at 12:11 ET. Pencil until a person checks it.",
+  "incomplete": true,
+  "failed_calls": [
+   "use"
+  ],
+  "note": "Proposed by an LLM from the saved code text only. Every rule is unreviewed (pencil) until a named person source-checks it in the app. Only these calls were run: dimensional, use. Fields with no accepted rule: use_detached, use_row, use_two, use_three. Calls refused by the provider (no rules from them): use."
+ },
+ "rules": [
+  {
+   "id": "r1a-m.x.min_lot_area",
+   "district": "R1A-M",
+   "field": "min_lot_area",
+   "value": 2400,
+   "unit": "sf",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "Minimum Lot Size | 2,400 s.f.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.front_setback",
+   "district": "R1A-M",
+   "field": "front_setback",
+   "value": 30,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 30 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the front setback be reduced using contextual setbacks per Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.rear_setback",
+   "district": "R1A-M",
+   "field": "rear_setback",
+   "value": 30,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 30 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the rear setback be reduced using contextual setbacks per Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.side_setback_exterior",
+   "district": "R1A-M",
+   "field": "side_setback_exterior",
+   "value": 30,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 30 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the exterior side setback be reduced using contextual setbacks per Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.side_setback_interior",
+   "district": "R1A-M",
+   "field": "side_setback_interior",
+   "value": 5,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1A Subdistrict | 5 ft.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the interior side setback be reduced using contextual setbacks per Section 925.06?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.party_wall_side",
+   "district": "R1A-M",
+   "field": "party_wall_side",
+   "value": 0,
+   "unit": "ft",
+   "applies_to": [
+    "row",
+    "row_end",
+    "two",
+    "three"
+   ],
+   "condition": null,
+   "section": "903.03.C.2(c)",
+   "quote": "When a dwelling is \"attached\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": null,
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.max_height_ft",
+   "district": "R1A-M",
+   "field": "max_height_ft",
+   "value": 40,
+   "unit": "ft",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the maximum height in feet be increased using Contextual Building Heights per Section 925.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  },
+  {
+   "id": "r1a-m.x.max_stories",
+   "district": "R1A-M",
+   "field": "max_stories",
+   "value": 3,
+   "unit": "stories",
+   "applies_to": [
+    "*"
+   ],
+   "condition": null,
+   "section": "903.03.C.2",
+   "quote": "R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)",
+   "source_file": "data/code/ch903.txt",
+   "source_url": "https://ecode360.com/45474194",
+   "retrieved": "2026-09-26",
+   "origin": "extracted",
+   "dagger": false,
+   "question_for_city": "Can the maximum height in stories be increased using Contextual Building Heights per Section 925.07?",
+   "verification": {
+    "level": "unreviewed",
+    "reviewer": null,
+    "role": null,
+    "at": null,
+    "note": null,
+    "reference": null
+   },
+   "model": "gemini-3.5-flash",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61"
+  }
+ ],
+ "rejected": [],
+ "checks": [
+  {
+   "id": "r1a-m.x.min_lot_area",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.front_setback",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.rear_setback",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.side_setback_exterior",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.side_setback_interior",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.party_wall_side",
+   "call": "dimensional",
+   "ambiguous": false,
+   "question_source": null,
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.max_height_ft",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  },
+  {
+   "id": "r1a-m.x.max_stories",
+   "call": "dimensional",
+   "ambiguous": true,
+   "question_source": "model",
+   "notes": []
+  }
+ ],
+ "raw": [
+  {
+   "call": "dimensional",
+   "prompt_sha": "8ccc0159f08d1c813f89a0900560ee571cb27825dc33c6adb12f559cdf629b61",
+   "model": "gemini-3.5-flash",
+   "text": "{\n  \"rules\": [\n    {\n      \"field\": \"min_lot_area\",\n      \"value_number\": 2400,\n      \"unit\": \"sf\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"Minimum Lot Size | 2,400 s.f.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"front_setback\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the front setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"rear_setback\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the rear setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_exterior\",\n      \"value_number\": 30,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 30 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the exterior side setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"side_setback_interior\",\n      \"value_number\": 5,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1A Subdistrict | 5 ft.\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the interior side setback be reduced using contextual setbacks per Section 925.06?\"\n    },\n    {\n      \"field\": \"party_wall_side\",\n      \"value_number\": 0,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"row\",\n        \"row_end\",\n        \"two\",\n        \"three\"\n      ],\n      \"section\": \"903.03.C.2(c)\",\n      \"quote\": \"When a dwelling is \\\"attached\\\" to one (1) or more separate dwelling units on separate lots by a party wall or separate abutting wall the required interior sideyard setback shall be zero on the abutting or party wall side.\",\n      \"ambiguous\": false,\n      \"question_for_city\": null\n    },\n    {\n      \"field\": \"max_height_ft\",\n      \"value_number\": 40,\n      \"unit\": \"ft\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height in feet be increased using Contextual Building Heights per Section 925.07?\"\n    },\n    {\n      \"field\": \"max_stories\",\n      \"value_number\": 3,\n      \"unit\": \"stories\",\n      \"applies_to\": [\n        \"*\"\n      ],\n      \"section\": \"903.03.C.2\",\n      \"quote\": \"R1D, R1A, R2 & R3 Subdistricts | 40 ft. (not to exceed 3 stories)\",\n      \"ambiguous\": true,\n      \"question_for_city\": \"Can the maximum height in stories be increased using Contextual Building Heights per Section 925.07?\"\n    }\n  ]\n}",
+   "parsing_error": null
+  }
+ ]
+}

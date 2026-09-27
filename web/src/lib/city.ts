@@ -53,6 +53,7 @@ export interface CityModel {
   zones: string[];
   /** The AI's reading of districts whose rules no person has checked: its own layer, never in `sum` (null elsewhere). */
   pencilClasses: (CityClass | null)[];
+  partial: [string, number][]; // districts read only in part, with their grey lots
   pencilSum: CitySummary;
   /** Districts with City lots and no rule read at all, with their lot counts. */
   unread: [string, number][];
@@ -141,13 +142,23 @@ export function useCityModel(on: boolean, type: TemplateId, audit: AuditEntry[],
     const idx = inFilter.filter((i) => pencilClasses[i]);
     return summarize(idx.map((i) => lots[i]), idx.map((i) => pencilClasses[i]!), type);
   }, [inFilter, pencilClasses, lots, type]);
+  // Districts the AI has read only in part (a call refused: no use permissions, or a dimension missing): their grey lots
+  // are in neither the AI's reading nor the unread districts.
+  const partial = useMemo(() => {
+    const m = new Map<string, number>();
+    classes.forEach((c, i) => {
+      const z = lots[i].zone;
+      if (c.blocker === 'rules' && !pencilClasses[i] && z && ruleSets.get(z)?.rules.some((r) => r.district === z)) m.set(z, (m.get(z) ?? 0) + 1);
+    });
+    return [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  }, [classes, pencilClasses, lots, ruleSets]);
   // Districts with lots and no rule read at all (their rules aren't in the saved code text, or not extracted yet).
   const unread = useMemo(() => cover.greyZones.filter(([z]) => z !== '—' && !(ruleSets.get(z)?.rules.some((r) => r.district === z))).map(([z, v]) => [z, v.lots] as [string, number]), [cover, ruleSets]);
 
   const wards = useMemo(() => [...new Set(lots.map((l) => l.ward).filter((w): w is number => w != null))].sort((a, b) => a - b), [lots]);
   const zones = useMemo(() => [...new Set(lots.map((l) => l.zone).filter((z): z is string => !!z))].sort(), [lots]);
 
-  return { data, lots, classes, ruleSets, hoods, idxOf, inFilter, sum, sumAll, cover, fitTrust, featured, reviewTarget, wards, zones, pencilClasses, pencilSum, unread };
+  return { data, lots, classes, ruleSets, hoods, idxOf, inFilter, sum, sumAll, cover, fitTrust, featured, reviewTarget, wards, zones, pencilClasses, pencilSum, unread, partial };
 }
 
 /** The map's layers (spec §0.15 left rail): one per first blocker, in the order the story reads. The

@@ -166,10 +166,11 @@ output for them.
 |---|---|---|
 | Rule extraction, RM‑M, against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched to the saved text by an AI research pass, then signed off by Sin on the agent's [20-rule check](docs/reviews/rule-check-for-sin.md)) | **11 of 11 fields agree**; 21 of 21 quotes verbatim inside their cited sections; the model flagged the "single-unit house" ambiguity itself (`gemini-3.8-flash`) | `docs/eval.md` |
 | Four more districts (27 Sep): R2‑L, R1D‑L, R2‑H, R1D‑M | 48 rules proposed, 0 rejected; every value read again by position from the §903.03 and §911.02 tables with no model, 0 disagree. Signed off by Sin on the agent's check (27 Sep), so they are computed (`gemini-3.6-flash`: 3.8 was overloaded; the free tier's daily limit stopped the run before H and P) | [`docs/reviews/rule-check-coverage.md`](docs/reviews/rule-check-coverage.md) |
+| Coverage run 2 (27 Sep afternoon, free tier, `gemini-3.5-flash`) | R1A‑H read in full (12 rules, 0 rejected); R1A‑VH and R1A‑M in part (7 and 8 rules; the use-table call was refused, 503 then 429, and R1A‑VH has no minimum lot area), so their 479 lots stay grey. The daily quota stopped the run before the other 27 districts. 21 min 55 s wall (20 min of it waiting out 503s), 148 s of model time, 7,663 tokens in and 26,013 out: $0.25 at the paid rate, $0 on the free tier. Pencil, never counted | `data/rules/extracted/r1a-*.json` |
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 227 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Engine tests (vitest) | 228 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 156 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone (the CI run) 145 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
@@ -198,6 +199,8 @@ from a 2023 layer. The slope layer is a derived threshold, not the steep-slope o
 are not scored; 24×100 points to the RCO. There is no score. The money screen is an estimate: one
 practitioner's construction cost and a gap that is a lower bound. Six districts are computed from rules a person
 signed; the others are grey, or, on the "AI-read" layer, shown in pencil as the model read them, never counted.
+The free tier's daily limits stopped the second coverage run after three districts: R1A-H read in full, R1A-VH and
+R1A-M only in part (a call refused), so their lots stay grey; 34 districts with City lots have no rule read yet.
 Seven districts with City lots can't be read from the code text we saved. The watchlist digest sends only when a
 steward sets a Slack webhook or email in `.env`. Full list: `docs/limitations.md`.
 

@@ -79,6 +79,21 @@ describe('city classifier agrees with the lot engine', () => {
     expect(classifyCityLot(lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!, ctx.rs, 'two', DEFAULT_SETTINGS).blocker).toBe('width');
   });
 
+  it('an AI reading with the dimensions but not the use table (its call refused) decides nothing, even in the AI-read layer', () => {
+    // R1A-M on 27 Sep: the dimensional call answered, the use call was refused (429). Whether a two-unit house is
+    // permitted there is unknown, so the lot must not read "fits" or "too narrow", in pencil or otherwise.
+    const l = { ...lots.find((x) => x.edges_ok && x.pin.endsWith('25000000'))!, zone: 'RM-M' };
+    const dimsOnly = { ...ctx.rs, rules: ctx.rs.rules.filter((r) => !String(r.field).startsWith('use_')).map((r) => ({ ...r, state: 'pencil' as const })) };
+    for (const what of [{}, { readPencil: true }]) {
+      const c = classifyCityLot(l, dimsOnly, 'two', DEFAULT_SETTINGS, undefined, what);
+      expect(c.blocker).toBe('rules');
+      expect(c.note).toBe("Only RM-M's dimensional rules are read (its use permissions, §911.02, aren't yet)");
+    }
+    // With the use table read (pencil), the AI-read layer decides, in pencil.
+    const withUse = { ...dimsOnly, rules: [...dimsOnly.rules, { ...dimsOnly.rules[0], id: 'x.use_two', field: 'use_two', unit: 'use', value: 'P', section: '911.02' }] };
+    expect(classifyCityLot(l, withUse as typeof ctx.rs, 'two', DEFAULT_SETTINGS, undefined, { readPencil: true })).toMatchObject({ blocker: 'width', trust: 'pencil' });
+  });
+
   it('summary counts width-but-not-area separately (H1)', () => {
     const cls = lots.map((l) => classifyCityLot(l, ctx.rs, 'two', DEFAULT_SETTINGS));
     const s = summarize(lots, cls, 'two');
