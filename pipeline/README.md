@@ -284,8 +284,15 @@ then says "blocked … not bypassed". To compare anyway:
 The default watchlist is Block 10‑K lots 21–35 and all of block 0124‑P.
 
 `--send` needs one of these in `.env`, and refuses otherwise:
-- `SLACK_WEBHOOK_URL` (posted as `{text}`);
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `DIGEST_TO`.
+- `SLACK_WEBHOOK_URL` (posted as `{text}`, or Block Kit for the outbox `npm run digest` builds);
+- `RESEND_API_KEY` and `DIGEST_TO`: the email through Resend's API (`POST https://api.resend.com/emails`), HTML
+  and plain text. `DIGEST_FROM` defaults to `24×100 <onboarding@resend.dev>`, Resend's test sender, which
+  delivers only to the address that owns the Resend account: `DIGEST_TO` must be that address. Another sender
+  needs a domain verified with Resend (DNS);
+- or, only when no Resend key is set, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `DIGEST_TO`.
+
+A failed send reports the service's HTTP status and error name only: never a key, a webhook URL, an address or
+the service's own message (tested in `tests/test_digest_outbox.py`).
 
 It never sends an inquiry.
 

@@ -1,8 +1,10 @@
 # Nightly watchlist digest for 24×100: when a watched lot's records, rules or map verdict change on main (a merged
 # data refresh, published reviews), it posts to Slack and/or sends an email, then commits the state it sent
-# (data/digest/last.json) so each change pings once. OFF until a channel is set: with no SLACK_WEBHOOK_URL and no
-# SMTP_HOST secret it stops after the first step and sends nothing. Secrets are read from the repository's
-# Settings → Secrets and variables → Actions; they are never printed. It never sends anything to the City.
+# (data/digest/last.json) so each change pings once. OFF until a channel is set: with no SLACK_WEBHOOK_URL, no
+# RESEND_API_KEY and no SMTP_HOST secret it stops after the first step and sends nothing. Secrets (Settings → Secrets
+# and variables → Actions): SLACK_WEBHOOK_URL; RESEND_API_KEY, DIGEST_TO and optionally DIGEST_FROM for email through
+# Resend (its test sender delivers only to the account owner's address); SMTP_* only as a fallback. They are never
+# printed. It never sends anything to the City.
 name: watchlist-digest
 on:
   workflow_dispatch:
@@ -15,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -26,8 +29,8 @@ jobs:
       - name: Off until a channel is set
         id: gate
         run: |
-          if [ -z "$SLACK_WEBHOOK_URL" ] && [ -z "$SMTP_HOST" ]; then
-            echo "No SLACK_WEBHOOK_URL or SMTP_HOST secret: the digest is off. Nothing sent."
+          if [ -z "$SLACK_WEBHOOK_URL" ] && [ -z "$RESEND_API_KEY" ] && [ -z "$SMTP_HOST" ]; then
+            echo "No SLACK_WEBHOOK_URL, RESEND_API_KEY or SMTP_HOST secret: the digest is off. Nothing sent."
             echo "on=false" >> "$GITHUB_OUTPUT"
           else
             echo "on=true" >> "$GITHUB_OUTPUT"

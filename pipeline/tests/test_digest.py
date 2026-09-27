@@ -72,10 +72,11 @@ def test_send_uses_injected_transport_only_when_configured():
 def test_cli_send_refuses_without_keys(monkeypatch, capsys):
     from pipeline.__main__ import main
 
-    for k in ("SLACK_WEBHOOK_URL", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "DIGEST_TO"):
+    for k in ("SLACK_WEBHOOK_URL", "RESEND_API_KEY", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "DIGEST_TO"):
         monkeypatch.setenv(k, "")
     monkeypatch.setattr(D, "_post_slack", lambda *a: pytest.fail("network call"))
     monkeypatch.setattr(D, "_send_smtp", lambda *a: pytest.fail("network call"))
+    monkeypatch.setattr(D, "_send_resend", lambda *a: pytest.fail("network call"))
     if not D.LATEST.exists():
         pytest.skip("no data/refresh/latest.json yet")
     assert main(["digest", "--send"]) == 2

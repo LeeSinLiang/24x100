@@ -1,8 +1,11 @@
 """Watchlist digest: a plain message from data/refresh/latest.json + data/watchlist.json.
 
 Off by default. --dry-run writes data/refresh/digest-preview.md and prints it. --send posts to a
-Slack incoming webhook (SLACK_WEBHOOK_URL) or sends mail over SMTP (SMTP_HOST, SMTP_PORT,
-SMTP_USER, SMTP_PASS, DIGEST_TO) only when those are set; otherwise it refuses. It never sends an
+Slack incoming webhook (SLACK_WEBHOOK_URL) and/or sends the email, only when those are set; otherwise it
+refuses. Email goes through Resend's HTTPS API (RESEND_API_KEY, DIGEST_TO, optional DIGEST_FROM), or, only
+when no Resend key is set, over SMTP (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, DIGEST_TO). Resend's test
+sender (onboarding@resend.dev, the default DIGEST_FROM) delivers only to the address that owns the Resend
+account, so DIGEST_TO must be that address; another sender needs a domain verified with Resend. It never sends an
 inquiry, and it carries no personal data: lot addresses, statuses and rule ids only (reviews are
 summarized by role, never by name).
 """
@@ -11,6 +14,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any, Callable
 
@@ -23,8 +27,24 @@ PREVIEW = REPO / "data" / "refresh" / "digest-preview.md"
 SIGNED = {"source_checked", "city_confirmed"}
 
 
+RESEND_URL = "https://api.resend.com/emails"
+RESEND_FROM = "24×100 <onboarding@resend.dev>"  # Resend's test sender: delivers only to the account owner's address
+NO_CHANNEL = ("digest --send refused: set SLACK_WEBHOOK_URL, or RESEND_API_KEY and DIGEST_TO (or SMTP_HOST, SMTP_PORT, "
+              "SMTP_USER, SMTP_PASS and DIGEST_TO) in .env. Nothing was sent. Use --dry-run to preview.")
+
+
 class Refused(RuntimeError):
     pass
+
+
+class SendFailed(RuntimeError):
+    """A send the service turned down, told by its HTTP status and error name only: never a key, a webhook URL, an
+    address or the service's own message (Resend's can quote the recipient)."""
+
+    def __init__(self, service: str, status: int, name: str | None = None):
+        super().__init__(f"{service} answered HTTP {status}{f' ({name})' if name else ''}")
+        self.status = status
+        self.name = name
 
 
 def _load(p: Path) -> Any:
@@ -117,22 +137,27 @@ def channels(env: dict[str, str]) -> list[str]:
     out = []
     if env.get("SLACK_WEBHOOK_URL"):
         out.append("slack")
-    if all(env.get(k) for k in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "DIGEST_TO")):
+    if env.get("RESEND_API_KEY") and env.get("DIGEST_TO"):
+        out.append("resend")  # Resend wins; SMTP is the fallback only when no Resend key is set
+    elif all(env.get(k) for k in ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "DIGEST_TO")):
         out.append("smtp")
     return out
 
 
 def send(text: str, env: dict[str, str] | None = None, post: Callable[[str, dict], None] | None = None,
-         mail: Callable[[dict, str], None] | None = None) -> list[str]:
+         mail: Callable[[dict, str], None] | None = None,
+         resend: Callable[[dict, str, str, str | None], None] | None = None) -> list[str]:
     env = dict(os.environ if env is None else env)
     ch = channels(env)
     if not ch:
-        raise Refused("digest --send refused: set SLACK_WEBHOOK_URL, or SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS "
-                      "and DIGEST_TO in .env. Nothing was sent. Use --dry-run to preview.")
+        raise Refused(NO_CHANNEL)
     sent = []
     if "slack" in ch:
         (post or _post_slack)(env["SLACK_WEBHOOK_URL"], {"text": text})
         sent.append("slack")
+    if "resend" in ch:
+        (resend or _send_resend)(env, "24x100 watchlist digest", text, None)
+        sent.append("email (Resend)")
     if "smtp" in ch:
         (mail or _send_smtp)(env, text)
         sent.append("smtp")
@@ -140,22 +165,47 @@ def send(text: str, env: dict[str, str] | None = None, post: Callable[[str, dict
 
 
 def send_outbox(outbox: dict, env: dict[str, str] | None = None, post: Callable[[str, dict], None] | None = None,
-                mail: Callable[[dict, str, str, str], None] | None = None) -> list[str]:
-    """Send the digest scripts/digest.ts built (data/digest/outbox.json): Slack Block Kit and an HTML + text email,
-    each only if its variables are set. Credentials are read from the environment and never printed."""
+                mail: Callable[[dict, str, str, str], None] | None = None,
+                resend: Callable[[dict, str, str, str | None], None] | None = None) -> list[str]:
+    """Send the digest scripts/digest.ts built (data/digest/outbox.json): Slack Block Kit and an HTML + text email
+    (Resend, or SMTP when no Resend key is set), each only if its variables are set. Credentials are read from the
+    environment and never printed."""
     env = dict(os.environ if env is None else env)
     ch = channels(env)
     if not ch:
-        raise Refused("digest --send refused: set SLACK_WEBHOOK_URL, or SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS "
-                      "and DIGEST_TO in .env. Nothing was sent. Use --dry-run to preview.")
+        raise Refused(NO_CHANNEL)
     sent = []
     if "slack" in ch:
         (post or _post_slack)(env["SLACK_WEBHOOK_URL"], {"text": outbox["slack"]["text"], "blocks": outbox["slack"]["blocks"]})
         sent.append("slack")
+    if "resend" in ch:
+        (resend or _send_resend)(env, outbox["subject"], outbox["text"], outbox["html"])
+        sent.append("email (Resend)")
     if "smtp" in ch:
         (mail or _send_smtp_html)(env, outbox["subject"], outbox["text"], outbox["html"])
-        sent.append("email")
+        sent.append("email (SMTP)")
     return sent
+
+
+def _send_resend(env: dict, subject: str, text: str, html: str | None) -> None:
+    """One email through Resend's API (POST /emails, Bearer RESEND_API_KEY): the same HTML and plain text."""
+    import requests
+
+    payload: dict[str, Any] = {
+        "from": env.get("DIGEST_FROM") or RESEND_FROM,
+        "to": [a.strip() for a in env["DIGEST_TO"].split(",") if a.strip()],
+        "subject": subject,
+        "text": text,
+    }
+    if html:
+        payload["html"] = html
+    r = requests.post(RESEND_URL, json=payload, headers={"Authorization": f"Bearer {env['RESEND_API_KEY']}"}, timeout=30)
+    if r.status_code >= 300:
+        try:
+            name = r.json().get("name")
+        except Exception:  # noqa: BLE001 - a body that isn't JSON: the status says enough
+            name = None
+        raise SendFailed("Resend", r.status_code, name if isinstance(name, str) and re.fullmatch(r"[a-z_]{1,64}", name) else None)
 
 
 def _send_smtp_html(env: dict, subject: str, text: str, html: str) -> None:
@@ -179,7 +229,7 @@ def _post_slack(url: str, payload: dict) -> None:
 
     r = requests.post(url, json=payload, timeout=30)
     if r.status_code >= 300:
-        raise RuntimeError(f"Slack webhook answered HTTP {r.status_code}")
+        raise SendFailed("Slack webhook", r.status_code)
 
 
 def _send_smtp(env: dict, text: str) -> None:

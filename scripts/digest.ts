@@ -2,7 +2,8 @@
 // map rests on, the map's verdict), with a link into the app, as Slack Block Kit and an HTML + text email.
 //
 //   npm run digest -- --dry-run            preview (data/digest/preview.md, preview.html); nothing is sent
-//   npm run digest -- --send               send via pipeline/digest.py (Slack and/or email, only what .env sets),
+//   npm run digest -- --send               send via pipeline/digest.py (Slack and/or email, only what .env sets:
+//                                          email through Resend with RESEND_API_KEY, else SMTP),
 //                                          then record the state sent (data/digest/last.json) so a change pings once
 //   npm run digest -- --baseline <git ref> compare with the state published at that commit instead of last.json
 //
@@ -80,6 +81,31 @@ export function snapshot(watch: Watch[], ref: string | undefined, label: string,
   return { snap, unwatchable };
 }
 
+/** Which variables are set, from the environment and .env: names only, never a value (the Python sender reads them). */
+function setVars(): Set<string> {
+  const on = new Set(Object.entries(process.env).filter(([, v]) => v).map(([k]) => k));
+  if (existsSync('.env'))
+    for (const line of readFileSync('.env', 'utf8').split('\n')) {
+      const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
+      if (m && m[2] && !/^(""|'')$/.test(m[2]) && !m[2].startsWith('#')) on.add(m[1]);
+    }
+  return on;
+}
+
+/** What `--send` would use, as the Python sender decides it (pipeline/digest.py channels()). */
+function channelsWords(): string {
+  const on = setVars();
+  const ch: string[] = [];
+  if (on.has('SLACK_WEBHOOK_URL')) ch.push('Slack (SLACK_WEBHOOK_URL)');
+  if (on.has('RESEND_API_KEY') && on.has('DIGEST_TO')) ch.push(`email through Resend to DIGEST_TO, from ${on.has('DIGEST_FROM') ? 'DIGEST_FROM' : 'onboarding@resend.dev'}`);
+  else if (['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS', 'DIGEST_TO'].every((k) => on.has(k))) ch.push('email over SMTP to DIGEST_TO');
+  const lines = [ch.length ? `--send would use: ${ch.join('; ')}.` : '--send would refuse: no channel is set (SLACK_WEBHOOK_URL, or RESEND_API_KEY and DIGEST_TO, in .env).'];
+  if (on.has('RESEND_API_KEY') && !on.has('DIGEST_TO')) lines.push('RESEND_API_KEY is set but DIGEST_TO isn’t: no email would go.');
+  if (on.has('RESEND_API_KEY') && !on.has('DIGEST_FROM'))
+    lines.push('Resend’s test sender (onboarding@resend.dev) delivers only to the address that owns the Resend account: DIGEST_TO must be that address. Another sender needs a domain verified with Resend.');
+  return lines.join('\n');
+}
+
 function main() {
   const watch: Watch[] = J<{ watch?: Watch[] }>(readAt('data/watchlist.json'), {}).watch ?? [];
   const head = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { encoding: 'utf8' }).trim();
@@ -113,6 +139,7 @@ function main() {
 
   if (!flag('send')) {
     console.log(`\n(dry run: wrote ${OUT}/outbox.json, preview.md and preview.html; nothing sent)`);
+    console.log(channelsWords());
     return;
   }
   if (!changes.length && !flag('always')) {

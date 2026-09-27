@@ -22,7 +22,7 @@ so a new steward can see exactly what was checked and by whom.
 | Parcels, assessments, City-owned status, sales, footprints, zoning layers | Nightly (the GitHub Actions workflow is included, disabled until a person enables it), or weekly | `npm run refresh` re-pulls, rebuilds, and opens a pull request; differences show in pencil under **Changes** and never overwrite a person's review |
 | HUD income limits | Yearly (HUD publishes each spring) | download the workbook, `uv run python -m pipeline money --hud-file <path>` (the hash is recorded) |
 | Zoning code text | When Council passes an amendment to Title 9 (e.g. Bill 2025‑1545 or Bill 2026‑0834 if enacted), or monthly | `uv run python -m pipeline refresh --code` re-saves the chapters with headless Chrome and reports what changed; a person replaces `data/code/`. Any rule whose quote no longer appears in the new text drops back to pencil automatically (tested) |
-| Watchlist digest | Weekly, if a steward turns it on | `npm run digest -- --send` with the steward's Slack webhook or SMTP credentials; dry run by default |
+| Watchlist digest | Weekly, if a steward turns it on | `npm run digest -- --send` with the steward's Slack webhook or email key (Resend, or SMTP); dry run by default |
 
 ## Cost
 

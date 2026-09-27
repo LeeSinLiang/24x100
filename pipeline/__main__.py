@@ -178,8 +178,11 @@ def cmd_digest(args) -> int:
         except D.Refused as e:
             print(str(e), file=sys.stderr)
             return 2
-        except Exception as e:  # noqa: BLE001 - reported by type and status code only: never a URL or a credential
-            code = getattr(e, "smtp_code", None) or (str(e).split("HTTP ")[-1] if str(e).startswith("Slack webhook answered HTTP") else None)
+        except D.SendFailed as e:  # the service's status and error name only (its message can quote an address)
+            print(f"digest send failed: {e}", file=sys.stderr)
+            return 3
+        except Exception as e:  # noqa: BLE001 - reported by type and status code only: never a URL, key or address
+            code = getattr(e, "smtp_code", None)
             print(f"digest send failed: {type(e).__name__}{f' ({code})' if code else ''}", file=sys.stderr)
             return 3
         print(f"digest sent via {', '.join(sent)}")
@@ -195,6 +198,12 @@ def cmd_digest(args) -> int:
         except D.Refused as e:
             print(str(e), file=sys.stderr)
             return 2
+        except D.SendFailed as e:
+            print(f"digest send failed: {e}", file=sys.stderr)
+            return 3
+        except Exception as e:  # noqa: BLE001 - never a URL, key or address
+            print(f"digest send failed: {type(e).__name__}", file=sys.stderr)
+            return 3
         print(f"digest sent via {', '.join(sent)}")
         return 0
     D.PREVIEW.parent.mkdir(parents=True, exist_ok=True)

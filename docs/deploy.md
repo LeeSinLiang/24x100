@@ -35,6 +35,25 @@ domain from `VERCEL_PROJECT_PRODUCTION_URL` (a system variable Vercel sets); els
 `https://24x100.example/`) for the build. Without either the tags point at `./og.png`, which browsers resolve but
 unfurlers may not.
 
+## The watchlist digest (optional, off until a key is set)
+
+The site needs no keys. The digest (`npm run digest`) is separate: it emails and/or posts to Slack when a watched
+lot changes. Email goes through [Resend](https://resend.com):
+
+1. Sign up at resend.com with your own email address.
+2. API Keys → Create API key, with sending access.
+3. In `24x100/.env` (gitignored; never commit it): `RESEND_API_KEY=<the key>` and `DIGEST_TO=<the address you
+   signed up with>`. Resend's test sender, `onboarding@resend.dev` (the default `DIGEST_FROM`), delivers only to
+   the address that owns the Resend account; another sender needs a domain verified with Resend (DNS records).
+4. `npm run digest -- --dry-run` shows what it would send and through which channel (names only, never a value).
+   `npm run digest -- --send` sends. A failed send reports Resend's HTTP status and error name, never the key or
+   the address.
+
+For the nightly run on GitHub (`.github/workflows/digest.yml`), add the same values as repository secrets
+(Settings → Secrets and variables → Actions): `RESEND_API_KEY`, `DIGEST_TO`, optionally `DIGEST_FROM`, and
+`SLACK_WEBHOOK_URL` for Slack. SMTP (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`) is used only when no
+Resend key is set. With none of them set the workflow stops at its first step and sends nothing.
+
 ## After the first green CI run on GitHub
 
 `.github/workflows/ci.yml` has run step by step on a fresh local clone (macOS, Node 26), not yet on GitHub's
