@@ -119,6 +119,8 @@ function moneyFacts(tag: string, r: ReturnType<typeof evaluate>, blk: BlockFile,
     put(`vertical_cost_${tag}${sfx}`, e.vertical, e.vertical[0] === e.vertical[1] ? `${k(e.vertical[0])} per home` : `${k(e.vertical[0])}–${k(e.vertical[1])} per home`, `engine: ${e.formula.split(';')[0]}; ${e.label}, ${e.supplied_by} (practitioner estimate${e.speculative ? ', speculative' : ''})`);
     put(`left_after_building_${tag}${sfx}`, e.left, e.left[0] === e.left[1] ? `${k(e.left[0])} left` : `${leftWords(e.left)} (${k(e.left[0])} to ${k(e.left[1])})`, `engine: new-build sale minus vertical construction, per home, ${e.label}; left for site work, soft costs and land`);
   }
+  const r100 = (n: number) => k(Math.round(n / 100) * 100); // as the app shows it (exact to $100)
+  if (m.gap) put(`subsidy_gap_${tag}`, [m.gap.lo, m.gap.hi], `${r100(m.gap.lo)}–${r100(m.gap.hi)} per home before land (a screening estimate, with our soft-cost and financing assumptions)`, `engine: ${m.gap.formula}`);
   put(`cost_range_spread_${tag}`, m.swing, `${k(m.swing)} per home across the $${m.estimates[0].psf[0]}–$${m.estimates[0].psf[1]}/sf range`, 'engine: high minus low vertical cost at the practitioner estimate');
   put(`verdict_${tag}`, { headline: v.headline, words: v.words, money: m.money_verdict, chips: v.chips.map((c) => ({ id: c.id, state: c.state, words: c.words })) }, v.words, `engine verdictFor(); money verdict ${m.money_verdict}; ${where}`);
   return m;

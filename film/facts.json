@@ -216,6 +216,14 @@
    "display": "$37,500 left",
    "source": "engine: new-build sale minus vertical construction, per home, If a production builder came in; left for site work, soft costs and land"
   },
+  "subsidy_gap_three": {
+   "value": [
+    125200,
+    235250
+   ],
+   "display": "$125,200–$235,300 per home before land (a screening estimate, with our soft-cost and financing assumptions)",
+   "source": "engine: $340,200–$425,300 building with soft costs and financing + $25,000–$50,000 site work − $240,000 sale = $125,200–$235,300 per home, before land"
+  },
   "cost_range_spread_three": {
    "value": 67500,
    "display": "$67,500 per home across the $200–$250/sf range",
@@ -288,6 +296,14 @@
    ],
    "display": "$78,000 left",
    "source": "engine: new-build sale minus vertical construction, per home, If a production builder came in; left for site work, soft costs and land"
+  },
+  "subsidy_gap_two": {
+   "value": [
+    57160,
+    150200
+   ],
+   "display": "$57,200–$150,200 per home before land (a screening estimate, with our soft-cost and financing assumptions)",
+   "source": "engine: $272,200–$340,200 building with soft costs and financing + $25,000–$50,000 site work − $240,000 sale = $57,200–$150,200 per home, before land"
   },
   "cost_range_spread_two": {
    "value": 54000,
@@ -416,6 +432,14 @@
    "display": "$67,200 left",
    "source": "engine: new-build sale minus vertical construction, per home, If a production builder came in; left for site work, soft costs and land"
   },
+  "subsidy_gap_larimer": {
+   "value": [
+    75304,
+    172880
+   ],
+   "display": "$75,300–$172,900 per home before land (a screening estimate, with our soft-cost and financing assumptions)",
+   "source": "engine: $290,300–$362,900 building with soft costs and financing + $25,000–$50,000 site work − $240,000 sale = $75,300–$172,900 per home, before land"
+  },
   "cost_range_spread_larimer": {
    "value": 57600,
    "display": "$57,600 per home across the $200–$250/sf range",
@@ -525,7 +549,7 @@
   },
   "extraction_eval": {
    "value": {
-    "generated_at": "2026-09-26T21:22:19+00:00",
+    "generated_at": "2026-09-27T01:58:50+00:00",
     "target_agreement": 0.9,
     "districts": {
      "R1D-H": {
