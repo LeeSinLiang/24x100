@@ -65,7 +65,7 @@ export function TopBar({
   return (
     <header className={`ws-top ${workspace ? 'is-ws' : ''}`}>
       <Cartouche />
-      {!s.record && <Search update={update} />}
+      <Search update={update} /> {/* hidden in record mode by CSS (workspace.css); B01t shows it */}
       <nav className="crumbs ws-crumbs" aria-label="Where you are">
         <ol>
           {crumbs.map((c, i) => (

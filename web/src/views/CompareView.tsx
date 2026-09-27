@@ -6,7 +6,7 @@ import { classifyCityLot } from '@engine/city';
 import { buildRuleSet, DEFAULT_SETTINGS } from '@engine/index';
 import { Label } from '../components/ui';
 import { EaseBar, EasePartCell } from '../components/workspace/Ease';
-import { VerdictStamp } from '../components/workspace/plain';
+import { kFmt as k, VerdictStamp } from '../components/workspace/plain';
 import { BLOCKS, QUESTIONS, RULES } from '../lib/data';
 import { useCityData } from '../components/city/cityData';
 import { useLotModel, type LotModel } from '../lib/model';
@@ -25,7 +25,6 @@ interface Col {
   money: string;
 }
 
-const k = (n: number) => `$${Math.round(n / 1000)}k`;
 const gapWords = (m: LotModel['money']) => (!m || !m.gap || m.money_verdict === 'no_new_build' ? 'not assessed' : m.money_verdict === 'worth_pricing_site' ? 'the sale covers full cost' : `${k(m.gap.lo)}–${k(m.gap.hi)} a home before land`);
 
 function lotCol(model: LotModel | null, q: string, title: string, sub: string): Col | null {

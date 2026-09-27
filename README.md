@@ -269,7 +269,9 @@ signed; the others are grey, or, on the "AI-read" layer, shown in pencil as the 
 The free tier's daily limits stopped the second coverage run after three districts: R1A-H read in full, R1A-VH and
 R1A-M only in part (a call refused), so their lots stay grey; 34 districts with City lots have no rule read yet.
 Seven districts with City lots can't be read from the code text we saved. The watchlist digest sends only when a
-steward sets a Slack webhook or email in `.env`. Full list: `docs/limitations.md`.
+steward sets a Slack webhook or email in `.env`. Nightly runs when the repository variable NIGHTLY is 'on' (off
+during judging: the hackathon's stop-work rule); until then it runs from the Actions tab. Full list:
+`docs/limitations.md`.
 
 ## License
 

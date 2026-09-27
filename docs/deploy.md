@@ -52,7 +52,12 @@ lot changes. Email goes through [Resend](https://resend.com):
 For the nightly run on GitHub (`.github/workflows/digest.yml`), add the same values as repository secrets
 (Settings → Secrets and variables → Actions): `RESEND_API_KEY`, `DIGEST_TO`, optionally `DIGEST_FROM`, and
 `SLACK_WEBHOOK_URL` for Slack. SMTP (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`) is used only when no
-Resend key is set. With none of them set the workflow stops at its first step and sends nothing.
+Resend key is set. With none of them set the digest step is skipped and nothing is sent (the refresh, rebuild and
+shortlist still run). Set the repository variable `APP_URL` to the live site so the digest's links point there.
+
+Nightly runs when the repository variable NIGHTLY is 'on' (off during judging: the hackathon's stop-work rule).
+The cron (`0 6 * * *`, 02:00 ET) stays in the workflow; while `NIGHTLY` is unset the scheduled run is skipped and
+nothing commits. "Run workflow" on the Actions tab always runs it.
 
 ## After the first green CI run on GitHub
 

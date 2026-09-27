@@ -583,6 +583,7 @@ const V6 = [
       await sleep(350);
       await mark(p, 'B01', 'four_ft', p.locator('[data-lot-width="25"]'), c, "lot 25's 4′ on the plate, under its sliver", { tight: true });
       await mark(p, 'B01', 'four_ft_tile', p.locator('[data-tile="width"] .ws-tile-value, .ws-tile[data-tile="width"] .ev-num').first(), c, 'the inspector tile BUILDABLE WIDTH 4 ft', { tight: true });
+      await mark(p, 'B01', 'ease_range', p.locator('.ws-status [data-ease]').first(), c, 'Development Ease 0–40 / 100 on the lot card (a button: it opens the six parts)');
       const row1 = await p.locator('[data-plate="envelopes"]').boundingBox();
       if (row0 && row1 && Math.abs(row1.y - row0[1]) + Math.abs(row1.x - row0[0]) > 2) (cues.B01.missing ??= []).push('street_row moved when lot 25 was selected: re-measure');
       // The cursor comes down onto lot 25's sliver and rests there.
@@ -591,6 +592,41 @@ const V6 = [
       if (sl) await glide(p, sl.x + sl.width / 2, sl.y + sl.height * 0.55, { rest: 0.6 });
       cues.B01.hover_sliver = at(c);
       await c.until(5.8 + HOLD);
+    },
+  },
+  {
+    id: 'B01t',
+    name: 'type-pin',
+    // B01's opening with the lot found by its parcel ID: the County PIN typed into the search, the hit clicked, lot 25
+    // selected with its 4 ft and its Development Ease. A clip of its own so B01's timings stay as they were.
+    // Record mode hides the search box (a quieter bar); this clip shows it.
+    q: 'view=block&block=10K&type=two',
+    first: (p) => p.addStyleTag({ content: ":root[data-record='1'] .ws-top .search { display: block !important; }" }),
+    run: async (p, c) => {
+      cues.B01t = {};
+      const input = p.locator('#search');
+      await c.until(0.4);
+      await clickSlow(p, input);
+      const ib = await input.boundingBox();
+      if (ib) await glide(p, ib.x + ib.width + 70, ib.y + ib.height * 0.6, { steps: 14 }); // off the text, so the digits read
+      await input.pressSequentially('0010K00025000000', { delay: 85 }); // the County parcel ID, typed visibly
+      const hit = p.locator('#search-results button', { hasText: '2241 Mahon' }).first();
+      await hit.waitFor({ state: 'visible', timeout: 5000 });
+      cues.B01t.typed = at(c);
+      await mark(p, 'B01t', 'pin_typed', input, c, 'the search box with the parcel ID 0010K00025000000 typed in');
+      await mark(p, 'B01t', 'search_hit', hit, c, 'the hit: 2241 Mahon St · lot 25');
+      await sleep(500);
+      await clickSlow(p, hit);
+      await p.waitForSelector('.lot.is-selected[data-lot="25"]', { timeout: 5000 });
+      cues.B01t.lot_selected = at(c);
+      await sleep(350);
+      await mark(p, 'B01t', 'four_ft', p.locator('[data-lot-width="25"]'), c, "lot 25's 4′ on the plate, under its sliver", { tight: true });
+      await mark(p, 'B01t', 'four_ft_tile', p.locator('[data-tile="width"] .ws-tile-value, .ws-tile[data-tile="width"] .ev-num').first(), c, 'the inspector tile BUILDABLE WIDTH 4 ft', { tight: true });
+      await mark(p, 'B01t', 'ease_range', p.locator('.ws-status [data-ease]').first(), c, 'Development Ease 0–40 / 100 on the lot card (a button: it opens the six parts)');
+      await c.until(cues.B01t.lot_selected + 1.2);
+      await hoverSlow(p, p.locator('[data-tile="width"]').first(), { fx: 0.5, fy: 0.95, rest: 0.8 });
+      await hoverSlow(p, p.locator('.ws-status [data-ease]').first(), { fx: 0.5, fy: 1.3, rest: 0.6 });
+      await c.until(cues.B01t.lot_selected + 4 + HOLD);
     },
   },
   {
@@ -703,9 +739,11 @@ const V6 = [
       await p.waitForSelector('.ws-status .stamp[data-quote="1"]', { timeout: 5000 });
       await sleep(300);
       cues.B16.updated = at(c);
-      await mark(p, 'B16', 'new_verdict', p.locator('.ws-status .stamp').first(), c, 'the stamp after the quote: WORTH PRICING THE SITE, "your builder’s quote" (red)');
+      await mark(p, 'B16', 'new_verdict', p.locator('.ws-status .stamp').first(), c, 'the stamp after the quote: ONLY WITH SUBSIDY, "your builder’s quote" (red): at full cost the gap narrows but stays');
+      await mark(p, 'B16', 'gap_sentence', p.locator('.ws-sentence .ev', { hasText: '$23.1k' }), c, 'the sentence\'s "$23.1k–$48.1k" a home of subsidy before land, at full cost, at the $140 quote', { tight: true });
       await mark(p, 'B16', 'left_value', p.locator('[data-tile="left"] .ws-tile-value').first(), c, 'LEFT AFTER BUILDING $51k at the quote (240,000 − 1,350 × 140)', { tight: true });
       cues.B16.verdict_words = (await p.locator('.ws-status .stamp').first().innerText()).replace(/\s+/g, ' ').trim();
+      cues.B16.gap_words = (await p.locator('.ws-sentence .ev', { hasText: '$23.1k' }).first().innerText().catch(() => '')).trim();
       cues.B16.left_words = (await p.locator('[data-tile="left"] .ws-tile-value').first().innerText()).replace(/\s+/g, ' ').trim();
       // The pointer goes up to the stamp and rests.
       const st = await p.locator('.ws-status .stamp').first().boundingBox();
@@ -825,6 +863,33 @@ const V6 = [
       const r = await row.boundingBox();
       if (r) await glide(p, r.x + r.width * 0.35, r.y + r.height * 0.75, { steps: 26, rest: 0.6 });
       await c.until(8 + HOLD);
+    },
+  },
+  {
+    id: 'B22',
+    name: 'ease-compare',
+    // Development Ease side by side (?view=compare): lot 25 alone, lots 25–27 together, and the shortlist's first lot,
+    // the same six parts in every column; water and sewer is unknown in all three.
+    q: 'view=compare',
+    run: async (p, c) => {
+      cues.B22 = {};
+      // The third column waits for the citywide file: the table is complete when all three ranges are drawn.
+      await p.waitForSelector('[data-ease-compare] [data-cmp-ease="2"] [data-ease]', { timeout: 15000 });
+      await sleep(150);
+      cues.B22.cue = at(c);
+      cues.B22.note = 'cue: clip second the table is fully shown (all three columns and their ranges)';
+      await mark(p, 'B22', 'ease_compare', p.locator('[data-ease-compare]').first(), c, 'the table: lot 25 · lots 25–27 · 156 Meadow St, verdict, Development Ease, six parts, subsidy per home');
+      await mark(p, 'B22', 'ease_range', p.locator('[data-cmp-ease="0"] [data-ease]').first(), c, "our lot's range: Ease 0–40 / 100 (lot 25, two-unit)");
+      await mark(p, 'B22', 'ease_unknown', p.locator('[data-cmp-row="infrastructure"]').first(), c, 'Water and sewer: ? not modelled, in all three columns (ask PWSA and ALCOSAN)');
+      cues.B22.ranges = await p.$$eval('[data-cmp-ease] [data-ease]', (es) => es.map((e) => (e.dataset.ease === 'scored' ? `${e.dataset.easeLo}–${e.dataset.easeHi}` : 'cant')));
+      await c.until(Math.max(1.0, cues.B22.cue + 0.6));
+      await hoverSlow(p, p.locator('[data-cmp-ease="0"] [data-ease]'), { fx: 0.75, fy: 1.4, rest: 0.8 });
+      await hoverSlow(p, p.locator('[data-cmp-ease="2"] [data-ease]'), { fx: 0.75, fy: 1.4, rest: 0.8 });
+      await c.until(Math.max(4.2, at(c)));
+      await hoverSlow(p, p.locator('[data-cmp-row="infrastructure"] th'), { fx: 0.5, fy: 1.2, rest: 0.4 });
+      const row = await p.locator('[data-cmp-row="infrastructure"]').first().boundingBox();
+      if (row) await glide(p, row.x + row.width * 0.85, row.y + row.height + 14, { steps: 40, rest: 0.8 });
+      await c.until(Math.max(8, at(c)) + HOLD);
     },
   },
   {

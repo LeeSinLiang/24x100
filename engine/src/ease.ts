@@ -51,7 +51,11 @@ const OTHER: ApprovalKind[] = ['special_exception', 'administrator_exception', '
 const OWNERSHIP: ApprovalKind[] = ['city_public_sale', 'other_owner', 'lot_consolidation'];
 
 const sum = (as: Approval[]) => as.reduce((s, a) => s + a.weight, 0);
-const k = (n: number) => `$${Math.round(n / 1000)}k`;
+// The lot card's short money (web kFmt): one decimal under $100k, so the parts read as the sentence does ($57.2k, $150k).
+const k = (n: number) => {
+  const v = Math.abs(n) >= 100_000 ? Math.round(n / 1000) : Math.round(n / 100) / 10;
+  return `$${v.toLocaleString('en-US')}k`;
+};
 
 function part(id: EaseId, state: EaseState, minus: [number, number], words: string, source: string): EasePart {
   return { id, label: LABEL[id], state, minus, words, source };
