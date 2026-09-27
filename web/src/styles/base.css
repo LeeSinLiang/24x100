@@ -679,7 +679,7 @@ button.chip {
   pointer-events: none;
   paint-order: stroke;
   stroke: var(--sheet);
-  stroke-width: 3px;
+  /* the halo width is set inline in screen pixels (Plate.tsx px(3)); a CSS width would be in feet */
   stroke-linejoin: round;
 }
 .env-width.short {

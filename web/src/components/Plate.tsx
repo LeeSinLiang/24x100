@@ -329,7 +329,7 @@ export function Plate(p: Props) {
                   <circle cx={frontMid[0]} cy={frontMid[1] - px(9)} r={px(3.6)} className={`coin ${parcel.city.status === 'Available for Sale' ? 'is-sale' : 'is-held'}`} />
                 )}
                 {!inGroup && result.state === 'ok' && wv != null && (
-                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`env-width ${cls}`} fontSize={fs(13)} textAnchor="middle">
+                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`env-width ${cls}`} fontSize={fs(13)} strokeWidth={px(3)} textAnchor="middle">
                     {Math.round(wv * 10) / 10}
                     <tspan className="unit">′</tspan>
                   </text>
@@ -359,7 +359,7 @@ export function Plate(p: Props) {
             return v != null ? (
               <g className="group-width" aria-hidden="true">
                 <rect x={at[0] - px(34)} y={at[1] - px(15)} width={px(68)} height={px(26)} className="group-width-bg" />
-                <text x={at[0]} y={at[1] + px(4)} fontSize={fs(19)} textAnchor="middle" className={`env-width big ${statusClass(p.selected)}`}>
+                <text x={at[0]} y={at[1] + px(4)} fontSize={fs(19)} strokeWidth={px(3)} textAnchor="middle" className={`env-width big ${statusClass(p.selected)}`}>
                   {v} ft
                 </text>
               </g>
