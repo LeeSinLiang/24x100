@@ -21,10 +21,20 @@ Rule states come from the committed rule store (`data/rules/base`, `data/rules/e
 review log (`data/rules/reviews.json`), not from anyone's browser. Reviews made in the app reach the API when
 someone exports the log from the review screen, commits it as `data/rules/reviews.json`, and rebuilds.
 
-There is no score. Each result carries a `verdict` (a headline in words and Money · Rules · Site chips) and,
-for Ward 5 lots, a `money_screen` (vertical cost at a practitioner's estimate, three value signals, the gap as a
-lower bound, and what is not in the number). Every file carries the disclaimer: decision support, not legal, financial or zoning advice; the City of
-Pittsburgh interprets its own code.
+The app shows a Development Ease Score: a range out of 100 from six parts (zoning fit, approvals needed,
+ownership and assembly, site, water and sewer, money at full cost). Unknowns widen it, pencil geometry counts as
+unknown, water and sewer is always unknown, and a lot where 4 or more of the 5 assessable parts are unknown
+says "can't score yet". The weights are our assumptions (`engine/src/ease.ts`). **The API does not carry the
+range yet.** It carries most of the inputs, so you can rebuild most of it with your own weights: `approvals.certain` and
+`approvals.open` (each with its `kind` and our `weight`), every check's `status` and `trust`, the slope and
+undermined shares under `records`, and `not_assessed`.
+
+Each result also carries a `verdict` (a headline in words and Money · Rules · Site chips) and, for lots in
+Wards 5 and 12 (the wards with comparable sales loaded), a `money_screen`: the practitioner's cost estimates,
+the newest new-build sale (the value used), the ward median and what an 80% AMI buyer could pay (context only),
+the site-work range, a `money_verdict` and where the numbers came from. The full-cost subsidy range the app
+shows is not in the API yet. Every file carries the disclaimer: decision support, not legal, financial or
+zoning advice; the City of Pittsburgh interprets its own code.
 
 ## Example
 

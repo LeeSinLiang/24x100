@@ -8,9 +8,9 @@ that fit, and the first step is asking them.
 | Role | Who could hold it | What they do |
 |---|---|---|
 | **Rule steward** | A zoning or policy analyst at the Department of City Planning, or a CDC coalition's policy staff | Signs or strikes model-proposed rules in the review screen (name, role, note); records City confirmations with a reference. Owns `data/rules/reviews.json`. |
-| **Data steward** | A GIS or open-data analyst (City, WPRDC, or a university partner) | Runs the refresh, reviews the pencil differences, merges the refresh pull request. |
+| **Data steward** | A GIS or open-data analyst (City, WPRDC, or a university partner) | Watches the nightly run and reads its commit; reviews the pencil differences; merges the pull request when a refresh is run by hand. |
 | **Users** | CDCs, small and mid-size developers, City Real Estate / URA land staff, policy analysts | Use the city map and lot views, draft inquiries, and send them themselves. |
-| **Maintainer** | A student team or a civic-tech volunteer group | Keeps the code, tests and deploy running. |
+| **Maintainer** | Today: Sin Liang Lee, the author. Later: a student team or a civic-tech volunteer group | Keeps the code, tests and deploy running. |
 
 The review log is the handover: every decision carries who, role, when, level, the quoted span and the reason,
 so a new steward can see exactly what was checked and by whom.
@@ -19,10 +19,10 @@ so a new steward can see exactly what was checked and by whom.
 
 | What | How often | How |
 |---|---|---|
-| Parcels, assessments, City-owned status, sales, footprints, zoning layers | Nightly (the GitHub Actions workflow is included, disabled until a person enables it), or weekly | `npm run refresh` re-pulls, rebuilds, and opens a pull request; differences show in pencil under **Changes** and never overwrite a person's review |
+| Parcels, assessments, City-owned status, sales, footprints, zoning layers, and the shortlist | Nightly at 02:00 ET, once the repository variable `NIGHTLY` is `on` (it stays unset during judging, the hackathon's stop-work rule); or any time by hand | The **nightly** workflow (`.github/workflows/digest.yml`) re-pulls, rebuilds (`npm run build:data`), re-runs the shortlist and **commits straight to `main`**, then sends the digest. It runs on the schedule when `NIGHTLY` is `on`, and whenever someone starts it by hand (Run workflow). A refresh on its own goes through review instead: `npm run refresh` re-pulls and rebuilds on your machine for you to commit, and the **refresh-data** workflow (`refresh.yml`, by hand only) does the same and opens a pull request. Either way, differences show in pencil under **Changes**, and the review log (`data/rules/reviews.json`) is never touched |
 | HUD income limits | Yearly (HUD publishes each spring) | download the workbook, `uv run python -m pipeline money --hud-file <path>` (the hash is recorded) |
 | Zoning code text | When Council passes an amendment to Title 9 (e.g. Bill 2025‑1545 or Bill 2026‑0834 if enacted), or monthly | `uv run python -m pipeline refresh --code` re-saves the chapters with headless Chrome and reports what changed; a person replaces `data/code/`. Any rule whose quote no longer appears in the new text drops back to pencil automatically (tested) |
-| Watchlist digest | Weekly, if a steward turns it on | `npm run digest -- --send` with the steward's Slack webhook or email key (Resend, or SMTP); dry run by default |
+| Watchlist digest | With each nightly run, when a Slack webhook or email key is set as a repository secret; it sends only when a watched lot changed or a lot is new on the shortlist | the nightly workflow's last step; by hand, `npm run digest -- --send` with the steward's Slack webhook or email key (Resend, or SMTP); dry run by default |
 
 ## Cost
 
@@ -60,7 +60,7 @@ measured.
 
 Step 1's time is measured from the extraction logs (see Cost). Step 2's is an estimate (about 45 seconds to
 read one highlighted quote and sign it, times about twenty rules); nobody outside the team has timed it yet.
-Asking a City analyst to try it is the first pilot step.
+Asking a City analyst to try it belongs in a later pilot; the first one we propose is below.
 
 ## Steward runbook (publishing reviews)
 
@@ -93,7 +93,37 @@ Time: our estimate is 10–20 minutes a week while districts are being added, an
 timed it. Without a machine: `npm run check-reviews -- path/to/file.json` checks a file and changes nothing
 (add `--write` to publish locally).
 
-## What a pilot would measure
+## Proposed pilot (not yet agreed with anyone)
+
+Nobody has agreed to take part. Partner participation is unconfirmed: the reviewers below are the roles we would
+ask, not people who have said yes. This is the first test we would ask for.
+
+- **Owner and maintainer:** Sin Liang Lee. Runs the pilot, keeps the app and its data running through it, and
+  writes up the result.
+- **Reviewers (to be asked):** one staff member of a Hill District CDC, and one builder who prices infill homes.
+- **Parcels:** 10 from the current shortlist (`data/shortlist/latest.json`), chosen by the CDC reviewer rather
+  than by us, so we don't pick the easy ones.
+- **Length:** two weeks.
+- **How:** each reviewer screens each parcel two ways, each timed. By hand means their own knowledge, the public
+  records, and a call if they would normally make one. In 24×100 means from the parcel ID to the first blocker and
+  the next step. They do five parcels by hand first and the other five in 24×100 first, so neither method always
+  gets the head start. The builder also types their own price into the builder's-quote box on each parcel.
+
+**Acceptance criteria.** The pass marks are our proposal, to be agreed with both reviewers before the first
+parcel.
+
+1. **Blocker agreement.** For each parcel, does 24×100's first blocker, and what it says would move it, match
+   the reviewer's own judgment? Counted per reviewer, out of 10. Proposed pass: 8 of 10 for each reviewer.
+2. **Time to screen.** Median minutes per parcel, 24×100 against by hand. Proposed pass: 24×100 takes half the
+   time or less.
+3. **Disagreements recorded.** Every disagreement gets a line: the parcel, what 24×100 said, what the reviewer
+   said, who turned out right once it was checked, and what we changed (a rule, the data, the wording, or
+   nothing). Pass: every disagreement has a written outcome by the end of the two weeks.
+
+Also recorded, with no pass mark: how far each builder's price moves the money line from the practitioner's
+estimate. The results, misses included, would go in this repository.
+
+## What a longer pilot would measure
 
 - Time for a CDC staffer to answer "what blocks this lot and what would move it" (the scripted path takes 3
   actions; we want real people).

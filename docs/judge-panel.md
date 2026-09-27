@@ -11,6 +11,10 @@ Round 1 judged the build of commit `4e30c6b` (Sat 26 Sep, 18:10), which had spec
 score) but not yet §0.13 (one cost estimate, "what's left after building"); the judges' money figures
 ($325–$375/sf, "gap at least $83,000") are from that build and have since been replaced.
 
+**Note, Sun 27 Sep:** the "no score" rule was retired that afternoon (`205b5a1`). The app now shows a
+Development Ease Score as a range out of 100 from six parts, with unknowns widening it (see
+`docs/limitations.md`). Where the rounds below say "there is no score", they describe the builds judged then.
+
 ## Round 1 scores
 
 | Criterion | CDC director | City zoning planner | AI engineer | Impact investor | Total /20 |
@@ -44,7 +48,7 @@ close behind, and two of its findings are honesty defects we fix regardless of s
 | The watchlist is fixed to the demo lots; "What changed" shows raw street-name arrays | CDC, investor | Continuation |
 | The eval's "hand-checked answer key" was checked by an AI research pass; the ink legend says "a named person" while no RM‑M rule is signed by a person | all four | Integrity |
 | A typed "City confirmation" silently drops the question from the letter and states the answer as fact | planner | Integrity |
-| The Assume form says "the score keeps its range" (there is no score) | planner | Integrity |
+| The Assume form says "the score keeps its range" (there was no score then; since 27 Sep there is a Development Ease range, see the note above) | planner | Integrity |
 | Search only knows the two detailed blocks and fails on "Street"; lots listed on the home table return "No match" | all four | Usability |
 | The citywide width count ignores built neighbours (contextual setback) | CDC, AI engineer, investor | Problem, Technical |
 | Docs drift: limitations says Ward 5 only; STORYBOARD B09 2,505 sf | CDC, investor | Integrity |
@@ -161,6 +165,7 @@ repository doesn't exist, and the publish workflow has never run, which only the
 - http://localhost:4173/?view=lot&block=10K&lot=25&type=row&lots=25,26,27&drawer=question:q.single_unit_includes_attached, then "Record City confirmation" with arbitrary text: http://localhost:4173/?view=inquiry&block=10K&lot=25&type=row&lots=25,26,27 drops the question to the Zoning Administrator and states 21 ft as of right without mentioning the confirmation.
 - Search from http://localhost:4173/ for "1926 Arlington Ave" (listed in the home table) returns "No match". Searching "lot 26" also suggests "6426 Winslow St · lot 184".
 - The Assume-yes form says "the score keeps its range", although the README says there is no score anywhere in the UI.
+  *[Note, 27 Sep, not the judge's words: true of the build judged then. The app has since added a Development Ease range; see the note at the top.]*
 - Evidence drawers say "hand-checked answer key" next to "Source-checked by an AI agent" (for example, `drawer=rule:rm-m.min_lot_area`).
 - The storyboard's B03 edge labels ("SIDE · 10 FT · LOT 24 VACANT") are not drawn on the plate at `?view=lot&block=10K&lot=25&type=two&drawer=rule:pgh.contextual_side`.
 - Submitting the Assume or Record forms with empty required fields does nothing, with no error message.
