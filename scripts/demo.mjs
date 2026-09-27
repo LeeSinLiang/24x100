@@ -764,7 +764,16 @@ const V6 = [
       await mark(p, 'B18', 'verified_stamp', p.locator('[data-case-stamp="published"]').first(), c, 'VERIFIED: the verifier traced every quote, number and source before the case file was published');
       const st = await p.locator('[data-case-stamp="published"]').first().boundingBox();
       if (st) await glide(p, st.x + st.width + 36, st.y + st.height / 2, { steps: 26, rest: 0.6 });
-      await c.until(cues.B18.verified + 2.5 + HOLD);
+      await c.until(cues.B18.verified + 2.5);
+      // The chain: the steward asked the policy agent, which found the sentence and counted the change (its Q-run).
+      const pol = p.locator('.case-step[data-agent="policy"]').last();
+      await pol.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(1500); // the smooth scroll settles
+      cues.B18.policy = at(c);
+      await mark(p, 'B18', 'policy_step', pol.locator('.case-step-text'), c, "the policy agent's answer in the steward's run: Q4, RM-M interior side setback 10 → 4 ft opens 135 City lots for a two-unit house, this one among them");
+      const pb = await pol.boundingBox();
+      if (pb) await glide(p, pb.x + 20, pb.y - 16, { steps: 26, rest: 0.6 });
+      await c.until(cues.B18.policy + 3.5 + HOLD);
     },
   },
   {
