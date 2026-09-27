@@ -44,6 +44,14 @@ TARGET = 0.90
 # Google's published paid-tier prices, per 1M tokens (USD). Output includes thinking tokens.
 # Read from the page on 2026-09-26; the page said "Last updated 2026-09-24 UTC".
 PRICING = {
+    "gemini-3.5-flash-lite": {
+        "url": "https://ai.google.dev/gemini-api/docs/pricing",
+        "read": "2026-09-27",
+        "page_updated": "2026-09-24",
+        "input_per_m": 0.30,
+        "output_per_m": 2.50,
+        "note": "Standard paid tier (text input). Output price includes thinking tokens. What gemini-flash-lite-latest answered as on 2026-09-27.",
+    },
     "gemini-3.5-flash": {
         "url": "https://ai.google.dev/gemini-api/docs/pricing",
         "read": "2026-09-27",

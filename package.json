@@ -14,6 +14,8 @@
     "rebuild": "uv run python -m pipeline all && npm run seed:rules && npm run build",
     "refresh": "uv run python -m pipeline refresh && npm run build:data",
     "digest": "tsx scripts/digest.ts",
+    "steward": "uv run python -m agents steward",
+    "agents": "uv run python -m agents",
     "extract": "uv run python -m extract",
     "test": "vitest run && uv run pytest -q",
     "test:engine": "vitest run",

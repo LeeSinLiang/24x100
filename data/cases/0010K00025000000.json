@@ -1,0 +1,847 @@
+{
+ "id": "0010K00025000000",
+ "goal": "a two-unit house",
+ "lot": {
+  "pin": "0010K00025000000",
+  "addr": "2241 Mahon St",
+  "lot": "25",
+  "block": "10K",
+  "hood": "Middle Hill",
+  "zone": "RM-M",
+  "link": "?view=lot&block=10K&lot=25&type=two"
+ },
+ "run_at": "2026-09-27T16:47:42Z",
+ "model": {
+  "id": "gemini-flash-lite-latest",
+  "key": "track3",
+  "planned_by": "model",
+  "why": "ok"
+ },
+ "tokens": {
+  "in": 1004,
+  "out": 463,
+  "calls": 3
+ },
+ "cost": {
+  "usd_paid_rate": 0.001458,
+  "note": "at the model's published paid Standard rate; what was billed depends on the key's tier"
+ },
+ "plan": [
+  {
+   "agent": "policy",
+   "what": "Review the zoning rules regarding lot width and setbacks for the proposed two-unit house.",
+   "why": "The first blocker is a rule concerning the lot width requirement."
+  },
+  {
+   "agent": "due-diligence",
+   "what": "Investigate undermining maps, environmental records, and builder pricing.",
+   "why": "To assess site viability and construction costs early in the process."
+  },
+  {
+   "agent": "watch",
+   "what": "Monitor City Real Estate and URA communications regarding the lot acquisition.",
+   "why": "To track the status and potential pricing from the City."
+  },
+  {
+   "agent": "verifier",
+   "what": "Confirm all preliminary reviews and constraints are addressed before proceeding.",
+   "why": "The verifier always runs last to ensure readiness."
+  }
+ ],
+ "steps": [
+  {
+   "agent": "steward",
+   "n": 1,
+   "action": "tool",
+   "tool": "engine:scripts/case-engine.ts lot",
+   "input": {
+    "pin": "0010K00025000000",
+    "type": "two"
+   },
+   "summary": "The engine read the lot. Since May 2025, 2241 Mahon St meets the minimum lot size exactly (2,400 sf). A two-unit house still gets 4 ft. First blocker: width (24 − 10 − 10 = 4 ft, against a 16 ft plan). Money: Only with subsidy (screening estimate).",
+   "sources": [
+    {
+     "url": "data/blocks/10K.json",
+     "pulled_at": "2026-09-27T16:47:42Z",
+     "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670"
+    },
+    {
+     "url": "data/rules/reviews.json",
+     "pulled_at": "2026-09-27T16:47:42Z",
+     "sha256": "4459a17317ead9d9c3ab18cb173c6ec34d3f58d4c61c450d6d538fdd28af48b1"
+    }
+   ],
+   "ok": true,
+   "t": 0.0
+  },
+  {
+   "agent": "steward",
+   "n": 2,
+   "action": "plan",
+   "input": {
+    "goal": "two-unit house"
+   },
+   "summary": "Planned with gemini-3.5-flash-lite: policy; due-diligence; watch; verifier.",
+   "sources": [],
+   "ok": true,
+   "t": 1.56,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 313,
+    "out": 145
+   },
+   "cost_usd_paid_rate": 0.000456
+  },
+  {
+   "agent": "due-diligence",
+   "n": 3,
+   "action": "plan",
+   "input": {
+    "checks": [
+     "permits",
+     "violations",
+     "condemned",
+     "liens",
+     "311",
+     "undermining",
+     "slope"
+    ],
+    "why": {
+     "permits": "check if any active or recent building work exists",
+     "violations": "verify if open code citations or debris issues affect the title",
+     "condemned": "confirm the lot is not flagged as a dead-end or condemned structure",
+     "liens": "ensure no back taxes or municipal liens transfer with the city sale",
+     "311": "assess neighborhood service requests regarding dumping or drainage",
+     "undermining": "check historical coal mining maps beneath the Middle Hill neighborhood",
+     "slope": "evaluate topography for potential grading and retaining wall requirements"
+    },
+    "skipped": {},
+    "paid": [
+     "survey",
+     "geotech"
+    ],
+    "count": {
+     "picked": 7,
+     "free": 7,
+     "paid": 2
+    }
+   },
+   "summary": "The model picked the free checks to run and the paid studies to draft.",
+   "sources": [],
+   "ok": true,
+   "t": 2.89,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 327,
+    "out": 220
+   },
+   "cost_usd_paid_rate": 0.000648
+  },
+  {
+   "agent": "due-diligence",
+   "n": 4,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:permits",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220010K00025000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T16:47:45Z",
+     "sha256": "dd7de2cbf386df3d0b2562268f94f64abe42101ce7cf41f98da0d9c21a317f00",
+     "via": "data/cases/raw/0010K00025000000/permits.json",
+     "dataset": "https://data.wprdc.org/dataset/pli-permits"
+    }
+   ],
+   "ok": true,
+   "t": 3.14
+  },
+  {
+   "agent": "due-diligence",
+   "n": 5,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:violations",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Found: 1 code-enforcement case file since 2022 (Weeds/Debris); the latest, investigated 2022-11-08, is \"Clean & Lien\" (DPW to Correct Issue).",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T16:47:46Z",
+     "sha256": "b350c716801138470488ab6c1261658a0adb4cf2770ac6a8668557c9b667d86c",
+     "via": "data/cases/raw/0010K00025000000/violations.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+    }
+   ],
+   "ok": true,
+   "t": 3.56
+  },
+  {
+   "agent": "due-diligence",
+   "n": 6,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:condemned",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T16:47:46Z",
+     "sha256": "2dbc7c7e33c04baa70af1703580e43cde611a086e7e0c119ecd2c1a49fd74a0d",
+     "via": "data/cases/raw/0010K00025000000/condemned.json",
+     "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+    }
+   ],
+   "ok": true,
+   "t": 3.67
+  },
+  {
+   "agent": "due-diligence",
+   "n": 7,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:liens",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220010K00025000000%22%7D&limit=200",
+     "pulled_at": "2026-09-27T16:47:47Z",
+     "sha256": "c7ca323ff640eaf1d8b2ea2226b0d253e14f62283ddf33cce43dd16f10e8aa7b",
+     "via": "data/cases/raw/0010K00025000000/liens.json",
+     "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+    }
+   ],
+   "ok": true,
+   "t": 4.38
+  },
+  {
+   "agent": "due-diligence",
+   "n": 8,
+   "action": "tool",
+   "tool": "wprdc.datastore_search:311",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Found: 12 requests to 311 within about 80 m (URA Property Maintenance, City Owned Property Maintenance); the latest on 2026-03-14: Road Work - Utility Cuts, Construction, Closures, and Obstructions.",
+   "sources": [
+    {
+     "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22MAHON+ST%22%7D&limit=200&sort=created_date_et+desc",
+     "pulled_at": "2026-09-27T16:47:47Z",
+     "sha256": "3c58c5c7d61bf34ef01ffdc8047bf48df24742f983273919f7bc65c1af9fc8c0",
+     "via": "data/cases/raw/0010K00025000000/311.json",
+     "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+    }
+   ],
+   "ok": true,
+   "t": 5.09
+  },
+  {
+   "agent": "due-diligence",
+   "n": 9,
+   "action": "tool",
+   "tool": "city.layer:undermining",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+     "pulled_at": "2026-09-26T21:18:09Z",
+     "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670",
+     "via": "data/blocks/10K.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.09
+  },
+  {
+   "agent": "due-diligence",
+   "n": 10,
+   "action": "tool",
+   "tool": "city.layer:slope",
+   "input": {
+    "pin": "0010K00025000000"
+   },
+   "summary": "Found: 53% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "sources": [
+    {
+     "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+     "pulled_at": "2026-09-26T21:18:09Z",
+     "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670",
+     "via": "data/blocks/10K.json"
+    }
+   ],
+   "ok": true,
+   "t": 5.09
+  },
+  {
+   "agent": "due-diligence",
+   "n": 11,
+   "action": "draft",
+   "input": {
+    "study": "survey"
+   },
+   "summary": "Drafted a quote request for a boundary survey; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.09
+  },
+  {
+   "agent": "due-diligence",
+   "n": 12,
+   "action": "draft",
+   "input": {
+    "study": "geotech"
+   },
+   "summary": "Drafted a quote request for a geotechnical report; not sent (spend gate).",
+   "sources": [],
+   "ok": true,
+   "t": 5.09
+  },
+  {
+   "agent": "policy",
+   "n": 13,
+   "action": "tool",
+   "tool": "scenarios:data/city/scenarios.json",
+   "input": {
+    "what_if": "S1"
+   },
+   "summary": "What-if S1 (Vacant neighbours, §925.06.C) would open this lot for a two-unit house: a what-if, not the law.",
+   "sources": [
+    {
+     "url": "data/city/scenarios.json",
+     "pulled_at": "2026-09-27T16:47:47Z",
+     "sha256": "f71e1c6e1bc4e68a56d91bcb5163311b6690858dbff467ed1efd82e6ebfe011c"
+    }
+   ],
+   "ok": true,
+   "t": 5.1
+  },
+  {
+   "agent": "policy",
+   "n": 14,
+   "action": "tool",
+   "tool": "scenarios:data/city/scenarios.json",
+   "input": {
+    "what_if": "S2"
+   },
+   "summary": "What-if S2 (Narrow-lot side yards for two- and three-unit houses, §925.06.C) would open this lot for a two-unit house: a what-if, not the law.",
+   "sources": [
+    {
+     "url": "data/city/scenarios.json",
+     "pulled_at": "2026-09-27T16:47:47Z",
+     "sha256": "f71e1c6e1bc4e68a56d91bcb5163311b6690858dbff467ed1efd82e6ebfe011c"
+    }
+   ],
+   "ok": true,
+   "t": 5.1
+  },
+  {
+   "agent": "policy",
+   "n": 15,
+   "action": "tool",
+   "tool": "agents.policy",
+   "input": {},
+   "summary": "The policy agent isn't in this checkout yet (branch feat/policy-agent); the computed what-ifs stand in.",
+   "sources": [],
+   "ok": true,
+   "t": 5.1
+  },
+  {
+   "agent": "steward",
+   "n": 16,
+   "action": "draft",
+   "input": {
+    "letters": [
+     "real_estate",
+     "zoning",
+     "ura",
+     "rco"
+    ],
+    "count": 4
+   },
+   "summary": "Drafted 4 letters from the engine's reading, one per office; none is sent (send gates).",
+   "sources": [],
+   "ok": true,
+   "t": 5.1
+  },
+  {
+   "agent": "steward",
+   "n": 17,
+   "action": "draft",
+   "input": {},
+   "summary": "Wrote the case file's summary from the engine's reading and the findings.",
+   "sources": [],
+   "ok": true,
+   "t": 6.02,
+   "model": "gemini-3.5-flash-lite",
+   "tokens": {
+    "in": 364,
+    "out": 98
+   },
+   "cost_usd_paid_rate": 0.000354
+  },
+  {
+   "agent": "verifier",
+   "n": 18,
+   "action": "verify",
+   "input": {},
+   "summary": "Verified: 10 quotes verbatim in the saved code, 27 numbers traced, 9 findings sourced, no name-like field.",
+   "sources": [],
+   "ok": true,
+   "t": 6.07
+  },
+  {
+   "agent": "steward",
+   "n": 19,
+   "action": "gate",
+   "input": {
+    "send": 4,
+    "spend": 2,
+    "sign": 3
+   },
+   "summary": "Waiting on a person: 4 letters to send, 2 paid studies to approve, 3 rules to sign.",
+   "sources": [],
+   "ok": true,
+   "t": 6.07
+  }
+ ],
+ "findings": [
+  {
+   "check": "permits",
+   "title": "PLI permits on this parcel: a recent permit means work, or a building, is coming",
+   "status": "nothing",
+   "summary": "Checked: no PLI permit on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=f4d1177a-f597-4c32-8cbf-7885f56253f6&fields=permit_id%2Cpermit_type%2Cwork_type%2Ccommercial_or_residential%2Ctotal_project_value%2Cissue_date%2Cstatus%2Cparcel_num&filters=%7B%22parcel_num%22%3A+%220010K00025000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T16:47:45Z",
+    "sha256": "dd7de2cbf386df3d0b2562268f94f64abe42101ce7cf41f98da0d9c21a317f00",
+    "via": "data/cases/raw/0010K00025000000/permits.json",
+    "dataset": "https://data.wprdc.org/dataset/pli-permits"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "violations",
+   "title": "code-enforcement case files on this parcel (weeds, debris, dangerous structures)",
+   "status": "found",
+   "summary": "Found: 1 code-enforcement case file since 2022 (Weeds/Debris); the latest, investigated 2022-11-08, is \"Clean & Lien\" (DPW to Correct Issue).",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=70c06278-92c5-4040-ab28-17671866f81c&fields=casefile_number%2Cstatus%2Ccase_file_type%2Cinvestigation_date%2Cinvestigation_outcome%2Cviolation_code_section%2Cviolation_code_section_title%2Cparcel_id&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T16:47:46Z",
+    "sha256": "b350c716801138470488ab6c1261658a0adb4cf2770ac6a8668557c9b667d86c",
+    "via": "data/cases/raw/0010K00025000000/violations.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-pli-violations-report"
+   },
+   "records": [
+    {
+     "casefile_number": "CF-PLI-2022-045313",
+     "status": "Clean & Lien",
+     "case_file_type": "Weeds/Debris",
+     "investigation_date": "2022-11-08",
+     "investigation_outcome": "DPW to Correct Issue",
+     "violation_code_section": null,
+     "violation_code_section_title": null,
+     "parcel_id": "0010K00025000000"
+    },
+    {
+     "casefile_number": "CF-PLI-2022-045313",
+     "status": "Clean & Lien",
+     "case_file_type": "Weeds/Debris",
+     "investigation_date": null,
+     "investigation_outcome": null,
+     "violation_code_section": "2015 IPMC 301.3",
+     "violation_code_section_title": " Vacant Structures and Land:",
+     "parcel_id": "0010K00025000000"
+    }
+   ],
+   "derived": {
+    "records": {
+     "value": 2,
+     "formula": "records the query returned"
+    },
+    "case_files": {
+     "value": 1,
+     "formula": "distinct casefile_number"
+    },
+    "first_year": {
+     "value": 2022,
+     "formula": "the year of the earliest investigation_date"
+    }
+   }
+  },
+  {
+   "check": "condemned",
+   "title": "whether the parcel is on the City's condemned or dead-end list",
+   "status": "nothing",
+   "summary": "Checked: not on the City's condemned or dead-end list.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=0a963f26-eb4b-4325-bbbc-3ddf6a871410&fields=parcel_id%2Cproperty_type%2Ccreate_date%2Clatest_inspection_result%2Cinspection_status%2Crecord_number&filters=%7B%22parcel_id%22%3A+%220010K00025000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T16:47:46Z",
+    "sha256": "2dbc7c7e33c04baa70af1703580e43cde611a086e7e0c119ecd2c1a49fd74a0d",
+    "via": "data/cases/raw/0010K00025000000/condemned.json",
+    "dataset": "https://data.wprdc.org/dataset/condemned-properties"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "liens",
+   "title": "unsatisfied tax liens on this parcel (they follow the land)",
+   "status": "nothing",
+   "summary": "Checked: no unsatisfied tax lien on record for this parcel.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=65d0d259-3e58-49d3-bebb-80dc75f61245&fields=pin%2Cfiling_date%2Ctax_year%2Clien_description%2Camount%2Csatisfied&filters=%7B%22pin%22%3A+%220010K00025000000%22%7D&limit=200",
+    "pulled_at": "2026-09-27T16:47:47Z",
+    "sha256": "c7ca323ff640eaf1d8b2ea2226b0d253e14f62283ddf33cce43dd16f10e8aa7b",
+    "via": "data/cases/raw/0010K00025000000/liens.json",
+    "dataset": "https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied"
+   },
+   "records": [],
+   "derived": {
+    "records": {
+     "value": 0,
+     "formula": "records the query returned"
+    }
+   }
+  },
+  {
+   "check": "311",
+   "title": "311 requests on the street near the lot (dumping, drainage, road work)",
+   "status": "found",
+   "summary": "Found: 12 requests to 311 within about 80 m (URA Property Maintenance, City Owned Property Maintenance); the latest on 2026-03-14: Road Work - Utility Cuts, Construction, Closures, and Obstructions.",
+   "source": {
+    "url": "https://data.wprdc.org/api/3/action/datastore_search?resource_id=5202679a-d243-402e-b82a-63189995a942&fields=case_number%2Cstatus%2Csubject%2Ccreated_date_et%2Cstreet%2Clatitude%2Clongitude&filters=%7B%22neighborhood%22%3A+%22Middle+Hill%22%2C+%22street%22%3A+%22MAHON+ST%22%7D&limit=200&sort=created_date_et+desc",
+    "pulled_at": "2026-09-27T16:47:47Z",
+    "sha256": "3c58c5c7d61bf34ef01ffdc8047bf48df24742f983273919f7bc65c1af9fc8c0",
+    "via": "data/cases/raw/0010K00025000000/311.json",
+    "dataset": "https://data.wprdc.org/dataset/pittsburgh-311-data"
+   },
+   "records": [
+    {
+     "case_number": "26-00032483",
+     "status": "Closed",
+     "subject": "Road Work - Utility Cuts, Construction, Closures, and Obstructions",
+     "created_date_et": "2026-03-14T10:00:49",
+     "street": "MAHON ST",
+     "latitude": "40.44595",
+     "longitude": "-79.97529"
+    },
+    {
+     "case_number": "99-00051299",
+     "status": "Closed",
+     "subject": "Litter on Public Property",
+     "created_date_et": "2024-07-25T13:06:00",
+     "street": "MAHON ST",
+     "latitude": "40.44615",
+     "longitude": "-79.97426"
+    },
+    {
+     "case_number": "99-00353596",
+     "status": "Closed",
+     "subject": "URA Property Maintenance",
+     "created_date_et": "2021-06-30T14:55:00",
+     "street": "MAHON ST",
+     "latitude": "40.44649",
+     "longitude": "-79.974"
+    },
+    {
+     "case_number": "99-00342359",
+     "status": "Closed",
+     "subject": "URA Property Maintenance",
+     "created_date_et": "2021-06-30T13:45:00",
+     "street": "MAHON ST",
+     "latitude": "40.44579",
+     "longitude": "-79.97475"
+    },
+    {
+     "case_number": "99-00386505",
+     "status": "Closed",
+     "subject": "URA Property Maintenance",
+     "created_date_et": "2020-12-14T12:11:00",
+     "street": "MAHON ST",
+     "latitude": "40.44671",
+     "longitude": "-79.97393"
+    },
+    {
+     "case_number": "99-00494123",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2019-11-26T10:51:00",
+     "street": "MAHON ST",
+     "latitude": "40.4461",
+     "longitude": "-79.97491"
+    },
+    {
+     "case_number": "99-00489942",
+     "status": "Closed",
+     "subject": "City Owned Property Maintenance",
+     "created_date_et": "2019-11-26T10:50:00",
+     "street": "MAHON ST",
+     "latitude": "40.44603",
+     "longitude": "-79.97495"
+    },
+    {
+     "case_number": "99-00478541",
+     "status": "Closed",
+     "subject": "Catch Basins, Grates, and Sewers",
+     "created_date_et": "2019-09-18T20:32:00",
+     "street": "MAHON ST",
+     "latitude": "40.44615",
+     "longitude": "-79.97426"
+    },
+    {
+     "case_number": "99-00549056",
+     "status": "Closed",
+     "subject": "Junk Vehicles on Private Property",
+     "created_date_et": "2018-06-27T17:55:00",
+     "street": "MAHON ST",
+     "latitude": "40.44653",
+     "longitude": "-79.97404"
+    },
+    {
+     "case_number": "99-00637676",
+     "status": "Closed",
+     "subject": "City Tree Maintenance",
+     "created_date_et": "2017-08-22T12:38:00",
+     "street": "MAHON ST",
+     "latitude": "40.44627",
+     "longitude": "-79.97385"
+    },
+    {
+     "case_number": "99-00673479",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2016-11-09T08:07:00",
+     "street": "MAHON ST",
+     "latitude": "40.44558",
+     "longitude": "-79.97545"
+    },
+    {
+     "case_number": "99-00690595",
+     "status": "Closed",
+     "subject": "Street Light Concerns",
+     "created_date_et": "2016-02-14T08:39:00",
+     "street": "MAHON ST",
+     "latitude": "40.44607",
+     "longitude": "-79.9743"
+    }
+   ],
+   "derived": {
+    "records": {
+     "value": 12,
+     "formula": "records the query returned"
+    },
+    "radius_m": {
+     "value": 80,
+     "formula": "the search box around the lot's centre: ±0.0008° latitude, ±0.001° longitude (about 80 m)"
+    },
+    "near": {
+     "value": 12,
+     "formula": "requests on the street within about 80 m of the lot's centre"
+    }
+   }
+  },
+  {
+   "check": "undermining",
+   "title": "the City's undermined-areas layer (old mines under the lot)",
+   "status": "nothing",
+   "summary": "Checked: none of the lot is in the City's undermined-areas layer (old mines).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebUndermined/FeatureServer/0",
+    "pulled_at": "2026-09-26T21:18:09Z",
+    "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670",
+    "via": "data/blocks/10K.json"
+   },
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "slope",
+   "title": "the City's 25%+ slope layer (grading and retaining walls cost)",
+   "status": "found",
+   "summary": "Found: 53% of the lot is in the City's 25%+ slope layer (a derived threshold, not the steep-slope overlay).",
+   "source": {
+    "url": "https://services1.arcgis.com/YZCmUqbcsUpOKfj7/arcgis/rest/services/PGHWebSlope25/FeatureServer/0",
+    "pulled_at": "2026-09-26T21:18:09Z",
+    "sha256": "ccea0631dbf76d2257b63cdb53f8af50eeafaa4a46166e55d169d7701c634670",
+    "via": "data/blocks/10K.json"
+   },
+   "records": [],
+   "derived": {
+    "threshold_pct": {
+     "value": 25,
+     "formula": "the City layer's slope threshold (PGHWebSlope25)"
+    },
+    "percent": {
+     "value": 53,
+     "formula": "round(0.527 × 100), the share of the lot's area in the layer"
+    }
+   }
+  },
+  {
+   "check": "survey",
+   "title": "A boundary survey",
+   "status": "not_done",
+   "summary": "Paid: not done. A boundary survey costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  },
+  {
+   "check": "geotech",
+   "title": "A geotechnical report",
+   "status": "not_done",
+   "summary": "Paid: not done. A geotechnical report costs money; a request is drafted and waits for a person.",
+   "source": null,
+   "records": [],
+   "derived": {}
+  }
+ ],
+ "drafts": [
+  {
+   "kind": "request",
+   "to": "a licensed surveyor",
+   "subject": "Quote request: a boundary survey",
+   "text": "Request for a quote: a boundary survey for 2241 Mahon St (lot 25, block 10K, Middle Hill), a vacant City-owned lot we are screening for a two-unit house. It would tell us where the lot lines and any encroachments really are (the parcel shapes come from GIS). Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "request",
+   "to": "a geotechnical engineer",
+   "subject": "Quote request: a geotechnical report",
+   "text": "Request for a quote: a geotechnical report for 2241 Mahon St (lot 25, block 10K, Middle Hill), a vacant City-owned lot we are screening for a two-unit house. It would tell us what the soil, fill and slope will bear. Please send a price and a turnaround time. We have not committed to the purchase.",
+   "by": "rule template",
+   "gate": "spend"
+  },
+  {
+   "kind": "letter",
+   "to": "City of Pittsburgh, Department of Finance, Real Estate Division",
+   "subject": "Buying City-owned land: 2241 Mahon St (lot 25)",
+   "text": "# Buying City-owned land: 2241 Mahon St (lot 25)\nTo: City of Pittsburgh, Department of Finance, Real Estate Division\nFrom: [your name, organization and contact]\nDate: 27 Sep 2026\n\nWe would like to ask about buying the City-owned land below.\n\n## What we are exploring\n- [our proposal] A two-unit house (2 homes) on 2241 Mahon St (lot 25), Middle Hill.\n\n## What the City’s records say\n- 2241 Mahon St (lot 25), parcel ID 0010K00025000000: City-owned, Available for Sale; the City's inventory last updated this status on 17 Nov 2016. (City-Owned Properties)\n\n## Our questions\n1. The City's inventory lists 2241 Mahon St as \"URA Transfer\". Does a purchase go through the City's Request to Purchase, or through the Urban Redevelopment Authority?\n2. The City's inventory last updated the sale status of 2241 Mahon St on 17 Nov 2016. Is it still current?\n3. How is the price set for 2241 Mahon St (lot 25), and when in the process would we learn it?\n4. We understand a purchase starts with the Real Estate Division's Request to Purchase form. What are the steps after that, and how long does it usually take from application to closing, including City Council's approval? (Request to Purchase form; City Code Chapter 452)\n\n_Decision support, not legal, financial or zoning advice. The City of Pittsburgh interprets its own code. Draft prepared with 24×100 from public records; not sent automatically: you decide whether to send it._",
+   "numbers_ok": true,
+   "by": "engine (engine/src/inquiry.ts)",
+   "gate": "send"
+  },
+  {
+   "kind": "letter",
+   "to": "Zoning Administrator, Department of City Planning, City of Pittsburgh",
+   "subject": "Request for a zoning determination: a two-unit house at 2241 Mahon St (lot 25)",
+   "text": "# Request for a zoning determination: a two-unit house at 2241 Mahon St (lot 25)\nTo: Zoning Administrator, Department of City Planning, City of Pittsburgh\nFrom: [your name, organization and contact]\nDate: 27 Sep 2026\n\nWe would like a zoning determination on the open questions below, for the proposal described here, before we go further.\n\n## The site\n- 2241 Mahon St (lot 25), Middle Hill. Zoned RM-M. Lot size: 24 × 100 ft by deed. (County assessment (legal description); City zoning map)\n\n## What we propose\n- [our proposal] A two-unit house (2 homes): a building 16 ft wide, 45 ft deep, 3 stories and 36 ft tall. This is our proposal, not a requirement.\n\n## What the code and the records say\n- Buildable width as of right: 24 − 10 − 10 = 4 ft by the deed dimensions (3.4 ft on the City map). (§903.03.C)\n- Buildable depth as of right: 100 − 25 − 25 = 50 ft. (§903.03.C)\n- Meets the 2,400 sf minimum. 2241 Mahon St: 2,400 sf by deed, 2,400 sf assessed, 2,292 sf on the City map. (§903.03.C)\n- Our 3-story, 36 ft proposal is within the 55 ft, 4-story limit. (§903.03.C)\n- Both neighbors are vacant, so the contextual setback can't apply; the district setback stands (§925.06.C).\n- It doesn't fit as of right: what we propose would need side setbacks 10 → 4 ft on each side (the rule is §903.03.C). Needs a variance from the Zoning Board. That’s not guaranteed, and every lot we could check on this street has the same problem. The bigger fix is changing the rule.\n\n## Questions for the Zoning Administrator\n1. Our unchecked reading of the use table says a two-unit house is permitted by right in RM-M. Is that right? (§911.02)\n2. Our unchecked reading is that 2 parking spaces would be required; we haven't checked that they fit. What is required here, and can relief be granted on a lot this size? (§914.02.A)\n3. About 53% of the lot is 25% slope or steeper on the City's slope layer. Does grading review or a geotechnical report apply to building here? (§915.02.A.1.c)\n4. If a variance from the Zoning Board of Adjustment is the route for side setbacks 10 → 4 ft on each side, what would you need to see from us before we apply? (§903.03.C)\n\n_Decision support, not legal, financial or zoning advice. The City of Pittsburgh interprets its own code. Draft prepared with 24×100 from public records; not sent automatically: you decide whether to send it._",
+   "numbers_ok": true,
+   "by": "engine (engine/src/inquiry.ts)",
+   "gate": "send"
+  },
+  {
+   "kind": "letter",
+   "to": "Urban Redevelopment Authority of Pittsburgh",
+   "subject": "Gap financing for small for-sale infill: 2 homes at 2241 Mahon St (lot 25)",
+   "text": "# Gap financing for small for-sale infill: 2 homes at 2241 Mahon St (lot 25)\nTo: Urban Redevelopment Authority of Pittsburgh\nFrom: [your name, organization and contact]\nDate: 27 Sep 2026\n\nWe are screening whether small for-sale infill can work on this site and would like to ask which gap financing might fit.\n\n## What we are exploring\n- [our proposal] A two-unit house on 2241 Mahon St (lot 25), Middle Hill: 2 homes for sale, about 1,080 sq ft each. This is our proposal, not a requirement.\n\n## The money screen (screening estimates)\n- What a new home here sells for: Newest new build: 2125 Rose St (2025, 1,442 sf), $240,000 (one sale; may be price-restricted; unverified).\n- [screening estimate] Vertical construction: $200–$250 per sq ft × 1,080 sq ft = $216,000–$270,000 per home, which leaves at most $24,000 for site work, soft costs and land. Estimate from a practitioner at the hackathon (Slack, 26 Sep 2026), unconfirmed. City single-family infill; varies a lot with builder size.\n- [screening estimate] If a production builder came in: about $150 per sq ft × 1,080 sq ft = $162,000 per home, which leaves $78,000 for site work, soft costs and land. Estimate from the same practitioner at the hackathon (Slack, 26 Sep 2026), unconfirmed. Speculative: what inner-ring-suburb production builders might imply if they entered the city market. Not a current city cost.\n- [screening estimate] Site work for a single unit typically runs $25,000–$50,000 (another practitioner at the hackathon, unconfirmed). That is not a cap: fill, soil or deep lines can cost far more.\n- Ward 5 median of 33 valid 1–2 unit sales since 2023: $155,000 (context only: mostly older homes; not an appraisal).\n- [our assumption] What an 80% AMI buyer (household of 3) could pay: $268,000 (a ceiling for an affordable sale, not a value used for what’s left; uses your mortgage assumptions).\n- [screening estimate] These are screening estimates from a practitioner at the hackathon. Costs vary a lot with builder size, so a builder's price for this building would settle it; the estimate's own range moves what's left by $54,000 per home.\n\n## Our assumptions\n- [our assumption] Soft costs (20%) and financing (6%) are our assumptions and are left out of what's left; with them, construction at the practitioner's estimate comes to $272,200–$340,200 per home, still without site work or land.\n- [our assumption] So our screening estimate of the subsidy each home would need, before land, is $57,200–$150,200: $272,200–$340,200 building with soft costs and financing + $25,000–$50,000 site work − $240,000 sale = $57,200–$150,200 per home, before land. It rests on the practitioner's cost estimate, typical site work and our assumptions above; a builder's price would replace it.\n\n## Our questions\n1. Which of your gap-financing programs fit small for-sale infill like this (2 homes)?\n2. What would you need to see from us to talk about it: for example a builder’s price, site studies, or the buyers’ income limits?\n\n_Decision support, not legal, financial or zoning advice. The City of Pittsburgh interprets its own code. Draft prepared with 24×100 from public records; not sent automatically: you decide whether to send it._",
+   "numbers_ok": true,
+   "by": "engine (engine/src/inquiry.ts)",
+   "gate": "send"
+  },
+  {
+   "kind": "letter",
+   "to": "Hill CDC & Hill DC & Hill DCG (Registered Community Organization)",
+   "subject": "Asking to present at a community meeting: a two-unit house at 2241 Mahon St (lot 25)",
+   "text": "# Asking to present at a community meeting: a two-unit house at 2241 Mahon St (lot 25)\nTo: Hill CDC & Hill DC & Hill DCG (Registered Community Organization)\nFrom: [your name, organization and contact]\nDate: 27 Sep 2026\n\nWe are at an early stage and would like to hear from the community before choosing a design.\n\n## What we are exploring\n- [our proposal] A two-unit house (2 homes) on 2241 Mahon St (lot 25), Middle Hill. Nothing is designed or decided yet.\n\n## Our request\n1. Could we present this idea at one of your community meetings and hear what neighbors want? When is the next one, and how do we get on the agenda?\n\n_Decision support, not legal, financial or zoning advice. The City of Pittsburgh interprets its own code. Draft prepared with 24×100 from public records; not sent automatically: you decide whether to send it._",
+   "numbers_ok": true,
+   "by": "engine (engine/src/inquiry.ts)",
+   "gate": "send"
+  }
+ ],
+ "gates": [
+  {
+   "kind": "spend",
+   "what": "A boundary survey: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "spend",
+   "what": "A geotechnical report: send the quote request",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Letter to City Real Estate: sale status, price, process and timeline",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Letter to Zoning Administrator: a zoning determination on the open code questions",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Letter to URA: gap financing for small for-sale infill",
+   "status": "waiting"
+  },
+  {
+   "kind": "send",
+   "what": "Letter to Community (RCO): presenting at a community meeting",
+   "status": "waiting"
+  },
+  {
+   "kind": "sign",
+   "what": "rm-m.x.use_two (§911.02) is pencil: a person signs it before the case relies on it",
+   "status": "waiting"
+  },
+  {
+   "kind": "sign",
+   "what": "rm-m.x.parking_two (§914.02.A) is pencil: a person signs it before the case relies on it",
+   "status": "waiting"
+  },
+  {
+   "kind": "sign",
+   "what": "rm-m.x.grading_review (§915.02.A.1.c) is pencil: a person signs it before the case relies on it",
+   "status": "waiting"
+  }
+ ],
+ "verifier": {
+  "checked": {
+   "quotes": 10,
+   "numbers": 27,
+   "findings": 9,
+   "keys": 1
+  },
+  "failed": [],
+  "ok": true
+ },
+ "status": "published",
+ "links": [
+  {
+   "label": "What-if S1: Vacant neighbours",
+   "href": "?view=city&type=two&tab=whatif&whatif=S1"
+  },
+  {
+   "label": "What-if S2: Narrow-lot side yards for two- and three-unit houses",
+   "href": "?view=city&type=two&tab=whatif&whatif=S2"
+  }
+ ],
+ "summary": {
+  "text": "Since May 2025, 2241 Mahon St meets the minimum lot size exactly at 2,400 sf, while a two-unit house still gets 4 ft. Records show 1 code-enforcement case file since 2022 and 12 requests to 311 within about 80 m. Drafted requests for a paid boundary survey and a paid geotechnical report await a person.",
+  "by": "gemini-3.5-flash-lite"
+ },
+ "rerun": "npm run steward -- 0010K00025000000 --goal two"
+}
