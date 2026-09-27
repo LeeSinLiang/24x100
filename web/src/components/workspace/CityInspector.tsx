@@ -26,6 +26,21 @@ function NotAssessed({ children }: { children: ReactNode }) {
   return <p className="na">— {children}</p>;
 }
 
+/** Where the counts are from, in words: citywide, one neighbourhood, or the lots the filters show. */
+export function scopeWords(s: UrlState, filtered: boolean): string {
+  if (s.hood && !(s.sale || s.ward != null || s.zone)) return `in ${s.hood}`;
+  return filtered ? 'shown by the filters' : 'citywide';
+}
+
+/** The scope of the counts on screen, said once above the tiles (team review, round 3). */
+export function ScopeLine({ words }: { words: string }) {
+  return (
+    <p className="ws-scope" data-scope={words === 'citywide' ? 'citywide' : words.startsWith('in ') ? 'neighbourhood' : 'filtered'}>
+      Counts {words}
+    </p>
+  );
+}
+
 // ── The city, nothing selected ────────────────────────────────────────────────────────────────────
 export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm: CityModel; s: UrlState; update: (p: Partial<UrlState>, o?: { push?: boolean }) => void; onTab: (t: InspectorTab) => void; runCount: number | null; filtered: boolean }) {
   const { sum, data } = cm;
@@ -58,7 +73,7 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
     )
   ) : sum.computed > 0 && sum.widthNotArea > 0 ? (
     <>
-      {filtered ? `Of the ${n(sum.total)} lots shown, ` : `In the ${k === 1 ? 'one district' : `${k} districts`} checked so far, `}
+      {filtered ? (s.hood && !(s.sale || s.ward != null || s.zone) ? `In ${s.hood}, ` : `Of the ${n(sum.total)} lots shown, `) : `In the ${k === 1 ? 'one district' : `${k} districts`} checked so far, `}
       <Ev num>{n(sum.widthNotArea)}</Ev> City‑owned {lotsWord(sum.widthNotArea)} {sum.widthNotArea === 1 ? 'is' : 'are'} big enough for {aType(s.type)} but too narrow.
     </>
   ) : sum.computed > 0 ? (
@@ -73,9 +88,19 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
     <>No lot here can be checked yet: {k ? 'its district’s rules aren’t signed' : 'no district’s rules are signed'}, so every dot is grey.</>
   );
 
+  // "Lots checked" is part of the rail's "In checked districts" (team review, round 3: 1,834 and 1,075 read as
+  // rival counts): of the lots in districts whose rules are signed, the ones we could check; the rest have
+  // records that disagree or edges we couldn't compute.
+  const inChecked = sum.total - sum.byBlocker.rules;
   const tiles = (
     <>
-      <Tile id="checked" label="Lots checked" value={ready ? <Ev num>{n(sum.computed)}</Ev> : <Dash why="loading" />} sub={ready ? `of ${n(sum.total)} City-owned` : 'loading'} />
+      <Tile
+        id="checked"
+        label="Lots checked"
+        value={ready ? <Ev num>{n(sum.computed)}</Ev> : <Dash why="loading" />}
+        sub={ready ? `of ${n(inChecked)} in checked districts` : 'loading'}
+        title={ready ? `${n(inChecked)} of the ${n(sum.total)} City-owned vacant lots ${scopeWords(s, filtered)} are in districts whose rules are signed; ${n(sum.computed)} of them could be checked. The rest: ${n(sum.byBlocker.records)} records disagree, ${n(sum.byBlocker.edges)} edges not computed.` : undefined}
+      />
       <Tile
         id="fits"
         label="Fit now"
@@ -211,6 +236,7 @@ export function CityInspector({ cm, s, update, onTab, runCount, filtered }: { cm
         ) : null
       }
       sentence={sentence}
+      note={ready ? <ScopeLine words={scopeWords(s, filtered) === 'shown by the filters' ? `for the ${n(sum.total)} ${lotsWord(sum.total)} the filters show` : scopeWords(s, filtered)} /> : null}
       tiles={tiles}
       tabs={tabs}
       active={s.tab}
@@ -644,7 +670,14 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
     <InspectorShell
       title={`Combine to fit${s.hood ? ` · ${s.hood}` : ''}`}
       status={<span className="stamp stamp-ink ws-stamp">GROUPS OF 2–3 LOTS</span>}
-      note={ready ? <p className="ws-run-addr small muted">{RUN_ADDR_NOTE}</p> : null}
+      note={
+        ready ? (
+          <>
+            <ScopeLine words={s.hood ? `in ${s.hood}` : 'citywide'} />
+            <p className="ws-run-addr small muted">{RUN_ADDR_NOTE}</p>
+          </>
+        ) : null
+      }
       sentence={
         ready ? (
           <>
@@ -658,7 +691,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
         <>
           <Tile id="runs" label="Lot groups that fit" value={ready ? <Ev num>{n(runs.length)}</Ev> : <Dash why="loading" />} sub={`for ${aType(s.type)}`} />
           <Tile id="allcity" label="All City-owned" value={ready ? <Ev num>{n(allCity)}</Ev> : <Dash why="loading" />} sub="no other owner" />
-          <Tile id="checked" label="City lots checked" value={ready ? <Ev num>{n((asm as AssemblyFile).meta.candidates)}</Ev> : <Dash why="loading" />} sub="in the checked district" />
+          <Tile id="checked" label="City lots checked" value={ready ? <Ev num>{n((asm as AssemblyFile).meta.candidates)}</Ev> : <Dash why="loading" />} sub={s.hood ? 'citywide, in the checked district' : 'in the checked district'} />
           <Tile id="pencil" label="Open questions" value={ready ? <Ev trust="pencil" num>{n(pencil)}</Ev> : <Dash why="loading" />} sub="lot groups in pencil" />
         </>
       }

@@ -12,10 +12,10 @@ import { BlockPlanCanvas, BlockTables, CityTable, LotListTable, MapCanvas, MapIn
 import type { UrlState } from '../lib/url';
 import { AssembleInspector, BlockInspector, CityInspector, CityLotInspector, RunInspector } from '../components/workspace/CityInspector';
 import { GraphCanvasBody, GraphInspector, GraphRailFilters, useLotGraph } from '../components/workspace/GraphView';
-import { inquiryHref, LotInspector } from '../components/workspace/LotInspector';
+import { inquiryHref, LotInspector, lotSteps } from '../components/workspace/LotInspector';
 import { aType } from '../components/workspace/plain';
 import { Rail } from '../components/workspace/Rail';
-import { pullEvents, refreshEvent, ruleEvents, stepFromText, Tray, type Step, type TimelineEvent } from '../components/workspace/Tray';
+import { pullEvents, refreshEvent, ruleEvents, Tray, type Step, type TimelineEvent } from '../components/workspace/Tray';
 import { BLOCKS, COMPS_BY_WARD, HUD } from '../lib/data';
 import { useBlockModel } from '../lib/block';
 import { BLOCK_OF, useCityModel } from '../lib/city';
@@ -52,6 +52,8 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
 
   // ── Selection handlers ───────────────────────────────────────────────────────────────────────
   const onTab = (t: InspectorTab) => update({ tab: t });
+  // A step of the route: the tray lists them, the Next tab shows the chosen one in detail (team review, round 3).
+  const onStep = (i: number) => update({ step: i + 1, tab: 'next' });
   const selectCityIndex = (i: number | null) => {
     if (i == null) {
       if (s.view === 'city' && s.pin) update({ pin: null }, { push: true });
@@ -123,7 +125,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
   // ── Inspector ────────────────────────────────────────────────────────────────────────────────
   let inspector;
   if (canvas === 'graph' && graph && s.node && graph.nodes.some((n) => n.id === s.node)) inspector = <GraphInspector graph={graph} s={s} update={update} />;
-  else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} />;
+  else if (kind === 'lot') inspector = <LotInspector model={model!} block={block!} s={s} onTab={onTab} onTry={onTry} onStep={onStep} />;
   else if (kind === 'block' && bm) inspector = <BlockInspector block={block!} bm={bm} s={s} onTab={onTab} />;
   else if (kind === 'citylot' && pinIdx != null)
     inspector = <CityLotInspector cm={cm} i={pinIdx} s={s} update={update} onTab={onTab} runsFor={asm && asm !== 'loading' ? asm.runs.filter((r) => r.type === s.type && r.pins.includes(s.pin!)) : []} />;
@@ -165,7 +167,7 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
     const r = model!.result;
     const letters = model!.inquiry.letters;
     const href = (office: string) => inquiryHref(block!, s, s.lot, office);
-    if (r.state === 'ok') steps = (model!.inquiry.sections.find((x) => x.id === 'next')?.items ?? []).map((it) => ({ ...stepFromText(it.text, letters, href), trust: it.trust === 'ink' ? 'ink' : it.trust === 'red' ? 'red' : 'pencil' }));
+    if (r.state === 'ok') steps = lotSteps(model!, block!, s);
     else
       stepsNote = (
         <p className="ws-tray-note">
@@ -242,7 +244,16 @@ export function WorkspaceView({ s, update, block, model, audit }: ViewProps) {
         {canvasEl}
       </section>
       {inspector}
-      <Tray s={s} update={update} steps={steps} stepsNote={stepsNote} events={events} pins={pins} disclaimer />
+      <Tray
+        s={s}
+        update={update}
+        steps={steps}
+        stepsNote={stepsNote}
+        events={events}
+        pins={pins}
+        disclaimer
+        {...(kind === 'lot' && steps.length ? { onStep, selected: s.tab === 'next' ? Math.min(s.step ?? 1, steps.length) - 1 : null } : {})}
+      />
     </main>
   );
 }

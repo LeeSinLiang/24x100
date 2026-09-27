@@ -25,6 +25,7 @@ interface Props {
   label: string;
   hideSelection?: boolean; // block view: no selected lot, no proposal outline
   maxHeight?: number; // workspace canvas: fit the drawing inside this height (px), keeping its aspect
+  interactive?: boolean; // false: a picture (the map's inset), with no lot buttons to click or tab to
 }
 
 const PAD = { top: 16, bottom: 40, side: 16 };
@@ -276,10 +277,17 @@ export function Plate(p: Props) {
             const inRow = p.row.find((rr) => rr.parcel.pin === x.pin);
             const sel = selectedPins.has(x.pin);
             const label = `${x.addr}, lot ${lotKey(x)}${inRow ? `, ${describe(inRow.result)}` : ''}`;
+            if (p.interactive === false)
+              return (
+                <g key={x.pin} className={`lot is-static ${sel ? 'is-selected' : ''} ${multi && sel ? 'in-group' : ''}`} data-lot={lotKey(x)}>
+                  <path d={ringPath(r)} className="lot-line" />
+                </g>
+              );
             return (
               <g
                 key={x.pin}
                 className={`lot ${sel ? 'is-selected' : ''} ${multi && sel ? 'in-group' : ''}`}
+                data-lot={lotKey(x)}
                 role="button"
                 tabIndex={inRow ? 0 : -1}
                 aria-label={label}
@@ -297,15 +305,18 @@ export function Plate(p: Props) {
             );
           })}
 
-          {/* Every lot on the row shows its own envelope for the chosen building type. */}
-          {p.row.map(({ parcel, result }) => {
-            if (multi && selectedPins.has(parcel.pin)) return null;
-            if (result.state !== 'ok') return null;
-            const cls = statusClass(result);
-            const env = result.envelope.poly;
-            const f = frontSide(result);
-            return <Envelope key={parcel.pin} ring={env} cls={`${cls} ${selectedPins.has(parcel.pin) ? 'is-selected' : ''}`} anchor={f?.a} ms={ms} filter={cls === 'open' && !p.still ? `url(#boil-${hash(parcel.pin) % 5})` : undefined} />;
-          })}
+          {/* Every lot on the row shows its own envelope for the chosen building type (one group, so the row
+              of slivers has one box: data-plate="envelopes"). */}
+          <g className="envs" data-plate="envelopes">
+            {p.row.map(({ parcel, result }) => {
+              if (multi && selectedPins.has(parcel.pin)) return null;
+              if (result.state !== 'ok') return null;
+              const cls = statusClass(result);
+              const env = result.envelope.poly;
+              const f = frontSide(result);
+              return <Envelope key={parcel.pin} ring={env} cls={`${cls} ${selectedPins.has(parcel.pin) ? 'is-selected' : ''}`} anchor={f?.a} ms={ms} filter={cls === 'open' && !p.still ? `url(#boil-${hash(parcel.pin) % 5})` : undefined} />;
+            })}
+          </g>
 
           {/* The selected group: one envelope (combined) or one per unit (rowhouses). */}
           {multi && p.selected.state === 'ok' &&
@@ -351,7 +362,7 @@ export function Plate(p: Props) {
                   <circle cx={frontMid[0]} cy={frontMid[1] - px(9)} r={px(3.6)} className={`coin ${parcel.city.status === 'Available for Sale' ? 'is-sale' : 'is-held'}`} />
                 )}
                 {!inGroup && result.state === 'ok' && wv != null && (
-                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`env-width ${cls}`} fontSize={fs(13)} strokeWidth={px(3)} textAnchor="middle">
+                  <text x={frontMid[0]} y={frontMid[1] - px(22)} className={`env-width ${cls}`} fontSize={fs(13)} strokeWidth={px(3)} textAnchor="middle" data-lot-width={lotKey(parcel)}>
                     {Math.round(wv * 10) / 10}
                     <tspan className="unit">′</tspan>
                   </text>
@@ -394,7 +405,7 @@ export function Plate(p: Props) {
             const at = frontPoint(f, f.setback + P.depth / 2 + 4);
             const v = type === 'row' ? null : p.selected.width.deed ?? p.selected.width.mapped;
             return v != null ? (
-              <g className="group-width" aria-hidden="true">
+              <g className="group-width" aria-hidden="true" data-plate="group-width">
                 <rect x={at[0] - px(34)} y={at[1] - px(15)} width={px(68)} height={px(26)} className="group-width-bg" />
                 <text x={at[0]} y={at[1] + px(4)} fontSize={fs(19)} strokeWidth={px(3)} textAnchor="middle" className={`env-width big ${statusClass(p.selected)}`}>
                   {v} ft

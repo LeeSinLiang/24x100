@@ -178,6 +178,7 @@ export function MapInsetPlan({ block, model, s }: { block: BlockFile; model: Lot
         row={model.row.filter((x) => x.parcel.zone === sel.zone)}
         selected={r}
         onSelect={() => {}}
+        interactive={false}
         present={s.present}
         record={s.record}
         still

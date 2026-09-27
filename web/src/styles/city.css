@@ -197,6 +197,11 @@
 .sel-dot.bk-records {
   fill: var(--ink);
 }
+.sel-dot.bk-use {
+  fill: var(--sheet);
+  stroke: var(--ink-2);
+  stroke-width: 1.2px;
+}
 .sel-dot.bk-edges,
 .sel-dot.bk-rules {
   fill: var(--graphite);
@@ -269,6 +274,9 @@
 }
 .bk-edges {
   border: 1.2px dashed var(--graphite);
+}
+.bk-use {
+  border: 1.5px solid var(--ink-2);
 }
 .bk-rules {
   background: var(--graphite-soft);
@@ -605,7 +613,18 @@
   background: none;
   color: var(--ink);
   cursor: pointer;
+  display: grid;
+  gap: 1px;
+}
+.asm-lots {
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+.asm-addr {
+  font-size: 13px;
+  color: var(--ink-2);
 }
 .asm-meta {
   font-size: 13px;

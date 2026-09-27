@@ -30,6 +30,11 @@ button {
   outline: var(--focus);
   outline-offset: 2px;
 }
+/* A mouse click on an SVG control never draws the browser's ring (Chrome rings focused SVG on click);
+   keyboard focus keeps each mark's own :focus-visible style. */
+svg [tabindex]:focus:not(:focus-visible) {
+  outline: none;
+}
 .visually-hidden {
   position: absolute !important;
   width: 1px;
@@ -572,6 +577,12 @@ button.chip {
 .lot:hover .lot-line {
   fill: var(--gold-wash);
 }
+.lot.is-static {
+  cursor: inherit;
+}
+.lot.is-static:hover .lot-line {
+  fill: transparent;
+}
 .lot.is-selected .lot-line {
   stroke-width: 1.9px;
 }
@@ -581,12 +592,18 @@ button.chip {
   stroke-width: 0.8px;
   opacity: 0.8;
 }
-.lot:focus-visible {
+/* Chrome's SVG stylesheet rings any focused SVG element with a thick, rounded blue outline, on a mouse
+   click too (team review, round 3). A clicked lot shows the plate's own selection (the ink line above);
+   a keyboard user gets a thin red line on the lot itself, in our palette (DESIGN_GUIDE §2 --focus). */
+.lot:focus,
+.lot:focus-visible,
+.plate-svg:focus {
   outline: none;
 }
 .lot:focus-visible .lot-line {
   stroke: var(--red);
-  stroke-width: 2.6px;
+  stroke-width: 2px;
+  stroke-dasharray: 5 2;
 }
 .group-line {
   fill: none;

@@ -1,10 +1,10 @@
 // The inspector for a lot with block detail (spec §0.15): header, four tiles, and the tabs Money ·
 // Rules · Site · Next · Sources. The tabs hold today's lot-page panels, unchanged in substance.
-import { explanation, headline, nextStep, placeName, type VerdictChip } from '@engine/index';
+import { explanation, getQuestion, headline, nextStep, placeName, type VerdictChip } from '@engine/index';
 import { varianceWords } from '@engine/verdict';
 import type { BlockFile, Parcel } from '@engine/types';
 import type { UnlockOption } from '@engine/unlock';
-import { MoneyPanel, EstimateMark, NextSteps, SitePanel, VerdictBlock } from '../Panels';
+import { MoneyPanel, EstimateMark, SitePanel, VerdictBlock } from '../Panels';
 import { RulesWall } from '../Walls';
 import { Ev, ftFmt, Label, DISCLAIMER } from '../ui';
 import { COMPS_BY_WARD, REFRESH, refreshChangesFor } from '../../lib/data';
@@ -14,6 +14,7 @@ import { Dash, InspectorShell, Tile, type TabDef } from './Shell';
 import { Gloss, kFmt, LotSentence, VerdictStamp } from './plain';
 import { Segs } from './Segs';
 import { MoneySources, RecordList, RuleSources } from './Sources';
+import { stepFromText, type Step } from './Tray';
 import { WatchToggle } from '../WatchToggle';
 
 const GLYPH = { blocks: '✕', open: '?', clear: '✓', unknown: '—' } as const;
@@ -60,39 +61,61 @@ function LotTiles({ model }: { model: LotModel }) {
   const v = w.deed ?? w.mapped;
   const row = r.scenario.type === 'row';
   const caption = `${w.none ? 'no buildable width' : tone === 'red' ? 'under your assumption, not confirmed' : tone === 'pencil' ? 'pencil: depends on an open question or unreviewed rules' : 'as of right, by deed'} · ${ftFmt(w.mapped)} ft on the City map · ${w.formula}`;
+  // An open question with two readings (§925.06.C.1 for a detached house, or the narrow-lot table for
+  // rowhouse end units): the buildable width is a range until the City answers, and it sits apart from
+  // your plan (team review, round 3: "Your plan: 16 ft" and "Buildable: 11–18 ft" were run together).
+  const alt = check.alternative;
+  const pending = !!alt && alt.trust === 'pencil' && !w.none; // open, not assumed (red) or confirmed
+  const lo = pending ? Math.min(v, alt!.available) : v;
+  const hi = pending ? Math.max(v, alt!.available) : v;
+  const ask = pending ? getQuestion(model.ctx.rs, alt!.question_id)?.question.ask ?? 'the City' : null;
   const A = m?.estimates.find((e) => e.default) ?? m?.estimates[0];
   const moneyWhy = m ? 'no recent new-build sale in this ward' : model.moneyGap ?? 'no money data';
   return (
     <>
       <Tile
         id="width"
-        label="Buildable width"
+        label={row ? 'End-unit width' : 'Buildable width'}
         title={caption}
         className={`tone-${tone}`}
         value={
           <span className="numeral-block" data-trust={trust === 'ink' && check.status !== 'open' ? 'ink' : trust === 'red' ? 'red' : 'pencil'}>
-            <Ev trust={trust} refId="measure:width" className="numeral" title={w.formula}>
-              {w.none ? '0' : ftFmt(v)}
+            <Ev trust={trust} refId={pending ? `question:${alt!.question_id}` : 'measure:width'} className={`numeral${pending ? ' is-range' : ''}`} title={pending ? `${ftFmt(v)} ft (${w.formula}) or ${ftFmt(alt!.available)} ft (${alt!.formula}), pending the ${ask}’s reading` : w.formula}>
+              {w.none ? '0' : pending ? `${ftFmt(lo)}–${ftFmt(hi)}` : ftFmt(v)}
               <span className="numeral-unit">ft</span>
             </Ev>
           </span>
         }
         sub={
-          <>
-            {check.alternative ? (
-              <>
-                or{' '}
-                <Ev trust={check.alternative.trust === 'red' ? 'red' : 'pencil'} refId={`question:${check.alternative.question_id}`} num>
-                  {ftFmt(check.alternative.available)} ft
-                </Ev>{' '}
-                on the other reading ·{' '}
-              </>
-            ) : null}
-            {row ? 'end units · ' : ''}your plan{' '}
-            <Ev trust="red" refId="proposal:width" num>
-              {ftFmt(check.required ?? 0)} ft
-            </Ev>
-          </>
+          pending ? (
+            <>
+              <span className="ws-tile-line pencil-text" data-trust="pencil">
+                {`pending the ${ask}’s reading`}
+              </span>
+              <span className="ws-tile-line">
+                your plan{' '}
+                <Ev trust="red" refId="proposal:width" num>
+                  {ftFmt(check.required ?? 0)} ft
+                </Ev>
+              </span>
+            </>
+          ) : (
+            <>
+              {alt ? (
+                <>
+                  or{' '}
+                  <Ev trust={alt.trust === 'red' ? 'red' : 'pencil'} refId={`question:${alt.question_id}`} num>
+                    {ftFmt(alt.available)} ft
+                  </Ev>{' '}
+                  on the other reading ·{' '}
+                </>
+              ) : null}
+              your plan{' '}
+              <Ev trust="red" refId="proposal:width" num>
+                {ftFmt(check.required ?? 0)} ft
+              </Ev>
+            </>
+          )
         }
       />
       {A ? (
@@ -239,7 +262,7 @@ function Letters({ model, block, s }: { model: LotModel; block: BlockFile; s: Ur
   if (!letters.length) return null;
   return (
     <section className="ws-letters" aria-label="Draft letters, one per office">
-      <Label as="h3">Draft letters · you decide whether to send them</Label>
+      <Label as="h3">Every draft letter · you decide whether to send them</Label>
       <ul>
         {letters.map((l) => (
           <li key={l.office}>
@@ -251,18 +274,103 @@ function Letters({ model, block, s }: { model: LotModel; block: BlockFile; s: Ur
   );
 }
 
+/** The route for a scored lot: the inquiry's "what to check next" items, cheapest to learn first, each with
+ *  its cost tag and a link to every letter whose office it names. The tray lists them; the Next tab details one. */
+export function lotSteps(model: LotModel, block: BlockFile, s: UrlState): Step[] {
+  if (model.result.state !== 'ok') return [];
+  const letters = model.inquiry.letters;
+  return (model.inquiry.sections.find((x) => x.id === 'next')?.items ?? []).map((it) => ({
+    ...stepFromText(it.text, letters, (office) => inquiryHref(block, s, s.lot, office)),
+    trust: it.trust === 'ink' ? ('ink' as const) : it.trust === 'red' ? ('red' as const) : ('pencil' as const),
+  }));
+}
+
+/** The Next tab (team review, round 3): the detail of the step chosen in the tray's route (its words, its
+ *  letter, the other steps one click away), "Watch this lot", and the letter itself. The tray stays the route. */
+function NextDetail({ model, block, s, steps, onStep }: { model: LotModel; block: BlockFile; s: UrlState; steps: Step[]; onStep: (i: number) => void }) {
+  const r = model.result;
+  const sel = parcelByLot(block, s.lot) ?? block.parcels.find((p) => p.pin === r.pins[0])!;
+  const k = Math.min(Math.max(1, s.step ?? 1), Math.max(1, steps.length)) - 1; // 0-based, clamped
+  const st = steps[k];
+  // The step's words after its cost tag ("Free: City Real Estate and the URA. What would …").
+  const colon = st ? st.text.indexOf(': ') : -1;
+  const body = st && st.tag && colon > 0 ? st.text.slice(colon + 2) : st?.text ?? '';
+  return (
+    <section className="wall next-wall ws-next" aria-labelledby="next-h" data-panel="next">
+      <div className="ws-next-top">
+        <h2 id="next-h" className="wall-title">
+          What to check next{st ? <span className="wall-sub"> · step {k + 1} of {steps.length}</span> : null}
+        </h2>
+        <p className="ws-watch">
+          <WatchToggle pin={sel.pin} />
+        </p>
+      </div>
+      {st ? (
+        <>
+          <div className="ws-next-nav" role="group" aria-label="Steps of the route, cheapest to learn first">
+            {steps.map((x, i) => (
+              <button key={i} type="button" className={`ws-next-dot ${i === k ? 'is-on' : ''}`} aria-pressed={i === k} aria-label={`Step ${i + 1}: ${x.head}`} title={x.head} onClick={() => onStep(i)}>
+                {i + 1}
+              </button>
+            ))}
+          </div>
+          <ol className="next-steps ws-next-step" start={k + 1}>
+            <li data-step={k + 1} data-trust={st.trust ?? 'pencil'}>
+              {st.tag ? (
+                <span className="step-tag" data-step-tag={st.tag.toLowerCase()}>
+                  {st.tag}
+                </span>
+              ) : null}
+              {/* The step's own words, its first phrase (the tray's line) set as the lead. */}
+              <p className={`ws-next-body${st.trust === 'pencil' ? ' pencil-text' : ''}`}>
+                {body.toLowerCase().startsWith(st.head.toLowerCase()) ? (
+                  <>
+                    <strong className="ws-next-head">{st.head}</strong>
+                    {body.slice(st.head.length)}
+                  </>
+                ) : (
+                  body
+                )}
+              </p>
+              {st.links.length > 0 && (
+                <p className="ws-next-letters">
+                  {st.links.map((l) => (
+                    <a key={l.href} className="btn btn-small" href={l.href}>
+                      Letter to {l.label}
+                    </a>
+                  ))}
+                </p>
+              )}
+            </li>
+          </ol>
+        </>
+      ) : (
+        <p className="na">— nothing to check until the lot can be scored.</p>
+      )}
+      <p>
+        <a className="btn btn-ink" href={inquiryHref(block, s, s.lot)}>
+          Draft the letter
+        </a>{' '}
+        <span className="small muted">A draft: you decide whether and where to send it.</span>
+      </p>
+    </section>
+  );
+}
+
 export function LotInspector({
   model,
   block,
   s,
   onTab,
   onTry,
+  onStep,
 }: {
   model: LotModel;
   block: BlockFile;
   s: UrlState;
   onTab: (t: InspectorTab) => void;
   onTry: (o: UnlockOption) => void;
+  onStep: (i: number) => void; // choose a step of the route (0-based): the Next tab shows its detail
 }) {
   const r = model.result;
   const v = model.verdict;
@@ -300,6 +408,12 @@ export function LotInspector({
   const rco = (sel.overlays ?? []).find((o) => o.startsWith('RCO'))?.replace(/^RCO - /, '');
   const wc = r.checks.find((c) => c.id === 'width');
   const wTrust = wc?.trust === 'red' ? 'red' : wc && (wc.status === 'open' || wc.trust === 'pencil') ? 'pencil' : 'ink';
+  // The engine's explanation after its width part (which the sentence and the wall's verdict already say):
+  // the contextual-setback note and the owners, from the contextual check's own words onward.
+  const ctxCheck = r.checks.find((c) => c.id === 'contextual');
+  const expl = explanation(r, block, model.vctx);
+  const ctxAt = ctxCheck ? expl.findIndex((sg) => sg.t === ctxCheck.text) : -1;
+  const whyTail = ctxAt >= 0 ? expl.slice(ctxAt) : [];
 
   const tabs: TabDef[] = [
     {
@@ -318,24 +432,28 @@ export function LotInspector({
       glyph: glyphOf(chip('rules')),
       panel: (
         <>
-          <ChipLine c={chip('rules')} />
-          <p className="ws-engine-sentence">
+          {/* The width conclusion once, above the table (team review, round 3: it was stated five times): the
+              engine's sentence, then the rules wall's verdict (the fix) right over the ledger. How the width is
+              measured and why the district setback stands follow the table. */}
+          <p className="ws-engine-sentence" data-rules-conclusion>
             <Segs segs={headline(r, block, model.ctx.rs)} />
           </p>
+          <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={onTry} block={block} vctx={model.vctx} />
           {r.state === 'ok' && w ? (
             <p className="small ws-width-line">
-              <Gloss k="asofright">As of right</Gloss>:{' '}
+              How it’s measured: <Gloss k="asofright">as of right</Gloss>,{' '}
               <Ev trust={wTrust} refId="measure:width" num>
-                {w.none ? 'no buildable width' : `${ftFmt(w.deed ?? w.mapped)} ft`}
+                {w.formula}
               </Ev>{' '}
-              {w.deed != null ? 'by deed' : 'on the City map'} ({w.formula}) · {ftFmt(w.mapped)} ft on the City map. The{' '}
-              <Gloss k="envelope">envelope</Gloss> is what the <Gloss k="setback">setbacks</Gloss> leave.
+              {w.deed != null ? 'by deed' : 'on the City map'} · {ftFmt(w.mapped)} ft on the City map. The <Gloss k="envelope">envelope</Gloss> is what the{' '}
+              <Gloss k="setback">setbacks</Gloss> leave.
             </p>
           ) : null}
-          <p className="explain">
-            <Segs segs={explanation(r, block, model.vctx)} />
-          </p>
-          <RulesWall result={r} rs={model.ctx.rs} unlock={model.unlock} onTry={onTry} block={block} vctx={model.vctx} />
+          {whyTail.length ? (
+            <p className="explain small">
+              <Segs segs={whyTail} />
+            </p>
+          ) : null}
         </>
       ),
     },
@@ -359,11 +477,8 @@ export function LotInspector({
       label: 'Next',
       panel: (
         <>
-          <p className="ws-watch">
-            <WatchToggle pin={sel.pin} />
-          </p>
+          <NextDetail model={model} block={block} s={s} steps={lotSteps(model, block, s)} onStep={onStep} />
           <NextAnswer model={model} block={block} s={s} onTry={onTry} />
-          <NextSteps inquiry={r.state === 'ok' ? model.inquiry : null} href={inquiryHref(block, s, s.lot)} />
           <Letters model={model} block={block} s={s} />
         </>
       ),
