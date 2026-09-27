@@ -2,6 +2,7 @@
 // with its source. The sketchbook and the voice-over read from this file, so they can't disagree with
 // the app. Run: npx tsx scripts/facts.ts
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { assemblyFacts, type AssemblyFile } from './build-assemblies';
 import {
   DEFAULT_SETTINGS,
   buildRuleSet,
@@ -155,12 +156,21 @@ if (existsSync('data/city/lots.json')) {
   put('city_area_any', s.areaAny, s.areaAny.toLocaleString('en-US'), 'two-unit house: lots under the minimum area (engine classifier)');
   put('city_by_first_blocker', s.byBlocker, JSON.stringify(s.byBlocker), 'two-unit house, first blocker per lot (engine classifier)');
   put('city_districts_computed', s.districts.filter((d) => d.computed).map((d) => d.zone), s.districts.filter((d) => d.computed).map((d) => d.zone).join(', '), 'districts whose rules are at least source-checked');
+  // The width split (decision 38): a built neighbour's contextual setback could change the answer on some.
+  put('city_width_not_area_ink', s.widthNotAreaInk, s.widthNotAreaInk.toLocaleString('en-US'), 'two-unit house: too narrow by deed, next to vacant lots or too narrow even at the contextual minimum (ink)');
+  put('city_width_not_area_context', s.widthNotAreaContext, s.widthNotAreaContext.toLocaleString('en-US'), "two-unit house: too narrow unless a built neighbour's actual setback allows a contextual setback (pencil)");
+  put('city_width_not_area_mapped', s.widthNotAreaMapped, s.widthNotAreaMapped.toLocaleString('en-US'), 'two-unit house: too narrow on frontage measured from the City map, no deed dimensions (pencil)');
+}
+
+// Assembly finder (C15, spec §0.14).
+if (existsSync('data/city/assemblies.json')) {
+  for (const [k, v] of Object.entries(assemblyFacts(read<AssemblyFile>('data/city/assemblies.json')))) put(k, v.value, v.display, v.source);
 }
 
 // Extraction.
 if (existsSync('data/rules/extracted/eval.json')) {
   const ev = read<Record<string, unknown>>('data/rules/extracted/eval.json');
-  put('extraction_eval', ev, 'see docs/eval.md', 'extract/eval.py against the hand-checked answer key');
+  put('extraction_eval', ev, 'see docs/eval.md', "extract/eval.py against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched by an AI research pass, not yet signed here)");
 }
 
 // Held-out lot (set in data/film-heldout.json by the orchestrator once the block exists).

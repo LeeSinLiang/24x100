@@ -2,6 +2,7 @@
 import csv
 import io
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -13,11 +14,28 @@ BANNED_KEY_PARTS = ("propertyowner", "owner", "changenotice", "taxbill", "mailin
 BANNED_VALUES = {"city of pittsburgh"}  # as an owner value; source names like "City of Pittsburgh PGHParcels" are fine
 
 
+# The assembly finder (C15) reports an owner TYPE, never a name: these two keys are allowed only with values
+# from a fixed list (the category code, and words built from it plus the County's use description).
+OWNER_TYPES = {"city_for_sale", "city_held", "public_body", "corporation", "individual", "unknown"}
+OWNER_TYPE_WORDS = re.compile(
+    r"^(City-owned, [a-z ,/-]+|a public body \(County use: [a-z ,/&-]+\)|a corporation \(County owner type\)"
+    r"|a private individual \(County owner type\)|owner type not recorded)$"
+)
+
+
 def violations(obj, path="$"):
     out = []
     if isinstance(obj, dict):
         for k, v in obj.items():
             kl = str(k).lower().replace("_", "")
+            if kl == "ownertype":
+                if v not in OWNER_TYPES:
+                    out.append(f"{path}.{k}: owner_type outside the fixed list: {v!r}")
+                continue
+            if kl == "ownertypewords":
+                if not (isinstance(v, str) and OWNER_TYPE_WORDS.match(v)):
+                    out.append(f"{path}.{k}: owner_type_words outside the fixed forms: {v!r}")
+                continue
             if kl not in ALLOWED_OWNER_KEYS and any(b in kl for b in BANNED_KEY_PARTS):
                 out.append(f"{path}.{k}: banned key")
             out += violations(v, f"{path}.{k}")
@@ -41,6 +59,12 @@ def data_files():
     files += [p for p in [REPO / "data" / "watchlist.json"] if p.exists()]
     files += sorted((REPO / "pipeline" / "tests" / "fixtures").glob("*.json"))
     return files
+
+
+def test_owner_type_fields_are_checked():
+    assert violations({"owner_type": "corporation", "owner_type_words": "a corporation (County owner type)"}) == []
+    assert violations({"owner_type": "Jane Doe"})
+    assert violations({"owner_type_words": "Jane Doe LLC"})
 
 
 def test_there_are_files_to_check():

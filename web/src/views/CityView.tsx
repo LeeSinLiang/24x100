@@ -2,6 +2,7 @@
 // building type. Classification runs here, live, from the current rule reviews: when a teammate signs
 // a district's rules, that district's dots turn from grey to color. Grey stays grey; nothing is guessed.
 import { useEffect, useMemo, useState } from 'react';
+import { AssemblyPanel, useAssemblies } from '../components/city/Assemblies';
 import { classifyCityLot, summarize, type CityClass } from '@engine/city';
 import { buildRuleSet, pick } from '@engine/rules';
 import { DEFAULT_SETTINGS, TEMPLATES } from '@engine/templates';
@@ -80,6 +81,16 @@ export function CityView({ s, update, audit }: ViewProps) {
   }, [classes, lots]);
 
   const idxOf = useMemo(() => new Map(lots.map((l, i) => [l.pin, i])), [lots]);
+  // "Combine to fit" (C15): City lots in a qualifying run are ringed on the map; the selected run heavier.
+  const asmOn = s.layer === 'assemble';
+  const hoodByPin = useMemo(() => new Map(lots.map((l) => [l.pin, l.hood ?? null])), [lots]);
+  const asm = useAssemblies(asmOn);
+  const asmMarks = useMemo(() => {
+    if (!asmOn || !asm || asm === 'loading') return { all: [] as number[], sel: [] as number[] };
+    const runs = asm.runs.filter((r) => r.type === s.type);
+    const idx = (pins: string[]) => pins.map((p) => idxOf.get(p)).filter((i): i is number => i != null);
+    return { all: [...new Set(idx(runs.flatMap((r) => r.pins)))], sel: s.run ? idx(s.run.split(',')) : [] };
+  }, [asmOn, asm, s.type, s.run, idxOf]);
   const selected = pin != null ? idxOf.get(pin) ?? null : null;
   const rows = useMemo(() => lots.map((_, i) => i).filter((i) => !focus || lots[i].hood === focus), [lots, focus]);
 
@@ -202,6 +213,8 @@ export function CityView({ s, update, audit }: ViewProps) {
                 present={s.present}
                 record={s.record}
                 inset={narrow ? null : card}
+                marks={asmMarks.all}
+                markStrong={asmMarks.sel}
                 label={`Map of ${focus ?? 'Pittsburgh'}: ${n(inView)} City-owned vacant lots as dots, colored by what first blocks a ${tname.toLowerCase()}. The table below lists the same lots.`}
               />
             </div>
@@ -222,6 +235,23 @@ export function CityView({ s, update, audit }: ViewProps) {
         </div>
 
         <div className="city-answer-col">
+          {asmOn ? (
+            <AssemblyPanel
+              data={asm}
+              type={s.type}
+              typeName={tname}
+              focus={focus}
+              hoodOf={hoodByPin}
+              selected={s.run}
+              onSelect={(r) => {
+                const lead = lots[idxOf.get(r.candidates[0]) ?? -1];
+                if (lead?.hood && lead.hood !== focus) zoom(lead.hood);
+                update({ run: r.pins.join(',') });
+              }}
+              onClose={() => update({ layer: null, run: null }, { push: true })}
+            />
+          ) : (
+          <>
           <p className="sentence city-sentence" aria-live="polite">
             {data.state !== 'ready' ? (
               <span className="pencil-text">The citywide lot file isn’t loaded, so there is no citywide count yet.</span>
@@ -325,8 +355,16 @@ export function CityView({ s, update, audit }: ViewProps) {
                   </li>
                 )}
               </ul>
+              <p className="small">
+                <a href={`?view=city&type=${s.type}&layer=assemble${focus ? `&hood=${encodeURIComponent(focus)}` : ''}`} onClick={(e) => { if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; e.preventDefault(); update({ layer: 'assemble', run: null }, { push: true }); }}>
+                  Combine to fit
+                </a>
+                <span className="muted"> · which City lots fit when combined with the lots beside them</span>
+              </p>
             </div>
           </div>
+          </>
+          )}
         </div>
       </section>
 

@@ -131,6 +131,8 @@ interface Props {
   record: boolean;
   label: string;
   inset?: ReactNode; // the selected lot's card, set in the corner away from its dot
+  marks?: number[]; // "Combine to fit" layer: City lots in a qualifying run, ringed (indexes into lots)
+  markStrong?: number[]; // the selected run's lots, ringed heavier
 }
 
 const PAD = 26;
@@ -275,7 +277,25 @@ export function CityMap(p: Props) {
       }
       g.restore();
     }
-  }, [p.classes, pos, w, h, r, themeKey, p.focus, water, view]);
+    // "Combine to fit" (C15): a ring around each City lot in a qualifying run; the selected run heavier.
+    for (const [idx, lw, extra] of [
+      [p.marks ?? [], 1.2, 2.6],
+      [p.markStrong ?? [], 2.2, 3.6],
+    ] as const) {
+      if (!idx.length) continue;
+      g.save();
+      g.beginPath();
+      for (const i of idx) {
+        if (i < 0 || i >= pos.xs.length) continue;
+        g.moveTo(pos.xs[i] + r + extra, pos.ys[i]);
+        g.arc(pos.xs[i], pos.ys[i], r + extra, 0, Math.PI * 2);
+      }
+      g.strokeStyle = color('--ink');
+      g.lineWidth = lw;
+      g.stroke();
+      g.restore();
+    }
+  }, [p.classes, pos, w, h, r, themeKey, p.focus, water, view, p.marks, p.markStrong]);
 
   const sel = p.selected != null && p.selected < p.lots.length ? ([pos.xs[p.selected], pos.ys[p.selected]] as XY) : null;
   const insetLeft = !!sel && sel[0] > w / 2;

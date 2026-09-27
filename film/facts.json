@@ -498,6 +498,31 @@
    "display": "RM-M",
    "source": "districts whose rules are at least source-checked"
   },
+  "city_width_not_area_ink": {
+   "value": 115,
+   "display": "115",
+   "source": "two-unit house: too narrow by deed, next to vacant lots or too narrow even at the contextual minimum (ink)"
+  },
+  "city_width_not_area_context": {
+   "value": 42,
+   "display": "42",
+   "source": "two-unit house: too narrow unless a built neighbour's actual setback allows a contextual setback (pencil)"
+  },
+  "city_width_not_area_mapped": {
+   "value": 21,
+   "display": "21",
+   "source": "two-unit house: too narrow on frontage measured from the City map, no deed dimensions (pencil)"
+  },
+  "assemblies_citywide": {
+   "value": 111,
+   "display": "111 runs of 2–3 lots (128 City lots) fit a three-unit house as of right when combined",
+   "source": "data/city/assemblies.json (RM-M, 563 City-owned vacant lots checked)"
+  },
+  "assemblies_all_city_owned": {
+   "value": 42,
+   "display": "42 of those runs are all City-owned",
+   "source": "data/city/assemblies.json"
+  },
   "extraction_eval": {
    "value": {
     "generated_at": "2026-09-26T21:22:19+00:00",
@@ -2223,7 +2248,7 @@
     }
    },
    "display": "see docs/eval.md",
-   "source": "extract/eval.py against the hand-checked answer key"
+   "source": "extract/eval.py against the answer key from the team's research notes (checked against the code text by a person on the team; in this app matched by an AI research pass, not yet signed here)"
   },
   "held_out_link": {
    "value": "?view=lot&block=0124P&lot=203&type=detached",

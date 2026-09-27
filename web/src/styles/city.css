@@ -546,3 +546,72 @@
     inset: 3px;
   }
 }
+
+/* "Combine to fit" (C15): the assembly list, in the answer column when ?layer=assemble. */
+.asm {
+  display: grid;
+  gap: 8px;
+}
+.asm .asm-sentence {
+  margin: 0;
+  order: 0; /* the phone layout orders every .sentence; inside the panel it stays under the label */
+}
+.asm-sort {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.asm-sort button,
+.asm-close {
+  font: inherit;
+  font-size: 13px;
+  padding: 4px 10px;
+  min-height: 32px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.asm-sort button[aria-pressed='true'] {
+  border-color: var(--ink);
+  font-weight: 600;
+}
+.asm-close {
+  justify-self: start;
+}
+.asm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 46vh;
+  overflow-y: auto;
+  border-top: 1px solid var(--rule);
+}
+.asm-row {
+  display: grid;
+  gap: 2px;
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--rule);
+}
+.asm-row.is-sel {
+  box-shadow: inset 3px 0 0 var(--ink);
+  padding-left: 10px;
+}
+.asm-pick {
+  font: inherit;
+  text-align: left;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 600;
+}
+.asm-meta {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.asm-link {
+  font-size: 13px;
+  justify-self: start;
+}

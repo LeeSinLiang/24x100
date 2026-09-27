@@ -26,6 +26,8 @@ export interface UrlState {
   tol: number | null; // reconciliation tolerance override (red)
   hood: string | null; // city view: zoomed neighborhood
   pin: string | null; // city view: selected lot
+  layer: 'assemble' | null; // city view: the "Combine to fit" layer (C15)
+  run: string | null; // city view, assemble layer: the selected run (its lots' PINs, comma-separated)
 }
 
 const TYPES: TemplateId[] = ['detached', 'two', 'row', 'three'];
@@ -64,6 +66,8 @@ export function parseUrl(search: string): UrlState {
     })(),
     hood: q.get('hood'),
     pin: q.get('pin'),
+    layer: q.get('layer') === 'assemble' ? 'assemble' : null,
+    run: q.get('run'),
   };
 }
 
@@ -82,6 +86,8 @@ export function toSearch(s: Partial<UrlState> & { view: View }): string {
   if ((s.view === 'city' || s.view === 'block') && s.type) q.set('type', s.type);
   if (s.view === 'city' && s.hood) q.set('hood', s.hood);
   if (s.view === 'city' && s.pin) q.set('pin', s.pin);
+  if (s.view === 'city' && s.layer) q.set('layer', s.layer);
+  if (s.view === 'city' && s.layer && s.run) q.set('run', s.run);
   if (s.assume && s.assume.length) q.set('assume', s.assume.join(','));
   if (s.drawer) q.set('drawer', s.drawer);
   if (s.district) q.set('district', s.district);
