@@ -48,8 +48,26 @@ def next_id() -> str:
     return f"Q{max(n, default=0) + 1}"
 
 
+def recheck() -> int:
+    """No model: every committed run's quote re-checked in its code file and its count re-run on today's data."""
+    from extract.source import check_quote
+    bad = 0
+    for f in sorted(OUT.glob("q*.json")):
+        o = json.loads(f.read_text())
+        if o.get("status") != "counted":
+            print(f"{o['id']:4} refused (nothing to recheck): {o.get('reason', '')[:90]}"); continue
+        sec = T.section(o["section"]); now = T.count({"value": o["override"]})["by_type"]
+        q_ok = check_quote(sec["full"], o["section"], o["quote"]).ok
+        drift = [f"{t} {o['by_type'][t]['opens']} → {now[t]['opens']}" for t in T.TYPES if now[t] != o["by_type"][t]]
+        ok = q_ok and not drift; bad += not ok
+        print(f"{o['id']:4} {'ok  ' if ok else 'DRIFT'} {o['name']}: quote {'word for word' if q_ok else 'NOT FOUND'} in §{o['section']}; count " + ("unchanged" if not drift else "changed: " + ", ".join(drift) + " (re-ask it)"))
+    return 1 if bad else 0
+
+
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="python -m agents.policy", description=__doc__.split("\n")[0])
+    if (argv if argv is not None else sys.argv[1:]) == ["--recheck"]:
+        return recheck()
+    ap = argparse.ArgumentParser(prog="python -m agents.policy", description=__doc__.split("\n")[0], epilog="python -m agents.policy --recheck: every committed run against today's code and data, no model")
     ap.add_argument("question"); ap.add_argument("--building", choices=T.TYPES, default="two")
     ap.add_argument("--plan", help="a JSON file {plan, redline}: no model"); ap.add_argument("--id", help="Q1, Q2, … (default: the next free)")
     ap.add_argument("--model", help="skip the probe and use this model"); ap.add_argument("--dry", action="store_true", help="print, don't write")
