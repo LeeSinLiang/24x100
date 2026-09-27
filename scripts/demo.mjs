@@ -90,8 +90,22 @@ async function mark(page, beat, id, locator, c, note, opts = {}) {
   }
   const box = await pushMark(page, beat, id, [b.x, b.y, b.width, b.height], c, note);
   // Tag it, so the watcher (watchMarks) can say when it moves or goes: the mark's `until`.
-  const ok = await el.evaluate((e, [mid, tight]) => (e.setAttribute('data-demo-mark', mid), tight ? e.setAttribute('data-demo-tight', '1') : null, true), [id, !!opts.tight]).catch(() => false);
-  if (ok) cues[beat].marks[cues[beat].marks.length - 1].watch = true;
+  // The watcher's baseline is measured the watcher's way (getBoundingClientRect, or the text's Range): Playwright's
+  // boundingBox() measures an SVG group a few px differently, which would read as a move.
+  const base = await el
+    .evaluate((e, [mid, tight]) => {
+      e.setAttribute('data-demo-mark', mid);
+      if (tight) e.setAttribute('data-demo-tight', '1');
+      let r;
+      if (tight) {
+        const g = document.createRange();
+        g.selectNodeContents(e);
+        r = g.getBoundingClientRect();
+      } else r = e.getBoundingClientRect();
+      return [r.x, r.y, r.width, r.height];
+    }, [id, !!opts.tight])
+    .catch(() => null);
+  if (base) Object.assign(cues[beat].marks[cues[beat].marks.length - 1], { watch: true, wbox: base });
   return box;
 }
 /** While a beat runs: every ~120 ms, re-measure each tagged mark; the first time it moves (more than 3 px) or is gone,
@@ -125,7 +139,7 @@ function watchMarks(page, beat, c) {
       const t = at(c);
       for (const m of list) {
         const r = rects[m.id];
-        if (!r || r.some((v, k) => Math.abs(v - m.box[k]) > 3)) m.until = t;
+        if (!r || r.some((v, k) => Math.abs(v - m.wbox[k]) > 3)) m.until = t;
       }
     }
   })();
@@ -430,6 +444,7 @@ const V6 = [
       await p.waitForFunction(() => document.querySelector('.group-width, .env-width.big') !== null, null, { timeout: 5000 });
       await sleep(400); // the envelope reflow finishes
       cues.B04 = { cue: Math.round(c.now() * 100) / 100, note: 'clip second the envelope has widened to 52 ft' };
+      await sleep(450); // the label has settled (the envelope tween)
       await mark(p, 'B04', 'width_52', p.locator('.env-width.big'), c);
       await c.until(Math.max(5, cues.B04.cue + 2) + HOLD);
     },
@@ -553,6 +568,7 @@ const V6 = [
     q: 'view=block&block=10K&type=two',
     run: async (p, c) => {
       cues.B01 = {};
+      await c.until(0.5); // the envelopes have finished drawing in (a 280 ms tween)
       const row0 = await mark(p, 'B01', 'street_row', p.locator('[data-plate="envelopes"]'), c, "every Mahon St lot's red sliver (the lots' envelopes); stays put the whole clip");
       await c.until(1.0);
       const lot = p.locator('[data-lot="25"]').first();
@@ -791,7 +807,7 @@ for (const beat of BEATS) {
     errors.push(`beat failed: ${String(e).split('\n')[0]}`);
   }
   stopWatch();
-  for (const m of cues[beat.id]?.marks ?? []) delete m.watch;
+  for (const m of cues[beat.id]?.marks ?? []) (delete m.watch, delete m.wbox);
   const secs = c.now();
   if (process.env.SHOTS && !RECORD) await page.screenshot({ path: `${process.env.SHOTS}/${beat.id}-end.png` }).catch(() => {});
   if (errors.length) failed.push(`${beat.id}: ${errors.join(' | ').slice(0, 300)}`);
