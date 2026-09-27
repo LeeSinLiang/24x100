@@ -95,6 +95,15 @@ things in; which barrier blocks more often is unproven.
 - **It keeps watching.** `npm run refresh` re-pulls every dataset and shows what changed in pencil. A static
   JSON API serves every lot. An optional watchlist digest (Slack or email) is off by default and previews as a
   dry run.
+- **A team of agents works a lot, and a person holds the gates.** `npm run steward -- <pin> --goal two` runs a
+  steward (a LangGraph graph) that reads the engine's answer, plans, and dispatches: due diligence (PLI permits and
+  violations, condemnations, tax liens, 311 and the undermining and slope layers, each a finding with its URL, pull
+  time and sha256; paid studies drafted, never marked done), the what-ifs, the engine's letters, and a verifier that
+  blocks publication on a quote not verbatim in the code, a number the engine or a source doesn't hold, a finding
+  without a source, or a name-like field. A watch agent explains a watched lot's change with its math and drafts the
+  next move; a simulation ("if lot 24 got a building permit") is computed by the engine and labelled. Every letter,
+  paid study and unsigned rule waits at a gate. [Lot 25's case file](https://24x100.example/?view=case&pin=0010K00025000000),
+  [the watch run](https://24x100.example/?view=case&pin=watch).
 
 ## Run it
 
@@ -111,6 +120,8 @@ npm run dev            # http://localhost:5173
 | `npm run rebuild` | Everything from raw public data: pull → join → reconcile → rules → engine → API → site |
 | `npm run refresh` | Re-pull every dataset and write the differences (shown in pencil in the app) |
 | `npm run digest -- --dry-run` | Preview the watchlist digest without sending it |
+| `npm run steward -- <pin> --goal two` | The agents' case file for a lot (`data/cases/<pin>.json`, `?view=case&pin=<pin>`); `--no-model` plans by rule |
+| `npm run agents -- watch --baseline <ref> [--simulate <pin>:<built pin>]` | The watch agent: what changed on the watchlist, explained, the next move drafted |
 | `uv run python -m extract run --district R1D-H` | Live rule extraction for a district (needs `GOOGLE_API_KEY` in `.env`) |
 | `npm run og` | The link-preview image (`web/public/og.png`, 1200×630) and favicons, drawn from the running app |
 | `npm run shoot` | Screenshots of every storyboard state (1440 and 390 px, light and dark) |
@@ -153,6 +164,12 @@ output for them.
   prompts may be used to improve Google's products.
 - The model never computes a setback, adds a fact to the inquiry or decides an interpretation. It proposes
   typed rules with verbatim quotes; code checks the quotes; a named person signs or strikes each rule.
+- **The agents** (`agents/`) use a model only to plan, pick checks and draft words (`gemini-3.5-flash-lite`,
+  through `gemini-flash-lite-latest`, on the free tier of a team member's Google key). The engine computes every
+  number; the verifier holds every word a model wrote to what it was given, and blocked real runs where the model
+  garbled "24×100". Model-written words are shown in pencil: no person has read them. With no model the same run
+  goes by a fixed plan and says so. Due diligence requests only whitelisted fields, so no owner name, contractor,
+  lien assignee or 311 case owner is ever fetched.
 - The RM‑M dimensional rules were first matched to the saved code text by an AI research pass. The agent then
   checked the 20 rules the Mahon Street and Larimer results use (every quote verbatim in its cited section, every
   value matching its quote: [`docs/reviews/rule-check-for-sin.md`](docs/reviews/rule-check-for-sin.md)), and Sin
@@ -213,5 +230,5 @@ City interprets its own code.
 ## Built with
 
 TypeScript, React 19, Vite 8, polygon-clipping, Vitest, Playwright; Python 3.12 with requests, shapely,
-openpyxl, pydantic, LangChain (`langchain-google-genai`, `langchain-anthropic`), pytest. Type: Old Standard TT,
+openpyxl, pydantic, LangChain (`langchain-google-genai`, `langchain-anthropic`), LangGraph, pytest. Type: Old Standard TT,
 Public Sans, Barlow Condensed (Google Fonts).
