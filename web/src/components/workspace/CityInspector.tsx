@@ -27,6 +27,21 @@ function NotAssessed({ children }: { children: ReactNode }) {
   return <p className="na">— {children}</p>;
 }
 
+/** Where combine to fit looked, in words, from the signed rules: it runs in one district (the assembly file's). The
+ *  signed districts that also permit this building have lot groups not checked yet: said, never implied. */
+export function asmScope(cm: CityModel, type: TemplateId, district: string): string {
+  const signed = cm.cover.computed;
+  const permits = signed.filter((z) => {
+    const rs = cm.ruleSets.get(z);
+    const u = rs ? pick(rs, `use_${type}` as never) : undefined;
+    return !!u && u.value !== 'N';
+  });
+  const others = permits.filter((z) => z !== district);
+  return others.length
+    ? `Lot groups are checked in ${zoneName(district)} only; ${listAnd(others.map(zoneName))} also permit ${aType(type)}, but their lot groups aren’t checked yet. Other districts not assessed.`
+    : `Lot groups are checked in ${zoneName(district)}, the only one of the ${signed.length} signed districts that permits ${aType(type)}. Other districts not assessed.`;
+}
+
 /** Where the counts are from, in words: citywide, one neighbourhood, or the lots the filters show. */
 export function scopeWords(s: UrlState, filtered: boolean): string {
   if (s.hood && !(s.sale || s.ward != null || s.zone)) return `in ${s.hood}`;
@@ -565,7 +580,7 @@ export function RunInspector({ run, meta, s, update, onTab }: { run: AssemblyRun
           </p>
           <p className="small">The City lot alone: {run.candidate_alone}.</p>
           <p className="small">Still to check: {run.still_to_check.join(', ')}.</p>
-          <p className="small muted">Rules checked for RM‑M and R1D‑H (R1D‑H doesn’t permit two- or three-unit houses); other districts not assessed. Owner type only, never names. {RUN_ADDR_NOTE}</p>
+          <p className="small muted">Lot groups are checked in {meta ? zoneName(meta.district) : 'one district'} only; other districts not assessed. Owner type only, never names. {RUN_ADDR_NOTE}</p>
         </>
       ),
     },
@@ -659,6 +674,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
           focus={s.hood}
           hoodOf={hoodByPin}
           selected={s.run}
+          scope={ready ? asmScope(cm, s.type, (asm as AssemblyFile).meta.district) : ''}
           onSelect={(r) => {
             const lead = cm.lots[cm.idxOf.get(r.candidates[0]) ?? -1];
             update({ run: r.pins.join(','), ...(lead?.hood && lead.hood !== s.hood ? { hood: lead.hood } : {}) }, { push: true });
@@ -680,7 +696,7 @@ export function AssembleInspector({ asm, cm, s, update, onTab }: { asm: Assembly
       note={
         ready ? (
           <>
-            <ScopeLine words={s.hood ? `in ${s.hood}` : 'citywide'} />
+            <ScopeLine words={s.hood ? `in ${s.hood}` : 'citywide'} within={zoneName((asm as AssemblyFile).meta.district)} />
             <p className="ws-run-addr small muted">{RUN_ADDR_NOTE}</p>
           </>
         ) : null

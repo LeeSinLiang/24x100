@@ -483,7 +483,8 @@ export function RunsTable({ asm, cm, s, onSelect }: { asm: AssemblyFile | null |
     <div className="ws-canvas-body is-table">
       <h2 className="label">
         Combine to fit · {TEMPLATES[s.type].name.toLowerCase()} · <span data-count="lot-groups">{n(runs.length)} lot groups</span>
-        {s.hood ? ` · ${s.hood}` : ' · citywide'}
+        {` · in ${zoneName(asm.meta.district)}`}
+        {s.hood ? `, ${s.hood}` : ''}
       </h2>
       {/* Judge panel, round 3: overlapping groups read as separate sites. They are alternatives. */}
       <p className="small muted ws-runs-note" data-count="lot-groups-city-lots">
