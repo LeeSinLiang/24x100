@@ -20,3 +20,6 @@ web/dist-rec/
 data/digest/outbox.json
 data/digest/preview.md
 data/digest/preview.html
+.vercel
+.env*
+!.env.example

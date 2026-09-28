@@ -1,5 +1,7 @@
 # 24×100
 
+[![CI](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeSinLiang/24x100/actions/workflows/ci.yml)
+
 **What a Pittsburgh lot can hold, what's holding it back, and what would move it.**
 
 Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100 ft deep, repeated in
@@ -8,7 +10,7 @@ Development Feasibility & Pro Forma Navigator.
 
 **Demo video:** _[PLACEHOLDER: the video link goes here]_
 
-**Live demo:** _[PLACEHOLDER: the live URL goes here after deploy; until then every `https://24x100.example/` link below is a placeholder too]_
+**Live demo:** [24x100.vercel.app](https://24x100.vercel.app/)
 
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
 > affordable homes built: housing nonprofits and CDCs, small and mid-size developers, municipal planners and
@@ -20,26 +22,26 @@ Development Feasibility & Pro Forma Navigator.
 
 ## Judge's 3-minute tour
 
-Five links into the app, in the order the story goes. Until the live link is in (above), replace
-`https://24x100.example/` with `http://localhost:5173/` after `npm install && npm run dev`.
+Five links into the app, in the order the story goes. To run it locally instead, replace
+`https://24x100.vercel.app/` with `http://localhost:5173/` after `npm install && npm run dev`.
 
-1. **One lot: [2241 Mahon St, a two-unit house](https://24x100.example/?view=lot&block=10K&lot=25&type=two).**
+1. **One lot: [2241 Mahon St, a two-unit house](https://24x100.vercel.app/?view=lot&block=10K&lot=25&type=two).**
    It meets the minimum lot size exactly, and the side setbacks still leave 4 ft to build on. So does every lot
    down the street. Its Development Ease reads 0–40 out of 100; click the bar for the six parts behind it.
-2. **Combine it, then money first: [lots 25–27, a three-unit house, Money tab](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money).**
+2. **Combine it, then money first: [lots 25–27, a three-unit house, Money tab](https://24x100.vercel.app/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money).**
    52 ft to build on; building costs more than the newest new-build sale: "Only with subsidy", a screening
    estimate that says whose.
-3. **Your builder's quote: [the same lots at $140 per sq ft](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money&quote=140).**
+3. **Your builder's quote: [the same lots at $140 per sq ft](https://24x100.vercel.app/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money&quote=140).**
    The money follows your number, in red (yours, not checked), beside the practitioner's estimate: at full cost a
    home still needs $23.1k–$48.1k of subsidy before land, so the stamp stays "Only with subsidy".
-4. **Which sentence to change: [Rule what-ifs, S1](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1).**
+4. **Which sentence to change: [Rule what-ifs, S1](https://24x100.vercel.app/?view=city&type=two&tab=whatif&whatif=S1).**
    Strike one sentence of §925.06.C and 196 more City lots could hold a two-unit home. A what-if, not the law.
-5. **Combine to fit: [lot groups in RM‑M](https://24x100.example/?view=city&type=three&layer=assemble&canvas=table).**
+5. **Combine to fit: [lot groups in RM‑M](https://24x100.vercel.app/?view=city&type=three&layer=assemble&canvas=table).**
    111 groups of 2–3 side-by-side lots, with room for up to 240 homes.
 
-Also worth a click: **[Compare sites](https://24x100.example/?view=compare&cols=10K:25:two;10K:25,26,27:three:140;0124N00247000000:two)**
+Also worth a click: **[Compare sites](https://24x100.vercel.app/?view=compare&cols=10K:25:two;10K:25,26,27:three:140;0124N00247000000:two)**
 (the same Development Ease columns side by side, each with its own cost basis; change any column by parcel ID or
-address), **[Tonight's shortlist](https://24x100.example/?view=shortlist)**, **Graph** on any lot (every node a real
+address), **[Tonight's shortlist](https://24x100.vercel.app/?view=shortlist)**, **Graph** on any lot (every node a real
 record, down to who signed each rule), **Watch this lot** on the Next tab (what the Slack and email digest will
 send), and **Draft the letter** (one per office, every number traced to the engine). On a phone, the same links work.
 
@@ -49,10 +51,10 @@ The four people Track 1 names, each with a way in from the home page (Start here
 
 | Who | Their first question | Where it opens |
 |---|---|---|
-| **Nonprofit / CDC** | Which City lots could we build on, and what subsidy would a home need? | [Tonight's shortlist](https://24x100.example/?view=shortlist), then a lot's money at full cost |
-| **Developer** | For this parcel: how easy, and does my builder's price work? | A parcel's [Development Ease and quote](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=ease); search by parcel ID or address |
-| **Planner** | Where does what block building, and how do sites compare? | The city map by first blocker, and [compare sites](https://24x100.example/?view=compare) (any site, by parcel ID or address) |
-| **Policy analyst** | Which sentence of the code blocks the most, and what would changing it open? | [Rule what-ifs](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1) and the policy agent's questions |
+| **Nonprofit / CDC** | Which City lots could we build on, and what subsidy would a home need? | [Tonight's shortlist](https://24x100.vercel.app/?view=shortlist), then a lot's money at full cost |
+| **Developer** | For this parcel: how easy, and does my builder's price work? | A parcel's [Development Ease and quote](https://24x100.vercel.app/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=ease); search by parcel ID or address |
+| **Planner** | Where does what block building, and how do sites compare? | The city map by first blocker, and [compare sites](https://24x100.vercel.app/?view=compare) (any site, by parcel ID or address) |
+| **Policy analyst** | Which sentence of the code blocks the most, and what would changing it open? | [Rule what-ifs](https://24x100.vercel.app/?view=city&type=two&tab=whatif&whatif=S1) and the policy agent's questions |
 
 ## Development Ease
 
@@ -70,7 +72,7 @@ owner 15, City sale 5, consolidation 5; steep ground 15, mapped mines 20, water 
 approvals the map can't assess on a lot without block detail 20. Lot 25 alone reads 0–40; lots 25–27 read 0–60
 (at the estimate and at a $140 quote); 156 Meadow St (tonight's shortlist) reads 35–95. On the shortlist, 34 of the
 42 are scored and 8 say "can't score yet": their fit rests on mapped lines. [Compare sites on the same
-columns](https://24x100.example/?view=compare), each with its own building type and builder's quote
+columns](https://24x100.vercel.app/?view=compare), each with its own building type and builder's quote
 (`cols=10K:25,26,27:three:140;<PIN>:two`), and change any column by parcel ID or address; every lot's Ease tab links
 there.
 
@@ -86,12 +88,12 @@ file is published.
 | **Due diligence** | The free public checks: PLI permits and violations, condemnations, tax liens, 311, the undermining and slope layers, each with its URL, pull time and sha256; paid studies drafted, never done | (in the steward's run) |
 | **Policy** | Asked by the steward when a rule is the first blocker: finds the sentence, writes the redline, counts the change citywide, drafts a memo | `uv run python -m agents.policy "What if …?" --building two` |
 | **Watch** | When a watched lot's answer changes: the before and after with the math, and the next move drafted; a simulation is labelled | `npm run agents -- watch --baseline d87dce4^` |
-| **Shortlist** | Every night, due diligence over all 11,247 City-owned vacant lots (about 100 requests, no model, $0), and the lots where a two-unit house fits today that passed the zoning and records checks (site conditions and money still need review): [Tonight's shortlist](https://24x100.example/?view=shortlist) | `npm run shortlist` |
+| **Shortlist** | Every night, due diligence over all 11,247 City-owned vacant lots (about 100 requests, no model, $0), and the lots where a two-unit house fits today that passed the zoning and records checks (site conditions and money still need review): [Tonight's shortlist](https://24x100.vercel.app/?view=shortlist) | `npm run shortlist` |
 | **Verifier** | Blocks publication on a quote not word for word in the saved code, a number the engine or a source doesn't hold, a garbled word a model copied, a finding without a source, or a name-like field | (last in every run) |
 
 Three gates wait for a person: **send** (every letter and memo), **spend** (every paid study) and **sign** (every
-rule still in pencil). Nothing is sent, paid for or signed by an agent. See [lot 25's case file](https://24x100.example/?view=case&pin=0010K00025000000),
-[the watch run](https://24x100.example/?view=case&pin=watch) and [the policy agent's Q1](https://24x100.example/?view=city&type=two&tab=whatif&whatif=Q1).
+rule still in pencil). Nothing is sent, paid for or signed by an agent. See [lot 25's case file](https://24x100.vercel.app/?view=case&pin=0010K00025000000),
+[the watch run](https://24x100.vercel.app/?view=case&pin=watch) and [the policy agent's Q1](https://24x100.vercel.app/?view=city&type=two&tab=whatif&whatif=Q1).
 The model is `gemini-3.5-flash-lite` (and the policy agent's free-model fallback) on the free tier of a team
 member's Google key, loaded at run time and never stored; without a key the steward runs by a fixed plan and says so.
 
@@ -161,8 +163,8 @@ things in; which barrier blocks more often is unproven.
   blocks publication on a quote not verbatim in the code, a number the engine or a source doesn't hold, a finding
   without a source, or a name-like field. A watch agent explains a watched lot's change with its math and drafts the
   next move; a simulation ("if lot 24 got a building permit") is computed by the engine and labelled. Every letter,
-  paid study and unsigned rule waits at a gate. [Lot 25's case file](https://24x100.example/?view=case&pin=0010K00025000000),
-  [the watch run](https://24x100.example/?view=case&pin=watch).
+  paid study and unsigned rule waits at a gate. [Lot 25's case file](https://24x100.vercel.app/?view=case&pin=0010K00025000000),
+  [the watch run](https://24x100.vercel.app/?view=case&pin=watch).
 
 ## Run it
 
@@ -251,10 +253,10 @@ output for them.
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
 | Engine tests (vitest) | 235 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
-| Pipeline and extraction tests (pytest) | 162 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone (the CI run) 151 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
+| Pipeline and extraction tests (pytest) | 192 pass, 0 skipped, on a machine with the raw pulls. On a clean checkout (the GitHub CI run) 181 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
-| CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, the ease guard and the trust scan. Every step passes on a fresh local clone of the committed tree (27 Sep, Node 26, macOS); not yet run on GitHub (the repository isn't public). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
-| Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the $140 quote's $23.1k–$48.1k gap and $51k left after building, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
+| CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, the ease guard and the trust scan. Green on GitHub (ubuntu-latest) for every push since the repository went public (27 Sep). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
+| Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 of 16 pass on [24x100.vercel.app](https://24x100.vercel.app/) (27 Sep): 16 checks (6 districts, 428, 196, lot 25's 4 ft, the $140 quote's $23.1k–$48.1k gap and $51k left after building, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | Development Ease is never a lone number | Every ease on screen is a range with its parts one click away, never a bare "NN / 100"; a planted bare score is caught (the guard replaced the no-score check when the team chose to show the score) | `scripts/ease-guard.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
