@@ -22,6 +22,67 @@ _Uncut screen recording (sped up 1.5×): map → lot → Development Ease → ev
 > and takes the manual hassle off their hands: pulling the datasets, reading the code, noticing what changed,
 > drafting the letter. It never hides uncertainty. Whatever we don't know, it says so.
 
+### How it's built
+
+Public data comes in through a Python pipeline, the model only proposes rules and drafts words, every number comes from one
+TypeScript engine, and a person holds every gate. The site is static: an app and a JSON API on Vercel.
+
+```mermaid
+flowchart TB
+  subgraph SRC["Public data: pulled, timestamped, hashed"]
+    direction LR
+    MISC["HUD income limits<br/>OpenStreetMap · historic zoning"]
+    GIS["City of Pittsburgh ArcGIS<br/>parcels · footprints · zoning<br/>slope · undermined areas"]
+    CODE["Pittsburgh Code, Title 9<br/>saved from ecode360"]
+    WPRDC["WPRDC CKAN API<br/>assessments · City-owned lots · sales<br/>permits · violations · liens · 311"]
+  end
+
+  subgraph PY["Python · uv"]
+    direction LR
+    PIPE["pipeline/<br/>pull → join → reconcile<br/>refresh: what changed"]
+    EXT["extract/<br/>the model proposes typed rules<br/>with verbatim quotes;<br/>code re-checks every quote"]
+    AGENTS["agents/ · LangGraph<br/>steward → due diligence · policy · watch<br/>→ verifier; shortlist of 11,247 lots"]
+  end
+
+  LLM{{"Gemini via LangChain<br/>(Claude optional)"}}
+  PERSON(("A person<br/>signs · sends · spends"))
+
+  DATA[("data/ · committed JSON<br/>blocks · city lots · rules and reviews<br/>money · cases · shortlist")]
+
+  ENG["TypeScript engine · engine/src<br/>envelopes and checks · citywide classifier<br/>money at full cost · Development Ease<br/>letters · evidence graph · digest diff"]
+
+  subgraph BUILD["Build · Vite 8"]
+    direction LR
+    API["Static JSON API<br/>api/lots · api/blocks · api/city"]
+    APP["React 19 app<br/>Map · Plan · Graph · Table · Compare"]
+  end
+
+  VERCEL["Vercel<br/>24x100.vercel.app"]
+  OUT["Slack webhook · Resend email"]
+  GHA["GitHub Actions<br/>CI on every push · nightly when NIGHTLY=on<br/>publish-reviews for signed rules"]
+
+  CODE --> EXT
+  GIS --> PIPE
+  WPRDC --> PIPE
+  MISC --> PIPE
+  WPRDC -->|whitelisted fields only| AGENTS
+  LLM <--> EXT
+  LLM <--> AGENTS
+  EXT -->|pencil until a person signs| DATA
+  PIPE --> DATA
+  AGENTS --> DATA
+  AGENTS -.->|every letter, paid study and rule waits at a gate| PERSON
+  PERSON -->|signed reviews| DATA
+  DATA --> ENG
+  AGENTS <-->|every number comes from the engine| ENG
+  ENG --> API
+  ENG --> APP
+  ENG -->|watchlist digest| OUT
+  API --> VERCEL
+  APP --> VERCEL
+  GHA -.->|tests, rebuilds, commits| DATA
+```
+
 ## Judge's 3-minute tour
 
 Five links into the app, in the order the story goes. To run it locally instead, replace
@@ -98,67 +159,6 @@ rule still in pencil). Nothing is sent, paid for or signed by an agent. See [lot
 [the watch run](https://24x100.vercel.app/?view=case&pin=watch) and [the policy agent's Q1](https://24x100.vercel.app/?view=city&type=two&tab=whatif&whatif=Q1).
 The model is `gemini-3.5-flash-lite` (and the policy agent's free-model fallback) on the free tier of a team
 member's Google key, loaded at run time and never stored; without a key the steward runs by a fixed plan and says so.
-
-## How it's built
-
-Public data comes in through a Python pipeline, the model only proposes rules and drafts words, every number comes from one
-TypeScript engine, and a person holds every gate. The site is static: an app and a JSON API on Vercel.
-
-```mermaid
-flowchart TB
-  subgraph SRC["Public data: pulled, timestamped, hashed"]
-    direction LR
-    MISC["HUD income limits<br/>OpenStreetMap · historic zoning"]
-    GIS["City of Pittsburgh ArcGIS<br/>parcels · footprints · zoning<br/>slope · undermined areas"]
-    CODE["Pittsburgh Code, Title 9<br/>saved from ecode360"]
-    WPRDC["WPRDC CKAN API<br/>assessments · City-owned lots · sales<br/>permits · violations · liens · 311"]
-  end
-
-  subgraph PY["Python · uv"]
-    direction LR
-    PIPE["pipeline/<br/>pull → join → reconcile<br/>refresh: what changed"]
-    EXT["extract/<br/>the model proposes typed rules<br/>with verbatim quotes;<br/>code re-checks every quote"]
-    AGENTS["agents/ · LangGraph<br/>steward → due diligence · policy · watch<br/>→ verifier; shortlist of 11,247 lots"]
-  end
-
-  LLM{{"Gemini via LangChain<br/>(Claude optional)"}}
-  PERSON(("A person<br/>signs · sends · spends"))
-
-  DATA[("data/ · committed JSON<br/>blocks · city lots · rules and reviews<br/>money · cases · shortlist")]
-
-  ENG["TypeScript engine · engine/src<br/>envelopes and checks · citywide classifier<br/>money at full cost · Development Ease<br/>letters · evidence graph · digest diff"]
-
-  subgraph BUILD["Build · Vite 8"]
-    direction LR
-    API["Static JSON API<br/>api/lots · api/blocks · api/city"]
-    APP["React 19 app<br/>Map · Plan · Graph · Table · Compare"]
-  end
-
-  VERCEL["Vercel<br/>24x100.vercel.app"]
-  OUT["Slack webhook · Resend email"]
-  GHA["GitHub Actions<br/>CI on every push · nightly when NIGHTLY=on<br/>publish-reviews for signed rules"]
-
-  CODE --> EXT
-  GIS --> PIPE
-  WPRDC --> PIPE
-  MISC --> PIPE
-  WPRDC -->|whitelisted fields only| AGENTS
-  LLM <--> EXT
-  LLM <--> AGENTS
-  EXT -->|pencil until a person signs| DATA
-  PIPE --> DATA
-  AGENTS --> DATA
-  AGENTS -.->|every letter, paid study and rule waits at a gate| PERSON
-  PERSON -->|signed reviews| DATA
-  DATA --> ENG
-  AGENTS <-->|every number comes from the engine| ENG
-  ENG --> API
-  ENG --> APP
-  ENG -->|watchlist digest| OUT
-  API --> VERCEL
-  APP --> VERCEL
-  GHA -.->|tests, rebuilds, commits| DATA
-```
 
 ## The story in one lot
 
