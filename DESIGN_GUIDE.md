@@ -58,7 +58,8 @@ The three answers a first-time user needs, **What fits · What blocks it · What
 the first three things the eye meets: the numeral (what fits), the verdict with its Money · Rules · Site
 chips (what blocks it) and the first check or the smallest unlock (what to do next). Label them with
 those exact words. Below them the four panels run in the order a developer checks them (spec §0.12):
-**Money → Rules → Site → What to check next**. There is **no score** anywhere.
+**Money → Rules → Site → What to check next**. There is no lone score anywhere: the Development Ease (since 27 Sep,
+decision 71) is always a range with its six parts one click away.
 
 ---
 
@@ -243,8 +244,10 @@ busy. Write the way a good planner talks across a table.
 - **Separate the four kinds of thing:** geometry ("as of right, the widest two-unit here is 4 ft"),
   your proposal ("your 16 ft proposal"), regulation ("needs the side setbacks cut from 10 to 4 ft on
   each side") and procedure ("which is a variance").
-- **No score.** A verdict in words: "Can't tell yet", "Only with subsidy (screening estimate)", "Doesn't
-  fit as of right", "Worth a closer look, if …". Never a number out of 100, a probability or a rating.
+- **No lone score.** A verdict in words: "Can't tell yet", "Only with subsidy (screening estimate)", "Doesn't
+  fit as of right", "Worth a closer look, if …". Beside it, since 27 Sep, the Development Ease: a range out of 100
+  from six parts (never one number, a probability or a rating), unknowns widening it downward, "can't score yet"
+  when mostly unknown.
 - **Money first is an order, not a finding.** "We check money first because it's the cheapest thing to
   learn (a practitioner's advice); which barrier blocks more often is unproven (H5)." The gap is "at least
   $X per home" and always carries "lower bound: excludes site work, soft costs, financing and land". The

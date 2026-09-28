@@ -259,13 +259,13 @@ export function AboutView({ s, block, audit }: ViewProps) {
           <li>
             <Glyph kind="stamp" />
             <p>
-              <strong>There is no score.</strong> Each lot gets a verdict in words (Can’t tell yet · Only with subsidy · Doesn’t fit as of right · Worth a closer look, if …) and three chips, Money · Rules · Site, checked in that order because that is the cheapest order to learn them.
+              <strong>The Development Ease is a range, never one number, and its weights are ours.</strong> Each lot gets a verdict in words (Can’t tell yet · Only with subsidy · Doesn’t fit as of right · Worth a closer look, if …), three chips, Money · Rules · Site, checked in that order because that is the cheapest order to learn them, and a range out of 100 from six parts. A known step takes its weight off both ends, an unknown only off the low end: water and sewer is unknown on every lot (ask PWSA), a fit on pencil geometry is unknown, and a lot that is mostly unknown says “can’t score yet”.
             </p>
           </li>
           <li>
             <Glyph kind="pencil" />
             <p>
-              <strong>The money screen is an estimate, and “money first” is an order, not a finding.</strong> Vertical construction cost is one practitioner’s estimate for City single-family infill ($200–$250 per sq ft, excluding site work), and it varies a lot with builder size; what’s left is the newest new-build sale in the ward minus that cost, and one sale is not an appraisal. Typical site work ($25,000–$50,000 for one home, another practitioner) is not a cap. Checking money first follows a practitioner’s advice about what to learn first; which barrier blocks more often is unproven (hypothesis H5).
+              <strong>The money screen is an estimate, and “money first” is an order, not a finding.</strong> Vertical construction cost is one practitioner’s estimate for City single-family infill ($200–$250 per sq ft, excluding site work), and it varies a lot with builder size; the headline is the subsidy a home needs before land: that cost with soft costs and financing, plus site work, minus the newest new-build sale in the ward, and one sale is not an appraisal. Typical site work ($25,000–$50,000 for one home, another practitioner) is not a cap. Checking money first follows a practitioner’s advice about what to learn first; which barrier blocks more often is unproven (hypothesis H5).
             </p>
           </li>
           <li>

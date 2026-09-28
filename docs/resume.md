@@ -1,5 +1,8 @@
 # Resume here
 
+> **Historical:** a session handoff from Sun 27 Sep ~02:00, kept as a record. It is superseded by the README,
+> `docs/decisions.md` and the git log (for example, `no-score.mjs` below was replaced by `scripts/ease-guard.mjs`).
+
 Updated Sun 27 Sep ~02:00.
 
 **Done:**

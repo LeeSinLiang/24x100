@@ -161,7 +161,7 @@ export function BriefView({ s, block, model, update }: ViewProps) {
             community priorities. Parcel shapes come from GIS, not a survey.
           </p>
           <p>
-            {DISCLAIMER} Every letter is a draft: you decide whether to send it.{cf ? ` Agents' findings from their case file of ${cf.run_at.slice(0, 10)}, each sourced and verified.` : ''} The lot,
+            {DISCLAIMER} Every letter is a draft: you decide whether to send it.{cf ? ` Agents' findings from their case file of ${cf.run_at.slice(0, 10)}, each sourced; the verifier traced every number and quote.` : ''} The lot,
             its letters and sources: <span className="brief-link">{link}</span>
           </p>
         </footer>

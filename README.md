@@ -6,9 +6,9 @@ Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100
 every Mahon Street deed. Built for the AI for Housing Hackathon (AI Horizons 2026, Pittsburgh), Track 1:
 Development Feasibility & Pro Forma Navigator.
 
-**Demo video:** _link to be added._
+**Demo video:** _[PLACEHOLDER: the video link goes here]_
 
-**Live demo:** _link to be added._
+**Live demo:** _[PLACEHOLDER: the live URL goes here after deploy; until then every `https://24x100.example/` link below is a placeholder too]_
 
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
 > affordable homes built: housing nonprofits and CDCs, small and mid-size developers, municipal planners and
@@ -25,20 +25,23 @@ Five links into the app, in the order the story goes. Until the live link is in 
 
 1. **One lot: [2241 Mahon St, a two-unit house](https://24x100.example/?view=lot&block=10K&lot=25&type=two).**
    It meets the minimum lot size exactly, and the side setbacks still leave 4 ft to build on. So does every lot
-   down the street.
+   down the street. Its Development Ease reads 0–40 out of 100; click the bar for the six parts behind it.
 2. **Combine it, then money first: [lots 25–27, a three-unit house, Money tab](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money).**
    52 ft to build on; building costs more than the newest new-build sale: "Only with subsidy", a screening
    estimate that says whose.
 3. **Your builder's quote: [the same lots at $140 per sq ft](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=money&quote=140).**
-   The verdict follows your number, in red (yours, not checked), beside the practitioner's estimate.
+   The money follows your number, in red (yours, not checked), beside the practitioner's estimate: at full cost a
+   home still needs $23.1k–$48.1k of subsidy before land, so the stamp stays "Only with subsidy".
 4. **Which sentence to change: [Rule what-ifs, S1](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1).**
    Strike one sentence of §925.06.C and 196 more City lots could hold a two-unit home. A what-if, not the law.
 5. **Combine to fit: [lot groups in RM‑M](https://24x100.example/?view=city&type=three&layer=assemble&canvas=table).**
    111 groups of 2–3 side-by-side lots, with room for up to 240 homes.
 
-Also worth a click: **Graph** on any lot (every node a real record, down to who signed each rule), **Watch this
-lot** on the Next tab (what the Slack and email digest will send), and **Draft the letter** (one per office,
-every number traced to the engine). On a phone, the same links work.
+Also worth a click: **[Compare sites](https://24x100.example/?view=compare&cols=10K:25:two;10K:25,26,27:three:140;0124N00247000000:two)**
+(the same Development Ease columns side by side, each with its own cost basis; change any column by parcel ID or
+address), **[Tonight's shortlist](https://24x100.example/?view=shortlist)**, **Graph** on any lot (every node a real
+record, down to who signed each rule), **Watch this lot** on the Next tab (what the Slack and email digest will
+send), and **Draft the letter** (one per office, every number traced to the engine). On a phone, the same links work.
 
 ## Who it's for
 
@@ -48,7 +51,7 @@ The four people Track 1 names, each with a way in from the home page (Start here
 |---|---|---|
 | **Nonprofit / CDC** | Which City lots could we build on, and what subsidy would a home need? | [Tonight's shortlist](https://24x100.example/?view=shortlist), then a lot's money at full cost |
 | **Developer** | For this parcel: how easy, and does my builder's price work? | A parcel's [Development Ease and quote](https://24x100.example/?view=lot&block=10K&lot=25&type=three&lots=25,26,27&tab=ease); search by parcel ID or address |
-| **Planner** | Where does what block building, and how do sites compare? | The city map by first blocker, and [compare sites](https://24x100.example/?view=compare) |
+| **Planner** | Where does what block building, and how do sites compare? | The city map by first blocker, and [compare sites](https://24x100.example/?view=compare) (any site, by parcel ID or address) |
 | **Policy analyst** | Which sentence of the code blocks the most, and what would changing it open? | [Rule what-ifs](https://24x100.example/?view=city&type=two&tab=whatif&whatif=S1) and the policy agent's questions |
 
 ## Development Ease
@@ -58,16 +61,24 @@ source or who to ask: **zoning fit** (variances), **approvals needed** (special 
 relief), **ownership and assembly** (a City sale, another owner, consolidation), **site** (share of the lot mapped at
 ≥25% slope; overlap with mapped mines), **water and sewer** (not modelled: always unknown, ask PWSA) and **money at
 full cost**. It starts at 100; a known step takes its weight off both ends, an unknown only off the low end, so an
-unknown never makes a lot look easier, and a lot with four of its five assessable parts unknown says "can't score
-yet". The weights are ours and printed with every result: variance 35, special exception 20, grading review 20,
-parking relief 10, another owner 15, City sale 5, consolidation 5; steep ground 15, mapped mines 20, water and sewer 20,
-a subsidy gap 20. Lot 25 alone reads 0–40; lots 25–27 read 0–60; 156 Meadow St (tonight's shortlist) reads 35–95.
-[Compare them on the same columns](https://24x100.example/?view=compare).
+unknown never makes a lot look easier. A fit or a shortfall that rests on pencil (mapped lines without deed
+dimensions, a neighbour's setback that could change it, records on both sides of the minimum) or on your own
+assumption counts as unknown, never "fits as of right". A lot with four of its five assessable parts unknown, or
+one the records refuse, says "can't score yet". The weights are ours and printed with every result: variance 35,
+use variance 35, special exception 20, grading review 20, administrator exception 10, parking relief 10, another
+owner 15, City sale 5, consolidation 5; steep ground 15, mapped mines 20, water and sewer 20, a subsidy gap 20;
+approvals the map can't assess on a lot without block detail 20. Lot 25 alone reads 0–40; lots 25–27 read 0–60
+(at the estimate and at a $140 quote); 156 Meadow St (tonight's shortlist) reads 35–95. On the shortlist, 34 of the
+42 are scored and 8 say "can't score yet": their fit rests on mapped lines. [Compare sites on the same
+columns](https://24x100.example/?view=compare), each with its own building type and builder's quote
+(`cols=10K:25,26,27:three:140;<PIN>:two`), and change any column by parcel ID or address; every lot's Ease tab links
+there.
 
 ## The agents
 
 One goal in, a team of agents works the lot, and a person holds every gate. The engine computes every number; a
-model only plans, picks checks and drafts words, and a verifier checks all of it before a case file is published.
+model only plans, picks checks and drafts words, and a verifier checks every number, quote and source before a case
+file is published.
 
 | Agent | What it does | Re-run |
 |---|---|---|
@@ -103,7 +114,8 @@ things in; which barrier blocks more often is unproven.
 
 - **One screen.** A workspace: search, the building type and **Map · Plan · Graph · Table** across the top;
   layers and filters on the left; the canvas in the middle; an inspector on the right that follows what you
-  pick (a status, one plain sentence, four numbers, then Money · Rules · Site · Next · Sources); and a tray at
+  pick (a status and its Development Ease range, one plain sentence, four numbers, then Money · Ease · Rules · Site ·
+  Next · Sources); and a tray at
   the bottom with what to check next, an evidence timeline and what changed. Light (paper) by default, dark
   (cyanotype) on a toggle.
 - **City → block → lot.** The Map shows every City-owned vacant lot, colored by what blocks it for the building
@@ -134,7 +146,7 @@ things in; which barrier blocks more often is unproven.
   (R2‑L, R1D‑L, R2‑H, R1D‑M) were proposed by the model, checked by the agent, and signed off by Sin on that check:
   six districts are computed.
 - **Your builder's quote.** Type the $/sq ft a builder quoted on the Money tab (or `&quote=140` in the link). The
-  verdict, what's left and the gap follow it, in red (yours, not checked), beside the practitioner's estimate;
+  gap, what's left and the verdict follow it, in red (yours, not checked), beside the practitioner's estimate;
   the URA letter says "Our builder quoted $140 per sq ft (not verified)".
 - **The letters.** One short draft per office (City Real Estate, the Zoning Administrator, the URA, the RCO, and
   the County when records disagree), each with only what that office needs, built from engine facts. Every
@@ -163,7 +175,7 @@ npm run dev            # http://localhost:5173
 |---|---|
 | `npm test` | Engine tests (vitest) and pipeline/extraction tests (pytest) |
 | `npm run build` | Static API (`api/lots/<pin>.json`, `api/blocks/<id>.json`) and the site in `web/dist` |
-| `npm run smoke -- <url>` | After a deploy: the film's numbers (6 districts, 428, 196), the quote flip, the letters, the API and no console errors, in Chrome (default `http://localhost:4173/`, `npm run preview`) |
+| `npm run smoke -- <url>` | After a deploy: the film's numbers (6 districts, 428, 196), the $140 quote's gap ($23.1k–$48.1k), the letters, the API and no console errors, in Chrome (default `http://localhost:4173/`, `npm run preview`) |
 | `npm run rebuild` | Everything from raw public data: pull → join → reconcile → rules → engine → API → site |
 | `npm run refresh` | Re-pull every dataset and write the differences (shown in pencil in the app) |
 | `npm run digest -- --dry-run` | Preview the watchlist digest without sending it |
@@ -185,14 +197,16 @@ Deep links reproduce every state: `?view=lot&block=10K&lot=25&type=two`,
 
 ## Data sources
 
-All public, pulled 26 Sep 2026; each output file records its pull time, URL and hash.
+All public, pulled 26 Sep 2026 unless noted; each output file records its pull time, URL and hash.
 
 | Source | Used for |
 |---|---|
 | City of Pittsburgh ArcGIS: PGHParcels, residential lot dimensions (Feb 2025), building footprints (2023), zoning, zoning overlays, 25%+ slope, undermined areas | Parcel geometry, zoning, RCO overlay, slope and undermining |
 | WPRDC Allegheny County property assessments | Lot area, use, year built, exterior finish, legal description (deed dimensions), owner **category** only |
 | WPRDC City-Owned Properties | City ownership, sale status and when it was last updated, addresses |
-| WPRDC Allegheny County real-estate sales (CC0) | Ward 5 comparable sales |
+| WPRDC Allegheny County real-estate sales (CC0) | Ward 5 and Ward 12 comparable sales |
+| WPRDC [PLI Permits](https://data.wprdc.org/dataset/pli-permits), [PLI/DOMI/ES Violations](https://data.wprdc.org/dataset/pittsburgh-pli-violations-report), [Condemned and Dead-End Properties](https://data.wprdc.org/dataset/condemned-properties) (City of Pittsburgh) | Due diligence and tonight's shortlist (pulled 27 Sep 2026) |
+| WPRDC [Allegheny County Tax Liens](https://data.wprdc.org/dataset/allegheny-county-tax-liens-filed-and-satisfied), [Pittsburgh 311 requests](https://data.wprdc.org/dataset/pittsburgh-311-data) | Due diligence and tonight's shortlist: lien status (no assignee), 311 counts nearby (no case owner) |
 | HUD FY2026 income limits (Section 8 workbook) | 80% AMI for the Pittsburgh HMFA |
 | WPRDC historic zoning maps (1927, 1958, 1967) | The block's history |
 | OpenStreetMap (Overpass) | Street names and centerlines |
@@ -235,12 +249,12 @@ output for them.
 | Held-out district nobody typed: R1D‑H (Larimer) | 21 rules proposed, 0 rejected by the guards; the 11 the Larimer lot uses were signed off by Sin on the agent's check, the other 10 stay pencil (`gemini-3.6-flash`: the free tier's daily limit refused 3.8) | `data/rules/extracted/r1d-h.json` |
 | Claude as the extraction model | Built and tested for shape; **not run** (no key) | `docs/eval.md` |
 | Cost to extract one district | $0.06–$0.16 at paid rates, from real token logs; $0 on the free tier | `docs/pilot.md` |
-| Engine tests (vitest) | 228 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
+| Engine tests (vitest) | 235 pass, including the spec's expected values, formula round-trips, no double counting, trust states and a **mutation check** (side setback 10 → 5 makes the width test fail) | `engine/test/` |
 | Rule what-ifs | The published summary (428 two-unit, 220 three-unit) reproduced exactly with no override; lot 25 at 18 ft under S1 and S2; a scenario without its override opens nothing; disabling S1 in the engine fails the tests | `engine/test/scenarios.test.ts` |
 | Pipeline and extraction tests (pytest) | 162 pass, 0 skipped, on a machine with the raw pulls. On a fresh clone (the CI run) 151 pass and 8 skip, each saying why: they need `data/raw` or the citywide work file, which are gitignored and rebuilt by `npm run rebuild`; the privacy walk also has 3 fewer files to walk (the gitignored work files). Covered: reconciliation, LEGAL1 parsing, comparables reproduction, determinism, privacy grep, quote guards, use-table cells read by position | `pipeline/tests/`, `extract/tests/` |
 | No personal data | A test walks every output (blocks, money, city, refresh, digest) for owner-name and mailing fields | `pipeline/tests/test_privacy.py` |
 | CI (`.github/workflows/ci.yml`) | The deterministic checks: typecheck, vitest, pytest, the build reproduces every committed data file byte for byte, the ease guard and the trust scan. Every step passes on a fresh local clone of the committed tree (27 Sep, Node 26, macOS); not yet run on GitHub (the repository isn't public). The word budgets and the smoke test run locally and after a deploy, not in CI | `.github/workflows/ci.yml` |
-| Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the quote flip to $51k, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
+| Post-deploy smoke test (by hand: `npm run smoke -- <url>`) | 16 checks (6 districts, 428, 196, lot 25's 4 ft, the $140 quote's $23.1k–$48.1k gap and $51k left after building, the letters, the API, the preview image, a phone, no console errors); `--mutate` nudges every expected value and all 9 value checks fail | `scripts/smoke.mjs` |
 | Trust states in the rendered DOM | No pencil, struck or unsigned † item is drawn in ink; inquiry facts are ink only; a planted violation is caught | `scripts/trust-scan.mjs` |
 | Development Ease is never a lone number | Every ease on screen is a range with its parts one click away, never a bare "NN / 100"; a planted bare score is caught (the guard replaced the no-score check when the team chose to show the score) | `scripts/ease-guard.mjs` |
 | First run: "what blocks 2241 Mahon St, and what would unlock it?" | 3 actions from the home page (search, type, Enter) on desktop and phone for the blocker and a way forward; the reason (the 10 ft side setbacks) is one more click, on the Rules tab. A scripted path, not a study with people | `docs/evidence/first-run.json` |
@@ -284,3 +298,8 @@ City interprets its own code.
 TypeScript, React 19, Vite 8, polygon-clipping, Vitest, Playwright; Python 3.12 with requests, shapely,
 openpyxl, pydantic, LangChain (`langchain-google-genai`, `langchain-anthropic`), LangGraph, pytest. Type: Old Standard TT,
 Public Sans, Barlow Condensed (Google Fonts).
+
+APIs: WPRDC's CKAN datastore (the WPRDC datasets above), the City of Pittsburgh's ArcGIS REST services,
+OpenStreetMap Overpass, Google Gemini through LangChain (rule extraction and the agents), Resend (digest email) and
+Slack incoming webhooks (digest), the last two only when a steward sets a key. Hosting: Vercel (a static site and a
+static JSON API, `docs/api.md`).

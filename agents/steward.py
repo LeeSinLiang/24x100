@@ -2,7 +2,7 @@
 
 A LangGraph graph: read the engine → plan → due diligence → policy (only when a rule is the first blocker) → drafts →
 verify → gates. The steward never computes a number: the engine's reading (scripts/case-engine.ts) supplies them all,
-and the verifier holds every word the agents wrote to it before the case file is published.
+and the verifier checks every number, quote and source the agents wrote before the case file is published.
 """
 from __future__ import annotations
 

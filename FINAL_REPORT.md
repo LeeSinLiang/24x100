@@ -2,7 +2,7 @@
 
 Built Sat 26 – Sun 27 Sep 2026 for the AI for Housing Hackathon (Track 1). This report covers what is real,
 what is partial, what was cut, the gates, the judge panel before and after, how each claim was verified, and
-what a person on the team still has to do. Decisions and their reasons are in `docs/decisions.md` (1–63).
+what a person on the team still has to do. Decisions and their reasons are in `docs/decisions.md` (1–73).
 
 ## What was built
 
@@ -15,7 +15,8 @@ what a person on the team still has to do. Decisions and their reasons are in `d
   - Refusals when the records disagree, when lots don't touch, when districts are mixed, or when a lot is
     unknown.
   - An unlock search over fixed levers. Use permission drives what it suggests.
-  - Money screened first, with no score.
+  - Money screened first, at full cost (the subsidy a home needs before land). Since 27 Sep a Development Ease
+    range sits beside the verdict: a range from six parts, never a lone number (decisions 71–73).
   - Site unknowns, deal-killers first.
   - Letters built only from engine facts, each number checked.
 - **Citywide.** 11,247 City-owned vacant lots, classified live. Districts whose rules aren't loaded stay grey.
@@ -54,7 +55,8 @@ what a person on the team still has to do. Decisions and their reasons are in `d
 
 Other checks, all passing at the time of writing:
 - `scripts/trust-scan.mjs`: nothing unreviewed is drawn in ink.
-- `scripts/no-score.mjs`: no score in the UI, hidden tabs, letters or film facts.
+- `scripts/ease-guard.mjs` (it replaced `no-score.mjs` on 27 Sep): every Development Ease is a range with its parts
+  one click away, never a bare "NN / 100"; a planted bare score is caught.
 - `scripts/words.mjs`: the first-screen word budget, with no page scroll.
 - The pytest privacy test: no owner names or mailing fields in any output, and C15's owner-type fields are
   validated against a fixed list.

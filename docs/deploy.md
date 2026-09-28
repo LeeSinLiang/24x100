@@ -27,7 +27,8 @@ The app routes by query string only (`/?view=lot&block=10K&lot=25`), so no rewri
    npm run smoke -- https://<your-project>.vercel.app/
    ```
    It opens the city view (6 districts, 428 too narrow), the what-if (196), lot 25 (4 ft), the builder's quote
-   ($140/sf → WORTH PRICING THE SITE, $51k), the letters and the static API, and fails on any console error or
+   ($140/sf on lots 25–27: a home needs $23.1k–$48.1k of subsidy before land, $51k left after building only), the
+   letters and the static API, and fails on any console error or
    failed request. The numbers come from `film/facts.json`, so it checks the site against what the film says.
 
 Link previews (Slack, iMessage, social) need an absolute image URL. On Vercel the build takes the production
