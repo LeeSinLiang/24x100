@@ -708,26 +708,59 @@ const V6 = [
   {
     id: 'B14',
     name: 'graph',
-    start: [640, 872], // under the legend: the paper's nodes show a label on hover
+    start: [640, 872], // under the legend, off every node
     q: 'view=lot&block=10K&lot=25&type=two&canvas=graph',
+    // v2 (27 Sep, Sin): the whole graph held 2.5 s; the rule clicked into its focus chain; then the pointer rests on empty
+    // canvas so nothing dims (hover, and keyboard focus, dim every node not next to the hovered one), 6 s or more.
     run: async (p, c) => {
       cues.B14 = {};
-      const rule = p.locator('[data-node="rule:rm-m.side_interior"]').first(); // the node (its hover label shares the id)
-      await c.until(0.8);
-      await clickSlow(p, rule); // the rule's links light up; the rest dims
+      const rule = p.locator('[data-node="rule:rm-m.side_interior"]').first();
+      // A point on empty canvas: inside the graph, on no node and no edge label.
+      const empty = () =>
+        p.evaluate(() => {
+          const svg = document.querySelector('[data-graph-mode]') ?? document.querySelector('svg');
+          const r = (svg?.closest('svg') ?? svg)?.getBoundingClientRect();
+          if (!r) return null;
+          // getBoundingClientRect and elementFromPoint are both in the page's (zoomed) pixels, as the mouse is.
+          for (const fy of [0.9, 0.85, 0.8, 0.94, 0.75]) {
+            for (const fx of [0.5, 0.42, 0.58, 0.35, 0.65, 0.3, 0.7]) {
+              const x = r.left + r.width * fx;
+              const y = r.top + r.height * fy;
+              const el = document.elementFromPoint(x, y);
+              const clear = [-24, 0, 24].every((dx) => [-18, 0, 18].every((dy) => !document.elementFromPoint(x + dx, y + dy)?.closest('[data-node],[data-edge-label],.gr-pill,a,button')));
+              if (el && svg?.contains(el) && clear) return [x, y];
+            }
+          }
+          return null;
+        });
+      // 1. The whole graph, held; the pointer drifts onto empty canvas and stays off every node.
+      await c.until(0.9);
+      const e0 = await empty();
+      if (e0) await glide(p, e0[0], e0[1], { steps: 40, rest: 0 });
+      await c.until(2.5);
+      // 2. The rule: select it, then its focus chain.
+      await clickSlow(p, rule);
       cues.B14.rule_selected = at(c);
-      await c.until(2.2);
-      await rule.dblclick(); // focus mode: only the chain behind this rule's decision
+      await rule.dblclick();
       await p.waitForSelector('[data-graph-mode="focus"]', { timeout: 5000 });
-      await sleep(500);
+      // 3. Keyboard focus would keep the rule "hovered": clear it, then rest the pointer on empty canvas.
+      await p.evaluate(() => document.activeElement instanceof HTMLElement || document.activeElement instanceof SVGElement ? document.activeElement.blur() : null);
+      await sleep(250);
+      const e1 = await empty();
+      if (e1) await glide(p, e1[0], e1[1], { steps: 22, rest: 0 });
+      else (cues.B14.missing ??= []).push('no empty canvas found for the pointer');
+      await sleep(300);
       cues.B14.focus = at(c);
+      const dimmed = await p.evaluate(() => document.querySelectorAll('.gr-node.is-dim, .gr-pill.is-dim').length);
+      cues.B14.dimmed_at_focus = dimmed;
+      if (dimmed) (cues.B14.missing ??= []).push(`${dimmed} nodes or labels dimmed at focus`);
       await mark(p, 'B14', 'record', p.locator('[data-node="source:wprdc_assessments"]'), c, 'Allegheny County Property Assessments (WPRDC): a public record');
       await mark(p, 'B14', 'rule', rule, c, 'Interior side setback · 10 ft (§903.03.C, RM-M)');
-      await mark(p, 'B14', 'signer', p.locator('[data-node^="person:Sin|"]'), c, 'Sin (Student, team 24×100), signed 2026-09-26, with the sign-off note');
-      // The pointer leaves the rule's old place and rests beside the rule → signer link, off every label.
-      const sg = await p.locator('[data-node^="person:Sin|"]').first().boundingBox();
-      if (sg) await glide(p, sg.x - 40, sg.y - 30, { steps: 30, rest: 0.6 });
-      await c.until(5.5 + HOLD);
+      await mark(p, 'B14', 'signer', p.locator('[data-node^="person:Sin|"]'), c, 'Sin (Student, team 24×100), signed 2026-09-26, with the sign-off note: full ink');
+      // 4. Hold 6.5 s with nothing dimmed (checked again at the end).
+      await c.until(cues.B14.focus + 6.5);
+      cues.B14.dimmed_at_end = await p.evaluate(() => document.querySelectorAll('.gr-node.is-dim, .gr-pill.is-dim').length);
+      await c.until(Math.max(9.5, cues.B14.focus + 6.5 + 0.5));
     },
   },
   {
