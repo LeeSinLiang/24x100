@@ -12,6 +12,10 @@ Development Feasibility & Pro Forma Navigator.
 
 **Live demo:** [24x100.vercel.app](https://24x100.vercel.app/)
 
+[![Uncut screen recording of 24×100: the citywide map zooms into the Hill, 2241 Mahon St opens, its Development Ease parts, its evidence graph, then the digest message it would send](docs/walkthrough.gif)](https://24x100.vercel.app/)
+
+_Uncut screen recording (sped up 1.5×): map → lot → Development Ease → evidence graph → the Slack/email digest preview._
+
 > Pittsburgh is growing again, and housing costs are rising with it. 24×100 is for the people who get
 > affordable homes built: housing nonprofits and CDCs, small and mid-size developers, municipal planners and
 > policy analysts. It gives them a bird's-eye view of the City's vacant lots, lets them zoom into a single lot,
