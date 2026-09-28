@@ -560,24 +560,80 @@ const V6 = [
       // The pointer rests beside the sliver, then under the Ease bar.
       await hoverSlow(p, plan, { fx: 0.6, fy: 0.46, rest: 2.0 });
       await hoverSlow(p, p.locator('.ws-status [data-ease]').first(), { fx: 0.5, fy: 1.5, rest: 1.0 });
-      await c.until(7.4); // the glide and settle take ~1.1 s: the click lands at ~8.5 s
-      await clickSlow(p, p.locator('button.ws-back').first());
+      // The film is cut on these two: the click lands at 8.62 s and the city is back at 9.22 s, every take.
+      await c.until(7.4);
+      const backBtn = p.locator('button.ws-back').first();
+      await hoverSlow(p, backBtn, { rest: 0 });
+      await c.until(8.56); // the click itself takes ~0.05 s
+      await backBtn.click();
       cues.B02.back = at(c);
       await p.waitForSelector('.map-inset-plan', { state: 'detached', timeout: 5000 }).catch(() => {});
-      await sleep(600); // the citywide card and tiles are back
+      await c.until(9.22); // the citywide card and tiles are back
       cues.B02.city_back = at(c);
-      // The rail and the tiles: citywide counts.
-      await mark(p, 'B02', 'city_total', layer('City-owned vacant lots').locator('.ws-layer-n'), c, 'the rail count, citywide', { tight: true });
-      await mark(p, 'B02', 'width_178', layer('Too narrow').locator('.ws-layer-n'), c, "the rail's Too narrow count; the cursor rests on this row from hover_178", { tight: true });
-      await mark(p, 'B02', 'width_178_row', layer('Too narrow'), c, 'the whole Too narrow row: red swatch, words and count');
-      await mark(p, 'B02', 'width_178_tile', p.locator('[data-tile="narrow"] .ws-tile-value'), c, 'the right-panel tile TOO NARROW', { tight: true });
+      // After city_back (9.22 s; everything before it is fixed, the film is cut on it): the pointer touches the rail's
+      // 11,247, the camera zooms into Middle Hill, three too-narrow red dots show their tooltips (address, "too narrow:
+      // N ft to build on"), then the Too narrow 428 row. Tooltips show in record mode only with anim=1 (CityMap).
       await mark(p, 'B02', 'grey', layer('Not checked'), c, 'the grey key: "Not checked" (districts whose rules are not loaded), the grey dots on the map');
       cues.B02.rail_words = { total: (await layer('City-owned vacant lots').locator('.ws-layer-n').innerText()).trim(), narrow: (await layer('Too narrow').locator('.ws-layer-n').innerText()).trim() };
-      await c.until(cues.B02.city_back + 1.2);
+      await c.until(9.3);
+      const total = layer('City-owned vacant lots').locator('.ws-layer-n');
+      await hoverSlow(p, total, { fx: 0.5, fy: 1.1, rest: 0 });
+      await mark(p, 'B02', 'city_total', total, c, 'the rail count, citywide: 11,247; the pointer touches it', { tight: true });
+      cues.B02.touch_total = at(c);
+      // The camera: a smooth wheel zoom about Middle Hill (552 Morgan St's dot stays under the pointer).
+      await c.until(10.1);
+      const zc = await p.evaluate((pin) => window.__lotAt?.(pin) ?? null, '0010H00234000000');
+      if (!zc) throw new Error('not found: 552 Morgan St on the map');
+      await glide(p, zc[0], zc[1], { steps: 16, rest: 0 });
+      await c.until(10.5);
+      cues.B02.zoom_start = at(c);
+      for (let i = 0; i < 27; i++) {
+        await p.mouse.wheel(0, -40);
+        await sleep(FAST ? 5 : 38);
+      }
+      await p.waitForFunction(() => !document.querySelector('.is-moving'), null, { timeout: 4000 }).catch(() => {}); // the camera has stopped
+      await sleep(150);
+      cues.B02.zoom_end = at(c);
+      await mark(p, 'B02', 'zoom_map', p.locator('.city-plate').first(), c, 'the map, zoomed into the Hill District: each red dot a City lot too narrow for a two-unit house');
+      // Three red dots, each with its tooltip.
+      const DOTS = [
+        ['dot1', '0010H00234000000', '552 Morgan St'],
+        ['dot2', '0010F00104000000', '2354 Bedford Ave'],
+        ['dot3', '0010G00154000000', '618-24 Upton St'],
+      ];
+      const tip = p.locator('.city-hover').first();
+      let prev = null;
+      for (const [id, pin, addr] of DOTS) {
+        const d = await p.evaluate((x) => window.__lotAt?.(x) ?? null, pin);
+        if (!d) {
+          (cues.B02.missing ??= []).push(`${id}: ${addr} not on the map`);
+          continue;
+        }
+        await glide(p, d[0], d[1], { steps: 16, rest: 0 });
+        await sleep(180);
+        const tb = await tip.boundingBox().catch(() => null);
+        const words = tb ? (await tip.innerText()).trim() : '';
+        if (prev) prev.until = at(c);
+        if (!tb || !words.includes(addr)) {
+          (cues.B02.missing ??= []).push(`${id}: no tooltip for ${addr} (got "${words}")`);
+          prev = null;
+          continue;
+        }
+        await pushMark(p, 'B02', id, [tb.x, tb.y, tb.width, tb.height], c, `the tooltip: "${words}"`);
+        prev = cues.B02.marks[cues.B02.marks.length - 1];
+        cues.B02[`${id}_words`] = words;
+        await sleep(650);
+      }
+      // The rail's Too narrow row, and the card's 428.
+      await c.until(17);
+      if (prev) prev.until = at(c);
       const row = await layer('Too narrow').boundingBox();
-      if (row) await glide(p, row.x + 36, row.y + row.height / 2, { steps: 32, rest: 0.6 }); // on the red swatch: the words stay readable
+      if (row) await glide(p, row.x + 36, row.y + row.height / 2, { steps: 28, rest: 0.2 }); // on the red swatch: the words stay readable
       cues.B02.hover_178 = at(c);
-      await c.until(Math.max(cues.B02.hover_178 + 5, 18) + HOLD);
+      await mark(p, 'B02', 'width_178', layer('Too narrow').locator('.ws-layer-n'), c, "the rail's Too narrow count; the cursor rests on this row from hover_178", { tight: true });
+      await mark(p, 'B02', 'width_178_row', layer('Too narrow'), c, 'the whole Too narrow row: red swatch, words and count');
+      await mark(p, 'B02', 'width_178_tile', p.locator('[data-tile="narrow"] .ws-tile-value'), c, 'the right-panel tile TOO NARROW 428', { tight: true });
+      await c.until(19 + HOLD);
     },
   },
   {

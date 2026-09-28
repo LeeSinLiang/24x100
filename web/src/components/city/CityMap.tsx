@@ -185,7 +185,7 @@ export function CityMap(p: Props) {
   const [w, setW] = useState(800);
   const h = Math.round(w * ASPECT);
   const themeKey = useThemeKey();
-  const hoverOn = !p.present && !p.record;
+  const hoverOn = (!p.present && !p.record) || (p.record && !!p.animate); // record implies present; a film clip with anim=1 is live: its dots show their tooltip
   // A still map: the film and the projector get a fixed view (no gestures, no animation).
   const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const still = (p.present || p.record) && !p.animate;
@@ -817,7 +817,10 @@ export function CityMap(p: Props) {
     const [x, y] = local(e);
     const i = hitLot(x, y, Math.max(8, r + 4));
     let text = '';
-    if (i != null) text = `${p.lots[i].addr} · ${STYLE[p.classes[i].blocker].words}`;
+    if (i != null) {
+      const c = p.classes[i];
+      text = `${p.lots[i].addr} · ${c.blocker === 'width' && c.width != null ? `too narrow: ${c.width} ft to build on${c.trust !== 'ink' ? ' (pencil)' : ''}` : STYLE[c.blocker].words}`;
+    }
     else {
       const hd = hitHood(x, y);
       if (hd && hd !== p.focus) text = `${hd} · ${n(p.hoods.get(hd)?.lots ?? 0)} ${p.hoods.get(hd)?.lots === 1 ? 'lot' : 'lots'} · click to zoom`;
@@ -974,7 +977,7 @@ export function CityMap(p: Props) {
           <InsetRoom.Provider value={{ w: Math.max(120, insetW - 22), maxH: Math.max(120, h - 84 - 16 - 34) }}>{p.inset}</InsetRoom.Provider>
         </div>
       )}
-      <div className="city-hover" ref={hover} hidden aria-hidden="true" />
+      <div className={`city-hover ${p.record && p.animate ? 'is-live' : ''}`} ref={hover} hidden aria-hidden="true" />
       <span className="city-probe" ref={probe} aria-hidden="true" />
     </div>
   );

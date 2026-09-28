@@ -524,7 +524,8 @@
 :root[data-present='1'] .city-inset {
   width: min(400px, 52%);
 }
-:root[data-record='1'] .city-hover {
+/* Record mode hides the tooltip, except on a live film map (anim=1), where the pointer's dots show theirs. */
+:root[data-record='1'] .city-hover:not(.is-live) {
   display: none;
 }
 
