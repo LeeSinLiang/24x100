@@ -22,8 +22,6 @@ _Uncut screen recording (sped up 1.5×): map → lot → Development Ease → ev
 > and takes the manual hassle off their hands: pulling the datasets, reading the code, noticing what changed,
 > drafting the letter. It never hides uncertainty. Whatever we don't know, it says so.
 
-![Combining lots 25–27 on Mahon Street: the buildable width goes from 4 ft to 52 ft](docs/hero-combine.gif)
-
 ## Judge's 3-minute tour
 
 Five links into the app, in the order the story goes. To run it locally instead, replace
