@@ -5,6 +5,7 @@
   "description": "What a Pittsburgh lot can hold, what's holding it back, and what would move it.",
   "type": "module",
   "scripts": {
+    "setup": "bash scripts/setup.sh",
     "dev": "vite --config web/vite.config.ts",
     "seed:rules": "tsx scripts/seed-answer-key.ts",
     "build:data": "tsx scripts/build-city.ts && tsx scripts/build-summary.ts && tsx scripts/build-scenarios.ts && tsx scripts/build-api.ts",

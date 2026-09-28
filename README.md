@@ -168,10 +168,26 @@ things in; which barrier blocks more often is unproven.
 
 ## Run it
 
+On a fresh machine (macOS or Linux; on Windows use WSL or Git Bash), with [Node.js](https://nodejs.org) 22.12+ and
+[uv](https://docs.astral.sh/uv/) installed:
+
 ```bash
-npm install && uv sync
+git clone https://github.com/LeeSinLiang/24x100.git && cd 24x100
+./scripts/setup.sh     # checks the tools, installs from the lockfiles, creates .env, runs the tests (~40 s)
 npm run dev            # http://localhost:5173
 ```
+
+The site, the tests and the build need no keys. `scripts/setup.sh` creates `.env` from `.env.example` (never
+overwriting one) and offers to save a `GOOGLE_API_KEY`, read silently. Every key is optional:
+
+| Key in `.env` | Unlocks |
+|---|---|
+| `GOOGLE_API_KEY` | Rule extraction (`uv run python -m extract run --district R1D-H`) and the agents' model; without it the agents run by a fixed plan (`--no-model`) |
+| `ANTHROPIC_API_KEY` | Claude instead of Gemini for extraction (`EXTRACT_PROVIDER=anthropic`) |
+| `SLACK_WEBHOOK_URL`; `RESEND_API_KEY` + `DIGEST_TO`, or `SMTP_*` | Sending the watchlist digest (`npm run digest -- --send`); `--dry-run` needs none |
+
+Chrome is needed only for the page checks (`npm run smoke`, `scripts/words.mjs`, `npm run demo`). By hand instead
+of the script: `npm ci && uv sync && cp .env.example .env`.
 
 | Command | What it does |
 |---|---|
