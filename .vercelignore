@@ -17,5 +17,6 @@ web/dist
 web/dist-rec
 web/public/api
 film/clips
+film/clips_prev
 out
 *.log

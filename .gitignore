@@ -11,6 +11,7 @@ web/public/api/
 data/raw/
 data/city/work/
 film/clips/
+film/clips_prev/
 *.log
 .pytest_cache/
 .vite/

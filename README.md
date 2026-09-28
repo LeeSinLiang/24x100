@@ -8,7 +8,7 @@ Said "twenty-four by a hundred": the standard Pittsburgh lot, 24 ft wide and 100
 every Mahon Street deed. Built for the AI for Housing Hackathon (AI Horizons 2026, Pittsburgh), Track 1:
 Development Feasibility & Pro Forma Navigator.
 
-**Demo video:** _[PLACEHOLDER: the video link goes here]_
+**Demo video (4:57):** [youtu.be/dDiDI-05jvs](https://youtu.be/dDiDI-05jvs)
 
 **Live demo:** [24x100.vercel.app](https://24x100.vercel.app/)
 
