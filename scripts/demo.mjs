@@ -972,6 +972,104 @@ const V6 = [
     },
   },
   {
+    id: 'B30',
+    name: 'flow',
+    // One continuous take in real time: the citywide map → a zoom into the Hill → 2241 Mahon St's red dot, clicked → its
+    // lot opens → the Ease bar → its six parts → the Graph (record → rule → signer) → Next: Watch this lot, the message
+    // the digest would send to Slack and email, previewed in the app (nothing is sent).
+    q: 'view=city&type=two&anim=1',
+    run: async (p, c) => {
+      cues.B30 = { marks: [] };
+      const PIN = '0010K00025000000';
+      const where = (pin) => p.evaluate((x) => window.__lotAt?.(x) ?? null, pin);
+      // 1. The map: a wheel zoom into the Hill about lot 25's dot, then the dot's tooltip, then the click.
+      await c.until(1.5);
+      let d = await where(PIN);
+      if (!d) throw new Error('not found: lot 25 on the map');
+      await glide(p, d[0], d[1], { steps: 24, rest: 0.1 });
+      cues.B30.zoom_start = at(c);
+      for (let i = 0; i < 45; i++) {
+        await p.mouse.wheel(0, -40);
+        await sleep(FAST ? 5 : 38);
+      }
+      await p.waitForFunction(() => !document.querySelector('.is-moving'), null, { timeout: 5000 }).catch(() => {});
+      await sleep(250);
+      cues.B30.zoom_end = at(c);
+      await mark(p, 'B30', 'zoom_map', p.locator('.city-plate').first(), c, 'the map, zoomed into the Hill District');
+      d = await where(PIN);
+      await glide(p, d[0], d[1], { steps: 18, rest: 0.25 });
+      const tip = p.locator('.city-hover').first();
+      const tb = await tip.boundingBox().catch(() => null);
+      if (tb) {
+        await pushMark(p, 'B30', 'lot_tip', [tb.x, tb.y, tb.width, tb.height], c, `the tooltip: "${(await tip.innerText()).trim()}"`);
+        cues.B30.tip_words = (await tip.innerText()).trim();
+      }
+      await sleep(900);
+      await p.mouse.down();
+      await sleep(90);
+      await p.mouse.up();
+      cues.B30.click_lot = at(c);
+      await p.waitForFunction(() => new URLSearchParams(location.search).get('view') === 'lot', null, { timeout: 8000 });
+      await p.waitForSelector('.ws-status [data-ease]', { timeout: 8000 });
+      cues.B30.lot_open = at(c);
+      cues.B30.lot = await p.evaluate(() => new URLSearchParams(location.search).get('lot'));
+      await sleep(400);
+      await mark(p, 'B30', 'lot_width', p.locator('[data-tile="width"] .ws-tile-value').first(), c, 'the lot card: BUILDABLE WIDTH 4 ft', { tight: true });
+      await hoverSlow(p, p.locator('[data-tile="width"]').first(), { fx: 0.5, fy: 1.05, rest: 1.4 });
+      // 2. The Ease bar opens its six parts.
+      const ease = p.locator('.ws-status [data-ease]').first();
+      await mark(p, 'B30', 'ease_bar', ease, c, 'Development Ease 0–40 / 100 (a button: it opens the six parts)');
+      await clickSlow(p, ease);
+      await p.waitForSelector('[data-panel="ease"]', { state: 'visible', timeout: 5000 });
+      cues.B30.ease_open = at(c);
+      await p.locator('[data-panel="ease"] .ease-table').first().evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(700);
+      await mark(p, 'B30', 'ease_parts', p.locator('[data-panel="ease"] .ease-table').first(), c, 'the six parts: zoning fit ✕, approvals ?, ownership ✓, site ?, water and sewer ?, money ✕, with their points');
+      await hoverSlow(p, p.locator('[data-ease-row="zoning"]').first(), { fx: 0.35, fy: 0.9, rest: 1.0 });
+      await hoverSlow(p, p.locator('[data-ease-row="infrastructure"]').first(), { fx: 0.35, fy: 0.9, rest: 1.2 });
+      // 3. The Graph: the rule, then only the chain behind its decision (record → rule → signer).
+      await clickSlow(p, p.locator('.ws-top').getByText('Graph', { exact: true }).first());
+      const rule = p.locator('[data-node="rule:rm-m.side_interior"]').first();
+      await rule.waitFor({ state: 'visible', timeout: 8000 });
+      cues.B30.graph_open = at(c);
+      await sleep(900);
+      await clickSlow(p, rule);
+      cues.B30.rule_selected = at(c);
+      await sleep(1100);
+      await rule.dblclick();
+      await p.waitForSelector('[data-graph-mode="focus"]', { timeout: 5000 });
+      await sleep(500);
+      cues.B30.graph_focus = at(c);
+      await mark(p, 'B30', 'record', p.locator('[data-node="source:wprdc_assessments"]'), c, 'Allegheny County Property Assessments (WPRDC): a public record');
+      await mark(p, 'B30', 'rule', rule, c, 'Interior side setback · 10 ft (§903.03.C, RM-M)');
+      await mark(p, 'B30', 'signer', p.locator('[data-node^="person:Sin|"]'), c, 'Sin (Student, team 24×100), signed 2026-09-26');
+      const sg = await p.locator('[data-node^="person:Sin|"]').first().boundingBox();
+      if (sg) await glide(p, sg.x - 40, sg.y - 30, { steps: 30, rest: 1.6 });
+      // 4. Slack: back to the lot, Next, Watch this lot: the digest's message, previewed (nothing is sent).
+      // The Graph folds the lot's panel away; the Plan brings it back with its tabs.
+      await clickSlow(p, p.locator('.ws-top').getByText('Plan', { exact: true }).first());
+      await p.locator('[role="tab"][data-tab="next"]').first().waitFor({ state: 'visible', timeout: 5000 });
+      cues.B30.plan_back = at(c);
+      await sleep(500);
+      await clickSlow(p, p.locator('[role="tab"][data-tab="next"]').first());
+      await p.waitForSelector('[data-tabpanel="next"]:not([hidden])', { timeout: 5000 });
+      cues.B30.next_open = at(c);
+      const btn = p.locator('[data-watch-button]').first();
+      await btn.evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      await sleep(600);
+      await clickSlow(p, btn);
+      cues.B30.watch_click = at(c);
+      await p.waitForSelector('[data-watch-preview]', { timeout: 5000 });
+      await p.locator('[data-watch-preview] .watch-card').first().evaluate((el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+      await sleep(700);
+      cues.B30.slack_preview = at(c);
+      await mark(p, 'B30', 'watch_preview', p.locator('[data-watch-preview] .watch-card').first(), c, 'the message the digest sends to Slack and email for this lot: map verdict, rules, sale status, a link back (previewed; nothing is sent)');
+      const card = await p.locator('[data-watch-preview] .watch-card').first().boundingBox();
+      if (card) await glide(p, card.x + card.width + 24, card.y + 30, { steps: 26, rest: 0 });
+      await c.until(at(c) + 3 + HOLD);
+    },
+  },
+  {
     id: 'B15',
     name: 'what-if',
     // The rule what-ifs (spec §0.16): S1's sentence struck through; a click lights its City lots on the map.
